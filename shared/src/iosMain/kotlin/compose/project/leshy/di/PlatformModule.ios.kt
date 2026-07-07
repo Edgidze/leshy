@@ -4,6 +4,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import compose.project.leshy.data.local.DATABASE_NAME
 import compose.project.leshy.data.local.LeshyDatabase
+import compose.project.leshy.data.platform.IosLocationTracker
+import compose.project.leshy.data.platform.LocationTracker
 import kotlinx.cinterop.ExperimentalForeignApi
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -24,4 +26,5 @@ actual val platformModule: Module = module {
         val dbFilePath = requireNotNull(documentDirectory?.path) + "/" + DATABASE_NAME
         Room.databaseBuilder<LeshyDatabase>(name = dbFilePath)
     }
+    single<LocationTracker> { IosLocationTracker() }
 }

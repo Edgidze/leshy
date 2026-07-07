@@ -20,6 +20,12 @@ interface CategoryDao {
     @Query("SELECT * FROM categories WHERE id = :id")
     suspend fun getById(id: Long): CategoryEntity?
 
+    @Query("SELECT * FROM categories WHERE nameKey = :nameKey LIMIT 1")
+    suspend fun getByNameKey(nameKey: String): CategoryEntity?
+
+    @Query("SELECT COUNT(*) FROM categories")
+    suspend fun count(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(category: CategoryEntity): Long
 

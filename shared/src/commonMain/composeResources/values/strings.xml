@@ -10,4 +10,21 @@
     <string name="screen_archive_placeholder">Archive screen — coming soon</string>
     <string name="screen_map_placeholder">Map screen — coming soon</string>
     <string name="screen_settings_placeholder">Settings screen — coming soon</string>
+
+    <string name="category_porcini">Porcini</string>
+    <string name="category_chanterelle">Chanterelle</string>
+    <string name="category_ryzhik">Saffron milk cap</string>
+    <string name="category_boletus">Boletus</string>
+    <string name="category_misc">Misc</string>
+
+    <string name="default_walk_name">Walk</string>
+    <string name="record_walk_name_hint">Walk name</string>
+    <string name="record_start">Start</string>
+    <string name="record_pause">Pause</string>
+    <string name="record_resume">Resume</string>
+    <string name="record_finish">Finish</string>
+    <string name="record_view_map">View map</string>
+    <string name="record_camera_content_description">Take photo</string>
+    <string name="record_map_title">Current walk</string>
+    <string name="record_map_placeholder_ios">Live map will be available once the iOS build is set up with Xcode/CocoaPods</string>
 </resources>

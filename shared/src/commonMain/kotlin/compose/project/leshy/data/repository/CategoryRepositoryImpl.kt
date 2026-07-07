@@ -18,6 +18,10 @@ class CategoryRepositoryImpl(
 
     override suspend fun getById(id: Long): Category? = categoryDao.getById(id)?.toDomain()
 
+    override suspend fun getByNameKey(nameKey: String): Category? = categoryDao.getByNameKey(nameKey)?.toDomain()
+
+    override suspend fun count(): Int = categoryDao.count()
+
     override suspend fun upsert(category: Category): Long = categoryDao.insert(category.toEntity())
 
     override suspend fun delete(category: Category) = categoryDao.delete(category.toEntity())

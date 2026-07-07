@@ -10,4 +10,21 @@
     <string name="screen_archive_placeholder">Экран «Архив» — скоро</string>
     <string name="screen_map_placeholder">Экран «Карта» — скоро</string>
     <string name="screen_settings_placeholder">Экран «Настройки» — скоро</string>
+
+    <string name="category_porcini">Белый гриб</string>
+    <string name="category_chanterelle">Лисичка</string>
+    <string name="category_ryzhik">Рыжик</string>
+    <string name="category_boletus">Подберёзовик</string>
+    <string name="category_misc">Разное</string>
+
+    <string name="default_walk_name">Прогулка</string>
+    <string name="record_walk_name_hint">Название прогулки</string>
+    <string name="record_start">Старт</string>
+    <string name="record_pause">Пауза</string>
+    <string name="record_resume">Продолжить</string>
+    <string name="record_finish">Завершить</string>
+    <string name="record_view_map">Смотреть карту</string>
+    <string name="record_camera_content_description">Сфотографировать</string>
+    <string name="record_map_title">Текущая прогулка</string>
+    <string name="record_map_placeholder_ios">Живая карта появится, когда сборка iOS будет настроена через Xcode/CocoaPods</string>
 </resources>

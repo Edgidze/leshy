@@ -4,5 +4,9 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Leshy records your route and mushroom finds during a walk.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Leshy uses the camera to photograph mushrooms and landmarks during a walk.</string>
 </dict>
 </plist>
