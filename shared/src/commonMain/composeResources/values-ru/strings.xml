@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Леший</string>
+    <string name="nav_record">Запись</string>
+    <string name="nav_archive">Архив</string>
+    <string name="nav_map">Карта</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_content_description">Настройки</string>
+    <string name="screen_record_placeholder">Экран «Запись» — скоро</string>
+    <string name="screen_archive_placeholder">Экран «Архив» — скоро</string>
+    <string name="screen_map_placeholder">Экран «Карта» — скоро</string>
+    <string name="screen_settings_placeholder">Экран «Настройки» — скоро</string>
+</resources>

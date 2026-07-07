@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Leshy</string>
+    <string name="nav_record">Record</string>
+    <string name="nav_archive">Archive</string>
+    <string name="nav_map">Map</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_content_description">Settings</string>
+    <string name="screen_record_placeholder">Record screen — coming soon</string>
+    <string name="screen_archive_placeholder">Archive screen — coming soon</string>
+    <string name="screen_map_placeholder">Map screen — coming soon</string>
+    <string name="screen_settings_placeholder">Settings screen — coming soon</string>
+</resources>
