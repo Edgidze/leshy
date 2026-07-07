@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ObjectDao {
+    @Query("SELECT * FROM objects ORDER BY timestamp ASC")
+    fun observeAll(): Flow<List<ObjectEntity>>
+
     @Query("SELECT * FROM objects WHERE walkId = :walkId ORDER BY timestamp ASC")
     fun observeByWalkId(walkId: Long): Flow<List<ObjectEntity>>
 

@@ -45,6 +45,10 @@ DerivedData/
 # ============ CocoaPods (если появится) ============
 Podfile.lock
 
+# ============ SPM for KMP (плагин spmForKmp, iOS-зависимости) ============
+shared/src/swift/
+**/spmKmpPlugin/
+
 # ============ macOS / OS ============
 .DS_Store
 Thumbs.db

@@ -1,3 +1,4 @@
+import io.github.frankois944.spmForKmp.swiftPackageConfig
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -8,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidxRoom)
+    alias(libs.plugins.spmForKmp)
 }
 
 kotlin {
@@ -23,6 +25,28 @@ kotlin {
             baseName = "Shared"
             isStatic = true
         }
+
+        iosTarget.swiftPackageConfig {
+            dependency {
+                remotePackageVersion(
+                    url = uri("https://github.com/maplibre/maplibre-gl-native-distribution.git"),
+                    packageName = "maplibre-gl-native-distribution",
+                    version = libs.versions.maplibreIos.get(),
+                    products = { add("MapLibre", exportToKotlin = true) },
+                )
+            }
+        }
+
+        // The SPM-built MapLibre.xcframework isn't on the app's default framework
+        // search/runtime path, so both the Gradle-built framework and the final
+        // Xcode app binary need to be pointed at the plugin's scratch output.
+        val variant = when (iosTarget.targetName) {
+            "iosArm64" -> "arm64-apple-ios"
+            "iosSimulatorArm64" -> "arm64-apple-ios-simulator"
+            else -> error("Unrecognized target: ${iosTarget.targetName}")
+        }
+        val rpath = "${layout.buildDirectory.get()}/spmKmpPlugin/${iosTarget.targetName}/scratch/$variant/release/"
+        iosTarget.binaries.all { linkerOpts("-F$rpath", "-rpath", rpath) }
     }
 
     androidLibrary {
@@ -47,7 +71,6 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.maplibre.compose)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -69,6 +92,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.maplibre.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

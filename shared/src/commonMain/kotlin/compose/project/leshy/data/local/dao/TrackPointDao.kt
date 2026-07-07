@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TrackPointDao {
+    @Query("SELECT * FROM track_points ORDER BY walkId ASC, sequence ASC")
+    fun observeAll(): Flow<List<TrackPointEntity>>
+
     @Query("SELECT * FROM track_points WHERE walkId = :walkId ORDER BY sequence ASC")
     fun observeByWalkId(walkId: Long): Flow<List<TrackPointEntity>>
 

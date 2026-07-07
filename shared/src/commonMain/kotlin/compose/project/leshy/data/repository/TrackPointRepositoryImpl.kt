@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.map
 class TrackPointRepositoryImpl(
     private val trackPointDao: TrackPointDao,
 ) : TrackPointRepository {
+    override fun observeAll(): Flow<List<TrackPoint>> =
+        trackPointDao.observeAll().map { entities -> entities.map { it.toDomain() } }
+
     override fun observeByWalkId(walkId: Long): Flow<List<TrackPoint>> =
         trackPointDao.observeByWalkId(walkId).map { entities -> entities.map { it.toDomain() } }
 

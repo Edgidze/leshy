@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.map
 class FieldMarkRepositoryImpl(
     private val objectDao: ObjectDao,
 ) : FieldMarkRepository {
+    override fun observeAll(): Flow<List<FieldMark>> =
+        objectDao.observeAll().map { entities -> entities.map { it.toDomain() } }
+
     override fun observeByWalkId(walkId: Long): Flow<List<FieldMark>> =
         objectDao.observeByWalkId(walkId).map { entities -> entities.map { it.toDomain() } }
 

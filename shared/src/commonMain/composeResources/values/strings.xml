@@ -7,7 +7,6 @@
     <string name="settings_title">Settings</string>
     <string name="settings_content_description">Settings</string>
     <string name="screen_record_placeholder">Record screen — coming soon</string>
-    <string name="screen_map_placeholder">Map screen — coming soon</string>
     <string name="screen_settings_placeholder">Settings screen — coming soon</string>
 
     <string name="category_porcini">Porcini</string>
@@ -25,7 +24,6 @@
     <string name="record_view_map">View map</string>
     <string name="record_camera_content_description">Take photo</string>
     <string name="record_map_title">Current walk</string>
-    <string name="record_map_placeholder_ios">Live map will be available once the iOS build is set up with Xcode/CocoaPods</string>
 
     <string name="archive_empty">No walks recorded yet</string>
     <string name="walk_detail_start_time">Started</string>
@@ -34,4 +32,10 @@
     <string name="walk_detail_distance">Distance</string>
     <string name="walk_detail_finds_title">Finds by type</string>
     <string name="walk_detail_view_map">View map</string>
+
+    <string name="map_toggle_map">Map</string>
+    <string name="map_toggle_stats">Statistics</string>
+    <string name="map_period_all">All time</string>
+    <string name="map_stats_walks_count">Walks</string>
+    <string name="map_stats_finds_count">Mushrooms found</string>
 </resources>
