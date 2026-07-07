@@ -7,7 +7,6 @@
     <string name="settings_title">Settings</string>
     <string name="settings_content_description">Settings</string>
     <string name="screen_record_placeholder">Record screen — coming soon</string>
-    <string name="screen_archive_placeholder">Archive screen — coming soon</string>
     <string name="screen_map_placeholder">Map screen — coming soon</string>
     <string name="screen_settings_placeholder">Settings screen — coming soon</string>
 
@@ -27,4 +26,12 @@
     <string name="record_camera_content_description">Take photo</string>
     <string name="record_map_title">Current walk</string>
     <string name="record_map_placeholder_ios">Live map will be available once the iOS build is set up with Xcode/CocoaPods</string>
+
+    <string name="archive_empty">No walks recorded yet</string>
+    <string name="walk_detail_start_time">Started</string>
+    <string name="walk_detail_end_time">Finished</string>
+    <string name="walk_detail_in_progress">in progress</string>
+    <string name="walk_detail_distance">Distance</string>
+    <string name="walk_detail_finds_title">Finds by type</string>
+    <string name="walk_detail_view_map">View map</string>
 </resources>

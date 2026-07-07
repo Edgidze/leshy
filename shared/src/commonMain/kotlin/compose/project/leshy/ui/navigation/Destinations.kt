@@ -13,6 +13,12 @@ sealed interface Destination {
     data object Archive : Destination
 
     @Serializable
+    data class WalkDetail(val walkId: Long) : Destination
+
+    @Serializable
+    data class WalkMap(val walkId: Long) : Destination
+
+    @Serializable
     data object Map : Destination
 
     @Serializable

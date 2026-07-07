@@ -1,5 +1,28 @@
 package compose.project.leshy.ui.util
 
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format.char
+import kotlinx.datetime.format
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Instant
+
+private val DATE_TIME_FORMAT = kotlinx.datetime.LocalDateTime.Format {
+    day()
+    char('.')
+    monthNumber()
+    char('.')
+    year()
+    char(' ')
+    hour()
+    char(':')
+    minute()
+}
+
+fun formatDateTime(epochMillis: Long): String =
+    Instant.fromEpochMilliseconds(epochMillis)
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+        .format(DATE_TIME_FORMAT)
+
 fun formatDuration(millis: Long): String {
     val totalSeconds = millis / 1000
     val hours = totalSeconds / 3600

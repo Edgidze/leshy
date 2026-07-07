@@ -7,7 +7,6 @@
     <string name="settings_title">Настройки</string>
     <string name="settings_content_description">Настройки</string>
     <string name="screen_record_placeholder">Экран «Запись» — скоро</string>
-    <string name="screen_archive_placeholder">Экран «Архив» — скоро</string>
     <string name="screen_map_placeholder">Экран «Карта» — скоро</string>
     <string name="screen_settings_placeholder">Экран «Настройки» — скоро</string>
 
@@ -27,4 +26,12 @@
     <string name="record_camera_content_description">Сфотографировать</string>
     <string name="record_map_title">Текущая прогулка</string>
     <string name="record_map_placeholder_ios">Живая карта появится, когда сборка iOS будет настроена через Xcode/CocoaPods</string>
+
+    <string name="archive_empty">Прогулок пока нет</string>
+    <string name="walk_detail_start_time">Старт</string>
+    <string name="walk_detail_end_time">Финиш</string>
+    <string name="walk_detail_in_progress">не завершена</string>
+    <string name="walk_detail_distance">Километраж</string>
+    <string name="walk_detail_finds_title">Находки по типам</string>
+    <string name="walk_detail_view_map">Смотреть карту</string>
 </resources>

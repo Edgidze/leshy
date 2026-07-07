@@ -20,6 +20,7 @@ sqlite = "2.7.0"
 navigationCompose = "2.9.2"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerialization = "1.11.0"
+kotlinxDatetime = "0.8.0"
 composeIcons = "1.7.3"
 maplibreCompose = "0.13.0"
 
@@ -54,6 +55,7 @@ androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.r
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibreCompose" }
 
 [plugins]
