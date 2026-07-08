@@ -13,11 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.archive.ArchiveViewModel
 import compose.project.leshy.ui.components.WalkCard
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.archive_empty
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -29,7 +28,7 @@ fun ArchiveScreen(onWalkClick: (Long) -> Unit, viewModel: ArchiveViewModel = koi
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-            Text(stringResource(Res.string.archive_empty))
+            Text(stringResource(StringKey.ArchiveEmpty))
         }
     } else {
         LazyColumn(

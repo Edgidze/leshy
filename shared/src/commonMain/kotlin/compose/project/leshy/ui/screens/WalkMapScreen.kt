@@ -12,12 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.ui.map.LiveTrackMap
 import compose.project.leshy.ui.map.MapMarker
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.walk_detail_view_map
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
@@ -27,7 +26,7 @@ fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(Res.string.walk_detail_view_map)) },
+                title = { Text(stringResource(StringKey.WalkDetailViewMap)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)

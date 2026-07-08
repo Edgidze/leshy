@@ -20,19 +20,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.data.platform.rememberCameraLauncher
+import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.ui.components.CameraTile
 import compose.project.leshy.ui.components.MushroomTile
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDuration
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.record_finish
-import leshy.shared.generated.resources.record_pause
-import leshy.shared.generated.resources.record_resume
-import leshy.shared.generated.resources.record_start
-import leshy.shared.generated.resources.record_view_map
-import leshy.shared.generated.resources.record_walk_name_hint
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -44,7 +38,7 @@ fun RecordScreen(onViewMap: () -> Unit, viewModel: RecordViewModel = koinViewMod
         OutlinedTextField(
             value = uiState.walkName,
             onValueChange = viewModel::setWalkName,
-            label = { Text(stringResource(Res.string.record_walk_name_hint)) },
+            label = { Text(stringResource(StringKey.RecordWalkNameHint)) },
             enabled = !uiState.isRecording,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -82,21 +76,21 @@ fun RecordScreen(onViewMap: () -> Unit, viewModel: RecordViewModel = koinViewMod
         ) {
             Button(onClick = viewModel::onStartOrPauseClick, modifier = Modifier.weight(1f)) {
                 val label = when {
-                    !uiState.isRecording -> Res.string.record_start
-                    !uiState.isPaused -> Res.string.record_pause
-                    else -> Res.string.record_resume
+                    !uiState.isRecording -> StringKey.RecordStart
+                    !uiState.isPaused -> StringKey.RecordPause
+                    else -> StringKey.RecordResume
                 }
                 Text(stringResource(label))
             }
             if (uiState.isRecording && uiState.isPaused) {
                 Button(onClick = viewModel::finish, modifier = Modifier.weight(1f)) {
-                    Text(stringResource(Res.string.record_finish))
+                    Text(stringResource(StringKey.RecordFinish))
                 }
             }
         }
 
         OutlinedButton(onClick = onViewMap, modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
-            Text(stringResource(Res.string.record_view_map))
+            Text(stringResource(StringKey.RecordViewMap))
         }
     }
 }

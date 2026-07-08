@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import compose.project.leshy.data.platform.LocationTracker
 import compose.project.leshy.data.platform.currentTimeMillis
+import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.domain.repository.CategoryRepository
+import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.AddPhotoMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
@@ -13,6 +15,8 @@ import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
+import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.string
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,15 +24,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.default_walk_name
-import org.jetbrains.compose.resources.getString
 
 private const val TICK_INTERVAL_MILLIS = 1000L
 
 class RecordViewModel(
     private val categoryRepository: CategoryRepository,
     private val locationTracker: LocationTracker,
+    private val settingsRepository: SettingsRepository,
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val startWalk: StartWalkUseCase,
     private val finishWalk: FinishWalkUseCase,
@@ -45,6 +47,7 @@ class RecordViewModel(
     private var lastPersistedPoint: GeoPoint? = null
     private var trackSequence = 0
     private var tickerJob: Job? = null
+    private var currentLanguage = AppLanguage.EN
 
     init {
         viewModelScope.launch { ensureDefaultCategories() }
@@ -52,6 +55,9 @@ class RecordViewModel(
             categoryRepository.observeActive().collect { categories ->
                 _uiState.update { it.copy(categories = categories) }
             }
+        }
+        viewModelScope.launch {
+            settingsRepository.observeLanguage().collect { currentLanguage = it }
         }
         viewModelScope.launch {
             locationTracker.track().collect { point ->
@@ -84,7 +90,7 @@ class RecordViewModel(
     private fun start() {
         viewModelScope.launch {
             val location = _uiState.value.currentLocation
-            val name = _uiState.value.walkName.ifBlank { getString(Res.string.default_walk_name) }
+            val name = _uiState.value.walkName.ifBlank { string(StringKey.DefaultWalkName, currentLanguage) }
             val id = startWalk(
                 name = name,
                 startTime = currentTimeMillis(),

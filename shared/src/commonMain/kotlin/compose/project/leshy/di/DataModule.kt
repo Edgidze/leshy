@@ -5,10 +5,12 @@ import compose.project.leshy.data.local.LeshyDatabase
 import compose.project.leshy.data.local.getRoomDatabase
 import compose.project.leshy.data.repository.CategoryRepositoryImpl
 import compose.project.leshy.data.repository.FieldMarkRepositoryImpl
+import compose.project.leshy.data.repository.SettingsRepositoryImpl
 import compose.project.leshy.data.repository.TrackPointRepositoryImpl
 import compose.project.leshy.data.repository.WalkRepositoryImpl
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.FieldMarkRepository
+import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.repository.TrackPointRepository
 import compose.project.leshy.domain.repository.WalkRepository
 import org.koin.dsl.module
@@ -23,4 +25,5 @@ val dataModule = module {
     single<WalkRepository> { WalkRepositoryImpl(get()) }
     single<FieldMarkRepository> { FieldMarkRepositoryImpl(get()) }
     single<TrackPointRepository> { TrackPointRepositoryImpl(get()) }
+    single<SettingsRepository> { SettingsRepositoryImpl(get()) }
 }

@@ -19,19 +19,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
+import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.ui.util.formatDateTime
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDuration
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.walk_detail_distance
-import leshy.shared.generated.resources.walk_detail_end_time
-import leshy.shared.generated.resources.walk_detail_finds_title
-import leshy.shared.generated.resources.walk_detail_in_progress
-import leshy.shared.generated.resources.walk_detail_start_time
-import leshy.shared.generated.resources.walk_detail_view_map
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewMap: () -> Unit) {
@@ -54,24 +48,24 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
 
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("${stringResource(Res.string.walk_detail_start_time)}: ${formatDateTime(walk.startTime)}")
+                Text("${stringResource(StringKey.WalkDetailStartTime)}: ${formatDateTime(walk.startTime)}")
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    "${stringResource(Res.string.walk_detail_end_time)}: " +
-                        (walk.endTime?.let(::formatDateTime) ?: stringResource(Res.string.walk_detail_in_progress)),
+                    "${stringResource(StringKey.WalkDetailEndTime)}: " +
+                        (walk.endTime?.let(::formatDateTime) ?: stringResource(StringKey.WalkDetailInProgress)),
                 )
             }
             Row(
                 modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Text("${stringResource(Res.string.walk_detail_distance)}: ${formatDistanceKm(walk.distanceMeters)}")
+                Text("${stringResource(StringKey.WalkDetailDistance)}: ${formatDistanceKm(walk.distanceMeters)}")
                 Text(walk.endTime?.let { formatDuration(it - walk.startTime) } ?: "—")
             }
 
             Text(
-                stringResource(Res.string.walk_detail_finds_title),
+                stringResource(StringKey.WalkDetailFindsTitle),
                 modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
             )
             uiState.mushroomCounts.forEach { entry ->
@@ -82,7 +76,7 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
             }
 
             OutlinedButton(onClick = onViewMap, modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
-                Text(stringResource(Res.string.walk_detail_view_map))
+                Text(stringResource(StringKey.WalkDetailViewMap))
             }
         }
     }

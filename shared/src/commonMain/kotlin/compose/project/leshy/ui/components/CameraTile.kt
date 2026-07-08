@@ -11,9 +11,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.record_camera_content_description
-import org.jetbrains.compose.resources.stringResource
+import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.stringResource
 
 @Composable
 fun CameraTile(onClick: () -> Unit, modifier: Modifier = Modifier) {
@@ -25,7 +24,7 @@ fun CameraTile(onClick: () -> Unit, modifier: Modifier = Modifier) {
             IconButton(onClick = onClick) {
                 Icon(
                     imageVector = Icons.Filled.PhotoCamera,
-                    contentDescription = stringResource(Res.string.record_camera_content_description),
+                    contentDescription = stringResource(StringKey.RecordCameraContentDescription),
                 )
             }
         }

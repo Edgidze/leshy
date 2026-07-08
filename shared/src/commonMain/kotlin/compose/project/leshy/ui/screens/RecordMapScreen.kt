@@ -12,12 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.ui.map.LiveTrackMap
 import compose.project.leshy.ui.map.MapMarker
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.record_map_title
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RecordMapScreen(viewModel: RecordViewModel, onBack: () -> Unit) {
@@ -27,7 +26,7 @@ fun RecordMapScreen(viewModel: RecordViewModel, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(Res.string.record_map_title)) },
+                title = { Text(stringResource(StringKey.RecordMapTitle)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)

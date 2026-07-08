@@ -21,23 +21,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
+import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.map.MapMode
 import compose.project.leshy.presentation.map.MapPeriod
 import compose.project.leshy.presentation.map.MapStats
 import compose.project.leshy.presentation.map.MapViewModel
 import compose.project.leshy.ui.map.AggregatedFindsMap
 import compose.project.leshy.ui.util.formatDistanceKm
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.archive_empty
-import leshy.shared.generated.resources.map_period_all
-import leshy.shared.generated.resources.map_stats_finds_count
-import leshy.shared.generated.resources.map_stats_walks_count
-import leshy.shared.generated.resources.map_toggle_map
-import leshy.shared.generated.resources.map_toggle_stats
-import leshy.shared.generated.resources.walk_detail_distance
-import leshy.shared.generated.resources.walk_detail_finds_title
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -51,14 +43,14 @@ fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
                 onClick = { viewModel.selectMode(MapMode.MAP) },
                 shape = SegmentedButtonDefaults.itemShape(index = 0, count = 2),
             ) {
-                Text(stringResource(Res.string.map_toggle_map))
+                Text(stringResource(StringKey.MapToggleMap))
             }
             SegmentedButton(
                 selected = uiState.mode == MapMode.STATS,
                 onClick = { viewModel.selectMode(MapMode.STATS) },
                 shape = SegmentedButtonDefaults.itemShape(index = 1, count = 2),
             ) {
-                Text(stringResource(Res.string.map_toggle_stats))
+                Text(stringResource(StringKey.MapToggleStats))
             }
         }
 
@@ -71,7 +63,7 @@ fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
                 FilterChip(
                     selected = uiState.selectedPeriod == null,
                     onClick = { viewModel.selectPeriod(null) },
-                    label = { Text(stringResource(Res.string.map_period_all)) },
+                    label = { Text(stringResource(StringKey.MapPeriodAll)) },
                 )
             }
             items(uiState.availablePeriods, key = { it }) { period ->
@@ -101,33 +93,33 @@ fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
 private fun MapStatsView(stats: MapStats, modifier: Modifier = Modifier) {
     if (stats.walkCount == 0) {
         Box(modifier = modifier, contentAlignment = Alignment.Center) {
-            Text(stringResource(Res.string.archive_empty))
+            Text(stringResource(StringKey.ArchiveEmpty))
         }
         return
     }
 
     Column(modifier = modifier.padding(16.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(stringResource(Res.string.map_stats_walks_count))
+            Text(stringResource(StringKey.MapStatsWalksCount))
             Text(stats.walkCount.toString())
         }
         Row(
             modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(stringResource(Res.string.walk_detail_distance))
+            Text(stringResource(StringKey.WalkDetailDistance))
             Text(formatDistanceKm(stats.totalDistanceMeters))
         }
         Row(
             modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(stringResource(Res.string.map_stats_finds_count))
+            Text(stringResource(StringKey.MapStatsFindsCount))
             Text(stats.totalMushroomCount.toString())
         }
 
         Text(
-            stringResource(Res.string.walk_detail_finds_title),
+            stringResource(StringKey.WalkDetailFindsTitle),
             modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
         )
         stats.categoryCounts.forEach { entry ->
