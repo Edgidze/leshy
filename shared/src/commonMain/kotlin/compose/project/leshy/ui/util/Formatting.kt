@@ -4,6 +4,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.char
 import kotlinx.datetime.format
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 private val DATE_TIME_FORMAT = kotlinx.datetime.LocalDateTime.Format {
@@ -18,6 +19,7 @@ private val DATE_TIME_FORMAT = kotlinx.datetime.LocalDateTime.Format {
     minute()
 }
 
+@OptIn(ExperimentalTime::class)
 fun formatDateTime(epochMillis: Long): String =
     Instant.fromEpochMilliseconds(epochMillis)
         .toLocalDateTime(TimeZone.currentSystemDefault())

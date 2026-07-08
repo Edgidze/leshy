@@ -14,22 +14,13 @@ import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.expressions.dsl.const
 import org.maplibre.compose.layers.HeatmapLayer
 import org.maplibre.compose.layers.LineLayer
-import org.maplibre.compose.layers.RasterLayer
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
-import org.maplibre.compose.sources.rememberRasterSource
-import org.maplibre.compose.style.BaseStyle
 import org.maplibre.spatialk.geojson.BoundingBox
 import org.maplibre.spatialk.geojson.LineString
 import org.maplibre.spatialk.geojson.MultiPoint
 import org.maplibre.spatialk.geojson.Position
-
-private val OSM_TILE_URLS = listOf(
-    "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
-)
 
 private val ROUTE_COLOR = Color(0xFF1B4332)
 
@@ -58,10 +49,7 @@ fun AggregatedFindsMap(
         }
     }
 
-    MaplibreMap(modifier = modifier, baseStyle = BaseStyle.Empty, cameraState = cameraState) {
-        val osmSource = rememberRasterSource(tiles = OSM_TILE_URLS)
-        RasterLayer(id = "osm-tiles", source = osmSource)
-
+    MaplibreMap(modifier = modifier, baseStyle = OpenFreeMapStyle, cameraState = cameraState) {
         tracks.forEach { (walkId, points) ->
             if (points.size >= 2) {
                 key(walkId) {

@@ -66,7 +66,7 @@ fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
                     label = { Text(stringResource(StringKey.MapPeriodAll)) },
                 )
             }
-            items(uiState.availablePeriods, key = { it }) { period ->
+            items(uiState.availablePeriods, key = { it.year * 100 + it.month }) { period ->
                 FilterChip(
                     selected = uiState.selectedPeriod == period,
                     onClick = { viewModel.selectPeriod(period) },
