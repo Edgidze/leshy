@@ -40,6 +40,20 @@ class IosLocationTracker : LocationTracker {
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
 
+        // startUpdatingLocation() usually redelivers a recent fix quickly via the delegate, but
+        // emit the already-cached location right away too, so the map doesn't sit on the default
+        // (0,0) point in the meantime (e.g. before a walk is even started).
+        manager.location?.let { location ->
+            trySend(
+                GeoPoint(
+                    lat = location.coordinate.useContents { latitude },
+                    lon = location.coordinate.useContents { longitude },
+                    elevation = location.altitude,
+                    timestamp = currentTimeMillis(),
+                ),
+            )
+        }
+
         awaitClose {
             manager.stopUpdatingLocation()
             manager.delegate = null

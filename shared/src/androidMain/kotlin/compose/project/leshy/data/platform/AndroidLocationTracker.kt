@@ -38,6 +38,11 @@ class AndroidLocationTracker(private val context: Context) : LocationTracker {
             return@callbackFlow
         }
 
+        // requestLocationUpdates only calls the listener on the *next* fix — without this, the
+        // map shows the default (0,0) point until a fresh update arrives (e.g. before a walk is
+        // even started), even though the OS already has a recent fix cached.
+        locationManager.getLastKnownLocation(provider)?.let { trySend(it.toGeoPoint()) }
+
         val listener = LocationListener { location -> trySend(location.toGeoPoint()) }
         locationManager.requestLocationUpdates(
             provider,
