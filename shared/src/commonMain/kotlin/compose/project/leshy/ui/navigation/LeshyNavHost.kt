@@ -39,9 +39,14 @@ fun LeshyNavHost(
             )
         }
         composable<Destination.RecordMap> {
-            val recordEntry = navController.getBackStackEntry(Destination.Record)
-            val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = recordEntry)
-            RecordMapScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+            // The parent Record entry can already be gone from the back stack while this
+            // composable is still recomposing during the exit transition (e.g. the user tapped a
+            // bottom-nav tab, which pops Record via popUpTo) — guard instead of crashing on it.
+            val recordEntry = runCatching { navController.getBackStackEntry(Destination.Record) }.getOrNull()
+            if (recordEntry != null) {
+                val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = recordEntry)
+                RecordMapScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+            }
         }
         composable<Destination.Archive> {
             ArchiveScreen(onWalkClick = { walkId -> navController.navigate(Destination.WalkDetail(walkId)) })
@@ -60,12 +65,18 @@ fun LeshyNavHost(
         }
         composable<Destination.WalkMap> { backStackEntry ->
             val route = backStackEntry.toRoute<Destination.WalkMap>()
-            val detailEntry = navController.getBackStackEntry(Destination.WalkDetail(route.walkId))
-            val viewModel = koinViewModel<WalkDetailViewModel>(
-                viewModelStoreOwner = detailEntry,
-                parameters = { parametersOf(route.walkId) },
-            )
-            WalkMapScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+            // Same guard as RecordMap above: the parent WalkDetail entry can already be gone
+            // from the back stack during the exit transition when navigating via bottom nav.
+            val detailEntry = runCatching {
+                navController.getBackStackEntry(Destination.WalkDetail(route.walkId))
+            }.getOrNull()
+            if (detailEntry != null) {
+                val viewModel = koinViewModel<WalkDetailViewModel>(
+                    viewModelStoreOwner = detailEntry,
+                    parameters = { parametersOf(route.walkId) },
+                )
+                WalkMapScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+            }
         }
         composable<Destination.Map> { MapScreen() }
         composable<Destination.Settings> { SettingsScreen() }
