@@ -2,6 +2,7 @@ package compose.project.leshy.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import compose.project.leshy.domain.model.EdibilityStatus
 
 @Entity(tableName = "categories")
 data class CategoryEntity(
@@ -12,4 +13,5 @@ data class CategoryEntity(
     val iconRef: String?,
     val order: Int,
     val isActive: Boolean,
+    val edibilityStatus: EdibilityStatus,
 )

@@ -7,4 +7,5 @@ data class Category(
     val iconRef: String?,
     val order: Int,
     val isActive: Boolean,
+    val edibilityStatus: EdibilityStatus,
 )

@@ -8,6 +8,7 @@ const val DATABASE_NAME = "leshy.db"
 
 fun getRoomDatabase(builder: RoomDatabase.Builder<LeshyDatabase>): LeshyDatabase =
     builder
+        .addMigrations(MIGRATION_1_2)
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.Default)
         .build()

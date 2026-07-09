@@ -1,0 +1,957 @@
+{
+  "dataset": "common_foraging_relevant_mushrooms_russia_app_assets_v4_with_marker_colors",
+  "version": 4,
+  "total_mushrooms": 30,
+  "scope_note": "Practical list of common / foraging-relevant mushrooms in Russia for a mobile-app illustration set. Includes 26 previously listed mushrooms plus 4 added species: green moss bolete, bovine bolete, grey grisette, and valui.",
+  "safety_note": "This JSON is for educational app illustrations, not for field identification. Eat only mushrooms identified with certainty and processed appropriately.",
+  "edibility_status_values": [
+    "edible",
+    "conditionally_edible",
+    "mixed",
+    "inedible",
+    "poisonous",
+    "deadly_poisonous"
+  ],
+  "mushrooms": [
+    {
+      "id": "boletus_edulis_group",
+      "common_names_en": [
+        "porcini",
+        "cep",
+        "penny bun",
+        "king bolete"
+      ],
+      "common_names_ru": [
+        "белый гриб"
+      ],
+      "scientific_name": "Boletus edulis group, including Boletus edulis and Boletus pinophilus",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating; often dried, fried, stewed, or pickled.",
+        "culinary_value": "very high"
+      },
+      "typical_habitat_russia": "Spruce, pine, birch, and mixed forests.",
+      "typical_season": "summer to autumn, peak often late summer to autumn",
+      "foraging_relevance": "One of the most prized edible mushrooms in Russia.",
+      "risk_note": "Still requires confident identification; do not collect old or damaged specimens.",
+      "image_filename": "boletus_edulis.png",
+      "color_associated": {
+        "marker_hex": "#A95620",
+        "marker_color_name_en": "chestnut brown",
+        "marker_color_name_ru": "каштаново-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#582D11",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "boletus_edulis.png"
+      }
+    },
+    {
+      "id": "leccinum_aurantiacum_versipelle",
+      "common_names_en": [
+        "orange-cap bolete",
+        "aspen bolete"
+      ],
+      "common_names_ru": [
+        "подосиновик"
+      ],
+      "scientific_name": "Leccinum aurantiacum / Leccinum versipelle group",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook thoroughly; commonly boiled, fried, dried, or pickled.",
+        "culinary_value": "high"
+      },
+      "typical_habitat_russia": "Mixed forests, usually associated with aspen.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Very common and widely collected.",
+      "risk_note": "Identification should be certain; some boletes can cause digestive upset if undercooked.",
+      "image_filename": "leccinum_aurantiacum.png",
+      "color_associated": {
+        "marker_hex": "#E85A1A",
+        "marker_color_name_en": "red-orange",
+        "marker_color_name_ru": "красно-оранжевый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#792F0E",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "leccinum_aurantiacum.png"
+      }
+    },
+    {
+      "id": "leccinum_scabrum_group",
+      "common_names_en": [
+        "birch bolete",
+        "brown birch bolete"
+      ],
+      "common_names_ru": [
+        "подберёзовик"
+      ],
+      "scientific_name": "Leccinum scabrum group",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating; often fried, stewed, or dried.",
+        "culinary_value": "good"
+      },
+      "typical_habitat_russia": "Near birch trees in birch and mixed forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Very common in Russian birch forests.",
+      "risk_note": "Cap can become soft when cooked; avoid old or wormy specimens.",
+      "image_filename": "leccinum_scabrum.png",
+      "color_associated": {
+        "marker_hex": "#6D5A44",
+        "marker_color_name_en": "grey-brown",
+        "marker_color_name_ru": "серо-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#392F23",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "leccinum_scabrum.png"
+      }
+    },
+    {
+      "id": "cantharellus_cibarius",
+      "common_names_en": [
+        "golden chanterelle",
+        "chanterelle"
+      ],
+      "common_names_ru": [
+        "лисичка"
+      ],
+      "scientific_name": "Cantharellus cibarius group",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating; commonly fried.",
+        "culinary_value": "high"
+      },
+      "typical_habitat_russia": "Mossy coniferous and mixed forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Common, popular, and widely collected.",
+      "risk_note": "Can be confused by beginners with false chanterelles; check identification carefully.",
+      "image_filename": "cantharellus_cibarius.png",
+      "color_associated": {
+        "marker_hex": "#E69A1F",
+        "marker_color_name_en": "golden yellow-orange",
+        "marker_color_name_ru": "золотисто-жёлто-оранжевый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#785010",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "cantharellus_cibarius.png"
+      }
+    },
+    {
+      "id": "lactarius_deliciosus_group",
+      "common_names_en": [
+        "saffron milk cap"
+      ],
+      "common_names_ru": [
+        "рыжик"
+      ],
+      "scientific_name": "Lactarius deliciosus group",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Usually cooked or salted; in Russian tradition often salted.",
+        "culinary_value": "very high"
+      },
+      "typical_habitat_russia": "Pine and spruce forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Highly valued edible mushroom in Russia.",
+      "risk_note": "Orange milk and conifer association help, but identification must still be certain.",
+      "image_filename": "lactarius_deliciosus.png",
+      "color_associated": {
+        "marker_hex": "#C96517",
+        "marker_color_name_en": "saffron orange",
+        "marker_color_name_ru": "рыжевато-оранжевый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#69350C",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "lactarius_deliciosus.png"
+      }
+    },
+    {
+      "id": "suillus_luteus_group",
+      "common_names_en": [
+        "slippery jack",
+        "butter mushroom"
+      ],
+      "common_names_ru": [
+        "маслёнок",
+        "маслята"
+      ],
+      "scientific_name": "Suillus luteus and related Suillus species",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating; slimy cap skin is often peeled.",
+        "culinary_value": "good"
+      },
+      "typical_habitat_russia": "Young pine forests and sandy soils.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Very common and often marinated.",
+      "risk_note": "Some people experience gastrointestinal upset, especially if poorly prepared.",
+      "image_filename": "suillus_luteus.png",
+      "color_associated": {
+        "marker_hex": "#7F2F14",
+        "marker_color_name_en": "glossy chestnut brown",
+        "marker_color_name_ru": "глянцевый каштаново-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#42180A",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "suillus_luteus.png"
+      }
+    },
+    {
+      "id": "armillaria_mellea_group",
+      "common_names_en": [
+        "honey fungus",
+        "honey mushroom"
+      ],
+      "common_names_ru": [
+        "опёнок",
+        "опята"
+      ],
+      "scientific_name": "Armillaria species",
+      "edibility": {
+        "status": "conditionally_edible",
+        "requires_processing": true,
+        "processing_note": "Must be thoroughly boiled or cooked; do not eat raw or undercooked.",
+        "culinary_value": "good"
+      },
+      "typical_habitat_russia": "Clusters on stumps, dead wood, and dying trees.",
+      "typical_season": "mainly autumn",
+      "foraging_relevance": "Extremely popular for pickling and marinating.",
+      "risk_note": "Dangerous lookalikes include Galerina marginata; small brown mushrooms on wood are risky for beginners.",
+      "image_filename": "armillaria_mellea.png",
+      "color_associated": {
+        "marker_hex": "#C98932",
+        "marker_color_name_en": "honey brown",
+        "marker_color_name_ru": "медово-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#69471A",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "armillaria_mellea.png"
+      }
+    },
+    {
+      "id": "macrolepiota_procera",
+      "common_names_en": [
+        "parasol mushroom"
+      ],
+      "common_names_ru": [
+        "гриб-зонтик"
+      ],
+      "scientific_name": "Macrolepiota procera",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating; caps are often fried.",
+        "culinary_value": "high"
+      },
+      "typical_habitat_russia": "Forest edges, clearings, meadows.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Known edible mushroom.",
+      "risk_note": "Can be confused with smaller poisonous Lepiota-like mushrooms.",
+      "image_filename": "macrolepiota_procera.png",
+      "color_associated": {
+        "marker_hex": "#B08A5C",
+        "marker_color_name_en": "beige with brown scales",
+        "marker_color_name_ru": "бежево-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#5C4830",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "macrolepiota_procera.png"
+      }
+    },
+    {
+      "id": "craterellus_tubaeformis",
+      "common_names_en": [
+        "funnel chanterelle",
+        "yellowfoot",
+        "winter chanterelle"
+      ],
+      "common_names_ru": [
+        "трубчатая лисичка",
+        "вороночник"
+      ],
+      "scientific_name": "Craterellus tubaeformis",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating; dries well.",
+        "culinary_value": "good"
+      },
+      "typical_habitat_russia": "Damp mossy coniferous forests.",
+      "typical_season": "late summer to autumn",
+      "foraging_relevance": "Often found in groups late in the season.",
+      "risk_note": "Small size makes careless collection riskier; identify carefully.",
+      "image_filename": "craterellus_tubaeformis.png",
+      "color_associated": {
+        "marker_hex": "#7A6A3A",
+        "marker_color_name_en": "olive brown",
+        "marker_color_name_ru": "оливково-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#3F371E",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "craterellus_tubaeformis.png"
+      }
+    },
+    {
+      "id": "imleria_badia",
+      "common_names_en": [
+        "bay bolete",
+        "Polish mushroom"
+      ],
+      "common_names_ru": [
+        "польский гриб"
+      ],
+      "scientific_name": "Imleria badia",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating; suitable for drying, frying, or stewing.",
+        "culinary_value": "good"
+      },
+      "typical_habitat_russia": "Pine and spruce forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Good edible bolete and common alternative to porcini.",
+      "risk_note": "Pores bruise blue-green; blue staining alone does not prove safety.",
+      "image_filename": "imleria_badia.png",
+      "color_associated": {
+        "marker_hex": "#8B3F1E",
+        "marker_color_name_en": "dark chestnut",
+        "marker_color_name_ru": "тёмно-каштановый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#482110",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "imleria_badia.png"
+      }
+    },
+    {
+      "id": "lactarius_resimus",
+      "common_names_en": [
+        "true milk mushroom",
+        "milk cap"
+      ],
+      "common_names_ru": [
+        "груздь настоящий",
+        "груздь"
+      ],
+      "scientific_name": "Lactarius resimus",
+      "edibility": {
+        "status": "conditionally_edible",
+        "requires_processing": true,
+        "processing_note": "Traditionally soaked, boiled, and/or salted before eating.",
+        "culinary_value": "high in Russian salting tradition"
+      },
+      "typical_habitat_russia": "Often in birch or mixed forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Classic Russian mushroom for salting.",
+      "risk_note": "Milk caps can be acrid or irritating if improperly processed.",
+      "image_filename": "lactarius_resimus.png",
+      "color_associated": {
+        "marker_hex": "#D8C9AD",
+        "marker_color_name_en": "cream beige",
+        "marker_color_name_ru": "кремово-бежевый",
+        "marker_text_hex": "#000000",
+        "marker_outline_hex": "#70695A",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "lactarius_resimus.png"
+      }
+    },
+    {
+      "id": "lactarius_torminosus",
+      "common_names_en": [
+        "woolly milkcap",
+        "pink milkcap"
+      ],
+      "common_names_ru": [
+        "волнушка"
+      ],
+      "scientific_name": "Lactarius torminosus",
+      "edibility": {
+        "status": "conditionally_edible",
+        "requires_processing": true,
+        "processing_note": "Requires soaking/boiling/salting.",
+        "culinary_value": "traditional"
+      },
+      "typical_habitat_russia": "Birch and mixed forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Common in Russian mushroom-picking tradition.",
+      "risk_note": "Can cause gastric irritation if not processed correctly.",
+      "image_filename": "lactarius_torminosus.png",
+      "color_associated": {
+        "marker_hex": "#D69CA0",
+        "marker_color_name_en": "salmon pink",
+        "marker_color_name_ru": "лососево-розовый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#6F5153",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "lactarius_torminosus.png"
+      }
+    },
+    {
+      "id": "russula_species",
+      "common_names_en": [
+        "russula",
+        "brittlegill"
+      ],
+      "common_names_ru": [
+        "сыроежка",
+        "сыроежки"
+      ],
+      "scientific_name": "Russula species",
+      "edibility": {
+        "status": "mixed",
+        "requires_processing": true,
+        "processing_note": "Some species are edible, some acrid or inedible; identify to species level.",
+        "culinary_value": "variable"
+      },
+      "typical_habitat_russia": "Very widespread in deciduous, coniferous, and mixed forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Commonly encountered and sometimes collected.",
+      "risk_note": "Beginners should not rely on cap color; can be confused with dangerous Amanita species.",
+      "image_filename": "russula_species.png",
+      "color_associated": {
+        "marker_hex": "#A83246",
+        "marker_color_name_en": "wine red-purple",
+        "marker_color_name_ru": "винно-красно-пурпурный",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#571A24",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "russula_species.png"
+      }
+    },
+    {
+      "id": "pleurotus_ostreatus",
+      "common_names_en": [
+        "oyster mushroom"
+      ],
+      "common_names_ru": [
+        "вешенка"
+      ],
+      "scientific_name": "Pleurotus ostreatus group",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating; also widely cultivated.",
+        "culinary_value": "good"
+      },
+      "typical_habitat_russia": "Dead or weakened hardwood, logs, stumps.",
+      "typical_season": "autumn to mild winter, depending on region",
+      "foraging_relevance": "Common edible wood-growing mushroom; also common in shops.",
+      "risk_note": "Wild wood-growing mushrooms still require expert identification.",
+      "image_filename": "pleurotus_ostreatus.png",
+      "color_associated": {
+        "marker_hex": "#BBAA93",
+        "marker_color_name_en": "grey beige",
+        "marker_color_name_ru": "серо-бежевый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#61584C",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "pleurotus_ostreatus.png"
+      }
+    },
+    {
+      "id": "agaricus_species",
+      "common_names_en": [
+        "field mushroom",
+        "wild champignon"
+      ],
+      "common_names_ru": [
+        "шампиньон"
+      ],
+      "scientific_name": "Agaricus species",
+      "edibility": {
+        "status": "mixed",
+        "requires_processing": true,
+        "processing_note": "Some Agaricus species are edible, while others are poisonous.",
+        "culinary_value": "good for edible species"
+      },
+      "typical_habitat_russia": "Meadows, fields, lawns, forest edges.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Familiar because cultivated champignons are common.",
+      "risk_note": "Can be confused with death cap or yellow-staining Agaricus.",
+      "image_filename": "agaricus_species.png",
+      "color_associated": {
+        "marker_hex": "#E8DED0",
+        "marker_color_name_en": "warm cream white",
+        "marker_color_name_ru": "тёплый кремово-белый",
+        "marker_text_hex": "#000000",
+        "marker_outline_hex": "#79736C",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "agaricus_species.png"
+      }
+    },
+    {
+      "id": "morchella_species",
+      "common_names_en": [
+        "morel"
+      ],
+      "common_names_ru": [
+        "сморчок",
+        "сморчки"
+      ],
+      "scientific_name": "Morchella species",
+      "edibility": {
+        "status": "conditionally_edible",
+        "requires_processing": true,
+        "processing_note": "Must be cooked thoroughly; do not eat raw.",
+        "culinary_value": "high"
+      },
+      "typical_habitat_russia": "Spring forests, clearings, disturbed soils, forest edges.",
+      "typical_season": "spring",
+      "foraging_relevance": "Important spring edible mushroom.",
+      "risk_note": "Can be confused with false morels, which are toxic.",
+      "image_filename": "morchella_species.png",
+      "color_associated": {
+        "marker_hex": "#936321",
+        "marker_color_name_en": "honey brown",
+        "marker_color_name_ru": "медово-бурый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#4C3311",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "morchella_species.png"
+      }
+    },
+    {
+      "id": "lycoperdon_calvatia_species",
+      "common_names_en": [
+        "puffball"
+      ],
+      "common_names_ru": [
+        "дождевик"
+      ],
+      "scientific_name": "Lycoperdon / Calvatia species",
+      "edibility": {
+        "status": "conditionally_edible",
+        "requires_processing": true,
+        "processing_note": "Edible only when young and completely white inside; cook before eating.",
+        "culinary_value": "moderate"
+      },
+      "typical_habitat_russia": "Forests, meadows, lawns.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Common, but must be checked carefully.",
+      "risk_note": "Immature poisonous mushrooms can resemble puffballs; never eat if interior is not uniformly white.",
+      "image_filename": "lycoperdon_calvatia_species.png",
+      "color_associated": {
+        "marker_hex": "#E7E1D5",
+        "marker_color_name_en": "matte white",
+        "marker_color_name_ru": "матово-белый",
+        "marker_text_hex": "#000000",
+        "marker_outline_hex": "#78756F",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "lycoperdon_calvatia_species.png"
+      }
+    },
+    {
+      "id": "coprinus_comatus",
+      "common_names_en": [
+        "shaggy ink cap",
+        "lawyer's wig"
+      ],
+      "common_names_ru": [
+        "навозник белый"
+      ],
+      "scientific_name": "Coprinus comatus",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Use only young specimens before gills blacken; cook promptly.",
+        "culinary_value": "good when young"
+      },
+      "typical_habitat_russia": "Lawns, roadsides, disturbed ground, grassy areas.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Common but short-lived.",
+      "risk_note": "Avoid roadside specimens due to contamination; deteriorates quickly.",
+      "image_filename": "coprinus_comatus.png",
+      "color_associated": {
+        "marker_hex": "#E6E0D4",
+        "marker_color_name_en": "shaggy off-white",
+        "marker_color_name_ru": "серовато-белый",
+        "marker_text_hex": "#000000",
+        "marker_outline_hex": "#78746E",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "coprinus_comatus.png"
+      }
+    },
+    {
+      "id": "hygrophoropsis_aurantiaca",
+      "common_names_en": [
+        "false chanterelle"
+      ],
+      "common_names_ru": [
+        "ложная лисичка"
+      ],
+      "scientific_name": "Hygrophoropsis aurantiaca",
+      "edibility": {
+        "status": "inedible",
+        "requires_processing": null,
+        "processing_note": "Not recommended as food.",
+        "culinary_value": "none"
+      },
+      "typical_habitat_russia": "Coniferous forests, wood debris, mossy forest floor.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Important because it can be mistaken for chanterelle.",
+      "risk_note": "Avoid using it as a substitute for true chanterelle.",
+      "image_filename": "hygrophoropsis_aurantiaca.png",
+      "color_associated": {
+        "marker_hex": "#E87517",
+        "marker_color_name_en": "deep orange",
+        "marker_color_name_ru": "насыщенный оранжевый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#793D0C",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "hygrophoropsis_aurantiaca.png"
+      }
+    },
+    {
+      "id": "paxillus_involutus",
+      "common_names_en": [
+        "brown roll-rim"
+      ],
+      "common_names_ru": [
+        "свинушка тонкая",
+        "свинушка"
+      ],
+      "scientific_name": "Paxillus involutus",
+      "edibility": {
+        "status": "poisonous",
+        "requires_processing": false,
+        "processing_note": "Do not eat.",
+        "culinary_value": "none"
+      },
+      "typical_habitat_russia": "Birch, mixed, and coniferous forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Historically collected in some areas, but now considered dangerous.",
+      "risk_note": "Can cause serious poisoning; should be excluded from edible lists.",
+      "image_filename": "paxillus_involutus.png",
+      "color_associated": {
+        "marker_hex": "#7A4B31",
+        "marker_color_name_en": "dull brown",
+        "marker_color_name_ru": "тускло-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#3F2719",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "paxillus_involutus.png"
+      }
+    },
+    {
+      "id": "amanita_phalloides",
+      "common_names_en": [
+        "death cap"
+      ],
+      "common_names_ru": [
+        "бледная поганка"
+      ],
+      "scientific_name": "Amanita phalloides",
+      "edibility": {
+        "status": "deadly_poisonous",
+        "requires_processing": false,
+        "processing_note": "Do not eat; cooking does not make it safe.",
+        "culinary_value": "none"
+      },
+      "typical_habitat_russia": "Deciduous and mixed forests; may occur near oak, birch, linden, and other trees.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "One of the most dangerous poisonous mushrooms.",
+      "risk_note": "Can be confused with russulas or champignons; delayed symptoms make poisoning especially dangerous.",
+      "image_filename": "amanita_phalloides.png",
+      "color_associated": {
+        "marker_hex": "#B7A94C",
+        "marker_color_name_en": "pale olive yellow",
+        "marker_color_name_ru": "бледный оливково-жёлтый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#5F5828",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "amanita_phalloides.png"
+      }
+    },
+    {
+      "id": "amanita_virosa",
+      "common_names_en": [
+        "destroying angel"
+      ],
+      "common_names_ru": [
+        "белая поганка",
+        "мухомор вонючий"
+      ],
+      "scientific_name": "Amanita virosa group",
+      "edibility": {
+        "status": "deadly_poisonous",
+        "requires_processing": false,
+        "processing_note": "Do not eat; cooking does not make it safe.",
+        "culinary_value": "none"
+      },
+      "typical_habitat_russia": "Damp spruce and mixed forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Important deadly white mushroom to know.",
+      "risk_note": "Avoid all unknown white-gilled mushrooms, especially with a ring and volva.",
+      "image_filename": "amanita_virosa.png",
+      "color_associated": {
+        "marker_hex": "#F2F0EA",
+        "marker_color_name_en": "cold white",
+        "marker_color_name_ru": "холодный белый",
+        "marker_text_hex": "#000000",
+        "marker_outline_hex": "#7E7D7A",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "amanita_virosa.png"
+      }
+    },
+    {
+      "id": "galerina_marginata",
+      "common_names_en": [
+        "funeral bell",
+        "deadly galerina"
+      ],
+      "common_names_ru": [
+        "галерина окаймлённая"
+      ],
+      "scientific_name": "Galerina marginata",
+      "edibility": {
+        "status": "deadly_poisonous",
+        "requires_processing": false,
+        "processing_note": "Do not eat; toxins are not neutralized by cooking.",
+        "culinary_value": "none"
+      },
+      "typical_habitat_russia": "Decaying logs, stumps, buried wood.",
+      "typical_season": "late spring to autumn",
+      "foraging_relevance": "Critical dangerous lookalike of honey fungus.",
+      "risk_note": "Contains amatoxins; avoid small brown mushrooms on wood unless expertly identified.",
+      "image_filename": "galerina_marginata.png",
+      "color_associated": {
+        "marker_hex": "#A66B2A",
+        "marker_color_name_en": "tawny brown",
+        "marker_color_name_ru": "рыжевато-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#563816",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "galerina_marginata.png"
+      }
+    },
+    {
+      "id": "amanita_muscaria",
+      "common_names_en": [
+        "fly agaric"
+      ],
+      "common_names_ru": [
+        "мухомор красный"
+      ],
+      "scientific_name": "Amanita muscaria",
+      "edibility": {
+        "status": "poisonous",
+        "requires_processing": false,
+        "processing_note": "Do not eat.",
+        "culinary_value": "none"
+      },
+      "typical_habitat_russia": "Birch, pine, spruce, and mixed forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Very common and visually iconic.",
+      "risk_note": "Toxic and psychoactive; not an edible mushroom.",
+      "image_filename": "amanita_muscaria.png",
+      "color_associated": {
+        "marker_hex": "#D73B21",
+        "marker_color_name_en": "bright red",
+        "marker_color_name_ru": "ярко-красный",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#701F11",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "amanita_muscaria.png"
+      }
+    },
+    {
+      "id": "amanita_pantherina",
+      "common_names_en": [
+        "panther cap"
+      ],
+      "common_names_ru": [
+        "мухомор пантерный"
+      ],
+      "scientific_name": "Amanita pantherina",
+      "edibility": {
+        "status": "poisonous",
+        "requires_processing": false,
+        "processing_note": "Do not eat.",
+        "culinary_value": "none"
+      },
+      "typical_habitat_russia": "Deciduous and mixed forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Important poisonous Amanita species.",
+      "risk_note": "Can cause severe poisoning.",
+      "image_filename": "amanita_pantherina.png",
+      "color_associated": {
+        "marker_hex": "#6E5138",
+        "marker_color_name_en": "grey-brown",
+        "marker_color_name_ru": "серо-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#392A1D",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "amanita_pantherina.png"
+      }
+    },
+    {
+      "id": "gyromitra_species",
+      "common_names_en": [
+        "false morel"
+      ],
+      "common_names_ru": [
+        "строчок",
+        "строчки"
+      ],
+      "scientific_name": "Gyromitra species",
+      "edibility": {
+        "status": "poisonous",
+        "requires_processing": false,
+        "processing_note": "Best avoided.",
+        "culinary_value": "none"
+      },
+      "typical_habitat_russia": "Spring forests, sandy soils, clearings, disturbed ground.",
+      "typical_season": "spring",
+      "foraging_relevance": "Important because it appears in morel season.",
+      "risk_note": "Can be confused with true morels; toxic and not recommended.",
+      "image_filename": "gyromitra_species.png",
+      "color_associated": {
+        "marker_hex": "#8F3B2E",
+        "marker_color_name_en": "reddish brown",
+        "marker_color_name_ru": "красновато-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#4A1F18",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "gyromitra_species.png"
+      }
+    },
+    {
+      "id": "xerocomus_subtomentosus_group",
+      "common_names_en": [
+        "green moss bolete",
+        "suede bolete"
+      ],
+      "common_names_ru": [
+        "моховик зелёный",
+        "моховик"
+      ],
+      "scientific_name": "Xerocomus subtomentosus group / Boletus subtomentosus sensu lato",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating.",
+        "culinary_value": "good"
+      },
+      "typical_habitat_russia": "Mossy deciduous and coniferous forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Common bolete, but distinct from the Polish mushroom.",
+      "risk_note": "Can be confused with other boletes; identify by velvety olive-brown cap and yellow-green pores.",
+      "image_filename": "xerocomus_subtomentosus_group.png",
+      "color_associated": {
+        "marker_hex": "#8C8A2A",
+        "marker_color_name_en": "olive yellow-brown",
+        "marker_color_name_ru": "оливково-жёлто-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#494816",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "xerocomus_subtomentosus_group.png"
+      }
+    },
+    {
+      "id": "suillus_bovinus",
+      "common_names_en": [
+        "bovine bolete"
+      ],
+      "common_names_ru": [
+        "козляк",
+        "козлёнок",
+        "решетник",
+        "маслёнок сухой",
+        "коровий гриб"
+      ],
+      "scientific_name": "Suillus bovinus",
+      "edibility": {
+        "status": "edible",
+        "requires_processing": true,
+        "processing_note": "Cook before eating.",
+        "culinary_value": "moderate"
+      },
+      "typical_habitat_russia": "Pine forests, often on sandy or mossy ground.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "A Suillus bolete distinct from slippery jack because it lacks a stem ring.",
+      "risk_note": "Look for large angular pores and ringless stem.",
+      "image_filename": "suillus_bovinus.png",
+      "color_associated": {
+        "marker_hex": "#C98923",
+        "marker_color_name_en": "golden yellow-brown",
+        "marker_color_name_ru": "золотисто-жёлто-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#694712",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "suillus_bovinus.png"
+      }
+    },
+    {
+      "id": "amanita_vaginata",
+      "common_names_en": [
+        "grisette",
+        "grey grisette"
+      ],
+      "common_names_ru": [
+        "поплавок серый",
+        "мухомор влагалищный"
+      ],
+      "scientific_name": "Amanita vaginata group",
+      "edibility": {
+        "status": "conditionally_edible",
+        "requires_processing": true,
+        "processing_note": "Traditionally treated as conditionally edible only after correct identification and cooking.",
+        "culinary_value": "low to moderate"
+      },
+      "typical_habitat_russia": "Mixed and deciduous forests.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Important because it resembles other Amanita; no ring but has a volva.",
+      "risk_note": "Key illustration trait: striate cap margin, sacklike volva, and no ring.",
+      "image_filename": "amanita_vaginata.png",
+      "color_associated": {
+        "marker_hex": "#8A8177",
+        "marker_color_name_en": "taupe grey-brown",
+        "marker_color_name_ru": "серо-бурый тауп",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#48433E",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "amanita_vaginata.png"
+      }
+    },
+    {
+      "id": "russula_foetens",
+      "common_names_en": [
+        "valui",
+        "fetid russula"
+      ],
+      "common_names_ru": [
+        "валуй",
+        "сыроежка вонючая",
+        "бычок",
+        "сопливик",
+        "кулачок"
+      ],
+      "scientific_name": "Russula foetens",
+      "edibility": {
+        "status": "conditionally_edible",
+        "requires_processing": true,
+        "processing_note": "Traditionally soaked/boiled and then salted or marinated; not suitable for raw use.",
+        "culinary_value": "traditional, variable"
+      },
+      "typical_habitat_russia": "Deciduous and mixed forests, often with birch or oak.",
+      "typical_season": "summer to autumn",
+      "foraging_relevance": "Specific traditional Russian mushroom distinct from generic Russula.",
+      "risk_note": "Known for an ochre-yellow slimy cap and strong odor; should not be treated as a generic edible russula.",
+      "image_filename": "russula_foetens.png",
+      "color_associated": {
+        "marker_hex": "#B77A27",
+        "marker_color_name_en": "ochre yellow-brown",
+        "marker_color_name_ru": "охристо-жёлто-коричневый",
+        "marker_text_hex": "#FFFFFF",
+        "marker_outline_hex": "#5F3F14",
+        "basis": "approximate cap/hat color from the uploaded generated illustration",
+        "image_filename": "russula_foetens.png"
+      }
+    }
+  ],
+  "map_marker_palette_note": "color_associated.marker_hex is an approximate map marker color chosen from the cap/hat color visible in the uploaded generated PNG illustration. For very light mushrooms, marker_outline_hex is important for visibility on map backgrounds."
+}
