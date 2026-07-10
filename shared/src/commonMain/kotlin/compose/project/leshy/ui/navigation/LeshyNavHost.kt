@@ -1,6 +1,7 @@
 package compose.project.leshy.ui.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,7 +30,7 @@ fun LeshyNavHost(
     NavHost(
         navController = navController,
         startDestination = Destination.Record,
-        modifier = modifier.padding(contentPadding),
+        modifier = modifier.padding(contentPadding).consumeWindowInsets(contentPadding),
     ) {
         composable<Destination.Record> { backStackEntry ->
             val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = backStackEntry)

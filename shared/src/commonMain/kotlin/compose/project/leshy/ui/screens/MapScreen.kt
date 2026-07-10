@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FilterChip
@@ -122,10 +123,12 @@ private fun MapStatsView(stats: MapStats, modifier: Modifier = Modifier) {
             stringResource(StringKey.WalkDetailFindsTitle),
             modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
         )
-        stats.categoryCounts.forEach { entry ->
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(categoryDisplayName(entry.category.nameKey))
-                Text(entry.count.toString())
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            items(stats.categoryCounts) { entry ->
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(categoryDisplayName(entry.category.nameKey))
+                    Text(entry.count.toString())
+                }
             }
         }
     }
