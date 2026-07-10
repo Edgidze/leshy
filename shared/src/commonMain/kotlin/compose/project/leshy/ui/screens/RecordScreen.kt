@@ -54,7 +54,7 @@ fun RecordScreen(onViewMap: () -> Unit, viewModel: RecordViewModel = koinViewMod
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier.weight(1f).fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 8.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
         ) {
             items(uiState.categories, key = { it.id }) { category ->
                 MushroomTile(
