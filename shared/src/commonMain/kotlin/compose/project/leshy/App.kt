@@ -1,7 +1,10 @@
 package compose.project.leshy
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Place
@@ -16,6 +19,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -73,6 +77,13 @@ fun App() {
             val navController = rememberNavController()
             val backStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = backStackEntry?.destination
+            val isSettings = currentDestination?.hierarchy?.any {
+                it.hasRoute(Destination.Settings::class)
+            } == true
+
+            // Tracks which bottom-nav tab was active before jumping to Settings, so the back
+            // arrow shown there returns to that same tab instead of always landing on Record.
+            var lastMainDestination by remember { mutableStateOf<Destination>(Destination.Record) }
 
             Scaffold(
                 topBar = {
@@ -80,12 +91,20 @@ fun App() {
                         title = { Text(stringResource(StringKey.AppName)) },
                         actions = {
                             IconButton(onClick = {
-                                navController.navigateToTopLevel(Destination.Settings)
+                                if (isSettings) {
+                                    navController.navigateToTopLevel(lastMainDestination)
+                                } else {
+                                    navController.navigateToTopLevel(Destination.Settings)
+                                }
                             }) {
-                                Icon(
-                                    imageVector = Icons.Filled.Settings,
-                                    contentDescription = stringResource(StringKey.SettingsContentDescription),
-                                )
+                                if (isSettings) {
+                                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Filled.Settings,
+                                        contentDescription = stringResource(StringKey.SettingsContentDescription),
+                                    )
+                                }
                             }
                         },
                     )
@@ -98,7 +117,10 @@ fun App() {
                             } == true
                             NavigationBarItem(
                                 selected = selected,
-                                onClick = { navController.navigateToTopLevel(entry.destination) },
+                                onClick = {
+                                    lastMainDestination = entry.destination
+                                    navController.navigateToTopLevel(entry.destination)
+                                },
                                 icon = { Icon(entry.icon, contentDescription = stringResource(entry.labelKey)) },
                                 label = { Text(stringResource(entry.labelKey)) },
                             )
