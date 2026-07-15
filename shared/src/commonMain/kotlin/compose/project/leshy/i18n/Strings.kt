@@ -85,6 +85,10 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.MapPeriodAll -> "За всё время"
     StringKey.MapStatsWalksCount -> "Прогулок"
     StringKey.MapStatsFindsCount -> "Найдено грибов"
+
+    StringKey.BackgroundRecordingChannelName -> "Запись прогулки"
+    StringKey.BackgroundRecordingNotificationTitle -> "Идёт запись прогулки"
+    StringKey.BackgroundRecordingNotificationText -> "Трек записывается в фоне. Нажмите, чтобы вернуться в приложение."
 }
 
 private fun englishStrings(key: StringKey): String = when (key) {
@@ -158,4 +162,8 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.MapPeriodAll -> "All time"
     StringKey.MapStatsWalksCount -> "Walks"
     StringKey.MapStatsFindsCount -> "Mushrooms found"
+
+    StringKey.BackgroundRecordingChannelName -> "Walk recording"
+    StringKey.BackgroundRecordingNotificationTitle -> "Recording your walk"
+    StringKey.BackgroundRecordingNotificationText -> "Track is being recorded in the background. Tap to return to the app."
 }

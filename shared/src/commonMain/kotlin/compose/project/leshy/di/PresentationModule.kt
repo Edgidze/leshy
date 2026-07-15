@@ -9,7 +9,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val presentationModule = module {
-    viewModel { RecordViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { RecordViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { ArchiveViewModel(get()) }
     viewModel { params -> WalkDetailViewModel(params.get(), get(), get(), get(), get()) }
     viewModel { MapViewModel(get(), get(), get(), get()) }

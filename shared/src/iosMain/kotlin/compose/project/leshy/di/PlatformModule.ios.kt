@@ -7,6 +7,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import compose.project.leshy.data.local.DATABASE_NAME
 import compose.project.leshy.data.local.LeshyDatabase
+import compose.project.leshy.data.platform.BackgroundRecordingController
+import compose.project.leshy.data.platform.IosBackgroundRecordingController
 import compose.project.leshy.data.platform.IosLocationTracker
 import compose.project.leshy.data.platform.LocationTracker
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -38,6 +40,7 @@ actual val platformModule: Module = module {
         Room.databaseBuilder<LeshyDatabase>(name = dbFilePath)
     }
     single<LocationTracker> { IosLocationTracker() }
+    single<BackgroundRecordingController> { IosBackgroundRecordingController() }
     single<DataStore<Preferences>> {
         val settingsFilePath = documentsDirectoryPath() + "/" + SETTINGS_FILE_NAME
         PreferenceDataStoreFactory.createWithPath { settingsFilePath.toPath() }

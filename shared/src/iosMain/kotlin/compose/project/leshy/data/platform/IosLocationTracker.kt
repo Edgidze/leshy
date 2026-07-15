@@ -18,6 +18,12 @@ class IosLocationTracker : LocationTracker {
     override fun track(): Flow<GeoPoint> = callbackFlow {
         val manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyBest
+        // Requires the `location` UIBackgroundModes entry in Info.plist, or CoreLocation throws.
+        // Together they let updates keep reaching the delegate while the app is backgrounded
+        // (screen off, another app on top) without needing "Always" authorization — the same
+        // approach fitness-tracking apps use for a "When In Use" background session.
+        manager.allowsBackgroundLocationUpdates = true
+        manager.pausesLocationUpdatesAutomatically = false
 
         val delegate = object : NSObject(), CLLocationManagerDelegateProtocol {
             override fun locationManager(manager: CLLocationManager, didUpdateLocations: List<*>) {

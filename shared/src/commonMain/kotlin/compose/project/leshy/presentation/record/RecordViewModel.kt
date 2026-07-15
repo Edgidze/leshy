@@ -2,6 +2,7 @@ package compose.project.leshy.presentation.record
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import compose.project.leshy.data.platform.BackgroundRecordingController
 import compose.project.leshy.data.platform.LocationTracker
 import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.domain.model.AppLanguage
@@ -30,6 +31,7 @@ private const val TICK_INTERVAL_MILLIS = 1000L
 class RecordViewModel(
     private val categoryRepository: CategoryRepository,
     private val locationTracker: LocationTracker,
+    private val backgroundRecordingController: BackgroundRecordingController,
     private val settingsRepository: SettingsRepository,
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val startWalk: StartWalkUseCase,
@@ -100,6 +102,7 @@ class RecordViewModel(
             walkId = id
             trackSequence = 0
             lastPersistedPoint = null
+            backgroundRecordingController.start(currentLanguage)
             _uiState.update {
                 it.copy(
                     isRecording = true,
@@ -128,6 +131,7 @@ class RecordViewModel(
     fun finish() {
         val currentWalkId = walkId ?: return
         tickerJob?.cancel()
+        backgroundRecordingController.stop()
         viewModelScope.launch {
             val location = _uiState.value.currentLocation
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)

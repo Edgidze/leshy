@@ -7,7 +7,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import compose.project.leshy.data.local.DATABASE_NAME
 import compose.project.leshy.data.local.LeshyDatabase
+import compose.project.leshy.data.platform.AndroidBackgroundRecordingController
 import compose.project.leshy.data.platform.AndroidLocationTracker
+import compose.project.leshy.data.platform.BackgroundRecordingController
 import compose.project.leshy.data.platform.LocationTracker
 import okio.Path.Companion.toPath
 import org.koin.android.ext.koin.androidContext
@@ -26,6 +28,7 @@ actual val platformModule: Module = module {
         )
     }
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
+    single<BackgroundRecordingController> { AndroidBackgroundRecordingController(androidContext()) }
     single<DataStore<Preferences>> {
         val appContext = androidContext().applicationContext
         PreferenceDataStoreFactory.createWithPath {

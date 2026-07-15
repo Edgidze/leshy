@@ -8,5 +8,9 @@
 	<string>Leshy records your route and mushroom finds during a walk.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Leshy uses the camera to photograph mushrooms and landmarks during a walk.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 </dict>
 </plist>

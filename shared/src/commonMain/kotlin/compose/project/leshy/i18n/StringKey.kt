@@ -70,4 +70,8 @@ enum class StringKey {
     MapPeriodAll,
     MapStatsWalksCount,
     MapStatsFindsCount,
+
+    BackgroundRecordingChannelName,
+    BackgroundRecordingNotificationTitle,
+    BackgroundRecordingNotificationText,
 }
