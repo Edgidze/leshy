@@ -21,6 +21,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.NavMap -> "Карта"
     StringKey.SettingsTitle -> "Настройки"
     StringKey.SettingsContentDescription -> "Настройки"
+    StringKey.SettingsBackButtonLabel -> "Назад"
     StringKey.SettingsLanguageTitle -> "Язык"
     StringKey.SettingsCategoriesTitle -> "Грибы для отметки"
 
@@ -98,6 +99,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.NavMap -> "Map"
     StringKey.SettingsTitle -> "Settings"
     StringKey.SettingsContentDescription -> "Settings"
+    StringKey.SettingsBackButtonLabel -> "Back"
     StringKey.SettingsLanguageTitle -> "Language"
     StringKey.SettingsCategoriesTitle -> "Mushrooms to track"
 

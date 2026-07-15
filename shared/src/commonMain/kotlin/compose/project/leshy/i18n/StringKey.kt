@@ -7,6 +7,7 @@ enum class StringKey {
     NavMap,
     SettingsTitle,
     SettingsContentDescription,
+    SettingsBackButtonLabel,
     SettingsLanguageTitle,
     SettingsCategoriesTitle,
 

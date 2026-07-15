@@ -3,9 +3,11 @@ package compose.project.leshy
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Settings
@@ -15,12 +17,15 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -90,16 +95,18 @@ fun App() {
                     TopAppBar(
                         title = { Text(stringResource(StringKey.AppName)) },
                         actions = {
-                            IconButton(onClick = {
-                                if (isSettings) {
+                            if (isSettings) {
+                                TextButton(onClick = {
                                     navController.navigateToTopLevel(lastMainDestination)
-                                } else {
-                                    navController.navigateToTopLevel(Destination.Settings)
+                                }) {
+                                    Text(stringResource(StringKey.SettingsBackButtonLabel))
+                                    Spacer(Modifier.width(4.dp))
+                                    Icon(imageVector = Icons.AutoMirrored.Filled.Undo, contentDescription = null)
                                 }
-                            }) {
-                                if (isSettings) {
-                                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
-                                } else {
+                            } else {
+                                IconButton(onClick = {
+                                    navController.navigateToTopLevel(Destination.Settings)
+                                }) {
                                     Icon(
                                         imageVector = Icons.Filled.Settings,
                                         contentDescription = stringResource(StringKey.SettingsContentDescription),
