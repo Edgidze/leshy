@@ -3,16 +3,20 @@ package compose.project.leshy.ui.map
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.GeoPoint
 import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.expressions.dsl.const
+import org.maplibre.compose.expressions.dsl.image
 import org.maplibre.compose.layers.CircleLayer
 import org.maplibre.compose.layers.LineLayer
+import org.maplibre.compose.layers.SymbolLayer
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
@@ -22,7 +26,7 @@ import org.maplibre.spatialk.geojson.MultiPoint
 import org.maplibre.spatialk.geojson.Point
 import org.maplibre.spatialk.geojson.Position
 
-data class MapMarker(val lat: Double, val lon: Double, val colorHex: String)
+data class MapMarker(val lat: Double, val lon: Double, val colorHex: String, val iconRef: String? = null)
 
 private val TRACK_COLOR = Color(0xFF1B4332)
 private val CURRENT_LOCATION_COLOR = Color(0xFF2196F3)
@@ -86,13 +90,35 @@ fun LiveTrackMap(
             LineLayer(id = "track-line", source = trackSource, color = const(TRACK_COLOR), width = const(4.dp))
         }
 
-        markers.groupBy { it.colorHex }.forEach { (colorHex, group) ->
-            val color = runCatching { Color(("ff" + colorHex.removePrefix("#")).toLong(16)) }
-                .getOrDefault(Color.Gray)
-            val marksSource = rememberGeoJsonSource(
-                GeoJsonData.Features(MultiPoint(group.map { Position(it.lon, it.lat) })),
-            )
-            CircleLayer(id = "marks-$colorHex", source = marksSource, color = const(color), radius = const(6.dp))
+        val (photoMarkers, mushroomMarkers) = markers.partition { it.iconRef == null }
+
+        mushroomMarkers.groupBy { it.iconRef }.forEach { (iconRef, group) ->
+            requireNotNull(iconRef)
+            key(iconRef) {
+                val painter = rememberMushroomMarkerPainter(iconRef)
+                if (painter != null) {
+                    val marksSource = rememberGeoJsonSource(
+                        GeoJsonData.Features(MultiPoint(group.map { Position(it.lon, it.lat) })),
+                    )
+                    SymbolLayer(
+                        id = "marks-$iconRef",
+                        source = marksSource,
+                        iconImage = image(painter, size = DpSize(MUSHROOM_MARKER_SIZE, MUSHROOM_MARKER_SIZE)),
+                        iconAllowOverlap = const(true),
+                    )
+                }
+            }
+        }
+
+        photoMarkers.groupBy { it.colorHex }.forEach { (colorHex, group) ->
+            key(colorHex) {
+                val color = runCatching { Color(("ff" + colorHex.removePrefix("#")).toLong(16)) }
+                    .getOrDefault(Color.Gray)
+                val marksSource = rememberGeoJsonSource(
+                    GeoJsonData.Features(MultiPoint(group.map { Position(it.lon, it.lat) })),
+                )
+                CircleLayer(id = "marks-$colorHex", source = marksSource, color = const(color), radius = const(6.dp))
+            }
         }
 
         currentLocation?.let { location ->

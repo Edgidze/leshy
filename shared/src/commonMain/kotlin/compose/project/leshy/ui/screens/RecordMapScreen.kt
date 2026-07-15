@@ -21,7 +21,7 @@ import compose.project.leshy.ui.map.MapMarker
 @Composable
 fun RecordMapScreen(viewModel: RecordViewModel, onBack: () -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
-    val categoryColorById = uiState.categories.associate { it.id to it.colorHex }
+    val categoryById = uiState.categories.associateBy { it.id }
 
     Scaffold(
         topBar = {
@@ -38,10 +38,12 @@ fun RecordMapScreen(viewModel: RecordViewModel, onBack: () -> Unit) {
         LiveTrackMap(
             track = uiState.trackPoints,
             markers = uiState.marks.map { mark ->
+                val category = categoryById[mark.categoryId]
                 MapMarker(
                     lat = mark.lat,
                     lon = mark.lon,
-                    colorHex = categoryColorById[mark.categoryId] ?: "#808080",
+                    colorHex = category?.colorHex ?: "#808080",
+                    iconRef = category?.iconRef,
                 )
             },
             currentLocation = uiState.currentLocation,
