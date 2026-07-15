@@ -16,18 +16,21 @@ import kotlinx.coroutines.launch
 
 class WalkDetailViewModel(
     private val walkId: Long,
-    walkRepository: WalkRepository,
+    private val walkRepository: WalkRepository,
     fieldMarkRepository: FieldMarkRepository,
     trackPointRepository: TrackPointRepository,
     categoryRepository: CategoryRepository,
 ) : ViewModel() {
+
+    private val showDeleteConfirmation = MutableStateFlow(false)
+    private val deleted = MutableStateFlow(false)
 
     private val _uiState = MutableStateFlow(WalkDetailUiState())
     val uiState: StateFlow<WalkDetailUiState> = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            combine(
+            val dataFlow = combine(
                 walkRepository.observeById(walkId),
                 fieldMarkRepository.observeByWalkId(walkId),
                 trackPointRepository.observeByWalkId(walkId),
@@ -47,7 +50,26 @@ class WalkDetailViewModel(
                     track = trackPoints.map { GeoPoint(it.lat, it.lon, it.elevation, it.timestamp) },
                     categories = categories,
                 )
+            }
+            combine(dataFlow, showDeleteConfirmation, deleted) { data, showConfirm, isDeleted ->
+                data.copy(showDeleteConfirmation = showConfirm, deleted = isDeleted)
             }.collect { state -> _uiState.value = state }
+        }
+    }
+
+    fun onDeleteClick() {
+        showDeleteConfirmation.value = true
+    }
+
+    fun onDeleteDismiss() {
+        showDeleteConfirmation.value = false
+    }
+
+    fun onDeleteConfirm() {
+        viewModelScope.launch {
+            showDeleteConfirmation.value = false
+            _uiState.value.walk?.let { walkRepository.delete(it) }
+            deleted.value = true
         }
     }
 }

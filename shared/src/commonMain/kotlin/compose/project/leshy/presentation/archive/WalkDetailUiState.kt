@@ -13,4 +13,6 @@ data class WalkDetailUiState(
     val marks: List<FieldMark> = emptyList(),
     val track: List<GeoPoint> = emptyList(),
     val categories: List<Category> = emptyList(),
+    val showDeleteConfirmation: Boolean = false,
+    val deleted: Boolean = false,
 )

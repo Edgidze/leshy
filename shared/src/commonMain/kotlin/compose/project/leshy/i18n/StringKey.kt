@@ -59,6 +59,11 @@ enum class StringKey {
     WalkDetailDistance,
     WalkDetailFindsTitle,
     WalkDetailViewMap,
+    WalkDetailDeleteContentDescription,
+    WalkDetailDeleteConfirmTitle,
+    WalkDetailDeleteConfirmMessage,
+    WalkDetailDeleteConfirmYes,
+    WalkDetailDeleteConfirmNo,
 
     MapToggleMap,
     MapToggleStats,

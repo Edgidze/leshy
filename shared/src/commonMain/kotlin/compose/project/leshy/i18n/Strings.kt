@@ -73,6 +73,12 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.WalkDetailDistance -> "Километраж"
     StringKey.WalkDetailFindsTitle -> "Находки по типам"
     StringKey.WalkDetailViewMap -> "Смотреть карту"
+    StringKey.WalkDetailDeleteContentDescription -> "Удалить прогулку"
+    StringKey.WalkDetailDeleteConfirmTitle -> "Удалить прогулку?"
+    StringKey.WalkDetailDeleteConfirmMessage ->
+        "Прогулка и все находки будут удалены безвозвратно. Восстановить их будет невозможно."
+    StringKey.WalkDetailDeleteConfirmYes -> "Да"
+    StringKey.WalkDetailDeleteConfirmNo -> "Нет"
 
     StringKey.MapToggleMap -> "Карта"
     StringKey.MapToggleStats -> "Статистика"
@@ -140,6 +146,12 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.WalkDetailDistance -> "Distance"
     StringKey.WalkDetailFindsTitle -> "Finds by type"
     StringKey.WalkDetailViewMap -> "View map"
+    StringKey.WalkDetailDeleteContentDescription -> "Delete walk"
+    StringKey.WalkDetailDeleteConfirmTitle -> "Delete walk?"
+    StringKey.WalkDetailDeleteConfirmMessage ->
+        "The walk and all its finds will be permanently deleted. This cannot be undone."
+    StringKey.WalkDetailDeleteConfirmYes -> "Yes"
+    StringKey.WalkDetailDeleteConfirmNo -> "No"
 
     StringKey.MapToggleMap -> "Map"
     StringKey.MapToggleStats -> "Statistics"

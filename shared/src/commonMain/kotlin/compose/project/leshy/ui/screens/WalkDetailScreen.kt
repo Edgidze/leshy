@@ -10,13 +10,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -34,6 +38,28 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
     val uiState by viewModel.uiState.collectAsState()
     val walk = uiState.walk
 
+    LaunchedEffect(uiState.deleted) {
+        if (uiState.deleted) onBack()
+    }
+
+    if (uiState.showDeleteConfirmation) {
+        AlertDialog(
+            onDismissRequest = viewModel::onDeleteDismiss,
+            title = { Text(stringResource(StringKey.WalkDetailDeleteConfirmTitle)) },
+            text = { Text(stringResource(StringKey.WalkDetailDeleteConfirmMessage)) },
+            confirmButton = {
+                TextButton(onClick = viewModel::onDeleteConfirm) {
+                    Text(stringResource(StringKey.WalkDetailDeleteConfirmYes))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = viewModel::onDeleteDismiss) {
+                    Text(stringResource(StringKey.WalkDetailDeleteConfirmNo))
+                }
+            },
+        )
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -41,6 +67,14 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                actions = {
+                    IconButton(onClick = viewModel::onDeleteClick) {
+                        Icon(
+                            Icons.Filled.Delete,
+                            contentDescription = stringResource(StringKey.WalkDetailDeleteContentDescription),
+                        )
                     }
                 },
             )
