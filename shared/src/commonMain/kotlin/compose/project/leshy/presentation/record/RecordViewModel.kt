@@ -15,6 +15,7 @@ import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
+import compose.project.leshy.domain.usecase.RenameWalkUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.string
@@ -36,6 +37,7 @@ class RecordViewModel(
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val startWalk: StartWalkUseCase,
     private val finishWalk: FinishWalkUseCase,
+    private val renameWalk: RenameWalkUseCase,
     private val recordTrackPoint: RecordTrackPointUseCase,
     private val addMushroomMark: AddMushroomMarkUseCase,
     private val removeLastMushroomMark: RemoveLastMushroomMarkUseCase,
@@ -79,6 +81,10 @@ class RecordViewModel(
 
     fun setWalkName(name: String) {
         _uiState.update { it.copy(walkName = name) }
+        val currentWalkId = walkId
+        if (currentWalkId != null) {
+            viewModelScope.launch { renameWalk(currentWalkId, name) }
+        }
     }
 
     fun onStartOrPauseClick() {

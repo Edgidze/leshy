@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -18,6 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.data.platform.rememberCameraLauncher
 import compose.project.leshy.i18n.StringKey
@@ -33,13 +38,22 @@ import org.koin.compose.viewmodel.koinViewModel
 fun RecordScreen(onViewMap: () -> Unit, viewModel: RecordViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val takePhoto = rememberCameraLauncher { path -> viewModel.onPhotoCaptured(path) }
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         OutlinedTextField(
             value = uiState.walkName,
             onValueChange = viewModel::setWalkName,
             label = { Text(stringResource(StringKey.RecordWalkNameHint)) },
-            enabled = !uiState.isRecording,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                    keyboardController?.hide()
+                },
+            ),
             modifier = Modifier.fillMaxWidth(),
         )
 
