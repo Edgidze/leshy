@@ -39,8 +39,9 @@ actual val platformModule: Module = module {
         val dbFilePath = documentsDirectoryPath() + "/" + DATABASE_NAME
         Room.databaseBuilder<LeshyDatabase>(name = dbFilePath)
     }
-    single<LocationTracker> { IosLocationTracker() }
-    single<BackgroundRecordingController> { IosBackgroundRecordingController() }
+    single { IosLocationTracker() }
+    single<LocationTracker> { get<IosLocationTracker>() }
+    single<BackgroundRecordingController> { IosBackgroundRecordingController(get()) }
     single<DataStore<Preferences>> {
         val settingsFilePath = documentsDirectoryPath() + "/" + SETTINGS_FILE_NAME
         PreferenceDataStoreFactory.createWithPath { settingsFilePath.toPath() }
