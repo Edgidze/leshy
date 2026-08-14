@@ -57,6 +57,21 @@ fun MushroomTile(
         border = BorderStroke(2.dp, outlineColor),
     ) {
         Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                IconButton(onClick = onRemove, enabled = count > 0) {
+                    Icon(Icons.Filled.Remove, contentDescription = null)
+                }
+                Text(count.toString())
+                IconButton(onClick = onAdd) {
+                    Icon(Icons.Filled.Add, contentDescription = null)
+                }
+            }
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -85,21 +100,6 @@ fun MushroomTile(
                         .height(46.dp)
                         .padding(horizontal = 6.dp, vertical = 2.dp),
                 )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                IconButton(onClick = onRemove, enabled = count > 0) {
-                    Icon(Icons.Filled.Remove, contentDescription = null)
-                }
-                Text(count.toString())
-                IconButton(onClick = onAdd) {
-                    Icon(Icons.Filled.Add, contentDescription = null)
-                }
             }
         }
     }
