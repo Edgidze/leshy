@@ -23,7 +23,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ArchiveScreen(onWalkClick: (Long) -> Unit, viewModel: ArchiveViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
 
-    if (uiState.walks.isEmpty()) {
+    if (uiState.items.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
@@ -36,8 +36,13 @@ fun ArchiveScreen(onWalkClick: (Long) -> Unit, viewModel: ArchiveViewModel = koi
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(uiState.walks, key = { it.id }) { walk ->
-                WalkCard(walk = walk, onClick = { onWalkClick(walk.id) })
+            items(uiState.items, key = { it.walk.id }) { item ->
+                WalkCard(
+                    walk = item.walk,
+                    track = item.track,
+                    findLocations = item.findLocations,
+                    onClick = { onWalkClick(item.walk.id) },
+                )
             }
         }
     }
