@@ -21,9 +21,14 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.NavMap -> "Карта"
     StringKey.SettingsTitle -> "Настройки"
     StringKey.SettingsContentDescription -> "Настройки"
-    StringKey.SettingsBackButtonLabel -> "Назад"
     StringKey.SettingsLanguageTitle -> "Язык"
     StringKey.SettingsCategoriesTitle -> "Грибы для отметки"
+
+    StringKey.NavMenuContentDescription -> "Меню"
+    StringKey.HelpContentDescription -> "Помощь"
+    StringKey.HelpDialogTitle -> "Помощь"
+    StringKey.HelpDialogMessage -> "Инструкции для этого экрана появятся здесь в будущем обновлении."
+    StringKey.HelpDialogDismiss -> "Понятно"
 
     StringKey.CategoryBoletusEdulis -> "Белый гриб"
     StringKey.CategoryLeccinumAurantiacum -> "Подосиновик"
@@ -99,9 +104,14 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.NavMap -> "Map"
     StringKey.SettingsTitle -> "Settings"
     StringKey.SettingsContentDescription -> "Settings"
-    StringKey.SettingsBackButtonLabel -> "Back"
     StringKey.SettingsLanguageTitle -> "Language"
     StringKey.SettingsCategoriesTitle -> "Mushrooms to track"
+
+    StringKey.NavMenuContentDescription -> "Menu"
+    StringKey.HelpContentDescription -> "Help"
+    StringKey.HelpDialogTitle -> "Help"
+    StringKey.HelpDialogMessage -> "Instructions for this screen will be available here in a future update."
+    StringKey.HelpDialogDismiss -> "Got it"
 
     StringKey.CategoryBoletusEdulis -> "Porcini"
     StringKey.CategoryLeccinumAurantiacum -> "Orange-cap bolete"

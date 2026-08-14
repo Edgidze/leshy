@@ -1344,6 +1344,57 @@ true)`), и одиночная картинка на кластер требуе
   `KeyboardOptions`/`KeyboardActions` — стандартный кросс-платформенный
   Compose Multiplatform API, специфичного iOS-кода не потребовалось.
 
+**Нижняя навигация (`NavigationBar` Record/Archive/Map) заменена на левую
+выдвижную панель (`ModalNavigationDrawer`), открываемую кнопкой-домиком слева
+в `TopAppBar`.** Цель — вернуть экрану постоянно занятую нижнюю полосу.
+Шестерёнка «Настройки» справа в `TopAppBar` заменена на кнопку «?»
+(`Icons.AutoMirrored.Filled.HelpOutline`) — пока просто открывает диалог-заглушку
+(«Инструкции для этого экрана появятся здесь в будущем обновлении» /
+RU-EN), без привязки к конкретному экрану — реальные подсказки за пределами
+этой правки.
+- Все изменения — только в `App.kt` (`shared/src/commonMain/kotlin/compose/
+  project/leshy/App.kt`); `LeshyNavHost`, `Destination`, сами экраны не
+  тронуты.
+- **Settings перестал быть особым случаем.** Раньше это был пятый экран вне
+  нижней навигации, доступный только через шестерёнку, с отдельной кнопкой
+  «Назад»/`TextButton` в `TopAppBar`, видимой только на самом экране
+  «Настройки» (см. историю фиксов навигации в Части 5/6 выше). Теперь
+  «Настройки» — обычный четвёртый пункт списка в drawer, наравне с
+  Запись/Архив/Карта: тот же `NavigationDrawerItem`, тот же
+  `navigateToTopLevel()` (функция не менялась — тот же pop/save/restore,
+  что и раньше), тот же расчёт `selected` по `currentDestination.hierarchy`.
+  Специальная кнопка «Назад» и связанный с ней `StringKey.
+  SettingsBackButtonLabel` убраны как ставшие ненужными — раз все четыре
+  экрана равноправны, назад из «Настроек» ведёт не отдельная кнопка, а
+  обычный выбор другого пункта в drawer (симметрично тому, как уже
+  устроен переход между Записью/Архивом/Картой).
+- Иконка кнопки-домика — тот же `Icons.Filled.Home`, что уже был на пункте
+  «Запись» и в drawer, и в `TopAppBar` — по прямому пожеланию пользователя
+  («styled house picture, like the record screen icon now»).
+- Новые `StringKey`: `NavMenuContentDescription`, `HelpContentDescription`,
+  `HelpDialogTitle`, `HelpDialogMessage`, `HelpDialogDismiss` (RU/EN в
+  `Strings.kt`, тот же exhaustive-`when`-паттерн).
+- Вложенные экраны (`RecordMapScreen`, `WalkDetailScreen`, `WalkMapScreen`)
+  не затронуты — у них свой внутренний `Scaffold`/`TopAppBar` с собственной
+  стрелкой «назад», независимый от внешнего `TopAppBar` в `App.kt` (тот
+  как и раньше отрисовывается поверх/вокруг них с новым drawer/«?»).
+- Проверено вживую на обеих платформах. Android (эмулятор `Medium_Phone`,
+  свежая сборка + `adb install -r`): drawer открывается кнопкой-домиком,
+  показывает все 4 пункта с подсветкой текущего экрана, переход в
+  «Настройки» и обратно работает без прежней шестерёнки/кнопки «Назад»;
+  кнопка «?» показывает диалог-заглушку на RU и на EN; активная запись
+  прогулки (таймер тикал) пережила переключение Запись→Карта→Запись через
+  drawer без сброса состояния (тот же механизм `viewModelStoreOwner`,
+  что и раньше) — протестировано полным циклом Start→Пауза→Завершить,
+  тестовая прогулка удалена через уже существующую функцию в «Архиве».
+  iOS (симулятор iPhone 17, iOS 26.5, собран через `xcodebuild` +
+  `xcrun simctl install`/`launch`, взаимодействие — `osascript`/System
+  Events клики по окну Simulator.app, т.к. `simctl` не умеет тапы
+  напрямую): те же проверки — drawer, переход в «Настройки», диалог «?»
+  на RU и на EN — прошли без ошибок. `./gradlew :shared:compileAndroidMain
+  :shared:compileKotlinIosArm64 :shared:compileKotlinIosSimulatorArm64
+  :androidApp:assembleDebug` — чисто.
+
 ---
 
 ## 8. Полезные команды
