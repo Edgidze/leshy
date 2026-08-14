@@ -1,5 +1,8 @@
 package compose.project.leshy.ui.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
@@ -21,6 +24,11 @@ import compose.project.leshy.ui.screens.WalkMapScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
+// The library default is a 700ms fade, which reads as sluggish for top-level tab switches and
+// also gives native map views (rendered outside normal Compose alpha compositing, see
+// mapRenderOptions) a long window in which to visibly bleed through the transition.
+private const val NAV_TRANSITION_DURATION_MS = 200
+
 @Composable
 fun LeshyNavHost(
     navController: NavHostController,
@@ -31,6 +39,8 @@ fun LeshyNavHost(
         navController = navController,
         startDestination = Destination.Record,
         modifier = modifier.padding(contentPadding).consumeWindowInsets(contentPadding),
+        enterTransition = { fadeIn(animationSpec = tween(NAV_TRANSITION_DURATION_MS)) },
+        exitTransition = { fadeOut(animationSpec = tween(NAV_TRANSITION_DURATION_MS)) },
     ) {
         composable<Destination.Record> { backStackEntry ->
             val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = backStackEntry)

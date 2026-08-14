@@ -1441,6 +1441,53 @@ titleMedium.fontSize)` — размер берётся из готовой ст�
 тот же вызов, что уже используют пункты списка при выборе раздела; ничего
 больше не навигирует. Оба изменения — только в `App.kt`.
 
+**Найдена и исправлена причина «зависания» карты поверх экрана «Архив» при
+переходе Карта→Архив через drawer** (баг найден пользователем по
+скриншоту: тайлы карты остаются видны на экране, пока поверх уже
+отрисовываются карточки прогулок). Две независимые причины, разобранные по
+исходникам библиотек (сорсы `maplibre-compose` 0.13.0 и
+`org.jetbrains.androidx.navigation:navigation-compose` 2.9.2 из Gradle-кэша):
+1. **MapLibre на Android по умолчанию рендерит в `SurfaceView`**
+   (`RenderOptions.RenderMode.SurfaceView` — дефолт самой библиотеки в
+   `AndroidMapView.kt`). `SurfaceView` — отдельный слой, компонуемый
+   `SurfaceFlinger` в обход обычного View-пайплайна, поэтому alpha
+   `graphicsLayer`, которую применяет Compose Navigation при fade-переходе,
+   на него не действует — карта остаётся полностью непрозрачной весь переход,
+   пока новый экран проявляется поверх неё. Библиотека сама документирует
+   `RenderMode.TextureView` как решение именно этой проблемы («improved
+   compatibility with certain transformations, at a significant performance
+   cost»).
+2. **Дефолтная длительность перехода — 700ms** (`NavHost` в `LeshyNavHost.kt`
+   не задавал `enterTransition`/`exitTransition`, поэтому применялся
+   библиотечный дефолт `StandardDefaultNavTransitions` — `fadeIn`/`fadeOut`
+   с `tween(700)`), заметно дольше типичных ~300ms — отдельно объясняет
+   ощущение «медленного» перехода даже без бага с картой.
+- **Фикс рендера — новый `expect val mapRenderOptions: RenderOptions`**
+  (`ui/map/MapRenderOptions.kt` + `.android.kt`/`.ios.kt` actual, тот же
+  паттерн expect/actual, что уже используют GPS/камера/БД). На Android —
+  `RenderOptions(renderMode = RenderOptions.RenderMode.TextureView)`, на
+  iOS — `RenderOptions.Standard` (там `RenderMode` не существует вообще,
+  `RenderOptions` — expect class, платформенные конструкторы разные).
+  Отдельный expect/actual понадобился, а не правка самого
+  `LiveTrackMap`/`AggregatedFindsMap` — они с Части 4 намеренно
+  `commonMain`-composable без `expect`/`actual`-разделения, и заводить его
+  заново ради одной константы конфигурации было бы шагом назад; вместо этого
+  оба `MaplibreMap(...)` (`LiveTrackMap.kt`, `AggregatedFindsMap.kt`) получили
+  `options = MapOptions(renderOptions = mapRenderOptions)`.
+- **Фикс скорости — `NAV_TRANSITION_DURATION_MS = 200`** в
+  `LeshyNavHost.kt`, `NavHost(...)` получил явные `enterTransition`/
+  `exitTransition` (`fadeIn`/`fadeOut` с `tween(200)`) — не убран целиком
+  (`EnterTransition.None`), т.к. resulting голый "cut" между экранами читался
+  бы более резко, чем привычный лёгкий кроссфейд; 200ms — примерно
+  стандартная Material-длительность для fade, вместо нестандартных 700ms.
+- Проверено вживую на эмуляторе (свежая пересборка + `adb install -r`):
+  `./gradlew :shared:compileAndroidMain :shared:compileKotlinIosSimulatorArm64
+  :androidApp:assembleDebug` — чисто. На устройстве — burst-скриншоты подряд
+  (несколько `screencap` в одной adb shell-сессии сразу после тапа по
+  «Архив», чтобы избежать сетевой задержки round-trip между кадрами)
+  подтвердили: уже на первом кадре после тапа карта полностью пропадает,
+  никакого «зависшего» слоя тайлов под новым экраном не остаётся.
+
 ---
 
 ## 8. Полезные команды

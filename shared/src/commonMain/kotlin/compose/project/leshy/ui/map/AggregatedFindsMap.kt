@@ -17,6 +17,7 @@ import org.maplibre.compose.expressions.dsl.feature
 import org.maplibre.compose.expressions.dsl.step
 import org.maplibre.compose.layers.CircleLayer
 import org.maplibre.compose.layers.LineLayer
+import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.GeoJsonOptions
@@ -72,7 +73,12 @@ fun AggregatedFindsMap(
         }
     }
 
-    MaplibreMap(modifier = modifier, baseStyle = OpenFreeMapStyle, cameraState = cameraState) {
+    MaplibreMap(
+        modifier = modifier,
+        baseStyle = OpenFreeMapStyle,
+        cameraState = cameraState,
+        options = MapOptions(renderOptions = mapRenderOptions),
+    ) {
         tracks.forEach { (walkId, points) ->
             if (points.size >= 2) {
                 key(walkId) {

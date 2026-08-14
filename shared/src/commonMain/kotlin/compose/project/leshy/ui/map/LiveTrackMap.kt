@@ -17,6 +17,7 @@ import org.maplibre.compose.expressions.dsl.image
 import org.maplibre.compose.layers.CircleLayer
 import org.maplibre.compose.layers.LineLayer
 import org.maplibre.compose.layers.SymbolLayer
+import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
@@ -82,7 +83,12 @@ fun LiveTrackMap(
         }
     }
 
-    MaplibreMap(modifier = modifier, baseStyle = OpenFreeMapStyle, cameraState = cameraState) {
+    MaplibreMap(
+        modifier = modifier,
+        baseStyle = OpenFreeMapStyle,
+        cameraState = cameraState,
+        options = MapOptions(renderOptions = mapRenderOptions),
+    ) {
         if (track.size >= 2) {
             val trackSource = rememberGeoJsonSource(
                 GeoJsonData.Features(LineString(track.map { Position(it.lon, it.lat) })),
