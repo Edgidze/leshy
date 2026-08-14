@@ -4,19 +4,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Hiking
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Alignment
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -100,14 +103,21 @@ fun App() {
                 drawerState = drawerState,
                 drawerContent = {
                     ModalDrawerSheet {
-                        Text(
-                            text = stringResource(StringKey.NavDrawerHeader),
-                            style = MaterialTheme.typography.titleSmall.copy(
-                                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                            ),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp),
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                        ) {
+                            IconButton(onClick = { scope.launch { drawerState.close() } }) {
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                            }
+                            Text(
+                                text = stringResource(StringKey.NavDrawerHeader),
+                                style = MaterialTheme.typography.titleSmall.copy(
+                                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                ),
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
                         drawerNavEntries.forEach { entry ->
                             val selected = currentDestination?.hierarchy?.any {
                                 it.hasRoute(entry.destination::class)
@@ -132,7 +142,7 @@ fun App() {
                             navigationIcon = {
                                 IconButton(onClick = { scope.launch { drawerState.open() } }) {
                                     Icon(
-                                        imageVector = Icons.Filled.Home,
+                                        imageVector = Icons.Filled.Menu,
                                         contentDescription = stringResource(StringKey.NavMenuContentDescription),
                                         modifier = Modifier.size(36.dp),
                                     )

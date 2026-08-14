@@ -1433,6 +1433,14 @@ titleMedium.fontSize)` — размер берётся из готовой ст�
 :shared:compileKotlinIosArm64 :shared:compileKotlinIosSimulatorArm64
 :androidApp:assembleDebug` — чисто.
 
+**Кнопка открытия drawer в `TopAppBar` сменена с домика на классический
+гамбургер (`Icons.Filled.Menu`)** — по прямому запросу пользователя (ссылка
+на Material Symbols `menu`). В drawer добавлена кнопка-стрелка назад
+(`Icons.AutoMirrored.Filled.ArrowBack`, `IconButton`) слева от заголовка
+«Выберите раздел» — по тапу просто закрывает drawer (`drawerState.close()`),
+тот же вызов, что уже используют пункты списка при выборе раздела; ничего
+больше не навигирует. Оба изменения — только в `App.kt`.
+
 ---
 
 ## 8. Полезные команды
