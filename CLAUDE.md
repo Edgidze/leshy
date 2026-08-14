@@ -1621,6 +1621,53 @@ titleMedium.fontSize)` — размер берётся из готовой ст�
   `./gradlew :shared:compileAndroidMain :shared:compileKotlinIosArm64
   :shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` — чисто.
 
+**По запросу пользователя в `RecordScreen.kt` добавлены `@Preview`-функции**,
+чтобы разметку экрана «Запись» можно было исследовать прямо в IntelliJ IDEA
+без запуска эмулятора/симулятора. Инфраструктура для этого уже была в
+проекте (`libs.compose.uiToolingPreview` в `commonMain`/`androidMain`,
+`androidRuntimeClasspath(libs.compose.uiTooling)` — превью рендерится через
+Android-таргет), но реально использовалась только в `App.kt`, причём та
+`@Preview` не рендерится по факту — `App()` тянет `koinInject<SettingsRepository>()`
+напрямую, без Koin-графа превью упадёт.
+- **`RecordScreen` разделён на два слоя**, чтобы превью не требовал ни
+  Koin, ни `RecordViewModel`, ни платформенной камеры/GPS:
+  `RecordScreen(onFinished, viewModel = koinViewModel())` — тонкая обёртка
+  (сбор `uiState`, `rememberCameraLauncher`, `LaunchedEffect(justFinished)`),
+  вся разметка переехала в приватный `RecordScreenContent(uiState, onStartWalk,
+  onPauseOrResumeClick, onFinishClick, onAddMushroom, onRemoveMushroom,
+  onPhotoClick)` — чистая функция от `RecordUiState` и callback-лямбд, без
+  единой ViewModel/DI-зависимости. Тот же приём, что уже применялся при
+  разделении «данные из Room» / «чисто UI state» в других ViewModel'ях
+  (Части 4–5) — здесь просто ещё один уровень разделения, ради превьюабельности.
+- **`LiveTrackMap` (нативный MapLibre `SurfaceView`/`TextureView`) не
+  рендерится в статическом превью IDE** — рендерер превью не может его
+  прогнать (нет реального Android-рантайма/GL-контекста). Обёрнуто в
+  `if (LocalInspectionMode.current)` — в режиме превью вместо карты рисуется
+  просто `Box` с `colorScheme.surfaceVariant` (заглушка-фон), в реальном
+  приложении `LocalInspectionMode.current` всегда `false`, так что живая
+  карта не затронута.
+- **Три `@Preview`-функции** (`RecordScreenStartPreview`/
+  `RecordScreenRecordingPreview`/`RecordScreenPausedPreview`), каждая в
+  `LeshyTheme { ... }` (без него `MaterialTheme.colorScheme`/`typography`
+  внутри контента упали бы — превью не поднимает `App()` целиком) с ручным
+  `RecordUiState` под разные стадии прогулки (не начата / идёт запись с
+  накопленными находками / на паузе с двумя кнопками) — реальный сценарий,
+  который иначе пришлось бы гонять через эмулятор с активной записью, чтобы
+  увидеть.
+- **`PREVIEW_CATEGORIES`** — 4 реальные строки из каталога
+  `EnsureDefaultCategoriesUseCase` (не выдуманные тестовые данные) с разными
+  `edibilityStatus`, чтобы превью показывало все три цвета значка
+  съедобности и разные фото сразу. Никакой БД/DI не поднимается — категории
+  просто литералами.
+  `./gradlew :shared:compileAndroidMain :shared:compileKotlinIosArm64
+  :shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` — чисто
+  (тот же набор из 3 предсуществующих `MapLibre Composable` warning'ов, один
+  из них сместился на новую строку внутри `RecordScreenContent`). Реальный
+  рендер превью в IntelliJ (Split/Preview-режим редактора) в этой сессии не
+  проверялся — нет доступа к GUI IDE из этой среды; за счёт `LocalInspectionMode`-
+  гварда компиляция превью-функций через Android-таргет прошла чисто, что и
+  является тем, что реально проверяемо без графического интерфейса IDE.
+
 ---
 
 ## 8. Полезные команды

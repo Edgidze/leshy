@@ -38,18 +38,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.data.platform.rememberCameraLauncher
+import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
+import compose.project.leshy.presentation.record.RecordUiState
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.ui.components.CameraTile
 import compose.project.leshy.ui.components.MushroomTile
 import compose.project.leshy.ui.map.LiveTrackMap
 import compose.project.leshy.ui.map.MapMarker
+import compose.project.leshy.ui.theme.LeshyTheme
 import compose.project.leshy.ui.util.formatDateOnly
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDuration
@@ -63,8 +69,6 @@ private val TILE_WIDTH = 112.dp
 fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val takePhoto = rememberCameraLauncher { path -> viewModel.onPhotoCaptured(path) }
-    var showNameDialog by remember { mutableStateOf(false) }
-    val categoryById = uiState.categories.associateBy { it.id }
 
     LaunchedEffect(uiState.justFinished) {
         if (uiState.justFinished) {
@@ -72,6 +76,38 @@ fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewMo
             viewModel.consumeFinished()
         }
     }
+
+    RecordScreenContent(
+        uiState = uiState,
+        onStartWalk = { name ->
+            viewModel.setWalkName(name)
+            viewModel.onStartOrPauseClick()
+        },
+        onPauseOrResumeClick = viewModel::onStartOrPauseClick,
+        onFinishClick = viewModel::finish,
+        onAddMushroom = viewModel::addMushroom,
+        onRemoveMushroom = viewModel::removeMushroom,
+        onPhotoClick = takePhoto,
+    )
+}
+
+/**
+ * Pure presentation layer, no [RecordViewModel]/DI dependency — kept separate so it can be driven
+ * by hand-built [RecordUiState] samples in [@Preview][Preview] functions below without a Koin
+ * graph or platform camera/GPS plumbing.
+ */
+@Composable
+private fun RecordScreenContent(
+    uiState: RecordUiState,
+    onStartWalk: (String) -> Unit,
+    onPauseOrResumeClick: () -> Unit,
+    onFinishClick: () -> Unit,
+    onAddMushroom: (Long) -> Unit,
+    onRemoveMushroom: (Long) -> Unit,
+    onPhotoClick: () -> Unit,
+) {
+    var showNameDialog by remember { mutableStateOf(false) }
+    val categoryById = uiState.categories.associateBy { it.id }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -83,20 +119,29 @@ fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewMo
         }
 
         Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
-            LiveTrackMap(
-                track = uiState.trackPoints,
-                markers = uiState.marks.map { mark ->
-                    val category = categoryById[mark.categoryId]
-                    MapMarker(
-                        lat = mark.lat,
-                        lon = mark.lon,
-                        colorHex = category?.colorHex ?: "#808080",
-                        iconRef = category?.iconRef,
-                    )
-                },
-                currentLocation = uiState.currentLocation,
-                modifier = Modifier.fillMaxSize(),
-            )
+            if (LocalInspectionMode.current) {
+                // The real map is a native MapLibre view (SurfaceView/TextureView) that the
+                // IDE's static preview renderer can't drive — swap in a placeholder so the rest
+                // of the layout (buttons, tile scroller) is still explorable in @Preview.
+                Box(
+                    modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant),
+                )
+            } else {
+                LiveTrackMap(
+                    track = uiState.trackPoints,
+                    markers = uiState.marks.map { mark ->
+                        val category = categoryById[mark.categoryId]
+                        MapMarker(
+                            lat = mark.lat,
+                            lon = mark.lon,
+                            colorHex = category?.colorHex ?: "#808080",
+                            iconRef = category?.iconRef,
+                        )
+                    },
+                    currentLocation = uiState.currentLocation,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
 
             // Buttons float directly over the map (no opaque backing), the tile scroller below
             // them gets one — Column stacks the two without needing to know the scroller's
@@ -120,7 +165,7 @@ fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewMo
                         }
                         !uiState.isPaused -> {
                             Button(
-                                onClick = viewModel::onStartOrPauseClick,
+                                onClick = onPauseOrResumeClick,
                                 shape = ACTION_BUTTON_SHAPE,
                                 modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(200.dp),
                             ) {
@@ -129,7 +174,7 @@ fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewMo
                         }
                         else -> {
                             Button(
-                                onClick = viewModel::onStartOrPauseClick,
+                                onClick = onPauseOrResumeClick,
                                 shape = ACTION_BUTTON_SHAPE,
                                 modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(150.dp),
                             ) {
@@ -137,7 +182,7 @@ fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewMo
                             }
                             Spacer(modifier = Modifier.width(16.dp))
                             Button(
-                                onClick = viewModel::finish,
+                                onClick = onFinishClick,
                                 shape = ACTION_BUTTON_SHAPE,
                                 modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(150.dp),
                             ) {
@@ -158,13 +203,13 @@ fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewMo
                         MushroomTile(
                             category = category,
                             count = uiState.mushroomCounts[category.id] ?: 0,
-                            onAdd = { viewModel.addMushroom(category.id) },
-                            onRemove = { viewModel.removeMushroom(category.id) },
+                            onAdd = { onAddMushroom(category.id) },
+                            onRemove = { onRemoveMushroom(category.id) },
                             modifier = Modifier.width(TILE_WIDTH),
                         )
                     }
                     item {
-                        CameraTile(onClick = takePhoto, modifier = Modifier.width(TILE_WIDTH))
+                        CameraTile(onClick = onPhotoClick, modifier = Modifier.width(TILE_WIDTH))
                     }
                 }
             }
@@ -174,8 +219,7 @@ fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewMo
     if (showNameDialog) {
         WalkNameDialog(
             onConfirm = { name ->
-                viewModel.setWalkName(name)
-                viewModel.onStartOrPauseClick()
+                onStartWalk(name)
                 showNameDialog = false
             },
             onDismissRequest = { showNameDialog = false },
@@ -234,4 +278,79 @@ private fun WalkNameDialog(onConfirm: (String) -> Unit, onDismissRequest: () -> 
             }
         },
     )
+}
+
+// A handful of real catalog entries (see EnsureDefaultCategoriesUseCase) — enough variety
+// (all three EdibilityStatus buckets, a mix of icons) to explore MushroomTile without seeding
+// the actual default list.
+private val PREVIEW_CATEGORIES = listOf(
+    Category(1, "category_boletus_edulis", "#A95620", "boletus_edulis", 0, true, EdibilityStatus.EDIBLE),
+    Category(2, "category_pleurotus_ostreatus", "#BBAA93", "pleurotus_ostreatus", 1, true, EdibilityStatus.EDIBLE),
+    Category(3, "category_lactarius_torminosus", "#D69CA0", "lactarius_torminosus", 2, true, EdibilityStatus.CONDITIONALLY_EDIBLE),
+    Category(4, "category_amanita_muscaria", "#D73B21", "amanita_muscaria", 3, true, EdibilityStatus.INEDIBLE),
+)
+
+private val PREVIEW_NOOP_STRING: (String) -> Unit = {}
+private val PREVIEW_NOOP_LONG: (Long) -> Unit = {}
+private val PREVIEW_NOOP: () -> Unit = {}
+
+@Composable
+@Preview
+private fun RecordScreenStartPreview() {
+    LeshyTheme {
+        RecordScreenContent(
+            uiState = RecordUiState(categories = PREVIEW_CATEGORIES),
+            onStartWalk = PREVIEW_NOOP_STRING,
+            onPauseOrResumeClick = PREVIEW_NOOP,
+            onFinishClick = PREVIEW_NOOP,
+            onAddMushroom = PREVIEW_NOOP_LONG,
+            onRemoveMushroom = PREVIEW_NOOP_LONG,
+            onPhotoClick = PREVIEW_NOOP,
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun RecordScreenRecordingPreview() {
+    LeshyTheme {
+        RecordScreenContent(
+            uiState = RecordUiState(
+                categories = PREVIEW_CATEGORIES,
+                isRecording = true,
+                elapsedMillis = 125_000L,
+                distanceMeters = 1240.0,
+                mushroomCounts = mapOf(1L to 2, 3L to 1),
+            ),
+            onStartWalk = PREVIEW_NOOP_STRING,
+            onPauseOrResumeClick = PREVIEW_NOOP,
+            onFinishClick = PREVIEW_NOOP,
+            onAddMushroom = PREVIEW_NOOP_LONG,
+            onRemoveMushroom = PREVIEW_NOOP_LONG,
+            onPhotoClick = PREVIEW_NOOP,
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun RecordScreenPausedPreview() {
+    LeshyTheme {
+        RecordScreenContent(
+            uiState = RecordUiState(
+                categories = PREVIEW_CATEGORIES,
+                isRecording = true,
+                isPaused = true,
+                elapsedMillis = 754_000L,
+                distanceMeters = 3120.0,
+                mushroomCounts = mapOf(1L to 4),
+            ),
+            onStartWalk = PREVIEW_NOOP_STRING,
+            onPauseOrResumeClick = PREVIEW_NOOP,
+            onFinishClick = PREVIEW_NOOP,
+            onAddMushroom = PREVIEW_NOOP_LONG,
+            onRemoveMushroom = PREVIEW_NOOP_LONG,
+            onPhotoClick = PREVIEW_NOOP,
+        )
+    }
 }
