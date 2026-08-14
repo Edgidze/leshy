@@ -143,9 +143,13 @@ class RecordViewModel(
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
             walkId = null
             _uiState.update { state ->
-                RecordUiState(categories = state.categories, currentLocation = state.currentLocation)
+                RecordUiState(categories = state.categories, currentLocation = state.currentLocation, justFinished = true)
             }
         }
+    }
+
+    fun consumeFinished() {
+        _uiState.update { it.copy(justFinished = false) }
     }
 
     fun addMushroom(categoryId: Long) {

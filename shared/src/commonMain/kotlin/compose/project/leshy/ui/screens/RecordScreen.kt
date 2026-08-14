@@ -28,6 +28,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,11 +60,18 @@ private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
 private val TILE_WIDTH = 112.dp
 
 @Composable
-fun RecordScreen(viewModel: RecordViewModel = koinViewModel()) {
+fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val takePhoto = rememberCameraLauncher { path -> viewModel.onPhotoCaptured(path) }
     var showNameDialog by remember { mutableStateOf(false) }
     val categoryById = uiState.categories.associateBy { it.id }
+
+    LaunchedEffect(uiState.justFinished) {
+        if (uiState.justFinished) {
+            onFinished()
+            viewModel.consumeFinished()
+        }
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(

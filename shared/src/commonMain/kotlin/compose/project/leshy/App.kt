@@ -38,8 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -50,6 +48,7 @@ import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.ui.navigation.Destination
 import compose.project.leshy.ui.navigation.LeshyNavHost
+import compose.project.leshy.ui.navigation.navigateToTopLevel
 import compose.project.leshy.ui.theme.LeshyTheme
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
@@ -66,22 +65,6 @@ private val drawerNavEntries = listOf(
     DrawerNavEntry(Destination.Map, StringKey.NavMap, Icons.Filled.Place),
     DrawerNavEntry(Destination.Settings, StringKey.SettingsTitle, Icons.Filled.Settings),
 )
-
-/**
- * All top-level destinations (drawer entries) must navigate through this same
- * pop/save/restore scheme. Mixing a plain `navigate()` for one of them corrupts the
- * saved-state cache the others rely on to survive tab switches.
- */
-private fun NavHostController.navigateToTopLevel(destination: Destination) {
-    navigate(destination) {
-        popUpTo(graph.findStartDestination().id) {
-            inclusive = true
-            saveState = true
-        }
-        launchSingleTop = true
-        restoreState = true
-    }
-}
 
 @Composable
 @Preview

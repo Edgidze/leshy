@@ -15,4 +15,5 @@ data class RecordUiState(
     val currentLocation: GeoPoint? = null,
     val trackPoints: List<GeoPoint> = emptyList(),
     val marks: List<FieldMark> = emptyList(),
+    val justFinished: Boolean = false,
 )

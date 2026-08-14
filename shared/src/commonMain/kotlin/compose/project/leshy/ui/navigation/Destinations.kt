@@ -1,5 +1,7 @@
 package compose.project.leshy.ui.navigation
 
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import kotlinx.serialization.Serializable
 
 sealed interface Destination {
@@ -20,4 +22,20 @@ sealed interface Destination {
 
     @Serializable
     data object Settings : Destination
+}
+
+/**
+ * All top-level destinations (drawer entries) must navigate through this same
+ * pop/save/restore scheme. Mixing a plain `navigate()` for one of them corrupts the
+ * saved-state cache the others rely on to survive tab switches.
+ */
+fun NavHostController.navigateToTopLevel(destination: Destination) {
+    navigate(destination) {
+        popUpTo(graph.findStartDestination().id) {
+            inclusive = true
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
 }

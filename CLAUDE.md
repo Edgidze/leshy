@@ -1574,6 +1574,36 @@ titleMedium.fontSize)` — размер берётся из готовой ст�
   к Mac) — общий Compose-код, разница с уже проверенным на iOS в предыдущих
   частях `LiveTrackMap`-рендерингом отсутствует.
 
+**По прямому запросу пользователя: после Finish экран автоматически
+переключается на «Архив»**, чтобы сразу увидеть только что завершённую
+прогулку среди остальных плашек, а не оставаться на пустом экране «Запись».
+- **Одноразовый флаг `RecordUiState.justFinished`** — тот же паттерн, что
+  уже был у `WalkDetailUiState.deleted` (см. фикс удаления прогулки из
+  «Архива» выше): `RecordViewModel.finish()` при сбросе состояния после
+  `finishWalk()` теперь ставит `justFinished = true`, `RecordScreen`
+  реагирует через `LaunchedEffect(uiState.justFinished)` — вызывает
+  `onFinished()` и сразу `viewModel.consumeFinished()` (сбрасывает флаг
+  обратно). Сброс обязателен: `RecordViewModel` живёт в
+  `viewModelStoreOwner = backStackEntry` экрана `Record`, который переживает
+  переключение вкладок через `saveState`/`restoreState` (см. фикс навигации
+  в Части 5) — без сброса при следующем возврате на «Запись» экран сразу же
+  зациклил бы обратно на «Архив».
+- **`navigateToTopLevel` вынесена из `App.kt` в `Destinations.kt`** (публичная
+  extension-функция на `NavHostController`, была `private` только в `App.kt`)
+  — понадобилась и в `LeshyNavHost.kt` (другой пакет), который зовёт её
+  напрямую в `composable<Destination.Record>` вместо проброса ещё одного
+  callback-слоя через `App.kt`. Та же самая pop/save/restore-схема, что и у
+  всех пунктов drawer — переход после Finish не создаёт нового способа
+  навигации, просто ещё один вызов уже существующей функции.
+- Проверено вживую на эмуляторе `Medium_Phone`: Start → подтверждение имени
+  → Пауза → Завершить — сразу открывается «Архив» с плашкой только что
+  завершённой прогулки («Прогулка от 14.08.2026») среди остальных. Плашка
+  удалена через существующую функцию удаления, затем через drawer открыт
+  «Запись» — экран в обычном состоянии Start, без зацикливания обратно на
+  «Архив» (флаг корректно консьюмится один раз).
+  `./gradlew :shared:compileAndroidMain :shared:compileKotlinIosArm64
+  :shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` — чисто.
+
 ---
 
 ## 8. Полезные команды

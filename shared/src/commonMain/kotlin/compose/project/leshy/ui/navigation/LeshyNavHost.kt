@@ -43,7 +43,10 @@ fun LeshyNavHost(
     ) {
         composable<Destination.Record> { backStackEntry ->
             val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = backStackEntry)
-            RecordScreen(viewModel = viewModel)
+            RecordScreen(
+                viewModel = viewModel,
+                onFinished = { navController.navigateToTopLevel(Destination.Archive) },
+            )
         }
         composable<Destination.Archive> {
             ArchiveScreen(onWalkClick = { walkId -> navController.navigate(Destination.WalkDetail(walkId)) })
@@ -62,8 +65,9 @@ fun LeshyNavHost(
         }
         composable<Destination.WalkMap> { backStackEntry ->
             val route = backStackEntry.toRoute<Destination.WalkMap>()
-            // Same guard as RecordMap above: the parent WalkDetail entry can already be gone
-            // from the back stack during the exit transition when navigating via bottom nav.
+            // The parent WalkDetail entry can already be gone from the back stack while this
+            // composable is still recomposing during the exit transition (e.g. the user tapped a
+            // drawer item, which pops WalkDetail via popUpTo) — guard instead of crashing on it.
             val detailEntry = runCatching {
                 navController.getBackStackEntry(Destination.WalkDetail(route.walkId))
             }.getOrNull()
