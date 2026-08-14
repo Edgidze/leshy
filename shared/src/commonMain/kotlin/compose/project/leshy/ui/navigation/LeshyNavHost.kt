@@ -16,7 +16,6 @@ import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.ui.screens.ArchiveScreen
 import compose.project.leshy.ui.screens.MapScreen
-import compose.project.leshy.ui.screens.RecordMapScreen
 import compose.project.leshy.ui.screens.RecordScreen
 import compose.project.leshy.ui.screens.SettingsScreen
 import compose.project.leshy.ui.screens.WalkDetailScreen
@@ -44,20 +43,7 @@ fun LeshyNavHost(
     ) {
         composable<Destination.Record> { backStackEntry ->
             val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = backStackEntry)
-            RecordScreen(
-                viewModel = viewModel,
-                onViewMap = { navController.navigate(Destination.RecordMap) },
-            )
-        }
-        composable<Destination.RecordMap> {
-            // The parent Record entry can already be gone from the back stack while this
-            // composable is still recomposing during the exit transition (e.g. the user tapped a
-            // bottom-nav tab, which pops Record via popUpTo) — guard instead of crashing on it.
-            val recordEntry = runCatching { navController.getBackStackEntry(Destination.Record) }.getOrNull()
-            if (recordEntry != null) {
-                val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = recordEntry)
-                RecordMapScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
-            }
+            RecordScreen(viewModel = viewModel)
         }
         composable<Destination.Archive> {
             ArchiveScreen(onWalkClick = { walkId -> navController.navigate(Destination.WalkDetail(walkId)) })

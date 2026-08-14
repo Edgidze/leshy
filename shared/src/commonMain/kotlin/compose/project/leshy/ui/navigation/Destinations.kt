@@ -7,9 +7,6 @@ sealed interface Destination {
     data object Record : Destination
 
     @Serializable
-    data object RecordMap : Destination
-
-    @Serializable
     data object Archive : Destination
 
     @Serializable

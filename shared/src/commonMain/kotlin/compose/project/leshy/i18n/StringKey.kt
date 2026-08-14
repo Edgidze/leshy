@@ -55,9 +55,10 @@ enum class StringKey {
     RecordPause,
     RecordResume,
     RecordFinish,
-    RecordViewMap,
     RecordCameraContentDescription,
-    RecordMapTitle,
+    RecordSetWalkNameTitle,
+    RecordDefaultWalkNamePrefix,
+    RecordConfirmWalkNameContentDescription,
 
     ArchiveEmpty,
     WalkDetailStartTime,

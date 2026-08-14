@@ -19,11 +19,25 @@ private val DATE_TIME_FORMAT = kotlinx.datetime.LocalDateTime.Format {
     minute()
 }
 
+private val DATE_ONLY_FORMAT = kotlinx.datetime.LocalDateTime.Format {
+    day()
+    char('.')
+    monthNumber()
+    char('.')
+    year()
+}
+
 @OptIn(ExperimentalTime::class)
 fun formatDateTime(epochMillis: Long): String =
     Instant.fromEpochMilliseconds(epochMillis)
         .toLocalDateTime(TimeZone.currentSystemDefault())
         .format(DATE_TIME_FORMAT)
+
+@OptIn(ExperimentalTime::class)
+fun formatDateOnly(epochMillis: Long): String =
+    Instant.fromEpochMilliseconds(epochMillis)
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+        .format(DATE_ONLY_FORMAT)
 
 fun formatDuration(millis: Long): String {
     val totalSeconds = millis / 1000
