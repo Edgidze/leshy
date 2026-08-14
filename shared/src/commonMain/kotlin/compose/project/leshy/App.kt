@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Settings
@@ -13,6 +14,9 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -21,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -53,7 +58,7 @@ private data class DrawerNavEntry(
 )
 
 private val drawerNavEntries = listOf(
-    DrawerNavEntry(Destination.Record, StringKey.NavRecord, Icons.Filled.Home),
+    DrawerNavEntry(Destination.Record, StringKey.NavRecord, Icons.Filled.Hiking),
     DrawerNavEntry(Destination.Archive, StringKey.NavArchive, Icons.AutoMirrored.Filled.List),
     DrawerNavEntry(Destination.Map, StringKey.NavMap, Icons.Filled.Place),
     DrawerNavEntry(Destination.Settings, StringKey.SettingsTitle, Icons.Filled.Settings),
@@ -95,6 +100,14 @@ fun App() {
                 drawerState = drawerState,
                 drawerContent = {
                     ModalDrawerSheet {
+                        Text(
+                            text = stringResource(StringKey.NavDrawerHeader),
+                            style = MaterialTheme.typography.titleSmall.copy(
+                                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                            ),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp),
+                        )
                         drawerNavEntries.forEach { entry ->
                             val selected = currentDestination?.hierarchy?.any {
                                 it.hasRoute(entry.destination::class)
@@ -121,6 +134,7 @@ fun App() {
                                     Icon(
                                         imageVector = Icons.Filled.Home,
                                         contentDescription = stringResource(StringKey.NavMenuContentDescription),
+                                        modifier = Modifier.size(36.dp),
                                     )
                                 }
                             },

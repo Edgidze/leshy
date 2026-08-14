@@ -1395,6 +1395,44 @@ RU-EN), без привязки к конкретному экрану — ре�
   :shared:compileKotlinIosArm64 :shared:compileKotlinIosSimulatorArm64
   :androidApp:assembleDebug` — чисто.
 
+**В drawer добавлен заголовок над пунктами** («Выберите раздел»/«Choose a
+section», новый `StringKey.NavDrawerHeader`) — `Text` (`MaterialTheme.
+typography.titleSmall`, `colorScheme.onSurfaceVariant`, паддинг 28.dp/16.dp)
+перед `drawerNavEntries.forEach` в `ModalDrawerSheet`. Проверено вживую на
+эмуляторе `Medium_Phone` — заголовок отображается приглушённым текстом над
+списком, сам список не сдвинулся и не потерял выделение текущего пункта.
+`./gradlew :shared:compileAndroidMain :shared:compileKotlinIosArm64
+:shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` — чисто.
+
+**Иконка пункта «Запись» в drawer сменена с домика на `Icons.Filled.Hiking`**
+(фигурка туриста с рюкзаком) — пользователю предложены варианты (Hiking /
+DirectionsWalk / FiberManualRecord-точка REC / Forest-дерево), выбран Hiking
+как точнее всего передающий смысл раздела (поход/прогулка за грибами).
+Кнопка-домик слева в `TopAppBar`, открывающая сам drawer, **сознательно
+оставлена как есть** (`Icons.Filled.Home`) — её роль «открыть меню», не
+привязана к конкретному первому пункту списка; раньше это было явным
+выбором пользователя ради визуального совпадения с «Запись», но с уходом
+домика из «Запись» совпадение стало не нужно, и домик-кнопка меню и так
+понятна сама по себе. Проверено вживую на эмуляторе `Medium_Phone` —
+в drawer у «Запись» иконка туриста, кнопка меню в `TopAppBar` не изменилась.
+`./gradlew :shared:compileAndroidMain :shared:compileKotlinIosArm64
+:shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` — чисто.
+
+**Кнопка-домик и заголовок drawer увеличены в ~1.5 раза.** Иконка домика в
+`TopAppBar` (`App.kt`) получила `Modifier.size(36.dp)` (стандартный размер
+`Icon` — 24.dp, 36/24 = 1.5). Заголовок «Выберите раздел» — изначально был
+`MaterialTheme.typography.titleSmall.copy(fontSize = ... * 1.5f)` (14sp →
+21sp, произвольное умножение `TextUnit`), но пользователь вручную заменил
+этот подход на `titleSmall.copy(fontSize = MaterialTheme.typography.
+titleMedium.fontSize)` — размер берётся из готовой ступени типографической
+шкалы темы (`titleMedium`, 16sp), а не вычисляется произвольным
+коэффициентом. Кнопка «?» справа и остальные иконки в drawer не тронуты —
+просили увеличить только домик и заголовок. Проверено вживую на эмуляторе
+`Medium_Phone` — домик заметно крупнее «?» рядом, заголовок заметно крупнее
+пунктов списка под ним. `./gradlew :shared:compileAndroidMain
+:shared:compileKotlinIosArm64 :shared:compileKotlinIosSimulatorArm64
+:androidApp:assembleDebug` — чисто.
+
 ---
 
 ## 8. Полезные команды

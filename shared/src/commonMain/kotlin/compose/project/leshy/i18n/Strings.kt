@@ -24,6 +24,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsLanguageTitle -> "Язык"
     StringKey.SettingsCategoriesTitle -> "Грибы для отметки"
 
+    StringKey.NavDrawerHeader -> "Выберите раздел"
     StringKey.NavMenuContentDescription -> "Меню"
     StringKey.HelpContentDescription -> "Помощь"
     StringKey.HelpDialogTitle -> "Помощь"
@@ -107,6 +108,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsLanguageTitle -> "Language"
     StringKey.SettingsCategoriesTitle -> "Mushrooms to track"
 
+    StringKey.NavDrawerHeader -> "Choose a section"
     StringKey.NavMenuContentDescription -> "Menu"
     StringKey.HelpContentDescription -> "Help"
     StringKey.HelpDialogTitle -> "Help"
