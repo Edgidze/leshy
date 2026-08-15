@@ -33,7 +33,7 @@
       75 ft`** — feet, on a Russian app. Set the MapLibre scale control to metric and
       localize the distance unit string.
 
-- [ ] **5. The theme fights the brand.** Default Material3 lavender/pale-purple surface
+- [x] **5. The theme fights the brand.** Default Material3 lavender/pale-purple surface
       reads "productivity app," not "into the forest." The logo is dark forest-green and
       the best accents (Старт button, switches) are already green. Retheme surfaces/
       background to an earthy green-brown palette anchored on the logo color. Cheap,

@@ -2052,6 +2052,40 @@ open через `IconButton`/`drawerState.open()` не тронута.
 - `./gradlew :shared:compileAndroidMain :shared:compileKotlinIosSimulatorArm64
   :androidApp:assembleDebug` — чисто.
 
+**Реализован пункт 5 из `UI_REVIEW.md` — retheme с дефолтного Material3
+лавандового на «earthy forest» палитру, заякоренную на цвете логотипа.**
+Раньше `ui/theme/Theme.kt` задавал через `lightColorScheme()`/`darkColorScheme()`
+только `primary`/`secondary` (`LeshyGreen`/`LeshyGreenLight`) — все остальные
+токены (`background`, `surface`, `surfaceVariant`, `surfaceContainer*`,
+`outline` и т.д.) falls back на Material3 baseline-палитру, которая по
+умолчанию с лёгким лавандовым/фиолетовым оттенком — отсюда и жалоба ревью
+(«reads productivity app, not into the forest»).
+- **Обе цветовые схемы (`LightColors`/`DarkColors`) переписаны полным
+  набором параметров** `lightColorScheme(...)`/`darkColorScheme(...)`
+  (все токены Material3 1.11, включая `surfaceContainerLowest`…
+  `surfaceContainerHighest`, добавленные в API уже после базовой
+  спецификации Material You) — тёплая кремовая подложка (`#F4F1E8`,
+  тот же цвет, что уже использовался как фон adaptive-icon в Части 5, не
+  выдуман заново) вместо лавандовой, тёмно-зелёный `primary` (сам
+  `LeshyGreen`, не менялся), земляной коричневый `secondary` (`#6F4E37`,
+  цвет коры/почвы), приглушённый оливковый `tertiary`. Тёмная тема —
+  зеркальная (тёмно-коричневый/почти-чёрный фон `#1C1B15`, светло-зелёный
+  `primary` для контраста на тёмном).
+- **`LeshyGreenLight` (старый `secondary`) удалён как более не используемый**
+  — новый `secondary` не является модификацией зелёного, а отдельный
+  коричневый акцент; ничего в кодовой базе на константу больше не ссылалось.
+- Проверено вживую на эмуляторе `Medium_Phone` — экраны «Запись» (карта,
+  кнопка Start), drawer («Выберите раздел», подсветка текущего пункта
+  терракотовым `primaryContainer`), «Архив» (пустое состояние) и «Настройки»
+  (зелёные `Switch`, терракотовый выбранный `SegmentedButton` языка) все
+  показывают тёплую кремовую подложку вместо лавандовой, с зелёными/
+  коричневыми акцентами по всему UI — ровно то ощущение «в лес», которого
+  просило ревью. iOS живьём в этой сессии не проверялся (нет доступа к
+  Mac прямо сейчас) — `ColorScheme` не платформозависим, тот же общий
+  `commonMain`-код. `./gradlew :shared:compileAndroidMain
+  :shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` — чисто
+  (тот же набор из 3 предсуществующих `MapLibre Composable` warning'ов).
+
 ---
 
 ## 8. Полезные команды

@@ -184,7 +184,7 @@ private fun RecordScreenContent(
                             Button(
                                 onClick = onFinishClick,
                                 shape = ACTION_BUTTON_SHAPE,
-                                modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
+                            modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
                             ) {
                                 Text(stringResource(StringKey.RecordFinish))
                             }
