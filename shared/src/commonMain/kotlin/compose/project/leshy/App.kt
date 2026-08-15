@@ -84,6 +84,7 @@ fun App() {
 
             ModalNavigationDrawer(
                 drawerState = drawerState,
+                gesturesEnabled = false,
                 drawerContent = {
                     ModalDrawerSheet {
                         Row(
