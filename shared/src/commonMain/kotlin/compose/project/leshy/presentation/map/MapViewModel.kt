@@ -95,7 +95,8 @@ class MapViewModel(
             availablePeriods = availablePeriods,
             selectedPeriod = period,
             tracks = tracks,
-            findLocations = mushroomMarks.map { GeoPoint(it.lat, it.lon, null, it.timestamp) },
+            findMarks = mushroomMarks,
+            categories = raw.categories,
             stats = MapStats(
                 walkCount = filteredWalkIds.size,
                 totalDistanceMeters = raw.walks.filter { it.id in filteredWalkIds }.sumOf { it.distanceMeters },

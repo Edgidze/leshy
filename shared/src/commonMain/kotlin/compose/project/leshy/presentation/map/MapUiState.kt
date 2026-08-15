@@ -1,5 +1,7 @@
 package compose.project.leshy.presentation.map
 
+import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.presentation.archive.CategoryCount
 
@@ -22,6 +24,7 @@ data class MapUiState(
     val availablePeriods: List<MapPeriod> = emptyList(),
     val selectedPeriod: MapPeriod? = null,
     val tracks: Map<Long, List<GeoPoint>> = emptyMap(),
-    val findLocations: List<GeoPoint> = emptyList(),
+    val findMarks: List<FieldMark> = emptyList(),
+    val categories: List<Category> = emptyList(),
     val stats: MapStats = MapStats(),
 )

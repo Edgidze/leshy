@@ -30,6 +30,7 @@ import compose.project.leshy.presentation.map.MapPeriod
 import compose.project.leshy.presentation.map.MapStats
 import compose.project.leshy.presentation.map.MapViewModel
 import compose.project.leshy.ui.map.AggregatedFindsMap
+import compose.project.leshy.ui.map.MapMarker
 import compose.project.leshy.ui.util.formatDistanceKm
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -77,11 +78,22 @@ fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
         }
 
         when (uiState.mode) {
-            MapMode.MAP -> AggregatedFindsMap(
-                tracks = uiState.tracks,
-                findLocations = uiState.findLocations,
-                modifier = Modifier.fillMaxSize().weight(1f).padding(top = 8.dp),
-            )
+            MapMode.MAP -> {
+                val categoryById = uiState.categories.associateBy { it.id }
+                AggregatedFindsMap(
+                    tracks = uiState.tracks,
+                    markers = uiState.findMarks.map { mark ->
+                        val category = categoryById[mark.categoryId]
+                        MapMarker(
+                            lat = mark.lat,
+                            lon = mark.lon,
+                            colorHex = category?.colorHex ?: "#808080",
+                            iconRef = category?.iconRef,
+                        )
+                    },
+                    modifier = Modifier.fillMaxSize().weight(1f).padding(top = 8.dp),
+                )
+            }
             MapMode.STATS -> MapStatsView(
                 stats = uiState.stats,
                 modifier = Modifier.fillMaxSize().weight(1f),
