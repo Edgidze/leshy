@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 private data class RawMapData(
@@ -107,6 +108,7 @@ class MapViewModel(
     }
 }
 
+@OptIn(ExperimentalTime::class)
 private fun Long.toMapPeriod(): MapPeriod {
     val dateTime = Instant.fromEpochMilliseconds(this).toLocalDateTime(TimeZone.currentSystemDefault())
     return MapPeriod(dateTime.year, dateTime.month.number)
