@@ -30,7 +30,8 @@ import compose.project.leshy.ui.util.formatDateOnly
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDuration
 
-private val THUMBNAIL_SIZE = 72.dp
+private val THUMBNAIL_SIZE = 120.dp
+private val WALK_CARD_PADDING = 8.dp
 
 @Composable
 fun WalkCard(
@@ -42,7 +43,7 @@ fun WalkCard(
 ) {
     Card(modifier = modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(WALK_CARD_PADDING),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             WalkThumbnail(
@@ -51,7 +52,7 @@ fun WalkCard(
                 findLocations = findLocations,
                 modifier = Modifier.size(THUMBNAIL_SIZE),
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(WALK_CARD_PADDING))
             Column(modifier = Modifier.weight(1f)) {
                 Text(walk.name, style = MaterialTheme.typography.titleMedium)
                 Text(
