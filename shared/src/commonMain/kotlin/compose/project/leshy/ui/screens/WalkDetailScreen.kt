@@ -24,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
@@ -31,7 +32,8 @@ import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.ui.util.formatDateTime
 import compose.project.leshy.ui.util.formatDistanceKm
-import compose.project.leshy.ui.util.formatDuration
+import compose.project.leshy.ui.util.formatDurationLabeled
+import compose.project.leshy.ui.util.formatSpeedKmh
 
 @Composable
 fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewMap: () -> Unit) {
@@ -92,17 +94,26 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
                         (walk.endTime?.let(::formatDateTime) ?: stringResource(StringKey.WalkDetailInProgress)),
                 )
             }
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
                 Text("${stringResource(StringKey.WalkDetailDistance)}: ${formatDistanceKm(walk.distanceMeters)}")
-                Text(walk.endTime?.let { formatDuration(it - walk.startTime) } ?: "—")
+            }
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
+                Text(
+                    "${stringResource(StringKey.WalkDetailDuration)}: " +
+                        (walk.endTime?.let { formatDurationLabeled(it - walk.startTime) } ?: "—"),
+                )
+            }
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
+                Text(
+                    "${stringResource(StringKey.WalkDetailAvgSpeed)}: " +
+                        (walk.endTime?.let { formatSpeedKmh(walk.avgSpeed) } ?: "—"),
+                )
             }
 
             Text(
                 stringResource(StringKey.WalkDetailFindsTitle),
                 modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
+                textDecoration = TextDecoration.Underline,
             )
             LazyColumn(modifier = Modifier.weight(1f)) {
                 items(uiState.mushroomCounts) { entry ->

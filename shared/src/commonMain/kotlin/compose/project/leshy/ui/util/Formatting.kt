@@ -1,5 +1,8 @@
 package compose.project.leshy.ui.util
 
+import androidx.compose.runtime.Composable
+import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.stringResource
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.char
 import kotlinx.datetime.format
@@ -49,6 +52,29 @@ fun formatDuration(millis: Long): String {
     } else {
         "${minutes.pad()}:${seconds.pad()}"
     }
+}
+
+/** Days/hours/minutes with unit labels, omitting any leading unit that is zero (minutes always shown). */
+@Composable
+fun formatDurationLabeled(millis: Long): String {
+    val totalMinutes = millis / 60_000
+    val days = totalMinutes / (24 * 60)
+    val hours = (totalMinutes % (24 * 60)) / 60
+    val minutes = totalMinutes % 60
+
+    val parts = mutableListOf<String>()
+    if (days > 0) parts += "$days ${stringResource(StringKey.WalkDetailDurationDays)}"
+    if (hours > 0) parts += "$hours ${stringResource(StringKey.WalkDetailDurationHours)}"
+    parts += "$minutes ${stringResource(StringKey.WalkDetailDurationMinutes)}"
+    return parts.joinToString(" ")
+}
+
+fun formatSpeedKmh(metersPerSecond: Double): String {
+    val kmh = metersPerSecond * 3.6
+    val rounded = (kmh * 10).toLong() / 10.0
+    val whole = rounded.toLong()
+    val fraction = ((rounded - whole) * 10).toLong().let { if (it < 0) -it else it }
+    return "$whole.$fraction km/h"
 }
 
 fun formatDistanceKm(meters: Double): String {
