@@ -2179,6 +2179,28 @@ open через `IconButton`/`drawerState.open()` не тронута.
   :shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` — чисто
   (те же 3 предсуществующих `MapLibre Composable` warning'а).
 
+**Мелкий фикс сборки: пропущенный `@OptIn(ExperimentalTime::class)` в
+`MapViewModel.kt`.** `Long.toMapPeriod()` (приватная extension-функция,
+использует `kotlin.time.Instant.fromEpochMilliseconds`) — тот же
+экспериментальный API, что уже помечен `@OptIn(ExperimentalTime::class)` в
+двух местах `ui/util/Formatting.kt` (см. Часть про фильтр периода на
+агрегированной карте) — просто не был аннотирован при первом добавлении.
+Добавлен `import kotlin.time.ExperimentalTime` + `@OptIn(...)` на саму
+функцию, тем же паттерном, что и в `Formatting.kt`.
+
+**Изображения грибов/логотип переведены с PNG на WebP.** Все 31 растровых
+ресурсов в `composeResources/drawable/` (30 иллюстраций грибов из Части 6 +
+`leshy_logo.png`) заменены на `.webp` с теми же базовыми именами —
+`iconRef`/`Res.allDrawableResources["boletus_edulis"]`-механизм (Часть 6)
+не завязан на расширение файла, так что код (`MushroomTile.kt`,
+`MushroomMarkerIcon.kt`, `SettingsScreen.kt`) трогать не пришлось. Старые
+`.png` удалены из-под git отдельным коммитом; сами `.webp`-файлы
+подготовлены и положены на диск вручную пользователем (не через конвертацию
+в рамках сессии) и коммитятся отдельно, за пределами этой правки CLAUDE.md.
+Цель — уменьшить вес ресурсов пакета (WebP при сравнимом визуальном
+качестве заметно легче PNG, особенно на изображениях с плавными
+градиентами/фото, как эти иллюстрации).
+
 ---
 
 ## 8. Полезные команды
