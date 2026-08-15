@@ -63,7 +63,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
-private val TILE_WIDTH = 112.dp
+private val TILE_WIDTH = 120.dp
 
 @Composable
 fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewModel()) {

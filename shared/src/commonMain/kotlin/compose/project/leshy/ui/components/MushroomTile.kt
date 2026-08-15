@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -32,15 +33,19 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.i18n.categoryDisplayName
+import compose.project.leshy.ui.theme.LeshyTheme
 import compose.project.leshy.ui.util.parseHexColor
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.allDrawableResources
 import org.jetbrains.compose.resources.painterResource
+
+private val MUSHROOM_COUNT_BUTTON_SIZE = 40.dp
 
 @Composable
 fun MushroomTile(
@@ -60,22 +65,32 @@ fun MushroomTile(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                    .padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                IconButton(onClick = onRemove, enabled = count > 0) {
-                    Icon(Icons.Filled.Remove, contentDescription = null)
+                IconButton(
+                    onClick = onRemove,
+                    enabled = count > 0,
+                    modifier = Modifier.size(MUSHROOM_COUNT_BUTTON_SIZE),
+                ) {
+                    Icon(Icons.Filled.Remove, contentDescription = null, Modifier.size(32.dp))
                 }
-                Text(count.toString())
-                IconButton(onClick = onAdd) {
-                    Icon(Icons.Filled.Add, contentDescription = null)
+                Text(
+                    text = count.toString(),
+                    fontSize = if (count.toString().length >= 3) 14.sp else 20.sp,
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    modifier = Modifier.width(28.dp),
+                )
+                IconButton(onClick = onAdd, modifier = Modifier.size(MUSHROOM_COUNT_BUTTON_SIZE)) {
+                    Icon(Icons.Filled.Add, contentDescription = null, Modifier.size(32.dp))
                 }
             }
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1.2f),
+                    .aspectRatio(1.5f),
             ) {
                 val drawable = category.iconRef?.let { Res.allDrawableResources[it] }
                 if (drawable != null) {
@@ -89,7 +104,7 @@ fun MushroomTile(
 
                 EdibilityBadge(
                     status = category.edibilityStatus,
-                    modifier = Modifier.align(Alignment.TopEnd).padding(6.dp),
+                    modifier = Modifier.align(Alignment.TopEnd).padding(end = 6.dp),
                 )
 
                 MushroomLabel(
@@ -139,7 +154,7 @@ private val BASE_LABEL_STYLE = TextStyle(
 @Composable
 private fun MushroomLabel(text: String, modifier: Modifier = Modifier) {
     val strokeWidthPx = with(LocalDensity.current) { 3.dp.toPx() }
-    Box(modifier = modifier, contentAlignment = Alignment.BottomCenter) {
+    Box(modifier = modifier.padding(bottom=2.dp), contentAlignment = Alignment.BottomCenter) {
         Text(
             text = text,
             style = BASE_LABEL_STYLE.copy(color = Color.Black, drawStyle = Stroke(width = strokeWidthPx)),
@@ -151,6 +166,28 @@ private fun MushroomLabel(text: String, modifier: Modifier = Modifier) {
             style = BASE_LABEL_STYLE.copy(color = Color.White),
             maxLines = 2,
             modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Preview
+@Composable
+fun MushroomTilePreview(){
+    LeshyTheme {
+        MushroomTile(
+            category = Category(
+                1,
+                "category_boletus_edulis",
+                "#A95620",
+                "boletus_edulis",
+                0,
+                true,
+                EdibilityStatus.EDIBLE
+            ),
+            count = 0,
+            onAdd = {},
+            onRemove = {},
+            modifier = Modifier
         )
     }
 }
