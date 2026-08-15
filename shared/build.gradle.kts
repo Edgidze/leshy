@@ -94,6 +94,7 @@ kotlin {
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.maplibre.compose)
             implementation(libs.androidx.datastore.preferences.core)
+            implementation(libs.coil.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -29,3 +29,11 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         )
     }
 }
+
+// Additive-only: existing rows get thumbnailPath = null and the archive card falls back to the
+// plain Canvas polyline (WalkRouteThumbnail) until a render is generated for them.
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE walks ADD COLUMN thumbnailPath TEXT")
+    }
+}

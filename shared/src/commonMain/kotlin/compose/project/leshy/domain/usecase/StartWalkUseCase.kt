@@ -20,6 +20,7 @@ class StartWalkUseCase(
                 endLat = null,
                 endLon = null,
                 mushroomCount = 0,
+                thumbnailPath = null,
             ),
         )
 }

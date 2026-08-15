@@ -10,7 +10,9 @@ import compose.project.leshy.data.local.LeshyDatabase
 import compose.project.leshy.data.platform.BackgroundRecordingController
 import compose.project.leshy.data.platform.IosBackgroundRecordingController
 import compose.project.leshy.data.platform.IosLocationTracker
+import compose.project.leshy.data.platform.IosWalkThumbnailRenderer
 import compose.project.leshy.data.platform.LocationTracker
+import compose.project.leshy.data.platform.WalkThumbnailRenderer
 import kotlinx.cinterop.ExperimentalForeignApi
 import okio.Path.Companion.toPath
 import org.koin.core.module.Module
@@ -42,6 +44,7 @@ actual val platformModule: Module = module {
     single { IosLocationTracker() }
     single<LocationTracker> { get<IosLocationTracker>() }
     single<BackgroundRecordingController> { IosBackgroundRecordingController(get()) }
+    single<WalkThumbnailRenderer> { IosWalkThumbnailRenderer() }
     single<DataStore<Preferences>> {
         val settingsFilePath = documentsDirectoryPath() + "/" + SETTINGS_FILE_NAME
         PreferenceDataStoreFactory.createWithPath { settingsFilePath.toPath() }

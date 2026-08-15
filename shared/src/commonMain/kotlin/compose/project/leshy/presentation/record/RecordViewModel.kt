@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import compose.project.leshy.data.platform.BackgroundRecordingController
 import compose.project.leshy.data.platform.LocationTracker
+import compose.project.leshy.data.platform.WalkThumbnailRenderer
 import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
@@ -17,6 +19,7 @@ import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.RenameWalkUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
+import compose.project.leshy.domain.usecase.UpdateWalkThumbnailUseCase
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.string
 import kotlinx.coroutines.Job
@@ -42,6 +45,8 @@ class RecordViewModel(
     private val addMushroomMark: AddMushroomMarkUseCase,
     private val removeLastMushroomMark: RemoveLastMushroomMarkUseCase,
     private val addPhotoMark: AddPhotoMarkUseCase,
+    private val walkThumbnailRenderer: WalkThumbnailRenderer,
+    private val updateWalkThumbnail: UpdateWalkThumbnailUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RecordUiState())
@@ -138,6 +143,11 @@ class RecordViewModel(
         val currentWalkId = walkId ?: return
         tickerJob?.cancel()
         backgroundRecordingController.stop()
+        // Captured now, before the state reset below wipes trackPoints/marks back to empty.
+        val trackPoints = _uiState.value.trackPoints
+        val findLocations = _uiState.value.marks
+            .filter { it.type == MarkType.MUSHROOM }
+            .map { mark -> GeoPoint(mark.lat, mark.lon, null, mark.timestamp) }
         viewModelScope.launch {
             val location = _uiState.value.currentLocation
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
@@ -145,6 +155,12 @@ class RecordViewModel(
             _uiState.update { state ->
                 RecordUiState(categories = state.categories, currentLocation = state.currentLocation, justFinished = true)
             }
+        }
+        // Independent coroutine: a slow or offline tile fetch must never delay the Archive
+        // navigation triggered by justFinished above.
+        viewModelScope.launch {
+            val thumbnailPath = walkThumbnailRenderer.render(currentWalkId, trackPoints, findLocations)
+            if (thumbnailPath != null) updateWalkThumbnail(currentWalkId, thumbnailPath)
         }
     }
 

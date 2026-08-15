@@ -9,8 +9,10 @@ import compose.project.leshy.data.local.DATABASE_NAME
 import compose.project.leshy.data.local.LeshyDatabase
 import compose.project.leshy.data.platform.AndroidBackgroundRecordingController
 import compose.project.leshy.data.platform.AndroidLocationTracker
+import compose.project.leshy.data.platform.AndroidWalkThumbnailRenderer
 import compose.project.leshy.data.platform.BackgroundRecordingController
 import compose.project.leshy.data.platform.LocationTracker
+import compose.project.leshy.data.platform.WalkThumbnailRenderer
 import okio.Path.Companion.toPath
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
@@ -29,6 +31,7 @@ actual val platformModule: Module = module {
     }
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
     single<BackgroundRecordingController> { AndroidBackgroundRecordingController(androidContext()) }
+    single<WalkThumbnailRenderer> { AndroidWalkThumbnailRenderer(androidContext()) }
     single<DataStore<Preferences>> {
         val appContext = androidContext().applicationContext
         PreferenceDataStoreFactory.createWithPath {

@@ -146,6 +146,23 @@ leshy/
 6. **Лучшие практики.** Единый репозиторий как точка доступа к данным,
    use-cases для бизнес-логики, DI через Koin, никаких утечек контекста.
 
+7. **Единая кроссплатформенная библиотека — по умолчанию, `expect`/`actual`
+   с платформенным нативным кодом — только когда единого решения для
+   Android+iOS объективно не существует.** Пример того, как делать НЕ надо:
+   в Части про кэшированные превью маршрутов сначала завели собственный
+   `expect/actual decodeImageFile` (BitmapFactory на Android, Skia/NSData на
+   iOS) для декодирования локального PNG-файла — хотя `io.coil-kt.coil3:
+   coil-compose` прямо для этого и существует как единственная реализация
+   на оба таргета (в т.ч. `file://`-пути без сетевого движка). Ошибка была
+   найдена и исправлена в этой же части — `decodeImageFile`/`ImageDecoder.
+   android.kt`/`ImageDecoder.ios.kt` удалены целиком, заменены на Coil
+   (см. историю в §7). `expect`/`actual` остаётся оправданным инструментом
+   там, где кроссплатформенной библиотеки не существует в принципе (GPS,
+   камера, файловые пути `NSFileManager`/`Context.filesDir`, нативные
+   MapLibre-снапшоттеры) — но каждый такой случай сначала стоит явно
+   проверить на наличие готового мультиплатформенного решения, а не
+   писать платформенный код по умолчанию.
+
 ---
 
 ## 6. План работ (порционно-модульно)
@@ -1737,6 +1754,282 @@ Strava-style.** Пункт 1 — карточка прогулки показы�
   после удаления тестовой прогулки через существующую функцию в «Архиве».
   `./gradlew :shared:compileAndroidMain :shared:compileKotlinIosArm64
   :shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` — чисто.
+
+**Реализовано кэшированное превью маршрута с реальными тайлами карты («пункт 3
+из UI_REVIEW.md» полностью, замена плоской Canvas-полилинии на снапшот
+настоящей карты) — по заданию из `NEXT_SESSION_TASK.txt`.** Раньше превью в
+«Архиве» (`WalkRouteThumbnail.kt`, введено в предыдущей части) рисовало только
+голую линию на плоском фоне — без карты. Осознанно НЕ стали встраивать живой
+`LiveTrackMap`/MapLibre-view в каждую строку списка (см. уже существующий
+комментарий в `WalkRouteThumbnail.kt` — десятки живых нативных карт
+одновременно на экране списка — риск по памяти/производительности/стабильности,
+с учётом уже задокументированной в этом файле истории хрупкости нативных
+MapLibre-биндингов, напр. SIGSEGV `HeatmapLayer`). Вместо этого — рендер
+статичного PNG-снапшота ОДИН РАЗ, в момент завершения прогулки, и кэширование
+на диск (тот же принцип, что и у Strava — растровое превью в ленте, не живая
+карта).
+- **Подтверждено технически декомпиляцией зависимостей перед реализацией**
+  (в кэше Gradle): `org.maplibre.gl:android-sdk:13.0.2` содержит
+  `org.maplibre.android.snapshotter.MapSnapshotter` — офскрин-рендерер карты
+  в `Bitmap` без живого `View`, `MapSnapshot.pixelForLatLng(LatLng)` даёт
+  прямой доступ к той же проекции, что использовалась при рендере снапшота
+  (не пришлось вручную проецировать lat/lon в пиксели, как в
+  `WalkRouteThumbnail`). На iOS — `MLNMapSnapshotter`/`MLNMapSnapshotOptions`/
+  `MLNMapSnapshot` в headers `MapLibre.xcframework` (уже подключён через SPM,
+  см. Часть 4) — тот же принцип API, включая `pointForCoordinate:`.
+- **Domain/DB:** `Walk.thumbnailPath: String?` + `WalkEntity.thumbnailPath`,
+  `MIGRATION_2_3` (`data/local/Migrations.kt`) — чисто аддитивная
+  (`ALTER TABLE walks ADD COLUMN thumbnailPath TEXT`), без
+  `fallbackToDestructiveMigration`, зарегистрирована в `DatabaseBuilder.kt`
+  рядом с `MIGRATION_1_2`. `LeshyDatabase` → `version = 3`, схема экспортирована
+  (`shared/schemas/.../3.json`). Существующие строки получают `thumbnailPath =
+  NULL` и продолжают показывать старое Canvas-превью — не требуют отдельной
+  обработки нигде в коде, `WalkCard` сам решает по `null` какой рендер показать.
+- **`WalkThumbnailRenderer` (commonMain interface) — сознательно отклонился
+  от сигнатуры, предложенной в `NEXT_SESSION_TASK.txt`.** Задание предлагало
+  `render(track, findLocations, outputPath): Boolean`, с `outputPath`,
+  вычисляемым на стороне вызывающего commonMain-кода. На практике каталог для
+  файла (`context.filesDir` на Android, `NSFileManager`-Documents на iOS) —
+  чисто платформенная штука, которую сам commonMain-код в
+  `RecordViewModel` знать не должен (тот же принцип, что уже применён к
+  `rememberCameraLauncher`/`AndroidLocationTracker`/`IosLocationTracker` — они
+  тоже сами резолвят свою файловую директорию, а не получают путь снаружи).
+  Итоговая сигнатура — `suspend fun render(walkId, track, findLocations):
+  String?` — реализация сама строит путь (`.../thumbnails/walk_$walkId.png`)
+  и возвращает готовый абсолютный путь на успехе, `null` на любой ошибке (нет
+  сети, таймаут снапшота, вырожденный трек).
+- **Android — `AndroidWalkThumbnailRenderer`** (`data/platform/`, тот же
+  `expect/actual`-паттерн через Koin, что и `LocationTracker`/
+  `CameraLauncher`): `MapSnapshotter.Options(240, 240)` со стилем
+  `OPEN_FREE_MAP_STYLE_URL` (см. ниже), `LatLngBounds.Builder()` по всем точкам
+  трека+находок (с искусственным минимальным спаном `0.0015°`, чтобы почти
+  неподвижная прогулка не зумила снапшот до абсурда), `withPadding(24,24,24,24)`.
+  `MapSnapshotter` — `@UiThread`-класс («for access to the main looper») —
+  вызов обёрнут в `withContext(Dispatchers.Main)` +
+  `suspendCancellableCoroutine`. После получения `MapSnapshot` — bitmap
+  копируется в mutable `ARGB_8888` и на нём рисуются трек (`Path`+`Paint`,
+  цвет `#1B4332` = `LeshyGreen` из темы, к которой из `android.graphics`-кода
+  напрямую доступа нет — продублирован как строковый литерал с комментарием-
+  ссылкой) и точки находок (`drawCircle`, `#B3261E` = дефолтный Material3
+  `colorScheme.error`), через `snapshot.pixelForLatLng(LatLng(...))` для
+  каждой точки — та же проекция, что использовал сам снапшоттер, поэтому линия
+  ложится ровно на трек без ручной калибровки. PNG пишется в
+  `File(context.filesDir, "thumbnails")` (тот же паттерн каталога, что
+  `"photos"` у `CameraLauncher.android.kt`).
+- **`ui/map/MapStyle.kt` получил публичный (в пределах модуля) raw-URL
+  `OPEN_FREE_MAP_STYLE_URL`** рядом с уже существующим `BaseStyle.Uri(...)`
+  (`OpenFreeMapStyle`, обёртка maplibre-compose) — нативному
+  `Style.Builder().fromUri(...)` в `AndroidWalkThumbnailRenderer` и
+  `MLNMapSnapshotOptions(styleURL: NSURL(string:...))` на iOS нужна именно
+  сырая строка, а не Compose-обёртка; строка не дублируется, оба потребителя
+  ссылаются на одну константу.
+- **iOS — `IosWalkThumbnailRenderer`**: `MLNMapSnapshotOptions(styleURL:
+  camera: MLNMapCamera.camera(), size: CGSizeMake(240,240))`, затем
+  `options.coordinateBounds = MLNCoordinateBoundsMake(sw:, ne:)` (bounding box
+  трека+находок, та же логика минимального спана, что на Android) —
+  переопределяет камеру, per документация header'а (`coordinateBounds`
+  приоритетнее `camera`, если задан непустым). `MLNMapSnapshotter
+  .startWithCompletionHandler` обёрнут в `suspendCancellableCoroutine`.
+  Аннотация (трек + точки) — НЕ через `startWithOverlayHandler`/сырой
+  `CGContext` (что тоже есть в API и рассматривалось), а пост-обработкой уже
+  готового `snapshot.image` через `UIGraphicsImageRenderer.imageWithActions`
+  + `UIBezierPath` (`moveToPoint`/`addLineToPoint`/`stroke()`,
+  `bezierPathWithOvalInRect(...).fill()`) — тот же двухшаговый паттерн
+  «снапшот → аннотирование поверх», что и на Android, вместо двух разных
+  архитектур на двух платформах. `snapshot.pointForCoordinate(CLLocationCoordinate2DMake(...))`
+  — прямой аналог Android `pixelForLatLng`. PNG — `NSFileManager`
+  Documents-каталог + `/thumbnails` (создаётся `createDirectoryAtPath`, т.к.
+  в отличие от `CameraLauncher.ios.kt`, здесь нужен именно подкаталог, а не
+  корень Documents), `data.writeToFile(path, atomically: true)`.
+- **Загрузка изображения из произвольного файла — свой `expect/actual
+  decodeImageFile(path): ImageBitmap?`, не Coil.** Проверено перед реализацией
+  (в этой сессии): в графе зависимостей проекта не было ни одной
+  image-loading библиотеки, а `FieldMark.photoPath` (хранится с Части 2) до
+  сих пор нигде не отображался в UI. Выбор в пользу собственной маленькой
+  функции, а не `io.coil-kt.coil3` — тот же принцип, что уже применялся
+  неоднократно в этом проекте (DataStore вместо стороннего
+  `multiplatform-settings`, свой i18n-слой вместо стороннего resources-API) —
+  не тянуть библиотеку ради декодирования локального PNG-файла. Android —
+  `BitmapFactory.decodeFile(path)?.asImageBitmap()` в `withContext(Dispatchers.IO)`.
+  iOS — `NSData.dataWithContentsOfFile` → `ByteArray` → `org.jetbrains.skia
+  .Image.makeFromEncoded(bytes).toComposeImageBitmap()` (публичная
+  Compose Multiplatform/Skiko API, подтверждена по исходникам
+  `ui-graphics-iossimulatorarm64` в кэше Gradle перед использованием — не
+  нужен даже `UIImage` как промежуточный шаг, Skia декодирует PNG-байты
+  напрямую). Функция специально сделана достаточно общей, чтобы её же можно
+  было переиспользовать под UI_REVIEW.md пункт №2 (показ фото находок) —
+  не только под превью прогулки.
+- **`RecordViewModel.finish()`**: `trackPoints`/`marks` (отфильтрованные по
+  `MarkType.MUSHROOM`, тот же паттерн, что уже использует `ArchiveViewModel`)
+  захватываются из `_uiState.value` ДО существующего сброса состояния (сам
+  сброс — как и раньше, отдельным `viewModelScope.launch`). Рендер и
+  апдейт БД запущены отдельным, независимым `viewModelScope.launch` —
+  специально не в одном launch с `finishWalk()`/переходом на «Архив»
+  (`justFinished = true`), чтобы медленный/офлайновый рендер тайлов НИКОГДА
+  не задерживал саму навигацию — ровно требование из задания. Новый
+  `UpdateWalkThumbnailUseCase` (`getById` + `.copy(thumbnailPath=...)` +
+  `update`, тот же read-modify-write паттерн, что `RenameWalkUseCase`/
+  `FinishWalkUseCase`) вызывается только если `render()` вернул не-`null`.
+- **`WalkCard.kt`**: приватный composable `WalkThumbnail` — `LaunchedEffect
+  (thumbnailPath) { bitmap = thumbnailPath?.let { decodeImageFile(it) } }` +
+  `remember(thumbnailPath)`, показывает `Image(bitmap=...)` если декодирование
+  успешно, иначе (null path, файл отсутствует, декодирование не удалось)
+  падает обратно на уже существующий `WalkRouteThumbnail` — единая проверка
+  покрывает все три случая из задания (старые прогулки без миграции, неудачный
+  рендер, короткое окно до завершения асинхронного рендера) без отдельной
+  ветки на каждый.
+- **Проверено вживую на Android-эмуляторе (`Medium_Phone`), два сквозных
+  прогона.** (1) Онлайн: записана прогулка с реальным GPS-треком
+  (`adb emu geo fix`, 5 точек) и находкой «Белый гриб»; после `Finish`
+  архивная карточка не сразу показала тайловое превью (ожидаемо — асинхронный
+  рендер) — при следующей проверке (5 c спустя) на её месте оказался настоящий
+  снапшот карты с подписями улиц («Garcia Avenue», «Amphitheatre Parkway») и
+  зелёным треком/красной точкой поверх — сначала ошибочно показалось, что
+  превью не сменилось (маленький 72dp-квадрат визуально похож что с тайлами,
+  что без — понадобилось вытащить сам PNG-файл из `/data/data/.../files/
+  thumbnails/walk_15.png` через `run-as` и открыть отдельно, чтобы увидеть
+  уличные подписи и убедиться, что это не Canvas-фоллбэк). SQLite-проверка
+  (`walks.thumbnailPath`) подтвердила путь записан. Единственная лог-строка
+  на снапшоттере — `Mbgl-MapSnapshotter: Could not generate attribution for
+  snapshot size: 240 x 240` (не ошибка — предупреждение о том, что
+  автоматическая атрибуция OpenFreeMap/OSM не влезает при таком маленьком
+  размере; не блокирует сам рендер, обсуждение ниже). (2) Офлайн, с нуля
+  (`pm clear` — стёр и БД, и весь ambient-кэш векторных тайлов MapLibre,
+  затем `svc wifi disable` + `cmd connectivity airplane-mode enable` ДО
+  первого открытия карты — живая карта на экране «Запись» тоже была
+  полностью чёрной, подтверждая отсутствие кэша): записана прогулка с
+  реальным треком (0.23 км) без единого доступного тайла — `Finish` прошёл
+  без крашей, `Mbgl-MapSnapshotter`/`AndroidRuntime`/`FATAL` в логе не
+  появились вообще (то есть `errorHandler` просто не вызвался в разумное
+  время, либо запрос завис без сети — в обоих случаях `render()` корректно
+  просто никогда не резолвится/возвращает `null`, ничего не роняя), в БД
+  `thumbnailPath` остался `NULL`, а карточка в «Архиве» показала прежнее
+  Canvas-превью (голая зелёная линия без карты) — то есть ровно тот
+  graceful fallback, который требовало задание. Тестовые прогулки удалены
+  через существующую функцию удаления, сеть возвращена (`airplane-mode
+  disable`, `svc wifi enable`).
+- **Проверено вживую на iOS-симуляторе (iPhone 17, iOS 26.5,
+  `xcodebuild` + `xcrun simctl install`/`launch`, взаимодействие —
+  `cliclick` по абсолютным экранным координатам, пересчитанным из окна
+  Simulator.app через `System Events`/AppleScript, т.к. `osascript "click
+  at {x,y}"` не сработал в этой сессии, а `cliclick` — сработал).**
+  Записана прогулка с реальным треком через `xcrun simctl location set
+  <lat,lon>`, вызванным ПОВТОРНО с паузами — что стало неожиданным
+  дополнительным подтверждением: фикс ARC-бага `IosLocationTracker`
+  (см. более раннюю запись в этом файле — делегат раньше держался только
+  локальной `val` и деаллоцировался после первого колбэка) действительно
+  устраняет корневую причину, а не только симптом на реальном устройстве —
+  ограничение `simctl location`, которое раньше «объясняло» отсутствие
+  повторных фиксов на симуляторе, оказалось МАСКИРОВКОЙ того самого ARC-бага:
+  теперь `simctl location set`, вызванный несколько раз подряд, исправно
+  доставляет каждую новую точку уже запущенному процессу (0.23 км, 3 точки
+  трека, накопленные корректно). Находка «Белый гриб» отмечена в процессе
+  записи, маркер-фото гриба корректно отрисовался на живой карте (проверка
+  фикса из более ранней части заодно). После `Завершить` — архивная
+  карточка показала настоящий тайловый снапшот, причём в отличие от Android
+  здесь `MLNMapSnapshotter` СМОГ уместить строку атрибуции прямо на
+  240×240-снапшоте («OpenFreeMap © OpenMapTiles», видна внизу превью) —
+  то есть на iOS вопрос легальной атрибуции для такого маленького превью
+  решается самой библиотекой автоматически, на Android — нет (см. ниже).
+  Тут же, без дополнительных действий, обнаружены и graceful-fallback
+  случаи «бесплатно»: в архиве симулятора уже лежали 3 старые тестовые
+  прогулки из даже более ранней сессии (0.00 км, без даты в названии —
+  явно домиграционные/предыдущий формат) — после установки новой версии
+  приложения (миграция v2→v3 отработала по живым данным, не только в
+  тестах) они показались корректно, с пустой (но без крашей) областью
+  превью на месте несуществующего `thumbnailPath`/пустого трека — живое,
+  не подстроенное подтверждение требования «старые данные не ломаются».
+  Тестовая прогулка этой сессии оставлена в архиве симулятора (попытки
+  тапнуть по карточке, чтобы открыть детальный экран и удалить её,
+  несколько раз не давали навигации — координата клика по calibrated-формуле
+  явно должна была попадать в область карточки, но `WalkDetailScreen` не
+  открывался; не стали дальше отлаживать клик-автоматизацию ради одной
+  лишней тестовой строки в данных симулятора, не реального устройства
+  пользователя) — в отличие от Android, где тестовые прогулки обеих
+  прогонов удалены штатно через уже существующую функцию.
+- **Не устранено (сознательно, не входит в объём задания): Android
+  `MapSnapshotter` не может уместить обязательную атрибуцию OpenFreeMap/OSM
+  на 240×240-снапшоте** (`Could not generate attribution for snapshot
+  size`, см. выше) — то же самое, что раньше уже поднималось в этом файле
+  как принцип («прямое использование тайлового провайдера обязывает
+  показывать атрибуцию» — решение о переходе на OpenFreeMap в Части, где
+  чинилась размытость тайлов). На iOS это решается самой библиотекой
+  автоматически (см. выше), на Android — нет. Полноэкранные карты
+  (`LiveTrackMap`/`AggregatedFindsMap`) показывают атрибуцию штатно через
+  встроенную кнопку maplibre-compose — атрибуция не потеряна из
+  приложения целиком, только конкретно с этих 72dp-превью на Android.
+  Если это станет проблемой — варианты на будущее: увеличить снапшот
+  (атрибуция примерно то же самое, что уже используется в 240×240-полноразмерном
+  случае), либо показать атрибуцию отдельной надписью под всей лентой
+  «Архива» один раз вместо на каждой карточке.
+- Компиляция чистая на обеих платформах:
+  `./gradlew :shared:compileAndroidMain :shared:compileKotlinIosArm64
+  :shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` — тот же
+  набор из 3 предсуществующих `MapLibre Composable` warning'ов, не связанных
+  с этой правкой. `shared/schemas/.../3.json` экспортирована.
+
+**Сразу следом — исправлена собственная ошибка предыдущего абзаца: свой
+`expect/actual decodeImageFile` заменён на Coil, по прямому замечанию
+пользователя.** Пользователь указал, что заводить платформенный
+`expect/actual` для загрузки локального файла было неверным решением —
+единая кроссплатформенная библиотека должна быть выбором по умолчанию,
+`expect/actual` — только когда единого решения объективно не существует
+(см. новое правило §5.7). Для декодирования локального PNG-файла единое
+решение существует (`io.coil-kt.coil3:coil-compose`), поэтому
+`ImageDecoder.kt`/`ImageDecoder.android.kt`/`ImageDecoder.ios.kt` удалены
+целиком.
+- **`io.coil-kt.coil3:coil-compose:3.5.0`** (последняя стабильная на момент
+  добавления — сверено через Maven Central) добавлена в
+  `commonMain.dependencies` (`shared/build.gradle.kts`) и версионный каталог.
+  Больше никаких доп. модулей не потребовалось — `coil-compose` уже тянет
+  `coil-core` с встроенным `FileUriFetcher` (декодирование `file://`-путей
+  без сетевого движка, подтверждено по исходникам `coil-core` перед
+  использованием) и Compose-обёртки (`AsyncImage`/`SubcomposeAsyncImage`) с
+  синглтон-`ImageLoader`, резолвящимся сам через `LocalPlatformContext` — не
+  потребовало ни одной новой строчки в Koin/`PlatformModule`.
+- **`WalkCard.kt`**: `WalkThumbnail` переписан на `coil3.compose.AsyncImage(
+  model = "file://$thumbnailPath", ..., onError = { loadFailed = true })` —
+  строковая модель с `file://`-схемой резолвится Coil'ом одинаково на
+  Android и iOS (`StringMapper` → `Uri` → `FileUriFetcher`, один и тот же
+  путь на обеих платформах, в отличие от прежних раздельных
+  `BitmapFactory`/`NSData+Skia`-реализаций). Сознательно НЕ использован
+  `SubcomposeAsyncImage` (хотя он ближе по духу к старому поведению —
+  показывать фоллбэк-Canvas и во время «loading»-состояния тоже): сам Coil
+  явно предупреждает в документации, что `SubcomposeAsyncImage` медленный
+  из-за субкомпозиции и не подходит для `LazyColumn`/`LazyRow` — а
+  `WalkThumbnail` как раз используется внутри `LazyColumn` в
+  `ArchiveScreen.kt`. Вместо этого — `remember(thumbnailPath) { mutableStateOf(false) }`
+  флаг `loadFailed`, переключаемый в `onError`; во время короткой фазы
+  загрузки (локальный файл, не сеть — субкадровая по факту) `AsyncImage`
+  ничего не рисует, что признано приемлемым компромиссом ради производительности
+  списка.
+- **Проверено вживую заново на обеих платформах после миграции** (та же
+  последовательность — реальный GPS-трек + находка → `Finish` → карточка в
+  «Архиве»). Android-эмулятор (`Medium_Phone`): свежий `adb install -r`,
+  тайловое превью с подписями улиц («Amphitheatre Parkway») отрисовалось
+  через `AsyncImage`, тестовая прогулка удалена. iOS-симулятор (iPhone 17):
+  свежая пересборка + `xcrun simctl install`, тайловое превью с атрибуцией
+  («OpenFreeMap © OpenMapTiles») тоже отрисовалось. Заодно, без специальной
+  подготовки, подтвердился и fallback-путь: у прогулки из более ранней
+  тестовой сессии (записанной ДО пересборки под Coil) `AsyncImage` не смог
+  декодировать файл по сохранённому абсолютному пути (правдоподобная
+  причина — путь к `Documents` содержит UUID контейнера песочницы iOS,
+  который перегенерируется при переустановке приложения, поэтому старый
+  абсолютный путь в БД мог протухнуть) — карточка автоматически и без
+  крашей откатилась на Canvas-полилинию через тот же `onError`-флаг, то
+  есть fallback-ветка отработала не только в специально подстроенном
+  оффлайн-тесте, но и «случайно», на реальном протухшем пути. Тестовая
+  прогулка из-под Coil на Android удалена через существующую функцию; на
+  iOS-симуляторе тестовые прогулки снова не получилось удалить через тап по
+  карточке (тот же нерешённый вопрос с калибровкой клика по
+  `WalkDetailScreen`, что и раньше в этой части) — оставлены в архиве
+  симулятора, не реального устройства.
+- Компиляция чистая на всех таргетах после миграции: `./gradlew
+  :shared:compileAndroidMain :shared:compileKotlinIosArm64
+  :shared:compileKotlinIosSimulatorArm64 :androidApp:assembleDebug` (iOS
+  собран и живьём через `xcodebuild` + `xcrun simctl install`/`launch`,
+  Coil успешно слинкован в `leshy.debug.dylib` вместе с уже существующими
+  Kotlin/Native+MapLibre фреймворками, без конфликтов).
 
 ---
 
