@@ -176,15 +176,15 @@ private fun RecordScreenContent(
                             Button(
                                 onClick = onPauseOrResumeClick,
                                 shape = ACTION_BUTTON_SHAPE,
-                                modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(150.dp),
+                                modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
                             ) {
                                 Text(stringResource(StringKey.RecordResume))
                             }
-                            Spacer(modifier = Modifier.width(16.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
                             Button(
                                 onClick = onFinishClick,
                                 shape = ACTION_BUTTON_SHAPE,
-                                modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(150.dp),
+                                modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
                             ) {
                                 Text(stringResource(StringKey.RecordFinish))
                             }
