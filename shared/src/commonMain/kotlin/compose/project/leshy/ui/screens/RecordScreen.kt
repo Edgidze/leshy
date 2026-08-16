@@ -51,14 +51,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.data.platform.currentTimeMillis
-import compose.project.leshy.data.platform.rememberCameraLauncher
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.record.RecordUiState
 import compose.project.leshy.presentation.record.RecordViewModel
-import compose.project.leshy.ui.components.CameraTile
+import compose.project.leshy.ui.components.AddPlaceDialog
 import compose.project.leshy.ui.components.MapFilterButton
 import compose.project.leshy.ui.components.MapFilterDialog
 import compose.project.leshy.ui.components.MushroomTile
@@ -82,8 +81,8 @@ fun RecordScreen(
     viewModel: RecordViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val takePhoto = rememberCameraLauncher { path -> viewModel.onPhotoCaptured(path) }
     var showFilterDialog by remember { mutableStateOf(false) }
+    var showAddPlaceDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(uiState.justFinished) {
         if (uiState.justFinished) {
@@ -102,13 +101,21 @@ fun RecordScreen(
         onFinishClick = viewModel::finish,
         onAddMushroom = viewModel::addMushroom,
         onRemoveMushroom = viewModel::removeMushroom,
-        onPhotoClick = takePhoto,
         onFilterClick = { showFilterDialog = true },
+        onMarkLocationClick = { showAddPlaceDialog = true },
         modifier = modifier,
     )
 
     if (showFilterDialog) {
         MapFilterDialog(onDismissRequest = { showFilterDialog = false })
+    }
+
+    if (showAddPlaceDialog) {
+        AddPlaceDialog(
+            location = uiState.currentLocation,
+            onSave = viewModel::addPlace,
+            onDismissRequest = { showAddPlaceDialog = false },
+        )
     }
 }
 
@@ -125,7 +132,6 @@ private fun RecordScreenContent(
     onFinishClick: () -> Unit,
     onAddMushroom: (Long) -> Unit,
     onRemoveMushroom: (Long) -> Unit,
-    onPhotoClick: () -> Unit,
     onFilterClick: () -> Unit,
     onMarkLocationClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
@@ -274,9 +280,6 @@ private fun RecordScreenContent(
                             modifier = Modifier.width(TILE_WIDTH),
                         )
                     }
-                    item {
-                        CameraTile(onClick = onPhotoClick, modifier = Modifier.width(TILE_WIDTH))
-                    }
                 }
             }
         }
@@ -401,7 +404,6 @@ private fun RecordScreenStartPreview() {
             onFinishClick = PREVIEW_NOOP,
             onAddMushroom = PREVIEW_NOOP_LONG,
             onRemoveMushroom = PREVIEW_NOOP_LONG,
-            onPhotoClick = PREVIEW_NOOP,
             onFilterClick = PREVIEW_NOOP,
         )
     }
@@ -424,7 +426,6 @@ private fun RecordScreenRecordingPreview() {
             onFinishClick = PREVIEW_NOOP,
             onAddMushroom = PREVIEW_NOOP_LONG,
             onRemoveMushroom = PREVIEW_NOOP_LONG,
-            onPhotoClick = PREVIEW_NOOP,
             onFilterClick = PREVIEW_NOOP,
         )
     }
@@ -448,7 +449,6 @@ private fun RecordScreenPausedPreview() {
             onFinishClick = PREVIEW_NOOP,
             onAddMushroom = PREVIEW_NOOP_LONG,
             onRemoveMushroom = PREVIEW_NOOP_LONG,
-            onPhotoClick = PREVIEW_NOOP,
             onFilterClick = PREVIEW_NOOP,
         )
     }

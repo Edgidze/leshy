@@ -13,15 +13,17 @@ import androidx.compose.ui.tooling.preview.Preview
 class MainActivity : ComponentActivity() {
     private val requestPermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions(),
-    ) { /* Location/camera/notification use is guarded defensively regardless of the outcome. */ }
+    ) { /* Location/notification use is guarded defensively regardless of the outcome. */ }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        // CAMERA is deliberately not requested here — it's requested lazily, only when the user
+        // taps the add-place photo placeholder (see rememberCameraPermissionRequester), not
+        // proactively at launch.
         val permissions = buildList {
             add(Manifest.permission.ACCESS_FINE_LOCATION)
-            add(Manifest.permission.CAMERA)
             // Without this, the background-recording notification silently fails to show on
             // Android 13+ — the foreground service (and thus background GPS tracking) still runs.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
