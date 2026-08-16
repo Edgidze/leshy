@@ -53,6 +53,9 @@ shared/src/swift/
 .DS_Store
 Thumbs.db
 
+# ============ Claude Code (личные настройки, не для репозитория) ============
+.claude/settings.local.json
+
 # ============ Прочее ============
 *.log
 *.hprof
