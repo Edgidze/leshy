@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.MapFilterRepository
+import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.repository.WalkRepository
 import compose.project.leshy.domain.usecase.MISC_CATEGORY_NAME_KEY
 import compose.project.leshy.domain.util.MILLIS_PER_DAY
+import compose.project.leshy.presentation.sortCategories
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,6 +20,7 @@ class MapFilterViewModel(
     private val walkRepository: WalkRepository,
     private val categoryRepository: CategoryRepository,
     private val mapFilterRepository: MapFilterRepository,
+    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MapFilterUiState())
@@ -25,11 +28,16 @@ class MapFilterViewModel(
 
     init {
         viewModelScope.launch {
+            val sortSettings = combine(
+                settingsRepository.observeMushroomSortOrder(),
+                settingsRepository.observeLanguage(),
+            ) { sortOrder, language -> sortOrder to language }
             combine(
                 walkRepository.observeAll(),
                 categoryRepository.observeAll(),
                 mapFilterRepository.observeFilter(),
-            ) { walks, categories, filter ->
+                sortSettings,
+            ) { walks, categories, filter, (sortOrder, language) ->
                 val starts = walks.map { it.startTime }
                 MapFilterUiState(
                     minWalkStart = starts.minOrNull(),
@@ -38,7 +46,11 @@ class MapFilterViewModel(
                     endMillis = filter.endMillis ?: starts.maxOrNull(),
                     monthFrom = filter.monthFrom ?: 1,
                     monthTo = filter.monthTo ?: 12,
-                    categories = categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY }.sortedBy { it.order },
+                    categories = sortCategories(
+                        categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY },
+                        sortOrder,
+                        language,
+                    ),
                 )
             }.collect { state -> _uiState.value = state }
         }

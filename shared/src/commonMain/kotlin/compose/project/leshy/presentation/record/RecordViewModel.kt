@@ -30,6 +30,7 @@ import compose.project.leshy.domain.util.computeFilterCount
 import compose.project.leshy.domain.util.matchesDateAndSeason
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.string
+import compose.project.leshy.presentation.sortCategories
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,6 +39,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 private const val TICK_INTERVAL_MILLIS = 1000L
 
@@ -79,15 +81,22 @@ class RecordViewModel(
     init {
         viewModelScope.launch { ensureDefaultCategories() }
         viewModelScope.launch {
+            val sortSettings = combine(
+                settingsRepository.observeMushroomSortOrder(),
+                settingsRepository.observeLanguage(),
+            ) { sortOrder, language -> sortOrder to language }
             combine(
                 walkRepository.observeAll(),
                 fieldMarkRepository.observeAll(),
                 categoryRepository.observeAll(),
                 mapFilterRepository.observeFilter(),
-            ) { walks, marks, categories, filter ->
-                val tileCategories = categories
-                    .filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive }
-                    .sortedBy { it.order }
+                sortSettings,
+            ) { walks, marks, categories, filter, (sortOrder, language) ->
+                val tileCategories = sortCategories(
+                    categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
+                    sortOrder,
+                    language,
+                )
                 val categoryById = categories.associateBy { it.id }
                 val matchingWalkIds = walks.filter { it.matchesDateAndSeason(filter) }.map { it.id }.toSet()
                 val historicalFinds = marks.filter {
@@ -249,7 +258,7 @@ class RecordViewModel(
         tickerJob?.cancel()
         tickerJob = viewModelScope.launch {
             while (true) {
-                delay(TICK_INTERVAL_MILLIS)
+                delay(TICK_INTERVAL_MILLIS.milliseconds)
                 _uiState.update { it.copy(elapsedMillis = it.elapsedMillis + TICK_INTERVAL_MILLIS) }
             }
         }

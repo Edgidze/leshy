@@ -10,6 +10,9 @@ enum class StringKey {
     SettingsLanguageTitle,
     SettingsCategoriesTitle,
     SettingsMushroomSizeTitle,
+    SettingsMushroomSortTitle,
+    SettingsMushroomSortByEdibilityThenAlphabetical,
+    SettingsMushroomSortByAlphabetical,
 
     NavHomeContentDescription,
     HelpContentDescription,

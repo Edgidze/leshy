@@ -45,6 +45,9 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsLanguageTitle -> "Язык"
     StringKey.SettingsCategoriesTitle -> "Грибы для отметки"
     StringKey.SettingsMushroomSizeTitle -> "Настройте размер грибов на карте"
+    StringKey.SettingsMushroomSortTitle -> "Порядок грибов"
+    StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "По съедобности и алфавиту"
+    StringKey.SettingsMushroomSortByAlphabetical -> "По алфавиту"
 
     StringKey.NavHomeContentDescription -> "На главную"
     StringKey.HelpContentDescription -> "Помощь"
@@ -156,6 +159,9 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsLanguageTitle -> "Language"
     StringKey.SettingsCategoriesTitle -> "Mushrooms to track"
     StringKey.SettingsMushroomSizeTitle -> "Adjust mushroom size on the map"
+    StringKey.SettingsMushroomSortTitle -> "Mushroom order"
+    StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "By edibility, then alphabetically"
+    StringKey.SettingsMushroomSortByAlphabetical -> "Alphabetically"
 
     StringKey.NavHomeContentDescription -> "Home"
     StringKey.HelpContentDescription -> "Help"

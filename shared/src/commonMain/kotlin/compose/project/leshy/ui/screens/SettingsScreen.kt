@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -22,11 +25,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MIN
+import compose.project.leshy.domain.model.MushroomSortOrder
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.stringResource
@@ -76,12 +81,52 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
             previewCategory = uiState.previewCategory,
             onScaleChangeFinished = viewModel::setMushroomMarkerSizeScale,
         )
+
+        Text(
+            stringResource(StringKey.SettingsMushroomSortTitle),
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+        )
+        MushroomSortOrderOptions(
+            selected = uiState.mushroomSortOrder,
+            onSelected = viewModel::setMushroomSortOrder,
+        )
+    }
+}
+
+@Composable
+private fun MushroomSortOrderOptions(selected: MushroomSortOrder, onSelected: (MushroomSortOrder) -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth().selectableGroup()) {
+        MushroomSortOrder.entries.forEach { option ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = selected == option,
+                        onClick = { onSelected(option) },
+                        role = Role.RadioButton,
+                    )
+                    .padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(selected = selected == option, onClick = null)
+                Text(
+                    text = stringResource(
+                        when (option) {
+                            MushroomSortOrder.EDIBILITY_THEN_ALPHABETICAL ->
+                                StringKey.SettingsMushroomSortByEdibilityThenAlphabetical
+                            MushroomSortOrder.ALPHABETICAL -> StringKey.SettingsMushroomSortByAlphabetical
+                        },
+                    ),
+                    modifier = Modifier.padding(start = 8.dp),
+                )
+            }
+        }
     }
 }
 
 /**
  * A single-thumb [Slider] plus a preview photo below it that's resized live as the thumb is
- * dragged — [sliderValue] (not [scale]) drives the preview, so it tracks the drag with zero lag;
+ * dragged — `sliderValue` (not [scale]) drives the preview, so it tracks the drag with zero lag;
  * [scale] only commits to the [SettingsViewModel] (and from there, `DataStore`) once the drag ends,
  * same "local slider state + `onValueChangeFinished`" pattern `MapFilterDialog`'s range sliders use.
  */
