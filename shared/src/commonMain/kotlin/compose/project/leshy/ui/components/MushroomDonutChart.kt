@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -27,14 +26,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.i18n.categoryDisplayName
-import compose.project.leshy.i18n.mushroomsUnitLabel
 import compose.project.leshy.presentation.archive.CategoryCount
 import compose.project.leshy.ui.util.parseHexColor
 import leshy.shared.generated.resources.Res
@@ -44,6 +45,7 @@ import kotlin.math.PI
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 private const val RING_START_ANGLE_DEGREES = -90f
 private const val CARD_SIZE_OF_RECORD_TILE = 0.75f
@@ -65,10 +67,17 @@ private const val MIN_OVERLAP_BORDER_WIDTHS = 10f
 private val RING_WIDTH = 28.dp
 private val RING_DIVIDER_WIDTH = 2.dp
 private val OUTER_HORIZONTAL_MARGIN = 16.dp
-private val MAX_OUTER_DIAMETER = 320.dp
+// Wide enough that the ring's hole comfortably fits a 3-digit count at COUNT_FONT_SIZE on typical
+// phone widths; COUNT_FONT_SIZE still shrinks itself on narrower screens or 4+-digit counts (see
+// centerCountFontSize) so this is a "make the common case look right" budget, not a hard guarantee.
+private val MAX_OUTER_DIAMETER = 360.dp
 private val CARD_GAP = 4.dp
 private val CARD_SIZE = RECORD_MUSHROOM_TILE_WIDTH * CARD_SIZE_OF_RECORD_TILE
 private val CARD_BORDER_WIDTH = 2.dp
+private val COUNT_FONT_SIZE = 44.sp
+
+/** Fraction of the ring's hole diagonal the count text is allowed to fill before it starts shrinking. */
+private const val COUNT_TEXT_FIT_SAFETY_MARGIN = 0.9f
 
 private data class RingSlice(
     val categoryCount: CategoryCount,
@@ -119,16 +128,15 @@ fun MushroomDonutChart(counts: List<CategoryCount>, modifier: Modifier = Modifie
         val containerDiameter = (maxWidth - OUTER_HORIZONTAL_MARGIN).coerceAtMost(MAX_OUTER_DIAMETER)
         val cardBand = CARD_GAP + CARD_SIZE
         val ringDiameter = (containerDiameter - cardBand * 2f).coerceAtLeast(0.dp)
+        val holeDiameter = (ringDiameter - RING_WIDTH * 2f).coerceAtLeast(0.dp)
         val cardCenterRadius = containerDiameter / 2f - CARD_SIZE / 2f
         val cardAngles = resolveCardAngles(slices, cardCenterRadius)
 
         Box(modifier = Modifier.size(containerDiameter), contentAlignment = Alignment.Center) {
             DonutRing(slices = slices, diameter = ringDiameter)
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(total.toString(), fontSize = 44.sp, fontWeight = FontWeight.Bold)
-                Text(mushroomsUnitLabel(total), fontSize = 16.sp)
-            }
+            val countFontSize = centerCountFontSize(total, holeDiameter)
+            Text(total.toString(), fontSize = countFontSize, fontWeight = FontWeight.Bold)
 
             // zIndex alone decides stacking order here (ties are only ever broken by composition
             // order, and there are none left to break — see ORDER_TIE_BREAK_Z_INDEX), so the loop
@@ -194,6 +202,34 @@ private fun resolveCardAngles(slices: List<RingSlice>, radius: Dp): FloatArray {
     }
 
     return FloatArray(slices.size) { midAngles[it] + adjustments[it] }
+}
+
+/**
+ * [COUNT_FONT_SIZE], shrunk just enough that [total]'s digit string fits inside a circular hole of
+ * [holeDiameter] without its bounding box crossing into the ring — the box's diagonal (not just its
+ * width) has to clear the hole, since a rectangle sits inside a circle. Stays at [COUNT_FONT_SIZE]
+ * whenever that already fits, which is the common case for up to 3 digits once the hole is wide
+ * enough (see [MAX_OUTER_DIAMETER]); 4+ digit counts, or a hole narrowed by a small screen, shrink
+ * proportionally instead of overlapping the ring.
+ */
+@Composable
+private fun centerCountFontSize(total: Int, holeDiameter: Dp): TextUnit {
+    if (holeDiameter <= 0.dp) return COUNT_FONT_SIZE
+    val density = LocalDensity.current
+    val textMeasurer = rememberTextMeasurer()
+    val measured = textMeasurer.measure(
+        text = total.toString(),
+        style = TextStyle(fontSize = COUNT_FONT_SIZE, fontWeight = FontWeight.Bold),
+    )
+    val width = measured.size.width.toFloat()
+    val height = measured.size.height.toFloat()
+    val diagonalPx = sqrt(width * width + height * height)
+    val availableDiameterPx = with(density) { holeDiameter.toPx() } * COUNT_TEXT_FIT_SAFETY_MARGIN
+    return if (diagonalPx <= availableDiameterPx || diagonalPx <= 0f) {
+        COUNT_FONT_SIZE
+    } else {
+        COUNT_FONT_SIZE * (availableDiameterPx / diagonalPx)
+    }
 }
 
 @Composable
