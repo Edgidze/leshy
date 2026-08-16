@@ -1,5 +1,6 @@
 package compose.project.leshy.ui.screens
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,13 @@ import compose.project.leshy.ui.map.AggregatedFindsMap
 import compose.project.leshy.ui.map.MapMarker
 import compose.project.leshy.ui.util.formatDistanceKm
 import org.koin.compose.viewmodel.koinViewModel
+
+// In Map mode the button floats over the live map, which fills the whole area regardless of the
+// button's own inset, so its usual 16.dp corner padding costs nothing visually. In Stats mode
+// there's no map underneath it — a flat text list — so the same inset would just be dead space
+// above the button; sliding it up close to the segmented row keeps the stats list compact.
+private val FILTER_BUTTON_TOP_PADDING_MAP = 16.dp
+private val FILTER_BUTTON_TOP_PADDING_STATS = 4.dp
 
 @Composable
 fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
@@ -79,10 +87,17 @@ fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
                 MapMode.STATS -> MapStatsView(stats = uiState.stats, modifier = Modifier.fillMaxSize())
             }
 
+            val filterButtonTopPadding by animateDpAsState(
+                targetValue = if (uiState.mode == MapMode.STATS) {
+                    FILTER_BUTTON_TOP_PADDING_STATS
+                } else {
+                    FILTER_BUTTON_TOP_PADDING_MAP
+                },
+            )
             MapFilterButton(
                 filterCount = uiState.filterCount,
                 onClick = { showFilterDialog = true },
-                modifier = Modifier.align(Alignment.TopEnd).padding(16.dp),
+                modifier = Modifier.align(Alignment.TopEnd).padding(top = filterButtonTopPadding, end = 16.dp),
             )
         }
     }
@@ -101,7 +116,7 @@ private fun MapStatsView(stats: MapStats, modifier: Modifier = Modifier) {
         return
     }
 
-    Column(modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 72.dp)) {
+    Column(modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 60.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(stringResource(StringKey.MapStatsWalksCount))
             Text(stats.walkCount.toString())
