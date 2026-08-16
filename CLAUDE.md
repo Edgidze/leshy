@@ -62,10 +62,12 @@
   на части реальных устройств — используй кластеризованный
   `CircleLayer`/`SymbolLayer` (`GeoJsonOptions(cluster = true)`) вместо него.
   Подробности — `ui/map/CLAUDE.md`.
-- **Навигация: все top-level экраны (пункты drawer) обязаны идти через
-  `navigateToTopLevel()`** (`ui/navigation/Destinations.kt`) — подмена на
-  голый `navigate()` для одного из них ломает `saveState`/`restoreState` для
-  остальных (несколько реальных краш-багов в истории). Подробности —
+- **Навигация: все top-level разделы (кнопки на домашней странице) обязаны
+  идти через `navigateToTopLevel()`** (`ui/navigation/Destinations.kt`) —
+  подмена на голый `navigate()` для одного из них ломает
+  `saveState`/`restoreState` для остальных (несколько реальных краш-багов в
+  истории). Исключение — `Home` (стартовый экран): к нему возвращаются через
+  `popBackStack`, не `navigateToTopLevel`. Подробности —
   `ui/navigation/CLAUDE.md`.
 - **iOS: делегат `CLLocationManager` внутри `callbackFlow` — только `var` на
   классе, не локальный `val`.** ARC освобождает объект без сильных ссылок за

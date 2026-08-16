@@ -68,7 +68,11 @@ private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
 private val TILE_WIDTH = 120.dp
 
 @Composable
-fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewModel()) {
+fun RecordScreen(
+    onFinished: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: RecordViewModel = koinViewModel(),
+) {
     val uiState by viewModel.uiState.collectAsState()
     val takePhoto = rememberCameraLauncher { path -> viewModel.onPhotoCaptured(path) }
     var showFilterDialog by remember { mutableStateOf(false) }
@@ -92,6 +96,7 @@ fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewMo
         onRemoveMushroom = viewModel::removeMushroom,
         onPhotoClick = takePhoto,
         onFilterClick = { showFilterDialog = true },
+        modifier = modifier,
     )
 
     if (showFilterDialog) {
@@ -114,11 +119,12 @@ private fun RecordScreenContent(
     onRemoveMushroom: (Long) -> Unit,
     onPhotoClick: () -> Unit,
     onFilterClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var showNameDialog by remember { mutableStateOf(false) }
     val categoryById = uiState.categories.associateBy { it.id }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize()) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,

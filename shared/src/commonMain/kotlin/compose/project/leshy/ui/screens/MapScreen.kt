@@ -50,11 +50,11 @@ private val FILTER_BUTTON_OFFSET_MAP = 31.dp
 private val FILTER_BUTTON_OFFSET_STATS = (-6).dp
 
 @Composable
-fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
+fun MapScreen(modifier: Modifier = Modifier, viewModel: MapViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     var showFilterDialog by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize()) {
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
             SegmentedButton(
                 selected = uiState.mode == MapMode.MAP,

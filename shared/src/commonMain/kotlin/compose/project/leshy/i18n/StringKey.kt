@@ -10,8 +10,7 @@ enum class StringKey {
     SettingsLanguageTitle,
     SettingsCategoriesTitle,
 
-    NavDrawerHeader,
-    NavMenuContentDescription,
+    NavHomeContentDescription,
     HelpContentDescription,
     HelpDialogTitle,
     HelpDialogMessage,

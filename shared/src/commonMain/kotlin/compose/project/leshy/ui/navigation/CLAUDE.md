@@ -1,20 +1,32 @@
 # ui/navigation/ — Compose Navigation
 
-`Destination` — sealed interface маршрутов. Все top-level экраны (пункты
-drawer: Запись/Архив/Карта/Настройки) обязаны переходить через один и тот же
-хелпер:
+`Destination` — sealed interface маршрутов. `Home` — стартовый экран
+(домашняя страница с крупными кнопками разделов), к нему возвращаются через
+`popBackStack(Destination.Home, false)` из `SectionScaffold`
+(`ui/components/SectionScaffold.kt`) или системным «назад» — сам `Home`
+никогда не является целью `navigateToTopLevel`. Остальные top-level экраны
+(разделы: Запись/Архив/Карта/Настройки, кнопки на домашней странице) обязаны
+переходить через один и тот же хелпер:
 
 ```kotlin
 fun NavHostController.navigateToTopLevel(destination: Destination) {
     navigate(destination) {
-        popUpTo(graph.findStartDestination().id) { inclusive = true; saveState = true }
+        popUpTo(graph.findStartDestination().id) { inclusive = false; saveState = true }
         launchSingleTop = true
         restoreState = true
     }
 }
 ```
 
-## Почему это жёсткое правило, а не стиль
+`inclusive = false` — намеренно: `graph.findStartDestination()` теперь
+всегда `Home`, и он должен остаться внизу бэкстека (не вытесняться), иначе
+«назад» с раздела не будет попадать на домашнюю страницу, а сразу выходить
+из приложения. Именно это (пустой бэкстек под `Home`) и даёт «выход из
+приложения по «назад»» на самой домашней странице — бесплатно, через
+дефолтное поведение `NavHost`/`ComponentActivity`, без кастомного
+`BackHandler` или `exitProcess`.
+
+## Почему `navigateToTopLevel` — жёсткое правило, а не стиль
 
 Асимметрия здесь уже ломала навигацию дважды:
 
@@ -45,8 +57,9 @@ fun NavHostController.navigateToTopLevel(destination: Destination) {
 плодить второй ViewModel и не терять состояние.
 
 **Обязательно оборачивать в `runCatching { ... }.getOrNull()`.** Переход по
-нижней/drawer-навигации выталкивает записи из бэкстека СИНХРОННО
-(`popUpTo(...){inclusive=true}`), до того как успевает закончиться
+`navigateToTopLevel` выталкивает записи из бэкстека СИНХРОННО
+(`popUpTo(...){inclusive=false}` всё равно вытесняет предыдущий раздел, если
+он не `Home`), до того как успевает закончиться
 recomposition уходящего дочернего экрана во время exit-анимации — голый
 `getBackStackEntry(...)` на этом кадре бросает `IllegalArgumentException` и
 крашит приложение. С guard'ом composable просто ничего не рендерит на этот
@@ -58,8 +71,6 @@ recomposition уходящего дочернего экрана во время
   быстрее ощущается, и меньше шанс поймать «зависшую» карту поверх
   следующего экрана при более долгом fade (см. `ui/map/CLAUDE.md` про
   `TextureView`).
-- `ModalNavigationDrawer(gesturesEnabled = false, ...)` — свайп-открытие
-  отключено намеренно: конфликтовало с панорамированием карты на «Записи».
 - **Одноразовые UI-сигналы** (`justFinished` в `RecordUiState`, `deleted` в
   `WalkDetailUiState`) — держать в `UiState`, не в локальном `remember`
   (правило проекта об immutable UiState), потреблять через

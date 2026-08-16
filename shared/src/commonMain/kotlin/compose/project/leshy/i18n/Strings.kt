@@ -24,8 +24,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsLanguageTitle -> "Язык"
     StringKey.SettingsCategoriesTitle -> "Грибы для отметки"
 
-    StringKey.NavDrawerHeader -> "Выберите раздел"
-    StringKey.NavMenuContentDescription -> "Меню"
+    StringKey.NavHomeContentDescription -> "На главную"
     StringKey.HelpContentDescription -> "Помощь"
     StringKey.HelpDialogTitle -> "Помощь"
     StringKey.HelpDialogMessage -> "Инструкции для этого экрана появятся здесь в будущем обновлении."
@@ -132,8 +131,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsLanguageTitle -> "Language"
     StringKey.SettingsCategoriesTitle -> "Mushrooms to track"
 
-    StringKey.NavDrawerHeader -> "Choose a section"
-    StringKey.NavMenuContentDescription -> "Menu"
+    StringKey.NavHomeContentDescription -> "Home"
     StringKey.HelpContentDescription -> "Help"
     StringKey.HelpDialogTitle -> "Help"
     StringKey.HelpDialogMessage -> "Instructions for this screen will be available here in a future update."

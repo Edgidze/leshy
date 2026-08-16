@@ -3,8 +3,6 @@ package compose.project.leshy.ui.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,9 +10,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.presentation.record.RecordViewModel
+import compose.project.leshy.ui.components.SectionScaffold
 import compose.project.leshy.ui.screens.ArchiveScreen
+import compose.project.leshy.ui.screens.HomeScreen
 import compose.project.leshy.ui.screens.MapScreen
 import compose.project.leshy.ui.screens.RecordScreen
 import compose.project.leshy.ui.screens.SettingsScreen
@@ -32,24 +33,40 @@ private const val NAV_TRANSITION_DURATION_MS = 200
 fun LeshyNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(),
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destination.Record,
-        modifier = modifier.padding(contentPadding).consumeWindowInsets(contentPadding),
+        startDestination = Destination.Home,
+        modifier = modifier,
         enterTransition = { fadeIn(animationSpec = tween(NAV_TRANSITION_DURATION_MS)) },
         exitTransition = { fadeOut(animationSpec = tween(NAV_TRANSITION_DURATION_MS)) },
     ) {
+        composable<Destination.Home> {
+            HomeScreen(onNavigate = { destination -> navController.navigateToTopLevel(destination) })
+        }
         composable<Destination.Record> { backStackEntry ->
             val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = backStackEntry)
-            RecordScreen(
-                viewModel = viewModel,
-                onFinished = { navController.navigateToTopLevel(Destination.Archive) },
-            )
+            SectionScaffold(
+                title = StringKey.NavRecord,
+                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+            ) { padding ->
+                RecordScreen(
+                    viewModel = viewModel,
+                    onFinished = { navController.navigateToTopLevel(Destination.Archive) },
+                    modifier = Modifier.padding(padding),
+                )
+            }
         }
         composable<Destination.Archive> {
-            ArchiveScreen(onWalkClick = { walkId -> navController.navigate(Destination.WalkDetail(walkId)) })
+            SectionScaffold(
+                title = StringKey.NavArchive,
+                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+            ) { padding ->
+                ArchiveScreen(
+                    onWalkClick = { walkId -> navController.navigate(Destination.WalkDetail(walkId)) },
+                    modifier = Modifier.padding(padding),
+                )
+            }
         }
         composable<Destination.WalkDetail> { backStackEntry ->
             val route = backStackEntry.toRoute<Destination.WalkDetail>()
@@ -66,8 +83,8 @@ fun LeshyNavHost(
         composable<Destination.WalkMap> { backStackEntry ->
             val route = backStackEntry.toRoute<Destination.WalkMap>()
             // The parent WalkDetail entry can already be gone from the back stack while this
-            // composable is still recomposing during the exit transition (e.g. the user tapped a
-            // drawer item, which pops WalkDetail via popUpTo) — guard instead of crashing on it.
+            // composable is still recomposing during the exit transition (e.g. the user tapped
+            // the home icon, which pops WalkDetail via popUpTo) — guard instead of crashing.
             val detailEntry = runCatching {
                 navController.getBackStackEntry(Destination.WalkDetail(route.walkId))
             }.getOrNull()
@@ -79,7 +96,17 @@ fun LeshyNavHost(
                 WalkMapScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
             }
         }
-        composable<Destination.Map> { MapScreen() }
-        composable<Destination.Settings> { SettingsScreen() }
+        composable<Destination.Map> {
+            SectionScaffold(
+                title = StringKey.NavMap,
+                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+            ) { padding -> MapScreen(modifier = Modifier.padding(padding)) }
+        }
+        composable<Destination.Settings> {
+            SectionScaffold(
+                title = StringKey.SettingsTitle,
+                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+            ) { padding -> SettingsScreen(modifier = Modifier.padding(padding)) }
+        }
     }
 }

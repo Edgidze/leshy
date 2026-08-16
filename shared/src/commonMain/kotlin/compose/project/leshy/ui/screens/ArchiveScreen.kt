@@ -20,19 +20,23 @@ import compose.project.leshy.ui.components.WalkCard
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ArchiveScreen(onWalkClick: (Long) -> Unit, viewModel: ArchiveViewModel = koinViewModel()) {
+fun ArchiveScreen(
+    onWalkClick: (Long) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: ArchiveViewModel = koinViewModel(),
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     if (uiState.items.isEmpty()) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
             Text(stringResource(StringKey.ArchiveEmpty))
         }
     } else {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
