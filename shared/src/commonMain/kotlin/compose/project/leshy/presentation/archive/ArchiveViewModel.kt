@@ -10,6 +10,7 @@ import compose.project.leshy.domain.model.Walk
 import compose.project.leshy.domain.repository.FieldMarkRepository
 import compose.project.leshy.domain.repository.TrackPointRepository
 import compose.project.leshy.domain.repository.WalkRepository
+import compose.project.leshy.domain.usecase.BackfillWalkThumbnailsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,12 +27,16 @@ class ArchiveViewModel(
     private val walkRepository: WalkRepository,
     private val trackPointRepository: TrackPointRepository,
     private val fieldMarkRepository: FieldMarkRepository,
+    private val backfillWalkThumbnails: BackfillWalkThumbnailsUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ArchiveUiState())
     val uiState: StateFlow<ArchiveUiState> = _uiState.asStateFlow()
 
     init {
+        // Independent of the UI-state flow below: repairs walks whose thumbnail is missing a map
+        // background (see BackfillWalkThumbnailsUseCase) without delaying the Archive list itself.
+        viewModelScope.launch { backfillWalkThumbnails() }
         viewModelScope.launch {
             combine(
                 walkRepository.observeAll(),

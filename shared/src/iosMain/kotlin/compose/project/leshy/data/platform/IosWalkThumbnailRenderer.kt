@@ -44,20 +44,29 @@ private const val FIND_BLUE = 0x1E / 255.0 // Material3 baseline light colorSche
 class IosWalkThumbnailRenderer : WalkThumbnailRenderer {
 
     @OptIn(ExperimentalForeignApi::class)
-    override suspend fun render(walkId: Long, track: List<GeoPoint>, findLocations: List<GeoPoint>): String? {
-        if (track.size < 2) return null
+    override suspend fun render(
+        walkId: Long,
+        track: List<GeoPoint>,
+        findLocations: List<GeoPoint>,
+        anchor: GeoPoint?,
+    ): String? {
+        if (track.isEmpty() && findLocations.isEmpty() && anchor == null) return null
         return try {
-            val snapshot = takeSnapshot(track, findLocations) ?: return null
-            writeAnnotated(walkId, snapshot, track, findLocations)
+            val snapshot = takeSnapshot(track, findLocations, anchor) ?: return null
+            writeAnnotated(walkId, snapshot, track, findLocations, anchor)
         } catch (_: Throwable) {
             null
         }
     }
 
     @OptIn(ExperimentalForeignApi::class)
-    private suspend fun takeSnapshot(track: List<GeoPoint>, findLocations: List<GeoPoint>): MLNMapSnapshot? =
+    private suspend fun takeSnapshot(
+        track: List<GeoPoint>,
+        findLocations: List<GeoPoint>,
+        anchor: GeoPoint?,
+    ): MLNMapSnapshot? =
         suspendCancellableCoroutine { continuation ->
-            val allPoints = track + findLocations
+            val allPoints = track + findLocations + listOfNotNull(anchor)
             var minLat = allPoints.first().lat
             var maxLat = minLat
             var minLon = allPoints.first().lon
@@ -104,20 +113,35 @@ class IosWalkThumbnailRenderer : WalkThumbnailRenderer {
         snapshot: MLNMapSnapshot,
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
+        anchor: GeoPoint?,
     ): String? {
         val baseImage = snapshot.image
         val renderer = UIGraphicsImageRenderer(size = baseImage.size)
         val annotated = renderer.imageWithActions { _ ->
             baseImage.drawAtPoint(CGPointMake(0.0, 0.0))
 
-            val routePath = UIBezierPath()
-            track.forEachIndexed { index, point ->
-                val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(point.lat, point.lon))
-                if (index == 0) routePath.moveToPoint(cgPoint) else routePath.addLineToPoint(cgPoint)
+            if (track.size >= 2) {
+                val routePath = UIBezierPath()
+                track.forEachIndexed { index, point ->
+                    val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(point.lat, point.lon))
+                    if (index == 0) routePath.moveToPoint(cgPoint) else routePath.addLineToPoint(cgPoint)
+                }
+                routePath.lineWidth = 3.0
+                UIColor.colorWithRed(ROUTE_RED, ROUTE_GREEN, ROUTE_BLUE, 1.0).setStroke()
+                routePath.stroke()
+            } else {
+                // Too few track points for a route line (short walk) — mark the single known
+                // location instead of leaving the map background bare.
+                val locationDot = track.firstOrNull() ?: anchor
+                if (locationDot != null) {
+                    val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(locationDot.lat, locationDot.lon))
+                    cgPoint.useContents {
+                        val dotRect = CGRectMake(x - 4.0, y - 4.0, 8.0, 8.0)
+                        UIColor.colorWithRed(ROUTE_RED, ROUTE_GREEN, ROUTE_BLUE, 1.0).setFill()
+                        UIBezierPath.bezierPathWithOvalInRect(dotRect).fill()
+                    }
+                }
             }
-            routePath.lineWidth = 3.0
-            UIColor.colorWithRed(ROUTE_RED, ROUTE_GREEN, ROUTE_BLUE, 1.0).setStroke()
-            routePath.stroke()
 
             findLocations.forEach { point ->
                 val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(point.lat, point.lon))

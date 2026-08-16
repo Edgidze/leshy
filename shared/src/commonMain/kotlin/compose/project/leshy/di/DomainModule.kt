@@ -2,6 +2,7 @@ package compose.project.leshy.di
 
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.AddPhotoMarkUseCase
+import compose.project.leshy.domain.usecase.BackfillWalkThumbnailsUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
@@ -17,6 +18,7 @@ val domainModule = module {
     factory { FinishWalkUseCase(get()) }
     factory { RenameWalkUseCase(get()) }
     factory { UpdateWalkThumbnailUseCase(get()) }
+    factory { BackfillWalkThumbnailsUseCase(get(), get(), get(), get(), get()) }
     factory { RecordTrackPointUseCase(get(), get()) }
     factory { AddMushroomMarkUseCase(get(), get()) }
     factory { RemoveLastMushroomMarkUseCase(get(), get()) }

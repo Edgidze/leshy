@@ -193,8 +193,10 @@ class RecordViewModel(
         val findLocations = _uiState.value.marks
             .filter { it.type == MarkType.MUSHROOM }
             .map { mark -> GeoPoint(mark.lat, mark.lon, null, mark.timestamp) }
+        // Last known GPS fix — the thumbnail's fallback anchor when trackPoints has too few
+        // points to bound a region on its own (short walks).
+        val location = _uiState.value.currentLocation
         viewModelScope.launch {
-            val location = _uiState.value.currentLocation
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
             walkId = null
             _uiState.update { state ->
@@ -210,7 +212,7 @@ class RecordViewModel(
         // Independent coroutine: a slow or offline tile fetch must never delay the Archive
         // navigation triggered by justFinished above.
         viewModelScope.launch {
-            val thumbnailPath = walkThumbnailRenderer.render(currentWalkId, trackPoints, findLocations)
+            val thumbnailPath = walkThumbnailRenderer.render(currentWalkId, trackPoints, findLocations, location)
             if (thumbnailPath != null) updateWalkThumbnail(currentWalkId, thumbnailPath)
         }
     }
