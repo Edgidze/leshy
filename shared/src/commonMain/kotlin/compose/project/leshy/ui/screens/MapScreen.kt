@@ -37,10 +37,10 @@ import compose.project.leshy.ui.map.MapMarker
 import compose.project.leshy.ui.util.formatDistanceKm
 import org.koin.compose.viewmodel.koinViewModel
 
-// In Map mode the button now shares its TopEnd corner with the native scale bar (see
-// mapOrnamentOptions — swapped there with the compass so the compass doesn't sit under the
-// button). The scale bar is always visible (not just while rotated, unlike the compass), so this
-// offset must reliably clear it: `barHeight(2dp) + textSize(8dp) + textBarMargin(2dp) +
+// In Map mode the button now shares its TopStart corner with the native scale bar (see
+// mapOrnamentOptions — scale bar moved there instead of the compass, which now takes TopEnd).
+// The scale bar is always visible (not just while rotated, unlike the compass), so this offset
+// must reliably clear it: `barHeight(2dp) + textSize(8dp) + textBarMargin(2dp) +
 // 2*borderWidth(2dp) = 14dp` of scale-bar content, plus the library's own fixed 8dp top inset
 // (android-plugin-scalebar-v9 3.0.2 defaults, applied by maplibre-compose's AndroidScaleBar) puts
 // its bottom edge around 22.dp from the map's top edge — 31.dp leaves a half-sized (9.dp) visual
@@ -103,7 +103,7 @@ fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
             MapFilterButton(
                 filterCount = uiState.filterCount,
                 onClick = { showFilterDialog = true },
-                modifier = Modifier.align(Alignment.TopEnd).offset(y = filterButtonOffset).padding(end = 16.dp),
+                modifier = Modifier.align(Alignment.TopStart).offset(y = filterButtonOffset).padding(start = 16.dp),
             )
         }
     }
