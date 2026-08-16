@@ -9,6 +9,7 @@ enum class StringKey {
     SettingsContentDescription,
     SettingsLanguageTitle,
     SettingsCategoriesTitle,
+    SettingsMushroomSizeTitle,
 
     NavHomeContentDescription,
     HelpContentDescription,

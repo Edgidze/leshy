@@ -23,7 +23,7 @@ import org.maplibre.spatialk.geojson.Position
  * many (10+). Each species gets its own clustered `GeoJsonSource` — so only nearby finds of the
  * SAME species ever merge into one cluster, never across species — rendered with that species'
  * own photo marker (see `MushroomMarkerIcon.kt`) instead of a plain dot, sized as a fraction of
- * the marker photo size already used elsewhere on the map (`MUSHROOM_MARKER_SIZE`): smaller for
+ * the marker photo size already used elsewhere on the map (`mushroomMarkerSize`): smaller for
  * sparser clusters, bigger for denser ones. `sortKey` makes smaller clusters paint in front of
  * bigger ones, and — within the same size tier — a cluster with more finds paint in front of one
  * with fewer; this is only exact within one species' own layer (per MapLibre's `sortKey`
@@ -77,10 +77,11 @@ fun ClusteredFindsLayers(markers: List<MapMarker>, idPrefix: String = "finds") {
                     MEDIUM_THRESHOLD to const(MEDIUM_SORT_OFFSET),
                     MANY_THRESHOLD to const(MANY_SORT_OFFSET),
                 )
+                val markerSize = mushroomMarkerSize
                 SymbolLayer(
                     id = "$idPrefix-$iconRef",
                     source = findsSource,
-                    iconImage = image(painter, size = DpSize(MUSHROOM_MARKER_SIZE, MUSHROOM_MARKER_SIZE)),
+                    iconImage = image(painter, size = DpSize(markerSize, markerSize)),
                     iconSize = sizeMultiplier,
                     iconAllowOverlap = const(true),
                     sortKey = sortOffset + pointCount,

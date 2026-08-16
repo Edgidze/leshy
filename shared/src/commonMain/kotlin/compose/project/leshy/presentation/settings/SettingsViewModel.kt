@@ -3,15 +3,18 @@ package compose.project.leshy.presentation.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import compose.project.leshy.domain.model.AppLanguage
+import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
+    private val categoryRepository: CategoryRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -23,9 +26,22 @@ class SettingsViewModel(
                 _uiState.update { it.copy(language = language) }
             }
         }
+        viewModelScope.launch {
+            settingsRepository.observeMushroomMarkerSizeScale().collect { scale ->
+                _uiState.update { it.copy(mushroomMarkerSizeScale = scale) }
+            }
+        }
+        viewModelScope.launch {
+            val preview = categoryRepository.observeAll().first().filter { it.iconRef != null }.randomOrNull()
+            _uiState.update { it.copy(previewCategory = preview) }
+        }
     }
 
     fun setLanguage(language: AppLanguage) {
         viewModelScope.launch { settingsRepository.setLanguage(language) }
+    }
+
+    fun setMushroomMarkerSizeScale(scale: Float) {
+        viewModelScope.launch { settingsRepository.setMushroomMarkerSizeScale(scale) }
     }
 }
