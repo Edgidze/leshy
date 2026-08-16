@@ -69,6 +69,21 @@ fun formatDurationLabeled(millis: Long): String {
     return parts.joinToString(" ")
 }
 
+/** Hours/minutes with short unit labels for compact spots (e.g. the archive walk card): "3 ч. 10 м." */
+@Composable
+fun formatDurationShort(millis: Long): String {
+    val totalMinutes = millis / 60_000
+    val hours = totalMinutes / 60
+    val minutes = totalMinutes % 60
+
+    return if (hours > 0) {
+        "$hours ${stringResource(StringKey.WalkCardDurationHours)} " +
+            "$minutes ${stringResource(StringKey.WalkCardDurationMinutes)}"
+    } else {
+        "$minutes ${stringResource(StringKey.WalkCardDurationMinutes)}"
+    }
+}
+
 fun formatSpeedKmh(metersPerSecond: Double): String {
     val kmh = metersPerSecond * 3.6
     val rounded = (kmh * 10).toLong() / 10.0
@@ -77,12 +92,13 @@ fun formatSpeedKmh(metersPerSecond: Double): String {
     return "$whole.$fraction km/h"
 }
 
+@Composable
 fun formatDistanceKm(meters: Double): String {
     val km = meters / 1000.0
     val rounded = (km * 100).toLong() / 100.0
     val whole = rounded.toLong()
     val fraction = ((rounded - whole) * 100).toLong().let { if (it < 0) -it else it }
-    return "$whole.${fraction.toString().padStart(2, '0')} km"
+    return "$whole.${fraction.toString().padStart(2, '0')} ${stringResource(StringKey.UnitKilometers)}"
 }
 
 private fun Long.pad(): String = if (this < 10) "0$this" else toString()
