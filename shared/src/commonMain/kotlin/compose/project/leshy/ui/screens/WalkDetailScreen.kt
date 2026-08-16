@@ -16,6 +16,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -23,6 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -30,15 +35,22 @@ import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
+import compose.project.leshy.ui.components.MushroomDonutChart
 import compose.project.leshy.ui.util.formatDateTime
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDurationLabeled
 import compose.project.leshy.ui.util.formatSpeedKmh
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+private const val MUSHROOM_TOAST_DURATION_MILLIS = 3000L
 
 @Composable
 fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewMap: () -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
     val walk = uiState.walk
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(uiState.deleted) {
         if (uiState.deleted) onBack()
@@ -81,45 +93,70 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
                 },
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         if (walk == null) return@Scaffold
 
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("${stringResource(StringKey.WalkDetailStartTime)}: ${formatDateTime(walk.startTime)}")
-            }
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(
-                    "${stringResource(StringKey.WalkDetailEndTime)}: " +
-                        (walk.endTime?.let(::formatDateTime) ?: stringResource(StringKey.WalkDetailInProgress)),
-                )
-            }
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
-                Text("${stringResource(StringKey.WalkDetailDistance)}: ${formatDistanceKm(walk.distanceMeters)}")
-            }
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
-                Text(
-                    "${stringResource(StringKey.WalkDetailDuration)}: " +
-                        (walk.endTime?.let { formatDurationLabeled(it - walk.startTime) } ?: "—"),
-                )
-            }
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
-                Text(
-                    "${stringResource(StringKey.WalkDetailAvgSpeed)}: " +
-                        (walk.endTime?.let { formatSpeedKmh(walk.avgSpeed) } ?: "—"),
-                )
-            }
-
-            Text(
-                stringResource(StringKey.WalkDetailFindsTitle),
-                modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
-                textDecoration = TextDecoration.Underline,
-            )
             LazyColumn(modifier = Modifier.weight(1f)) {
+                item {
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text("${stringResource(StringKey.WalkDetailStartTime)}: ${formatDateTime(walk.startTime)}")
+                    }
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(
+                            "${stringResource(StringKey.WalkDetailEndTime)}: " +
+                                (walk.endTime?.let(::formatDateTime) ?: stringResource(StringKey.WalkDetailInProgress)),
+                        )
+                    }
+                    Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
+                        Text("${stringResource(StringKey.WalkDetailDistance)}: ${formatDistanceKm(walk.distanceMeters)}")
+                    }
+                    Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
+                        Text(
+                            "${stringResource(StringKey.WalkDetailDuration)}: " +
+                                (walk.endTime?.let { formatDurationLabeled(it - walk.startTime) } ?: "—"),
+                        )
+                    }
+                    Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
+                        Text(
+                            "${stringResource(StringKey.WalkDetailAvgSpeed)}: " +
+                                (walk.endTime?.let { formatSpeedKmh(walk.avgSpeed) } ?: "—"),
+                        )
+                    }
+
+                    Text(
+                        stringResource(StringKey.WalkDetailFindsTitle),
+                        modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
+                        textDecoration = TextDecoration.Underline,
+                    )
+                }
+
                 items(uiState.mushroomCounts) { entry ->
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(categoryDisplayName(entry.category.nameKey))
                         Text(entry.count.toString())
+                    }
+                }
+
+                if (uiState.mushroomCounts.isNotEmpty()) {
+                    item {
+                        MushroomDonutChart(
+                            counts = uiState.mushroomCounts,
+                            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+                            onMushroomClick = { name ->
+                                coroutineScope.launch {
+                                    // showSnackbar only accepts the fixed Short/Long/Indefinite
+                                    // durations — Indefinite plus a manual dismiss after exactly
+                                    // MUSHROOM_TOAST_DURATION_MILLIS is how you get a custom one.
+                                    launch {
+                                        delay(MUSHROOM_TOAST_DURATION_MILLIS)
+                                        snackbarHostState.currentSnackbarData?.dismiss()
+                                    }
+                                    snackbarHostState.showSnackbar(message = name, duration = SnackbarDuration.Indefinite)
+                                }
+                            },
+                        )
                     }
                 }
             }

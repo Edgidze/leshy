@@ -55,6 +55,7 @@ import compose.project.leshy.ui.components.CameraTile
 import compose.project.leshy.ui.components.MapFilterButton
 import compose.project.leshy.ui.components.MapFilterDialog
 import compose.project.leshy.ui.components.MushroomTile
+import compose.project.leshy.ui.components.RECORD_MUSHROOM_TILE_WIDTH
 import compose.project.leshy.ui.map.LiveTrackMap
 import compose.project.leshy.ui.map.MapMarker
 import compose.project.leshy.ui.theme.LeshyTheme
@@ -65,7 +66,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
-private val TILE_WIDTH = 120.dp
+private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
 
 @Composable
 fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewModel()) {

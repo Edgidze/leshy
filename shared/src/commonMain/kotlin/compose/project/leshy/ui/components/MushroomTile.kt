@@ -47,6 +47,9 @@ import org.jetbrains.compose.resources.painterResource
 
 private val MUSHROOM_COUNT_BUTTON_SIZE = 40.dp
 
+/** Width [MushroomTile] is displayed at on the record screen — other tiles size themselves relative to it. */
+val RECORD_MUSHROOM_TILE_WIDTH = 120.dp
+
 @Composable
 fun MushroomTile(
     category: Category,
@@ -87,36 +90,42 @@ fun MushroomTile(
                     Icon(Icons.Filled.Add, contentDescription = null, Modifier.size(32.dp))
                 }
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1.5f),
-            ) {
-                val drawable = category.iconRef?.let { Res.allDrawableResources[it] }
-                if (drawable != null) {
-                    Image(
-                        painter = painterResource(drawable),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Fit,
-                    )
-                }
-
-                EdibilityBadge(
-                    status = category.edibilityStatus,
-                    modifier = Modifier.align(Alignment.TopEnd).padding(end = 6.dp),
-                )
-
-                MushroomLabel(
-                    text = categoryDisplayName(category.nameKey),
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                        .height(46.dp)
-                        .padding(horizontal = 6.dp, vertical = 2.dp),
-                )
-            }
+            MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
         }
+    }
+}
+
+/**
+ * The photo/badge/label portion of [MushroomTile] (everything below its count row), reused as-is
+ * by [compose.project.leshy.ui.components.MushroomLegendTile] for the walk-detail donut chart's
+ * legend — same bordered-plate look, minus the count row that doesn't apply there.
+ */
+@Composable
+fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
+    Box(modifier = modifier) {
+        val drawable = category.iconRef?.let { Res.allDrawableResources[it] }
+        if (drawable != null) {
+            Image(
+                painter = painterResource(drawable),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Fit,
+            )
+        }
+
+        EdibilityBadge(
+            status = category.edibilityStatus,
+            modifier = Modifier.align(Alignment.TopEnd).padding(top = 6.dp, end = 6.dp),
+        )
+
+        MushroomLabel(
+            text = categoryDisplayName(category.nameKey),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(46.dp)
+                .padding(horizontal = 6.dp, vertical = 2.dp),
+        )
     }
 }
 

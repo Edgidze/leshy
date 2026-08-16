@@ -77,6 +77,9 @@ enum class StringKey {
     WalkDetailDeleteConfirmMessage,
     WalkDetailDeleteConfirmYes,
     WalkDetailDeleteConfirmNo,
+    WalkDetailMushroomsCountOne,
+    WalkDetailMushroomsCountFew,
+    WalkDetailMushroomsCountMany,
 
     MapToggleMap,
     MapToggleStats,

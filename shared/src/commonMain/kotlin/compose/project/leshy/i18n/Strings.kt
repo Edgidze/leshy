@@ -14,6 +14,27 @@ fun string(key: StringKey, language: AppLanguage): String = when (language) {
     AppLanguage.EN -> englishStrings(key)
 }
 
+/** "гриб"/"гриба"/"грибов" (Russian 3-way plural, agreeing with [count]) or "mushroom"/"mushrooms" (English). */
+@Composable
+fun mushroomsUnitLabel(count: Int): String {
+    val key = when (LocalAppLanguage.current) {
+        AppLanguage.RU -> russianMushroomsPluralKey(count)
+        AppLanguage.EN -> if (count == 1) StringKey.WalkDetailMushroomsCountOne else StringKey.WalkDetailMushroomsCountMany
+    }
+    return stringResource(key)
+}
+
+private fun russianMushroomsPluralKey(count: Int): StringKey {
+    val mod100 = count % 100
+    val mod10 = count % 10
+    return when {
+        mod100 in 11..14 -> StringKey.WalkDetailMushroomsCountMany
+        mod10 == 1 -> StringKey.WalkDetailMushroomsCountOne
+        mod10 in 2..4 -> StringKey.WalkDetailMushroomsCountFew
+        else -> StringKey.WalkDetailMushroomsCountMany
+    }
+}
+
 private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.AppName -> "Леший"
     StringKey.NavRecord -> "Запись"
@@ -92,6 +113,9 @@ private fun russianStrings(key: StringKey): String = when (key) {
         "Прогулка и все находки будут удалены безвозвратно. Восстановить их будет невозможно."
     StringKey.WalkDetailDeleteConfirmYes -> "Да"
     StringKey.WalkDetailDeleteConfirmNo -> "Нет"
+    StringKey.WalkDetailMushroomsCountOne -> "гриб"
+    StringKey.WalkDetailMushroomsCountFew -> "гриба"
+    StringKey.WalkDetailMushroomsCountMany -> "грибов"
 
     StringKey.MapToggleMap -> "Карта"
     StringKey.MapToggleStats -> "Статистика"
@@ -200,6 +224,9 @@ private fun englishStrings(key: StringKey): String = when (key) {
         "The walk and all its finds will be permanently deleted. This cannot be undone."
     StringKey.WalkDetailDeleteConfirmYes -> "Yes"
     StringKey.WalkDetailDeleteConfirmNo -> "No"
+    StringKey.WalkDetailMushroomsCountOne -> "mushroom"
+    StringKey.WalkDetailMushroomsCountFew -> "mushrooms"
+    StringKey.WalkDetailMushroomsCountMany -> "mushrooms"
 
     StringKey.MapToggleMap -> "Map"
     StringKey.MapToggleStats -> "Statistics"
