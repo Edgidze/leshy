@@ -1,6 +1,7 @@
 package compose.project.leshy.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,14 +12,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddLocation
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -36,7 +41,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -120,6 +127,8 @@ private fun RecordScreenContent(
     onRemoveMushroom: (Long) -> Unit,
     onPhotoClick: () -> Unit,
     onFilterClick: () -> Unit,
+    onMarkLocationClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     var showNameDialog by remember { mutableStateOf(false) }
@@ -188,6 +197,12 @@ private fun RecordScreenContent(
                 ) {
                     when {
                         !uiState.isRecording -> {
+                            RecordSideButton(
+                                icon = Icons.Filled.AddLocation,
+                                contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
+                                onClick = onMarkLocationClick,
+                                modifier = Modifier.weight(1f).fillMaxWidth(),
+                            )
                             Button(
                                 onClick = { showNameDialog = true },
                                 shape = ACTION_BUTTON_SHAPE,
@@ -195,8 +210,20 @@ private fun RecordScreenContent(
                             ) {
                                 Text(stringResource(StringKey.RecordStart))
                             }
+                            RecordSideButton(
+                                icon = Icons.Filled.Search,
+                                contentDescription = stringResource(StringKey.RecordSearchContentDescription),
+                                onClick = onSearchClick,
+                                modifier = Modifier.weight(1f).fillMaxWidth(),
+                            )
                         }
                         !uiState.isPaused -> {
+                            RecordSideButton(
+                                icon = Icons.Filled.AddLocation,
+                                contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
+                                onClick = onMarkLocationClick,
+                                modifier = Modifier.weight(1f).fillMaxWidth(),
+                            )
                             Button(
                                 onClick = onPauseOrResumeClick,
                                 shape = ACTION_BUTTON_SHAPE,
@@ -204,6 +231,12 @@ private fun RecordScreenContent(
                             ) {
                                 Text(stringResource(StringKey.RecordPause))
                             }
+                            RecordSideButton(
+                                icon = Icons.Filled.Search,
+                                contentDescription = stringResource(StringKey.RecordSearchContentDescription),
+                                onClick = onSearchClick,
+                                modifier = Modifier.weight(1f).fillMaxWidth(),
+                            )
                         }
                         else -> {
                             Button(
@@ -257,6 +290,36 @@ private fun RecordScreenContent(
             },
             onDismissRequest = { showNameDialog = false },
         )
+    }
+}
+
+/**
+ * Small round button flanking the single centered action button (START or Pause) — hidden once
+ * paused, when the Resume/Finish pair fills the whole row and would otherwise overlap it.
+ */
+@Composable
+private fun RecordSideButton(
+    icon: ImageVector,
+    contentDescription: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+        IconButton(
+            onClick = onClick,
+            modifier = Modifier
+                .size(ACTION_BUTTON_HEIGHT)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.secondaryContainer)
+                .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = contentDescription,
+                tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                modifier = Modifier.size(ACTION_BUTTON_HEIGHT / 2),
+            )
+        }
     }
 }
 

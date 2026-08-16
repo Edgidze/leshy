@@ -62,6 +62,8 @@ enum class StringKey {
     RecordSetWalkNameTitle,
     RecordDefaultWalkNamePrefix,
     RecordConfirmWalkNameContentDescription,
+    RecordMarkLocationContentDescription,
+    RecordSearchContentDescription,
 
     ArchiveEmpty,
     WalkDetailStartTime,
