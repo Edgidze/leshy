@@ -24,7 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddLocation
+import androidx.compose.material.icons.filled.AddLocationAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
@@ -228,7 +228,7 @@ private fun RecordScreenContent(
                     when {
                         !uiState.isRecording -> {
                             RecordSideButton(
-                                icon = Icons.Filled.AddLocation,
+                                icon = Icons.Filled.AddLocationAlt,
                                 contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
                                 onClick = onMarkLocationClick,
                                 modifier = Modifier.weight(1f).fillMaxWidth(),
@@ -249,7 +249,7 @@ private fun RecordScreenContent(
                         }
                         !uiState.isPaused -> {
                             RecordSideButton(
-                                icon = Icons.Filled.AddLocation,
+                                icon = Icons.Filled.AddLocationAlt,
                                 contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
                                 onClick = onMarkLocationClick,
                                 modifier = Modifier.weight(1f).fillMaxWidth(),
