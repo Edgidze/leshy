@@ -3,6 +3,7 @@ package compose.project.leshy.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +29,7 @@ import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.domain.model.Walk
 import compose.project.leshy.ui.util.formatDateOnly
 import compose.project.leshy.ui.util.formatDistanceKm
-import compose.project.leshy.ui.util.formatDuration
+import compose.project.leshy.ui.util.formatDurationShort
 
 private val THUMBNAIL_SIZE = 120.dp
 private val WALK_CARD_PADDING = 8.dp
@@ -60,12 +61,13 @@ fun WalkCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Row(
+                FlowRow(
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     Text(formatDistanceKm(walk.distanceMeters))
-                    Text(walk.endTime?.let { formatDuration(it - walk.startTime) } ?: "—")
+                    Text(walk.endTime?.let { formatDurationShort(it - walk.startTime) } ?: "—")
                     Text("🍄 ${walk.mushroomCount}")
                 }
             }

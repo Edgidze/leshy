@@ -33,22 +33,31 @@ private const val FIND_COLOR = "#B3261E" // Material3 baseline light colorScheme
 
 class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnailRenderer {
 
-    override suspend fun render(walkId: Long, track: List<GeoPoint>, findLocations: List<GeoPoint>): String? {
-        if (track.size < 2) return null
+    override suspend fun render(
+        walkId: Long,
+        track: List<GeoPoint>,
+        findLocations: List<GeoPoint>,
+        anchor: GeoPoint?,
+    ): String? {
+        if (track.isEmpty() && findLocations.isEmpty() && anchor == null) return null
         return try {
-            val snapshot = takeSnapshot(track, findLocations) ?: return null
-            withContext(Dispatchers.IO) { writeAnnotated(walkId, snapshot, track, findLocations) }
+            val snapshot = takeSnapshot(track, findLocations, anchor) ?: return null
+            withContext(Dispatchers.IO) { writeAnnotated(walkId, snapshot, track, findLocations, anchor) }
         } catch (_: Exception) {
             null
         }
     }
 
     // MapSnapshotter is @UiThread-only ("for access to the main looper").
-    private suspend fun takeSnapshot(track: List<GeoPoint>, findLocations: List<GeoPoint>): MapSnapshot? =
+    private suspend fun takeSnapshot(
+        track: List<GeoPoint>,
+        findLocations: List<GeoPoint>,
+        anchor: GeoPoint?,
+    ): MapSnapshot? =
         withContext(Dispatchers.Main) {
             suspendCancellableCoroutine { continuation ->
                 val boundsBuilder = LatLngBounds.Builder()
-                (track + findLocations).forEach { boundsBuilder.include(LatLng(it.lat, it.lon)) }
+                (track + findLocations + listOfNotNull(anchor)).forEach { boundsBuilder.include(LatLng(it.lat, it.lon)) }
                 val region = padIfDegenerate(boundsBuilder.build())
 
                 val options = MapSnapshotter.Options(THUMBNAIL_PIXELS, THUMBNAIL_PIXELS)
@@ -81,6 +90,7 @@ class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnail
         snapshot: MapSnapshot,
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
+        anchor: GeoPoint?,
     ): String? {
         val mutableBitmap = snapshot.bitmap.copy(Bitmap.Config.ARGB_8888, true) ?: return null
         val canvas = Canvas(mutableBitmap)
@@ -94,12 +104,26 @@ class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnail
             strokeCap = Paint.Cap.ROUND
             strokeJoin = Paint.Join.ROUND
         }
-        val path = Path()
-        track.forEachIndexed { index, point ->
-            val pixel = pixelOf(point)
-            if (index == 0) path.moveTo(pixel.x, pixel.y) else path.lineTo(pixel.x, pixel.y)
+        if (track.size >= 2) {
+            val path = Path()
+            track.forEachIndexed { index, point ->
+                val pixel = pixelOf(point)
+                if (index == 0) path.moveTo(pixel.x, pixel.y) else path.lineTo(pixel.x, pixel.y)
+            }
+            canvas.drawPath(path, routePaint)
+        } else {
+            // Too few track points for a route line (short walk) — mark the single known
+            // location instead of leaving the map background bare.
+            val locationDot = track.firstOrNull() ?: anchor
+            if (locationDot != null) {
+                val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = Color.parseColor(ROUTE_COLOR)
+                    style = Paint.Style.FILL
+                }
+                val pixel = pixelOf(locationDot)
+                canvas.drawCircle(pixel.x, pixel.y, 6f, fillPaint)
+            }
         }
-        canvas.drawPath(path, routePaint)
 
         val findPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.parseColor(FIND_COLOR)
