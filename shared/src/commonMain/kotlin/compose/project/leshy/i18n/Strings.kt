@@ -44,6 +44,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsContentDescription -> "Настройки"
     StringKey.SettingsLanguageTitle -> "Язык"
     StringKey.SettingsCategoriesTitle -> "Грибы для отметки"
+    StringKey.SettingsMushroomSizeTitle -> "Настройте размер грибов на карте"
 
     StringKey.NavHomeContentDescription -> "На главную"
     StringKey.HelpContentDescription -> "Помощь"
@@ -154,6 +155,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsContentDescription -> "Settings"
     StringKey.SettingsLanguageTitle -> "Language"
     StringKey.SettingsCategoriesTitle -> "Mushrooms to track"
+    StringKey.SettingsMushroomSizeTitle -> "Adjust mushroom size on the map"
 
     StringKey.NavHomeContentDescription -> "Home"
     StringKey.HelpContentDescription -> "Help"

@@ -109,10 +109,11 @@ fun LiveTrackMap(
                     val marksSource = rememberGeoJsonSource(
                         GeoJsonData.Features(MultiPoint(group.map { Position(it.lon, it.lat) })),
                     )
+                    val markerSize = mushroomMarkerSize
                     SymbolLayer(
                         id = "marks-$iconRef",
                         source = marksSource,
-                        iconImage = image(painter, size = DpSize(MUSHROOM_MARKER_SIZE, MUSHROOM_MARKER_SIZE)),
+                        iconImage = image(painter, size = DpSize(markerSize, markerSize)),
                         iconAllowOverlap = const(true),
                     )
                 }

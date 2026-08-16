@@ -2,6 +2,7 @@ package compose.project.leshy.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,17 +11,29 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.AppLanguage
+import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
+import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MIN
 import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.settings.SettingsViewModel
+import compose.project.leshy.ui.map.MUSHROOM_MARKER_BASE_SIZE
 import leshy.shared.generated.resources.Res
+import leshy.shared.generated.resources.allDrawableResources
 import leshy.shared.generated.resources.leshy_logo
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -52,6 +65,51 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
                     Text(language.displayName)
                 }
             }
+        }
+
+        Text(
+            stringResource(StringKey.SettingsMushroomSizeTitle),
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+        )
+        MushroomMarkerSizeSlider(
+            scale = uiState.mushroomMarkerSizeScale,
+            previewCategory = uiState.previewCategory,
+            onScaleChangeFinished = viewModel::setMushroomMarkerSizeScale,
+        )
+    }
+}
+
+/**
+ * A single-thumb [Slider] plus a preview photo below it that's resized live as the thumb is
+ * dragged — [sliderValue] (not [scale]) drives the preview, so it tracks the drag with zero lag;
+ * [scale] only commits to the [SettingsViewModel] (and from there, `DataStore`) once the drag ends,
+ * same "local slider state + `onValueChangeFinished`" pattern `MapFilterDialog`'s range sliders use.
+ */
+@Composable
+private fun MushroomMarkerSizeSlider(
+    scale: Float,
+    previewCategory: Category?,
+    onScaleChangeFinished: (Float) -> Unit,
+) {
+    var sliderValue by remember(scale) { mutableStateOf(scale) }
+
+    Slider(
+        value = sliderValue,
+        onValueChange = { sliderValue = it },
+        valueRange = MUSHROOM_MARKER_SIZE_SCALE_MIN..MUSHROOM_MARKER_SIZE_SCALE_MAX,
+        onValueChangeFinished = { onScaleChangeFinished(sliderValue) },
+        modifier = Modifier.fillMaxWidth(),
+    )
+
+    val drawable = previewCategory?.iconRef?.let { Res.allDrawableResources[it] }
+    if (previewCategory != null && drawable != null) {
+        Box(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), contentAlignment = Alignment.Center) {
+            Image(
+                painter = painterResource(drawable),
+                contentDescription = categoryDisplayName(previewCategory.nameKey),
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(MUSHROOM_MARKER_BASE_SIZE * sliderValue),
+            )
         }
     }
 }
