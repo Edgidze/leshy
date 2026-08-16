@@ -43,9 +43,10 @@ import org.koin.compose.viewmodel.koinViewModel
 // offset must reliably clear it: `barHeight(2dp) + textSize(8dp) + textBarMargin(2dp) +
 // 2*borderWidth(2dp) = 14dp` of scale-bar content, plus the library's own fixed 8dp top inset
 // (android-plugin-scalebar-v9 3.0.2 defaults, applied by maplibre-compose's AndroidScaleBar) puts
-// its bottom edge around 22.dp from the map's top edge — 40.dp leaves a clear visual gap below it.
+// its bottom edge around 22.dp from the map's top edge — 31.dp leaves a half-sized (9.dp) visual
+// gap below it (was 18.dp).
 // In Stats mode there's no map at all (a flat text list), so nothing to clear there.
-private val FILTER_BUTTON_OFFSET_MAP = 40.dp
+private val FILTER_BUTTON_OFFSET_MAP = 31.dp
 private val FILTER_BUTTON_OFFSET_STATS = (-6).dp
 
 @Composable

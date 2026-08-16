@@ -97,19 +97,6 @@ Android + iOS. Текущий прогресс — смотри `git log`, не 
 
 ## Перед публикацией
 
-Перед финальным шагом публикации (Google Play / App Store) — обязательна широкая проверка
-зависимостей на предмет supply-chain рисков:
-
-1. Прогнать все версии из `gradle/libs.versions.toml` через OSV.dev
-   (`https://api.osv.dev/v1/querybatch`, ecosystem `Maven`) на предмет известных CVE.
-2. Убедиться, что `settings.gradle.kts` по-прежнему ограничивает разрешение зависимостей только
-   `google()`/`mavenCentral()` — никаких сторонних/приватных репозиториев не добавилось.
-3. Точечно проверить репутацию/происхождение любых новых или менее устоявшихся зависимостей
-   (не от `androidx.*`/`org.jetbrains.*`/крупных организаций) — кто мейнтейнер, публикуется ли
-   через официальный канал (Maven Central/Gradle Plugin Portal), нет ли признаков компрометации.
-
-Это осознанная альтернатива постоянно поддерживаемому Gradle dependency locking/verification
-(`gradle/verification-metadata.xml`) — для этого проекта решили не тащить их ongoing maintenance
-cost, а вместо этого делать разовую широкую проверку прямо перед релизом. Причина и когда стоит
-пересмотреть это решение — см. память `feedback-dependency-locking-decision` (общая, не
-привязанная к этому проекту).
+Перед финальным шагом публикации (Google Play / App Store) — обязателен supply-chain аудит
+зависимостей. Полный чеклист — навык `pre-release-audit`
+(`.claude/skills/pre-release-audit/SKILL.md`).

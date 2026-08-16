@@ -49,9 +49,10 @@
   раньше был компас) — в `mapOrnamentOptions` (`MapRenderOptions.kt`).
   Побочный эффект: линейка масштаба видна всегда (не только компас при
   повороте) — кнопка «Filters: N» на «Карте»/«Записи» сдвинута с 16.dp до
-  40.dp, посчитано из дефолтных dimen-ресурсов
-  `android-plugin-scalebar-v9` (`barHeight+textSize+textBarMargin+
-  2×borderWidth=14dp` + фиксированные 8dp ≈ 22dp занимаемой высоты).
+  31.dp (было 40.dp, зазор под линейкой сокращён вдвое), посчитано из
+  дефолтных dimen-ресурсов `android-plugin-scalebar-v9`
+  (`barHeight+textSize+textBarMargin+2×borderWidth=14dp` + фиксированные
+  8dp ≈ 22dp занимаемой высоты).
 - **`WalkMapScreen.kt`: `Scaffold`'ный `padding` должен применяться к
   карте** — если забыть (`Modifier.fillMaxSize()` без `.padding(padding)`),
   карта рисуется от `y=0`, и всё, что MapLibre позиционирует «у верхнего
