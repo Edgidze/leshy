@@ -2,12 +2,14 @@ package compose.project.leshy.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -31,6 +34,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,17 +54,22 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.data.platform.rememberCameraLauncher
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
+import compose.project.leshy.i18n.LocalAppLanguage
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.record.RecordUiState
 import compose.project.leshy.presentation.record.RecordViewModel
+import compose.project.leshy.presentation.searchOrderedCategories
 import compose.project.leshy.ui.components.CameraTile
 import compose.project.leshy.ui.components.MapFilterButton
 import compose.project.leshy.ui.components.MapFilterDialog
+import compose.project.leshy.ui.components.MushroomPhoto
 import compose.project.leshy.ui.components.MushroomTile
 import compose.project.leshy.ui.components.RECORD_MUSHROOM_TILE_WIDTH
 import compose.project.leshy.ui.map.LiveTrackMap
@@ -69,6 +78,7 @@ import compose.project.leshy.ui.theme.LeshyTheme
 import compose.project.leshy.ui.util.formatDateOnly
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDuration
+import compose.project.leshy.ui.util.parseHexColor
 import org.koin.compose.viewmodel.koinViewModel
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
@@ -84,6 +94,7 @@ fun RecordScreen(
     val uiState by viewModel.uiState.collectAsState()
     val takePhoto = rememberCameraLauncher { path -> viewModel.onPhotoCaptured(path) }
     var showFilterDialog by remember { mutableStateOf(false) }
+    var showSearchDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(uiState.justFinished) {
         if (uiState.justFinished) {
@@ -104,11 +115,23 @@ fun RecordScreen(
         onRemoveMushroom = viewModel::removeMushroom,
         onPhotoClick = takePhoto,
         onFilterClick = { showFilterDialog = true },
+        onSearchClick = { showSearchDialog = true },
         modifier = modifier,
     )
 
     if (showFilterDialog) {
         MapFilterDialog(onDismissRequest = { showFilterDialog = false })
+    }
+
+    if (showSearchDialog) {
+        MushroomSearchDialog(
+            categories = uiState.categories,
+            onSelect = { categoryId ->
+                viewModel.bringCategoryToFront(categoryId)
+                showSearchDialog = false
+            },
+            onDismissRequest = { showSearchDialog = false },
+        )
     }
 }
 
@@ -133,6 +156,13 @@ private fun RecordScreenContent(
 ) {
     var showNameDialog by remember { mutableStateOf(false) }
     val categoryById = uiState.categories.associateBy { it.id }
+    val tileListState = rememberLazyListState()
+
+    LaunchedEffect(uiState.scrollToStartSignal) {
+        if (uiState.scrollToStartSignal > 0) {
+            tileListState.animateScrollToItem(0)
+        }
+    }
 
     Column(modifier = modifier.fillMaxSize()) {
         Row(
@@ -259,6 +289,7 @@ private fun RecordScreenContent(
                 }
 
                 LazyRow(
+                    state = tileListState,
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)),
@@ -374,6 +405,83 @@ private fun WalkNameDialog(onConfirm: (String) -> Unit, onDismissRequest: () -> 
             }
         },
     )
+}
+
+/**
+ * Lets the user jump straight to a mushroom's tile in a long catalog by typing its name, instead
+ * of scrolling the feed. Selecting a result just surfaces that tile at the front of the feed (via
+ * [RecordViewModel.bringCategoryToFront]) — it does not itself log a find, unlike tapping the
+ * tile's own + button back on the record screen.
+ */
+@Composable
+private fun MushroomSearchDialog(
+    categories: List<Category>,
+    onSelect: (Long) -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    var query by remember { mutableStateOf("") }
+    val language = LocalAppLanguage.current
+    val orderedCategories = remember(categories, query, language) {
+        searchOrderedCategories(categories, query, language)
+    }
+    val resultListState = rememberLazyListState()
+
+    LaunchedEffect(query) {
+        resultListState.animateScrollToItem(0)
+    }
+
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxWidth(0.92f),
+            shape = RoundedCornerShape(24.dp),
+            tonalElevation = 4.dp,
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = stringResource(StringKey.RecordSearchDialogTitle),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { query = it },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                LazyRow(
+                    state = resultListState,
+                    contentPadding = PaddingValues(vertical = 4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    items(orderedCategories, key = { it.id }) { category ->
+                        SearchResultTile(
+                            category = category,
+                            onClick = { onSelect(category.id) },
+                            modifier = Modifier.width(TILE_WIDTH),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchResultTile(category: Category, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .aspectRatio(1.5f)
+            .clip(RoundedCornerShape(12.dp))
+            .border(2.dp, parseHexColor(category.colorHex), RoundedCornerShape(12.dp))
+            .clickable(onClick = onClick),
+    ) {
+        MushroomPhoto(category = category, modifier = Modifier.fillMaxSize())
+    }
 }
 
 // A handful of real catalog entries (see EnsureDefaultCategoriesUseCase) — enough variety

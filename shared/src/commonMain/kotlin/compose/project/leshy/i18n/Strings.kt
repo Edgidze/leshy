@@ -99,6 +99,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.RecordConfirmWalkNameContentDescription -> "Принять"
     StringKey.RecordMarkLocationContentDescription -> "Отметить место"
     StringKey.RecordSearchContentDescription -> "Поиск"
+    StringKey.RecordSearchDialogTitle -> "Выберите необходимый гриб"
 
     StringKey.ArchiveEmpty -> "Прогулок пока нет"
     StringKey.WalkDetailStartTime -> "Старт"
@@ -218,6 +219,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.RecordConfirmWalkNameContentDescription -> "Confirm"
     StringKey.RecordMarkLocationContentDescription -> "Mark location"
     StringKey.RecordSearchContentDescription -> "Search"
+    StringKey.RecordSearchDialogTitle -> "Choose the mushroom you need"
 
     StringKey.ArchiveEmpty -> "No walks recorded yet"
     StringKey.WalkDetailStartTime -> "Started"
