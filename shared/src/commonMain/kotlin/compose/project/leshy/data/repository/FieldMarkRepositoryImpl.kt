@@ -39,6 +39,8 @@ private fun ObjectEntity.toDomain() = FieldMark(
     timestamp = timestamp,
     type = MarkType.valueOf(type.name),
     photoPath = photoPath,
+    name = name,
+    description = description,
 )
 
 private fun FieldMark.toEntity() = ObjectEntity(
@@ -50,4 +52,6 @@ private fun FieldMark.toEntity() = ObjectEntity(
     timestamp = timestamp,
     type = ObjectType.valueOf(type.name),
     photoPath = photoPath,
+    name = name,
+    description = description,
 )

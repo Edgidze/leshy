@@ -17,7 +17,7 @@ import compose.project.leshy.domain.repository.MapFilterRepository
 import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.repository.WalkRepository
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
-import compose.project.leshy.domain.usecase.AddPhotoMarkUseCase
+import compose.project.leshy.domain.usecase.AddPlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.MISC_CATEGORY_NAME_KEY
@@ -65,7 +65,7 @@ class RecordViewModel(
     private val recordTrackPoint: RecordTrackPointUseCase,
     private val addMushroomMark: AddMushroomMarkUseCase,
     private val removeLastMushroomMark: RemoveLastMushroomMarkUseCase,
-    private val addPhotoMark: AddPhotoMarkUseCase,
+    private val addPlaceMark: AddPlaceMarkUseCase,
     private val walkThumbnailRenderer: WalkThumbnailRenderer,
     private val updateWalkThumbnail: UpdateWalkThumbnailUseCase,
 ) : ViewModel() {
@@ -269,10 +269,17 @@ class RecordViewModel(
         }
     }
 
-    fun onPhotoCaptured(photoPath: String) {
+    fun addPlace(name: String, description: String, photoPath: String?) {
         val currentWalkId = walkId ?: return
         viewModelScope.launch {
-            val mark = addPhotoMark(currentWalkId, _uiState.value.currentLocation, currentTimeMillis(), photoPath)
+            val mark = addPlaceMark(
+                currentWalkId,
+                _uiState.value.currentLocation,
+                currentTimeMillis(),
+                name,
+                description,
+                photoPath,
+            )
             _uiState.update { state -> state.copy(marks = state.marks + mark) }
         }
     }

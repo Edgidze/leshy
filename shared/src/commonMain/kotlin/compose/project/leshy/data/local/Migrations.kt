@@ -37,3 +37,12 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
         connection.execSQL("ALTER TABLE walks ADD COLUMN thumbnailPath TEXT")
     }
 }
+
+// Additive-only: backs the "add place" feature (POI-typed objects rows) — existing rows get
+// name/description = null, which is also their steady-state value for MUSHROOM/PHOTO rows.
+val MIGRATION_3_4 = object : Migration(3, 4) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE objects ADD COLUMN name TEXT")
+        connection.execSQL("ALTER TABLE objects ADD COLUMN description TEXT")
+    }
+}

@@ -101,4 +101,14 @@ fun formatDistanceKm(meters: Double): String {
     return "$whole.${fraction.toString().padStart(2, '0')} ${stringResource(StringKey.UnitKilometers)}"
 }
 
+/** "lat, lon" at fixed 6-decimal precision (~0.1 m), e.g. "55.751244, 37.618423". */
+fun formatCoordinates(lat: Double, lon: Double): String = "${formatCoordinate(lat)}, ${formatCoordinate(lon)}"
+
+private fun formatCoordinate(value: Double): String {
+    val negative = value < 0
+    val scaled = ((if (negative) -value else value) * 1_000_000).toLong()
+    val sign = if (negative) "-" else ""
+    return "$sign${scaled / 1_000_000}.${(scaled % 1_000_000).toString().padStart(6, '0')}"
+}
+
 private fun Long.pad(): String = if (this < 10) "0$this" else toString()

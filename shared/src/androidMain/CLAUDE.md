@@ -26,9 +26,13 @@ Location (не тянуть лишнюю зависимость). Эмитит `
 
 ## Разрешения
 
-`MainActivity.onCreate` — единственное место, где разрешениям правда нужен
-Activity: `ACCESS_FINE_LOCATION`+`CAMERA` (+`POST_NOTIFICATIONS` на 13+) одним
-батчем.
+`MainActivity.onCreate` — единственное место, где `ACCESS_FINE_LOCATION`
+(+`POST_NOTIFICATIONS` на 13+) запрашиваются проактивно, одним батчем, т.к.
+GPS нужен сразу. **`CAMERA` туда намеренно не входит** — единственный
+потребитель (плейсхолдер фото в `AddPlaceDialog`) запрашивает его лениво,
+только по клику, через `rememberCameraPermissionRequester`
+(`data/platform/CameraPermission.kt`) — проверяет текущий статус и просит
+систему только если разрешения ещё нет.
 
 ## Прочее
 

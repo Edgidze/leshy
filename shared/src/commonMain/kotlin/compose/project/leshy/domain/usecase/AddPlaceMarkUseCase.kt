@@ -6,13 +6,20 @@ import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.FieldMarkRepository
 
-class AddPhotoMarkUseCase(
+class AddPlaceMarkUseCase(
     private val fieldMarkRepository: FieldMarkRepository,
     private val categoryRepository: CategoryRepository,
 ) {
-    suspend operator fun invoke(walkId: Long, location: GeoPoint?, timestamp: Long, photoPath: String): FieldMark {
+    suspend operator fun invoke(
+        walkId: Long,
+        location: GeoPoint?,
+        timestamp: Long,
+        name: String,
+        description: String,
+        photoPath: String?,
+    ): FieldMark {
         val miscCategory = categoryRepository.getByNameKey(MISC_CATEGORY_NAME_KEY)
-        requireNotNull(miscCategory) { "Misc category must exist before recording photo marks" }
+        requireNotNull(miscCategory) { "Misc category must exist before recording place marks" }
         val mark = FieldMark(
             id = 0,
             walkId = walkId,
@@ -20,8 +27,10 @@ class AddPhotoMarkUseCase(
             lat = location?.lat ?: 0.0,
             lon = location?.lon ?: 0.0,
             timestamp = timestamp,
-            type = MarkType.PHOTO,
+            type = MarkType.POI,
             photoPath = photoPath,
+            name = name,
+            description = description,
         )
         val id = fieldMarkRepository.addMark(mark)
         return mark.copy(id = id)

@@ -38,4 +38,6 @@ data class ObjectEntity(
     val timestamp: Long,
     val type: ObjectType,
     val photoPath: String?,
+    val name: String? = null,
+    val description: String? = null,
 )

@@ -15,4 +15,6 @@ data class FieldMark(
     val timestamp: Long,
     val type: MarkType,
     val photoPath: String?,
+    val name: String? = null,
+    val description: String? = null,
 )

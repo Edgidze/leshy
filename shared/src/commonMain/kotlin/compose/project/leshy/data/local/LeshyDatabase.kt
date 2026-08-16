@@ -21,7 +21,7 @@ import compose.project.leshy.data.local.entity.WalkEntity
         ObjectEntity::class,
         TrackPointEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
