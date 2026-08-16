@@ -161,10 +161,12 @@ private fun RecordScreenContent(
                 )
             }
 
+            // 40.dp clears the native scale bar, which now shares this corner with the compass
+            // swapped away (see mapOrnamentOptions) — same rationale as MapScreen.kt.
             MapFilterButton(
                 filterCount = uiState.filterCount,
                 onClick = onFilterClick,
-                modifier = Modifier.align(Alignment.TopEnd).padding(16.dp),
+                modifier = Modifier.align(Alignment.TopEnd).padding(top = 40.dp, end = 16.dp),
             )
 
             // Buttons float directly over the map (no opaque backing), the tile scroller below

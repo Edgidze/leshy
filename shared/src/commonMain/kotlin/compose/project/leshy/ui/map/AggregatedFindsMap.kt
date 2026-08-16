@@ -55,7 +55,7 @@ fun AggregatedFindsMap(
         modifier = modifier,
         baseStyle = OpenFreeMapStyle,
         cameraState = cameraState,
-        options = MapOptions(renderOptions = mapRenderOptions),
+        options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
     ) {
         tracks.forEach { (walkId, points) ->
             if (points.size >= 2) {

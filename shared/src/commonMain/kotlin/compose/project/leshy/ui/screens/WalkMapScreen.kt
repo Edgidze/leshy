@@ -1,6 +1,7 @@
 package compose.project.leshy.ui.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -47,7 +48,7 @@ fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
                 )
             },
             currentLocation = null,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(padding),
         )
     }
 }

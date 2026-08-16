@@ -37,15 +37,15 @@ import compose.project.leshy.ui.map.MapMarker
 import compose.project.leshy.ui.util.formatDistanceKm
 import org.koin.compose.viewmodel.koinViewModel
 
-// In Map mode the button floats over the live map, which fills the whole area regardless of the
-// button's own inset, so its usual 16.dp corner offset costs nothing visually. In Stats mode
-// there's no map underneath it — a flat text list — so that same offset would just be dead space
-// above the button. The segmented row above (SingleChoiceSegmentedButtonRow) reserves its own
-// 16.dp of blank padding below itself regardless of mode; a negative offset in Stats mode pulls
-// the button up into that already-blank margin (nothing to collide with), taking the total gap
-// between the row and the button from 16(row)+4(previous Stats offset)=20.dp down to
-// 16(row)-6(new Stats offset)=10.dp — half of what it was.
-private val FILTER_BUTTON_OFFSET_MAP = 16.dp
+// In Map mode the button now shares its TopEnd corner with the native scale bar (see
+// mapOrnamentOptions — swapped there with the compass so the compass doesn't sit under the
+// button). The scale bar is always visible (not just while rotated, unlike the compass), so this
+// offset must reliably clear it: `barHeight(2dp) + textSize(8dp) + textBarMargin(2dp) +
+// 2*borderWidth(2dp) = 14dp` of scale-bar content, plus the library's own fixed 8dp top inset
+// (android-plugin-scalebar-v9 3.0.2 defaults, applied by maplibre-compose's AndroidScaleBar) puts
+// its bottom edge around 22.dp from the map's top edge — 40.dp leaves a clear visual gap below it.
+// In Stats mode there's no map at all (a flat text list), so nothing to clear there.
+private val FILTER_BUTTON_OFFSET_MAP = 40.dp
 private val FILTER_BUTTON_OFFSET_STATS = (-6).dp
 
 @Composable

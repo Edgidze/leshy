@@ -88,7 +88,7 @@ fun LiveTrackMap(
         modifier = modifier,
         baseStyle = OpenFreeMapStyle,
         cameraState = cameraState,
-        options = MapOptions(renderOptions = mapRenderOptions),
+        options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
     ) {
         ClusteredFindsLayers(historicalMarkers, idPrefix = "historical")
 
