@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -37,11 +38,15 @@ import compose.project.leshy.ui.util.formatDistanceKm
 import org.koin.compose.viewmodel.koinViewModel
 
 // In Map mode the button floats over the live map, which fills the whole area regardless of the
-// button's own inset, so its usual 16.dp corner padding costs nothing visually. In Stats mode
-// there's no map underneath it — a flat text list — so the same inset would just be dead space
-// above the button; sliding it up close to the segmented row keeps the stats list compact.
-private val FILTER_BUTTON_TOP_PADDING_MAP = 16.dp
-private val FILTER_BUTTON_TOP_PADDING_STATS = 4.dp
+// button's own inset, so its usual 16.dp corner offset costs nothing visually. In Stats mode
+// there's no map underneath it — a flat text list — so that same offset would just be dead space
+// above the button. The segmented row above (SingleChoiceSegmentedButtonRow) reserves its own
+// 16.dp of blank padding below itself regardless of mode; a negative offset in Stats mode pulls
+// the button up into that already-blank margin (nothing to collide with), taking the total gap
+// between the row and the button from 16(row)+4(previous Stats offset)=20.dp down to
+// 16(row)-6(new Stats offset)=10.dp — half of what it was.
+private val FILTER_BUTTON_OFFSET_MAP = 16.dp
+private val FILTER_BUTTON_OFFSET_STATS = (-6).dp
 
 @Composable
 fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
@@ -87,17 +92,17 @@ fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
                 MapMode.STATS -> MapStatsView(stats = uiState.stats, modifier = Modifier.fillMaxSize())
             }
 
-            val filterButtonTopPadding by animateDpAsState(
+            val filterButtonOffset by animateDpAsState(
                 targetValue = if (uiState.mode == MapMode.STATS) {
-                    FILTER_BUTTON_TOP_PADDING_STATS
+                    FILTER_BUTTON_OFFSET_STATS
                 } else {
-                    FILTER_BUTTON_TOP_PADDING_MAP
+                    FILTER_BUTTON_OFFSET_MAP
                 },
             )
             MapFilterButton(
                 filterCount = uiState.filterCount,
                 onClick = { showFilterDialog = true },
-                modifier = Modifier.align(Alignment.TopEnd).padding(top = filterButtonTopPadding, end = 16.dp),
+                modifier = Modifier.align(Alignment.TopEnd).offset(y = filterButtonOffset).padding(end = 16.dp),
             )
         }
     }
@@ -116,7 +121,7 @@ private fun MapStatsView(stats: MapStats, modifier: Modifier = Modifier) {
         return
     }
 
-    Column(modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 60.dp)) {
+    Column(modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 50.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(stringResource(StringKey.MapStatsWalksCount))
             Text(stats.walkCount.toString())
