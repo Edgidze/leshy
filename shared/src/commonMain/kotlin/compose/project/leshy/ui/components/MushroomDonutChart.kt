@@ -46,7 +46,6 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 private const val RING_START_ANGLE_DEGREES = -90f
-private const val RING_SHRINK_FACTOR = 1.5f
 private const val CARD_SIZE_OF_RECORD_TILE = 0.75f
 private const val FRONT_Z_INDEX = Float.MAX_VALUE
 
@@ -81,8 +80,9 @@ private data class RingSlice(
 /**
  * Donut chart of mushroom species found on a walk: one ring segment per [CategoryCount], sized by
  * count and colored by [Category.colorHex], with the walk's total find count in the hole. The ring
- * itself is drawn [RING_SHRINK_FACTOR] smaller than the chart's outer bounds, freeing an annular
- * band around it where every species gets a bordered photo card next to its own sector — no
+ * is drawn smaller than the chart's outer bounds, freeing an annular band around it (sized to fit
+ * the card band exactly, so cards never draw outside the chart's own measured bounds) where every
+ * species gets a bordered photo card next to its own sector — no
  * count/buttons/edibility badge/name on the card (too little room at this size, and the finds list
  * above this chart already has name+count per species); tapping a card reports the species'
  * localized display name via [onMushroomClick] so the caller can surface it (walk detail shows it
@@ -111,9 +111,15 @@ fun MushroomDonutChart(counts: List<CategoryCount>, modifier: Modifier = Modifie
     var frontCategoryId by remember { mutableStateOf<Long?>(null) }
 
     BoxWithConstraints(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-        val ringDiameter = (maxWidth - OUTER_HORIZONTAL_MARGIN).coerceAtMost(MAX_OUTER_DIAMETER) / RING_SHRINK_FACTOR
-        val cardCenterRadius = ringDiameter / 2f + CARD_GAP + CARD_SIZE / 2f
-        val containerDiameter = ((cardCenterRadius + CARD_SIZE / 2f) * 2f).coerceAtMost(maxWidth)
+        // containerDiameter is the actual measured Box size (what the LazyColumn reserves space
+        // for), so ringDiameter/cardCenterRadius are derived FROM it rather than the other way
+        // around — otherwise the cards' unclamped offset radius can exceed the box's clamped
+        // size and paint outside it (over whatever list item follows), as happened before this
+        // was made the single source of truth.
+        val containerDiameter = (maxWidth - OUTER_HORIZONTAL_MARGIN).coerceAtMost(MAX_OUTER_DIAMETER)
+        val cardBand = CARD_GAP + CARD_SIZE
+        val ringDiameter = (containerDiameter - cardBand * 2f).coerceAtLeast(0.dp)
+        val cardCenterRadius = containerDiameter / 2f - CARD_SIZE / 2f
         val cardAngles = resolveCardAngles(slices, cardCenterRadius)
 
         Box(modifier = Modifier.size(containerDiameter), contentAlignment = Alignment.Center) {
