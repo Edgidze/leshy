@@ -23,6 +23,7 @@ class WalkDetailViewModel(
 ) : ViewModel() {
 
     private val showDeleteConfirmation = MutableStateFlow(false)
+    private val showEditDialog = MutableStateFlow(false)
     private val deleted = MutableStateFlow(false)
 
     private val _uiState = MutableStateFlow(WalkDetailUiState())
@@ -51,9 +52,24 @@ class WalkDetailViewModel(
                     categories = categories,
                 )
             }
-            combine(dataFlow, showDeleteConfirmation, deleted) { data, showConfirm, isDeleted ->
-                data.copy(showDeleteConfirmation = showConfirm, deleted = isDeleted)
+            combine(dataFlow, showDeleteConfirmation, showEditDialog, deleted) { data, showConfirm, showEdit, isDeleted ->
+                data.copy(showDeleteConfirmation = showConfirm, showEditDialog = showEdit, deleted = isDeleted)
             }.collect { state -> _uiState.value = state }
+        }
+    }
+
+    fun onEditClick() {
+        showEditDialog.value = true
+    }
+
+    fun onEditDismiss() {
+        showEditDialog.value = false
+    }
+
+    fun onEditConfirm(name: String) {
+        viewModelScope.launch {
+            showEditDialog.value = false
+            _uiState.value.walk?.let { walkRepository.update(it.copy(name = name)) }
         }
     }
 

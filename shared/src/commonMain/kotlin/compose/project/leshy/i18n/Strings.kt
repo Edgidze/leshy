@@ -115,6 +115,9 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.UnitKilometers -> "км"
     StringKey.WalkDetailFindsTitle -> "Находки по типам"
     StringKey.WalkDetailViewMap -> "Смотреть карту"
+    StringKey.WalkDetailEditContentDescription -> "Редактировать название прогулки"
+    StringKey.WalkDetailEditWalkNameTitle -> "Измените название прогулки:"
+    StringKey.WalkDetailConfirmEditWalkNameContentDescription -> "Принять"
     StringKey.WalkDetailDeleteContentDescription -> "Удалить прогулку"
     StringKey.WalkDetailDeleteConfirmTitle -> "Удалить прогулку?"
     StringKey.WalkDetailDeleteConfirmMessage ->
@@ -234,6 +237,9 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.UnitKilometers -> "km"
     StringKey.WalkDetailFindsTitle -> "Finds by type"
     StringKey.WalkDetailViewMap -> "View map"
+    StringKey.WalkDetailEditContentDescription -> "Edit walk name"
+    StringKey.WalkDetailEditWalkNameTitle -> "Edit the walk name:"
+    StringKey.WalkDetailConfirmEditWalkNameContentDescription -> "Confirm"
     StringKey.WalkDetailDeleteContentDescription -> "Delete walk"
     StringKey.WalkDetailDeleteConfirmTitle -> "Delete walk?"
     StringKey.WalkDetailDeleteConfirmMessage ->
