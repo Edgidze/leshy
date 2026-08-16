@@ -30,6 +30,7 @@ import compose.project.leshy.domain.util.computeFilterCount
 import compose.project.leshy.domain.util.matchesDateAndSeason
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.string
+import compose.project.leshy.presentation.applyRecencyOrder
 import compose.project.leshy.presentation.sortCategories
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -78,25 +79,32 @@ class RecordViewModel(
     private var tickerJob: Job? = null
     private var currentLanguage = AppLanguage.EN
 
+    // Most-recently-bumped category ids first — a tile jumps to the front of the feed each time
+    // it's added (or picked from search). Ephemeral, not persisted: reset to empty on every new
+    // walk start so the feed starts from the settings-driven default order again.
+    private val categoryOrder = MutableStateFlow<List<Long>>(emptyList())
+
     init {
         viewModelScope.launch { ensureDefaultCategories() }
         viewModelScope.launch {
             val sortSettings = combine(
                 settingsRepository.observeMushroomSortOrder(),
                 settingsRepository.observeLanguage(),
-            ) { sortOrder, language -> sortOrder to language }
+                categoryOrder,
+            ) { sortOrder, language, order -> Triple(sortOrder, language, order) }
             combine(
                 walkRepository.observeAll(),
                 fieldMarkRepository.observeAll(),
                 categoryRepository.observeAll(),
                 mapFilterRepository.observeFilter(),
                 sortSettings,
-            ) { walks, marks, categories, filter, (sortOrder, language) ->
-                val tileCategories = sortCategories(
+            ) { walks, marks, categories, filter, (sortOrder, language, order) ->
+                val defaultOrderCategories = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
                     sortOrder,
                     language,
                 )
+                val tileCategories = applyRecencyOrder(defaultOrderCategories, order)
                 val categoryById = categories.associateBy { it.id }
                 val matchingWalkIds = walks.filter { it.matchesDateAndSeason(filter) }.map { it.id }.toSet()
                 val historicalFinds = marks.filter {
@@ -158,6 +166,7 @@ class RecordViewModel(
             walkId = id
             trackSequence = 0
             lastPersistedPoint = null
+            categoryOrder.value = emptyList()
             backgroundRecordingController.start(currentLanguage)
             _uiState.update {
                 it.copy(
@@ -225,6 +234,7 @@ class RecordViewModel(
         val currentWalkId = walkId ?: return
         viewModelScope.launch {
             val mark = addMushroomMark(currentWalkId, categoryId, _uiState.value.currentLocation, currentTimeMillis())
+            bringCategoryToFront(categoryId)
             _uiState.update { state ->
                 val counts = state.mushroomCounts.toMutableMap()
                 counts[categoryId] = (counts[categoryId] ?: 0) + 1
@@ -233,11 +243,22 @@ class RecordViewModel(
         }
     }
 
+    /**
+     * Moves [categoryId]'s tile to the front of the feed without logging a find — used both by
+     * [addMushroom] and by the search dialog, where picking a result should surface its tile
+     * (per the user description) but not itself count as a find.
+     */
+    fun bringCategoryToFront(categoryId: Long) {
+        categoryOrder.update { current -> listOf(categoryId) + current.filter { it != categoryId } }
+        _uiState.update { it.copy(scrollToStartSignal = it.scrollToStartSignal + 1) }
+    }
+
     fun removeMushroom(categoryId: Long) {
         val currentWalkId = walkId ?: return
         viewModelScope.launch {
             val removed = removeLastMushroomMark(currentWalkId, categoryId)
             if (removed) {
+                bringCategoryToFront(categoryId)
                 _uiState.update { state ->
                     val counts = state.mushroomCounts.toMutableMap()
                     val newCount = (counts[categoryId] ?: 0) - 1

@@ -18,4 +18,6 @@ data class RecordUiState(
     val historicalFinds: List<FieldMark> = emptyList(),
     val filterCount: Int = 0,
     val justFinished: Boolean = false,
+    /** Bumped each time a tile is moved to the front of the feed — see [RecordViewModel.bringCategoryToFront]. */
+    val scrollToStartSignal: Int = 0,
 )

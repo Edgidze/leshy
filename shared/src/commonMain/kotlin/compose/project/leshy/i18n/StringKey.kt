@@ -63,6 +63,7 @@ enum class StringKey {
     RecordConfirmWalkNameContentDescription,
     RecordMarkLocationContentDescription,
     RecordSearchContentDescription,
+    RecordSearchDialogTitle,
 
     AddPlaceTitle,
     AddPlaceDefaultName,
