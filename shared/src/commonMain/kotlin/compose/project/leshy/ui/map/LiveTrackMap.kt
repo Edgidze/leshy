@@ -45,6 +45,7 @@ fun LiveTrackMap(
     markers: List<MapMarker>,
     currentLocation: GeoPoint?,
     modifier: Modifier,
+    historicalMarkers: List<MapMarker> = emptyList(),
 ) {
     val cameraState = rememberCameraState(
         firstPosition = CameraPosition(
@@ -89,6 +90,8 @@ fun LiveTrackMap(
         cameraState = cameraState,
         options = MapOptions(renderOptions = mapRenderOptions),
     ) {
+        ClusteredFindsLayers(historicalMarkers, idPrefix = "historical")
+
         if (track.size >= 2) {
             val trackSource = rememberGeoJsonSource(
                 GeoJsonData.Features(LineString(track.map { Position(it.lon, it.lat) })),

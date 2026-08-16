@@ -80,9 +80,27 @@ enum class StringKey {
 
     MapToggleMap,
     MapToggleStats,
-    MapPeriodAll,
     MapStatsWalksCount,
     MapStatsFindsCount,
+
+    MapFilterButtonLabel,
+    MapFilterDialogTitle,
+    MapFilterBackContentDescription,
+    MapFilterDateRangeTitle,
+    MapFilterMonthRangeTitle,
+
+    MonthJanuary,
+    MonthFebruary,
+    MonthMarch,
+    MonthApril,
+    MonthMay,
+    MonthJune,
+    MonthJuly,
+    MonthAugust,
+    MonthSeptember,
+    MonthOctober,
+    MonthNovember,
+    MonthDecember,
 
     BackgroundRecordingChannelName,
     BackgroundRecordingNotificationTitle,

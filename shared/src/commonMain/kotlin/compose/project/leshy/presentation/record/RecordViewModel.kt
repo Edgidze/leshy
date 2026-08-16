@@ -7,19 +7,27 @@ import compose.project.leshy.data.platform.LocationTracker
 import compose.project.leshy.data.platform.WalkThumbnailRenderer
 import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.domain.model.AppLanguage
+import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.repository.CategoryRepository
+import compose.project.leshy.domain.repository.FieldMarkRepository
+import compose.project.leshy.domain.repository.MapFilterRepository
 import compose.project.leshy.domain.repository.SettingsRepository
+import compose.project.leshy.domain.repository.WalkRepository
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.AddPhotoMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
+import compose.project.leshy.domain.usecase.MISC_CATEGORY_NAME_KEY
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.RenameWalkUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
 import compose.project.leshy.domain.usecase.UpdateWalkThumbnailUseCase
+import compose.project.leshy.domain.util.computeFilterCount
+import compose.project.leshy.domain.util.matchesDateAndSeason
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.string
 import kotlinx.coroutines.Job
@@ -27,13 +35,23 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 private const val TICK_INTERVAL_MILLIS = 1000L
 
+private data class RecordFilterState(
+    val categories: List<Category>,
+    val historicalFinds: List<FieldMark>,
+    val filterCount: Int,
+)
+
 class RecordViewModel(
     private val categoryRepository: CategoryRepository,
+    private val walkRepository: WalkRepository,
+    private val fieldMarkRepository: FieldMarkRepository,
+    private val mapFilterRepository: MapFilterRepository,
     private val locationTracker: LocationTracker,
     private val backgroundRecordingController: BackgroundRecordingController,
     private val settingsRepository: SettingsRepository,
@@ -61,8 +79,26 @@ class RecordViewModel(
     init {
         viewModelScope.launch { ensureDefaultCategories() }
         viewModelScope.launch {
-            categoryRepository.observeActive().collect { categories ->
-                _uiState.update { it.copy(categories = categories) }
+            combine(
+                walkRepository.observeAll(),
+                fieldMarkRepository.observeAll(),
+                categoryRepository.observeAll(),
+                mapFilterRepository.observeFilter(),
+            ) { walks, marks, categories, filter ->
+                val tileCategories = categories
+                    .filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive }
+                    .sortedBy { it.order }
+                val categoryById = categories.associateBy { it.id }
+                val matchingWalkIds = walks.filter { it.matchesDateAndSeason(filter) }.map { it.id }.toSet()
+                val historicalFinds = marks.filter {
+                    it.walkId in matchingWalkIds && it.type == MarkType.MUSHROOM &&
+                        categoryById[it.categoryId]?.isActive == true
+                }
+                RecordFilterState(tileCategories, historicalFinds, computeFilterCount(filter, walks, categories))
+            }.collect { s ->
+                _uiState.update {
+                    it.copy(categories = s.categories, historicalFinds = s.historicalFinds, filterCount = s.filterCount)
+                }
             }
         }
         viewModelScope.launch {
@@ -153,7 +189,13 @@ class RecordViewModel(
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
             walkId = null
             _uiState.update { state ->
-                RecordUiState(categories = state.categories, currentLocation = state.currentLocation, justFinished = true)
+                RecordUiState(
+                    categories = state.categories,
+                    currentLocation = state.currentLocation,
+                    historicalFinds = state.historicalFinds,
+                    filterCount = state.filterCount,
+                    justFinished = true,
+                )
             }
         }
         // Independent coroutine: a slow or offline tile fetch must never delay the Archive

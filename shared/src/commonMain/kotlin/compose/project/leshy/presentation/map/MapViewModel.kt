@@ -5,24 +5,23 @@ import androidx.lifecycle.viewModelScope
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.domain.model.MapFilter
 import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.model.TrackPoint
 import compose.project.leshy.domain.model.Walk
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.FieldMarkRepository
+import compose.project.leshy.domain.repository.MapFilterRepository
 import compose.project.leshy.domain.repository.TrackPointRepository
 import compose.project.leshy.domain.repository.WalkRepository
+import compose.project.leshy.domain.util.computeFilterCount
+import compose.project.leshy.domain.util.matchesDateAndSeason
 import compose.project.leshy.presentation.archive.CategoryCount
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.number
-import kotlinx.datetime.toLocalDateTime
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 
 private data class RawMapData(
     val walks: List<Walk>,
@@ -36,10 +35,10 @@ class MapViewModel(
     fieldMarkRepository: FieldMarkRepository,
     trackPointRepository: TrackPointRepository,
     categoryRepository: CategoryRepository,
+    mapFilterRepository: MapFilterRepository,
 ) : ViewModel() {
 
     private val _mode = MutableStateFlow(MapMode.MAP)
-    private val _selectedPeriod = MutableStateFlow<MapPeriod?>(null)
 
     private val _uiState = MutableStateFlow(MapUiState())
     val uiState: StateFlow<MapUiState> = _uiState.asStateFlow()
@@ -53,8 +52,8 @@ class MapViewModel(
                 categoryRepository.observeAll(),
             ) { walks, marks, trackPoints, categories -> RawMapData(walks, marks, trackPoints, categories) }
 
-            combine(rawData, _mode, _selectedPeriod) { raw, mode, period ->
-                buildUiState(raw, mode, period)
+            combine(rawData, _mode, mapFilterRepository.observeFilter()) { raw, mode, filter ->
+                buildUiState(raw, mode, filter)
             }.collect { state -> _uiState.value = state }
         }
     }
@@ -63,18 +62,9 @@ class MapViewModel(
         _mode.value = mode
     }
 
-    fun selectPeriod(period: MapPeriod?) {
-        _selectedPeriod.value = period
-    }
-
-    private fun buildUiState(raw: RawMapData, mode: MapMode, period: MapPeriod?): MapUiState {
-        val availablePeriods = raw.walks
-            .map { it.startTime.toMapPeriod() }
-            .distinct()
-            .sortedWith(compareByDescending<MapPeriod> { it.year }.thenByDescending { it.month })
-
+    private fun buildUiState(raw: RawMapData, mode: MapMode, filter: MapFilter): MapUiState {
         val filteredWalkIds = raw.walks
-            .filter { period == null || it.startTime.toMapPeriod() == period }
+            .filter { it.matchesDateAndSeason(filter) }
             .map { it.id }
             .toSet()
 
@@ -82,9 +72,11 @@ class MapViewModel(
             .filter { it.walkId in filteredWalkIds }
             .groupBy(TrackPoint::walkId) { GeoPoint(it.lat, it.lon, it.elevation, it.timestamp) }
 
-        val mushroomMarks = raw.marks.filter { it.walkId in filteredWalkIds && it.type == MarkType.MUSHROOM }
-
         val categoryById = raw.categories.associateBy { it.id }
+        val mushroomMarks = raw.marks.filter {
+            it.walkId in filteredWalkIds && it.type == MarkType.MUSHROOM && categoryById[it.categoryId]?.isActive == true
+        }
+
         val categoryCounts = mushroomMarks
             .groupingBy { it.categoryId }
             .eachCount()
@@ -93,8 +85,6 @@ class MapViewModel(
 
         return MapUiState(
             mode = mode,
-            availablePeriods = availablePeriods,
-            selectedPeriod = period,
             tracks = tracks,
             findMarks = mushroomMarks,
             categories = raw.categories,
@@ -104,12 +94,7 @@ class MapViewModel(
                 totalMushroomCount = mushroomMarks.size,
                 categoryCounts = categoryCounts,
             ),
+            filterCount = computeFilterCount(filter, raw.walks, raw.categories),
         )
     }
-}
-
-@OptIn(ExperimentalTime::class)
-private fun Long.toMapPeriod(): MapPeriod {
-    val dateTime = Instant.fromEpochMilliseconds(this).toLocalDateTime(TimeZone.currentSystemDefault())
-    return MapPeriod(dateTime.year, dateTime.month.number)
 }

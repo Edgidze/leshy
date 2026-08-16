@@ -52,6 +52,8 @@ import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.record.RecordUiState
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.ui.components.CameraTile
+import compose.project.leshy.ui.components.MapFilterButton
+import compose.project.leshy.ui.components.MapFilterDialog
 import compose.project.leshy.ui.components.MushroomTile
 import compose.project.leshy.ui.map.LiveTrackMap
 import compose.project.leshy.ui.map.MapMarker
@@ -69,6 +71,7 @@ private val TILE_WIDTH = 120.dp
 fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val takePhoto = rememberCameraLauncher { path -> viewModel.onPhotoCaptured(path) }
+    var showFilterDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(uiState.justFinished) {
         if (uiState.justFinished) {
@@ -88,7 +91,12 @@ fun RecordScreen(onFinished: () -> Unit, viewModel: RecordViewModel = koinViewMo
         onAddMushroom = viewModel::addMushroom,
         onRemoveMushroom = viewModel::removeMushroom,
         onPhotoClick = takePhoto,
+        onFilterClick = { showFilterDialog = true },
     )
+
+    if (showFilterDialog) {
+        MapFilterDialog(onDismissRequest = { showFilterDialog = false })
+    }
 }
 
 /**
@@ -105,6 +113,7 @@ private fun RecordScreenContent(
     onAddMushroom: (Long) -> Unit,
     onRemoveMushroom: (Long) -> Unit,
     onPhotoClick: () -> Unit,
+    onFilterClick: () -> Unit,
 ) {
     var showNameDialog by remember { mutableStateOf(false) }
     val categoryById = uiState.categories.associateBy { it.id }
@@ -138,10 +147,25 @@ private fun RecordScreenContent(
                             iconRef = category?.iconRef,
                         )
                     },
+                    historicalMarkers = uiState.historicalFinds.map { mark ->
+                        val category = categoryById[mark.categoryId]
+                        MapMarker(
+                            lat = mark.lat,
+                            lon = mark.lon,
+                            colorHex = category?.colorHex ?: "#808080",
+                            iconRef = category?.iconRef,
+                        )
+                    },
                     currentLocation = uiState.currentLocation,
                     modifier = Modifier.fillMaxSize(),
                 )
             }
+
+            MapFilterButton(
+                filterCount = uiState.filterCount,
+                onClick = onFilterClick,
+                modifier = Modifier.align(Alignment.TopEnd).padding(16.dp),
+            )
 
             // Buttons float directly over the map (no opaque backing), the tile scroller below
             // them gets one — Column stacks the two without needing to know the scroller's
@@ -306,6 +330,7 @@ private fun RecordScreenStartPreview() {
             onAddMushroom = PREVIEW_NOOP_LONG,
             onRemoveMushroom = PREVIEW_NOOP_LONG,
             onPhotoClick = PREVIEW_NOOP,
+            onFilterClick = PREVIEW_NOOP,
         )
     }
 }
@@ -328,6 +353,7 @@ private fun RecordScreenRecordingPreview() {
             onAddMushroom = PREVIEW_NOOP_LONG,
             onRemoveMushroom = PREVIEW_NOOP_LONG,
             onPhotoClick = PREVIEW_NOOP,
+            onFilterClick = PREVIEW_NOOP,
         )
     }
 }
@@ -351,6 +377,7 @@ private fun RecordScreenPausedPreview() {
             onAddMushroom = PREVIEW_NOOP_LONG,
             onRemoveMushroom = PREVIEW_NOOP_LONG,
             onPhotoClick = PREVIEW_NOOP,
+            onFilterClick = PREVIEW_NOOP,
         )
     }
 }

@@ -10,8 +10,6 @@ enum class MapMode {
     STATS,
 }
 
-data class MapPeriod(val year: Int, val month: Int)
-
 data class MapStats(
     val walkCount: Int = 0,
     val totalDistanceMeters: Double = 0.0,
@@ -21,10 +19,9 @@ data class MapStats(
 
 data class MapUiState(
     val mode: MapMode = MapMode.MAP,
-    val availablePeriods: List<MapPeriod> = emptyList(),
-    val selectedPeriod: MapPeriod? = null,
     val tracks: Map<Long, List<GeoPoint>> = emptyMap(),
     val findMarks: List<FieldMark> = emptyList(),
     val categories: List<Category> = emptyList(),
     val stats: MapStats = MapStats(),
+    val filterCount: Int = 0,
 )

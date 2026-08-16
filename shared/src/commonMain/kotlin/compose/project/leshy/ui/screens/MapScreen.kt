@@ -3,15 +3,12 @@ package compose.project.leshy.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -19,6 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,9 +26,10 @@ import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.map.MapMode
-import compose.project.leshy.presentation.map.MapPeriod
 import compose.project.leshy.presentation.map.MapStats
 import compose.project.leshy.presentation.map.MapViewModel
+import compose.project.leshy.ui.components.MapFilterButton
+import compose.project.leshy.ui.components.MapFilterDialog
 import compose.project.leshy.ui.map.AggregatedFindsMap
 import compose.project.leshy.ui.map.MapMarker
 import compose.project.leshy.ui.util.formatDistanceKm
@@ -37,6 +38,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
+    var showFilterDialog by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
@@ -56,49 +58,37 @@ fun MapScreen(viewModel: MapViewModel = koinViewModel()) {
             }
         }
 
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            item {
-                FilterChip(
-                    selected = uiState.selectedPeriod == null,
-                    onClick = { viewModel.selectPeriod(null) },
-                    label = { Text(stringResource(StringKey.MapPeriodAll)) },
-                )
+        Box(modifier = Modifier.fillMaxSize().weight(1f)) {
+            when (uiState.mode) {
+                MapMode.MAP -> {
+                    val categoryById = uiState.categories.associateBy { it.id }
+                    AggregatedFindsMap(
+                        tracks = uiState.tracks,
+                        markers = uiState.findMarks.map { mark ->
+                            val category = categoryById[mark.categoryId]
+                            MapMarker(
+                                lat = mark.lat,
+                                lon = mark.lon,
+                                colorHex = category?.colorHex ?: "#808080",
+                                iconRef = category?.iconRef,
+                            )
+                        },
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                MapMode.STATS -> MapStatsView(stats = uiState.stats, modifier = Modifier.fillMaxSize())
             }
-            items(uiState.availablePeriods, key = { it.year * 100 + it.month }) { period ->
-                FilterChip(
-                    selected = uiState.selectedPeriod == period,
-                    onClick = { viewModel.selectPeriod(period) },
-                    label = { Text(period.label()) },
-                )
-            }
-        }
 
-        when (uiState.mode) {
-            MapMode.MAP -> {
-                val categoryById = uiState.categories.associateBy { it.id }
-                AggregatedFindsMap(
-                    tracks = uiState.tracks,
-                    markers = uiState.findMarks.map { mark ->
-                        val category = categoryById[mark.categoryId]
-                        MapMarker(
-                            lat = mark.lat,
-                            lon = mark.lon,
-                            colorHex = category?.colorHex ?: "#808080",
-                            iconRef = category?.iconRef,
-                        )
-                    },
-                    modifier = Modifier.fillMaxSize().weight(1f).padding(top = 8.dp),
-                )
-            }
-            MapMode.STATS -> MapStatsView(
-                stats = uiState.stats,
-                modifier = Modifier.fillMaxSize().weight(1f),
+            MapFilterButton(
+                filterCount = uiState.filterCount,
+                onClick = { showFilterDialog = true },
+                modifier = Modifier.align(Alignment.TopEnd).padding(16.dp),
             )
         }
+    }
+
+    if (showFilterDialog) {
+        MapFilterDialog(onDismissRequest = { showFilterDialog = false })
     }
 }
 
@@ -111,7 +101,7 @@ private fun MapStatsView(stats: MapStats, modifier: Modifier = Modifier) {
         return
     }
 
-    Column(modifier = modifier.padding(16.dp)) {
+    Column(modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 72.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(stringResource(StringKey.MapStatsWalksCount))
             Text(stats.walkCount.toString())
@@ -145,5 +135,3 @@ private fun MapStatsView(stats: MapStats, modifier: Modifier = Modifier) {
         }
     }
 }
-
-private fun MapPeriod.label(): String = "${month.toString().padStart(2, '0')}.$year"
