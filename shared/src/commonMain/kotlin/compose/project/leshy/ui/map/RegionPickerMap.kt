@@ -1,0 +1,74 @@
+package compose.project.leshy.ui.map
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import compose.project.leshy.domain.model.OfflineRegionInfo
+import compose.project.leshy.domain.model.OfflineRegionStatus
+import org.maplibre.compose.camera.CameraState
+import org.maplibre.compose.expressions.dsl.const
+import org.maplibre.compose.layers.LineLayer
+import org.maplibre.compose.map.MapOptions
+import org.maplibre.compose.map.MaplibreMap
+import org.maplibre.compose.sources.GeoJsonData
+import org.maplibre.compose.sources.rememberGeoJsonSource
+import org.maplibre.spatialk.geojson.Polygon
+import org.maplibre.spatialk.geojson.Position
+
+private val REGION_OUTLINE_COMPLETE = Color(0xFF1B4332)
+private val REGION_OUTLINE_IN_PROGRESS = Color(0xFF2196F3)
+private val REGION_OUTLINE_ERROR = Color(0xFFB3261E)
+
+/**
+ * Lets the user pan/zoom to pick an area, with existing offline regions overlaid as outlined
+ * rectangles so they can see what's already downloaded before picking a new one. Bounds come from
+ * [OfflineRegionInfo] (the domain model), not the maplibre-compose offline types directly — the
+ * outline is built from plain west/south/east/north here rather than via the library's
+ * `rememberOfflinePacksSource`, since that helper takes the raw `OfflinePack` type the repository
+ * intentionally doesn't leak past the data layer.
+ */
+@Composable
+fun RegionPickerMap(
+    cameraState: CameraState,
+    regions: List<OfflineRegionInfo>,
+    modifier: Modifier = Modifier,
+) {
+    MaplibreMap(
+        modifier = modifier,
+        baseStyle = OpenFreeMapStyle,
+        cameraState = cameraState,
+        options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
+    ) {
+        regions.forEach { region ->
+            key(region.name) {
+                val outlineSource = rememberGeoJsonSource(
+                    GeoJsonData.Features(
+                        Polygon(
+                            listOf(
+                                Position(region.west, region.south),
+                                Position(region.west, region.north),
+                                Position(region.east, region.north),
+                                Position(region.east, region.south),
+                                Position(region.west, region.south),
+                            ),
+                        ),
+                    ),
+                )
+                LineLayer(
+                    id = "offline-region-${region.name}",
+                    source = outlineSource,
+                    color = const(region.status.outlineColor()),
+                    width = const(2.dp),
+                )
+            }
+        }
+    }
+}
+
+private fun OfflineRegionStatus.outlineColor(): Color = when (this) {
+    OfflineRegionStatus.COMPLETE -> REGION_OUTLINE_COMPLETE
+    OfflineRegionStatus.DOWNLOADING, OfflineRegionStatus.PAUSED -> REGION_OUTLINE_IN_PROGRESS
+    OfflineRegionStatus.ERROR -> REGION_OUTLINE_ERROR
+}

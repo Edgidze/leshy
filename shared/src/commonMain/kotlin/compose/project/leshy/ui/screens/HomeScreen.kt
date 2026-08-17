@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Settings
@@ -75,6 +76,11 @@ fun HomeScreen(onNavigate: (Destination) -> Unit) {
                 label = StringKey.NavMap,
                 icon = Icons.Filled.Place,
                 onClick = { onNavigate(Destination.Map) },
+            )
+            HomeNavButton(
+                label = StringKey.NavPreparation,
+                icon = Icons.Filled.Download,
+                onClick = { onNavigate(Destination.Preparation) },
             )
             HomeNavButton(
                 label = StringKey.SettingsTitle,

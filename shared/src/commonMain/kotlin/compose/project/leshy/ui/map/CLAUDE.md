@@ -9,6 +9,41 @@
 - **`AggregatedFindsMap.kt`** — вся история сразу: маршруты как приглушённые
   `LineLayer`, находки — кластеризованные по виду через общий
   `ClusteredFindsLayers.kt`.
+- **`RegionPickerMap.kt`** («Подготовка», офлайн-скачивание карты по
+  территории) — та же база (`OpenFreeMapStyle`+`mapRenderOptions`+
+  `mapOrnamentOptions`), плюс оверлей уже скачанных/скачиваемых регионов как
+  `LineLayer`-прямоугольники, построенные из bounds `OfflineRegionInfo`
+  (домен-модель), не из `Set<OfflinePack>` библиотеки напрямую — сознательно
+  не используется готовый `rememberOfflinePacksSource`, чтобы тип
+  `OfflinePack` не утекал в UI-слой мимо `OfflineRegionRepository`.
+
+## Офлайн-скачивание («Подготовка», `data/repository/OfflineRegionRepositoryImpl.kt`)
+
+- **`OfflineManager` (библиотека `maplibre-compose`, `org.maplibre.compose.
+  offline`) сам является persistent-каталогом** (переживает перезапуск
+  приложения на обеих платформах) — отдельной Room-таблицы под список
+  скачанных регионов нет и не нужно, иначе получился бы второй источник
+  истины, требующий синхронизации.
+- **Имя региона хранится в `OfflinePack.metadata` как сырой UTF-8**
+  (`name.encodeToByteArray()`/`ByteArray.decodeToString()`) — у `OfflinePack`
+  нет собственного id, `resume`/`pause`/`delete` в `OfflineRegionRepositoryImpl`
+  ищут нужный pack в `OfflineManager.packs` по совпадению декодированного
+  имени.
+- **`OfflineManager.packs` — `Compose State`, не `Flow`** — мост в
+  `Flow<List<OfflineRegionInfo>>` через `snapshotFlow { offlineManager.packs }`
+  (`androidx.compose.runtime.snapshotFlow`), вызывается из
+  `OfflineRegionRepositoryImpl.observeRegions()` вне `@Composable`-контекста;
+  работает, пока жив глобальный snapshot-наблюдатель Compose-рантайма (уже
+  верно на обоих хостах приложения после первой композиции).
+- **Диапазон zoom при скачивании — автоматический**, без отдельного UI:
+  максимум — zoom карты в момент нажатия «Скачать эту область», минимум —
+  фиксированный отступ вниз (`ZOOM_MIN_OFFSET` в `PreparationViewModel.kt`),
+  даёт несколько запасных уровней детализации без раздувания числа тайлов
+  скачиванием всего мира на мелком zoom.
+- На Android `getOfflineManager(context)` сам вызывает
+  `MapLibre.getInstance(context)` при первом обращении (внутри библиотечного
+  `AndroidOfflineManager`) — отдельная инициализация нативной библиотеки в
+  `PlatformModule.android.kt` не нужна.
 
 ## Грабли
 

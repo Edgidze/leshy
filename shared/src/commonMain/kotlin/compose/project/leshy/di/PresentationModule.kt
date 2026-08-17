@@ -4,6 +4,7 @@ import compose.project.leshy.presentation.archive.ArchiveViewModel
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.presentation.map.MapViewModel
 import compose.project.leshy.presentation.mapfilter.MapFilterViewModel
+import compose.project.leshy.presentation.preparation.PreparationViewModel
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.presentation.settings.SettingsViewModel
 import org.koin.core.module.dsl.viewModel
@@ -20,4 +21,5 @@ val presentationModule = module {
     viewModel { MapViewModel(get(), get(), get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { MapFilterViewModel(get(), get(), get(), get()) }
+    viewModel { PreparationViewModel(get()) }
 }
