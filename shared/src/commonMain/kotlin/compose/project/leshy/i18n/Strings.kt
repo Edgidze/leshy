@@ -112,6 +112,11 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.AddPlaceDiscardContentDescription -> "Удалить место"
 
     StringKey.ArchiveEmpty -> "Прогулок пока нет"
+    StringKey.ArchiveDeleteWalksButton -> "Удалить прогулки"
+    StringKey.ArchiveDeleteConfirmMessage ->
+        "Вы уверены, что хотели бы безвозвратно удалить выделенные прогулки?"
+    StringKey.ArchiveDeleteConfirmYes -> "Да"
+    StringKey.ArchiveDeleteConfirmNo -> "Нет"
     StringKey.WalkDetailStartTime -> "Старт"
     StringKey.WalkDetailEndTime -> "Финиш"
     StringKey.WalkDetailInProgress -> "не завершена"
@@ -245,6 +250,10 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.AddPlaceDiscardContentDescription -> "Discard place"
 
     StringKey.ArchiveEmpty -> "No walks recorded yet"
+    StringKey.ArchiveDeleteWalksButton -> "Delete walks"
+    StringKey.ArchiveDeleteConfirmMessage -> "Are you sure you want to permanently delete the selected walks?"
+    StringKey.ArchiveDeleteConfirmYes -> "Yes"
+    StringKey.ArchiveDeleteConfirmNo -> "No"
     StringKey.WalkDetailStartTime -> "Started"
     StringKey.WalkDetailEndTime -> "Finished"
     StringKey.WalkDetailInProgress -> "in progress"

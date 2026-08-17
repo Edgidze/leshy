@@ -77,6 +77,10 @@ enum class StringKey {
     AddPlaceDiscardContentDescription,
 
     ArchiveEmpty,
+    ArchiveDeleteWalksButton,
+    ArchiveDeleteConfirmMessage,
+    ArchiveDeleteConfirmYes,
+    ArchiveDeleteConfirmNo,
     WalkDetailStartTime,
     WalkDetailEndTime,
     WalkDetailInProgress,
