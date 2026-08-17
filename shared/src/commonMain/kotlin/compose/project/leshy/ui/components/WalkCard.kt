@@ -34,6 +34,7 @@ import compose.project.leshy.domain.model.Walk
 import compose.project.leshy.ui.util.formatDateOnly
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDurationShort
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -42,7 +43,7 @@ private val THUMBNAIL_SIZE = 120.dp
 private val WALK_CARD_PADDING = 8.dp
 
 /** Hold duration that opens Archive's multi-select mode — see CLAUDE.md for the feature spec. */
-private const val SELECTION_LONG_PRESS_MILLIS = 5000L
+private val SELECTION_LONG_PRESS_DURATION = 5.seconds
 
 @Composable
 fun WalkCard(
@@ -69,7 +70,7 @@ fun WalkCard(
                     var longPressFired = false
                     val up = coroutineScope {
                         val longPressJob = launch {
-                            delay(SELECTION_LONG_PRESS_MILLIS)
+                            delay(SELECTION_LONG_PRESS_DURATION)
                             longPressFired = true
                             onLongPress()
                         }
