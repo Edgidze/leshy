@@ -1,6 +1,7 @@
 package compose.project.leshy.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,12 +12,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
@@ -40,15 +40,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboard
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import coil3.compose.AsyncImage
 import compose.project.leshy.data.platform.plainTextClipEntry
 import compose.project.leshy.data.platform.rememberCameraLauncher
@@ -81,20 +81,28 @@ fun AddPlaceDialog(
     val requestPhoto = rememberCameraPermissionRequester(onGranted = takePhoto)
     val clipboard = LocalClipboard.current
     val coroutineScope = rememberCoroutineScope()
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusManager = LocalFocusManager.current
     val coordinatesText = location?.let { formatCoordinates(it.lat, it.lon) }
 
     Dialog(
         onDismissRequest = onDismissRequest,
-        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
+        properties = addPlaceDialogProperties(),
     ) {
+        val outsideFocusRequester = remember { FocusRequester() }
         Surface(
-            modifier = Modifier.fillMaxWidth(0.92f).fillMaxHeight(0.88f),
+            modifier = Modifier.fillMaxWidth(0.92f).fillMaxHeight(0.88f).imePadding(),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 4.dp,
         ) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            Column(
+                modifier = Modifier.fillMaxSize().padding(16.dp).pointerInput(Unit) {
+                    detectTapGestures(onTap = { outsideFocusRequester.requestFocus() })
+                },
+            ) {
+                // Focus sink for the tap-outside-to-dismiss-keyboard gesture above. Moving focus here
+                // (rather than focusManager.clearFocus()) is required: clearing focus directly on the
+                // multiline description field below reliably fails to release the IME in this Dialog
+                // (Compose foundation 1.11.2) — moving focus to a real, if invisible, target does not.
+                Box(modifier = Modifier.size(1.dp).focusRequester(outsideFocusRequester).focusTarget())
                 Text(text = stringResource(StringKey.AddPlaceTitle), style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -135,14 +143,14 @@ fun AddPlaceDialog(
                         value = description,
                         onValueChange = { description = it },
                         label = { Text(stringResource(StringKey.AddPlaceDescriptionHint)) },
+                        // Genuinely multiline (real Enter key, not an IME "Done" action): a programmatic
+                        // focusManager.clearFocus() on THIS field — whether from a keyboardActions.onDone
+                        // or triggered externally — reliably fails to release the real IME here (confirmed
+                        // on-device via ImeTracker logs), while the exact same call on the singleLine name
+                        // field above works every time. Root cause not fully pinned down (Compose
+                        // foundation 1.11.2); closing the keyboard is instead handled by the tap-outside
+                        // gesture above, which moves focus to a dummy sink rather than clearing it.
                         minLines = 3,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-                                keyboardController?.hide()
-                                focusManager.clearFocus(force = true)
-                            },
-                        ),
                         modifier = Modifier.fillMaxWidth(),
                     )
 
