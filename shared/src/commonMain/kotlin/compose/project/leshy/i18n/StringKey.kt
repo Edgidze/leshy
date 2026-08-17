@@ -5,6 +5,7 @@ enum class StringKey {
     NavRecord,
     NavArchive,
     NavMap,
+    NavData,
     SettingsTitle,
     SettingsContentDescription,
     SettingsLanguageTitle,
