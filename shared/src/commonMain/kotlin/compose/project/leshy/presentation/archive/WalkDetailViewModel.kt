@@ -43,7 +43,7 @@ class WalkDetailViewModel(
                     .groupingBy { it.categoryId }
                     .eachCount()
                     .mapNotNull { (categoryId, count) -> categoryById[categoryId]?.let { CategoryCount(it, count) } }
-                    .sortedBy { it.category.order }
+                    .sortedWith(compareByDescending<CategoryCount> { it.count }.thenBy { it.category.order })
                 WalkDetailUiState(
                     walk = walk,
                     mushroomCounts = mushroomCounts,
