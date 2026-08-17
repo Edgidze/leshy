@@ -94,6 +94,7 @@ enum class StringKey {
     WalkCardDurationMinutes,
     UnitKilometers,
     WalkDetailFindsTitle,
+    WalkDetailFindsEmpty,
     WalkDetailViewMap,
     WalkDetailEditContentDescription,
     WalkDetailEditWalkNameTitle,
