@@ -69,7 +69,7 @@ fun formatDurationLabeled(millis: Long): String {
     return parts.joinToString(" ")
 }
 
-/** Hours/minutes with short unit labels for compact spots (e.g. the archive walk card): "3 ч. 10 м." */
+/** Hours/minutes with short unit labels for compact spots (e.g. the archive walk card): "3 ч 10 мин" */
 @Composable
 fun formatDurationShort(millis: Long): String {
     val totalMinutes = millis / 60_000

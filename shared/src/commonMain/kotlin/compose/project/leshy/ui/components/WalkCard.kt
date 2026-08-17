@@ -63,7 +63,7 @@ fun WalkCard(
                 )
                 FlowRow(
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     Text(formatDistanceKm(walk.distanceMeters))
