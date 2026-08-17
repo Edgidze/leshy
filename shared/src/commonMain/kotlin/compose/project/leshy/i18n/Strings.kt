@@ -173,6 +173,19 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.BackgroundRecordingChannelName -> "Запись прогулки"
     StringKey.BackgroundRecordingNotificationTitle -> "Идёт запись прогулки"
     StringKey.BackgroundRecordingNotificationText -> "Трек записывается в фоне. Нажмите, чтобы вернуться в приложение."
+
+    StringKey.DataExportOption -> "Экспорт"
+    StringKey.DataImportOption -> "Импорт"
+    StringKey.DataChooseFolderButton -> "Выбрать папку"
+    StringKey.DataFolderStatusLabel -> "Папка для экспорта"
+    StringKey.DataFolderNotSelected -> "не выбрана"
+    StringKey.DataArchiveNameLabel -> "Название архива"
+    StringKey.DataChooseFileButton -> "Выбрать файл"
+    StringKey.DataFileStatusLabel -> "Файл для импорта"
+    StringKey.DataFileNotSelected -> "не выбран"
+    StringKey.DataImportLabelFieldLabel -> "Приписка к названиям прогулок"
+    StringKey.DataDoneButton -> "Готово"
+    StringKey.DataCancelButton -> "Отмена"
 }
 
 private fun englishStrings(key: StringKey): String = when (key) {
@@ -312,4 +325,17 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.BackgroundRecordingChannelName -> "Walk recording"
     StringKey.BackgroundRecordingNotificationTitle -> "Recording your walk"
     StringKey.BackgroundRecordingNotificationText -> "Track is being recorded in the background. Tap to return to the app."
+
+    StringKey.DataExportOption -> "Export"
+    StringKey.DataImportOption -> "Import"
+    StringKey.DataChooseFolderButton -> "Choose folder"
+    StringKey.DataFolderStatusLabel -> "Export folder"
+    StringKey.DataFolderNotSelected -> "not selected"
+    StringKey.DataArchiveNameLabel -> "Archive name"
+    StringKey.DataChooseFileButton -> "Choose file"
+    StringKey.DataFileStatusLabel -> "Import file"
+    StringKey.DataFileNotSelected -> "not selected"
+    StringKey.DataImportLabelFieldLabel -> "Tag added to imported walk names"
+    StringKey.DataDoneButton -> "Done"
+    StringKey.DataCancelButton -> "Cancel"
 }

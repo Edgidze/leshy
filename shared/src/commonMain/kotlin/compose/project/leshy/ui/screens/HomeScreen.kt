@@ -88,11 +88,10 @@ fun HomeScreen(onNavigate: (Destination) -> Unit) {
                 icon = Icons.Filled.Settings,
                 onClick = { onNavigate(Destination.Settings) },
             )
-            // Export/import of recorded data — not implemented yet, tapping does nothing.
             HomeNavButton(
                 label = StringKey.NavData,
                 icon = Icons.Filled.ImportExport,
-                onClick = {},
+                onClick = { onNavigate(Destination.Data) },
             )
         }
     }

@@ -2,6 +2,7 @@ package compose.project.leshy.di
 
 import compose.project.leshy.presentation.archive.ArchiveViewModel
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
+import compose.project.leshy.presentation.data.DataViewModel
 import compose.project.leshy.presentation.map.MapViewModel
 import compose.project.leshy.presentation.mapfilter.MapFilterViewModel
 import compose.project.leshy.presentation.record.RecordViewModel
@@ -20,4 +21,5 @@ val presentationModule = module {
     viewModel { MapViewModel(get(), get(), get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { MapFilterViewModel(get(), get(), get(), get()) }
+    viewModel { DataViewModel() }
 }

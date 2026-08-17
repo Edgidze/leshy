@@ -15,6 +15,7 @@ import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.ui.components.SectionScaffold
 import compose.project.leshy.ui.screens.ArchiveScreen
+import compose.project.leshy.ui.screens.DataScreen
 import compose.project.leshy.ui.screens.HomeScreen
 import compose.project.leshy.ui.screens.MapScreen
 import compose.project.leshy.ui.screens.RecordScreen
@@ -107,6 +108,12 @@ fun LeshyNavHost(
                 title = StringKey.SettingsTitle,
                 onHomeClick = { navController.popBackStack(Destination.Home, false) },
             ) { padding -> SettingsScreen(modifier = Modifier.padding(padding)) }
+        }
+        composable<Destination.Data> {
+            SectionScaffold(
+                title = StringKey.NavData,
+                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+            ) { padding -> DataScreen(modifier = Modifier.padding(padding)) }
         }
     }
 }

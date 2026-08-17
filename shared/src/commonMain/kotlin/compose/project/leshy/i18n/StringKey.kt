@@ -136,4 +136,17 @@ enum class StringKey {
     BackgroundRecordingChannelName,
     BackgroundRecordingNotificationTitle,
     BackgroundRecordingNotificationText,
+
+    DataExportOption,
+    DataImportOption,
+    DataChooseFolderButton,
+    DataFolderStatusLabel,
+    DataFolderNotSelected,
+    DataArchiveNameLabel,
+    DataChooseFileButton,
+    DataFileStatusLabel,
+    DataFileNotSelected,
+    DataImportLabelFieldLabel,
+    DataDoneButton,
+    DataCancelButton,
 }
