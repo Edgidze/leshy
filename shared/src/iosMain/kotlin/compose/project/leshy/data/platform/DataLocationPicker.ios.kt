@@ -5,7 +5,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSURL
-import platform.Foundation.lastPathComponent
 import platform.UIKit.UIApplication
 import platform.UIKit.UIDocumentPickerDelegateProtocol
 import platform.UIKit.UIDocumentPickerMode
@@ -57,7 +56,7 @@ private fun rememberDocumentPicker(
 
     return remember(allowedUti, mode) {
         {
-            val picker = UIDocumentPickerViewController(allowedUTIs = listOf(allowedUti), inMode = mode)
+            val picker = UIDocumentPickerViewController(documentTypes = listOf(allowedUti), inMode = mode)
             picker.delegate = delegate
             UIApplication.sharedApplication.keyWindow
                 ?.rootViewController
