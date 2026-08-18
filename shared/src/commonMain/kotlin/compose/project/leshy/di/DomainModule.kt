@@ -5,6 +5,7 @@ import compose.project.leshy.domain.usecase.AddPlaceMarkUseCase
 import compose.project.leshy.domain.usecase.BackfillWalkThumbnailsUseCase
 import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
+import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
@@ -16,6 +17,7 @@ import org.koin.dsl.module
 
 val domainModule = module {
     factory { EnsureDefaultCategoriesUseCase(get()) }
+    factory { EnsureDefaultCollectionsUseCase(get(), get()) }
     factory { StartWalkUseCase(get()) }
     factory { FinishWalkUseCase(get()) }
     factory { RenameWalkUseCase(get()) }

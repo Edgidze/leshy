@@ -6,10 +6,13 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
 import compose.project.leshy.data.local.dao.CategoryDao
+import compose.project.leshy.data.local.dao.CollectionDao
 import compose.project.leshy.data.local.dao.ObjectDao
 import compose.project.leshy.data.local.dao.TrackPointDao
 import compose.project.leshy.data.local.dao.WalkDao
+import compose.project.leshy.data.local.entity.CategoryCollectionCrossRef
 import compose.project.leshy.data.local.entity.CategoryEntity
+import compose.project.leshy.data.local.entity.CollectionEntity
 import compose.project.leshy.data.local.entity.ObjectEntity
 import compose.project.leshy.data.local.entity.TrackPointEntity
 import compose.project.leshy.data.local.entity.WalkEntity
@@ -20,8 +23,10 @@ import compose.project.leshy.data.local.entity.WalkEntity
         WalkEntity::class,
         ObjectEntity::class,
         TrackPointEntity::class,
+        CollectionEntity::class,
+        CategoryCollectionCrossRef::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
@@ -31,6 +36,7 @@ abstract class LeshyDatabase : RoomDatabase() {
     abstract fun walkDao(): WalkDao
     abstract fun objectDao(): ObjectDao
     abstract fun trackPointDao(): TrackPointDao
+    abstract fun collectionDao(): CollectionDao
 }
 
 // Room's KSP compiler generates the platform `actual` implementations.

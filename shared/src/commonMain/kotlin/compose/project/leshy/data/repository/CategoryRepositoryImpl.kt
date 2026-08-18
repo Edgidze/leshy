@@ -35,6 +35,8 @@ private fun CategoryEntity.toDomain() = Category(
     order = order,
     isActive = isActive,
     edibilityStatus = edibilityStatus,
+    isPicked = isPicked,
+    isFilterEligible = isFilterEligible,
 )
 
 private fun Category.toEntity() = CategoryEntity(
@@ -45,4 +47,6 @@ private fun Category.toEntity() = CategoryEntity(
     order = order,
     isActive = isActive,
     edibilityStatus = edibilityStatus,
+    isPicked = isPicked,
+    isFilterEligible = isFilterEligible,
 )

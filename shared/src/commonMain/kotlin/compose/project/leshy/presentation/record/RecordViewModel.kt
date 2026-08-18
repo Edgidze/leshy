@@ -20,6 +20,7 @@ import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.AddPlaceMarkUseCase
 import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
+import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.MISC_CATEGORY_NAME_KEY
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
@@ -62,6 +63,7 @@ class RecordViewModel(
     private val backgroundRecordingController: BackgroundRecordingController,
     private val settingsRepository: SettingsRepository,
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
+    private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
     private val startWalk: StartWalkUseCase,
     private val finishWalk: FinishWalkUseCase,
     private val renameWalk: RenameWalkUseCase,
@@ -92,7 +94,12 @@ class RecordViewModel(
     private val categoryOrder = MutableStateFlow<List<Long>>(emptyList())
 
     init {
-        viewModelScope.launch { ensureDefaultCategories() }
+        viewModelScope.launch {
+            ensureDefaultCategories()
+            // Must run after categories exist — looks categories up by nameKey to seed collection
+            // membership.
+            ensureDefaultCollections()
+        }
         viewModelScope.launch {
             val sortSettings = combine(
                 settingsRepository.observeMushroomSortOrder(),
