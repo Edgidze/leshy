@@ -15,6 +15,7 @@ enum class StringKey {
     SettingsMushroomSortTitle,
     SettingsMushroomSortByEdibilityThenAlphabetical,
     SettingsMushroomSortByAlphabetical,
+    SettingsResetMushroomOrderOnWalkFinish,
 
     NavHomeContentDescription,
     HelpContentDescription,

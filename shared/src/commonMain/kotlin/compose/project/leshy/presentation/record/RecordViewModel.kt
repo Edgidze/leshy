@@ -83,10 +83,12 @@ class RecordViewModel(
     private var trackSequence = 0
     private var tickerJob: Job? = null
     private var currentLanguage = AppLanguage.EN
+    private var resetOrderOnWalkFinish = false
 
     // Most-recently-bumped category ids first — a tile jumps to the front of the feed each time
-    // it's added (or picked from search). Ephemeral, not persisted: reset to empty on every new
-    // walk start so the feed starts from the settings-driven default order again.
+    // it's added (or picked from search). Not persisted across app restarts; whether it survives
+    // past the end of a walk is gated by resetOrderOnWalkFinish (Settings, off by default — see
+    // finish()).
     private val categoryOrder = MutableStateFlow<List<Long>>(emptyList())
 
     init {
@@ -138,6 +140,9 @@ class RecordViewModel(
             settingsRepository.observeLanguage().collect { currentLanguage = it }
         }
         viewModelScope.launch {
+            settingsRepository.observeResetMushroomOrderOnWalkFinish().collect { resetOrderOnWalkFinish = it }
+        }
+        viewModelScope.launch {
             locationTracker.track().collect { point ->
                 _uiState.update { it.copy(currentLocation = point) }
                 val currentWalkId = walkId
@@ -182,7 +187,6 @@ class RecordViewModel(
             walkId = id
             trackSequence = 0
             lastPersistedPoint = null
-            categoryOrder.value = emptyList()
             backgroundRecordingController.start(currentLanguage)
             _uiState.update {
                 it.copy(
@@ -224,6 +228,7 @@ class RecordViewModel(
         viewModelScope.launch {
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
             walkId = null
+            if (resetOrderOnWalkFinish) categoryOrder.value = emptyList()
             _uiState.update { state ->
                 RecordUiState(
                     categories = state.categories,

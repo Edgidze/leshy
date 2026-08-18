@@ -41,6 +41,11 @@ class SettingsViewModel(
                 _uiState.update { it.copy(mushroomSortOrder = sortOrder) }
             }
         }
+        viewModelScope.launch {
+            settingsRepository.observeResetMushroomOrderOnWalkFinish().collect { reset ->
+                _uiState.update { it.copy(resetMushroomOrderOnWalkFinish = reset) }
+            }
+        }
     }
 
     fun setLanguage(language: AppLanguage) {
@@ -53,5 +58,9 @@ class SettingsViewModel(
 
     fun setMushroomSortOrder(sortOrder: MushroomSortOrder) {
         viewModelScope.launch { settingsRepository.setMushroomSortOrder(sortOrder) }
+    }
+
+    fun setResetMushroomOrderOnWalkFinish(reset: Boolean) {
+        viewModelScope.launch { settingsRepository.setResetMushroomOrderOnWalkFinish(reset) }
     }
 }

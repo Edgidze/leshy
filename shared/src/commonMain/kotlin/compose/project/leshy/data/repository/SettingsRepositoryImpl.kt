@@ -2,6 +2,7 @@ package compose.project.leshy.data.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.map
 private val LANGUAGE_KEY = stringPreferencesKey("language")
 private val MUSHROOM_MARKER_SIZE_SCALE_KEY = floatPreferencesKey("mushroom_marker_size_scale")
 private val MUSHROOM_SORT_ORDER_KEY = stringPreferencesKey("mushroom_sort_order")
+private val RESET_MUSHROOM_ORDER_ON_WALK_FINISH_KEY = booleanPreferencesKey("reset_mushroom_order_on_walk_finish")
 
 class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
@@ -50,5 +52,13 @@ class SettingsRepositoryImpl(
 
     override suspend fun setMushroomSortOrder(sortOrder: MushroomSortOrder) {
         dataStore.edit { prefs -> prefs[MUSHROOM_SORT_ORDER_KEY] = sortOrder.name }
+    }
+
+    override fun observeResetMushroomOrderOnWalkFinish(): Flow<Boolean> = dataStore.data.map { prefs ->
+        prefs[RESET_MUSHROOM_ORDER_ON_WALK_FINISH_KEY] ?: false
+    }
+
+    override suspend fun setResetMushroomOrderOnWalkFinish(reset: Boolean) {
+        dataStore.edit { prefs -> prefs[RESET_MUSHROOM_ORDER_ON_WALK_FINISH_KEY] = reset }
     }
 }

@@ -50,6 +50,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortTitle -> "Порядок грибов"
     StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "По съедобности и алфавиту"
     StringKey.SettingsMushroomSortByAlphabetical -> "По алфавиту"
+    StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Сбрасывать порядок грибов в конце прогулки"
 
     StringKey.NavHomeContentDescription -> "На главную"
     StringKey.HelpContentDescription -> "Помощь"
@@ -230,6 +231,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortTitle -> "Mushroom order"
     StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "By edibility, then alphabetically"
     StringKey.SettingsMushroomSortByAlphabetical -> "Alphabetically"
+    StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Reset mushroom order at the end of a walk"
 
     StringKey.NavHomeContentDescription -> "Home"
     StringKey.HelpContentDescription -> "Help"
