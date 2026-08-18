@@ -166,6 +166,7 @@ enum class StringKey {
     DataFileNotSelected,
     DataImportLabelFieldLabel,
     DataDoneButton,
+    DataSavedButton,
     DataCancelButton,
     DataProcessingLabel,
     DataExportSuccessMessage,

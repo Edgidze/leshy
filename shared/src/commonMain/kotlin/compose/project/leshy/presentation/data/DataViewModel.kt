@@ -64,9 +64,17 @@ class DataViewModel(
         _uiState.update { it.copy(showWalksPicker = false) }
     }
 
-    /** Checkmark in the walks picker — commits the new selection. */
+    /** Checkmark in the walks picker — commits the new selection. Only an actual change to the
+     * selection clears [DataUiState.exportSucceeded] — reopening the picker and confirming the
+     * same set the archive was already exported with shouldn't un-stick the "Saved" button. */
     fun confirmWalksSelection(walkIds: Set<Long>) {
-        _uiState.update { it.copy(selectedWalkIds = walkIds, showWalksPicker = false) }
+        _uiState.update {
+            it.copy(
+                selectedWalkIds = walkIds,
+                showWalksPicker = false,
+                exportSucceeded = it.exportSucceeded && walkIds == it.selectedWalkIds,
+            )
+        }
     }
 
     /** Called by [compose.project.leshy.data.platform.rememberExportLauncher] once it has a sink. */

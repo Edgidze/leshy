@@ -90,12 +90,20 @@ fun DataScreen(modifier: Modifier = Modifier, viewModel: DataViewModel = koinVie
                 },
                 enabled = !uiState.isProcessing &&
                     when (uiState.mode) {
-                        DataMode.EXPORT -> uiState.selectedWalkIds.isNotEmpty()
+                        DataMode.EXPORT -> uiState.selectedWalkIds.isNotEmpty() && !uiState.exportSucceeded
                         DataMode.IMPORT -> uiState.importFileHandle != null
                     },
                 modifier = Modifier.weight(1f),
             ) {
-                Text(stringResource(StringKey.DataDoneButton))
+                Text(
+                    stringResource(
+                        if (uiState.mode == DataMode.EXPORT && uiState.exportSucceeded) {
+                            StringKey.DataSavedButton
+                        } else {
+                            StringKey.DataDoneButton
+                        },
+                    ),
+                )
             }
         }
     }
