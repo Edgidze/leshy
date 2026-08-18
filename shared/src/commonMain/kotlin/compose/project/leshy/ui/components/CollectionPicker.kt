@@ -1,13 +1,13 @@
 package compose.project.leshy.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
@@ -23,20 +23,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.Category
+import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.collectionDisplayName
 import compose.project.leshy.presentation.CollectionPickState
 import compose.project.leshy.presentation.CollectionPickerItem
+import leshy.shared.generated.resources.Res
+import leshy.shared.generated.resources.allDrawableResources
+import org.jetbrains.compose.resources.painterResource
 
 /**
  * Expandable per-collection checklist: a tri-state checkbox toggles every member species at once,
- * expanding a collection shows its members as individually-checkable [MushroomPhoto] thumbnails.
- * Shared by the Settings screen and the first-run onboarding screen (`.claude/plans/
- * mushroom-collections.md`, Phases 1/3) — this composable owns no state of its own beyond which
- * sections are expanded, [items] and the two callbacks are the single source of truth.
+ * expanding a collection shows its members as individually-checkable rows — plain icon + name
+ * beside it, same shape as the Filter screen's `SpeciesFilterRow` (`MapFilterDialog.kt`), not the
+ * label-baked-into-the-photo look [MushroomPhoto] uses on Record's tiles. Shared by the Settings
+ * screen and the first-run onboarding screen (`.claude/plans/mushroom-collections.md`, Phases
+ * 1/3) — this composable owns no state of its own beyond which sections are expanded, [items] and
+ * the two callbacks are the single source of truth.
  */
 @Composable
 fun CollectionPicker(
@@ -95,17 +102,29 @@ private fun CollectionPickerSection(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .height(56.dp)
                         .toggleable(
                             value = category.isPicked,
                             onValueChange = { onToggleCategory(category, it) },
                             role = Role.Checkbox,
                         )
-                        .padding(start = 24.dp, top = 4.dp, bottom = 4.dp),
+                        .padding(start = 24.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Checkbox(checked = category.isPicked, onCheckedChange = null)
-                    MushroomPhoto(category = category, modifier = Modifier.width(96.dp).aspectRatio(1.5f))
+                    val drawable = category.iconRef?.let { Res.allDrawableResources[it] }
+                    if (drawable != null) {
+                        Image(
+                            painter = painterResource(drawable),
+                            contentDescription = null,
+                            modifier = Modifier.size(56.dp).padding(start = 8.dp),
+                            contentScale = ContentScale.Fit,
+                        )
+                    }
+                    Text(
+                        text = categoryDisplayName(category.nameKey),
+                        modifier = Modifier.weight(1f).padding(start = 12.dp),
+                    )
                 }
             }
         }
