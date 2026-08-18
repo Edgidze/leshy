@@ -81,12 +81,24 @@ leshy-export-<timestamp>.zip
   `:shared:testAndroidHostTest` (4/4 теста), `:shared:compileAndroidMain`,
   `:shared:compileKotlinIosSimulatorArm64`.
 
-- [ ] **Шаг 2 — DTO и сериализация.** Добавить `kotlinx-serialization-json`
+- [x] **Шаг 2 — DTO и сериализация.** Добавлена `kotlinx-serialization-json`
   в `libs.versions.toml`/`shared/build.gradle.kts` (плагин `kotlinSerialization`
-  уже подключён, ядро-либа уже в зависимостях). Новый пакет
+  уже был подключён, ядро-либа уже была в зависимостях). Новый пакет
   `data/export/dto/`: `@Serializable ExportManifestDto`, `WalkExportDto`,
   `TrackPointExportDto`, `ObjectExportDto` — отдельные от Room-сущностей
-  типы (id локальны для устройства, не должны сериализоваться напрямую).
+  типы (id локальны для устройства, не сериализуются напрямую).
+  `ObjectExportDto.type` — `String` (имя `ObjectType`), не сам enum, чтобы
+  DTO-слой не тянул зависимость на Room-сущность. `categoryId` заменён на
+  `categoryNameKey`. Общий `ExportJson` (`data/export/dto/ExportJson.kt`,
+  `ignoreUnknownKeys = true` — вперёдсовместимость: старая версия
+  приложения не упадёт на архиве, написанном более новой). Имена файлов
+  архива и путь к фото находки — `WALK_ENTRY_NAME`/`TRACK_ENTRY_NAME`/
+  `OBJECTS_ENTRY_NAME`/`walkDirectory()`/`photoEntryName()`, там же, где
+  DTO. Юнит-тесты (`ExportDtoSerializationTest.kt`) — round-trip каждого
+  DTO (включая nullable-поля), список точек трека/находок, толерантность к
+  незнакомым полям. Зелено: `:shared:testAndroidHostTest` (5/5 новых +
+  прежние 4/4 zip-тестов), `:shared:compileAndroidMain`,
+  `:shared:compileKotlinIosSimulatorArm64`.
 
 - [ ] **Шаг 3 — One-shot DAO-запросы.** Добавить `WalkDao.getAll()`,
   `TrackPointDao.getByWalkId(walkId): List<TrackPointEntity>`,
