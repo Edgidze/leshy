@@ -66,6 +66,7 @@ enum class StringKey {
     RecordSearchDialogTitle,
 
     AddPlaceTitle,
+    AddPlaceEditTitle,
     AddPlaceDefaultName,
     AddPlaceNameHint,
     AddPlacePhotoContentDescription,
@@ -75,6 +76,13 @@ enum class StringKey {
     AddPlaceCopyCoordinatesContentDescription,
     AddPlaceSaveContentDescription,
     AddPlaceDiscardContentDescription,
+
+    PlaceViewEditContentDescription,
+    PlaceViewDeleteContentDescription,
+    PlaceDeleteConfirmTitle,
+    PlaceDeleteConfirmMessage,
+    PlaceDeleteConfirmYes,
+    PlaceDeleteConfirmNo,
 
     ArchiveEmpty,
     WalkDetailStartTime,

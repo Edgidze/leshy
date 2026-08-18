@@ -46,6 +46,8 @@ fun LiveTrackMap(
     currentLocation: GeoPoint?,
     modifier: Modifier,
     historicalMarkers: List<MapMarker> = emptyList(),
+    places: List<PlaceMarker> = emptyList(),
+    onPlaceClick: (Long) -> Unit = {},
 ) {
     val cameraState = rememberCameraState(
         firstPosition = CameraPosition(
@@ -54,8 +56,8 @@ fun LiveTrackMap(
         ),
     )
 
-    val historyPoints = remember(track, markers) {
-        track.map { it.lat to it.lon } + markers.map { it.lat to it.lon }
+    val historyPoints = remember(track, markers, places) {
+        track.map { it.lat to it.lon } + markers.map { it.lat to it.lon } + places.map { it.lat to it.lon }
     }
 
     LaunchedEffect(currentLocation, historyPoints) {
@@ -130,6 +132,8 @@ fun LiveTrackMap(
                 CircleLayer(id = "marks-$colorHex", source = marksSource, color = const(color), radius = const(6.dp))
             }
         }
+
+        PlaceMarkersLayer(places, onPlaceClick)
 
         currentLocation?.let { location ->
             val currentLocationSource = rememberGeoJsonSource(

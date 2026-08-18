@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import compose.project.leshy.data.local.entity.ObjectEntity
 import compose.project.leshy.data.local.entity.ObjectType
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,9 @@ interface ObjectDao {
 
     @Insert
     suspend fun insert(objectEntity: ObjectEntity): Long
+
+    @Update
+    suspend fun update(objectEntity: ObjectEntity)
 
     @Delete
     suspend fun delete(objectEntity: ObjectEntity)

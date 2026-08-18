@@ -101,6 +101,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.RecordSearchDialogTitle -> "Выберите необходимый гриб"
 
     StringKey.AddPlaceTitle -> "Добавьте место"
+    StringKey.AddPlaceEditTitle -> "Отредактируйте место"
     StringKey.AddPlaceDefaultName -> "Место"
     StringKey.AddPlaceNameHint -> "Название места"
     StringKey.AddPlacePhotoContentDescription -> "Сфотографировать"
@@ -110,6 +111,13 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.AddPlaceCopyCoordinatesContentDescription -> "Скопировать координаты"
     StringKey.AddPlaceSaveContentDescription -> "Сохранить место"
     StringKey.AddPlaceDiscardContentDescription -> "Удалить место"
+
+    StringKey.PlaceViewEditContentDescription -> "Редактировать место"
+    StringKey.PlaceViewDeleteContentDescription -> "Удалить место"
+    StringKey.PlaceDeleteConfirmTitle -> "Удалить место?"
+    StringKey.PlaceDeleteConfirmMessage -> "Место будет удалено безвозвратно. Восстановить его будет невозможно."
+    StringKey.PlaceDeleteConfirmYes -> "Да"
+    StringKey.PlaceDeleteConfirmNo -> "Нет"
 
     StringKey.ArchiveEmpty -> "Прогулок пока нет"
     StringKey.WalkDetailStartTime -> "Старт"
@@ -234,6 +242,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.RecordSearchDialogTitle -> "Choose the mushroom you need"
 
     StringKey.AddPlaceTitle -> "Add a place"
+    StringKey.AddPlaceEditTitle -> "Edit place"
     StringKey.AddPlaceDefaultName -> "Place"
     StringKey.AddPlaceNameHint -> "Place name"
     StringKey.AddPlacePhotoContentDescription -> "Take photo"
@@ -243,6 +252,13 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.AddPlaceCopyCoordinatesContentDescription -> "Copy coordinates"
     StringKey.AddPlaceSaveContentDescription -> "Save place"
     StringKey.AddPlaceDiscardContentDescription -> "Discard place"
+
+    StringKey.PlaceViewEditContentDescription -> "Edit place"
+    StringKey.PlaceViewDeleteContentDescription -> "Delete place"
+    StringKey.PlaceDeleteConfirmTitle -> "Delete place?"
+    StringKey.PlaceDeleteConfirmMessage -> "The place will be permanently deleted. This cannot be undone."
+    StringKey.PlaceDeleteConfirmYes -> "Yes"
+    StringKey.PlaceDeleteConfirmNo -> "No"
 
     StringKey.ArchiveEmpty -> "No walks recorded yet"
     StringKey.WalkDetailStartTime -> "Started"

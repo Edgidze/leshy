@@ -18,6 +18,7 @@ import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.repository.WalkRepository
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.AddPlaceMarkUseCase
+import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.MISC_CATEGORY_NAME_KEY
@@ -25,6 +26,7 @@ import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.RenameWalkUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
+import compose.project.leshy.domain.usecase.UpdatePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.UpdateWalkThumbnailUseCase
 import compose.project.leshy.domain.util.computeFilterCount
 import compose.project.leshy.domain.util.matchesDateAndSeason
@@ -66,6 +68,8 @@ class RecordViewModel(
     private val addMushroomMark: AddMushroomMarkUseCase,
     private val removeLastMushroomMark: RemoveLastMushroomMarkUseCase,
     private val addPlaceMark: AddPlaceMarkUseCase,
+    private val updatePlaceMark: UpdatePlaceMarkUseCase,
+    private val deletePlaceMark: DeletePlaceMarkUseCase,
     private val walkThumbnailRenderer: WalkThumbnailRenderer,
     private val updateWalkThumbnail: UpdateWalkThumbnailUseCase,
 ) : ViewModel() {
@@ -281,6 +285,22 @@ class RecordViewModel(
                 photoPath,
             )
             _uiState.update { state -> state.copy(marks = state.marks + mark) }
+        }
+    }
+
+    fun updatePlace(mark: FieldMark, name: String, description: String, photoPath: String?) {
+        viewModelScope.launch {
+            val updated = updatePlaceMark(mark, name, description, photoPath)
+            _uiState.update { state ->
+                state.copy(marks = state.marks.map { if (it.id == updated.id) updated else it })
+            }
+        }
+    }
+
+    fun deletePlace(mark: FieldMark) {
+        viewModelScope.launch {
+            deletePlaceMark(mark)
+            _uiState.update { state -> state.copy(marks = state.marks.filter { it.id != mark.id }) }
         }
     }
 
