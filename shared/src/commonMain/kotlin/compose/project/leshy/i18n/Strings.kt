@@ -50,6 +50,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortTitle -> "Порядок грибов"
     StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "По съедобности и алфавиту"
     StringKey.SettingsMushroomSortByAlphabetical -> "По алфавиту"
+    StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Сбрасывать порядок грибов в конце прогулки"
 
     StringKey.NavHomeContentDescription -> "На главную"
     StringKey.HelpContentDescription -> "Помощь"
@@ -141,6 +142,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.UnitKilometers -> "км"
     StringKey.WalkDetailFindsTitle -> "Находки по типам"
     StringKey.WalkDetailFindsEmpty -> "Находок не зафиксировано"
+    StringKey.WalkDetailPlacesTitle -> "Отмеченные места"
     StringKey.WalkDetailViewMap -> "Смотреть карту"
     StringKey.WalkDetailEditContentDescription -> "Редактировать название прогулки"
     StringKey.WalkDetailEditWalkNameTitle -> "Измените название прогулки:"
@@ -230,6 +232,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortTitle -> "Mushroom order"
     StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "By edibility, then alphabetically"
     StringKey.SettingsMushroomSortByAlphabetical -> "Alphabetically"
+    StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Reset mushroom order at the end of a walk"
 
     StringKey.NavHomeContentDescription -> "Home"
     StringKey.HelpContentDescription -> "Help"
@@ -320,6 +323,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.UnitKilometers -> "km"
     StringKey.WalkDetailFindsTitle -> "Finds by type"
     StringKey.WalkDetailFindsEmpty -> "No finds recorded"
+    StringKey.WalkDetailPlacesTitle -> "Marked places"
     StringKey.WalkDetailViewMap -> "View map"
     StringKey.WalkDetailEditContentDescription -> "Edit walk name"
     StringKey.WalkDetailEditWalkNameTitle -> "Edit the walk name:"

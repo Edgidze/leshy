@@ -1,13 +1,18 @@
 package compose.project.leshy.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -35,17 +40,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import compose.project.leshy.domain.model.FieldMark
+import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
+import compose.project.leshy.ui.components.AddPlaceDialog
+import compose.project.leshy.ui.components.DeletePlaceConfirmDialog
 import compose.project.leshy.ui.components.MushroomDonutChart
+import compose.project.leshy.ui.components.PlaceViewDialog
 import compose.project.leshy.ui.util.formatDateTime
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDurationLabeled
@@ -53,6 +68,8 @@ import compose.project.leshy.ui.util.formatSpeedKmh
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+private val PLACE_THUMBNAIL_SIZE = 48.dp
 
 private val MUSHROOM_TOAST_DURATION = 3000.milliseconds
 
@@ -62,6 +79,11 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
     val walk = uiState.walk
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val places = uiState.marks.filter { it.type == MarkType.POI }
+    var selectedPlaceId by remember { mutableStateOf<Long?>(null) }
+    var isEditingPlace by remember { mutableStateOf(false) }
+    var confirmDeletePlace by remember { mutableStateOf(false) }
+    val selectedPlace = places.find { it.id == selectedPlaceId }
 
     LaunchedEffect(uiState.deleted) {
         if (uiState.deleted) onBack()
@@ -188,12 +210,77 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
                         )
                     }
                 }
+
+                if (places.isNotEmpty()) {
+                    item {
+                        Text(
+                            stringResource(StringKey.WalkDetailPlacesTitle),
+                            modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
+                            textDecoration = TextDecoration.Underline,
+                        )
+                    }
+
+                    items(places) { place -> PlaceListItem(place = place, onClick = { selectedPlaceId = place.id }) }
+                }
             }
 
             OutlinedButton(onClick = onViewMap, modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
                 Text(stringResource(StringKey.WalkDetailViewMap))
             }
         }
+    }
+
+    if (selectedPlace != null) {
+        if (isEditingPlace) {
+            AddPlaceDialog(
+                location = GeoPoint(selectedPlace.lat, selectedPlace.lon, null, selectedPlace.timestamp),
+                initialName = selectedPlace.name,
+                initialDescription = selectedPlace.description.orEmpty(),
+                initialPhotoPath = selectedPlace.photoPath,
+                onSave = { name, description, photoPath ->
+                    viewModel.updatePlace(selectedPlace, name, description, photoPath)
+                    isEditingPlace = false
+                },
+                onDismissRequest = { isEditingPlace = false },
+            )
+        } else {
+            PlaceViewDialog(
+                mark = selectedPlace,
+                onEditClick = { isEditingPlace = true },
+                onDeleteClick = { confirmDeletePlace = true },
+                onDismissRequest = { selectedPlaceId = null },
+            )
+        }
+    }
+
+    if (confirmDeletePlace && selectedPlace != null) {
+        DeletePlaceConfirmDialog(
+            onConfirm = {
+                viewModel.deletePlace(selectedPlace)
+                confirmDeletePlace = false
+                selectedPlaceId = null
+            },
+            onDismissRequest = { confirmDeletePlace = false },
+        )
+    }
+}
+
+@Composable
+private fun PlaceListItem(place: FieldMark, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (place.photoPath != null) {
+            AsyncImage(
+                model = "file://${place.photoPath}",
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(PLACE_THUMBNAIL_SIZE).clip(RoundedCornerShape(4.dp)),
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+        }
+        Text(place.name?.ifBlank { null } ?: stringResource(StringKey.AddPlaceDefaultName))
     }
 }
 

@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -92,6 +94,27 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
         MushroomSortOrderOptions(
             selected = uiState.mushroomSortOrder,
             onSelected = viewModel::setMushroomSortOrder,
+        )
+        ResetMushroomOrderOnWalkFinishOption(
+            checked = uiState.resetMushroomOrderOnWalkFinish,
+            onCheckedChange = viewModel::setResetMushroomOrderOnWalkFinish,
+        )
+    }
+}
+
+@Composable
+private fun ResetMushroomOrderOnWalkFinishOption(checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .toggleable(value = checked, onValueChange = onCheckedChange, role = Role.Checkbox)
+            .padding(top = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(checked = checked, onCheckedChange = null)
+        Text(
+            text = stringResource(StringKey.SettingsResetMushroomOrderOnWalkFinish),
+            modifier = Modifier.padding(start = 8.dp),
         )
     }
 }

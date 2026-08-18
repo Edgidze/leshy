@@ -15,6 +15,7 @@ enum class StringKey {
     SettingsMushroomSortTitle,
     SettingsMushroomSortByEdibilityThenAlphabetical,
     SettingsMushroomSortByAlphabetical,
+    SettingsResetMushroomOrderOnWalkFinish,
 
     NavHomeContentDescription,
     HelpContentDescription,
@@ -105,6 +106,7 @@ enum class StringKey {
     UnitKilometers,
     WalkDetailFindsTitle,
     WalkDetailFindsEmpty,
+    WalkDetailPlacesTitle,
     WalkDetailViewMap,
     WalkDetailEditContentDescription,
     WalkDetailEditWalkNameTitle,
