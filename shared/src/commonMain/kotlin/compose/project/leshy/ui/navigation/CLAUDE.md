@@ -2,9 +2,15 @@
 
 `Destination` — sealed interface маршрутов. `Home` — стартовый экран
 (домашняя страница с крупными кнопками разделов), к нему возвращаются через
-`popBackStack(Destination.Home, false)` из `SectionScaffold`
-(`ui/components/SectionScaffold.kt`) или системным «назад» — сам `Home`
-никогда не является целью `navigateToTopLevel`. Остальные top-level экраны
+`popBackStack(Destination.Home, inclusive = false, saveState = true)` из
+`SectionScaffold` (`ui/components/SectionScaffold.kt`) или системным
+«назад» — сам `Home` никогда не является целью `navigateToTopLevel`.
+**`saveState = true` здесь обязателен** — без него уход на `Home` уничтожает
+бэкстек-запись раздела, а с ней и его ViewModel; для `Record` это рвёт
+GPS-подписку (`viewModelScope`, см. `data/CLAUDE.md`/`androidMain`), при
+этом фоновый foreground-сервис/уведомление не останавливается (он привязан
+только к явной кнопке «Завершить»), и прогулка в архиве зависает
+«Не завершена» — см. пункт 3 ниже. Остальные top-level экраны
 (разделы: Запись/Архив/Карта/Настройки, кнопки на домашней странице) обязаны
 переходить через один и тот же хелпер:
 
@@ -48,6 +54,19 @@ fun NavHostController.navigateToTopLevel(destination: Destination) {
    входе (кнопка «?», позже кнопка «назад» на «Настройках» и т.д.) — решение
    каждый раз одно: звать `navigateToTopLevel`, не изобретать локальный
    `navigate()`.
+3. Кнопка «домой» (`onHomeClick` в `SectionScaffold`) — асимметрия в
+   ОБРАТНУЮ сторону: `popBackStack(Destination.Home, false)` без
+   `saveState` изначально уничтожала запись уходящего раздела вместо
+   `navigateToTopLevel`-совместимого сохранения. Симптом воспроизводился
+   только на `Record` во время активной записи: `Запись → домой → Подготовка
+   → домой → Запись` — `RecordViewModel` уничтожался при первом уходе на
+   `Home` (GPS-коллектор в `viewModelScope` обрывался вместе с ним), при
+   возврате создавался новый экземпляр, ничего не знающий об активной
+   прогулке (не перегидратируется из Room), а foreground-сервис с
+   уведомлением продолжал висеть, потому что его останавливает только явный
+   `finish()`. Прогулка так и оставалась в архиве «Не завершена». Фикс —
+   `saveState = true` на всех 6 местах `onHomeClick` (не только у `Record`,
+   для единообразия схемы).
 
 ## Общий `viewModelStoreOwner` для вложенных экранов карты
 

@@ -50,7 +50,7 @@ fun LeshyNavHost(
             val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = backStackEntry)
             SectionScaffold(
                 title = StringKey.NavRecord,
-                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
             ) { padding ->
                 RecordScreen(
                     viewModel = viewModel,
@@ -62,7 +62,7 @@ fun LeshyNavHost(
         composable<Destination.Archive> {
             SectionScaffold(
                 title = StringKey.NavArchive,
-                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
             ) { padding ->
                 ArchiveScreen(
                     onWalkClick = { walkId -> navController.navigate(Destination.WalkDetail(walkId)) },
@@ -101,25 +101,25 @@ fun LeshyNavHost(
         composable<Destination.Map> {
             SectionScaffold(
                 title = StringKey.NavMap,
-                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
             ) { padding -> MapScreen(modifier = Modifier.padding(padding)) }
         }
         composable<Destination.Preparation> {
             SectionScaffold(
                 title = StringKey.NavPreparation,
-                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
             ) { padding -> PreparationScreen(modifier = Modifier.padding(padding)) }
         }
         composable<Destination.Settings> {
             SectionScaffold(
                 title = StringKey.SettingsTitle,
-                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
             ) { padding -> SettingsScreen(modifier = Modifier.padding(padding)) }
         }
         composable<Destination.Data> {
             SectionScaffold(
                 title = StringKey.NavData,
-                onHomeClick = { navController.popBackStack(Destination.Home, false) },
+                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
             ) { padding -> DataScreen(modifier = Modifier.padding(padding)) }
         }
     }
