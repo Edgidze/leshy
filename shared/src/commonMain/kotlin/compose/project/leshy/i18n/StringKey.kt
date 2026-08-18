@@ -16,6 +16,7 @@ enum class StringKey {
     SettingsMushroomSortByEdibilityThenAlphabetical,
     SettingsMushroomSortByAlphabetical,
     SettingsResetMushroomOrderOnWalkFinish,
+    SettingsCollectionsTitle,
 
     NavHomeContentDescription,
     HelpContentDescription,
@@ -54,6 +55,10 @@ enum class StringKey {
     CategoryAmanitaVaginata,
     CategoryRussulaFoetens,
     CategoryMisc,
+
+    CollectionDemoNorth,
+    CollectionDemoSouth,
+    CollectionDemoEast,
 
     DefaultWalkName,
     RecordWalkNameHint,

@@ -22,7 +22,19 @@ class CategoryRepositoryImpl(
 
     override suspend fun count(): Int = categoryDao.count()
 
-    override suspend fun upsert(category: Category): Long = categoryDao.insert(category.toEntity())
+    // A real UPDATE for existing rows, not `insert(..., OnConflictStrategy.REPLACE)` — REPLACE is a
+    // delete+reinsert at the SQLite level, which would fire category_collections' ON DELETE CASCADE
+    // and silently wipe that category's collection memberships on every plain isActive/isPicked
+    // toggle (see .claude/plans/mushroom-collections.md, Phase 1 postmortem).
+    override suspend fun upsert(category: Category): Long {
+        val entity = category.toEntity()
+        return if (category.id == 0L) {
+            categoryDao.insert(entity)
+        } else {
+            categoryDao.update(entity)
+            category.id
+        }
+    }
 
     override suspend fun delete(category: Category) = categoryDao.delete(category.toEntity())
 }

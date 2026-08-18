@@ -51,6 +51,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "По съедобности и алфавиту"
     StringKey.SettingsMushroomSortByAlphabetical -> "По алфавиту"
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Сбрасывать порядок грибов в конце прогулки"
+    StringKey.SettingsCollectionsTitle -> "Подборки грибов"
 
     StringKey.NavHomeContentDescription -> "На главную"
     StringKey.HelpContentDescription -> "Помощь"
@@ -89,6 +90,10 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.CategoryAmanitaVaginata -> "Поплавок серый"
     StringKey.CategoryRussulaFoetens -> "Валуй"
     StringKey.CategoryMisc -> "Разное"
+
+    StringKey.CollectionDemoNorth -> "Демо: Север"
+    StringKey.CollectionDemoSouth -> "Демо: Юг"
+    StringKey.CollectionDemoEast -> "Демо: Восток"
 
     StringKey.DefaultWalkName -> "Прогулка"
     StringKey.RecordWalkNameHint -> "Название прогулки"
@@ -233,6 +238,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "By edibility, then alphabetically"
     StringKey.SettingsMushroomSortByAlphabetical -> "Alphabetically"
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Reset mushroom order at the end of a walk"
+    StringKey.SettingsCollectionsTitle -> "Mushroom collections"
 
     StringKey.NavHomeContentDescription -> "Home"
     StringKey.HelpContentDescription -> "Help"
@@ -271,6 +277,10 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.CategoryAmanitaVaginata -> "Grisette"
     StringKey.CategoryRussulaFoetens -> "Valui"
     StringKey.CategoryMisc -> "Misc"
+
+    StringKey.CollectionDemoNorth -> "Demo: North"
+    StringKey.CollectionDemoSouth -> "Demo: South"
+    StringKey.CollectionDemoEast -> "Demo: East"
 
     StringKey.DefaultWalkName -> "Walk"
     StringKey.RecordWalkNameHint -> "Walk name"

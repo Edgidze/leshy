@@ -41,6 +41,7 @@ import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.settings.SettingsViewModel
+import compose.project.leshy.ui.components.CollectionPicker
 import compose.project.leshy.ui.map.MUSHROOM_MARKER_BASE_SIZE
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.allDrawableResources
@@ -98,6 +99,16 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
         ResetMushroomOrderOnWalkFinishOption(
             checked = uiState.resetMushroomOrderOnWalkFinish,
             onCheckedChange = viewModel::setResetMushroomOrderOnWalkFinish,
+        )
+
+        Text(
+            stringResource(StringKey.SettingsCollectionsTitle),
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+        )
+        CollectionPicker(
+            items = uiState.collectionPickerItems,
+            onToggleCollection = viewModel::toggleCollection,
+            onToggleCategory = viewModel::setCategoryPicked,
         )
     }
 }

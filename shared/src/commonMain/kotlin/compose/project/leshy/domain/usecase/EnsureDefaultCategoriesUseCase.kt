@@ -52,9 +52,21 @@ class EnsureDefaultCategoriesUseCase(
                 existing == null -> categoryRepository.upsert(category)
                 // Keep already-seeded installs in sync with catalog data (order,
                 // color, icon, edibility) on every launch, without a schema
-                // migration — but never touch isActive, that's user-owned.
-                existing.copy(isActive = category.isActive) != category ->
-                    categoryRepository.upsert(category.copy(id = existing.id, isActive = existing.isActive))
+                // migration — but never touch isActive/isPicked/isFilterEligible,
+                // those are user-owned (see .claude/plans/mushroom-collections.md).
+                existing.copy(
+                    isActive = category.isActive,
+                    isPicked = category.isPicked,
+                    isFilterEligible = category.isFilterEligible,
+                ) != category ->
+                    categoryRepository.upsert(
+                        category.copy(
+                            id = existing.id,
+                            isActive = existing.isActive,
+                            isPicked = existing.isPicked,
+                            isFilterEligible = existing.isFilterEligible,
+                        ),
+                    )
             }
         }
     }
