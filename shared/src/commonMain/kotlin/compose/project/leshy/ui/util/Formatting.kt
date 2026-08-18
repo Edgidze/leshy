@@ -42,6 +42,25 @@ fun formatDateOnly(epochMillis: Long): String =
         .toLocalDateTime(TimeZone.currentSystemDefault())
         .format(DATE_ONLY_FORMAT)
 
+/** Localized month name, 1-12. Shared by the Map filter dialog and the export walks picker. */
+@Composable
+fun monthName(month: Int): String = stringResource(
+    when (month) {
+        1 -> StringKey.MonthJanuary
+        2 -> StringKey.MonthFebruary
+        3 -> StringKey.MonthMarch
+        4 -> StringKey.MonthApril
+        5 -> StringKey.MonthMay
+        6 -> StringKey.MonthJune
+        7 -> StringKey.MonthJuly
+        8 -> StringKey.MonthAugust
+        9 -> StringKey.MonthSeptember
+        10 -> StringKey.MonthOctober
+        11 -> StringKey.MonthNovember
+        else -> StringKey.MonthDecember
+    },
+)
+
 fun formatDuration(millis: Long): String {
     val totalSeconds = millis / 1000
     val hours = totalSeconds / 3600

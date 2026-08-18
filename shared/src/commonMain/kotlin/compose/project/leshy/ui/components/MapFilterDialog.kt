@@ -41,6 +41,7 @@ import compose.project.leshy.domain.util.MILLIS_PER_DAY
 import compose.project.leshy.presentation.mapfilter.MapFilterUiState
 import compose.project.leshy.presentation.mapfilter.MapFilterViewModel
 import compose.project.leshy.ui.util.formatDateOnly
+import compose.project.leshy.ui.util.monthName
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import leshy.shared.generated.resources.Res
@@ -172,24 +173,6 @@ private fun MonthRangeSection(uiState: MapFilterUiState, onRangeChanged: (Int, I
         )
     }
 }
-
-@Composable
-private fun monthName(month: Int): String = stringResource(
-    when (month) {
-        1 -> StringKey.MonthJanuary
-        2 -> StringKey.MonthFebruary
-        3 -> StringKey.MonthMarch
-        4 -> StringKey.MonthApril
-        5 -> StringKey.MonthMay
-        6 -> StringKey.MonthJune
-        7 -> StringKey.MonthJuly
-        8 -> StringKey.MonthAugust
-        9 -> StringKey.MonthSeptember
-        10 -> StringKey.MonthOctober
-        11 -> StringKey.MonthNovember
-        else -> StringKey.MonthDecember
-    },
-)
 
 @Composable
 private fun SpeciesFilterRow(category: Category, onToggle: (Boolean) -> Unit) {

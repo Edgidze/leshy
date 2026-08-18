@@ -35,6 +35,27 @@ private fun russianMushroomsPluralKey(count: Int): StringKey {
     }
 }
 
+/** "прогулка"/"прогулки"/"прогулок" (Russian 3-way plural, agreeing with [count]) or "walk"/"walks" (English). */
+@Composable
+fun walksUnitLabel(count: Int): String {
+    val key = when (LocalAppLanguage.current) {
+        AppLanguage.RU -> russianWalksPluralKey(count)
+        AppLanguage.EN -> if (count == 1) StringKey.DataWalksCountOne else StringKey.DataWalksCountMany
+    }
+    return stringResource(key)
+}
+
+private fun russianWalksPluralKey(count: Int): StringKey {
+    val mod100 = count % 100
+    val mod10 = count % 10
+    return when {
+        mod100 in 11..14 -> StringKey.DataWalksCountMany
+        mod10 == 1 -> StringKey.DataWalksCountOne
+        mod10 in 2..4 -> StringKey.DataWalksCountFew
+        else -> StringKey.DataWalksCountMany
+    }
+}
+
 private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.AppName -> "Леший"
     StringKey.NavRecord -> "Запись"
@@ -210,6 +231,13 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.DataImportedWalksLabel -> "Импортировано прогулок"
     StringKey.DataImportFailedWalksLabel -> "Не удалось импортировать"
     StringKey.DataErrorLabel -> "Ошибка"
+    StringKey.DataChooseWalksTitle -> "Прогулки для архива"
+    StringKey.DataWalksBackContentDescription -> "Назад без сохранения выбора"
+    StringKey.DataWalksConfirmContentDescription -> "Подтвердить выбор"
+    StringKey.DataWalksSelectedLabel -> "Выбрано"
+    StringKey.DataWalksCountOne -> "прогулка"
+    StringKey.DataWalksCountFew -> "прогулки"
+    StringKey.DataWalksCountMany -> "прогулок"
     StringKey.PreparationSelectAreaButton -> "Выбрать область для скачивания"
     StringKey.PreparationDownloadThisAreaButton -> "Скачать эту область"
     StringKey.PreparationRegionNameDialogTitle -> "Название области"
@@ -406,6 +434,13 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.DataImportedWalksLabel -> "Walks imported"
     StringKey.DataImportFailedWalksLabel -> "Failed to import"
     StringKey.DataErrorLabel -> "Error"
+    StringKey.DataChooseWalksTitle -> "Walks to export"
+    StringKey.DataWalksBackContentDescription -> "Back without saving the selection"
+    StringKey.DataWalksConfirmContentDescription -> "Confirm selection"
+    StringKey.DataWalksSelectedLabel -> "Selected"
+    StringKey.DataWalksCountOne -> "walk"
+    StringKey.DataWalksCountFew -> "walks"
+    StringKey.DataWalksCountMany -> "walks"
     StringKey.PreparationSelectAreaButton -> "Select an area to download"
     StringKey.PreparationDownloadThisAreaButton -> "Download this area"
     StringKey.PreparationRegionNameDialogTitle -> "Area name"

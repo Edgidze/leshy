@@ -20,6 +20,13 @@ const val MILLIS_PER_DAY = 86_400_000L
 
 private fun Long.toDayBucket(): Long = this / MILLIS_PER_DAY
 
+/** (year, month 1-12) in the device's local time zone — used to group walks in the export picker. */
+@OptIn(ExperimentalTime::class)
+fun yearMonthOf(epochMillis: Long): Pair<Int, Int> {
+    val localDateTime = Instant.fromEpochMilliseconds(epochMillis).toLocalDateTime(TimeZone.currentSystemDefault())
+    return localDateTime.year to localDateTime.month.number
+}
+
 @OptIn(ExperimentalTime::class)
 fun Walk.matchesDateAndSeason(filter: MapFilter): Boolean {
     if (filter.startMillis != null && startTime.toDayBucket() < filter.startMillis.toDayBucket()) return false

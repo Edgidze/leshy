@@ -42,8 +42,12 @@ class ExportDataUseCase(
     private val categoryRepository: CategoryRepository,
     private val fileSystem: FileSystem = FileSystem.SYSTEM,
 ) {
-    suspend operator fun invoke(sink: BufferedSink) {
-        val walks = walkRepository.observeAll().first()
+    /** [walkIds], if non-null, restricts the archive to those walks — see the export walks picker
+     * (`WalksPickerDialog`/`DataViewModel`). `null` exports every walk (also what every existing
+     * caller/test relied on before the picker was added). */
+    suspend operator fun invoke(sink: BufferedSink, walkIds: Set<Long>? = null) {
+        val allWalks = walkRepository.observeAll().first()
+        val walks = if (walkIds == null) allWalks else allWalks.filter { it.id in walkIds }
         val nameKeyByCategoryId = categoryRepository.observeAll().first().associate { it.id to it.nameKey }
 
         val writer = ZipWriter(sink)

@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FileOpen
+import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -32,6 +33,8 @@ import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.data.DataMode
 import compose.project.leshy.presentation.data.DataUiState
 import compose.project.leshy.presentation.data.DataViewModel
+import compose.project.leshy.ui.components.WalksPickerDialog
+import compose.project.leshy.ui.components.walksSelectedButtonLabel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -85,7 +88,11 @@ fun DataScreen(modifier: Modifier = Modifier, viewModel: DataViewModel = koinVie
                         DataMode.IMPORT -> viewModel.confirmImport()
                     }
                 },
-                enabled = !uiState.isProcessing && (uiState.mode == DataMode.EXPORT || uiState.importFileHandle != null),
+                enabled = !uiState.isProcessing &&
+                    when (uiState.mode) {
+                        DataMode.EXPORT -> uiState.selectedWalkIds.isNotEmpty()
+                        DataMode.IMPORT -> uiState.importFileHandle != null
+                    },
                 modifier = Modifier.weight(1f),
             ) {
                 Text(stringResource(StringKey.DataDoneButton))
@@ -104,6 +111,26 @@ private fun ExportSection(uiState: DataUiState, viewModel: DataViewModel) {
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
         )
+
+        OutlinedButton(
+            onClick = viewModel::openWalksPicker,
+            modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+        ) {
+            Icon(Icons.Filled.Hiking, contentDescription = null)
+            Text(
+                walksSelectedButtonLabel(uiState.selectedWalkIds.size),
+                modifier = Modifier.padding(start = 8.dp),
+            )
+        }
+
+        if (uiState.showWalksPicker) {
+            WalksPickerDialog(
+                walks = uiState.availableWalks,
+                initiallySelectedIds = uiState.selectedWalkIds,
+                onConfirm = viewModel::confirmWalksSelection,
+                onDismiss = viewModel::dismissWalksPicker,
+            )
+        }
     }
 }
 
