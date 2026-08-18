@@ -26,16 +26,18 @@ data class PlaceMarker(val id: Long, val lat: Double, val lon: Double, val photo
  * Must be called directly inside a `MaplibreMap { ... }` block. [onPlaceClick] fires with the
  * tapped place's [PlaceMarker.id] — resolved trivially per-layer (each layer's `onClick` already
  * knows which place it belongs to via the [key]/closure), no GeoJSON feature-property lookup
- * needed.
+ * needed. [idPrefix] keeps layer/source ids from colliding if this is called twice on the same map
+ * (e.g. `LiveTrackMap`'s current-walk places plus a background layer of other walks' places — same
+ * rationale as `ClusteredFindsLayers.idPrefix`).
  */
 @Composable
-fun PlaceMarkersLayer(places: List<PlaceMarker>, onPlaceClick: (Long) -> Unit) {
+fun PlaceMarkersLayer(places: List<PlaceMarker>, onPlaceClick: (Long) -> Unit, idPrefix: String = "place") {
     places.forEach { place ->
         key(place.id) {
             val painter = rememberPlaceMarkerPainter(place.photoPath)
             val source = rememberGeoJsonSource(GeoJsonData.Features(Point(Position(place.lon, place.lat))))
             SymbolLayer(
-                id = "place-${place.id}",
+                id = "$idPrefix-${place.id}",
                 source = source,
                 iconImage = image(painter, size = DpSize(PLACE_MARKER_WIDTH, PLACE_MARKER_HEIGHT)),
                 iconAnchor = const(SymbolAnchor.Bottom),

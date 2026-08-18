@@ -49,6 +49,7 @@ private const val TICK_INTERVAL_MILLIS = 1000L
 private data class RecordFilterState(
     val categories: List<Category>,
     val historicalFinds: List<FieldMark>,
+    val historicalPlaces: List<FieldMark>,
     val filterCount: Int,
 )
 
@@ -115,10 +116,21 @@ class RecordViewModel(
                     it.walkId in matchingWalkIds && it.type == MarkType.MUSHROOM &&
                         categoryById[it.categoryId]?.isActive == true
                 }
-                RecordFilterState(tileCategories, historicalFinds, computeFilterCount(filter, walks, categories))
+                val historicalPlaces = marks.filter { it.walkId in matchingWalkIds && it.type == MarkType.POI }
+                RecordFilterState(
+                    tileCategories,
+                    historicalFinds,
+                    historicalPlaces,
+                    computeFilterCount(filter, walks, categories),
+                )
             }.collect { s ->
                 _uiState.update {
-                    it.copy(categories = s.categories, historicalFinds = s.historicalFinds, filterCount = s.filterCount)
+                    it.copy(
+                        categories = s.categories,
+                        historicalFinds = s.historicalFinds,
+                        historicalPlaces = s.historicalPlaces,
+                        filterCount = s.filterCount,
+                    )
                 }
             }
         }

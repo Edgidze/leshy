@@ -48,6 +48,7 @@ fun LiveTrackMap(
     historicalMarkers: List<MapMarker> = emptyList(),
     places: List<PlaceMarker> = emptyList(),
     onPlaceClick: (Long) -> Unit = {},
+    historicalPlaces: List<PlaceMarker> = emptyList(),
 ) {
     val cameraState = rememberCameraState(
         firstPosition = CameraPosition(
@@ -93,6 +94,10 @@ fun LiveTrackMap(
         options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
     ) {
         ClusteredFindsLayers(historicalMarkers, idPrefix = "historical")
+        // Reuses the same onPlaceClick as the current walk's own places below — safe because
+        // RecordScreen.kt excludes the current walk's marks from historicalPlaces, so the two
+        // layers' place ids never collide.
+        PlaceMarkersLayer(historicalPlaces, onPlaceClick, idPrefix = "historical-place")
 
         if (track.size >= 2) {
             val trackSource = rememberGeoJsonSource(

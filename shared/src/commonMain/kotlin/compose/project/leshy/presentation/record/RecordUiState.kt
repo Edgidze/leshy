@@ -16,6 +16,7 @@ data class RecordUiState(
     val trackPoints: List<GeoPoint> = emptyList(),
     val marks: List<FieldMark> = emptyList(),
     val historicalFinds: List<FieldMark> = emptyList(),
+    val historicalPlaces: List<FieldMark> = emptyList(),
     val filterCount: Int = 0,
     val justFinished: Boolean = false,
     /** Bumped each time a tile is moved to the front of the feed — see [RecordViewModel.bringCategoryToFront]. */
