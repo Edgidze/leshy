@@ -120,7 +120,12 @@ fun LeshyNavHost(
             SectionScaffold(
                 title = StringKey.NavData,
                 onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
-            ) { padding -> DataScreen(modifier = Modifier.padding(padding)) }
+            ) { padding ->
+                DataScreen(
+                    onNavigateToArchive = { navController.navigateToTopLevel(Destination.Archive) },
+                    modifier = Modifier.padding(padding),
+                )
+            }
         }
     }
 }

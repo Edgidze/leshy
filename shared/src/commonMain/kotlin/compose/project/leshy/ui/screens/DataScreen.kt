@@ -38,7 +38,11 @@ import compose.project.leshy.ui.components.walksSelectedButtonLabel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun DataScreen(modifier: Modifier = Modifier, viewModel: DataViewModel = koinViewModel()) {
+fun DataScreen(
+    onNavigateToArchive: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: DataViewModel = koinViewModel(),
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     val startExport = rememberExportLauncher(
@@ -81,11 +85,13 @@ fun DataScreen(modifier: Modifier = Modifier, viewModel: DataViewModel = koinVie
             OutlinedButton(onClick = viewModel::cancel, modifier = Modifier.weight(1f)) {
                 Text(stringResource(StringKey.DataCancelButton))
             }
+            val importDone = uiState.mode == DataMode.IMPORT && uiState.importResult != null
             Button(
                 onClick = {
-                    when (uiState.mode) {
-                        DataMode.EXPORT -> startExport()
-                        DataMode.IMPORT -> viewModel.confirmImport()
+                    when {
+                        uiState.mode == DataMode.EXPORT -> startExport()
+                        importDone -> onNavigateToArchive()
+                        else -> viewModel.confirmImport()
                     }
                 },
                 enabled = !uiState.isProcessing &&
@@ -97,10 +103,10 @@ fun DataScreen(modifier: Modifier = Modifier, viewModel: DataViewModel = koinVie
             ) {
                 Text(
                     stringResource(
-                        if (uiState.mode == DataMode.EXPORT && uiState.exportSucceeded) {
-                            StringKey.DataSavedButton
-                        } else {
-                            StringKey.DataDoneButton
+                        when {
+                            uiState.mode == DataMode.EXPORT && uiState.exportSucceeded -> StringKey.DataSavedButton
+                            importDone -> StringKey.DataGoToArchiveButton
+                            else -> StringKey.DataDoneButton
                         },
                     ),
                 )
