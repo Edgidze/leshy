@@ -15,6 +15,7 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -144,6 +145,12 @@ private fun MushroomMarkerSizeSlider(
         valueRange = MUSHROOM_MARKER_SIZE_SCALE_MIN..MUSHROOM_MARKER_SIZE_SCALE_MAX,
         onValueChangeFinished = { onScaleChangeFinished(sliderValue) },
         modifier = Modifier.fillMaxWidth(),
+        // Material3's current default track draws a gap around the thumb plus a stop-indicator
+        // dot at the end — reads as a broken/disconnected track for a plain 0..1 scale slider
+        // with no steps, so both are turned off for a classic continuous look.
+        track = { sliderState ->
+            SliderDefaults.Track(sliderState = sliderState, drawStopIndicator = null, thumbTrackGapSize = 0.dp)
+        },
     )
 
     val drawable = previewCategory?.iconRef?.let { Res.allDrawableResources[it] }
