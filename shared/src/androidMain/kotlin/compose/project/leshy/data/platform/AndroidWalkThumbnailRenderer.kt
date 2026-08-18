@@ -7,11 +7,13 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PointF
+import android.util.Log
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.ui.map.OPEN_FREE_MAP_STYLE_URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import org.maplibre.android.MapLibre
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.geometry.LatLngBounds
 import org.maplibre.android.maps.Style
@@ -20,6 +22,8 @@ import org.maplibre.android.snapshotter.MapSnapshotter
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.coroutines.resume
+
+private const val LOG_TAG = "WalkThumbnailRenderer"
 
 private const val THUMBNAIL_PIXELS = 240
 private const val SNAPSHOT_PADDING_PX = 24
@@ -43,7 +47,8 @@ class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnail
         return try {
             val snapshot = takeSnapshot(track, findLocations, anchor) ?: return null
             withContext(Dispatchers.IO) { writeAnnotated(walkId, snapshot, track, findLocations, anchor) }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.w(LOG_TAG, "render($walkId) failed", e)
             null
         }
     }
@@ -56,6 +61,16 @@ class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnail
     ): MapSnapshot? =
         withContext(Dispatchers.Main) {
             suspendCancellableCoroutine { continuation ->
+                // Normally happens implicitly the first time some screen renders a live
+                // MaplibreMap/OfflineManager (see ui/map/CLAUDE.md) — a walk finishing on Record
+                // always goes through that first. Backfilling thumbnails for imported walks
+                // (BackfillWalkThumbnailsUseCase, called from DataViewModel right after import)
+                // has no such guarantee: if Data→Import is the very first screen touching maps in
+                // this process, MapSnapshotter's native init never ran and it silently produces
+                // nothing. getInstance() is idempotent (no-ops once already initialized), so
+                // calling it unconditionally here is safe and closes that gap for good.
+                MapLibre.getInstance(context)
+
                 val boundsBuilder = LatLngBounds.Builder()
                 (track + findLocations + listOfNotNull(anchor)).forEach { boundsBuilder.include(LatLng(it.lat, it.lon)) }
                 val region = padIfDegenerate(boundsBuilder.build())
@@ -68,7 +83,10 @@ class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnail
                 val snapshotter = MapSnapshotter(context, options)
                 snapshotter.start(
                     { snapshot -> if (continuation.isActive) continuation.resume(snapshot) },
-                    { _ -> if (continuation.isActive) continuation.resume(null) },
+                    { error ->
+                        Log.w(LOG_TAG, "MapSnapshotter error: $error")
+                        if (continuation.isActive) continuation.resume(null)
+                    },
                 )
                 continuation.invokeOnCancellation { snapshotter.cancel() }
             }
