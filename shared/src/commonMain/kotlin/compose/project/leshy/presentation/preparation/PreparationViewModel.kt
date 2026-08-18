@@ -3,17 +3,12 @@ package compose.project.leshy.presentation.preparation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import compose.project.leshy.domain.repository.OfflineRegionRepository
-import kotlin.math.roundToInt
+import compose.project.leshy.domain.util.estimateOfflineRegion
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-// How far below the zoom level the user is looking at when they tap "download" the minimum zoom
-// is set — gives a few pre-cached zoomed-out fallback levels without inflating the tile count by
-// downloading the whole world at low zoom.
-private const val ZOOM_MIN_OFFSET = 4.0
 
 class PreparationViewModel(
     private val repository: OfflineRegionRepository,
@@ -30,14 +25,24 @@ class PreparationViewModel(
         }
     }
 
-    fun onDownloadCurrentViewClicked(west: Double, south: Double, east: Double, north: Double, currentZoom: Double) {
-        val maxZoom = currentZoom.roundToInt()
-        val minZoom = (currentZoom - ZOOM_MIN_OFFSET).roundToInt().coerceAtLeast(0)
+    // Detail (zoom range) is never something the user chooses or sees — see PreparationScreen.kt.
+    // They only draw an area; estimateOfflineRegion picks a detail level automatically, coarser for
+    // larger areas, so no selection can blow up into an unbounded download.
+    fun onAreaSelected(west: Double, south: Double, east: Double, north: Double) {
+        val estimate = estimateOfflineRegion(west, south, east, north)
         _uiState.update {
             it.copy(
                 showNameDialog = true,
                 nameInput = "",
-                pendingSelection = PendingRegionSelection(west, south, east, north, minZoom, maxZoom),
+                pendingSelection = PendingRegionSelection(
+                    west = west,
+                    south = south,
+                    east = east,
+                    north = north,
+                    minZoom = estimate.minZoom,
+                    maxZoom = estimate.maxZoom,
+                    estimatedBytes = estimate.estimatedBytes,
+                ),
             )
         }
     }
@@ -93,5 +98,27 @@ class PreparationViewModel(
 
     fun onDeleteDismissed() {
         _uiState.update { it.copy(regionPendingDelete = null) }
+    }
+
+    fun onRetryClicked(name: String) {
+        val region = _uiState.value.regions.firstOrNull { it.name == name } ?: return
+        viewModelScope.launch {
+            // The failed pack has to go first — downloadRegion always creates a new pack, and a
+            // second pack under the same metadata name would make findPack's name lookup (and the
+            // LazyColumn key in PreparationScreen) ambiguous, same hazard as the duplicate-name
+            // guard in onNameConfirmed.
+            repository.delete(name)
+            runCatching {
+                repository.downloadRegion(
+                    name = region.name,
+                    west = region.west,
+                    south = region.south,
+                    east = region.east,
+                    north = region.north,
+                    minZoom = region.minZoom,
+                    maxZoom = region.maxZoom,
+                )
+            }
+        }
     }
 }

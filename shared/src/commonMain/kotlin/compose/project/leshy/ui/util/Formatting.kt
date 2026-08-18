@@ -101,6 +101,15 @@ fun formatDistanceKm(meters: Double): String {
     return "$whole.${fraction.toString().padStart(2, '0')} ${stringResource(StringKey.UnitKilometers)}"
 }
 
+@Composable
+fun formatMegabytes(bytes: Long): String {
+    val mb = bytes / 1_000_000.0
+    val rounded = (mb * 10).toLong() / 10.0
+    val whole = rounded.toLong()
+    val fraction = ((rounded - whole) * 10).toLong().let { if (it < 0) -it else it }
+    return "$whole.$fraction ${stringResource(StringKey.UnitMegabytes)}"
+}
+
 /** "lat, lon" at fixed 6-decimal precision (~0.1 m), e.g. "55.751244, 37.618423". */
 fun formatCoordinates(lat: Double, lon: Double): String = "${formatCoordinate(lat)}, ${formatCoordinate(lon)}"
 

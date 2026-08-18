@@ -28,8 +28,14 @@ class OfflineRegionRepositoryImpl(
     override fun observeRegions(): Flow<List<OfflineRegionInfo>> =
         // snapshotFlow bridges OfflineManager.packs (a Compose State, not a Flow) into a cold
         // Flow — works outside @Composable as long as Compose's global snapshot system is
-        // running, which it already is on both app hosts.
-        snapshotFlow { offlineManager.packs }.map { packs -> packs.map(::toRegionInfo) }
+        // running, which it already is on both app hosts. Reading pack.downloadProgress here too
+        // (not just the outer `packs` set) is required, not cosmetic: snapshotFlow only re-emits on
+        // a State read INSIDE this block, and each OfflinePack's progress lives on its own separate
+        // State — without this, a pack's progress is only ever (re-)read at the instant it's added
+        // to/removed from the set, freezing every pack's displayed status/size at whatever it was
+        // when it (or some unrelated pack) was last created or deleted.
+        snapshotFlow { offlineManager.packs.map { pack -> pack to pack.downloadProgress } }
+            .map { entries -> entries.map { (pack, progress) -> toRegionInfo(pack, progress) } }
 
     override suspend fun downloadRegion(
         name: String,
@@ -67,10 +73,9 @@ class OfflineRegionRepositoryImpl(
 
     private fun decodeName(pack: OfflinePack): String = pack.metadata?.decodeToString().orEmpty()
 
-    private fun toRegionInfo(pack: OfflinePack): OfflineRegionInfo {
+    private fun toRegionInfo(pack: OfflinePack, progress: DownloadProgress): OfflineRegionInfo {
         val definition = pack.definition as? OfflinePackDefinition.TilePyramid
         val bounds = definition?.bounds
-        val progress = pack.downloadProgress
         return OfflineRegionInfo(
             name = decodeName(pack),
             west = bounds?.southwest?.longitude ?: 0.0,

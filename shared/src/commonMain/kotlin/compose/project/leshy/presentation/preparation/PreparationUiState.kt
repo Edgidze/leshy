@@ -9,6 +9,7 @@ data class PendingRegionSelection(
     val north: Double,
     val minZoom: Int,
     val maxZoom: Int,
+    val estimatedBytes: Long,
 )
 
 data class PreparationUiState(
