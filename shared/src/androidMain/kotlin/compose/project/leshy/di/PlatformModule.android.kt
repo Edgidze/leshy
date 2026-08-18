@@ -17,6 +17,8 @@ import okio.Path.Companion.toPath
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import org.maplibre.compose.offline.OfflineManager
+import org.maplibre.compose.offline.getOfflineManager
 
 private const val SETTINGS_FILE_NAME = "leshy_settings.preferences_pb"
 
@@ -32,6 +34,9 @@ actual val platformModule: Module = module {
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
     single<BackgroundRecordingController> { AndroidBackgroundRecordingController(androidContext()) }
     single<WalkThumbnailRenderer> { AndroidWalkThumbnailRenderer(androidContext()) }
+    // getOfflineManager(context) calls MapLibre.getInstance(context) internally on first use
+    // (see AndroidOfflineManager) — no separate native-init step needed here.
+    single<OfflineManager> { getOfflineManager(androidContext()) }
     single<DataStore<Preferences>> {
         val appContext = androidContext().applicationContext
         PreferenceDataStoreFactory.createWithPath {

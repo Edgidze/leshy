@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Place
@@ -82,6 +83,11 @@ fun HomeScreen(onNavigate: (Destination) -> Unit) {
                 label = StringKey.NavMap,
                 icon = Icons.Filled.Place,
                 onClick = { onNavigate(Destination.Map) },
+            )
+            HomeNavButton(
+                label = StringKey.NavPreparation,
+                icon = Icons.Filled.Download,
+                onClick = { onNavigate(Destination.Preparation) },
             )
             HomeNavButton(
                 label = StringKey.SettingsTitle,
