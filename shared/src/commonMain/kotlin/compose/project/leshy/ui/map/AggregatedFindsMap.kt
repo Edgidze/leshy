@@ -33,11 +33,15 @@ fun AggregatedFindsMap(
     tracks: Map<Long, List<GeoPoint>>,
     markers: List<MapMarker>,
     modifier: Modifier,
+    places: List<PlaceMarker> = emptyList(),
+    onPlaceClick: (Long) -> Unit = {},
 ) {
     val cameraState = rememberCameraState(firstPosition = CameraPosition(target = Position(0.0, 0.0), zoom = 1.0))
 
-    val allPoints = remember(tracks, markers) {
-        tracks.values.flatten().map { it.lat to it.lon } + markers.map { it.lat to it.lon }
+    val allPoints = remember(tracks, markers, places) {
+        tracks.values.flatten().map { it.lat to it.lon } +
+            markers.map { it.lat to it.lon } +
+            places.map { it.lat to it.lon }
     }
 
     LaunchedEffect(allPoints) {
@@ -75,5 +79,6 @@ fun AggregatedFindsMap(
         }
 
         ClusteredFindsLayers(markers)
+        PlaceMarkersLayer(places, onPlaceClick)
     }
 }

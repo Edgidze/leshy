@@ -24,16 +24,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.map.MapMode
 import compose.project.leshy.presentation.map.MapStats
 import compose.project.leshy.presentation.map.MapViewModel
+import compose.project.leshy.ui.components.AddPlaceDialog
+import compose.project.leshy.ui.components.DeletePlaceConfirmDialog
 import compose.project.leshy.ui.components.MapFilterButton
 import compose.project.leshy.ui.components.MapFilterDialog
+import compose.project.leshy.ui.components.PlaceViewDialog
 import compose.project.leshy.ui.map.AggregatedFindsMap
 import compose.project.leshy.ui.map.MapMarker
+import compose.project.leshy.ui.map.PlaceMarker
 import compose.project.leshy.ui.util.formatDistanceKm
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -53,6 +58,10 @@ private val FILTER_BUTTON_OFFSET_STATS = (-6).dp
 fun MapScreen(modifier: Modifier = Modifier, viewModel: MapViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     var showFilterDialog by remember { mutableStateOf(false) }
+    var selectedPlaceId by remember { mutableStateOf<Long?>(null) }
+    var isEditingPlace by remember { mutableStateOf(false) }
+    var confirmDeletePlace by remember { mutableStateOf(false) }
+    val selectedPlace = uiState.placeMarks.find { it.id == selectedPlaceId }
 
     Column(modifier = modifier.fillMaxSize()) {
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
@@ -87,6 +96,10 @@ fun MapScreen(modifier: Modifier = Modifier, viewModel: MapViewModel = koinViewM
                                 iconRef = category?.iconRef,
                             )
                         },
+                        places = uiState.placeMarks.map { mark ->
+                            PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
+                        },
+                        onPlaceClick = { id -> selectedPlaceId = id },
                         modifier = Modifier.fillMaxSize(),
                     )
                 }
@@ -110,6 +123,40 @@ fun MapScreen(modifier: Modifier = Modifier, viewModel: MapViewModel = koinViewM
 
     if (showFilterDialog) {
         MapFilterDialog(onDismissRequest = { showFilterDialog = false })
+    }
+
+    if (selectedPlace != null) {
+        if (isEditingPlace) {
+            AddPlaceDialog(
+                location = GeoPoint(selectedPlace.lat, selectedPlace.lon, null, selectedPlace.timestamp),
+                initialName = selectedPlace.name,
+                initialDescription = selectedPlace.description.orEmpty(),
+                initialPhotoPath = selectedPlace.photoPath,
+                onSave = { name, description, photoPath ->
+                    viewModel.updatePlace(selectedPlace, name, description, photoPath)
+                    isEditingPlace = false
+                },
+                onDismissRequest = { isEditingPlace = false },
+            )
+        } else {
+            PlaceViewDialog(
+                mark = selectedPlace,
+                onEditClick = { isEditingPlace = true },
+                onDeleteClick = { confirmDeletePlace = true },
+                onDismissRequest = { selectedPlaceId = null },
+            )
+        }
+    }
+
+    if (confirmDeletePlace && selectedPlace != null) {
+        DeletePlaceConfirmDialog(
+            onConfirm = {
+                viewModel.deletePlace(selectedPlace)
+                confirmDeletePlace = false
+                selectedPlaceId = null
+            },
+            onDismissRequest = { confirmDeletePlace = false },
+        )
     }
 }
 

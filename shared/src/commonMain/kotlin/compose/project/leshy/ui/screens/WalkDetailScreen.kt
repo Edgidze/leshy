@@ -151,7 +151,11 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
                     }
 
                     Text(
-                        stringResource(StringKey.WalkDetailFindsTitle),
+                        if (uiState.mushroomCounts.isEmpty()) {
+                            stringResource(StringKey.WalkDetailFindsEmpty)
+                        } else {
+                            stringResource(StringKey.WalkDetailFindsTitle)
+                        },
                         modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
                         textDecoration = TextDecoration.Underline,
                     )

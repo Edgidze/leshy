@@ -23,6 +23,10 @@ class FieldMarkRepositoryImpl(
 
     override suspend fun addMark(mark: FieldMark): Long = objectDao.insert(mark.toEntity())
 
+    override suspend fun updateMark(mark: FieldMark) = objectDao.update(mark.toEntity())
+
+    override suspend fun deleteMark(mark: FieldMark) = objectDao.delete(mark.toEntity())
+
     override suspend fun removeLastMushroomMark(walkId: Long, categoryId: Long): Boolean {
         val last = objectDao.getLastByWalkAndCategory(walkId, categoryId) ?: return false
         objectDao.delete(last)

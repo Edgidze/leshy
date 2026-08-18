@@ -24,7 +24,13 @@ sealed interface Destination {
     data object Map : Destination
 
     @Serializable
+    data object Preparation : Destination
+
+    @Serializable
     data object Settings : Destination
+
+    @Serializable
+    data object Data : Destination
 }
 
 /**

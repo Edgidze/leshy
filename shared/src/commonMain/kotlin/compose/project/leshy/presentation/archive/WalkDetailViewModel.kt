@@ -2,12 +2,15 @@ package compose.project.leshy.presentation.archive
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.FieldMarkRepository
 import compose.project.leshy.domain.repository.TrackPointRepository
 import compose.project.leshy.domain.repository.WalkRepository
+import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
+import compose.project.leshy.domain.usecase.UpdatePlaceMarkUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +23,8 @@ class WalkDetailViewModel(
     fieldMarkRepository: FieldMarkRepository,
     trackPointRepository: TrackPointRepository,
     categoryRepository: CategoryRepository,
+    private val updatePlaceMark: UpdatePlaceMarkUseCase,
+    private val deletePlaceMark: DeletePlaceMarkUseCase,
 ) : ViewModel() {
 
     private val showDeleteConfirmation = MutableStateFlow(false)
@@ -87,5 +92,15 @@ class WalkDetailViewModel(
             _uiState.value.walk?.let { walkRepository.delete(it) }
             deleted.value = true
         }
+    }
+
+    fun updatePlace(mark: FieldMark, name: String, description: String, photoPath: String?) {
+        // No manual _uiState splice needed: fieldMarkRepository.observeByWalkId(walkId) above is a
+        // live Room Flow, so the update re-emits into uiState.marks on its own once it commits.
+        viewModelScope.launch { updatePlaceMark(mark, name, description, photoPath) }
+    }
+
+    fun deletePlace(mark: FieldMark) {
+        viewModelScope.launch { deletePlaceMark(mark) }
     }
 }

@@ -11,4 +11,8 @@ data class WalkArchiveItem(
 
 data class ArchiveUiState(
     val items: List<WalkArchiveItem> = emptyList(),
-)
+    val selectedWalkIds: Set<Long> = emptySet(),
+    val showDeleteConfirmation: Boolean = false,
+) {
+    val isSelectionMode: Boolean get() = selectedWalkIds.isNotEmpty()
+}

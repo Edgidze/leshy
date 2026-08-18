@@ -18,6 +18,7 @@ import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.repository.WalkRepository
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.AddPlaceMarkUseCase
+import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.MISC_CATEGORY_NAME_KEY
@@ -25,6 +26,7 @@ import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.RenameWalkUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
+import compose.project.leshy.domain.usecase.UpdatePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.UpdateWalkThumbnailUseCase
 import compose.project.leshy.domain.util.computeFilterCount
 import compose.project.leshy.domain.util.matchesDateAndSeason
@@ -47,6 +49,7 @@ private const val TICK_INTERVAL_MILLIS = 1000L
 private data class RecordFilterState(
     val categories: List<Category>,
     val historicalFinds: List<FieldMark>,
+    val historicalPlaces: List<FieldMark>,
     val filterCount: Int,
 )
 
@@ -66,6 +69,8 @@ class RecordViewModel(
     private val addMushroomMark: AddMushroomMarkUseCase,
     private val removeLastMushroomMark: RemoveLastMushroomMarkUseCase,
     private val addPlaceMark: AddPlaceMarkUseCase,
+    private val updatePlaceMark: UpdatePlaceMarkUseCase,
+    private val deletePlaceMark: DeletePlaceMarkUseCase,
     private val walkThumbnailRenderer: WalkThumbnailRenderer,
     private val updateWalkThumbnail: UpdateWalkThumbnailUseCase,
 ) : ViewModel() {
@@ -111,10 +116,21 @@ class RecordViewModel(
                     it.walkId in matchingWalkIds && it.type == MarkType.MUSHROOM &&
                         categoryById[it.categoryId]?.isActive == true
                 }
-                RecordFilterState(tileCategories, historicalFinds, computeFilterCount(filter, walks, categories))
+                val historicalPlaces = marks.filter { it.walkId in matchingWalkIds && it.type == MarkType.POI }
+                RecordFilterState(
+                    tileCategories,
+                    historicalFinds,
+                    historicalPlaces,
+                    computeFilterCount(filter, walks, categories),
+                )
             }.collect { s ->
                 _uiState.update {
-                    it.copy(categories = s.categories, historicalFinds = s.historicalFinds, filterCount = s.filterCount)
+                    it.copy(
+                        categories = s.categories,
+                        historicalFinds = s.historicalFinds,
+                        historicalPlaces = s.historicalPlaces,
+                        filterCount = s.filterCount,
+                    )
                 }
             }
         }
@@ -281,6 +297,22 @@ class RecordViewModel(
                 photoPath,
             )
             _uiState.update { state -> state.copy(marks = state.marks + mark) }
+        }
+    }
+
+    fun updatePlace(mark: FieldMark, name: String, description: String, photoPath: String?) {
+        viewModelScope.launch {
+            val updated = updatePlaceMark(mark, name, description, photoPath)
+            _uiState.update { state ->
+                state.copy(marks = state.marks.map { if (it.id == updated.id) updated else it })
+            }
+        }
+    }
+
+    fun deletePlace(mark: FieldMark) {
+        viewModelScope.launch {
+            deletePlaceMark(mark)
+            _uiState.update { state -> state.copy(marks = state.marks.filter { it.id != mark.id }) }
         }
     }
 

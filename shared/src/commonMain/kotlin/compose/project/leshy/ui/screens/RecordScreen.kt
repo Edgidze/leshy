@@ -59,6 +59,8 @@ import androidx.compose.ui.window.DialogProperties
 import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
+import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.i18n.LocalAppLanguage
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
@@ -66,13 +68,16 @@ import compose.project.leshy.presentation.record.RecordUiState
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.presentation.searchOrderedCategories
 import compose.project.leshy.ui.components.AddPlaceDialog
+import compose.project.leshy.ui.components.DeletePlaceConfirmDialog
 import compose.project.leshy.ui.components.MapFilterButton
 import compose.project.leshy.ui.components.MapFilterDialog
 import compose.project.leshy.ui.components.MushroomPhoto
 import compose.project.leshy.ui.components.MushroomTile
+import compose.project.leshy.ui.components.PlaceViewDialog
 import compose.project.leshy.ui.components.RECORD_MUSHROOM_TILE_WIDTH
 import compose.project.leshy.ui.map.LiveTrackMap
 import compose.project.leshy.ui.map.MapMarker
+import compose.project.leshy.ui.map.PlaceMarker
 import compose.project.leshy.ui.theme.LeshyTheme
 import compose.project.leshy.ui.util.formatDateOnly
 import compose.project.leshy.ui.util.formatDistanceKm
@@ -94,6 +99,11 @@ fun RecordScreen(
     var showFilterDialog by remember { mutableStateOf(false) }
     var showAddPlaceDialog by remember { mutableStateOf(false) }
     var showSearchDialog by remember { mutableStateOf(false) }
+    var selectedPlaceId by remember { mutableStateOf<Long?>(null) }
+    var isEditingPlace by remember { mutableStateOf(false) }
+    var confirmDeletePlace by remember { mutableStateOf(false) }
+    val selectedPlace = uiState.marks.find { it.id == selectedPlaceId }
+        ?: uiState.historicalPlaces.find { it.id == selectedPlaceId }
 
     LaunchedEffect(uiState.justFinished) {
         if (uiState.justFinished) {
@@ -115,6 +125,7 @@ fun RecordScreen(
         onFilterClick = { showFilterDialog = true },
         onMarkLocationClick = { showAddPlaceDialog = true },
         onSearchClick = { showSearchDialog = true },
+        onPlaceClick = { id -> selectedPlaceId = id },
         modifier = modifier,
     )
 
@@ -127,6 +138,40 @@ fun RecordScreen(
             location = uiState.currentLocation,
             onSave = viewModel::addPlace,
             onDismissRequest = { showAddPlaceDialog = false },
+        )
+    }
+
+    if (selectedPlace != null) {
+        if (isEditingPlace) {
+            AddPlaceDialog(
+                location = GeoPoint(selectedPlace.lat, selectedPlace.lon, null, selectedPlace.timestamp),
+                initialName = selectedPlace.name,
+                initialDescription = selectedPlace.description.orEmpty(),
+                initialPhotoPath = selectedPlace.photoPath,
+                onSave = { name, description, photoPath ->
+                    viewModel.updatePlace(selectedPlace, name, description, photoPath)
+                    isEditingPlace = false
+                },
+                onDismissRequest = { isEditingPlace = false },
+            )
+        } else {
+            PlaceViewDialog(
+                mark = selectedPlace,
+                onEditClick = { isEditingPlace = true },
+                onDeleteClick = { confirmDeletePlace = true },
+                onDismissRequest = { selectedPlaceId = null },
+            )
+        }
+    }
+
+    if (confirmDeletePlace && selectedPlace != null) {
+        DeletePlaceConfirmDialog(
+            onConfirm = {
+                viewModel.deletePlace(selectedPlace)
+                confirmDeletePlace = false
+                selectedPlaceId = null
+            },
+            onDismissRequest = { confirmDeletePlace = false },
         )
     }
 
@@ -158,6 +203,7 @@ private fun RecordScreenContent(
     onFilterClick: () -> Unit,
     onMarkLocationClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
+    onPlaceClick: (Long) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     var showNameDialog by remember { mutableStateOf(false) }
@@ -190,7 +236,7 @@ private fun RecordScreenContent(
             } else {
                 LiveTrackMap(
                     track = uiState.trackPoints,
-                    markers = uiState.marks.map { mark ->
+                    markers = uiState.marks.filter { it.type != MarkType.POI }.map { mark ->
                         val category = categoryById[mark.categoryId]
                         MapMarker(
                             lat = mark.lat,
@@ -208,6 +254,17 @@ private fun RecordScreenContent(
                             iconRef = category?.iconRef,
                         )
                     },
+                    places = uiState.marks.filter { it.type == MarkType.POI }.map { mark ->
+                        PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
+                    },
+                    onPlaceClick = onPlaceClick,
+                    // Excludes the current walk's own places (already shown above, interactive) —
+                    // unlike historicalMarkers/historicalFinds, a duplicate here would mean two
+                    // literal SymbolLayers stacked on the exact same pin, and whichever one MapLibre
+                    // hit-tests first would silently swallow taps meant for the interactive layer.
+                    historicalPlaces = uiState.historicalPlaces
+                        .filterNot { historical -> uiState.marks.any { it.id == historical.id } }
+                        .map { mark -> PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath) },
                     currentLocation = uiState.currentLocation,
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -233,10 +290,13 @@ private fun RecordScreenContent(
                 ) {
                     when {
                         !uiState.isRecording -> {
+                            // No walk to attach a place to yet — same dimmed/disabled treatment as
+                            // a mushroom tile's minus button before any find is logged.
                             RecordSideButton(
                                 icon = Icons.Filled.AddLocationAlt,
                                 contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
                                 onClick = onMarkLocationClick,
+                                enabled = false,
                                 modifier = Modifier.weight(1f).fillMaxWidth(),
                             )
                             Button(
@@ -337,10 +397,12 @@ private fun RecordSideButton(
     contentDescription: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         IconButton(
             onClick = onClick,
+            enabled = enabled,
             modifier = Modifier
                 .size(ACTION_BUTTON_HEIGHT)
                 .clip(CircleShape)
@@ -350,7 +412,10 @@ private fun RecordSideButton(
             Icon(
                 imageVector = icon,
                 contentDescription = contentDescription,
-                tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                // 0.38f matches Material3's own disabled-content alpha (IconButtonDefaults) — the
+                // icon is set explicitly here instead of inheriting it, so it must be applied by
+                // hand to get the same "faded" look the mushroom tiles' minus button gets for free.
+                tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = if (enabled) 1f else 0.38f),
                 modifier = Modifier.size(ACTION_BUTTON_HEIGHT / 2),
             )
         }

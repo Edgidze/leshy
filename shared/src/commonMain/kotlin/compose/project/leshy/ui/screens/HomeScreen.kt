@@ -9,9 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Hiking
+import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -59,7 +63,11 @@ fun HomeScreen(onNavigate: (Destination) -> Unit) {
     ) { innerPadding ->
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth().padding(innerPadding).padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
         ) {
             HomeNavButton(
                 label = StringKey.NavRecord,
@@ -77,9 +85,19 @@ fun HomeScreen(onNavigate: (Destination) -> Unit) {
                 onClick = { onNavigate(Destination.Map) },
             )
             HomeNavButton(
+                label = StringKey.NavPreparation,
+                icon = Icons.Filled.Download,
+                onClick = { onNavigate(Destination.Preparation) },
+            )
+            HomeNavButton(
                 label = StringKey.SettingsTitle,
                 icon = Icons.Filled.Settings,
                 onClick = { onNavigate(Destination.Settings) },
+            )
+            HomeNavButton(
+                label = StringKey.NavData,
+                icon = Icons.Filled.ImportExport,
+                onClick = { onNavigate(Destination.Data) },
             )
         }
     }

@@ -21,6 +21,7 @@ data class MapUiState(
     val mode: MapMode = MapMode.MAP,
     val tracks: Map<Long, List<GeoPoint>> = emptyMap(),
     val findMarks: List<FieldMark> = emptyList(),
+    val placeMarks: List<FieldMark> = emptyList(),
     val categories: List<Category> = emptyList(),
     val stats: MapStats = MapStats(),
     val filterCount: Int = 0,

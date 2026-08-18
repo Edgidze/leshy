@@ -9,6 +9,41 @@
 - **`AggregatedFindsMap.kt`** — вся история сразу: маршруты как приглушённые
   `LineLayer`, находки — кластеризованные по виду через общий
   `ClusteredFindsLayers.kt`.
+- **`RegionPickerMap.kt`** («Подготовка», офлайн-скачивание карты по
+  территории) — та же база (`OpenFreeMapStyle`+`mapRenderOptions`+
+  `mapOrnamentOptions`), плюс оверлей уже скачанных/скачиваемых регионов как
+  `LineLayer`-прямоугольники, построенные из bounds `OfflineRegionInfo`
+  (домен-модель), не из `Set<OfflinePack>` библиотеки напрямую — сознательно
+  не используется готовый `rememberOfflinePacksSource`, чтобы тип
+  `OfflinePack` не утекал в UI-слой мимо `OfflineRegionRepository`.
+
+## Офлайн-скачивание («Подготовка», `data/repository/OfflineRegionRepositoryImpl.kt`)
+
+- **`OfflineManager` (библиотека `maplibre-compose`, `org.maplibre.compose.
+  offline`) сам является persistent-каталогом** (переживает перезапуск
+  приложения на обеих платформах) — отдельной Room-таблицы под список
+  скачанных регионов нет и не нужно, иначе получился бы второй источник
+  истины, требующий синхронизации.
+- **Имя региона хранится в `OfflinePack.metadata` как сырой UTF-8**
+  (`name.encodeToByteArray()`/`ByteArray.decodeToString()`) — у `OfflinePack`
+  нет собственного id, `resume`/`pause`/`delete` в `OfflineRegionRepositoryImpl`
+  ищут нужный pack в `OfflineManager.packs` по совпадению декодированного
+  имени.
+- **`OfflineManager.packs` — `Compose State`, не `Flow`** — мост в
+  `Flow<List<OfflineRegionInfo>>` через `snapshotFlow { offlineManager.packs }`
+  (`androidx.compose.runtime.snapshotFlow`), вызывается из
+  `OfflineRegionRepositoryImpl.observeRegions()` вне `@Composable`-контекста;
+  работает, пока жив глобальный snapshot-наблюдатель Compose-рантайма (уже
+  верно на обоих хостах приложения после первой композиции).
+- **Диапазон zoom при скачивании — автоматический**, без отдельного UI:
+  максимум — zoom карты в момент нажатия «Скачать эту область», минимум —
+  фиксированный отступ вниз (`ZOOM_MIN_OFFSET` в `PreparationViewModel.kt`),
+  даёт несколько запасных уровней детализации без раздувания числа тайлов
+  скачиванием всего мира на мелком zoom.
+- На Android `getOfflineManager(context)` сам вызывает
+  `MapLibre.getInstance(context)` при первом обращении (внутри библиотечного
+  `AndroidOfflineManager`) — отдельная инициализация нативной библиотеки в
+  `PlatformModule.android.kt` не нужна.
 
 ## Грабли
 
@@ -64,11 +99,44 @@
   дефолтных dimen-ресурсов `android-plugin-scalebar-v9`
   (`barHeight+textSize+textBarMargin+2×borderWidth=14dp` + фиксированные
   8dp ≈ 22dp занимаемой высоты).
-- **`WalkMapScreen.kt`: `Scaffold`'ный `padding` должен применяться к
-  карте** — если забыть (`Modifier.fillMaxSize()` без `.padding(padding)`),
-  карта рисуется от `y=0`, и всё, что MapLibre позиционирует «у верхнего
-  края» (компас/линейка масштаба), визуально прячется под непрозрачным
-  `TopAppBar`.
+- **Карта под `Scaffold`+`TopAppBar` — не заводить.** `WalkMapScreen.kt`
+  раньше оборачивала карту в `Scaffold(topBar = TopAppBar(...))` и применяла
+  `Modifier.fillMaxSize().padding(padding)` — на Android работало, но на
+  iOS весь вьюпорт (включая орнаменты) визуально проседал на величину
+  сильно больше реальной высоты `TopAppBar` (похоже на баг подсчёта инсетов
+  в CMP `Scaffold`/`TopAppBar` на iOS, не воспроизводится на Android).
+  Заменено на full-bleed карту (`Modifier.fillMaxSize()` без чужого
+  `padding`) с плавающей кнопкой «назад» поверх, тем же паттерном, что уже
+  использовали `RecordScreen.kt`/`MapScreen.kt` для своих плавающих кнопок
+  (`Modifier.align(Alignment.TopStart).padding(top = 31.dp, start = 16.dp)`
+  — фиксированный отступ, не `WindowInsets`/`Scaffold`-паддинг). Других карт
+  под `Scaffold`+`TopAppBar` в проекте больше нет — не заводить новую без
+  проверки именно на iOS.
+- **`rememberPlaceMarkerPainter` (`PlaceMarkerIcon.kt`): Android hardware
+  bitmaps крашат MapLibre-бейкинг — подтверждено по logcat реального
+  устройства (Pixel 4a).** `ImageManager.drawToBitmap` (`maplibre-compose`)
+  рисует маркерный `Painter` на ПРОГРАММНОМ `Canvas`/`ImageBitmap`; Coil3 на
+  Android по умолчанию декодирует фото в `Bitmap.Config.HARDWARE` (GPU-only
+  текстура) везде, где это возможно — рисование такого bitmap на
+  программный canvas кидает `IllegalArgumentException: Software rendering
+  doesn't support hardware bitmaps` (`BaseCanvas.throwIfHwBitmapInSwMode`),
+  роняя приложение мгновенно при сохранении места с фото. На iOS этой
+  проблемы нет в принципе — там у Coil3 нет понятия hardware bitmap. Фикс —
+  `ImageRequest.Builder.disallowHardwareBitmaps()` (expect/actual,
+  `data/platform/CoilRequestConfig.kt`, на Android — `allowHardware(false)`,
+  на iOS — no-op) на каждый запрос фото для маркера.
+- **Тот же `ImageRequest` также обязан задавать `size(...)` явно** —
+  отдельная, не связанная с крашем выше оптимизация. Painter, полученный из
+  `rememberAsyncImagePainter`, сам никогда не рисуется (наружу отдаётся
+  только `state.painter` из `onSuccess` — см. doc-комментарий там же про
+  идентичность пейнтера для MapLibre) — значит Coil-овский
+  `DrawScopeSizeResolver`, который вычисляет размер декодирования из
+  реального места отрисовки (`AsyncImagePainter.onDraw`), никогда не
+  срабатывает, и Coil молча откатывается на `SizeResolver.ORIGINAL` —
+  декодирует фото с камеры (часто 10+ МП) в ПОЛНОМ разрешении на КАЖДУЮ
+  загрузку. Фикс — собирать `ImageRequest` вручную с `.size(width, height)`
+  в px под размер маркера (`PLACE_MARKER_WIDTH`/`HEIGHT`), а не передавать
+  голый путь/URL строкой.
 
 ## Стиль карты и превью
 

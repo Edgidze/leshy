@@ -65,18 +65,28 @@ import kotlinx.coroutines.launch
  * POI-typed [compose.project.leshy.domain.model.FieldMark] on confirm. No draft is saved on
  * dismiss/discard — this replaces the old bare camera plate that used to sit after the mushroom
  * tiles on the Record screen.
+ *
+ * Doubles as the edit form for an existing place (opened from [PlaceViewDialog]'s pencil button):
+ * passing non-null [initialName] pre-fills the fields from the existing mark, swaps the title to
+ * "edit" instead of "add", and treats the name as already user-authored (no dim placeholder/
+ * clear-on-first-focus, unlike a brand new place's default name) — [onSave] still just reports the
+ * final field values, the caller decides whether that means an insert or an update.
  */
 @Composable
 fun AddPlaceDialog(
     location: GeoPoint?,
     onSave: (name: String, description: String, photoPath: String?) -> Unit,
     onDismissRequest: () -> Unit,
+    initialName: String? = null,
+    initialDescription: String = "",
+    initialPhotoPath: String? = null,
 ) {
     val defaultName = stringResource(StringKey.AddPlaceDefaultName)
-    var name by remember { mutableStateOf(defaultName) }
-    var nameTouched by remember { mutableStateOf(false) }
-    var description by remember { mutableStateOf("") }
-    var photoPath by remember { mutableStateOf<String?>(null) }
+    val isEditing = initialName != null
+    var name by remember { mutableStateOf(initialName ?: defaultName) }
+    var nameTouched by remember { mutableStateOf(isEditing) }
+    var description by remember { mutableStateOf(initialDescription) }
+    var photoPath by remember { mutableStateOf(initialPhotoPath) }
     val takePhoto = rememberCameraLauncher { path -> photoPath = path }
     val requestPhoto = rememberCameraPermissionRequester(onGranted = takePhoto)
     val clipboard = LocalClipboard.current
@@ -103,7 +113,10 @@ fun AddPlaceDialog(
                 // multiline description field below reliably fails to release the IME in this Dialog
                 // (Compose foundation 1.11.2) — moving focus to a real, if invisible, target does not.
                 Box(modifier = Modifier.size(1.dp).focusRequester(outsideFocusRequester).focusTarget())
-                Text(text = stringResource(StringKey.AddPlaceTitle), style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = stringResource(if (isEditing) StringKey.AddPlaceEditTitle else StringKey.AddPlaceTitle),
+                    style = MaterialTheme.typography.titleMedium,
+                )
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Column(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {
