@@ -1,30 +1,22 @@
 package compose.project.leshy.ui.screens
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
@@ -39,7 +31,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -51,8 +42,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.OfflineRegionInfo
 import compose.project.leshy.domain.model.OfflineRegionStatus
@@ -72,18 +66,16 @@ import org.maplibre.spatialk.geojson.Position
 
 private val WORLD_VIEW_ZOOM = 2.0
 
-// How much of the map viewport's shorter side the selection box can shrink/grow to. Capped well
-// under 1.0 so the collapsed sheet (peek height, drawn over the same viewport) never covers it.
+// How much of the (map-minus-strip) usable area's shorter side the selection box can shrink/grow
+// to. The usable area itself already excludes whatever's showing in the bottom strip (see
+// PreparationScreen below, the weighted Box vs. the strip's own wrap-content height), so — unlike
+// an overlay drawn across the full viewport — even MAX_SELECTION_FRACTION always fits on screen.
 private const val MIN_SELECTION_FRACTION = 0.2f
-private const val MAX_SELECTION_FRACTION = 0.7f
+private const val MAX_SELECTION_FRACTION = 0.85f
 private const val DEFAULT_SELECTION_FRACTION = 0.5f
 
-// The sheet's two heights — collapsed just shows a drag handle so the selection box on the map
-// stays fully visible; expanded goes to roughly half the map viewport, enough room for the slider
-// and the region strip without a second tap.
-private val SHEET_PEEK_HEIGHT = 48.dp
-private const val SHEET_EXPANDED_FRACTION = 0.5f
-private val REGION_CHIP_WIDTH = 160.dp
+private val REGION_CHIP_WIDTH = 140.dp
+private val STRIP_BACKGROUND_ALPHA = 0.92f
 
 @Composable
 fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewModel = koinViewModel()) {
@@ -92,9 +84,14 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
         firstPosition = CameraPosition(target = Position(0.0, 0.0), zoom = WORLD_VIEW_ZOOM),
     )
     val coroutineScope = rememberCoroutineScope()
+    val density = LocalDensity.current
     var isSelectingArea by remember { mutableStateOf(false) }
     var selectionFraction by remember { mutableStateOf(DEFAULT_SELECTION_FRACTION) }
-    var isSheetExpanded by remember { mutableStateOf(false) }
+    // The usable area's measured size — everything above the bottom strip, whatever that strip's
+    // current content happens to need. Tracked via onSizeChanged rather than BoxWithConstraints
+    // because the selection-bounds math below needs it from sibling scopes (the live estimate, the
+    // confirm button), not just the box that draws the rectangle.
+    var usableAreaSizePx by remember { mutableStateOf(IntSize.Zero) }
 
     Column(modifier = modifier.fillMaxSize()) {
         Text(
@@ -103,30 +100,8 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
         )
 
-        BoxWithConstraints(modifier = Modifier.fillMaxWidth().weight(1f)) {
-            val boxMaxWidth = maxWidth
-            val boxMaxHeight = maxHeight
-
+        Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
             RegionPickerMap(cameraState = cameraState, regions = uiState.regions, modifier = Modifier.fillMaxSize())
-
-            if (isSelectingArea) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .fillMaxSize(selectionFraction)
-                        .border(BorderStroke(2.dp, MaterialTheme.colorScheme.primary)),
-                )
-            } else {
-                FloatingActionButton(
-                    onClick = {
-                        isSelectingArea = true
-                        isSheetExpanded = true
-                    },
-                    modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = SHEET_PEEK_HEIGHT + 16.dp, end = 16.dp),
-                ) {
-                    Icon(Icons.Filled.Download, contentDescription = stringResource(StringKey.PreparationSelectAreaButton))
-                }
-            }
 
             // Reading the camera position (not just the projection, which is a stable object
             // reference that doesn't change on pan/zoom) subscribes this recomposition scope to
@@ -134,74 +109,93 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
             // zooms the map underneath the fixed-on-screen selection box.
             cameraState.position
             val projection = cameraState.projection
+            val usableWidth = with(density) { usableAreaSizePx.width.toDp() }
+            val usableHeight = with(density) { usableAreaSizePx.height.toDp() }
 
-            PreparationSheet(
-                expanded = isSheetExpanded,
-                onExpandedChange = { isSheetExpanded = it },
-                expandedHeight = boxMaxHeight * SHEET_EXPANDED_FRACTION,
-                modifier = Modifier.align(Alignment.BottomCenter),
-            ) {
-                if (isSelectingArea) {
-                    val estimate = projection?.let {
-                        val bounds = selectionBoundsFromScreen(it, boxMaxWidth, boxMaxHeight, selectionFraction)
-                        estimateOfflineRegion(bounds.west, bounds.south, bounds.east, bounds.north)
-                    }
-                    if (estimate != null) {
-                        Text(
-                            "${stringResource(StringKey.PreparationEstimatedSizeLabel)}: " +
-                                "≈${formatMegabytes(estimate.estimatedBytes)}",
-                            style = MaterialTheme.typography.bodyMedium,
+            Column(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier.fillMaxWidth().weight(1f).onSizeChanged { usableAreaSizePx = it },
+                ) {
+                    if (isSelectingArea) {
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .fillMaxSize(selectionFraction)
+                                .border(BorderStroke(2.dp, MaterialTheme.colorScheme.primary)),
                         )
-                    }
-                    Slider(
-                        value = selectionFraction,
-                        onValueChange = { selectionFraction = it },
-                        valueRange = MIN_SELECTION_FRACTION..MAX_SELECTION_FRACTION,
-                        modifier = Modifier.padding(top = 8.dp),
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        OutlinedButton(
-                            onClick = { isSelectingArea = false },
-                            modifier = Modifier.weight(1f),
+                    } else {
+                        FloatingActionButton(
+                            onClick = { isSelectingArea = true },
+                            modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
                         ) {
-                            Text(stringResource(StringKey.PreparationCancelButton))
-                        }
-                        Button(
-                            onClick = {
-                                val currentProjection = cameraState.projection ?: return@Button
-                                val bounds = selectionBoundsFromScreen(
-                                    currentProjection,
-                                    boxMaxWidth,
-                                    boxMaxHeight,
-                                    selectionFraction,
-                                )
-                                viewModel.onAreaSelected(bounds.west, bounds.south, bounds.east, bounds.north)
-                                isSelectingArea = false
-                            },
-                            modifier = Modifier.weight(1f),
-                        ) {
-                            Text(stringResource(StringKey.PreparationDownloadThisAreaButton))
+                            Icon(Icons.Filled.Download, contentDescription = stringResource(StringKey.PreparationSelectAreaButton))
                         }
                     }
                 }
 
-                if (uiState.regions.isEmpty()) {
-                    if (!isSelectingArea) {
-                        Text(
-                            stringResource(StringKey.PreparationEmptyList),
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(bottom = 12.dp),
-                        )
-                    }
-                } else {
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+                if (isSelectingArea) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surface.copy(alpha = STRIP_BACKGROUND_ALPHA))
+                            .padding(16.dp),
                     ) {
-                        items(uiState.regions, key = { it.name }) { region ->
+                        val estimate = projection?.let {
+                            val bounds = selectionBoundsFromScreen(it, usableWidth, usableHeight, selectionFraction)
+                            estimateOfflineRegion(bounds.west, bounds.south, bounds.east, bounds.north)
+                        }
+                        if (estimate != null) {
+                            Text(
+                                "${stringResource(StringKey.PreparationEstimatedSizeLabel)}: " +
+                                    "≈${formatMegabytes(estimate.estimatedBytes)}",
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+                        Slider(
+                            value = selectionFraction,
+                            onValueChange = { selectionFraction = it },
+                            valueRange = MIN_SELECTION_FRACTION..MAX_SELECTION_FRACTION,
+                            modifier = Modifier.padding(top = 8.dp),
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            OutlinedButton(
+                                onClick = { isSelectingArea = false },
+                                modifier = Modifier.weight(1f),
+                            ) {
+                                Text(stringResource(StringKey.PreparationCancelButton))
+                            }
+                            Button(
+                                onClick = {
+                                    val currentProjection = cameraState.projection ?: return@Button
+                                    val bounds = selectionBoundsFromScreen(
+                                        currentProjection,
+                                        usableWidth,
+                                        usableHeight,
+                                        selectionFraction,
+                                    )
+                                    viewModel.onAreaSelected(bounds.west, bounds.south, bounds.east, bounds.north)
+                                    isSelectingArea = false
+                                },
+                                modifier = Modifier.weight(1f),
+                            ) {
+                                Text(stringResource(StringKey.PreparationDownloadThisAreaButton))
+                            }
+                        }
+                    }
+                } else if (uiState.regions.isNotEmpty()) {
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surface.copy(alpha = STRIP_BACKGROUND_ALPHA)),
+                        contentPadding = PaddingValues(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        // Newest first — regions come back in creation order, so the one that just
+                        // finished naming lands as the leftmost chip instead of requiring a scroll.
+                        items(uiState.regions.reversed(), key = { it.name }) { region ->
                             OfflineRegionChip(
                                 region = region,
                                 onChipClick = {
@@ -287,58 +281,12 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     }
 }
 
-/**
- * Slides between [SHEET_PEEK_HEIGHT] (just the handle, so the selection box on the map behind it
- * stays fully visible) and [expandedHeight] on tap of the handle. Deliberately tap-only, not
- * drag-to-resize — a hand-rolled drag gesture here would fight the map's own pan/zoom gestures
- * immediately above it, and isn't worth that risk for what's otherwise a two-state toggle.
- */
-@Composable
-private fun PreparationSheet(
-    expanded: Boolean,
-    onExpandedChange: (Boolean) -> Unit,
-    expandedHeight: Dp,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-    val animatedHeight by animateDpAsState(if (expanded) expandedHeight else SHEET_PEEK_HEIGHT)
-    Surface(
-        modifier = modifier.fillMaxWidth().height(animatedHeight),
-        tonalElevation = 3.dp,
-        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(SHEET_PEEK_HEIGHT)
-                    .clickable { onExpandedChange(!expanded) },
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    if (expanded) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
-                    contentDescription = null,
-                    modifier = Modifier.size(32.dp),
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .verticalScroll(rememberScrollState()),
-            ) {
-                content()
-            }
-        }
-    }
-}
-
 private data class SelectionBounds(val west: Double, val south: Double, val east: Double, val north: Double)
 
-// Converts the fixed on-screen selection box (a fraction of the map viewport, centered) into map
-// coordinates via the four corners rather than just two — robust if the camera is rotated, same
-// "always axis-aligned, possibly a bit larger than what's visually inside the box" tradeoff
-// CameraProjection.queryVisibleBoundingBox itself documents for a tilted/rotated view.
+// Converts the fixed on-screen selection box (a fraction of the usable area above the bottom
+// strip, centered) into map coordinates via the four corners rather than just two — robust if the
+// camera is rotated, same "always axis-aligned, possibly a bit larger than what's visually inside
+// the box" tradeoff CameraProjection.queryVisibleBoundingBox itself documents for a tilted view.
 private fun selectionBoundsFromScreen(
     projection: CameraProjection,
     maxWidth: Dp,

@@ -161,7 +161,6 @@ enum class StringKey {
     DataImportLabelFieldLabel,
     DataDoneButton,
     DataCancelButton,
-    PreparationEmptyList,
     PreparationSelectAreaButton,
     PreparationDownloadThisAreaButton,
     PreparationRegionNameDialogTitle,
