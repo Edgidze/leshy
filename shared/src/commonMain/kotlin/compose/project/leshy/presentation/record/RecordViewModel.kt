@@ -30,8 +30,11 @@ import compose.project.leshy.domain.usecase.RenameWalkUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
 import compose.project.leshy.domain.usecase.UpdatePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.UpdateWalkThumbnailUseCase
+import compose.project.leshy.domain.util.bearingDegrees
 import compose.project.leshy.domain.util.computeFilterCount
+import compose.project.leshy.domain.util.haversineMeters
 import compose.project.leshy.domain.util.matchesDateAndSeason
+import compose.project.leshy.domain.util.turnRecommendation
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.string
 import compose.project.leshy.presentation.applyRecencyOrder
@@ -42,17 +45,26 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
 private const val TICK_INTERVAL_MILLIS = 1000L
+private const val MIN_COURSE_FIX_DISTANCE_METERS = 3.0
 
 private data class RecordFilterState(
     val categories: List<Category>,
     val historicalFinds: List<FieldMark>,
     val historicalPlaces: List<FieldMark>,
     val filterCount: Int,
+)
+
+private data class NavigationSourceSnapshot(
+    val currentLocation: GeoPoint?,
+    val marks: List<FieldMark>,
+    val historicalPlaces: List<FieldMark>,
 )
 
 class RecordViewModel(
@@ -94,6 +106,10 @@ class RecordViewModel(
     // past the end of a walk is gated by resetOrderOnWalkFinish (Settings, off by default — see
     // finish()).
     private val categoryOrder = MutableStateFlow<List<Long>>(emptyList())
+
+    private val navigationTargetId = MutableStateFlow<Long?>(null)
+    private val courseOverGround = MutableStateFlow<Double?>(null)
+    private var courseBaselineFix: GeoPoint? = null
 
     init {
         viewModelScope.launch {
@@ -157,6 +173,19 @@ class RecordViewModel(
         viewModelScope.launch {
             locationTracker.track().collect { point ->
                 _uiState.update { it.copy(currentLocation = point) }
+                val baseline = courseBaselineFix
+                if (baseline == null) {
+                    courseBaselineFix = point
+                } else {
+                    val moved = haversineMeters(baseline.lat, baseline.lon, point.lat, point.lon)
+                    if (moved >= MIN_COURSE_FIX_DISTANCE_METERS) {
+                        courseOverGround.value = bearingDegrees(baseline.lat, baseline.lon, point.lat, point.lon)
+                        courseBaselineFix = point
+                    }
+                    // else: leave both courseBaselineFix and courseOverGround untouched — jitter
+                    // accumulates against the same baseline instead of resetting it every fix, so
+                    // slow drift while nearly stationary doesn't produce a new noisy bearing.
+                }
                 val currentWalkId = walkId
                 if (currentWalkId != null && _uiState.value.isRecording && !_uiState.value.isPaused) {
                     val delta = recordTrackPoint(currentWalkId, point, trackSequence, lastPersistedPoint)
@@ -168,6 +197,36 @@ class RecordViewModel(
                 }
             }
         }
+        viewModelScope.launch {
+            val navigationSources = uiState
+                .map { NavigationSourceSnapshot(it.currentLocation, it.marks, it.historicalPlaces) }
+                .distinctUntilChanged()
+            combine(navigationSources, navigationTargetId, courseOverGround) { sources, targetId, course ->
+                if (targetId == null) return@combine null
+                val target = (sources.marks + sources.historicalPlaces)
+                    .find { it.id == targetId && it.type == MarkType.POI } ?: return@combine null
+                val location = sources.currentLocation ?: return@combine null
+                val distance = haversineMeters(location.lat, location.lon, target.lat, target.lon)
+                val turn = course?.let {
+                    turnRecommendation(it, bearingDegrees(location.lat, location.lon, target.lat, target.lon))
+                }
+                NavigationOverlayState(
+                    targetId = target.id,
+                    targetName = target.name.orEmpty(),
+                    distanceMeters = distance,
+                    turnDirection = turn?.direction,
+                    turnDegrees = turn?.degrees,
+                )
+            }.collect { computed -> _uiState.update { it.copy(navigationTarget = computed) } }
+        }
+    }
+
+    fun activateNavigationTo(targetId: Long) {
+        navigationTargetId.value = targetId
+    }
+
+    fun deactivateNavigation() {
+        navigationTargetId.value = null
     }
 
     fun setWalkName(name: String) {
@@ -240,6 +299,7 @@ class RecordViewModel(
         viewModelScope.launch {
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
             walkId = null
+            navigationTargetId.value = null
             if (resetOrderOnWalkFinish) categoryOrder.value = emptyList()
             _uiState.update { state ->
                 RecordUiState(

@@ -77,6 +77,15 @@ enum class StringKey {
     RecordSearchContentDescription,
     RecordSearchDialogTitle,
 
+    NavigationDirectionToPrefix,
+    NavigationDistanceToTargetPrefix,
+    NavigationMetersSuffix,
+    NavigationKeepRightPhrase,
+    NavigationKeepLeftPhrase,
+    NavigationGoStraightPhrase,
+    NavigationDeterminingDirection,
+    NavigationCloseContentDescription,
+
     AddPlaceTitle,
     AddPlaceEditTitle,
     AddPlaceDefaultName,

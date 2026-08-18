@@ -3,6 +3,17 @@ package compose.project.leshy.presentation.record
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.domain.util.TurnDirection
+
+data class NavigationOverlayState(
+    val targetId: Long,
+    val targetName: String,
+    val distanceMeters: Double,
+    /** Null until enough GPS movement has occurred to derive a course-over-ground. */
+    val turnDirection: TurnDirection?,
+    /** Null for [TurnDirection.AHEAD] and while [turnDirection] itself is null. */
+    val turnDegrees: Double?,
+)
 
 data class RecordUiState(
     val walkName: String = "",
@@ -18,6 +29,7 @@ data class RecordUiState(
     val historicalFinds: List<FieldMark> = emptyList(),
     val historicalPlaces: List<FieldMark> = emptyList(),
     val filterCount: Int = 0,
+    val navigationTarget: NavigationOverlayState? = null,
     val justFinished: Boolean = false,
     /** Bumped each time a tile is moved to the front of the feed — see [RecordViewModel.bringCategoryToFront]. */
     val scrollToStartSignal: Int = 0,
