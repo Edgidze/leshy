@@ -53,6 +53,11 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Сбрасывать порядок грибов в конце прогулки"
     StringKey.SettingsCollectionsTitle -> "Подборки грибов"
 
+    StringKey.OnboardingTitle -> "Добро пожаловать!"
+    StringKey.OnboardingDescription ->
+        "Выберите подборки грибов, которые вам интересны. Это можно изменить позже в Настройках."
+    StringKey.OnboardingContinueButton -> "Начать"
+
     StringKey.NavHomeContentDescription -> "На главную"
     StringKey.HelpContentDescription -> "Помощь"
     StringKey.HelpDialogTitle -> "Помощь"
@@ -239,6 +244,11 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortByAlphabetical -> "Alphabetically"
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Reset mushroom order at the end of a walk"
     StringKey.SettingsCollectionsTitle -> "Mushroom collections"
+
+    StringKey.OnboardingTitle -> "Welcome!"
+    StringKey.OnboardingDescription ->
+        "Pick the mushroom collections you're interested in. You can change this later in Settings."
+    StringKey.OnboardingContinueButton -> "Get started"
 
     StringKey.NavHomeContentDescription -> "Home"
     StringKey.HelpContentDescription -> "Help"

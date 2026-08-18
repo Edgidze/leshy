@@ -11,6 +11,7 @@ import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.RenameWalkUseCase
+import compose.project.leshy.domain.usecase.SetCategoryPickedUseCase
 import compose.project.leshy.domain.usecase.SetCollectionPickedUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
 import compose.project.leshy.domain.usecase.UpdatePlaceMarkUseCase
@@ -20,8 +21,9 @@ import org.koin.dsl.module
 val domainModule = module {
     factory { EnsureDefaultCategoriesUseCase(get()) }
     factory { EnsureDefaultCollectionsUseCase(get(), get()) }
-    factory { SetCollectionPickedUseCase(get(), get()) }
     factory { RecalculateFilterEligibilityUseCase(get(), get()) }
+    factory { SetCollectionPickedUseCase(get(), get(), get()) }
+    factory { SetCategoryPickedUseCase(get(), get()) }
     factory { StartWalkUseCase(get()) }
     factory { FinishWalkUseCase(get()) }
     factory { RenameWalkUseCase(get()) }

@@ -18,6 +18,10 @@ enum class StringKey {
     SettingsResetMushroomOrderOnWalkFinish,
     SettingsCollectionsTitle,
 
+    OnboardingTitle,
+    OnboardingDescription,
+    OnboardingContinueButton,
+
     NavHomeContentDescription,
     HelpContentDescription,
     HelpDialogTitle,

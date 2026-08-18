@@ -84,6 +84,23 @@ recomposition уходящего дочернего экрана во время
 крашит приложение. С guard'ом composable просто ничего не рендерит на этот
 короткий кадр (экран и так анимированно исчезает).
 
+## Экран первого запуска — намеренно НЕ NavHost-маршрут
+
+`OnboardingScreen` (`.claude/plans/mushroom-collections.md`, Phase 3) рендерится
+`App()` ВМЕСТО всего `LeshyNavHost` (пока флаг `OnboardingRepository` не
+`true`), не через `composable<Destination.X>` внутри графа. Соблазн завести
+`Destination.Onboarding` и сделать его условным `startDestination` —
+именно та ошибка, от которой предостерегает секция выше:
+`navigateToTopLevel` у ВСЕХ топ-level разделов держится на том, что `Home`
+навсегда единственный `startDestination` графа
+(`graph.findStartDestination()`). Если бы `Onboarding` хоть раз стал
+стартовым `Destination` (единственный способ показать экран НАСТОЯЩИМ
+маршрутом до `Home`), `popUpTo(graph.findStartDestination().id)` у всех
+разделов стал бы целиться в `Onboarding`, а не в `Home`, ломая
+save/restore state ровно как в инцидентах №1/№2 выше. Держи `Home`
+единственным `startDestination` навсегда — новый экран «до Home» встраивай
+условным рендером в `App()`, не в граф.
+
 ## Прочее
 
 - `NAV_TRANSITION_DURATION_MS = 200` (не библиотечный дефолт 700ms) —
