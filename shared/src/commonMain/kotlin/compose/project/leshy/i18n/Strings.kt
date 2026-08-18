@@ -134,6 +134,15 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.RecordSearchContentDescription -> "Поиск"
     StringKey.RecordSearchDialogTitle -> "Выберите необходимый гриб"
 
+    StringKey.NavigationDirectionToPrefix -> "Направление к"
+    StringKey.NavigationDistanceToTargetPrefix -> "до цели"
+    StringKey.NavigationMetersSuffix -> "метров"
+    StringKey.NavigationKeepRightPhrase -> "держитесь правее на"
+    StringKey.NavigationKeepLeftPhrase -> "держитесь левее на"
+    StringKey.NavigationGoStraightPhrase -> "идите прямо"
+    StringKey.NavigationDeterminingDirection -> "Определяем направление…"
+    StringKey.NavigationCloseContentDescription -> "Закрыть"
+
     StringKey.AddPlaceTitle -> "Добавьте место"
     StringKey.AddPlaceEditTitle -> "Отредактируйте место"
     StringKey.AddPlaceDefaultName -> "Место"
@@ -339,6 +348,15 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.RecordMarkLocationContentDescription -> "Mark location"
     StringKey.RecordSearchContentDescription -> "Search"
     StringKey.RecordSearchDialogTitle -> "Choose the mushroom you need"
+
+    StringKey.NavigationDirectionToPrefix -> "Direction to"
+    StringKey.NavigationDistanceToTargetPrefix -> "to target"
+    StringKey.NavigationMetersSuffix -> "meters"
+    StringKey.NavigationKeepRightPhrase -> "keep right by"
+    StringKey.NavigationKeepLeftPhrase -> "keep left by"
+    StringKey.NavigationGoStraightPhrase -> "go straight"
+    StringKey.NavigationDeterminingDirection -> "Determining direction…"
+    StringKey.NavigationCloseContentDescription -> "Close"
 
     StringKey.AddPlaceTitle -> "Add a place"
     StringKey.AddPlaceEditTitle -> "Edit place"

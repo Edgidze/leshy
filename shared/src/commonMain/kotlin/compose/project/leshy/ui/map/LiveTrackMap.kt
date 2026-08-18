@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.GeoPoint
 import org.maplibre.compose.camera.CameraPosition
+import org.maplibre.compose.camera.CameraState
 import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.expressions.dsl.const
 import org.maplibre.compose.expressions.dsl.image
@@ -35,6 +36,12 @@ private val CURRENT_LOCATION_COLOR = Color(0xFF2196F3)
 private const val DEFAULT_ZOOM = 15.0
 private const val MIN_BOUNDS_SPAN_DEGREES = 0.001
 
+/** Shared default starting camera position — also used by callers that hoist their own [CameraState]. */
+fun defaultLiveTrackCameraPosition(currentLocation: GeoPoint?): CameraPosition = CameraPosition(
+    target = Position(currentLocation?.lon ?: 0.0, currentLocation?.lat ?: 0.0),
+    zoom = DEFAULT_ZOOM,
+)
+
 /**
  * Shows the track recorded so far plus colored marker dots for finds/photos, and the current
  * device location. Backed by MapLibre + OpenFreeMap vector tiles (no API keys) on both Android
@@ -55,14 +62,10 @@ fun LiveTrackMap(
     // sit below a Scaffold/TopAppBar (RecordScreen.kt/MapScreen.kt) already start below the status
     // bar and must keep the shared default (no double-inset).
     ornamentOptions: OrnamentOptions = mapOrnamentOptions,
+    // Hoistable so callers can share the same CameraState with sibling composables that need the
+    // map's live camera projection (e.g. RecordScreen.kt's MarkerLongPressOverlay hit-testing).
+    cameraState: CameraState = rememberCameraState(firstPosition = defaultLiveTrackCameraPosition(currentLocation)),
 ) {
-    val cameraState = rememberCameraState(
-        firstPosition = CameraPosition(
-            target = Position(currentLocation?.lon ?: 0.0, currentLocation?.lat ?: 0.0),
-            zoom = DEFAULT_ZOOM,
-        ),
-    )
-
     val historyPoints = remember(track, markers, places) {
         track.map { it.lat to it.lon } + markers.map { it.lat to it.lon } + places.map { it.lat to it.lon }
     }
