@@ -34,6 +34,16 @@ GPS нужен сразу. **`CAMERA` туда намеренно не вход�
 (`data/platform/CameraPermission.kt`) — проверяет текущий статус и просит
 систему только если разрешения ещё нет.
 
+## Экспорт/импорт (`DataLocationPicker.android.kt`)
+
+Экспорт — один системный диалог `CreateDocument("application/zip")` вместо
+старой связки «выбрать папку + поле имени»: пользователь получает `Uri` сразу
+готовый к записи, `ContentResolver.openOutputStream(uri)` оборачивается в
+`okio.Sink` (`.sink().buffer()`) прямо внутри пикера — `ExportDataUseCase` ни
+разу не видит `Uri`/`Context`, только `BufferedSink`. `.use { }` на
+`BufferedSink` тут работает (JVM `Closeable`↔`AutoCloseable`), в отличие от
+iOS — см. `iosMain/CLAUDE.md`.
+
 ## Прочее
 
 - `RenderOptions.RenderMode.TextureView` — см. `ui/map/CLAUDE.md`.

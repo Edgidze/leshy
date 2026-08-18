@@ -1,5 +1,7 @@
 package compose.project.leshy.presentation.data
 
+import compose.project.leshy.domain.usecase.ImportDataUseCase
+
 enum class DataMode {
     EXPORT,
     IMPORT,
@@ -7,8 +9,12 @@ enum class DataMode {
 
 data class DataUiState(
     val mode: DataMode = DataMode.EXPORT,
-    val exportFolderName: String? = null,
     val exportArchiveName: String = "",
+    val exportSucceeded: Boolean = false,
     val importFileName: String? = null,
+    val importFileHandle: String? = null,
     val importWalkLabel: String = "",
+    val importResult: ImportDataUseCase.Result? = null,
+    val isProcessing: Boolean = false,
+    val errorMessage: String? = null,
 )

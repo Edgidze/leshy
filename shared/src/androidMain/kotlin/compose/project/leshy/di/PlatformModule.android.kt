@@ -7,10 +7,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import compose.project.leshy.data.local.DATABASE_NAME
 import compose.project.leshy.data.local.LeshyDatabase
+import compose.project.leshy.data.platform.AndroidArchiveFileReader
 import compose.project.leshy.data.platform.AndroidBackgroundRecordingController
 import compose.project.leshy.data.platform.AndroidLocationTracker
 import compose.project.leshy.data.platform.AndroidPhotoStorage
 import compose.project.leshy.data.platform.AndroidWalkThumbnailRenderer
+import compose.project.leshy.data.platform.ArchiveFileReader
 import compose.project.leshy.data.platform.BackgroundRecordingController
 import compose.project.leshy.data.platform.LocationTracker
 import compose.project.leshy.data.platform.PhotoStorage
@@ -37,6 +39,7 @@ actual val platformModule: Module = module {
     single<BackgroundRecordingController> { AndroidBackgroundRecordingController(androidContext()) }
     single<WalkThumbnailRenderer> { AndroidWalkThumbnailRenderer(androidContext()) }
     single<PhotoStorage> { AndroidPhotoStorage(androidContext()) }
+    single<ArchiveFileReader> { AndroidArchiveFileReader(androidContext()) }
     // getOfflineManager(context) calls MapLibre.getInstance(context) internally on first use
     // (see AndroidOfflineManager) — no separate native-init step needed here.
     single<OfflineManager> { getOfflineManager(androidContext()) }

@@ -7,7 +7,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import compose.project.leshy.data.local.DATABASE_NAME
 import compose.project.leshy.data.local.LeshyDatabase
+import compose.project.leshy.data.platform.ArchiveFileReader
 import compose.project.leshy.data.platform.BackgroundRecordingController
+import compose.project.leshy.data.platform.IosArchiveFileReader
 import compose.project.leshy.data.platform.IosBackgroundRecordingController
 import compose.project.leshy.data.platform.IosLocationTracker
 import compose.project.leshy.data.platform.IosPhotoStorage
@@ -50,6 +52,7 @@ actual val platformModule: Module = module {
     single<BackgroundRecordingController> { IosBackgroundRecordingController(get()) }
     single<WalkThumbnailRenderer> { IosWalkThumbnailRenderer() }
     single<PhotoStorage> { IosPhotoStorage() }
+    single<ArchiveFileReader> { IosArchiveFileReader() }
     single<OfflineManager> { getOfflineManager() }
     single<DataStore<Preferences>> {
         val settingsFilePath = documentsDirectoryPath() + "/" + SETTINGS_FILE_NAME
