@@ -1,6 +1,8 @@
 package compose.project.leshy.data.platform
 
+import android.content.Context
 import android.net.Uri
+import android.provider.OpenableColumns
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -40,15 +42,22 @@ actual fun rememberExportLauncher(
 
 @Composable
 actual fun rememberImportFilePicker(onPicked: (PickedLocation) -> Unit): () -> Unit {
+    val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) onPicked(PickedLocation(uri.displayName(), uri.toString()))
+        if (uri != null) onPicked(PickedLocation(context.queryDisplayName(uri), uri.toString()))
     }
     return remember(launcher) {
         { launcher.launch(arrayOf("application/zip", "application/x-zip-compressed")) }
     }
 }
 
-// SAF tree/document URIs end in a path segment like "primary:Documents/MyFolder" — the part after
-// the last '/' (or ':' if there's no subfolder) is the only bit worth showing to the user.
-private fun Uri.displayName(): String =
-    lastPathSegment?.substringAfterLast('/')?.substringAfterLast(':') ?: toString()
+// content:// document URIs' lastPathSegment is an opaque provider-assigned document ID (e.g. the
+// Downloads provider hands out plain numbers like "3331"), not the file name — OpenableColumns
+// .DISPLAY_NAME via a content query is the only reliable cross-provider way to get the real name.
+private fun Context.queryDisplayName(uri: Uri): String {
+    contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
+        val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        if (nameIndex >= 0 && cursor.moveToFirst()) return cursor.getString(nameIndex)
+    }
+    return uri.lastPathSegment?.substringAfterLast('/') ?: uri.toString()
+}
