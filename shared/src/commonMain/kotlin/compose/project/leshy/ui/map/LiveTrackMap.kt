@@ -19,6 +19,7 @@ import org.maplibre.compose.layers.LineLayer
 import org.maplibre.compose.layers.SymbolLayer
 import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
+import org.maplibre.compose.map.OrnamentOptions
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.spatialk.geojson.BoundingBox
@@ -49,6 +50,11 @@ fun LiveTrackMap(
     places: List<PlaceMarker> = emptyList(),
     onPlaceClick: (Long) -> Unit = {},
     historicalPlaces: List<PlaceMarker> = emptyList(),
+    // Overridable only for screens that render this map full-bleed under the system status bar
+    // (WalkMapScreen.kt) — those need extra top padding on the ornaments to clear it. Callers that
+    // sit below a Scaffold/TopAppBar (RecordScreen.kt/MapScreen.kt) already start below the status
+    // bar and must keep the shared default (no double-inset).
+    ornamentOptions: OrnamentOptions = mapOrnamentOptions,
 ) {
     val cameraState = rememberCameraState(
         firstPosition = CameraPosition(
@@ -91,7 +97,7 @@ fun LiveTrackMap(
         modifier = modifier,
         baseStyle = OpenFreeMapStyle,
         cameraState = cameraState,
-        options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
+        options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = ornamentOptions),
     ) {
         ClusteredFindsLayers(historicalMarkers, idPrefix = "historical")
         // Reuses the same onPlaceClick as the current walk's own places below — safe because

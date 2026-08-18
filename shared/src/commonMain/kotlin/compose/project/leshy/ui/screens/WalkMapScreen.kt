@@ -2,8 +2,12 @@ package compose.project.leshy.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -28,6 +32,7 @@ import compose.project.leshy.ui.components.PlaceViewDialog
 import compose.project.leshy.ui.map.LiveTrackMap
 import compose.project.leshy.ui.map.MapMarker
 import compose.project.leshy.ui.map.PlaceMarker
+import compose.project.leshy.ui.map.mapOrnamentOptions
 
 @Composable
 fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
@@ -38,12 +43,14 @@ fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
     var confirmDeletePlace by remember { mutableStateOf(false) }
     val selectedPlace = uiState.marks.find { it.id == selectedPlaceId }
 
-    // Full-bleed map with a floating back button, same shape as RecordScreen.kt/MapScreen.kt's
-    // floating controls — NOT a Scaffold+TopAppBar wrapping a `.padding(padding)`-ed map. That
-    // combination visibly mis-sized the map on iOS only (the whole viewport, ornaments included,
-    // pushed down by far more than the app bar's real height — a CMP `Scaffold`/`TopAppBar` inset
-    // quirk on iOS, not reproducible on Android), and this is the only map screen in the app that
-    // used it; the others already float their controls over an unpadded full-screen map.
+    // Unlike RecordScreen.kt/MapScreen.kt, this screen has no Scaffold+TopAppBar to consume the
+    // top system inset (that combination visibly mis-sized the map on iOS only — see
+    // ui/map/CLAUDE.md), so the full-bleed map underneath actually extends behind the status
+    // bar/camera cutout. Every other map screen's fixed 31.dp top offset only has to clear the
+    // scale bar because a Scaffold already pushed the map below the status bar for them; here it
+    // must also clear the cutout itself, so the safe-drawing inset is added on top of that 31.dp.
+    val topInset = WindowInsets.safeDrawing.asPaddingValues().calculateTopPadding()
+
     Box(modifier = Modifier.fillMaxSize()) {
         LiveTrackMap(
             track = uiState.track,
@@ -62,12 +69,14 @@ fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
             onPlaceClick = { id -> selectedPlaceId = id },
             currentLocation = null,
             modifier = Modifier.fillMaxSize(),
+            ornamentOptions = mapOrnamentOptions.copy(padding = PaddingValues(top = topInset)),
         )
 
         // 31.dp clears the native scale bar, which shares this corner (see mapOrnamentOptions) —
-        // same rationale/value as MapFilterButton in RecordScreen.kt/MapScreen.kt.
+        // same rationale/value as MapFilterButton in RecordScreen.kt/MapScreen.kt. topInset on top
+        // of that clears the status bar/camera cutout itself (see comment above).
         Surface(
-            modifier = Modifier.align(Alignment.TopStart).padding(top = 31.dp, start = 16.dp),
+            modifier = Modifier.align(Alignment.TopStart).padding(top = topInset + 31.dp, start = 16.dp),
             shape = MaterialTheme.shapes.large,
             color = MaterialTheme.colorScheme.surface,
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
