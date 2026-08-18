@@ -101,6 +101,19 @@ save/restore state ровно как в инцидентах №1/№2 выше.
 единственным `startDestination` навсегда — новый экран «до Home» встраивай
 условным рендером в `App()`, не в граф.
 
+**Как следствие — свой safe-area инсет, не бесплатный.** Все top-level
+экраны получают инсет статус-бара бесплатно через `Scaffold`/`TopAppBar`
+(`SectionScaffold`, `HomeScreen`). `OnboardingScreen` не внутри NavHost и
+без `Scaffold` — просто `Column` с фиксированным `.padding(16.dp)`. На
+Android это визуально не било (статус-бар либо просвечивал, либо эмулятор
+не показывал проблему), на iOS заголовок «Welcome!» реально наезжал на
+часы в статус-баре/чёлку — найдено и исправлено в Phase 4
+(`.claude/plans/mushroom-collections.md`) живым прогоном на симуляторе.
+Фикс — `Modifier.windowInsetsPadding(WindowInsets.safeDrawing)` перед
+`.padding(16.dp)`. Любой будущий НЕ-NavHost экран «до Home» унаследует то
+же самое, если скопирует голый `Column` вместо `Scaffold` — не забывать
+про инсет вручную.
+
 ## Прочее
 
 - `NAV_TRANSITION_DURATION_MS = 200` (не библиотечный дефолт 700ms) —
