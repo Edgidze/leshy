@@ -205,6 +205,46 @@ class ExportImportRoundTripTest {
     }
 
     @Test
+    fun exportSkipsDanglingPhotoPathWithoutFailing() = runBlocking {
+        // Reproduces the "No such file or directory" export failure: a FieldMark whose photoPath
+        // no longer exists on disk (e.g. iOS sandbox container UUID changed after a reinstall)
+        // must not abort the whole archive — the mark should just export without a photo.
+        val sourceFs = FakeFileSystem()
+        val categories = FakeCategoryRepository(listOf(category(1, BOLETUS_NAME_KEY)))
+        val walks = FakeWalkRepository()
+        val walkId = walks.insert(
+            Walk(
+                id = 0, name = "Прогулка", startTime = 1000, endTime = 2000, distanceMeters = 0.0,
+                avgSpeed = 0.0, startLat = 55.7, startLon = 37.6, endLat = null, endLon = null,
+                mushroomCount = 1, thumbnailPath = null,
+            ),
+        )
+        val fieldMarks = FakeFieldMarkRepository()
+        fieldMarks.addMark(
+            FieldMark(
+                0, walkId, categoryId = 1, lat = 55.701, lon = 37.601, timestamp = 1200,
+                type = MarkType.MUSHROOM, photoPath = "/photos/missing.jpg", name = null, description = null,
+            ),
+        )
+
+        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, categories, sourceFs)
+        val sink = Buffer()
+        exportUseCase(sink)
+        val archiveBytes = sink.readByteArray()
+
+        val destFieldMarks = FakeFieldMarkRepository()
+        val importUseCase = ImportDataUseCase(
+            FakeWalkRepository(), FakeTrackPointRepository(), destFieldMarks,
+            FakeCategoryRepository(listOf(category(1, BOLETUS_NAME_KEY), category(2, MISC_CATEGORY_NAME_KEY))),
+            FakePhotoStorage(), FakeFileSystem(),
+        )
+        importUseCase(archiveBytes, "")
+
+        val mark = destFieldMarks.observeAll().first().single()
+        assertNull(mark.photoPath)
+    }
+
+    @Test
     fun rejectsArchiveWithNewerSchemaVersion() = runBlocking {
         val sink = Buffer()
         val writer = ZipWriter(sink)

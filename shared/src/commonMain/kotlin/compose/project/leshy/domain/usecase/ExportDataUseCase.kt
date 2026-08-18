@@ -76,7 +76,9 @@ class ExportDataUseCase(
         val marks = fieldMarkRepository.observeByWalkId(walk.id).first()
         val objectDtos = marks.map { mark ->
             val categoryNameKey = nameKeyByCategoryId[mark.categoryId] ?: MISC_CATEGORY_NAME_KEY
-            val photoFile = mark.photoPath?.let { path ->
+            // photoPath can dangle (e.g. iOS sandbox container UUID changes across reinstalls) —
+            // skip the photo rather than failing the whole export.
+            val photoFile = mark.photoPath?.takeIf { fileSystem.exists(it.toPath()) }?.let { path ->
                 val extension = path.substringAfterLast('.', "jpg")
                 val entryName = photoEntryName(mark.id, extension)
                 writer.writeEntry("$dir/$entryName", fileSystem.read(path.toPath()) { readByteArray() })
