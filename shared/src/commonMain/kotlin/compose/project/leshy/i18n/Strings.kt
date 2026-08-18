@@ -51,6 +51,12 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "По съедобности и алфавиту"
     StringKey.SettingsMushroomSortByAlphabetical -> "По алфавиту"
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Сбрасывать порядок грибов в конце прогулки"
+    StringKey.SettingsCollectionsTitle -> "Подборки грибов"
+
+    StringKey.OnboardingTitle -> "Добро пожаловать!"
+    StringKey.OnboardingDescription ->
+        "Выберите подборки грибов, которые вам интересны. Это можно изменить позже в Настройках."
+    StringKey.OnboardingContinueButton -> "Начать"
 
     StringKey.NavHomeContentDescription -> "На главную"
     StringKey.HelpContentDescription -> "Помощь"
@@ -89,6 +95,10 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.CategoryAmanitaVaginata -> "Поплавок серый"
     StringKey.CategoryRussulaFoetens -> "Валуй"
     StringKey.CategoryMisc -> "Разное"
+
+    StringKey.CollectionDemoNorth -> "Демо: Север"
+    StringKey.CollectionDemoSouth -> "Демо: Юг"
+    StringKey.CollectionDemoEast -> "Демо: Восток"
 
     StringKey.DefaultWalkName -> "Прогулка"
     StringKey.RecordWalkNameHint -> "Название прогулки"
@@ -236,6 +246,12 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "By edibility, then alphabetically"
     StringKey.SettingsMushroomSortByAlphabetical -> "Alphabetically"
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Reset mushroom order at the end of a walk"
+    StringKey.SettingsCollectionsTitle -> "Mushroom collections"
+
+    StringKey.OnboardingTitle -> "Welcome!"
+    StringKey.OnboardingDescription ->
+        "Pick the mushroom collections you're interested in. You can change this later in Settings."
+    StringKey.OnboardingContinueButton -> "Get started"
 
     StringKey.NavHomeContentDescription -> "Home"
     StringKey.HelpContentDescription -> "Help"
@@ -274,6 +290,10 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.CategoryAmanitaVaginata -> "Grisette"
     StringKey.CategoryRussulaFoetens -> "Valui"
     StringKey.CategoryMisc -> "Misc"
+
+    StringKey.CollectionDemoNorth -> "Demo: North"
+    StringKey.CollectionDemoSouth -> "Demo: South"
+    StringKey.CollectionDemoEast -> "Demo: East"
 
     StringKey.DefaultWalkName -> "Walk"
     StringKey.RecordWalkNameHint -> "Walk name"

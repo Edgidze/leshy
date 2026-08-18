@@ -46,3 +46,28 @@ val MIGRATION_3_4 = object : Migration(3, 4) {
         connection.execSQL("ALTER TABLE objects ADD COLUMN description TEXT")
     }
 }
+
+// Backs per-country mushroom collections (.claude/plans/mushroom-collections.md, Phase 0).
+// `isPicked`/`isFilterEligible` default to 1 so existing installs keep seeing every already-seeded
+// category on the Filter screen exactly as before, until the user touches the collection picker.
+val MIGRATION_4_5 = object : Migration(4, 5) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE categories ADD COLUMN isPicked INTEGER NOT NULL DEFAULT 1")
+        connection.execSQL("ALTER TABLE categories ADD COLUMN isFilterEligible INTEGER NOT NULL DEFAULT 1")
+
+        connection.execSQL(
+            "CREATE TABLE IF NOT EXISTS `collections` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "`nameKey` TEXT NOT NULL, `order` INTEGER NOT NULL)",
+        )
+        connection.execSQL(
+            "CREATE TABLE IF NOT EXISTS `category_collections` (`categoryId` INTEGER NOT NULL, " +
+                "`collectionId` INTEGER NOT NULL, PRIMARY KEY(`categoryId`, `collectionId`), " +
+                "FOREIGN KEY(`categoryId`) REFERENCES `categories`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE, " +
+                "FOREIGN KEY(`collectionId`) REFERENCES `collections`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE)",
+        )
+        connection.execSQL(
+            "CREATE INDEX IF NOT EXISTS `index_category_collections_collectionId` " +
+                "ON `category_collections` (`collectionId`)",
+        )
+    }
+}

@@ -5,6 +5,7 @@ import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.presentation.data.DataViewModel
 import compose.project.leshy.presentation.map.MapViewModel
 import compose.project.leshy.presentation.mapfilter.MapFilterViewModel
+import compose.project.leshy.presentation.onboarding.OnboardingViewModel
 import compose.project.leshy.presentation.preparation.PreparationViewModel
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.presentation.settings.SettingsViewModel
@@ -15,14 +16,15 @@ val presentationModule = module {
     viewModel {
         RecordViewModel(
             get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),
-            get(), get(), get(), get(),
+            get(), get(), get(), get(), get(), get(),
         )
     }
     viewModel { ArchiveViewModel(get(), get(), get(), get()) }
     viewModel { params -> WalkDetailViewModel(params.get(), get(), get(), get(), get(), get(), get()) }
     viewModel { MapViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { SettingsViewModel(get(), get()) }
+    viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { MapFilterViewModel(get(), get(), get(), get()) }
     viewModel { DataViewModel() }
     viewModel { PreparationViewModel(get()) }
+    viewModel { OnboardingViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
 }

@@ -14,4 +14,6 @@ data class CategoryEntity(
     val order: Int,
     val isActive: Boolean,
     val edibilityStatus: EdibilityStatus,
+    val isPicked: Boolean = true,
+    val isFilterEligible: Boolean = true,
 )

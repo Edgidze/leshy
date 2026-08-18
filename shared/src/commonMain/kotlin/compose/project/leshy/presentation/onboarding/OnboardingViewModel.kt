@@ -1,13 +1,11 @@
-package compose.project.leshy.presentation.settings
+package compose.project.leshy.presentation.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
-import compose.project.leshy.domain.model.MushroomSortOrder
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.CollectionRepository
-import compose.project.leshy.domain.repository.SettingsRepository
+import compose.project.leshy.domain.repository.OnboardingRepository
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
@@ -20,29 +18,33 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(
-    private val settingsRepository: SettingsRepository,
+/**
+ * First-run screen shown once before Home (see `.claude/plans/mushroom-collections.md`, Phase 3).
+ * Reuses the same [compose.project.leshy.ui.components.CollectionPicker] composable and picker
+ * use cases as Settings — this screen owns no picker logic of its own beyond the one-time
+ * "completed" flag.
+ */
+class OnboardingViewModel(
     private val categoryRepository: CategoryRepository,
     private val collectionRepository: CollectionRepository,
+    private val onboardingRepository: OnboardingRepository,
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
+    private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
     private val setCollectionPickedUseCase: SetCollectionPickedUseCase,
     private val setCategoryPickedUseCase: SetCategoryPickedUseCase,
-    private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(SettingsUiState())
-    val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(OnboardingUiState())
+    val uiState: StateFlow<OnboardingUiState> = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            // Settings can be the very first screen a user ever opens — Record's init isn't
-            // guaranteed to have run yet, so the catalog/collections need seeding here too.
-            // Idempotent upsert-diff, safe to call from both places.
+            // Onboarding is, by construction, the very first screen a user can ever open — same
+            // idempotent seeding as Record/Settings init, see data/CLAUDE.md.
             ensureDefaultCategories()
             ensureDefaultCollections()
             recalculateFilterEligibility()
@@ -58,50 +60,10 @@ class SettingsViewModel(
                 _uiState.update { it.copy(collectionPickerItems = items) }
             }
         }
-        viewModelScope.launch {
-            settingsRepository.observeLanguage().collect { language ->
-                _uiState.update { it.copy(language = language) }
-            }
-        }
-        viewModelScope.launch {
-            settingsRepository.observeMushroomMarkerSizeScale().collect { scale ->
-                _uiState.update { it.copy(mushroomMarkerSizeScale = scale) }
-            }
-        }
-        viewModelScope.launch {
-            val preview = categoryRepository.observeAll().first().filter { it.iconRef != null }.randomOrNull()
-            _uiState.update { it.copy(previewCategory = preview) }
-        }
-        viewModelScope.launch {
-            settingsRepository.observeMushroomSortOrder().collect { sortOrder ->
-                _uiState.update { it.copy(mushroomSortOrder = sortOrder) }
-            }
-        }
-        viewModelScope.launch {
-            settingsRepository.observeResetMushroomOrderOnWalkFinish().collect { reset ->
-                _uiState.update { it.copy(resetMushroomOrderOnWalkFinish = reset) }
-            }
-        }
-    }
-
-    fun setLanguage(language: AppLanguage) {
-        viewModelScope.launch { settingsRepository.setLanguage(language) }
-    }
-
-    fun setMushroomMarkerSizeScale(scale: Float) {
-        viewModelScope.launch { settingsRepository.setMushroomMarkerSizeScale(scale) }
-    }
-
-    fun setMushroomSortOrder(sortOrder: MushroomSortOrder) {
-        viewModelScope.launch { settingsRepository.setMushroomSortOrder(sortOrder) }
-    }
-
-    fun setResetMushroomOrderOnWalkFinish(reset: Boolean) {
-        viewModelScope.launch { settingsRepository.setResetMushroomOrderOnWalkFinish(reset) }
     }
 
     /** Tri-state click convention: anything short of fully picked selects every member, only a
-     * fully-picked collection deselects them all. */
+     * fully-picked collection deselects them all — mirrors [compose.project.leshy.presentation.settings.SettingsViewModel]. */
     fun toggleCollection(item: CollectionPickerItem) {
         val picked = item.pickState != CollectionPickState.ALL
         viewModelScope.launch { setCollectionPickedUseCase(item.collection.id, picked) }
@@ -109,5 +71,15 @@ class SettingsViewModel(
 
     fun setCategoryPicked(category: Category, picked: Boolean) {
         viewModelScope.launch { setCategoryPickedUseCase(category, picked) }
+    }
+
+    /**
+     * Fire-and-forget is safe here: nothing tears this ViewModel down in direct response to this
+     * call. [compose.project.leshy.App] observes the same [OnboardingRepository] flag independently
+     * and only swaps away from the onboarding screen once the write has actually landed and the
+     * flow re-emits — see `.claude/plans/mushroom-collections.md`, Phase 3.
+     */
+    fun finish() {
+        viewModelScope.launch { onboardingRepository.setCollectionPickerCompleted() }
     }
 }

@@ -4,6 +4,7 @@ import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_DEFAULT
 import compose.project.leshy.domain.model.MushroomSortOrder
+import compose.project.leshy.presentation.CollectionPickerItem
 
 data class SettingsUiState(
     val language: AppLanguage = AppLanguage.EN,
@@ -14,4 +15,5 @@ data class SettingsUiState(
      * marker is visual instead of abstract — picked once (stable for the screen's lifetime, not
      * reshuffled by an unrelated categories update) rather than on every recomposition. */
     val previewCategory: Category? = null,
+    val collectionPickerItems: List<CollectionPickerItem> = emptyList(),
 )
