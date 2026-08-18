@@ -96,6 +96,7 @@ kotlin {
             implementation(libs.maplibre.compose)
             implementation(libs.androidx.datastore.preferences.core)
             implementation(libs.coil.compose)
+            implementation(libs.okio)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
