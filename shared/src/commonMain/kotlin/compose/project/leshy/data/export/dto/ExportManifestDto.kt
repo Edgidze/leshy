@@ -12,7 +12,6 @@ const val MANIFEST_ENTRY_NAME = "manifest.json"
 @Serializable
 data class ExportManifestDto(
     val schemaVersion: Int,
-    val appVersion: String,
     val exportedAt: Long,
     val walkCount: Int,
 )

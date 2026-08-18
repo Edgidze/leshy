@@ -11,7 +11,6 @@ class ExportDtoSerializationTest {
     fun roundTripsManifest() {
         val manifest = ExportManifestDto(
             schemaVersion = EXPORT_SCHEMA_VERSION,
-            appVersion = "1.2.3",
             exportedAt = 1_755_000_000_000,
             walkCount = 2,
         )

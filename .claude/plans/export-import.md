@@ -100,33 +100,76 @@ leshy-export-<timestamp>.zip
   прежние 4/4 zip-тестов), `:shared:compileAndroidMain`,
   `:shared:compileKotlinIosSimulatorArm64`.
 
-- [ ] **Шаг 3 — One-shot DAO-запросы.** Добавить `WalkDao.getAll()`,
-  `TrackPointDao.getByWalkId(walkId): List<TrackPointEntity>`,
-  `ObjectDao.getByWalkId(walkId): List<ObjectEntity>` — по образцу уже
-  существующего `WalkDao.getById` (сейчас у `TrackPointDao`/`ObjectDao`
-  только `Flow`-варианты `observeByWalkId`).
+- [x] **Шаг 3 — пересмотрен, DAO не тронуты.** План предполагал новые
+  one-shot suspend DAO-запросы (`getAll`/`getByWalkId`), но
+  `BackfillWalkThumbnailsUseCase` (уже в кодовой базе) показывает
+  установившийся паттерн для «прочитать один раз»: `repository.observeAll()
+  .first()`/`repository.observeByWalkId(id).first()` через существующие
+  `WalkRepository`/`TrackPointRepository`/`FieldMarkRepository` — без новых
+  DAO-методов. Первая попытка (добавить `getAll`/`getByWalkId` в
+  `WalkDao`/`TrackPointDao`/`ObjectDao`) — сделана и **отменена** после
+  того, как это всплыло; DAO-файлы вернулись к исходному виду. Юзкейсы ниже
+  работают через repository-слой, не через Dao напрямую (домен не видит
+  Room) — это же не позволило сделать честную Room-транзакцию в Шаге 5, см.
+  ниже.
 
-- [ ] **Шаг 4 — `ExportDataUseCase`.** Строит `id → nameKey` карту категорий
-  один раз (`CategoryDao.observeAll().first()` или отдельный one-shot
-  запрос), затем для каждой прогулки (`WalkDao.getAll()`) маппит в DTO и
-  пишет в `ZipWriter`: `manifest.json`, затем на каждую прогулку
-  `walk.json`/`track.json`/`objects.json` и байты фото (читаются через
-  `okio.FileSystem.SYSTEM.read(path.toPath())` из `ObjectEntity.photoPath`).
-  Результат — поток байт в переданный `okio.BufferedSink` (не готовый
-  `ByteArray` в памяти — архивы с фото могут быть большими).
+- [x] **Шаг 4 — `ExportDataUseCase`.** `domain/usecase/ExportDataUseCase.kt`
+  — строит `id → nameKey` карту категорий один раз
+  (`categoryRepository.observeAll().first()`), затем для каждой прогулки
+  (`walkRepository.observeAll().first()`) маппит в DTO и пишет в
+  `ZipWriter`: `manifest.json` первым (walkCount уже известен из списка
+  прогулок), затем на каждую прогулку `walk.json`/`track.json`/
+  `objects.json` и байты фото (`FileSystem.read(path.toPath())` из
+  `FieldMark.photoPath`). Принимает `okio.BufferedSink` — поток пишется
+  прогулка за прогулкой, не собирается целиком в памяти. `FileSystem`
+  — конструкторный параметр с дефолтом `FileSystem.SYSTEM` (не жёстко
+  зашит) — только ради тестируемости через `okio-fakefilesystem`.
 
-- [ ] **Шаг 5 — `ImportDataUseCase`.** Читает `manifest.json` (проверка
-  `schemaVersion` — отклонить незнакомую будущую версию с понятной
-  ошибкой). На каждую `walks/walk-*/`: парсит DTO, резолвит категорию по
-  `categoryNameKey` (`CategoryDao.getByNameKey`), при отсутствии (рассинхрон
-  каталога) — fallback на служебную `category_misc` (уже используется как
-  FK-safe заглушка, см. `data/CLAUDE.md`), вставляет новую `WalkEntity`
-  (id=0, имя = оригинал + приписка пользователя, `thumbnailPath=null`),
-  новые `TrackPointEntity` с новым `walkId`, новые `ObjectEntity` — фото
-  копируются из архива в локальную директорию фото под новым именем (без
-  коллизий с уже существующими файлами), путь пишется в новый `photoPath`.
-  Всё — в одной транзакции (`RoomDatabase.withTransaction`), чтобы битый/
-  частично прочитанный архив не оставил половинчатые записи в БД.
+- [x] **Шаг 5 — `ImportDataUseCase`.** `domain/usecase/ImportDataUseCase.kt`
+  — читает `manifest.json`, отклоняет архив с `schemaVersion` новее, чем
+  поддерживает это приложение. На каждую `walks/walk-*/`: парсит DTO,
+  резолвит категорию по `categoryNameKey` (`categoryRepository
+  .getByNameKey`), при отсутствии — fallback на `category_misc`
+  (`MISC_CATEGORY_NAME_KEY`, тот же паттерн, что уже в
+  `AddPlaceMarkUseCase`), вставляет новую `Walk` (id=0, имя = оригинал +
+  приписка пользователя через пробел, `thumbnailPath=null` — досчитает уже
+  существующий `BackfillWalkThumbnailsUseCase` при следующем открытии
+  Архива, лишняя логика не нужна), новые `TrackPoint`, новые `FieldMark` —
+  фото копируются через новый `PhotoStorage` (см. ниже) под именем
+  `imported_<batchId>_<originalWalkId>_<индекс>.<ext>` (гарантированно
+  уникально, без общего mutable-счётчика). **Без Room-транзакции** —
+  никакого прецедента `withTransaction`/`@Transaction` нигде в кодовой базе
+  нет, а домен-слой видит только repository-интерфейсы, не сырую
+  `LeshyDatabase` (протащить транзакцию значило бы дать юзкейсу доступ к
+  `RoomDatabase` напрямую, ломая существующую границу слоёв). Вместо этого
+  — каждая прогулка импортируется независимо через `runCatching`; чья-то
+  поломанная запись пропускается, а не роняет весь импорт;
+  `ImportDataUseCase.Result(importedWalkCount, failedWalkCount)` даёт
+  вызывающему коду, что сказать пользователю.
+
+  Новая платформенная абстракция **`PhotoStorage`** (`data/platform/
+  PhotoStorage.kt` + `AndroidPhotoStorage`/`IosPhotoStorage`, тот же
+  паттерн интерфейс+две реализации, что `WalkThumbnailRenderer`) — отвечает
+  только «где» (Android: та же `filesDir/photos/`, что уже использует
+  `rememberCameraLauncher`; iOS: тот же плоский `Documents/`, что уже
+  использует iOS-версия `rememberCameraLauncher` — расхождение между
+  платформами осознанно не трогается, см. идею плана выше), сама запись
+  байт — кроссплатформенный `okio.FileSystem` в юзкейсе. Оба юзкейса
+  зарегистрированы в `domainModule`, `PhotoStorage` — в обоих
+  `PlatformModule.*.kt`.
+
+  Юнит-тесты (`ExportImportRoundTripTest.kt`, `commonTest`) — фейковые
+  in-memory реализации всех четырёх repository-интерфейсов +
+  `okio.fakefilesystem.FakeFileSystem` (новая тестовая зависимость
+  `okio-fakefilesystem`, та же версия, что `okio`) + фейковый
+  `PhotoStorage`: полный export→import цикл (категории резолвятся по
+  `nameKey` в независимый набор id на «втором устройстве», фото
+  физически копируются и читаются обратно побайтово, тег приписывается к
+  имени, `thumbnailPath` обнуляется), отказ на архиве из будущей версии
+  схемы, устойчивость к одной битой прогулке среди двух (частичный успех,
+  не полный отказ). Зелено: `:shared:testAndroidHostTest` (12/12 всех
+  export-тестов вместе), `:shared:compileAndroidMain`,
+  `:shared:compileKotlinIosSimulatorArm64`.
 
 - [ ] **Шаг 6 — Android: доступ к файлу назначения.** Заменить связку
   «выбрать папку (`OpenDocumentTree`) + отдельное поле имени» на единый

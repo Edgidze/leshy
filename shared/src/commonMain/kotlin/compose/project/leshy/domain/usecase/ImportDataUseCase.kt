@@ -1,0 +1,165 @@
+package compose.project.leshy.domain.usecase
+
+import compose.project.leshy.data.export.dto.EXPORT_SCHEMA_VERSION
+import compose.project.leshy.data.export.dto.ExportJson
+import compose.project.leshy.data.export.dto.ExportManifestDto
+import compose.project.leshy.data.export.dto.MANIFEST_ENTRY_NAME
+import compose.project.leshy.data.export.dto.OBJECTS_ENTRY_NAME
+import compose.project.leshy.data.export.dto.ObjectExportDto
+import compose.project.leshy.data.export.dto.TRACK_ENTRY_NAME
+import compose.project.leshy.data.export.dto.TrackPointExportDto
+import compose.project.leshy.data.export.dto.WALK_ENTRY_NAME
+import compose.project.leshy.data.export.dto.WalkExportDto
+import compose.project.leshy.data.export.zip.ZipReader
+import compose.project.leshy.data.platform.PhotoStorage
+import compose.project.leshy.data.platform.currentTimeMillis
+import compose.project.leshy.domain.model.FieldMark
+import compose.project.leshy.domain.model.MarkType
+import compose.project.leshy.domain.model.TrackPoint
+import compose.project.leshy.domain.model.Walk
+import compose.project.leshy.domain.repository.CategoryRepository
+import compose.project.leshy.domain.repository.FieldMarkRepository
+import compose.project.leshy.domain.repository.TrackPointRepository
+import compose.project.leshy.domain.repository.WalkRepository
+import kotlinx.coroutines.flow.first
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.decodeFromString
+import okio.FileSystem
+import okio.Path.Companion.toPath
+
+/**
+ * Reads an archive written by [ExportDataUseCase] and inserts its walks as brand-new rows (new
+ * ids) — never merge/overwrite. [walkNameTag], if non-blank, is appended to every imported walk's
+ * name so they're visually distinguishable from walks already on this device. Each walk is
+ * imported independently — there's no cross-walk Room transaction (no precedent for one anywhere
+ * else in this codebase, and the domain layer only sees repositories, not the raw database), so a
+ * walk whose entries are malformed is skipped rather than aborting the whole import; [Result]
+ * reports how many succeeded/failed so the caller can tell the user.
+ */
+class ImportDataUseCase(
+    private val walkRepository: WalkRepository,
+    private val trackPointRepository: TrackPointRepository,
+    private val fieldMarkRepository: FieldMarkRepository,
+    private val categoryRepository: CategoryRepository,
+    private val photoStorage: PhotoStorage,
+    private val fileSystem: FileSystem = FileSystem.SYSTEM,
+) {
+    data class Result(val importedWalkCount: Int, val failedWalkCount: Int)
+
+    suspend operator fun invoke(archiveBytes: ByteArray, walkNameTag: String): Result {
+        val reader = ZipReader(archiveBytes)
+        val manifest = reader.readEntry(MANIFEST_ENTRY_NAME)?.decodeToString()
+            ?.let { ExportJson.decodeFromString<ExportManifestDto>(it) }
+            ?: error("Not a Leshy export archive: missing $MANIFEST_ENTRY_NAME")
+        require(manifest.schemaVersion <= EXPORT_SCHEMA_VERSION) {
+            "This archive (format v${manifest.schemaVersion}) is newer than this app supports " +
+                "(v$EXPORT_SCHEMA_VERSION) — update the app first"
+        }
+
+        val categoryIdByNameKey = categoryRepository.observeAll().first().associate { it.nameKey to it.id }
+        val miscCategoryId = requireNotNull(categoryIdByNameKey[MISC_CATEGORY_NAME_KEY]) {
+            "Misc category must exist before importing"
+        }
+        val importBatchId = currentTimeMillis()
+
+        val walkDirs = reader.entries.map { it.name }
+            .filter { it.endsWith("/$WALK_ENTRY_NAME") }
+            .map { it.removeSuffix("/$WALK_ENTRY_NAME") }
+            .distinct()
+
+        var imported = 0
+        var failed = 0
+        for (dir in walkDirs) {
+            val ok = runCatching {
+                importWalk(reader, dir, walkNameTag, categoryIdByNameKey, miscCategoryId, importBatchId)
+            }.isSuccess
+            if (ok) imported++ else failed++
+        }
+        return Result(imported, failed)
+    }
+
+    private suspend fun importWalk(
+        reader: ZipReader,
+        dir: String,
+        walkNameTag: String,
+        categoryIdByNameKey: Map<String, Long>,
+        miscCategoryId: Long,
+        importBatchId: Long,
+    ) {
+        val walkDto = ExportJson.decodeFromString<WalkExportDto>(
+            requireNotNull(reader.readEntry("$dir/$WALK_ENTRY_NAME")) { "Missing $dir/$WALK_ENTRY_NAME" }
+                .decodeToString(),
+        )
+        val trackDtos = reader.readEntry("$dir/$TRACK_ENTRY_NAME")?.decodeToString()?.let {
+            ExportJson.decodeFromString(ListSerializer(TrackPointExportDto.serializer()), it)
+        } ?: emptyList()
+        val objectDtos = reader.readEntry("$dir/$OBJECTS_ENTRY_NAME")?.decodeToString()?.let {
+            ExportJson.decodeFromString(ListSerializer(ObjectExportDto.serializer()), it)
+        } ?: emptyList()
+
+        val newWalkId = walkRepository.insert(walkDto.toDomain(walkNameTag))
+
+        trackDtos.forEach { point -> trackPointRepository.addPoint(point.toDomain(newWalkId)) }
+
+        objectDtos.forEachIndexed { index, obj ->
+            val categoryId = categoryIdByNameKey[obj.categoryNameKey] ?: miscCategoryId
+            val photoPath = obj.photoFile?.let { relativePath ->
+                copyPhoto(reader, "$dir/$relativePath", importBatchId, walkDto.originalId, index)
+            }
+            fieldMarkRepository.addMark(obj.toDomain(newWalkId, categoryId, photoPath))
+        }
+    }
+
+    private fun copyPhoto(
+        reader: ZipReader,
+        entryPath: String,
+        importBatchId: Long,
+        originalWalkId: Long,
+        objectIndex: Int,
+    ): String? {
+        val bytes = reader.readEntry(entryPath) ?: return null
+        val extension = entryPath.substringAfterLast('.', "jpg")
+        val fileName = "imported_${importBatchId}_${originalWalkId}_$objectIndex.$extension"
+        val destination = photoStorage.resolvePath(fileName)
+        fileSystem.write(destination.toPath()) { write(bytes) }
+        return destination
+    }
+}
+
+private fun WalkExportDto.toDomain(nameTag: String) = Walk(
+    id = 0,
+    name = if (nameTag.isBlank()) name else "$name $nameTag",
+    startTime = startTime,
+    endTime = endTime,
+    distanceMeters = distanceMeters,
+    avgSpeed = avgSpeed,
+    startLat = startLat,
+    startLon = startLon,
+    endLat = endLat,
+    endLon = endLon,
+    mushroomCount = mushroomCount,
+    thumbnailPath = null, // re-derived by BackfillWalkThumbnailsUseCase next time Archive opens
+)
+
+private fun TrackPointExportDto.toDomain(walkId: Long) = TrackPoint(
+    id = 0,
+    walkId = walkId,
+    lat = lat,
+    lon = lon,
+    timestamp = timestamp,
+    elevation = elevation,
+    sequence = sequence,
+)
+
+private fun ObjectExportDto.toDomain(walkId: Long, categoryId: Long, photoPath: String?) = FieldMark(
+    id = 0,
+    walkId = walkId,
+    categoryId = categoryId,
+    lat = lat,
+    lon = lon,
+    timestamp = timestamp,
+    type = MarkType.valueOf(type),
+    photoPath = photoPath,
+    name = name,
+    description = description,
+)

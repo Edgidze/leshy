@@ -6,7 +6,9 @@ import compose.project.leshy.domain.usecase.BackfillWalkThumbnailsUseCase
 import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
+import compose.project.leshy.domain.usecase.ExportDataUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
+import compose.project.leshy.domain.usecase.ImportDataUseCase
 import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
@@ -35,4 +37,6 @@ val domainModule = module {
     factory { AddPlaceMarkUseCase(get(), get()) }
     factory { UpdatePlaceMarkUseCase(get()) }
     factory { DeletePlaceMarkUseCase(get()) }
+    factory { ExportDataUseCase(get(), get(), get(), get()) }
+    factory { ImportDataUseCase(get(), get(), get(), get(), get()) }
 }
