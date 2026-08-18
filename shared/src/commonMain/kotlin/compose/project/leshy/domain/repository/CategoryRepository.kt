@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryRepository {
     fun observeAll(): Flow<List<Category>>
     fun observeActive(): Flow<List<Category>>
+    fun observeFilterEligible(): Flow<List<Category>>
     suspend fun getById(id: Long): Category?
     suspend fun getByNameKey(nameKey: String): Category?
     suspend fun count(): Int

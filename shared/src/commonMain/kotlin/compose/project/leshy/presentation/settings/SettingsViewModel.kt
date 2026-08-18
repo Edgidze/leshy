@@ -10,6 +10,7 @@ import compose.project.leshy.domain.repository.CollectionRepository
 import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
+import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
 import compose.project.leshy.domain.usecase.SetCollectionPickedUseCase
 import compose.project.leshy.presentation.CollectionPickState
 import compose.project.leshy.presentation.CollectionPickerItem
@@ -29,6 +30,7 @@ class SettingsViewModel(
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
     private val setCollectionPicked: SetCollectionPickedUseCase,
+    private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -41,6 +43,7 @@ class SettingsViewModel(
             // Idempotent upsert-diff, safe to call from both places.
             ensureDefaultCategories()
             ensureDefaultCollections()
+            recalculateFilterEligibility()
         }
         viewModelScope.launch {
             combine(
@@ -99,10 +102,16 @@ class SettingsViewModel(
      * fully-picked collection deselects them all. */
     fun toggleCollection(item: CollectionPickerItem) {
         val picked = item.pickState != CollectionPickState.ALL
-        viewModelScope.launch { setCollectionPicked(item.collection.id, picked) }
+        viewModelScope.launch {
+            setCollectionPicked(item.collection.id, picked)
+            recalculateFilterEligibility()
+        }
     }
 
     fun setCategoryPicked(category: Category, picked: Boolean) {
-        viewModelScope.launch { categoryRepository.upsert(category.copy(isPicked = picked)) }
+        viewModelScope.launch {
+            categoryRepository.upsert(category.copy(isPicked = picked))
+            recalculateFilterEligibility()
+        }
     }
 }

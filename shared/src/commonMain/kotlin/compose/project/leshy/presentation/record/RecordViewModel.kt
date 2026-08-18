@@ -23,6 +23,7 @@ import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.MISC_CATEGORY_NAME_KEY
+import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.RenameWalkUseCase
@@ -64,6 +65,7 @@ class RecordViewModel(
     private val settingsRepository: SettingsRepository,
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
+    private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
     private val startWalk: StartWalkUseCase,
     private val finishWalk: FinishWalkUseCase,
     private val renameWalk: RenameWalkUseCase,
@@ -99,6 +101,9 @@ class RecordViewModel(
             // Must run after categories exist — looks categories up by nameKey to seed collection
             // membership.
             ensureDefaultCollections()
+            // Self-heal after the v4->v5 migration / any earlier crash mid-recalculation — cheap
+            // no-op once isFilterEligible is already in sync with isPicked/finds.
+            recalculateFilterEligibility()
         }
         viewModelScope.launch {
             val sortSettings = combine(

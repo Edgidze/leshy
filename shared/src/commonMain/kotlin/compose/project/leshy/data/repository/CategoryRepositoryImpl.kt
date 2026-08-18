@@ -16,6 +16,9 @@ class CategoryRepositoryImpl(
     override fun observeActive(): Flow<List<Category>> =
         categoryDao.observeActive().map { entities -> entities.map { it.toDomain() } }
 
+    override fun observeFilterEligible(): Flow<List<Category>> =
+        categoryDao.observeFilterEligible().map { entities -> entities.map { it.toDomain() } }
+
     override suspend fun getById(id: Long): Category? = categoryDao.getById(id)?.toDomain()
 
     override suspend fun getByNameKey(nameKey: String): Category? = categoryDao.getByNameKey(nameKey)?.toDomain()

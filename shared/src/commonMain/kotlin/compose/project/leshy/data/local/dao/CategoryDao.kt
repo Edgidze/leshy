@@ -17,6 +17,9 @@ interface CategoryDao {
     @Query("SELECT * FROM categories WHERE isActive = 1 ORDER BY `order` ASC")
     fun observeActive(): Flow<List<CategoryEntity>>
 
+    @Query("SELECT * FROM categories WHERE isFilterEligible = 1 ORDER BY `order` ASC")
+    fun observeFilterEligible(): Flow<List<CategoryEntity>>
+
     @Query("SELECT * FROM categories WHERE id = :id")
     suspend fun getById(id: Long): CategoryEntity?
 

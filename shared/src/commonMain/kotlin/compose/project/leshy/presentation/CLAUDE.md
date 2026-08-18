@@ -30,6 +30,13 @@
   «Настройки», пишет тем же `categoryRepository.upsert(category.copy
   (isActive=...))`. `MapFilterRepository` (DataStore) хранит только 2
   оставшиеся оси — 4 ключа, все nullable.
+- **Список видов в самом диалоге фильтра гейтится `Category.
+  isFilterEligible`**, не полным каталогом — `MapFilterViewModel` читает
+  `categoryRepository.observeFilterEligible()`, сортировка `isPicked DESC`
+  (через `partition` поверх обычного `sortCategories()`) поверх обычного
+  порядка. Модель из двух флагов (`isPicked`/`isFilterEligible`) и каскад
+  `isActive` при пересчёте — см. `.claude/plans/mushroom-collections.md`
+  (Phase 2), подробный разбор для Map/Record запланирован туда же на Phase 4.
 - **Дата/сезон фильтруют только отображение** (карта, статистика, фоновый
   слой прошлых находок на живой карте «Записи») — **НЕ** список грибов,
   доступных к отметке. Та же ось (виды) гейтит и список плашек: датой/сезоном
