@@ -106,6 +106,7 @@ enum class StringKey {
     UnitKilometers,
     WalkDetailFindsTitle,
     WalkDetailFindsEmpty,
+    WalkDetailPlacesTitle,
     WalkDetailViewMap,
     WalkDetailEditContentDescription,
     WalkDetailEditWalkNameTitle,
