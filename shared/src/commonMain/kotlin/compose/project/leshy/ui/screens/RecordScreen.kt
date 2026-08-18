@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -88,6 +89,13 @@ import org.koin.compose.viewmodel.koinViewModel
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
 private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
+
+// Start/Pause pill's preferred width — shrunk on narrow screens (see CENTER_BUTTON_MIN_WIDTH)
+// so the round side buttons always get their full ACTION_BUTTON_HEIGHT slot and never compress.
+private val CENTER_BUTTON_MAX_WIDTH = 200.dp
+private val CENTER_BUTTON_MIN_WIDTH = 130.dp
+private val ROW_HORIZONTAL_PADDING = 16.dp
+private val SIDE_BUTTON_SLOT_WIDTH = 64.dp
 
 @Composable
 fun RecordScreen(
@@ -282,73 +290,82 @@ private fun RecordScreenContent(
             // them gets one — Column stacks the two without needing to know the scroller's
             // measured height up front.
             Column(modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth()) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    when {
-                        !uiState.isRecording -> {
-                            // No walk to attach a place to yet — same dimmed/disabled treatment as
-                            // a mushroom tile's minus button before any find is logged.
-                            RecordSideButton(
-                                icon = Icons.Filled.AddLocationAlt,
-                                contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
-                                onClick = onMarkLocationClick,
-                                enabled = false,
-                                modifier = Modifier.weight(1f).fillMaxWidth(),
-                            )
-                            Button(
-                                onClick = { showNameDialog = true },
-                                shape = ACTION_BUTTON_SHAPE,
-                                modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(200.dp),
-                            ) {
-                                Text(stringResource(StringKey.RecordStart))
+                BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+                    // The Start/Pause pill is normally a fixed CENTER_BUTTON_MAX_WIDTH, but on a
+                    // narrow screen (e.g. iPhone SE's 320dp) that plus two ACTION_BUTTON_HEIGHT
+                    // side buttons doesn't fit — shrinking the pill first keeps each side button's
+                    // weighted slot at least SIDE_BUTTON_SLOT_WIDTH, so it's never forced smaller
+                    // than its own icon and centered unevenly inside its slot.
+                    val centerButtonWidth = (maxWidth - ROW_HORIZONTAL_PADDING * 2 - SIDE_BUTTON_SLOT_WIDTH * 2)
+                        .coerceIn(CENTER_BUTTON_MIN_WIDTH, CENTER_BUTTON_MAX_WIDTH)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = ROW_HORIZONTAL_PADDING, vertical = 16.dp),
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        when {
+                            !uiState.isRecording -> {
+                                // No walk to attach a place to yet — same dimmed/disabled treatment
+                                // as a mushroom tile's minus button before any find is logged.
+                                RecordSideButton(
+                                    icon = Icons.Filled.AddLocationAlt,
+                                    contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
+                                    onClick = onMarkLocationClick,
+                                    enabled = false,
+                                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                                )
+                                Button(
+                                    onClick = { showNameDialog = true },
+                                    shape = ACTION_BUTTON_SHAPE,
+                                    modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(centerButtonWidth),
+                                ) {
+                                    Text(stringResource(StringKey.RecordStart))
+                                }
+                                RecordSideButton(
+                                    icon = Icons.Filled.Search,
+                                    contentDescription = stringResource(StringKey.RecordSearchContentDescription),
+                                    onClick = onSearchClick,
+                                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                                )
                             }
-                            RecordSideButton(
-                                icon = Icons.Filled.Search,
-                                contentDescription = stringResource(StringKey.RecordSearchContentDescription),
-                                onClick = onSearchClick,
-                                modifier = Modifier.weight(1f).fillMaxWidth(),
-                            )
-                        }
-                        !uiState.isPaused -> {
-                            RecordSideButton(
-                                icon = Icons.Filled.AddLocationAlt,
-                                contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
-                                onClick = onMarkLocationClick,
-                                modifier = Modifier.weight(1f).fillMaxWidth(),
-                            )
-                            Button(
-                                onClick = onPauseOrResumeClick,
-                                shape = ACTION_BUTTON_SHAPE,
-                                modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(200.dp),
-                            ) {
-                                Text(stringResource(StringKey.RecordPause))
+                            !uiState.isPaused -> {
+                                RecordSideButton(
+                                    icon = Icons.Filled.AddLocationAlt,
+                                    contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
+                                    onClick = onMarkLocationClick,
+                                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                                )
+                                Button(
+                                    onClick = onPauseOrResumeClick,
+                                    shape = ACTION_BUTTON_SHAPE,
+                                    modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(centerButtonWidth),
+                                ) {
+                                    Text(stringResource(StringKey.RecordPause))
+                                }
+                                RecordSideButton(
+                                    icon = Icons.Filled.Search,
+                                    contentDescription = stringResource(StringKey.RecordSearchContentDescription),
+                                    onClick = onSearchClick,
+                                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                                )
                             }
-                            RecordSideButton(
-                                icon = Icons.Filled.Search,
-                                contentDescription = stringResource(StringKey.RecordSearchContentDescription),
-                                onClick = onSearchClick,
-                                modifier = Modifier.weight(1f).fillMaxWidth(),
-                            )
-                        }
-                        else -> {
-                            Button(
-                                onClick = onPauseOrResumeClick,
-                                shape = ACTION_BUTTON_SHAPE,
-                                modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
-                            ) {
-                                Text(stringResource(StringKey.RecordResume))
-                            }
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Button(
-                                onClick = onFinishClick,
-                                shape = ACTION_BUTTON_SHAPE,
-                            modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
-                            ) {
-                                Text(stringResource(StringKey.RecordFinish))
+                            else -> {
+                                Button(
+                                    onClick = onPauseOrResumeClick,
+                                    shape = ACTION_BUTTON_SHAPE,
+                                    modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
+                                ) {
+                                    Text(stringResource(StringKey.RecordResume))
+                                }
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Button(
+                                    onClick = onFinishClick,
+                                    shape = ACTION_BUTTON_SHAPE,
+                                    modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
+                                ) {
+                                    Text(stringResource(StringKey.RecordFinish))
+                                }
                             }
                         }
                     }
