@@ -9,12 +9,16 @@ import compose.project.leshy.data.local.DATABASE_NAME
 import compose.project.leshy.data.local.LeshyDatabase
 import compose.project.leshy.data.platform.ArchiveFileReader
 import compose.project.leshy.data.platform.BackgroundRecordingController
+import compose.project.leshy.data.platform.HttpTextFetcher
 import compose.project.leshy.data.platform.IosArchiveFileReader
 import compose.project.leshy.data.platform.IosBackgroundRecordingController
+import compose.project.leshy.data.platform.IosHttpTextFetcher
 import compose.project.leshy.data.platform.IosLocationTracker
+import compose.project.leshy.data.platform.IosMapStyleStorage
 import compose.project.leshy.data.platform.IosPhotoStorage
 import compose.project.leshy.data.platform.IosWalkThumbnailRenderer
 import compose.project.leshy.data.platform.LocationTracker
+import compose.project.leshy.data.platform.MapStyleStorage
 import compose.project.leshy.data.platform.PhotoStorage
 import compose.project.leshy.data.platform.WalkThumbnailRenderer
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -52,7 +56,9 @@ actual val platformModule: Module = module {
     single<BackgroundRecordingController> { IosBackgroundRecordingController(get()) }
     single<WalkThumbnailRenderer> { IosWalkThumbnailRenderer() }
     single<PhotoStorage> { IosPhotoStorage() }
+    single<MapStyleStorage> { IosMapStyleStorage() }
     single<ArchiveFileReader> { IosArchiveFileReader() }
+    single<HttpTextFetcher> { IosHttpTextFetcher() }
     single<OfflineManager> { getOfflineManager() }
     single<DataStore<Preferences>> {
         val settingsFilePath = documentsDirectoryPath() + "/" + SETTINGS_FILE_NAME

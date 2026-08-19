@@ -213,4 +213,16 @@ enum class StringKey {
     PreparationSubtitle,
     PreparationEstimatedSizeLabel,
     PreparationRetryContentDescription,
+
+    MapTilesLoadFailed,
+
+    SettingsMapDataTitle,
+    SettingsMapDataDescription,
+    SettingsRefreshMapDataButton,
+    SettingsMapDataRefreshError,
+    SettingsMapDataRedownloadingPrefix,
+    SettingsMapDataRedownloadingSuffix,
+    SettingsMapDataRegionsCountOne,
+    SettingsMapDataRegionsCountFew,
+    SettingsMapDataRegionsCountMany,
 }

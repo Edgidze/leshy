@@ -1,12 +1,24 @@
 package compose.project.leshy.ui.map
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import compose.project.leshy.data.repository.MapStyleCacheRepository
 import compose.project.leshy.domain.model.OfflineRegionInfo
 import compose.project.leshy.domain.model.OfflineRegionStatus
+import compose.project.leshy.ui.components.MapLoadFailedBanner
+import org.koin.compose.koinInject
 import org.maplibre.compose.camera.CameraState
 import org.maplibre.compose.expressions.dsl.const
 import org.maplibre.compose.layers.LineLayer
@@ -35,34 +47,46 @@ fun RegionPickerMap(
     regions: List<OfflineRegionInfo>,
     modifier: Modifier = Modifier,
 ) {
-    MaplibreMap(
-        modifier = modifier,
-        baseStyle = OpenFreeMapStyle,
-        cameraState = cameraState,
-        options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
-    ) {
-        regions.forEach { region ->
-            key(region.name) {
-                val outlineSource = rememberGeoJsonSource(
-                    GeoJsonData.Features(
-                        Polygon(
-                            listOf(
-                                Position(region.west, region.south),
-                                Position(region.west, region.north),
-                                Position(region.east, region.north),
-                                Position(region.east, region.south),
-                                Position(region.west, region.south),
+    val mapStyleCacheRepository = koinInject<MapStyleCacheRepository>()
+    val baseStyle by mapStyleCacheRepository.baseStyle.collectAsState()
+    var tilesLoadFailed by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { mapStyleCacheRepository.ensureLoaded() }
+
+    Box(modifier) {
+        MaplibreMap(
+            modifier = Modifier.fillMaxSize(),
+            baseStyle = baseStyle,
+            cameraState = cameraState,
+            options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
+            onMapLoadFailed = { tilesLoadFailed = true },
+            onMapLoadFinished = { tilesLoadFailed = false },
+        ) {
+            regions.forEach { region ->
+                key(region.name) {
+                    val outlineSource = rememberGeoJsonSource(
+                        GeoJsonData.Features(
+                            Polygon(
+                                listOf(
+                                    Position(region.west, region.south),
+                                    Position(region.west, region.north),
+                                    Position(region.east, region.north),
+                                    Position(region.east, region.south),
+                                    Position(region.west, region.south),
+                                ),
                             ),
                         ),
-                    ),
-                )
-                LineLayer(
-                    id = "offline-region-${region.name}",
-                    source = outlineSource,
-                    color = const(region.status.outlineColor()),
-                    width = const(2.dp),
-                )
+                    )
+                    LineLayer(
+                        id = "offline-region-${region.name}",
+                        source = outlineSource,
+                        color = const(region.status.outlineColor()),
+                        width = const(2.dp),
+                    )
+                }
             }
+        }
+        if (tilesLoadFailed) {
+            MapLoadFailedBanner(modifier = Modifier.align(Alignment.TopCenter))
         }
     }
 }

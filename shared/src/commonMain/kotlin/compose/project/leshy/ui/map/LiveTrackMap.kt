@@ -1,23 +1,30 @@
 package compose.project.leshy.ui.map
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import compose.project.leshy.data.repository.MapStyleCacheRepository
 import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.ui.components.MapLoadFailedBanner
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.maplibre.compose.camera.CameraMoveReason
 import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.CameraState
@@ -149,91 +156,103 @@ fun LiveTrackMap(
         }
     }
 
-    MaplibreMap(
-        modifier = modifier,
-        baseStyle = OpenFreeMapStyle,
-        cameraState = cameraState,
-        options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = ornamentOptions),
-    ) {
-        ClusteredFindsLayers(historicalMarkers, idPrefix = "historical")
-        // Reuses the same onPlaceClick as the current walk's own places below — safe because
-        // RecordScreen.kt excludes the current walk's marks from historicalPlaces, so the two
-        // layers' place ids never collide.
-        PlaceMarkersLayer(historicalPlaces, onPlaceClick, idPrefix = "historical-place", onPlaceLongPress = onPlaceLongPress)
+    val mapStyleCacheRepository = koinInject<MapStyleCacheRepository>()
+    val baseStyle by mapStyleCacheRepository.baseStyle.collectAsState()
+    var tilesLoadFailed by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { mapStyleCacheRepository.ensureLoaded() }
 
-        if (track.size >= 2) {
-            val trackSource = rememberGeoJsonSource(
-                GeoJsonData.Features(LineString(track.map { Position(it.lon, it.lat) })),
-            )
-            LineLayer(id = "track-line", source = trackSource, color = const(TRACK_COLOR), width = const(4.dp))
-        }
+    Box(modifier) {
+        MaplibreMap(
+            modifier = Modifier.fillMaxSize(),
+            baseStyle = baseStyle,
+            cameraState = cameraState,
+            options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = ornamentOptions),
+            onMapLoadFailed = { tilesLoadFailed = true },
+            onMapLoadFinished = { tilesLoadFailed = false },
+        ) {
+            ClusteredFindsLayers(historicalMarkers, idPrefix = "historical")
+            // Reuses the same onPlaceClick as the current walk's own places below — safe because
+            // RecordScreen.kt excludes the current walk's marks from historicalPlaces, so the two
+            // layers' place ids never collide.
+            PlaceMarkersLayer(historicalPlaces, onPlaceClick, idPrefix = "historical-place", onPlaceLongPress = onPlaceLongPress)
 
-        if (currentLocation != null && navigationTargetLat != null && navigationTargetLon != null) {
-            val navigationLineSource = rememberGeoJsonSource(
-                GeoJsonData.Features(
-                    LineString(
-                        listOf(
-                            Position(currentLocation.lon, currentLocation.lat),
-                            Position(navigationTargetLon, navigationTargetLat),
+            if (track.size >= 2) {
+                val trackSource = rememberGeoJsonSource(
+                    GeoJsonData.Features(LineString(track.map { Position(it.lon, it.lat) })),
+                )
+                LineLayer(id = "track-line", source = trackSource, color = const(TRACK_COLOR), width = const(4.dp))
+            }
+
+            if (currentLocation != null && navigationTargetLat != null && navigationTargetLon != null) {
+                val navigationLineSource = rememberGeoJsonSource(
+                    GeoJsonData.Features(
+                        LineString(
+                            listOf(
+                                Position(currentLocation.lon, currentLocation.lat),
+                                Position(navigationTargetLon, navigationTargetLat),
+                            ),
                         ),
                     ),
-                ),
-            )
-            LineLayer(
-                id = "navigation-line",
-                source = navigationLineSource,
-                color = const(NAVIGATION_LINE_COLOR),
-                width = const(3.dp),
-                dasharray = const(NAVIGATION_LINE_DASH),
-            )
-        }
+                )
+                LineLayer(
+                    id = "navigation-line",
+                    source = navigationLineSource,
+                    color = const(NAVIGATION_LINE_COLOR),
+                    width = const(3.dp),
+                    dasharray = const(NAVIGATION_LINE_DASH),
+                )
+            }
 
-        val (photoMarkers, mushroomMarkers) = markers.partition { it.iconRef == null }
+            val (photoMarkers, mushroomMarkers) = markers.partition { it.iconRef == null }
 
-        mushroomMarkers.groupBy { it.iconRef }.forEach { (iconRef, group) ->
-            requireNotNull(iconRef)
-            key(iconRef) {
-                val painter = rememberMushroomMarkerPainter(iconRef)
-                if (painter != null) {
+            mushroomMarkers.groupBy { it.iconRef }.forEach { (iconRef, group) ->
+                requireNotNull(iconRef)
+                key(iconRef) {
+                    val painter = rememberMushroomMarkerPainter(iconRef)
+                    if (painter != null) {
+                        val marksSource = rememberGeoJsonSource(
+                            GeoJsonData.Features(MultiPoint(group.map { Position(it.lon, it.lat) })),
+                        )
+                        val markerSize = mushroomMarkerSize
+                        SymbolLayer(
+                            id = "marks-$iconRef",
+                            source = marksSource,
+                            iconImage = image(painter, size = DpSize(markerSize, markerSize)),
+                            iconAllowOverlap = const(true),
+                        )
+                    }
+                }
+            }
+
+            photoMarkers.groupBy { it.colorHex }.forEach { (colorHex, group) ->
+                key(colorHex) {
+                    val color = runCatching { Color(("ff" + colorHex.removePrefix("#")).toLong(16)) }
+                        .getOrDefault(Color.Gray)
                     val marksSource = rememberGeoJsonSource(
                         GeoJsonData.Features(MultiPoint(group.map { Position(it.lon, it.lat) })),
                     )
-                    val markerSize = mushroomMarkerSize
-                    SymbolLayer(
-                        id = "marks-$iconRef",
-                        source = marksSource,
-                        iconImage = image(painter, size = DpSize(markerSize, markerSize)),
-                        iconAllowOverlap = const(true),
-                    )
+                    CircleLayer(id = "marks-$colorHex", source = marksSource, color = const(color), radius = const(6.dp))
                 }
             }
-        }
 
-        photoMarkers.groupBy { it.colorHex }.forEach { (colorHex, group) ->
-            key(colorHex) {
-                val color = runCatching { Color(("ff" + colorHex.removePrefix("#")).toLong(16)) }
-                    .getOrDefault(Color.Gray)
-                val marksSource = rememberGeoJsonSource(
-                    GeoJsonData.Features(MultiPoint(group.map { Position(it.lon, it.lat) })),
+            PlaceMarkersLayer(places, onPlaceClick, onPlaceLongPress = onPlaceLongPress)
+
+            currentLocation?.let { location ->
+                val currentLocationSource = rememberGeoJsonSource(
+                    GeoJsonData.Features(Point(Position(location.lon, location.lat))),
                 )
-                CircleLayer(id = "marks-$colorHex", source = marksSource, color = const(color), radius = const(6.dp))
+                CircleLayer(
+                    id = "current-location",
+                    source = currentLocationSource,
+                    color = const(CURRENT_LOCATION_COLOR),
+                    radius = const(7.dp),
+                    strokeColor = const(Color.White),
+                    strokeWidth = const(2.dp),
+                )
             }
         }
-
-        PlaceMarkersLayer(places, onPlaceClick, onPlaceLongPress = onPlaceLongPress)
-
-        currentLocation?.let { location ->
-            val currentLocationSource = rememberGeoJsonSource(
-                GeoJsonData.Features(Point(Position(location.lon, location.lat))),
-            )
-            CircleLayer(
-                id = "current-location",
-                source = currentLocationSource,
-                color = const(CURRENT_LOCATION_COLOR),
-                radius = const(7.dp),
-                strokeColor = const(Color.White),
-                strokeWidth = const(2.dp),
-            )
+        if (tilesLoadFailed) {
+            MapLoadFailedBanner(modifier = Modifier.align(Alignment.TopCenter))
         }
     }
 }

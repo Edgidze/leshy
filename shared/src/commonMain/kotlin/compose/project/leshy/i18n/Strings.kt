@@ -56,6 +56,27 @@ private fun russianWalksPluralKey(count: Int): StringKey {
     }
 }
 
+/** "область"/"области"/"областей" (Russian 3-way plural, agreeing with [count]) or "area"/"areas" (English). */
+@Composable
+fun regionsUnitLabel(count: Int): String {
+    val key = when (LocalAppLanguage.current) {
+        AppLanguage.RU -> russianRegionsPluralKey(count)
+        AppLanguage.EN -> if (count == 1) StringKey.SettingsMapDataRegionsCountOne else StringKey.SettingsMapDataRegionsCountMany
+    }
+    return stringResource(key)
+}
+
+private fun russianRegionsPluralKey(count: Int): StringKey {
+    val mod100 = count % 100
+    val mod10 = count % 10
+    return when {
+        mod100 in 11..14 -> StringKey.SettingsMapDataRegionsCountMany
+        mod10 == 1 -> StringKey.SettingsMapDataRegionsCountOne
+        mod10 in 2..4 -> StringKey.SettingsMapDataRegionsCountFew
+        else -> StringKey.SettingsMapDataRegionsCountMany
+    }
+}
+
 private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.AppName -> "Леший"
     StringKey.NavRecord -> "Запись"
@@ -272,6 +293,22 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.PreparationSubtitle -> "Скачайте карту, чтобы пользоваться ей без интернета в лесу"
     StringKey.PreparationEstimatedSizeLabel -> "Место на диске"
     StringKey.PreparationRetryContentDescription -> "Повторить скачивание"
+
+    StringKey.MapTilesLoadFailed -> "Карта не полностью загрузилась с сайта"
+
+    StringKey.SettingsMapDataTitle -> "Данные карты"
+    StringKey.SettingsMapDataDescription ->
+        "Карта не обновляется автоматически — так скачанные офлайн-области остаются доступны, " +
+            "даже если источник тайлов недоступен или изменился на сервере. Если после обновления " +
+            "содержимое карты действительно изменится, все скачанные офлайн-области будут " +
+            "автоматически перекачаны заново."
+    StringKey.SettingsRefreshMapDataButton -> "Обновить данные карты"
+    StringKey.SettingsMapDataRefreshError -> "Не удалось обновить — проверьте подключение к интернету"
+    StringKey.SettingsMapDataRedownloadingPrefix -> "Данные карты обновлены. Перекачивается"
+    StringKey.SettingsMapDataRedownloadingSuffix -> "— прогресс можно посмотреть в разделе «Подготовка»."
+    StringKey.SettingsMapDataRegionsCountOne -> "область"
+    StringKey.SettingsMapDataRegionsCountFew -> "области"
+    StringKey.SettingsMapDataRegionsCountMany -> "областей"
 }
 
 private fun englishStrings(key: StringKey): String = when (key) {
@@ -489,4 +526,20 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.PreparationSubtitle -> "Download the map to use it offline in the forest"
     StringKey.PreparationEstimatedSizeLabel -> "Storage"
     StringKey.PreparationRetryContentDescription -> "Retry download"
+
+    StringKey.MapTilesLoadFailed -> "The map didn't fully load from"
+
+    StringKey.SettingsMapDataTitle -> "Map data"
+    StringKey.SettingsMapDataDescription ->
+        "The map doesn't update automatically — this keeps downloaded offline areas always " +
+            "available, even if the tile source is unreachable or has changed on the server. If " +
+            "updating actually changes the map content, all downloaded offline areas are " +
+            "automatically re-downloaded."
+    StringKey.SettingsRefreshMapDataButton -> "Update map data"
+    StringKey.SettingsMapDataRefreshError -> "Update failed — check your internet connection"
+    StringKey.SettingsMapDataRedownloadingPrefix -> "Map data updated. Re-downloading"
+    StringKey.SettingsMapDataRedownloadingSuffix -> "— check progress in the Preparation section."
+    StringKey.SettingsMapDataRegionsCountOne -> "area"
+    StringKey.SettingsMapDataRegionsCountFew -> "areas"
+    StringKey.SettingsMapDataRegionsCountMany -> "areas"
 }

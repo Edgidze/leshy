@@ -11,6 +11,7 @@ import compose.project.leshy.domain.usecase.FinishWalkUseCase
 import compose.project.leshy.domain.usecase.ImportDataUseCase
 import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
+import compose.project.leshy.domain.usecase.RefreshMapDataUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.RenameWalkUseCase
 import compose.project.leshy.domain.usecase.RepairPhotoPathsUseCase
@@ -41,4 +42,5 @@ val domainModule = module {
     factory { DeletePlaceMarkUseCase(get()) }
     factory { ExportDataUseCase(get(), get(), get(), get()) }
     factory { ImportDataUseCase(get(), get(), get(), get(), get()) }
+    factory { RefreshMapDataUseCase(get(), get()) }
 }

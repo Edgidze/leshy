@@ -22,7 +22,7 @@ val presentationModule = module {
     viewModel { ArchiveViewModel(get(), get(), get(), get(), get()) }
     viewModel { params -> WalkDetailViewModel(params.get(), get(), get(), get(), get(), get(), get()) }
     viewModel { MapViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { MapFilterViewModel(get(), get(), get(), get()) }
     viewModel { DataViewModel(get(), get(), get(), get(), get()) }
     viewModel { PreparationViewModel(get()) }

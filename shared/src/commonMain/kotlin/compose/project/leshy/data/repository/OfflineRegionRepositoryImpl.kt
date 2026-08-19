@@ -4,7 +4,6 @@ import androidx.compose.runtime.snapshotFlow
 import compose.project.leshy.domain.model.OfflineRegionInfo
 import compose.project.leshy.domain.model.OfflineRegionStatus
 import compose.project.leshy.domain.repository.OfflineRegionRepository
-import compose.project.leshy.ui.map.OPEN_FREE_MAP_STYLE_URL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.maplibre.compose.offline.DownloadProgress
@@ -23,6 +22,7 @@ import org.maplibre.spatialk.geojson.BoundingBox
  */
 class OfflineRegionRepositoryImpl(
     private val offlineManager: OfflineManager,
+    private val mapStyleCacheRepository: MapStyleCacheRepository,
 ) : OfflineRegionRepository {
 
     override fun observeRegions(): Flow<List<OfflineRegionInfo>> =
@@ -46,8 +46,11 @@ class OfflineRegionRepositoryImpl(
         minZoom: Int,
         maxZoom: Int,
     ) {
+        // Pinned local style reference (not the live remote URL) — pins the download to the exact
+        // same tile URL template the live map is currently rendering from, so it can never drift
+        // out from under a region that was "just" downloaded. See MapStyleCacheRepository's doc.
         val definition = OfflinePackDefinition.TilePyramid(
-            styleUrl = OPEN_FREE_MAP_STYLE_URL,
+            styleUrl = mapStyleCacheRepository.currentStyleReference(),
             bounds = BoundingBox(west = west, south = south, east = east, north = north),
             minZoom = minZoom,
             maxZoom = maxZoom,

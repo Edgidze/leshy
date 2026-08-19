@@ -1,14 +1,24 @@
 package compose.project.leshy.ui.map
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import compose.project.leshy.data.repository.MapStyleCacheRepository
 import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.ui.components.MapLoadFailedBanner
+import org.koin.compose.koinInject
 import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.expressions.dsl.const
@@ -55,30 +65,42 @@ fun AggregatedFindsMap(
         }
     }
 
-    MaplibreMap(
-        modifier = modifier,
-        baseStyle = OpenFreeMapStyle,
-        cameraState = cameraState,
-        options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
-    ) {
-        tracks.forEach { (walkId, points) ->
-            if (points.size >= 2) {
-                key(walkId) {
-                    val routeSource = rememberGeoJsonSource(
-                        GeoJsonData.Features(LineString(points.map { Position(it.lon, it.lat) })),
-                    )
-                    LineLayer(
-                        id = "route-$walkId",
-                        source = routeSource,
-                        color = const(ROUTE_COLOR),
-                        width = const(2.dp),
-                        opacity = const(0.45f),
-                    )
+    val mapStyleCacheRepository = koinInject<MapStyleCacheRepository>()
+    val baseStyle by mapStyleCacheRepository.baseStyle.collectAsState()
+    var tilesLoadFailed by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { mapStyleCacheRepository.ensureLoaded() }
+
+    Box(modifier) {
+        MaplibreMap(
+            modifier = Modifier.fillMaxSize(),
+            baseStyle = baseStyle,
+            cameraState = cameraState,
+            options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
+            onMapLoadFailed = { tilesLoadFailed = true },
+            onMapLoadFinished = { tilesLoadFailed = false },
+        ) {
+            tracks.forEach { (walkId, points) ->
+                if (points.size >= 2) {
+                    key(walkId) {
+                        val routeSource = rememberGeoJsonSource(
+                            GeoJsonData.Features(LineString(points.map { Position(it.lon, it.lat) })),
+                        )
+                        LineLayer(
+                            id = "route-$walkId",
+                            source = routeSource,
+                            color = const(ROUTE_COLOR),
+                            width = const(2.dp),
+                            opacity = const(0.45f),
+                        )
+                    }
                 }
             }
-        }
 
-        ClusteredFindsLayers(markers)
-        PlaceMarkersLayer(places, onPlaceClick)
+            ClusteredFindsLayers(markers)
+            PlaceMarkersLayer(places, onPlaceClick)
+        }
+        if (tilesLoadFailed) {
+            MapLoadFailedBanner(modifier = Modifier.align(Alignment.TopCenter))
+        }
     }
 }

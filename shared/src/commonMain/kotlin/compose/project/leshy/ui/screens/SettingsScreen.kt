@@ -13,7 +13,10 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -39,6 +42,7 @@ import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MIN
 import compose.project.leshy.domain.model.MushroomSortOrder
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
+import compose.project.leshy.i18n.regionsUnitLabel
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.settings.SettingsViewModel
 import compose.project.leshy.ui.components.CollectionPicker
@@ -110,6 +114,41 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
             onToggleCollection = viewModel::toggleCollection,
             onToggleCategory = viewModel::setCategoryPicked,
         )
+
+        Text(
+            stringResource(StringKey.SettingsMapDataTitle),
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+        )
+        Text(
+            stringResource(StringKey.SettingsMapDataDescription),
+            modifier = Modifier.padding(bottom = 8.dp),
+        )
+        Button(onClick = viewModel::refreshMapData, enabled = !uiState.isRefreshingMapData) {
+            if (uiState.isRefreshingMapData) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(18.dp),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                )
+            } else {
+                Text(stringResource(StringKey.SettingsRefreshMapDataButton))
+            }
+        }
+        if (uiState.mapDataRefreshFailed) {
+            Text(
+                stringResource(StringKey.SettingsMapDataRefreshError),
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        }
+        if (uiState.mapDataRegionsRedownloading > 0) {
+            val count = uiState.mapDataRegionsRedownloading
+            Text(
+                "${stringResource(StringKey.SettingsMapDataRedownloadingPrefix)} " +
+                    "$count ${regionsUnitLabel(count)} " +
+                    stringResource(StringKey.SettingsMapDataRedownloadingSuffix),
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        }
     }
 }
 

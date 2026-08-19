@@ -11,6 +11,7 @@ import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
+import compose.project.leshy.domain.usecase.RefreshMapDataUseCase
 import compose.project.leshy.domain.usecase.SetCategoryPickedUseCase
 import compose.project.leshy.domain.usecase.SetCollectionPickedUseCase
 import compose.project.leshy.presentation.CollectionPickState
@@ -33,6 +34,7 @@ class SettingsViewModel(
     private val setCollectionPickedUseCase: SetCollectionPickedUseCase,
     private val setCategoryPickedUseCase: SetCategoryPickedUseCase,
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
+    private val refreshMapDataUseCase: RefreshMapDataUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -109,5 +111,26 @@ class SettingsViewModel(
 
     fun setCategoryPicked(category: Category, picked: Boolean) {
         viewModelScope.launch { setCategoryPickedUseCase(category, picked) }
+    }
+
+    /** Explicit-only re-fetch of the pinned map style — see `MapStyleCacheRepository`'s doc for
+     * why this never happens automatically beyond the very first launch. When the fetched style
+     * actually changed, [RefreshMapDataUseCase] has already deleted and re-queued every
+     * previously-downloaded offline region by the time this returns — [mapDataRegionsRedownloading]
+     * just reports how many, for the one-off notice in Settings. */
+    fun refreshMapData() {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(isRefreshingMapData = true, mapDataRefreshFailed = false, mapDataRegionsRedownloading = 0)
+            }
+            val result = refreshMapDataUseCase()
+            _uiState.update {
+                it.copy(
+                    isRefreshingMapData = false,
+                    mapDataRefreshFailed = !result.success,
+                    mapDataRegionsRedownloading = result.regionsRedownloading,
+                )
+            }
+        }
     }
 }

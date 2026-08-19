@@ -16,4 +16,10 @@ data class SettingsUiState(
      * reshuffled by an unrelated categories update) rather than on every recomposition. */
     val previewCategory: Category? = null,
     val collectionPickerItems: List<CollectionPickerItem> = emptyList(),
+    val isRefreshingMapData: Boolean = false,
+    val mapDataRefreshFailed: Boolean = false,
+    /** > 0 right after a refresh whose fetched style content actually changed — that many
+     * previously-downloaded offline regions were automatically deleted and re-queued for
+     * download. Cleared back to 0 at the start of the next refresh. */
+    val mapDataRegionsRedownloading: Int = 0,
 )

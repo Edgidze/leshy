@@ -7,6 +7,7 @@ import compose.project.leshy.data.repository.CategoryRepositoryImpl
 import compose.project.leshy.data.repository.CollectionRepositoryImpl
 import compose.project.leshy.data.repository.FieldMarkRepositoryImpl
 import compose.project.leshy.data.repository.MapFilterRepositoryImpl
+import compose.project.leshy.data.repository.MapStyleCacheRepository
 import compose.project.leshy.data.repository.OfflineRegionRepositoryImpl
 import compose.project.leshy.data.repository.OnboardingRepositoryImpl
 import compose.project.leshy.data.repository.SettingsRepositoryImpl
@@ -37,6 +38,7 @@ val dataModule = module {
     single<TrackPointRepository> { TrackPointRepositoryImpl(get()) }
     single<SettingsRepository> { SettingsRepositoryImpl(get()) }
     single<MapFilterRepository> { MapFilterRepositoryImpl(get()) }
-    single<OfflineRegionRepository> { OfflineRegionRepositoryImpl(get()) }
+    single { MapStyleCacheRepository(get(), get()) }
+    single<OfflineRegionRepository> { OfflineRegionRepositoryImpl(get(), get()) }
     single<OnboardingRepository> { OnboardingRepositoryImpl(get()) }
 }

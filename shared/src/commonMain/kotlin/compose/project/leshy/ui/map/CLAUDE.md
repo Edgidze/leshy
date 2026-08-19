@@ -10,8 +10,9 @@
   `LineLayer`, находки — кластеризованные по виду через общий
   `ClusteredFindsLayers.kt`.
 - **`RegionPickerMap.kt`** («Подготовка», офлайн-скачивание карты по
-  территории) — та же база (`OpenFreeMapStyle`+`mapRenderOptions`+
-  `mapOrnamentOptions`), плюс оверлей уже скачанных/скачиваемых регионов как
+  территории) — та же база (пиннутый `baseStyle` из `MapStyleCacheRepository`,
+  `mapRenderOptions`+`mapOrnamentOptions` — см. «Пиннинг стиля карты» ниже),
+  плюс оверлей уже скачанных/скачиваемых регионов как
   `LineLayer`-прямоугольники, построенные из bounds `OfflineRegionInfo`
   (домен-модель), не из `Set<OfflinePack>` библиотеки напрямую — сознательно
   не используется готовый `rememberOfflinePacksSource`, чтобы тип
@@ -45,6 +46,109 @@
   `MapLibre.getInstance(context)` при первом обращении (внутри библиотечного
   `AndroidOfflineManager`) — отдельная инициализация нативной библиотеки в
   `PlatformModule.android.kt` не нужна.
+
+## Пиннинг стиля карты (`data/repository/MapStyleCacheRepository.kt`)
+
+**Инцидент, из-за которого это появилось:** пользователь сообщил белый фон
+вместо тайлов на всех картах. Причина оказалась двойной: (1) ISP
+блокировал `tiles.openfreemap.org` на уровне сети (вне контроля
+приложения), и (2) — куда важнее для кода — URL тайлов OpenFreeMap несёт
+версионированный таймстемп снапшота планеты
+(`.../planet/20260816_080001_pt/{z}/{x}/{y}.pbf`), приходящий из
+`style.json`. Раньше `style.json` перезапрашивался заново при КАЖДОМ
+маунте экрана с картой (`MapStyle.kt` хранил только голый URL, каждый
+`AndroidMapAdapter`/`IosMapAdapter` — новый инстанс на каждый заход на
+экран) — когда OpenFreeMap ротирует снапшот, таймстемп в URL меняется, и
+ВСЕ ранее закэшированные (ambient-кэш MapLibre) и скачанные офлайн (native
+`OfflinePack`, см. выше) тайлы оказываются пиннуты под СТАРЫМ URL, а живая
+карта после ротации просит НОВЫЙ — кэш/пак промахивается, идёт в сеть, и
+если сеть недоступна (как в исходном инциденте) — белый фон, причём даже
+для региона, который пользователь явно скачал офлайн заранее.
+
+**Фикс — заморозка, не автообновление.** `MapStyleCacheRepository` фетчит
+`style.json` только ОДИН раз (при первом запуске, когда ещё нет локально
+запиненной копии), пишет сырой JSON-текст на диск (`MapStyleStorage`,
+`expect`/`actual`-путь тем же паттерном, что `PhotoStorage`) и отдаёт его
+всем трём живым картам как `BaseStyle.Json(...)` (`koinInject` внутри
+каждого composable — не через ViewModel, эти три экрана раньше не имели
+ViewModel-зависимости на стиль вообще). Дальше пиннутая копия НИКОГДА не
+меняется сама — только явным нажатием «Обновить данные карты» в
+Настройках (`SettingsViewModel.refreshMapData`). Сознательный компромисс:
+держать всё приложение (не только офлайн-области) на одном «поколении»
+тайлов, пока пользователь сам не попросит свежее — это гарантирует, что
+скачанный регион переживает и блокировку сети, и ротацию снапшота на
+сервере, вплоть до удаления пользователем, за счёт того, что живая карта
+просто никогда сама не меняет URL, под которым что-то ищет.
+
+- **`OfflineRegionRepositoryImpl.downloadRegion` передаёт в `OfflineManager.
+  create()` не голый `OPEN_FREE_MAP_STYLE_URL`, а `mapStyleCacheRepository
+  .currentStyleReference()`** (`file://...` на запиненную копию, если она
+  уже есть) — иначе сам процесс скачивания резолвил бы СВОЙ собственный,
+  отдельный от живой карты, снапшот стиля в момент вызова, и вновь
+  открывал бы ту же дыру для будущих загрузок.
+- **«Обновить данные карты» сам проверяет, изменилось ли реально
+  содержимое `style.json`, и если да — автоматически перекачивает ВСЕ уже
+  скачанные регионы** (`RefreshMapDataUseCase`, `domain/usecase/`), без
+  отдельного подтверждения пользователя — по явному запросу продукта:
+  раз цель заморозки в том, чтобы пользователь вообще не думал про эту
+  проблему, второй ручной шаг после нажатия «Обновить» был бы тем же самым
+  трением. Механизм: `MapStyleCacheRepository.refreshFromNetwork()`
+  сравнивает старое содержимое пиненного файла с новым перед перезаписью
+  и возвращает `Result<Boolean>` (изменилось ли реально) — `false`, если
+  контент байт-в-байт совпал (частый случай: OpenFreeMap ротирует
+  таймстемп, но конкретно эта территория физически не менялась) или если
+  предыдущей копии не было вовсе. `RefreshMapDataUseCase` при `true` и
+  непустом списке регионов делает `delete(name)` +
+  `downloadRegion(...)` с теми же bounds/zoom для каждого — старый пак
+  специально удаляется первым, не просто пересоздаётся поверх, иначе
+  `OfflineRegionRepositoryImpl.findPack` (поиск по имени, у `OfflinePack`
+  нет id) поймал бы дубликаты по одинаковому имени. Реальная закачка
+  байтов идёт в фоне как обычно — прогресс виден в «Подготовке», а в
+  Настройках просто показывается одноразовая надпись со счётчиком
+  перекачиваемых регионов (`SettingsUiState.mapDataRegionsRedownloading`).
+- **`MapLoadFailedBanner.kt`** (`ui/components/`) — плавающий оверлей,
+  подписанный на `onMapLoadFailed`/`onMapLoadFinished` `MaplibreMap(...)`
+  (параметры библиотеки, раньше нигде не использовались) — единственный
+  способ, которым MapLibre сигнализирует о неудачной загрузке; сам движок
+  просто рисует пустой фон без собственной ошибки.
+- **`Dispatchers.IO` — `internal` на Kotlin/Native**, не резолвится в
+  `commonMain` (в отличие от JVM/Android) — `MapStyleCacheRepository`
+  использует `Dispatchers.Default` для файлового I/O и сетевого запроса
+  вместо него.
+- **Сетевой запрос `style.json` — свой `expect`/`actual` `HttpTextFetcher`
+  (`data/platform/`), не Ktor**, хотя Ktor был первой попыткой (правило
+  проекта — кроссплатформенная библиотека вперёд `expect`/`actual`).
+  Пришлось откатить по двум независимым причинам, каждая — реальная,
+  подтверждённая компиляцией/сборкой, не гипотетическая:
+  - **`ktor-client-core` (Android-артефакт, 3.2.0) не дексуется на
+    `minSdk = 24`.** Библиотека содержит метод, буквально названный
+    `` `use streaming syntax` `` (Kotlin-идиома: скрытый deprecated-стаб,
+    чьё ИМЯ — это и есть текст ошибки компилятора для тех, кто дёрнет
+    старый API) — легальное имя в `.class`, но DEX-формат ниже версии 040
+    (её требует `minSdk 24`) запрещает пробелы в `SimpleName`. Падало на
+    `:androidApp:mergeExtDexDebug` с `com.android.tools.r8.internal.wx:
+    Space characters in SimpleName 'use streaming syntax' are not allowed
+    prior to DEX version 040` — не баг в коде приложения, чисто
+    несовместимость версии этой конкретной джарки с `minSdk` проекта.
+  - **`NSURLSession.dataTaskWithURL(url:completionHandler:)` не резолвится
+    из Kotlin/Native в этом биндинге Foundation** (подтверждено пробным
+    вызовом с разной arity/типами — компилятор видит только
+    однопараметрический `dataTaskWithURL(url:): NSURLSessionDataTask`,
+    completion-handler-перегрузка не экспонирована как отдельный
+    Kotlin-оверлоад, хотя сам селектор `dataTaskWithURL:completionHandler:`
+    есть в строковой таблице klib). Рабочий обход — **делегат-based API**:
+    свой `NSURLSessionDataDelegateProtocol` (`URLSession(session:dataTask:
+    didReceiveData:)`/`URLSession(session:task:didCompleteWithError:)`),
+    сессия создаётся через `sessionWithConfiguration(configuration:delegate:
+    delegateQueue:)`, `dataTaskWithURL(url:)` (без хендлера) + `.resume()`.
+    **Делегат — `private var` НА КЛАССЕ** `IosHttpTextFetcher`, не локальная
+    переменная внутри `fetchText` — тот же ARC-баг, что и `CLLocationManager`
+    (`iosMain/CLAUDE.md`): без внешней сильной ссылки делегат освобождается
+    до того, как успеет прийти колбэк.
+  - `NSData → String`: `NSString.create(data:encoding:)` даёт warning
+    «cast only succeeds when null» в этом биндинге — вместо нативного
+    NSString-бриджинга декодировать вручную: `NSData` → `ByteArray` через
+    `usePinned`+`memcpy` (`bytes`/`length`) → `ByteArray.decodeToString()`.
 
 ## Грабли
 
@@ -105,6 +209,19 @@
   `GeoJsonSource`+`SymbolLayer` на вид) это значит, что порядок отрисовки
   между РАЗНЫМИ видами не гарантирован, только внутри одного вида. Осознанно
   принятое ограничение, не баг.
+- **Оборачивание `MaplibreMap(...) { ... }` в локальный `Box` (для оверлея вроде
+  `MapLoadFailedBanner`) даёт безобидный warning компилятора** — `Calling a
+  MapLibre Composable composable function where a UI Composable composable
+  was expected`, на самом `MaplibreMap(...)` и на `LineLayer`/др. вызовах
+  внутри его `content`-лямбды. Причина — инференс `@ComposableTarget`
+  (`@MaplibreComposable`, `org.maplibre.compose.util.MaplibreComposable`)
+  путается, когда `MaplibreMap` — не единственное выражение тела функции, а
+  вложено в лямбду `Box.content` (у неё самой никакого target-маркера нет).
+  На рантайм не влияет: `MaplibreMap`, вызванный из `Box` НА УРОВЕНЬ ВЫШЕ
+  (в вызывающем экране, не в теле функции с самим `MaplibreMap`), уже
+  повсеместно использовался так и раньше без единого warning'а — эффект
+  чисто про то, где ТЕКСТУАЛЬНО лежит вызов, не про итоговое дерево.
+  Проверено: подтверждено сравнением warning-листа до/после (`git stash`).
 - **`Expression<V>.plus` — top-level extension в `org.maplibre.compose.
   expressions.dsl`**, не резолвится без явного `import ...dsl.plus` (звёздный
   импорт молча подставляет несвязанный `plus` из stdlib, напр.
