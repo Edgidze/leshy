@@ -3,6 +3,7 @@ package compose.project.leshy.data.repository
 import compose.project.leshy.data.platform.HttpTextFetcher
 import compose.project.leshy.data.platform.MapStyleStorage
 import compose.project.leshy.ui.map.OPEN_FREE_MAP_STYLE_URL
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,12 +11,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import okio.FileSystem
 import okio.Path
 import okio.Path.Companion.toPath
 import org.maplibre.compose.style.BaseStyle
 
 private const val STYLE_CACHE_FILE_NAME = "style.json"
+private val TILE_HOST_PROBE_TIMEOUT = 8.seconds
 
 /**
  * Freezes the app to the FIRST tile URL template it ever successfully resolves from OpenFreeMap's
@@ -85,6 +88,18 @@ class MapStyleCacheRepository(
         _baseStyle.value = BaseStyle.Json(json)
         previous != null && previous != json
     }
+
+    /** Independent connectivity probe for the tile host — needed because once the style is
+     * pinned, MapLibre loads it from the local file instantly and reports success
+     * (`onMapLoadFinished`) regardless of whether the network is up, and maplibre-compose exposes
+     * no per-tile failure signal to app code. A blocked/unreachable host (the original bug report —
+     * an ISP blocking `tiles.openfreemap.org`) otherwise fails completely silently. Reuses the
+     * small `style.json` fetch rather than a dedicated endpoint — same host, cheap payload, and it
+     * never writes to the pinned file (this is read-only probing, not a refresh). */
+    suspend fun isTileHostReachable(): Boolean =
+        withTimeoutOrNull(TILE_HOST_PROBE_TIMEOUT) {
+            runCatching { httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL) }.isSuccess
+        } ?: false
 
     /** Plain URL/path string for consumers that need a bare string, not a [BaseStyle] — the
      * offline-download repository (native `OfflineManager.create` takes a `styleUrl: String`).

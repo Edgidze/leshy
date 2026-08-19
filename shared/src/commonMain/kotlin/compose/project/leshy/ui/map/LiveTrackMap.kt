@@ -159,7 +159,15 @@ fun LiveTrackMap(
     val mapStyleCacheRepository = koinInject<MapStyleCacheRepository>()
     val baseStyle by mapStyleCacheRepository.baseStyle.collectAsState()
     var tilesLoadFailed by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { mapStyleCacheRepository.ensureLoaded() }
+    LaunchedEffect(Unit) {
+        mapStyleCacheRepository.ensureLoaded()
+        // Independent of onMapLoadFailed/onMapLoadFinished below — those only reflect whether the
+        // (now locally-pinned) style loaded, not whether the tile host is actually reachable. See
+        // MapStyleCacheRepository.isTileHostReachable's doc comment.
+        if (!mapStyleCacheRepository.isTileHostReachable()) {
+            tilesLoadFailed = true
+        }
+    }
 
     Box(modifier) {
         MaplibreMap(
