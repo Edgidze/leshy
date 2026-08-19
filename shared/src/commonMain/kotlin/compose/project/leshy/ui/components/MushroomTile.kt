@@ -3,6 +3,12 @@ package compose.project.leshy.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,11 +29,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -41,11 +50,18 @@ import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.ui.theme.LeshyTheme
 import compose.project.leshy.ui.util.parseHexColor
+import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.allDrawableResources
 import org.jetbrains.compose.resources.painterResource
 
 private val MUSHROOM_COUNT_BUTTON_SIZE = 40.dp
+
+/** Holding the + button this long opens the bulk-add dialog instead of logging a single find. */
+private val MUSHROOM_BULK_ADD_HOLD_DURATION = 3.seconds
 
 /** Width [MushroomTile] is displayed at on the record screen — other tiles size themselves relative to it. */
 val RECORD_MUSHROOM_TILE_WIDTH = 120.dp
@@ -57,6 +73,7 @@ fun MushroomTile(
     onAdd: () -> Unit,
     onRemove: () -> Unit,
     modifier: Modifier = Modifier,
+    onBulkAdd: () -> Unit = {},
 ) {
     val outlineColor = parseHexColor(category.colorHex)
 
@@ -86,12 +103,67 @@ fun MushroomTile(
                     maxLines = 1,
                     modifier = Modifier.width(28.dp),
                 )
-                IconButton(onClick = onAdd, modifier = Modifier.size(MUSHROOM_COUNT_BUTTON_SIZE)) {
-                    Icon(Icons.Filled.Add, contentDescription = null, Modifier.size(32.dp))
-                }
+                MushroomAddButton(onClick = onAdd, onLongHold = onBulkAdd)
             }
             MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
         }
+    }
+}
+
+/**
+ * The + button — a plain tap logs one find ([onClick]), holding it for
+ * [MUSHROOM_BULK_ADD_HOLD_DURATION] opens the bulk-add dialog instead ([onLongHold]). Built from
+ * raw [pointerInput] rather than `combinedClickable` because the latter's long-press timeout isn't
+ * configurable and defaults to far under a second — same [awaitFirstDown]/
+ * [waitForUpOrCancellation] race already used for the map's marker long-press
+ * (`MarkerLongPressOverlay.kt`), with the press state fed into [LocalIndication] by hand so the
+ * button still shows the normal ripple while held.
+ *
+ * [onClick]/[onLongHold] are read through [rememberUpdatedState] and [pointerInput] is keyed on
+ * `Unit`, NOT on the callbacks themselves — while a walk is actively recording, every GPS fix
+ * updates `trackPoints`/`distanceMeters` on the record screen, which recreates these closures on
+ * each recomposition of the tile feed. Keying `pointerInput` on the lambdas (the first version of
+ * this button did) restarted the gesture-detection coroutine on every one of those fixes, wiping
+ * out the in-flight 3s hold before it could ever complete — reproduced live: the long-press only
+ * "worked" while paused, when nothing was recomposing the tiles fast enough to interrupt it.
+ */
+@Composable
+private fun MushroomAddButton(onClick: () -> Unit, onLongHold: () -> Unit, modifier: Modifier = Modifier) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val currentOnClick = rememberUpdatedState(onClick)
+    val currentOnLongHold = rememberUpdatedState(onLongHold)
+    Box(
+        modifier = modifier
+            .size(MUSHROOM_COUNT_BUTTON_SIZE)
+            .clip(CircleShape)
+            .indication(interactionSource, LocalIndication.current)
+            .pointerInput(Unit) {
+                while (true) {
+                    val down = awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
+                    val press = PressInteraction.Press(down.position)
+                    interactionSource.tryEmit(press)
+                    var longHoldFired = false
+                    val up = coroutineScope {
+                        val longHoldJob = launch {
+                            delay(MUSHROOM_BULK_ADD_HOLD_DURATION)
+                            longHoldFired = true
+                            currentOnLongHold.value()
+                        }
+                        val result = awaitPointerEventScope { waitForUpOrCancellation() }
+                        longHoldJob.cancel()
+                        result
+                    }
+                    if (up != null) {
+                        interactionSource.tryEmit(PressInteraction.Release(press))
+                        if (!longHoldFired) currentOnClick.value()
+                    } else {
+                        interactionSource.tryEmit(PressInteraction.Cancel(press))
+                    }
+                }
+            },
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(Icons.Filled.Add, contentDescription = null, Modifier.size(32.dp))
     }
 }
 

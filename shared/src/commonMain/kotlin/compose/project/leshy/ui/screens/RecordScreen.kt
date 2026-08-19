@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddLocationAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
@@ -47,12 +48,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -132,6 +136,7 @@ fun RecordScreen(
         onPauseOrResumeClick = viewModel::onStartOrPauseClick,
         onFinishClick = viewModel::finish,
         onAddMushroom = viewModel::addMushroom,
+        onAddMushrooms = viewModel::addMushrooms,
         onRemoveMushroom = viewModel::removeMushroom,
         onFilterClick = { showFilterDialog = true },
         onMarkLocationClick = { showAddPlaceDialog = true },
@@ -214,6 +219,7 @@ private fun RecordScreenContent(
     onAddMushroom: (Long) -> Unit,
     onRemoveMushroom: (Long) -> Unit,
     onFilterClick: () -> Unit,
+    onAddMushrooms: (Long, Int) -> Unit = { _, _ -> },
     onMarkLocationClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onPlaceClick: (Long) -> Unit = {},
@@ -222,6 +228,7 @@ private fun RecordScreenContent(
     modifier: Modifier = Modifier,
 ) {
     var showNameDialog by remember { mutableStateOf(false) }
+    var bulkAddCategoryId by remember { mutableStateOf<Long?>(null) }
     val categoryById = uiState.categories.associateBy { it.id }
     val tileListState = rememberLazyListState()
 
@@ -410,6 +417,7 @@ private fun RecordScreenContent(
                             count = uiState.mushroomCounts[category.id] ?: 0,
                             onAdd = { onAddMushroom(category.id) },
                             onRemove = { onRemoveMushroom(category.id) },
+                            onBulkAdd = { if (uiState.isRecording) bulkAddCategoryId = category.id },
                             modifier = Modifier.width(TILE_WIDTH),
                         )
                     }
@@ -425,6 +433,15 @@ private fun RecordScreenContent(
                 showNameDialog = false
             },
             onDismissRequest = { showNameDialog = false },
+        )
+    }
+
+    val bulkAddCategory = categoryById[bulkAddCategoryId]
+    if (bulkAddCategory != null) {
+        MushroomBulkAddDialog(
+            category = bulkAddCategory,
+            onConfirm = { count -> onAddMushrooms(bulkAddCategory.id, count) },
+            onDismissRequest = { bulkAddCategoryId = null },
         )
     }
 }
@@ -515,6 +532,71 @@ private fun WalkNameDialog(onConfirm: (String) -> Unit, onDismissRequest: () -> 
             }
         },
     )
+}
+
+/**
+ * Opened by holding a [MushroomTile]'s + button for 3s — equivalent to tapping + [count] times
+ * for [category] from the last known location, without [count] individual taps. The field forces
+ * [KeyboardType.NumberPassword] (not the plain [KeyboardType.Number]) specifically so the keyboard
+ * that pops up is a bare digit pad on BOTH platforms — regular `Number` still offers a decimal
+ * separator/other punctuation whose exact glyphs depend on the OS locale, which a find count never
+ * needs. Confirming is the field's own IME "Done" key, not a dialog button — there is deliberately
+ * no separate confirm affordance, only [onDismissRequest]'s cancel arrow top-left.
+ */
+@Composable
+private fun MushroomBulkAddDialog(category: Category, onConfirm: (Int) -> Unit, onDismissRequest: () -> Unit) {
+    var countInput by remember { mutableStateOf("") }
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    fun confirm() {
+        val count = countInput.toIntOrNull() ?: 0
+        if (count > 0) onConfirm(count)
+        onDismissRequest()
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+        keyboardController?.show()
+    }
+
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxWidth(0.92f),
+            shape = RoundedCornerShape(24.dp),
+            tonalElevation = 4.dp,
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                IconButton(onClick = onDismissRequest) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(StringKey.RecordBulkAddCancelContentDescription),
+                    )
+                }
+                MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = stringResource(StringKey.RecordBulkAddQuestion),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = countInput,
+                    onValueChange = { new -> if (new.all(Char::isDigit)) countInput = new },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.NumberPassword,
+                        imeAction = ImeAction.Done,
+                    ),
+                    keyboardActions = KeyboardActions(onDone = { confirm() }),
+                    modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+                )
+            }
+        }
+    }
 }
 
 /**
