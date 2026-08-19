@@ -101,6 +101,7 @@ fun MapScreen(modifier: Modifier = Modifier, viewModel: MapViewModel = koinViewM
                         },
                         onPlaceClick = { id -> selectedPlaceId = id },
                         modifier = Modifier.fillMaxSize(),
+                        bannerAlignment = Alignment.BottomCenter,
                     )
                 }
                 MapMode.STATS -> MapStatsView(stats = uiState.stats, modifier = Modifier.fillMaxSize())

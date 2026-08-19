@@ -50,6 +50,9 @@ fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
     // scale bar because a Scaffold already pushed the map below the status bar for them; here it
     // must also clear the cutout itself, so the safe-drawing inset is added on top of that 31.dp.
     val topInset = WindowInsets.safeDrawing.asPaddingValues().calculateTopPadding()
+    // Same reasoning as topInset above — no Scaffold here to already push content clear of the
+    // bottom system nav bar/gesture inset, so the banner has to account for it itself.
+    val bottomInset = WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding()
 
     Box(modifier = Modifier.fillMaxSize()) {
         LiveTrackMap(
@@ -70,6 +73,8 @@ fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
             currentLocation = null,
             modifier = Modifier.fillMaxSize(),
             ornamentOptions = mapOrnamentOptions.copy(padding = PaddingValues(top = topInset)),
+            bannerAlignment = Alignment.BottomCenter,
+            bannerPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = bottomInset + 16.dp),
         )
 
         // 31.dp clears the native scale bar, which shares this corner (see mapOrnamentOptions) —
