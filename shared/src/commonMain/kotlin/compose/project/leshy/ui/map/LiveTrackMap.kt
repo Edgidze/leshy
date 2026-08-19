@@ -3,6 +3,7 @@ package compose.project.leshy.ui.map
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -93,6 +94,11 @@ fun LiveTrackMap(
     ornamentOptions: OrnamentOptions = mapOrnamentOptions,
     // Hoistable so callers can imperatively control or observe the camera from outside.
     cameraState: CameraState = rememberCameraState(firstPosition = defaultLiveTrackCameraPosition(currentLocation)),
+    // Overridable so a caller with its own bottom-anchored controls (RecordScreen's Start/Pause
+    // pill + mushroom tile scroller) can keep the tile-load-failed banner clear of them instead of
+    // it defaulting to the top.
+    bannerAlignment: Alignment = Alignment.TopCenter,
+    bannerPadding: PaddingValues = PaddingValues(16.dp),
 ) {
     val historyPoints = remember(track, markers, places) {
         track.map { it.lat to it.lon } + markers.map { it.lat to it.lon } + places.map { it.lat to it.lon }
@@ -260,7 +266,10 @@ fun LiveTrackMap(
             }
         }
         if (tilesLoadFailed) {
-            MapLoadFailedBanner(modifier = Modifier.align(Alignment.TopCenter))
+            MapLoadFailedBanner(
+                onDismiss = { tilesLoadFailed = false },
+                modifier = Modifier.align(bannerAlignment).padding(bannerPadding),
+            )
         }
     }
 }

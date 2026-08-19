@@ -295,6 +295,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.PreparationRetryContentDescription -> "Повторить скачивание"
 
     StringKey.MapTilesLoadFailed -> "Карта не полностью загрузилась с сайта"
+    StringKey.MapTilesLoadFailedDismissContentDescription -> "Закрыть уведомление"
 
     StringKey.SettingsMapDataTitle -> "Данные карты"
     StringKey.SettingsMapDataDescription ->
@@ -528,6 +529,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.PreparationRetryContentDescription -> "Retry download"
 
     StringKey.MapTilesLoadFailed -> "The map didn't fully load from"
+    StringKey.MapTilesLoadFailedDismissContentDescription -> "Dismiss notice"
 
     StringKey.SettingsMapDataTitle -> "Map data"
     StringKey.SettingsMapDataDescription ->

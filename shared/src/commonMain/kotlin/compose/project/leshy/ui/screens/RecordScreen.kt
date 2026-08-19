@@ -52,6 +52,8 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -232,6 +234,11 @@ private fun RecordScreenContent(
     val categoryById = uiState.categories.associateBy { it.id }
     val tileListState = rememberLazyListState()
 
+    // Measured (not hardcoded) so the tile-load-failed banner clears the Start/Pause pill + tile
+    // scroller regardless of their actual height (system font scale, narrow-screen pill shrinking).
+    val density = LocalDensity.current
+    var bottomControlsHeight by remember { mutableStateOf(0.dp) }
+
     LaunchedEffect(uiState.scrollToStartSignal) {
         if (uiState.scrollToStartSignal > 0) {
             tileListState.animateScrollToItem(0)
@@ -299,6 +306,8 @@ private fun RecordScreenContent(
                     navigationTargetLat = uiState.navigationTarget?.targetLat,
                     navigationTargetLon = uiState.navigationTarget?.targetLon,
                     modifier = Modifier.fillMaxSize(),
+                    bannerAlignment = Alignment.BottomCenter,
+                    bannerPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = bottomControlsHeight + 8.dp),
                 )
             }
 
@@ -321,7 +330,12 @@ private fun RecordScreenContent(
             // Buttons float directly over the map (no opaque backing), the tile scroller below
             // them gets one — Column stacks the two without needing to know the scroller's
             // measured height up front.
-            Column(modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .onSizeChanged { bottomControlsHeight = with(density) { it.height.toDp() } },
+            ) {
                 BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
                     // The Start/Pause pill is normally a fixed CENTER_BUTTON_MAX_WIDTH, but on a
                     // narrow screen (e.g. iPhone SE's 320dp) that plus two ACTION_BUTTON_HEIGHT

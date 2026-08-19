@@ -215,6 +215,7 @@ enum class StringKey {
     PreparationRetryContentDescription,
 
     MapTilesLoadFailed,
+    MapTilesLoadFailedDismissContentDescription,
 
     SettingsMapDataTitle,
     SettingsMapDataDescription,

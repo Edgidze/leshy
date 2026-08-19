@@ -3,6 +3,7 @@ package compose.project.leshy.ui.map
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -45,6 +46,10 @@ fun AggregatedFindsMap(
     modifier: Modifier,
     places: List<PlaceMarker> = emptyList(),
     onPlaceClick: (Long) -> Unit = {},
+    // Overridable so a caller with its own bottom-anchored controls can keep the tile-load-failed
+    // banner clear of them instead of it defaulting to the top.
+    bannerAlignment: Alignment = Alignment.TopCenter,
+    bannerPadding: PaddingValues = PaddingValues(16.dp),
 ) {
     val cameraState = rememberCameraState(firstPosition = CameraPosition(target = Position(0.0, 0.0), zoom = 1.0))
 
@@ -108,7 +113,10 @@ fun AggregatedFindsMap(
             PlaceMarkersLayer(places, onPlaceClick)
         }
         if (tilesLoadFailed) {
-            MapLoadFailedBanner(modifier = Modifier.align(Alignment.TopCenter))
+            MapLoadFailedBanner(
+                onDismiss = { tilesLoadFailed = false },
+                modifier = Modifier.align(bannerAlignment).padding(bannerPadding),
+            )
         }
     }
 }

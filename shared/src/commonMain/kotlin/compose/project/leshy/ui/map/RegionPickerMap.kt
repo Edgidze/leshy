@@ -1,7 +1,9 @@
 package compose.project.leshy.ui.map
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,6 +48,10 @@ fun RegionPickerMap(
     cameraState: CameraState,
     regions: List<OfflineRegionInfo>,
     modifier: Modifier = Modifier,
+    // Overridable so a caller with its own bottom-anchored controls can keep the tile-load-failed
+    // banner clear of them instead of it defaulting to the top.
+    bannerAlignment: Alignment = Alignment.TopCenter,
+    bannerPadding: PaddingValues = PaddingValues(16.dp),
 ) {
     val mapStyleCacheRepository = koinInject<MapStyleCacheRepository>()
     val baseStyle by mapStyleCacheRepository.baseStyle.collectAsState()
@@ -94,7 +100,10 @@ fun RegionPickerMap(
             }
         }
         if (tilesLoadFailed) {
-            MapLoadFailedBanner(modifier = Modifier.align(Alignment.TopCenter))
+            MapLoadFailedBanner(
+                onDismiss = { tilesLoadFailed = false },
+                modifier = Modifier.align(bannerAlignment).padding(bannerPadding),
+            )
         }
     }
 }
