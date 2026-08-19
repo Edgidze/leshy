@@ -20,6 +20,13 @@ interface CategoryDao {
     @Query("SELECT * FROM categories WHERE isFilterEligible = 1 ORDER BY `order` ASC")
     fun observeFilterEligible(): Flow<List<CategoryEntity>>
 
+    /** Species outside the bundled catalog — user-created plus imported ones (i.e. everything the
+     * "my mushrooms" section owns). The literal matches `CategorySource.APP.name`, which is what
+     * `Converters` stores. Unlike the observers above this one ignores isActive/isPicked: a hidden
+     * species must stay listed there, or it could never be brought back. */
+    @Query("SELECT * FROM categories WHERE source != 'APP' ORDER BY `order` ASC")
+    fun observeNonCatalog(): Flow<List<CategoryEntity>>
+
     @Query("SELECT * FROM categories WHERE id = :id")
     suspend fun getById(id: Long): CategoryEntity?
 

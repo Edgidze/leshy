@@ -19,6 +19,9 @@ class CategoryRepositoryImpl(
     override fun observeFilterEligible(): Flow<List<Category>> =
         categoryDao.observeFilterEligible().map { entities -> entities.map { it.toDomain() } }
 
+    override fun observeNonCatalog(): Flow<List<Category>> =
+        categoryDao.observeNonCatalog().map { entities -> entities.map { it.toDomain() } }
+
     override suspend fun getById(id: Long): Category? = categoryDao.getById(id)?.toDomain()
 
     override suspend fun getByNameKey(nameKey: String): Category? = categoryDao.getByNameKey(nameKey)?.toDomain()
@@ -52,6 +55,10 @@ private fun CategoryEntity.toDomain() = Category(
     edibilityStatus = edibilityStatus,
     isPicked = isPicked,
     isFilterEligible = isFilterEligible,
+    source = source,
+    customNames = customNames,
+    scientificName = scientificName,
+    iconFile = iconFile,
 )
 
 private fun Category.toEntity() = CategoryEntity(
@@ -64,4 +71,8 @@ private fun Category.toEntity() = CategoryEntity(
     edibilityStatus = edibilityStatus,
     isPicked = isPicked,
     isFilterEligible = isFilterEligible,
+    source = source,
+    customNames = customNames,
+    scientificName = scientificName,
+    iconFile = iconFile,
 )

@@ -71,3 +71,17 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
         )
     }
 }
+
+// Backs user-created / imported mushroom species (.claude/plans/user-mushrooms.md, Phase 0).
+// Additive-only: `source` defaults to 'APP', so every already-seeded row keeps reading as part of
+// the bundled catalog, and the three columns that only apply to non-catalog species stay
+// empty/null there (a catalog species takes its name from a StringKey and its illustration from
+// composeResources, not from these).
+val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE categories ADD COLUMN source TEXT NOT NULL DEFAULT 'APP'")
+        connection.execSQL("ALTER TABLE categories ADD COLUMN customNames TEXT NOT NULL DEFAULT '{}'")
+        connection.execSQL("ALTER TABLE categories ADD COLUMN scientificName TEXT")
+        connection.execSQL("ALTER TABLE categories ADD COLUMN iconFile TEXT")
+    }
+}

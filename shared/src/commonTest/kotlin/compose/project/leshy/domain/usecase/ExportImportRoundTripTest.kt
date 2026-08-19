@@ -9,6 +9,7 @@ import compose.project.leshy.data.export.dto.walkDirectory
 import compose.project.leshy.data.export.zip.ZipWriter
 import compose.project.leshy.data.platform.PhotoStorage
 import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.CategorySource
 import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.MarkType
@@ -84,6 +85,8 @@ private class FakeCategoryRepository(seed: List<Category>) : CategoryRepository 
     override fun observeAll(): Flow<List<Category>> = state
     override fun observeActive(): Flow<List<Category>> = state.map { it.filter { c -> c.isActive } }
     override fun observeFilterEligible(): Flow<List<Category>> = state.map { it.filter { c -> c.isFilterEligible } }
+    override fun observeNonCatalog(): Flow<List<Category>> =
+        state.map { it.filter { c -> c.source != CategorySource.APP } }
     override suspend fun getById(id: Long): Category? = state.value.find { it.id == id }
     override suspend fun getByNameKey(nameKey: String): Category? = state.value.find { it.nameKey == nameKey }
     override suspend fun count(): Int = state.value.size

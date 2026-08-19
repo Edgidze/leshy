@@ -54,6 +54,9 @@ class EnsureDefaultCategoriesUseCase(
                 // color, icon, edibility) on every launch, without a schema
                 // migration — but never touch isActive/isPicked/isFilterEligible,
                 // those are user-owned (see .claude/plans/mushroom-collections.md).
+                // User-created and imported species are unreachable from here by
+                // construction: this only ever looks up the catalog's own nameKeys,
+                // and theirs are generated (`user_...`, see user-mushrooms.md).
                 existing.copy(
                     isActive = category.isActive,
                     isPicked = category.isPicked,

@@ -1,6 +1,6 @@
 # data/ — Room + DataStore
 
-## Схема Room (актуальная — версия 5, `data/local/`)
+## Схема Room (актуальная — версия 6, `data/local/`)
 
 6 таблиц, точные поля — смотри `*Entity.kt` напрямую, они компактны и
 самодокументируемы. Кратко:
@@ -11,8 +11,11 @@
   пользовательское поле (что показывать на Карте/в ленте Записи, экран
   Фильтра). `isPicked`/`isFilterEligible` (v5) — модель подборок по странам,
   см. `.claude/plans/mushroom-collections.md` и раздел про `collections`
-  ниже. Остальное — источник истины сам каталог (см.
-  `EnsureDefaultCategoriesUseCase` ниже).
+  ниже. `source`/`customNames`/`scientificName`/`iconFile` (v6) — свои виды
+  грибов, см. `.claude/plans/user-mushrooms.md`; у каталожных строк
+  `source = APP` и остальные три пусты (имя приходит из `StringKey`,
+  картинка — из `composeResources` по `iconRef`). Остальное — источник
+  истины сам каталог (см. `EnsureDefaultCategoriesUseCase` ниже).
 - **`walks`** — прогулки, `mushroomCount` денормализован для ленты Архива,
   `thumbnailPath` (v3) — кэшированный PNG-снапшот карты, см.
   `ui/map/CLAUDE.md`.
@@ -38,6 +41,17 @@
 аддитивные `categories.isPicked`/`isFilterEligible` (default `1`, чтобы уже
 установленные копии продолжали видеть весь ранее засеянный каталог на экране
 Фильтра без изменений) + новые таблицы `collections`/`category_collections`.
+v5→v6 — аддитивные `categories.source` (`DEFAULT 'APP'` — уже засеянные
+строки продолжают читаться как каталожные), `customNames`
+(`NOT NULL DEFAULT '{}'`, JSON-объект по `AppLanguage.code` через
+`Converters`, а не nullable-колонка — так у поля нет двух пустых состояний),
+`scientificName`, `iconFile`.
+
+**`iconFile` хранит имя файла, а не абсолютный путь** — намеренно иначе, чем
+`objects.photoPath`/`walks.thumbnailPath`, из-за которых пришлось заводить
+`RepairPhotoPathsUseCase` (на iOS UUID контейнера песочницы меняется, и
+абсолютные пути протухают разом). Путь собирается при чтении через
+`PhotoStorage.resolvePath`, чинить нечего по построению.
 
 **`EnsureDefaultCategoriesUseCase` — upsert-diff, не «insert только если
 таблица пуста».** Для каждой категории каталога: если строки ещё нет —
