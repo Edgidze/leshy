@@ -36,10 +36,15 @@ class DebugUserCategoryUseCase(
         val existing = categoryRepository.getByNameKey(DEBUG_USER_CATEGORY_NAME_KEY)
         when {
             existing == null -> create(iconBytes)
-            existing.isPicked -> setCategoryPicked(existing, false)
-            // Restoring takes an explicit isActive = true on top of isPicked: the eligibility
-            // cascade only ever switches isActive off, never back on (mushroom-collections.md,
-            // Phase 4).
+            // Both directions write isActive explicitly, because isPicked alone moves nothing the
+            // user can see once the species has finds: Record's tile strip and the map read
+            // isActive, and the cascade in RecalculateFilterEligibilityUseCase only clears it when
+            // the species stops being filter-eligible — which never happens while finds exist
+            // (isFilterEligible = isPicked || has finds). Confirmed on-device: hiding a test
+            // species that had already been marked left it visible everywhere. The reverse
+            // asymmetry is documented in mushroom-collections.md, Phase 4: the cascade never
+            // switches isActive back on either.
+            existing.isPicked -> setCategoryPicked(existing.copy(isActive = false), false)
             else -> setCategoryPicked(existing.copy(isActive = true), true)
         }
     }
