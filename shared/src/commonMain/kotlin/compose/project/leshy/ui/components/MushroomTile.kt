@@ -210,10 +210,9 @@ fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
         CategoryIcon(category = category, modifier = Modifier.fillMaxSize())
 
-        EdibilityBadge(
-            status = category.edibilityStatus,
-            modifier = Modifier.align(Alignment.TopEnd).padding(top = 6.dp, end = 6.dp),
-        )
+        if (category.edibilityStatus == EdibilityStatus.POISONOUS) {
+            EdibilityBadge(modifier = Modifier.align(Alignment.TopEnd).padding(top = 6.dp, end = 6.dp))
+        }
 
         MushroomLabel(
             text = categoryDisplayName(category),
@@ -226,13 +225,10 @@ fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
     }
 }
 
+/** Only ever shown for [EdibilityStatus.POISONOUS] (see [MushroomPhoto]) — NOT_SPECIFIED renders no
+ * badge at all rather than a neutral-colored one, since it makes no safety claim either way. */
 @Composable
-private fun EdibilityBadge(status: EdibilityStatus, modifier: Modifier = Modifier) {
-    val color = when (status) {
-        EdibilityStatus.EDIBLE -> Color(0xFF3FA34D)
-        EdibilityStatus.CONDITIONALLY_EDIBLE -> Color(0xFFE0B400)
-        EdibilityStatus.INEDIBLE -> Color(0xFFD64545)
-    }
+private fun EdibilityBadge(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .size(18.dp)
@@ -240,7 +236,7 @@ private fun EdibilityBadge(status: EdibilityStatus, modifier: Modifier = Modifie
             .background(Color.White)
             .padding(2.dp)
             .clip(CircleShape)
-            .background(color),
+            .background(Color(0xFFD64545)),
     )
 }
 
@@ -288,7 +284,7 @@ fun MushroomTilePreview(){
                 "boletus_edulis",
                 0,
                 true,
-                EdibilityStatus.EDIBLE
+                EdibilityStatus.NOT_SPECIFIED
             ),
             count = 0,
             onAdd = {},

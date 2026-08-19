@@ -85,3 +85,23 @@ val MIGRATION_5_6 = object : Migration(5, 6) {
         connection.execSQL("ALTER TABLE categories ADD COLUMN iconFile TEXT")
     }
 }
+
+// Collapses the edible/conditionally-edible/inedible spectrum onto a single poisonous-warning
+// flag: those categories are relative (depends on preparation, region, individual tolerance) and
+// the app no longer wants to assert them. `EdibilityStatus` itself shrinks to
+// NOT_SPECIFIED/POISONOUS, so every existing row's stored enum name ('EDIBLE'/
+// 'CONDITIONALLY_EDIBLE'/'INEDIBLE') stops being a valid constant and must be rewritten here, not
+// just left for `EnsureDefaultCategoriesUseCase` to fix up later — that use case only reconciles
+// the 30 bundled catalog rows (by nameKey), and a stale value would throw on
+// `EdibilityStatus.valueOf` the moment any row is read, before that reconciliation ever runs.
+// Blanket-resetting every row to NOT_SPECIFIED first (rather than guessing per old value) is the
+// safe default: catalog rows get their real classification back on the very next
+// `EnsureDefaultCategoriesUseCase` sync (it diffs and upserts unconditionally), while user-created/
+// imported species — which that use case never touches — land on the conservative "no claim made"
+// state instead of a guessed one (in particular, never auto-promoted to POISONOUS, which would be
+// asserting a safety claim about someone's own species with no basis).
+val MIGRATION_6_7 = object : Migration(6, 7) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("UPDATE categories SET edibilityStatus = 'NOT_SPECIFIED'")
+    }
+}

@@ -714,13 +714,13 @@ private fun SearchResultTile(category: Category, onClick: () -> Unit, modifier: 
 }
 
 // A handful of real catalog entries (see EnsureDefaultCategoriesUseCase) — enough variety
-// (all three EdibilityStatus buckets, a mix of icons) to explore MushroomTile without seeding
+// (both EdibilityStatus buckets, a mix of icons) to explore MushroomTile without seeding
 // the actual default list.
 private val PREVIEW_CATEGORIES = listOf(
-    Category(1, "category_boletus_edulis", "#A95620", "boletus_edulis", 0, true, EdibilityStatus.EDIBLE),
-    Category(2, "category_pleurotus_ostreatus", "#BBAA93", "pleurotus_ostreatus", 1, true, EdibilityStatus.EDIBLE),
-    Category(3, "category_lactarius_torminosus", "#D69CA0", "lactarius_torminosus", 2, true, EdibilityStatus.CONDITIONALLY_EDIBLE),
-    Category(4, "category_amanita_muscaria", "#D73B21", "amanita_muscaria", 3, true, EdibilityStatus.INEDIBLE),
+    Category(1, "category_boletus_edulis", "#A95620", "boletus_edulis", 0, true, EdibilityStatus.NOT_SPECIFIED),
+    Category(2, "category_pleurotus_ostreatus", "#BBAA93", "pleurotus_ostreatus", 1, true, EdibilityStatus.NOT_SPECIFIED),
+    Category(3, "category_lactarius_torminosus", "#D69CA0", "lactarius_torminosus", 2, true, EdibilityStatus.NOT_SPECIFIED),
+    Category(4, "category_amanita_muscaria", "#D73B21", "amanita_muscaria", 3, true, EdibilityStatus.POISONOUS),
 )
 
 private val PREVIEW_NOOP_STRING: (String) -> Unit = {}

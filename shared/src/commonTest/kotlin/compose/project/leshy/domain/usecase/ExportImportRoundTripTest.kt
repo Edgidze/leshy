@@ -109,7 +109,7 @@ private fun category(id: Long, nameKey: String) = Category(
     iconRef = null,
     order = 0,
     isActive = true,
-    edibilityStatus = EdibilityStatus.EDIBLE,
+    edibilityStatus = EdibilityStatus.NOT_SPECIFIED,
 )
 
 private const val BOLETUS_NAME_KEY = "boletus_edulis"

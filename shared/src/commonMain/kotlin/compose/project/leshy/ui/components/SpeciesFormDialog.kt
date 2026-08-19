@@ -2,7 +2,6 @@ package compose.project.leshy.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,8 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,6 +29,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,6 +41,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -60,20 +62,54 @@ import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.usecase.CATEGORY_ICON_MAX_DIMENSION
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
+import compose.project.leshy.ui.util.colorToHex
+import compose.project.leshy.ui.util.hueOf
 import compose.project.leshy.ui.util.parseHexColor
 import compose.project.leshy.ui.util.scaledToMaxDimension
 import kotlinx.coroutines.launch
 
-/** No shared color palette exists elsewhere in the project (every catalog species hardcodes its own
- * one-off hex) — this is a small curated set for the species form's color picker. */
-private val SPECIES_COLOR_PALETTE = listOf(
-    "#7B4DBC", "#C2185B", "#D32F2F", "#E64A19", "#F9A825",
-    "#689F38", "#2E7D32", "#00796B", "#0288D1", "#303F9F",
-    "#5D4037", "#616161",
-)
-
 private val PHOTO_PREVIEW_SIZE = 96.dp
 private val COLOR_SWATCH_SIZE = 40.dp
+private val SPECTRUM_TRACK_HEIGHT = 28.dp
+private val SPECTRUM_THUMB_SIZE = 28.dp
+
+// Fixed saturation/value for the spectrum slider (`SpeciesFormDialog`'s color picker) — only hue
+// varies, so every pickable color stays a legible, similarly-weighted marker/tile accent instead
+// of running into washed-out (low S) or blinding (S=V=1) extremes at some positions on the track.
+private const val SPECIES_COLOR_SATURATION = 0.75f
+private const val SPECIES_COLOR_VALUE = 0.62f
+private const val DEFAULT_SPECIES_HUE = 30f
+
+private val SPECTRUM_GRADIENT_BRUSH = Brush.horizontalGradient(
+    colors = (0..12).map { Color.hsv(it * 30f, SPECIES_COLOR_SATURATION, SPECIES_COLOR_VALUE) },
+)
+
+/**
+ * Cheap dominant-hue estimate over the already-downscaled (≤[CATEGORY_ICON_MAX_DIMENSION]px) icon
+ * bitmap — one pass, no libraries: bucket every pixel's hue into 10°-wide bins weighted by
+ * saturation, skip near-gray/near-black/near-white pixels (background/shadow/highlight, not the
+ * mushroom's own color), return the bucket with the most weight. `null` if nothing passed the
+ * filter (e.g. a fully desaturated photo) — caller then leaves the hue untouched.
+ */
+private fun dominantHue(bitmap: ImageBitmap): Float? {
+    val pixels = bitmap.toPixelMap()
+    val bucketWeights = FloatArray(36)
+    var sawAny = false
+    for (y in 0 until pixels.height) {
+        for (x in 0 until pixels.width) {
+            val color = pixels[x, y]
+            val max = maxOf(color.red, color.green, color.blue)
+            val min = minOf(color.red, color.green, color.blue)
+            val saturation = if (max == 0f) 0f else (max - min) / max
+            if (saturation < 0.15f || max < 0.12f || max > 0.97f) continue
+            val bucket = (hueOf(color) / 10f).toInt().coerceIn(0, 35)
+            bucketWeights[bucket] += saturation
+            sawAny = true
+        }
+    }
+    if (!sawAny) return null
+    return bucketWeights.indices.maxBy { bucketWeights[it] } * 10f + 5f
+}
 
 /**
  * Shared create/edit form for a user species (`.claude/plans/user-mushrooms.md`, Phase 4) — used
@@ -103,8 +139,12 @@ fun SpeciesFormDialog(
     val scope = rememberCoroutineScope()
     var name by remember { mutableStateOf(existing?.customNames?.get(language).orEmpty()) }
     var scientificName by remember { mutableStateOf(existing?.scientificName.orEmpty()) }
-    var edibility by remember { mutableStateOf(existing?.edibilityStatus ?: EdibilityStatus.EDIBLE) }
-    var colorHex by remember { mutableStateOf(existing?.colorHex ?: SPECIES_COLOR_PALETTE.first()) }
+    var edibility by remember { mutableStateOf(existing?.edibilityStatus ?: EdibilityStatus.NOT_SPECIFIED) }
+    var hue by remember { mutableStateOf(existing?.colorHex?.let { hueOf(parseHexColor(it)) } ?: DEFAULT_SPECIES_HUE) }
+    // An explicitly picked/edited color (existing species, or the slider already touched this
+    // session) must never be silently overwritten by a new photo's auto-detected hue.
+    var hueManuallySet by remember { mutableStateOf(existing != null) }
+    val colorHex = colorToHex(Color.hsv(hue, SPECIES_COLOR_SATURATION, SPECIES_COLOR_VALUE))
     var pendingPhotoPath by remember { mutableStateOf<String?>(null) }
     var pendingIconBytes by remember { mutableStateOf<ByteArray?>(null) }
 
@@ -112,21 +152,17 @@ fun SpeciesFormDialog(
         pendingPhotoPath = path
         scope.launch {
             val source = decodeScaledImage(path, EDITOR_IMAGE_MAX_DIMENSION) ?: return@launch
-            pendingIconBytes = encodePng(source.scaledToMaxDimension(CATEGORY_ICON_MAX_DIMENSION))
+            val icon = source.scaledToMaxDimension(CATEGORY_ICON_MAX_DIMENSION)
+            pendingIconBytes = encodePng(icon)
+            if (!hueManuallySet) {
+                dominantHue(icon)?.let { hue = it }
+            }
         }
     }
 
     val takePhoto = rememberCameraLauncher(::onPhotoPicked)
     val requestPhoto = rememberCameraPermissionRequester(onGranted = takePhoto)
     val pickFromGallery = rememberGalleryPicker(::onPhotoPicked)
-
-    val palette = remember(existing?.colorHex) {
-        if (existing != null && existing.colorHex !in SPECIES_COLOR_PALETTE) {
-            listOf(existing.colorHex) + SPECIES_COLOR_PALETTE
-        } else {
-            SPECIES_COLOR_PALETTE
-        }
-    }
 
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -214,9 +250,8 @@ fun SpeciesFormDialog(
                             Text(
                                 stringResource(
                                     when (status) {
-                                        EdibilityStatus.EDIBLE -> StringKey.SpeciesFormEdibilityEdible
-                                        EdibilityStatus.CONDITIONALLY_EDIBLE -> StringKey.SpeciesFormEdibilityConditionallyEdible
-                                        EdibilityStatus.INEDIBLE -> StringKey.SpeciesFormEdibilityInedible
+                                        EdibilityStatus.NOT_SPECIFIED -> StringKey.SpeciesFormEdibilityNotSpecified
+                                        EdibilityStatus.POISONOUS -> StringKey.SpeciesFormEdibilityPoisonous
                                     },
                                 ),
                             )
@@ -227,22 +262,43 @@ fun SpeciesFormDialog(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(stringResource(StringKey.SpeciesFormColorLabel))
                 Spacer(modifier = Modifier.height(4.dp))
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    items(palette) { hex ->
-                        val selected = hex == colorHex
-                        Box(
-                            modifier = Modifier
-                                .size(COLOR_SWATCH_SIZE)
-                                .clip(CircleShape)
-                                .background(parseHexColor(hex))
-                                .border(
-                                    width = if (selected) 3.dp else 0.dp,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    shape = CircleShape,
-                                )
-                                .clickable { colorHex = hex },
-                        )
-                    }
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .size(COLOR_SWATCH_SIZE)
+                            .clip(CircleShape)
+                            .background(parseHexColor(colorHex))
+                            .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
+                    )
+                    Slider(
+                        value = hue,
+                        onValueChange = {
+                            hue = it
+                            hueManuallySet = true
+                        },
+                        valueRange = 0f..360f,
+                        modifier = Modifier.weight(1f),
+                        track = {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(SPECTRUM_TRACK_HEIGHT)
+                                    .clip(RoundedCornerShape(SPECTRUM_TRACK_HEIGHT / 2))
+                                    .background(SPECTRUM_GRADIENT_BRUSH),
+                            )
+                        },
+                        thumb = {
+                            Box(
+                                modifier = Modifier
+                                    .size(SPECTRUM_THUMB_SIZE)
+                                    .clip(CircleShape)
+                                    .background(Color.White)
+                                    .padding(3.dp)
+                                    .clip(CircleShape)
+                                    .background(parseHexColor(colorHex)),
+                            )
+                        },
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))

@@ -86,11 +86,6 @@ fun HomeScreen(onNavigate: (Destination) -> Unit) {
                 onClick = { onNavigate(Destination.Map) },
             )
             HomeNavButton(
-                label = StringKey.NavSpecies,
-                icon = Icons.Filled.Eco,
-                onClick = { onNavigate(Destination.Species) },
-            )
-            HomeNavButton(
                 label = StringKey.NavPreparation,
                 icon = Icons.Filled.Download,
                 onClick = { onNavigate(Destination.Preparation) },
@@ -99,6 +94,11 @@ fun HomeScreen(onNavigate: (Destination) -> Unit) {
                 label = StringKey.SettingsTitle,
                 icon = Icons.Filled.Settings,
                 onClick = { onNavigate(Destination.Settings) },
+            )
+            HomeNavButton(
+                label = StringKey.NavSpecies,
+                icon = Icons.Filled.Eco,
+                onClick = { onNavigate(Destination.Species) },
             )
             HomeNavButton(
                 label = StringKey.NavData,
