@@ -213,6 +213,8 @@ enum class StringKey {
     PreparationSubtitle,
     PreparationEstimatedSizeLabel,
     PreparationRetryContentDescription,
+    PreparationStyleDriftWarning,
+    PreparationStyleDriftWarningDismissContentDescription,
 
     MapTilesLoadFailed,
     MapTilesLoadFailedDismissContentDescription,

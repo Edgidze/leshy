@@ -70,8 +70,13 @@ class PreparationViewModel(
                     maxZoom = selection.maxZoom,
                 )
             }
+            warnIfStyleDrifted()
         }
         _uiState.update { it.copy(showNameDialog = false, pendingSelection = null, nameInput = "") }
+    }
+
+    fun onStyleDriftWarningDismissed() {
+        _uiState.update { it.copy(styleDriftWarningVisible = false) }
     }
 
     fun onNameDialogDismissed() {
@@ -119,6 +124,13 @@ class PreparationViewModel(
                     maxZoom = region.maxZoom,
                 )
             }
+            warnIfStyleDrifted()
+        }
+    }
+
+    private suspend fun warnIfStyleDrifted() {
+        if (repository.isStyleDrifted()) {
+            _uiState.update { it.copy(styleDriftWarningVisible = true) }
         }
     }
 }

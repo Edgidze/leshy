@@ -19,4 +19,10 @@ interface OfflineRegionRepository {
     fun resume(name: String)
     fun pause(name: String)
     suspend fun delete(name: String)
+
+    /** Whether the map style currently live on the server differs from the pinned local copy —
+     * a mismatch means a region downloaded right now won't share tile URLs with the live map (or
+     * with previously-downloaded regions) until the user refreshes map data in Settings.
+     * Read-only, never mutates the pin. */
+    suspend fun isStyleDrifted(): Boolean
 }

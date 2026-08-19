@@ -4,6 +4,7 @@ import androidx.compose.runtime.snapshotFlow
 import compose.project.leshy.domain.model.OfflineRegionInfo
 import compose.project.leshy.domain.model.OfflineRegionStatus
 import compose.project.leshy.domain.repository.OfflineRegionRepository
+import compose.project.leshy.ui.map.OPEN_FREE_MAP_STYLE_URL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.maplibre.compose.offline.DownloadProgress
@@ -46,11 +47,17 @@ class OfflineRegionRepositoryImpl(
         minZoom: Int,
         maxZoom: Int,
     ) {
-        // Pinned local style reference (not the live remote URL) — pins the download to the exact
-        // same tile URL template the live map is currently rendering from, so it can never drift
-        // out from under a region that was "just" downloaded. See MapStyleCacheRepository's doc.
+        // Plain remote URL, NOT the pinned local file — MapLibre's native offline downloader
+        // resolves styleUrl through its own HTTP resource loader, which can't parse a `file://`
+        // reference (confirmed on-device: "Unable to parse resourceUrl file://..." from
+        // Mbgl-HttpRequest, and the pack then silently never leaves 0 bytes downloaded). The live
+        // map never hits this code path — it reads the pinned file into memory itself and hands
+        // MapLibre already-parsed JSON, so it never needed the native loader to resolve a URL at
+        // all. See MapStyleCacheRepository's doc for why this reopens a narrow drift window (a
+        // region downloaded between a server-side snapshot rotation and the user's next "Обновить
+        // данные карты") — isStyleDrifted() below is how callers detect and warn about that.
         val definition = OfflinePackDefinition.TilePyramid(
-            styleUrl = mapStyleCacheRepository.currentStyleReference(),
+            styleUrl = OPEN_FREE_MAP_STYLE_URL,
             bounds = BoundingBox(west = west, south = south, east = east, north = north),
             minZoom = minZoom,
             maxZoom = maxZoom,
@@ -58,6 +65,8 @@ class OfflineRegionRepositoryImpl(
         val pack = offlineManager.create(definition, metadata = name.encodeToByteArray())
         offlineManager.resume(pack)
     }
+
+    override suspend fun isStyleDrifted(): Boolean = mapStyleCacheRepository.isRemoteStyleDrifted()
 
     override fun resume(name: String) {
         findPack(name)?.let(offlineManager::resume)

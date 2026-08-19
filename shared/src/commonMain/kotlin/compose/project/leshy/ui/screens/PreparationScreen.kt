@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Pause
@@ -23,6 +25,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -100,6 +103,13 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
         )
+
+        if (uiState.styleDriftWarningVisible) {
+            StyleDriftWarningBanner(
+                onDismiss = viewModel::onStyleDriftWarningDismissed,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            )
+        }
 
         Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
             RegionPickerMap(cameraState = cameraState, regions = uiState.regions, modifier = Modifier.fillMaxSize())
@@ -368,6 +378,34 @@ private fun OfflineRegionChip(
                 IconButton(onClick = onDeleteClick) {
                     Icon(Icons.Filled.Delete, contentDescription = stringResource(StringKey.PreparationDeleteContentDescription))
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun StyleDriftWarningBanner(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
+    ) {
+        Box {
+            Text(
+                text = stringResource(StringKey.PreparationStyleDriftWarning),
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 12.dp, bottom = 12.dp, start = 12.dp, end = 40.dp),
+                color = MaterialTheme.colorScheme.onErrorContainer,
+            )
+            IconButton(
+                onClick = onDismiss,
+                modifier = Modifier.align(Alignment.TopEnd).size(32.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = stringResource(StringKey.PreparationStyleDriftWarningDismissContentDescription),
+                    tint = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.size(18.dp),
+                )
             }
         }
     }

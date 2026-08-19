@@ -101,10 +101,19 @@ class MapStyleCacheRepository(
             runCatching { httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL) }.isSuccess
         } ?: false
 
-    /** Plain URL/path string for consumers that need a bare string, not a [BaseStyle] — the
-     * offline-download repository (native `OfflineManager.create` takes a `styleUrl: String`).
-     * Returns the pinned local file so downloads match exactly what the live map is showing; falls
-     * back to the remote URL only before the very first successful fetch. */
-    fun currentStyleReference(): String =
-        if (fileSystem.exists(stylePath)) "file://$stylePath" else OPEN_FREE_MAP_STYLE_URL
+    /** Read-only check: does the CURRENT remote `style.json` differ from the pinned local copy?
+     * The offline-download repository uses this to warn the user when a mismatch means a region
+     * they're about to download won't share tile URLs with the live map (or with previously
+     * downloaded regions) until they refresh map data in Settings — see
+     * [OfflineRegionRepositoryImpl.downloadRegion][compose.project.leshy.data.repository.OfflineRegionRepositoryImpl]
+     * for why the download itself can no longer pin to the local file directly. Never writes to
+     * the pinned file (unlike [refreshFromNetwork]) and never throws — a failed fetch (e.g. no
+     * network) is reported as "not drifted" rather than a false alarm. */
+    suspend fun isRemoteStyleDrifted(): Boolean = withContext(Dispatchers.Default) {
+        runCatching {
+            val pinned = fileSystem.read(stylePath) { readUtf8() }
+            val remote = httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL)
+            pinned != remote
+        }.getOrDefault(false)
+    }
 }

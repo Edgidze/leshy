@@ -293,6 +293,11 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.PreparationSubtitle -> "Скачайте карту, чтобы пользоваться ей без интернета в лесу"
     StringKey.PreparationEstimatedSizeLabel -> "Место на диске"
     StringKey.PreparationRetryContentDescription -> "Повторить скачивание"
+    StringKey.PreparationStyleDriftWarning ->
+        "Карта на сервере обновилась, пока шло скачивание — этот регион может не совпасть с " +
+            "остальными офлайн-данными. Откройте «Настройки» → «Обновить данные карты», либо " +
+            "просто удалите этот регион и скачайте его заново"
+    StringKey.PreparationStyleDriftWarningDismissContentDescription -> "Закрыть уведомление"
 
     StringKey.MapTilesLoadFailed -> "Карта не полностью загрузилась с сайта"
     StringKey.MapTilesLoadFailedDismissContentDescription -> "Закрыть уведомление"
@@ -527,6 +532,11 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.PreparationSubtitle -> "Download the map to use it offline in the forest"
     StringKey.PreparationEstimatedSizeLabel -> "Storage"
     StringKey.PreparationRetryContentDescription -> "Retry download"
+    StringKey.PreparationStyleDriftWarning ->
+        "The map data on the server changed while this was downloading — this region may not " +
+            "match your other offline data. Open Settings → \"Update map data\", or just " +
+            "delete this region and download it again"
+    StringKey.PreparationStyleDriftWarningDismissContentDescription -> "Dismiss notice"
 
     StringKey.MapTilesLoadFailed -> "The map didn't fully load from"
     StringKey.MapTilesLoadFailedDismissContentDescription -> "Dismiss notice"
