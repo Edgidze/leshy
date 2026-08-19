@@ -65,6 +65,30 @@ iOS-14+ `forExporting:`/`UTType`), который копирует уже гот
 Именованный параметр конструктора `UIDocumentPickerViewController` для
 `NSURL` — `uRL`, не `url` (K/N капитализирует `URL` в camelCase как `uRL`).
 
+## Фото/превьюшки хранятся абсолютным путём — контейнер песочницы может смениться
+
+`saveImage` (`CameraLauncher.ios.kt`), `IosPhotoStorage`,
+`IosWalkThumbnailRenderer` резолвят `NSDocumentDirectory` через
+`NSFileManager` в момент сохранения и кладут **абсолютный** путь (с UUID
+контейнера) в `ObjectEntity.photoPath`/`WalkEntity.thumbnailPath`. При
+некоторых событиях (обновление приложения через App Store/TestFlight,
+восстановление) iOS может пересоздать UUID контейнера — сам `Documents`
+физически переносится вместе с содержимым, но все уже сохранённые
+абсолютные пути со старым UUID мгновенно становятся нерабочими; новые фото
+пишутся уже с текущим UUID и работают.
+
+Полноценный фикс (переход на относительные пути) не делали — слишком
+инвазивно ради разового события. Вместо этого — самовосстановление:
+`repairStalePhotoPath` (`PhotoPathRepair.ios.kt`) по «висящему» пути ищет
+сегмент после `/Documents/` (стабилен при переносе контейнера) и
+пересобирает его относительно ТЕКУЩЕГО `NSDocumentDirectory`, проверяя, что
+файл действительно там лежит. `RepairPhotoPathsUseCase` гоняет это разово
+по всем `photoPath`/`thumbnailPath` при каждом заходе на Archive/Map (тот
+же идемпотентный паттерн, что `BackfillWalkThumbnailsUseCase`) и
+перезаписывает исправленный путь в БД. `AndroidPhotoStorage`-эквивалент
+(`repairStalePhotoPath` на Android) — no-op: `Context.filesDir` так не
+переезжает.
+
 ## Прочее
 
 - Камера — `UIImagePickerController` + сохранение в Documents.

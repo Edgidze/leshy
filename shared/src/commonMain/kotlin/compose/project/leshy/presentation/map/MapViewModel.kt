@@ -15,6 +15,7 @@ import compose.project.leshy.domain.repository.MapFilterRepository
 import compose.project.leshy.domain.repository.TrackPointRepository
 import compose.project.leshy.domain.repository.WalkRepository
 import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
+import compose.project.leshy.domain.usecase.RepairPhotoPathsUseCase
 import compose.project.leshy.domain.usecase.UpdatePlaceMarkUseCase
 import compose.project.leshy.domain.util.computeFilterCount
 import compose.project.leshy.domain.util.matchesDateAndSeason
@@ -40,6 +41,7 @@ class MapViewModel(
     mapFilterRepository: MapFilterRepository,
     private val updatePlaceMark: UpdatePlaceMarkUseCase,
     private val deletePlaceMark: DeletePlaceMarkUseCase,
+    private val repairPhotoPaths: RepairPhotoPathsUseCase,
 ) : ViewModel() {
 
     private val _mode = MutableStateFlow(MapMode.MAP)
@@ -48,6 +50,8 @@ class MapViewModel(
     val uiState: StateFlow<MapUiState> = _uiState.asStateFlow()
 
     init {
+        // Independent of the UI-state flow below — see RepairPhotoPathsUseCase.
+        viewModelScope.launch { repairPhotoPaths() }
         viewModelScope.launch {
             val rawData = combine(
                 walkRepository.observeAll(),
