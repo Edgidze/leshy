@@ -228,4 +228,9 @@ enum class StringKey {
     SettingsMapDataRegionsCountOne,
     SettingsMapDataRegionsCountFew,
     SettingsMapDataRegionsCountMany,
+
+    // TEMPORARY (Phase 1, `.claude/plans/user-mushrooms.md`) — delete with the debug button.
+    SettingsDebugUserCategoryCreate,
+    SettingsDebugUserCategoryHide,
+    SettingsDebugUserCategoryShow,
 }

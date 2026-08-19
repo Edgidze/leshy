@@ -195,7 +195,7 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
 
                 items(uiState.mushroomCounts) { entry ->
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(categoryDisplayName(entry.category.nameKey))
+                        Text(categoryDisplayName(entry.category))
                         Text(entry.count.toString())
                     }
                 }

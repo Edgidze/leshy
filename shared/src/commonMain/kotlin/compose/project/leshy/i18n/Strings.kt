@@ -315,6 +315,9 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMapDataRegionsCountOne -> "область"
     StringKey.SettingsMapDataRegionsCountFew -> "области"
     StringKey.SettingsMapDataRegionsCountMany -> "областей"
+    StringKey.SettingsDebugUserCategoryCreate -> "Создать тестовый пользовательский вид"
+    StringKey.SettingsDebugUserCategoryHide -> "Скрыть тестовый вид"
+    StringKey.SettingsDebugUserCategoryShow -> "Показать тестовый вид"
 }
 
 private fun englishStrings(key: StringKey): String = when (key) {
@@ -554,4 +557,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMapDataRegionsCountOne -> "area"
     StringKey.SettingsMapDataRegionsCountFew -> "areas"
     StringKey.SettingsMapDataRegionsCountMany -> "areas"
+    StringKey.SettingsDebugUserCategoryCreate -> "Create a test user species"
+    StringKey.SettingsDebugUserCategoryHide -> "Hide the test species"
+    StringKey.SettingsDebugUserCategoryShow -> "Show the test species"
 }

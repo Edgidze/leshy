@@ -1,6 +1,5 @@
 package compose.project.leshy.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
@@ -32,9 +30,6 @@ import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.collectionDisplayName
 import compose.project.leshy.presentation.CollectionPickState
 import compose.project.leshy.presentation.CollectionPickerItem
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.allDrawableResources
-import org.jetbrains.compose.resources.painterResource
 
 /**
  * Expandable per-collection checklist: a tri-state checkbox toggles every member species at once,
@@ -112,17 +107,9 @@ private fun CollectionPickerSection(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Checkbox(checked = category.isPicked, onCheckedChange = null)
-                    val drawable = category.iconRef?.let { Res.allDrawableResources[it] }
-                    if (drawable != null) {
-                        Image(
-                            painter = painterResource(drawable),
-                            contentDescription = null,
-                            modifier = Modifier.size(56.dp).padding(start = 8.dp),
-                            contentScale = ContentScale.Fit,
-                        )
-                    }
+                    CategoryIcon(category = category, modifier = Modifier.size(56.dp).padding(start = 8.dp))
                     Text(
-                        text = categoryDisplayName(category.nameKey),
+                        text = categoryDisplayName(category),
                         modifier = Modifier.weight(1f).padding(start = 12.dp),
                     )
                 }

@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.MushroomSortOrder
+import compose.project.leshy.domain.model.iconSource
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.CollectionRepository
 import compose.project.leshy.domain.repository.SettingsRepository
+import compose.project.leshy.domain.usecase.DEBUG_USER_CATEGORY_NAME_KEY
+import compose.project.leshy.domain.usecase.DebugUserCategoryUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
@@ -35,6 +38,8 @@ class SettingsViewModel(
     private val setCategoryPickedUseCase: SetCategoryPickedUseCase,
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
     private val refreshMapDataUseCase: RefreshMapDataUseCase,
+    /** TEMPORARY, Phase 1 of `.claude/plans/user-mushrooms.md` — removed in Phase 4. */
+    private val debugUserCategoryUseCase: DebugUserCategoryUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -71,8 +76,15 @@ class SettingsViewModel(
             }
         }
         viewModelScope.launch {
-            val preview = categoryRepository.observeAll().first().filter { it.iconRef != null }.randomOrNull()
+            val preview = categoryRepository.observeAll().first().filter { it.iconSource() != null }.randomOrNull()
             _uiState.update { it.copy(previewCategory = preview) }
+        }
+        // TEMPORARY (Phase 1, `.claude/plans/user-mushrooms.md`) — goes away with the debug button.
+        viewModelScope.launch {
+            categoryRepository.observeNonCatalog().collect { categories ->
+                val debug = categories.firstOrNull { it.nameKey == DEBUG_USER_CATEGORY_NAME_KEY }
+                _uiState.update { it.copy(debugUserCategory = debug) }
+            }
         }
         viewModelScope.launch {
             settingsRepository.observeMushroomSortOrder().collect { sortOrder ->
@@ -111,6 +123,13 @@ class SettingsViewModel(
 
     fun setCategoryPicked(category: Category, picked: Boolean) {
         viewModelScope.launch { setCategoryPickedUseCase(category, picked) }
+    }
+
+    /** TEMPORARY (Phase 1, `.claude/plans/user-mushrooms.md`): creates the throwaway user species
+     * on first press, then hides/shows it. [iconBytes] come from the caller because reading a
+     * bundled resource is a UI-layer concern — see [DebugUserCategoryUseCase]. */
+    fun toggleDebugUserCategory(iconBytes: ByteArray) {
+        viewModelScope.launch { debugUserCategoryUseCase(iconBytes) }
     }
 
     /** Explicit-only re-fetch of the pinned map style — see `MapStyleCacheRepository`'s doc for

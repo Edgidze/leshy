@@ -16,10 +16,10 @@ fun sortCategories(categories: List<Category>, sortOrder: MushroomSortOrder, lan
         MushroomSortOrder.EDIBILITY_THEN_ALPHABETICAL -> categories.sortedWith(
             compareBy(
                 { it.edibilityStatus.ordinal },
-                { categoryDisplayName(it.nameKey, language) },
+                { categoryDisplayName(it, language) },
             ),
         )
-        MushroomSortOrder.ALPHABETICAL -> categories.sortedBy { categoryDisplayName(it.nameKey, language) }
+        MushroomSortOrder.ALPHABETICAL -> categories.sortedBy { categoryDisplayName(it, language) }
     }
 
 /**
@@ -44,7 +44,7 @@ fun applyRecencyOrder(base: List<Category>, recencyOrder: List<Long>): List<Cate
 fun searchOrderedCategories(categories: List<Category>, query: String, language: AppLanguage): List<Category> {
     val q = query.trim().lowercase()
     if (q.isEmpty()) return categories
-    val (prefixMatches, rest) = categories.partition { categoryDisplayName(it.nameKey, language).lowercase().startsWith(q) }
-    val (containsMatches, others) = rest.partition { categoryDisplayName(it.nameKey, language).lowercase().contains(q) }
+    val (prefixMatches, rest) = categories.partition { categoryDisplayName(it, language).lowercase().startsWith(q) }
+    val (containsMatches, others) = rest.partition { categoryDisplayName(it, language).lowercase().contains(q) }
     return prefixMatches + containsMatches + others
 }

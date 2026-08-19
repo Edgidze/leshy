@@ -53,10 +53,10 @@ private const val MANY_SORT_OFFSET = 0f
  */
 @Composable
 fun ClusteredFindsLayers(markers: List<MapMarker>, idPrefix: String = "finds") {
-    markers.groupBy { it.iconRef }.forEach { (iconRef, group) ->
-        if (iconRef == null) return@forEach
-        key(iconRef) {
-            val painter = rememberMushroomMarkerPainter(iconRef)
+    markers.groupBy { it.icon }.forEach { (icon, group) ->
+        if (icon == null) return@forEach
+        key(icon.key) {
+            val painter = rememberMushroomMarkerPainter(icon)
             if (painter != null) {
                 val findsSource = rememberGeoJsonSource(
                     GeoJsonData.Features(
@@ -79,7 +79,7 @@ fun ClusteredFindsLayers(markers: List<MapMarker>, idPrefix: String = "finds") {
                 )
                 val markerSize = mushroomMarkerSize
                 SymbolLayer(
-                    id = "$idPrefix-$iconRef",
+                    id = "$idPrefix-${icon.key}",
                     source = findsSource,
                     iconImage = image(painter, size = DpSize(markerSize, markerSize)),
                     iconSize = sizeMultiplier,

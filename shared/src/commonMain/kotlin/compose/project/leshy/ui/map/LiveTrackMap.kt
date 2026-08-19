@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.data.repository.MapStyleCacheRepository
+import compose.project.leshy.domain.model.CategoryIconSource
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.ui.components.MapLoadFailedBanner
 import kotlin.time.Duration.Companion.seconds
@@ -46,7 +47,14 @@ import org.maplibre.spatialk.geojson.MultiPoint
 import org.maplibre.spatialk.geojson.Point
 import org.maplibre.spatialk.geojson.Position
 
-data class MapMarker(val lat: Double, val lon: Double, val colorHex: String, val iconRef: String? = null)
+data class MapMarker(
+    val lat: Double,
+    val lon: Double,
+    val colorHex: String,
+    /** Null for PHOTO/POI marks and for species without an illustration — those fall back to a
+     * plain [colorHex] circle instead of a photo marker. */
+    val icon: CategoryIconSource? = null,
+)
 
 private val TRACK_COLOR = Color(0xFF1B4332)
 private val CURRENT_LOCATION_COLOR = Color(0xFF2196F3)
@@ -217,19 +225,19 @@ fun LiveTrackMap(
                 )
             }
 
-            val (photoMarkers, mushroomMarkers) = markers.partition { it.iconRef == null }
+            val (photoMarkers, mushroomMarkers) = markers.partition { it.icon == null }
 
-            mushroomMarkers.groupBy { it.iconRef }.forEach { (iconRef, group) ->
-                requireNotNull(iconRef)
-                key(iconRef) {
-                    val painter = rememberMushroomMarkerPainter(iconRef)
+            mushroomMarkers.groupBy { it.icon }.forEach { (icon, group) ->
+                requireNotNull(icon)
+                key(icon.key) {
+                    val painter = rememberMushroomMarkerPainter(icon)
                     if (painter != null) {
                         val marksSource = rememberGeoJsonSource(
                             GeoJsonData.Features(MultiPoint(group.map { Position(it.lon, it.lat) })),
                         )
                         val markerSize = mushroomMarkerSize
                         SymbolLayer(
-                            id = "marks-$iconRef",
+                            id = "marks-${icon.key}",
                             source = marksSource,
                             iconImage = image(painter, size = DpSize(markerSize, markerSize)),
                             iconAllowOverlap = const(true),

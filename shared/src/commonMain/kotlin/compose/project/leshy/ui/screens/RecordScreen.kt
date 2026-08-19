@@ -68,6 +68,7 @@ import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.domain.model.MarkType
+import compose.project.leshy.domain.model.iconSource
 import compose.project.leshy.domain.util.TurnDirection
 import compose.project.leshy.i18n.LocalAppLanguage
 import compose.project.leshy.i18n.StringKey
@@ -277,7 +278,7 @@ private fun RecordScreenContent(
                             lat = mark.lat,
                             lon = mark.lon,
                             colorHex = category?.colorHex ?: "#808080",
-                            iconRef = category?.iconRef,
+                            icon = category?.iconSource(),
                         )
                     },
                     historicalMarkers = uiState.historicalFinds.map { mark ->
@@ -286,7 +287,7 @@ private fun RecordScreenContent(
                             lat = mark.lat,
                             lon = mark.lon,
                             colorHex = category?.colorHex ?: "#808080",
-                            iconRef = category?.iconRef,
+                            icon = category?.iconSource(),
                         )
                     },
                     places = currentPlaceMarks.map { mark ->

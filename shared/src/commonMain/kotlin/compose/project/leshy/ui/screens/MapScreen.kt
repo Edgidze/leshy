@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.domain.model.iconSource
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.stringResource
@@ -93,7 +94,7 @@ fun MapScreen(modifier: Modifier = Modifier, viewModel: MapViewModel = koinViewM
                                 lat = mark.lat,
                                 lon = mark.lon,
                                 colorHex = category?.colorHex ?: "#808080",
-                                iconRef = category?.iconRef,
+                                icon = category?.iconSource(),
                             )
                         },
                         places = uiState.placeMarks.map { mark ->
@@ -203,7 +204,7 @@ private fun MapStatsView(stats: MapStats, modifier: Modifier = Modifier) {
         }
         items(stats.categoryCounts) { entry ->
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(categoryDisplayName(entry.category.nameKey))
+                Text(categoryDisplayName(entry.category))
                 Text(entry.count.toString())
             }
         }

@@ -22,4 +22,8 @@ data class SettingsUiState(
      * previously-downloaded offline regions were automatically deleted and re-queued for
      * download. Cleared back to 0 at the start of the next refresh. */
     val mapDataRegionsRedownloading: Int = 0,
+    /** TEMPORARY, Phase 1 of `.claude/plans/user-mushrooms.md` — the throwaway user-created
+     * species seeded by [compose.project.leshy.domain.usecase.DebugUserCategoryUseCase], null
+     * until it's been created. Goes away with the debug button in Phase 4. */
+    val debugUserCategory: Category? = null,
 )

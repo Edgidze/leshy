@@ -1,6 +1,5 @@
 package compose.project.leshy.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.Column
@@ -31,7 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.i18n.StringKey
@@ -44,9 +42,6 @@ import compose.project.leshy.ui.util.formatDateOnly
 import compose.project.leshy.ui.util.monthName
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.allDrawableResources
-import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
@@ -177,19 +172,9 @@ private fun MonthRangeSection(uiState: MapFilterUiState, onRangeChanged: (Int, I
 @Composable
 private fun SpeciesFilterRow(category: Category, onToggle: (Boolean) -> Unit) {
     Row(modifier = Modifier.fillMaxWidth().height(56.dp), verticalAlignment = Alignment.CenterVertically) {
-        val drawable = category.iconRef?.let { Res.allDrawableResources[it] }
-        if (drawable != null) {
-            Image(
-                painter = painterResource(drawable),
-                contentDescription = null,
-                modifier = Modifier.size(56.dp),
-                contentScale = ContentScale.Fit,
-            )
-        } else {
-            Spacer(modifier = Modifier.size(56.dp))
-        }
+        CategoryIcon(category = category, modifier = Modifier.size(56.dp))
         Text(
-            text = categoryDisplayName(category.nameKey),
+            text = categoryDisplayName(category),
             modifier = Modifier.weight(1f).padding(start = 12.dp),
         )
         Switch(checked = category.isActive, onCheckedChange = onToggle)

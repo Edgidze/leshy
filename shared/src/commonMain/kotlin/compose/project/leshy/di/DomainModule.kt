@@ -3,6 +3,7 @@ package compose.project.leshy.di
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.AddPlaceMarkUseCase
 import compose.project.leshy.domain.usecase.BackfillWalkThumbnailsUseCase
+import compose.project.leshy.domain.usecase.DebugUserCategoryUseCase
 import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
@@ -43,4 +44,6 @@ val domainModule = module {
     factory { ExportDataUseCase(get(), get(), get(), get()) }
     factory { ImportDataUseCase(get(), get(), get(), get(), get()) }
     factory { RefreshMapDataUseCase(get(), get()) }
+    // TEMPORARY (Phase 1, `.claude/plans/user-mushrooms.md`) — drop with the Settings debug button.
+    factory { DebugUserCategoryUseCase(get(), get(), get()) }
 }

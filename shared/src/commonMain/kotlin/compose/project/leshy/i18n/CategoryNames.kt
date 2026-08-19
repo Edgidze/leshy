@@ -2,6 +2,31 @@ package compose.project.leshy.i18n
 
 import androidx.compose.runtime.Composable
 import compose.project.leshy.domain.model.AppLanguage
+import compose.project.leshy.domain.model.Category
+
+/**
+ * Display name of [category] — the overload every UI call site should use. A catalog species
+ * resolves through its `nameKey` as before; a user-created/imported one carries its own
+ * [Category.customNames] instead, since its `nameKey` is a generated technical id
+ * (`user_<millis>_<random>`) that no `StringKey` will ever match.
+ */
+@Composable
+fun categoryDisplayName(category: Category): String =
+    customDisplayName(category, LocalAppLanguage.current) ?: categoryDisplayName(category.nameKey)
+
+/** Non-composable counterpart of [categoryDisplayName], for contexts like sorting in a ViewModel. */
+fun categoryDisplayName(category: Category, language: AppLanguage): String =
+    customDisplayName(category, language) ?: categoryDisplayName(category.nameKey, language)
+
+/**
+ * The user-entered name for [language], falling back across the other language and then the Latin
+ * name: a species named in Russian only must still show *something* readable after switching the
+ * app to English, and vice versa. Null means "nothing user-entered here", i.e. a catalog species.
+ */
+private fun customDisplayName(category: Category, language: AppLanguage): String? =
+    category.customNames[language]?.takeIf { it.isNotBlank() }
+        ?: category.customNames.values.firstOrNull { it.isNotBlank() }
+        ?: category.scientificName?.takeIf { it.isNotBlank() }
 
 /** Resolves a [compose.project.leshy.domain.model.Category.nameKey] to a localized display name. */
 @Composable

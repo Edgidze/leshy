@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.domain.model.MarkType
+import compose.project.leshy.domain.model.iconSource
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.ui.components.AddPlaceDialog
 import compose.project.leshy.ui.components.DeletePlaceConfirmDialog
@@ -63,7 +64,7 @@ fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
                     lat = mark.lat,
                     lon = mark.lon,
                     colorHex = category?.colorHex ?: "#808080",
-                    iconRef = category?.iconRef,
+                    icon = category?.iconSource(),
                 )
             },
             places = uiState.marks.filter { it.type == MarkType.POI }.map { mark ->

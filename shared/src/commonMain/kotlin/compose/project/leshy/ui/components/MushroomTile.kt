@@ -1,7 +1,6 @@
 package compose.project.leshy.ui.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -37,7 +36,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -54,9 +52,6 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.allDrawableResources
-import org.jetbrains.compose.resources.painterResource
 
 private val MUSHROOM_COUNT_BUTTON_SIZE = 40.dp
 
@@ -175,15 +170,7 @@ private fun MushroomAddButton(onClick: () -> Unit, onLongHold: () -> Unit, modif
 @Composable
 fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
-        val drawable = category.iconRef?.let { Res.allDrawableResources[it] }
-        if (drawable != null) {
-            Image(
-                painter = painterResource(drawable),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit,
-            )
-        }
+        CategoryIcon(category = category, modifier = Modifier.fillMaxSize())
 
         EdibilityBadge(
             status = category.edibilityStatus,
@@ -191,7 +178,7 @@ fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
         )
 
         MushroomLabel(
-            text = categoryDisplayName(category.nameKey),
+            text = categoryDisplayName(category),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
