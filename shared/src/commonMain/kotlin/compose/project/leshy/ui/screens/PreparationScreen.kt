@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import compose.project.leshy.domain.model.OfflineRegionInfo
 import compose.project.leshy.domain.model.OfflineRegionStatus
 import compose.project.leshy.domain.util.estimateOfflineRegion
@@ -226,6 +227,8 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     if (uiState.showNameDialog) {
         AlertDialog(
             onDismissRequest = viewModel::onNameDialogDismissed,
+            modifier = Modifier.fillMaxWidth(0.9f),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.PreparationRegionNameDialogTitle)) },
             text = {
                 Column {
@@ -265,6 +268,8 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     if (uiState.regionPendingDelete != null) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteDismissed,
+            modifier = Modifier.fillMaxWidth(0.9f),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.PreparationDeleteConfirmTitle)) },
             text = { Text(stringResource(StringKey.PreparationDeleteConfirmMessage)) },
             confirmButton = {

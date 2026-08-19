@@ -30,6 +30,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.archive.ArchiveViewModel
@@ -54,10 +55,11 @@ fun ArchiveScreen(
     if (uiState.showDeleteConfirmation) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteDismiss,
-            modifier = Modifier.border(
+            modifier = Modifier.fillMaxWidth(0.9f).border(
                 BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
                 shape = AlertDialogDefaults.shape,
             ),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
             text = { Text(stringResource(StringKey.ArchiveDeleteConfirmMessage)) },
             confirmButton = {
                 TextButton(onClick = viewModel::onDeleteConfirm) {

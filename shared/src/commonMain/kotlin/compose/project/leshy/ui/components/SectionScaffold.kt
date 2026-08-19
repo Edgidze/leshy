@@ -1,6 +1,7 @@
 package compose.project.leshy.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
@@ -19,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
 
@@ -59,6 +61,8 @@ fun SectionScaffold(
     if (showHelpDialog) {
         AlertDialog(
             onDismissRequest = { showHelpDialog = false },
+            modifier = Modifier.fillMaxWidth(0.9f),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.HelpDialogTitle)) },
             text = { Text(stringResource(StringKey.HelpDialogMessage)) },
             confirmButton = {

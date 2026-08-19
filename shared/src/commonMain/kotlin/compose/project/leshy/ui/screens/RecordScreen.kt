@@ -497,6 +497,8 @@ private fun WalkNameDialog(onConfirm: (String) -> Unit, onDismissRequest: () -> 
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
+        modifier = Modifier.fillMaxWidth(0.9f),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.RecordSetWalkNameTitle)) },
         text = {
             OutlinedTextField(

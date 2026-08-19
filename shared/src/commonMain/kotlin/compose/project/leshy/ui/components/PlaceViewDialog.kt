@@ -34,6 +34,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import coil3.compose.AsyncImage
 import compose.project.leshy.data.platform.plainTextClipEntry
 import compose.project.leshy.domain.model.FieldMark
@@ -158,6 +159,8 @@ fun PlaceViewDialog(
 fun DeletePlaceConfirmDialog(onConfirm: () -> Unit, onDismissRequest: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
+        modifier = Modifier.fillMaxWidth(0.9f),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.PlaceDeleteConfirmTitle)) },
         text = { Text(stringResource(StringKey.PlaceDeleteConfirmMessage)) },
         confirmButton = {

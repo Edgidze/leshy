@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import coil3.compose.AsyncImage
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.GeoPoint
@@ -100,6 +101,8 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
     if (uiState.showDeleteConfirmation) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteDismiss,
+            modifier = Modifier.fillMaxWidth(0.9f),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.WalkDetailDeleteConfirmTitle)) },
             text = { Text(stringResource(StringKey.WalkDetailDeleteConfirmMessage)) },
             confirmButton = {
@@ -298,6 +301,8 @@ private fun WalkNameEditDialog(initialName: String, onConfirm: (String) -> Unit,
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
+        modifier = Modifier.fillMaxWidth(0.9f),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.WalkDetailEditWalkNameTitle)) },
         text = {
             OutlinedTextField(
