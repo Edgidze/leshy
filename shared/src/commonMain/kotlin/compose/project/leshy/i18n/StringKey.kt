@@ -233,4 +233,5 @@ enum class StringKey {
     SettingsDebugUserCategoryCreate,
     SettingsDebugUserCategoryHide,
     SettingsDebugUserCategoryShow,
+    SettingsDebugUserCategoryPickIcon,
 }

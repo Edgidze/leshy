@@ -31,7 +31,7 @@ actual fun rememberCameraLauncher(onPhotoCaptured: (String) -> Unit): () -> Unit
             ) {
                 picker.dismissViewControllerAnimated(true, completion = null)
                 val image = didFinishPickingMediaWithInfo[UIImagePickerControllerOriginalImage] as? UIImage
-                val path = image?.let(::saveImage)
+                val path = image?.let { saveImageToDocuments(it, "mark") }
                 if (path != null) callback.value(path)
             }
 
@@ -53,8 +53,14 @@ actual fun rememberCameraLauncher(onPhotoCaptured: (String) -> Unit): () -> Unit
     }
 }
 
+/**
+ * Writes [image] into this app's Documents directory as JPEG and returns its absolute path, or
+ * null if either step fails. Shared with [rememberGalleryPicker] (`GalleryPicker.ios.kt`), which
+ * has the identical job with a different [fileNamePrefix] — both hand the caller a plain file path,
+ * the contract `rememberCameraLauncher` established.
+ */
 @OptIn(ExperimentalForeignApi::class)
-private fun saveImage(image: UIImage): String? {
+internal fun saveImageToDocuments(image: UIImage, fileNamePrefix: String): String? {
     val data = UIImageJPEGRepresentation(image, 0.9) ?: return null
     val documentsPath = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
@@ -63,6 +69,6 @@ private fun saveImage(image: UIImage): String? {
         create = false,
         error = null,
     )?.path ?: return null
-    val filePath = "$documentsPath/mark_${currentTimeMillis()}.jpg"
+    val filePath = "$documentsPath/${fileNamePrefix}_${currentTimeMillis()}.jpg"
     return if (data.writeToFile(filePath, atomically = true)) filePath else null
 }

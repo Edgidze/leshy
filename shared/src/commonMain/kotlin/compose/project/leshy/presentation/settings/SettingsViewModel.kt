@@ -15,6 +15,7 @@ import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
 import compose.project.leshy.domain.usecase.RefreshMapDataUseCase
+import compose.project.leshy.domain.usecase.SaveCategoryIconUseCase
 import compose.project.leshy.domain.usecase.SetCategoryPickedUseCase
 import compose.project.leshy.domain.usecase.SetCollectionPickedUseCase
 import compose.project.leshy.presentation.CollectionPickState
@@ -40,6 +41,7 @@ class SettingsViewModel(
     private val refreshMapDataUseCase: RefreshMapDataUseCase,
     /** TEMPORARY, Phase 1 of `.claude/plans/user-mushrooms.md` — removed in Phase 4. */
     private val debugUserCategoryUseCase: DebugUserCategoryUseCase,
+    private val saveCategoryIconUseCase: SaveCategoryIconUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -130,6 +132,16 @@ class SettingsViewModel(
      * bundled resource is a UI-layer concern — see [DebugUserCategoryUseCase]. */
     fun toggleDebugUserCategory(iconBytes: ByteArray) {
         viewModelScope.launch { debugUserCategoryUseCase(iconBytes) }
+    }
+
+    /** TEMPORARY (Phase 2, `.claude/plans/user-mushrooms.md`): attaches a picture the user chose
+     * in the gallery to the test species, so the whole platform image path (picker → downscaled
+     * decode → PNG encode → file) can be exercised before the editor screen exists. The caller
+     * hands over finished PNG bytes — see [DebugUserCategoryUseCase] for why image work stays in
+     * the UI layer. */
+    fun setDebugUserCategoryIcon(pngBytes: ByteArray) {
+        val category = _uiState.value.debugUserCategory ?: return
+        viewModelScope.launch { saveCategoryIconUseCase(category, pngBytes) }
     }
 
     /** Explicit-only re-fetch of the pinned map style — see `MapStyleCacheRepository`'s doc for

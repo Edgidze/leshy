@@ -89,9 +89,42 @@ iOS-14+ `forExporting:`/`UTType`), который копирует уже гот
 (`repairStalePhotoPath` на Android) — no-op: `Context.filesDir` так не
 переезжает.
 
+## Галерея и картинки (`GalleryPicker.ios.kt`, `ImageCodec.ios.kt`)
+
+- **Пикер галереи — `PHPickerViewController`** (не `UIImagePickerController`,
+  которым осталась камера): работает вне процесса приложения, поэтому не
+  требует ни разрешения на фотобиблиотеку, ни `NSPhotoLibraryUsageDescription`
+  в `Info.plist`. Делегат держится `remember`-ом (композицией) — то же, что
+  «`var` на классе» из раздела про ARC выше; локального `val` в лямбде хватило
+  бы ровно до первого освобождения.
+- **`NSItemProvider.canLoadObjectOfClass`/`loadObjectOfClass` из K/N
+  недоступны по типам:** в биндинге параметр — `NSItemProviderReadingProtocol`
+  (инстанс), а не класс-объект, и `UIImage.Companion` туда не подходит
+  (`Argument type mismatch`). Рабочий путь —
+  `loadFileRepresentationForTypeIdentifier("public.image") { url, _ -> }`
+  (параметр — обычная строка). **URL временный: система удаляет файл сразу
+  после возврата из хендлера**, копировать нужно прямо в нём
+  (`NSFileManager.copyItemAtPath`). Побочная польза — оригинальный файл (часто
+  HEIC) не декодируется в память ради того, чтобы быть тут же перекодированным.
+- Колбэк `NSItemProvider` приходит на приватной очереди — прыжок на главный
+  поток (`dispatch_async(dispatch_get_main_queue())`) обязателен, дальше идёт
+  Compose-состояние.
+- **Декодирование — через UIKit (`UIImage.drawInRect` в
+  `UIGraphicsBeginImageContextWithOptions`), а не Skia напрямую.** Skia
+  `Image.makeFromEncoded` игнорирует EXIF-ориентацию (фото с телефона почти
+  всегда лежит на боку) и не умеет HEIC; `UIImage` знает и то, и другое и
+  применяет ориентацию при отрисовке. Итог доезжает до `ImageBitmap` одним
+  PNG-round-trip'ом — цена за то, чтобы не мостить `CGImage`→Skia вручную.
+  `UIImage.imageWithContentsOfFile(path)` — **класс-метод, не конструктор
+  `UIImage(contentsOfFile = ...)`**: K/N типизирует конструктор как non-null,
+  хотя тот реально возвращает nil на недекодируемом файле.
+- `encodePng` — Skia (`Image.makeFromBitmap(bitmap.asSkiaBitmap())
+  .encodeToData(PNG)`), она же бэкенд `ImageBitmap` на этой платформе.
+
 ## Прочее
 
-- Камера — `UIImagePickerController` + сохранение в Documents.
+- Камера — `UIImagePickerController` + сохранение в Documents
+  (`saveImageToDocuments`, общий с пикером галереи).
 - `MLNMapSnapshotter` для миниатюр прогулок — в отличие от Android сам
   помещает атрибуцию на маленьком снапшоте (см. `ui/map/CLAUDE.md`).
 - `IPHONEOS_DEPLOYMENT_TARGET`/линковка `Shared.framework`+`MapLibre` —

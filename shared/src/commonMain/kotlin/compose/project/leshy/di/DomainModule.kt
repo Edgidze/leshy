@@ -15,6 +15,7 @@ import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RefreshMapDataUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.RenameWalkUseCase
+import compose.project.leshy.domain.usecase.SaveCategoryIconUseCase
 import compose.project.leshy.domain.usecase.RepairPhotoPathsUseCase
 import compose.project.leshy.domain.usecase.SetCategoryPickedUseCase
 import compose.project.leshy.domain.usecase.SetCollectionPickedUseCase
@@ -29,6 +30,7 @@ val domainModule = module {
     factory { RecalculateFilterEligibilityUseCase(get(), get()) }
     factory { SetCollectionPickedUseCase(get(), get(), get()) }
     factory { SetCategoryPickedUseCase(get(), get()) }
+    factory { SaveCategoryIconUseCase(get(), get()) }
     factory { StartWalkUseCase(get()) }
     factory { FinishWalkUseCase(get()) }
     factory { RenameWalkUseCase(get()) }

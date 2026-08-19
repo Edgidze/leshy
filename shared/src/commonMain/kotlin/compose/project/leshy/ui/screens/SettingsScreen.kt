@@ -35,11 +35,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import compose.project.leshy.data.platform.EDITOR_IMAGE_MAX_DIMENSION
+import compose.project.leshy.data.platform.decodeScaledImage
+import compose.project.leshy.data.platform.encodePng
+import compose.project.leshy.data.platform.rememberGalleryPicker
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MIN
 import compose.project.leshy.domain.model.MushroomSortOrder
+import compose.project.leshy.domain.usecase.CATEGORY_ICON_MAX_DIMENSION
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.regionsUnitLabel
@@ -48,6 +53,7 @@ import compose.project.leshy.presentation.settings.SettingsViewModel
 import compose.project.leshy.ui.components.CategoryIcon
 import compose.project.leshy.ui.components.CollectionPicker
 import compose.project.leshy.ui.map.MUSHROOM_MARKER_BASE_SIZE
+import compose.project.leshy.ui.util.scaledToMaxDimension
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.leshy_logo
 import org.jetbrains.compose.resources.painterResource
@@ -155,6 +161,9 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
             debugCategory = uiState.debugUserCategory,
             onClick = viewModel::toggleDebugUserCategory,
         )
+        if (uiState.debugUserCategory != null) {
+            DebugUserCategoryIconButton(onIconReady = viewModel::setDebugUserCategoryIcon)
+        }
     }
 }
 
@@ -168,6 +177,32 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
  * The illustration is borrowed from the bundled catalog (Phase 2 replaces it with camera/gallery),
  * read here rather than in the ViewModel because `Res` is a UI-layer resource accessor.
  */
+/**
+ * TEMPORARY (Phase 2, `.claude/plans/user-mushrooms.md`) — **delete with the rest of the debug
+ * block in Phase 4.** Runs the platform image path end to end without the editor screen that
+ * Phase 3 adds: system gallery picker → decode downscaled to [EDITOR_IMAGE_MAX_DIMENSION] with the
+ * photo's own orientation applied → plain downscale to [CATEGORY_ICON_MAX_DIMENSION] (Phase 3 puts
+ * the eraser/crop here instead) → PNG → stored icon. The picture then shows up wherever the
+ * species does, through the Phase 1 resolver.
+ *
+ * The image work sits in the UI layer on purpose: [ImageBitmap] is a Compose type, and the
+ * ViewModel/domain only ever see finished PNG bytes.
+ */
+@Composable
+private fun DebugUserCategoryIconButton(onIconReady: (ByteArray) -> Unit) {
+    val scope = rememberCoroutineScope()
+    val pickFromGallery = rememberGalleryPicker { path ->
+        scope.launch {
+            val source = decodeScaledImage(path, EDITOR_IMAGE_MAX_DIMENSION) ?: return@launch
+            val png = encodePng(source.scaledToMaxDimension(CATEGORY_ICON_MAX_DIMENSION)) ?: return@launch
+            onIconReady(png)
+        }
+    }
+    Button(onClick = pickFromGallery, modifier = Modifier.padding(top = 8.dp)) {
+        Text(stringResource(StringKey.SettingsDebugUserCategoryPickIcon))
+    }
+}
+
 @Composable
 private fun DebugUserCategoryButton(debugCategory: Category?, onClick: (ByteArray) -> Unit) {
     val scope = rememberCoroutineScope()

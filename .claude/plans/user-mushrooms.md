@@ -1,7 +1,7 @@
 # План: пользовательские грибы (свой вид + своя иллюстрация)
 
-Статус: **Phase 1 готов** (Phase 2 следующая — она же первая, которой нужен Mac,
-см. «Mac vs Windows»). Отмечать фазы `[x]` по мере выполнения.
+Статус: **Phase 2 готов** (Phase 3 следующая — редактор-ластик, чистый
+commonMain). Отмечать фазы `[x]` по мере выполнения.
 Каждая фаза — отдельная сессия. Не переносить сюда код/детали реализации после
 того, как фаза сделана — итоговые неочевидные решения идут в `data/CLAUDE.md` /
 `presentation/CLAUDE.md` / `ui/map/CLAUDE.md` / `iosMain/CLAUDE.md`, этот файл
@@ -344,7 +344,7 @@ commonMain, машина не важна.
   прогулки; переключение языка меняет его имя на «Test species»; повторное
   нажатие кнопки прячет вид отовсюду, третье — возвращает.
 
-- [ ] **Phase 2 — Платформенный слой картинки.** `expect`/`actual`: пикер
+- [x] **Phase 2 — Платформенный слой картинки.** `expect`/`actual`: пикер
   галереи (Android `PickVisualMedia`, iOS `PHPickerViewController`),
   декодирование выбранного файла в `ImageBitmap` с даунскейлом до ≤1536 px,
   `encodePng`. Файл иконки пишется в хранилище через `PhotoStorage` + okio.
@@ -352,6 +352,41 @@ commonMain, машина не важна.
   Мина iOS из корневого CLAUDE.md: делегат пикера — **`var` на классе, не
   локальный `val`**, иначе ARC освободит его и колбэк не придёт (та же грабля,
   что была с `CLLocationManager`).
+
+  Сделано как задумано. Новое: `GalleryPicker.kt` (+ два `actual`),
+  `ImageCodec.kt` (`decodeScaledImage`/`encodePng` + `actual`'ы),
+  `ui/util/ImageScaling.kt` (`scaledToMaxDimension` — чистый commonMain на
+  `Canvas(ImageBitmap)`, тот же механизм понадобится Phase 3 для финального
+  рендера) и `SaveCategoryIconUseCase` (уже не временный код: пишет файл,
+  проставляет `iconFile`, удаляет предыдущий).
+
+  Три вещи, которых в плане не было и которые стоили времени:
+  - **`NSItemProvider.loadObjectOfClass(UIImage)` из Kotlin/Native не
+    вызывается** — в биндинге параметр типизирован как
+    `NSItemProviderReadingProtocol`, класс-объект туда не подходит. Вместо него
+    `loadFileRepresentationForTypeIdentifier("public.image")`; временный URL
+    живёт только внутри хендлера. Подробности — `iosMain/CLAUDE.md`.
+  - **EXIF-ориентация**: `BitmapFactory` (Android) и Skia (iOS) её игнорируют,
+    фото с телефона декодировалось бы боком. Android — ручной поворот через
+    `android.media.ExifInterface` (framework-класс, не новая зависимость), iOS —
+    отрисовка через `UIImage`, который применяет ориентацию сам.
+  - **Coil кэширует по строке модели**, поэтому имя файла иконки —
+    `catimg_<nameKey>_<millis>.png` с удалением старого, а не перезапись по
+    фиксированному пути (иначе новая картинка не видна до перезапуска). См.
+    `data/CLAUDE.md`.
+
+  Проверено: `:shared:compileAndroidMain`, `:shared:compileKotlinIosArm64`,
+  `:shared:compileKotlinIosSimulatorArm64`,
+  `:shared:linkDebugFrameworkIosSimulatorArm64` (линковка — чтобы убедиться, что
+  `PhotosUI` реально резолвится, а не только компилируется),
+  `:shared:testAndroidHostTest`, `:androidApp:assembleDebug` — зелёные.
+
+  Временная проверка для пользователя (вторая debug-кнопка в Настройках, видна
+  только когда тестовый вид создан; **удаляется в Phase 4 вместе с остальной
+  обвязкой**): «Картинка тестового вида — из галереи» гоняет весь путь
+  целиком — системный пикер → декод с даунскейлом до 1536 px и разворотом по
+  EXIF → даунскейл до 400 px → PNG → файл → резолвер Phase 1. Ластика/кропа тут
+  нет, это Phase 3.
 
 - [ ] **Phase 3 — Редактор.** Экран-редактор поверх Phase 2: ластик
   (`BlendMode.Clear` в offscreen-слое), размер кисти, undo/redo, прямоугольный

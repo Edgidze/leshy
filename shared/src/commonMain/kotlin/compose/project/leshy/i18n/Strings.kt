@@ -318,6 +318,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsDebugUserCategoryCreate -> "Создать тестовый пользовательский вид"
     StringKey.SettingsDebugUserCategoryHide -> "Скрыть тестовый вид"
     StringKey.SettingsDebugUserCategoryShow -> "Показать тестовый вид"
+    StringKey.SettingsDebugUserCategoryPickIcon -> "Картинка тестового вида — из галереи"
 }
 
 private fun englishStrings(key: StringKey): String = when (key) {
@@ -560,4 +561,5 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsDebugUserCategoryCreate -> "Create a test user species"
     StringKey.SettingsDebugUserCategoryHide -> "Hide the test species"
     StringKey.SettingsDebugUserCategoryShow -> "Show the test species"
+    StringKey.SettingsDebugUserCategoryPickIcon -> "Test species picture — from the gallery"
 }
