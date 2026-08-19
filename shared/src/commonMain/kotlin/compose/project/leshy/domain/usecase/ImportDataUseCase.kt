@@ -1,5 +1,7 @@
 package compose.project.leshy.domain.usecase
 
+import compose.project.leshy.data.export.dto.CATEGORIES_ENTRY_NAME
+import compose.project.leshy.data.export.dto.CategoryExportDto
 import compose.project.leshy.data.export.dto.EXPORT_SCHEMA_VERSION
 import compose.project.leshy.data.export.dto.ExportJson
 import compose.project.leshy.data.export.dto.ExportManifestDto
@@ -10,9 +12,14 @@ import compose.project.leshy.data.export.dto.TRACK_ENTRY_NAME
 import compose.project.leshy.data.export.dto.TrackPointExportDto
 import compose.project.leshy.data.export.dto.WALK_ENTRY_NAME
 import compose.project.leshy.data.export.dto.WalkExportDto
+import compose.project.leshy.data.export.dto.categoryIconEntryName
 import compose.project.leshy.data.export.zip.ZipReader
 import compose.project.leshy.data.platform.PhotoStorage
 import compose.project.leshy.data.platform.currentTimeMillis
+import compose.project.leshy.domain.model.AppLanguage
+import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.CategorySource
+import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.model.TrackPoint
@@ -35,6 +42,14 @@ import okio.Path.Companion.toPath
  * else in this codebase, and the domain layer only sees repositories, not the raw database), so a
  * walk whose entries are malformed is skipped rather than aborting the whole import; [Result]
  * reports how many succeeded/failed so the caller can tell the user.
+ *
+ * Non-catalog species (`categories/categories.json`, `.claude/plans/user-mushrooms.md` Phase 6)
+ * are the one exception to "always insert new, never merge": they're merged by [Category.nameKey]
+ * — the globally-unique identifier finds are keyed on — *before* any walk is parsed, so
+ * [ObjectExportDto.categoryNameKey] resolves against them. A missing/malformed `categories/`
+ * section (older archive, or corrupt entry) is skipped rather than failing the import; any find
+ * whose species didn't come through falls back to `category_misc`, same as an unknown
+ * `categoryNameKey` always has.
  */
 class ImportDataUseCase(
     private val walkRepository: WalkRepository,
@@ -55,6 +70,8 @@ class ImportDataUseCase(
             "This archive (format v${manifest.schemaVersion}) is newer than this app supports " +
                 "(v$EXPORT_SCHEMA_VERSION) — update the app first"
         }
+
+        importCategories(reader)
 
         val categoryIdByNameKey = categoryRepository.observeAll().first().associate { it.nameKey to it.id }
         val miscCategoryId = requireNotNull(categoryIdByNameKey[MISC_CATEGORY_NAME_KEY]) {
@@ -124,6 +141,42 @@ class ImportDataUseCase(
         fileSystem.write(destination.toPath()) { write(bytes) }
         return destination
     }
+
+    /** A category entry that fails to parse must not abort the rest — same "best effort" contract
+     * as [importWalk]'s [runCatching] in [invoke]. Order matters here: no `runCatching` at the list
+     * level, each row is wrapped individually so one bad row doesn't take its siblings down with it. */
+    private suspend fun importCategories(reader: ZipReader) {
+        val dtos = reader.readEntry(CATEGORIES_ENTRY_NAME)?.decodeToString()?.let { text ->
+            runCatching {
+                ExportJson.decodeFromString(ListSerializer(CategoryExportDto.serializer()), text)
+            }.getOrNull()
+        } ?: return
+
+        for (dto in dtos) runCatching { importCategory(reader, dto) }
+    }
+
+    /** Merge-by-[Category.nameKey], per the three-way table in `.claude/plans/user-mushrooms.md`
+     * (Phase 6): no local row → create as [CategorySource.IMPORTED] with the icon; local row
+     * without an icon → attach the archive's icon, touch nothing else; local row with an icon
+     * already → the local species wins outright, nothing to do. */
+    private suspend fun importCategory(reader: ZipReader, dto: CategoryExportDto) {
+        val existing = categoryRepository.getByNameKey(dto.nameKey)
+        val target = when {
+            existing == null -> {
+                val created = dto.toDomain()
+                created.copy(id = categoryRepository.upsert(created))
+            }
+            existing.iconFile == null -> existing
+            else -> return
+        }
+        if (!dto.hasIcon) return
+        val bytes = reader.readEntry(categoryIconEntryName(dto.nameKey)) ?: return
+        // Deterministic (not timestamped like SaveCategoryIconUseCase's) so a repeat import of the
+        // same archive overwrites this file instead of piling up copies.
+        val fileName = "catimg_${dto.nameKey}.png"
+        fileSystem.write(photoStorage.resolvePath(fileName).toPath()) { write(bytes) }
+        categoryRepository.upsert(target.copy(iconFile = fileName))
+    }
 }
 
 private fun WalkExportDto.toDomain(nameTag: String) = Walk(
@@ -162,4 +215,22 @@ private fun ObjectExportDto.toDomain(walkId: Long, categoryId: Long, photoPath: 
     photoPath = photoPath,
     name = name,
     description = description,
+)
+
+private fun CategoryExportDto.toDomain() = Category(
+    id = 0,
+    nameKey = nameKey,
+    colorHex = colorHex,
+    iconRef = null,
+    order = USER_SPECIES_ORDER,
+    isActive = true,
+    edibilityStatus = EdibilityStatus.valueOf(edibilityStatus),
+    isPicked = true,
+    isFilterEligible = true,
+    source = CategorySource.IMPORTED,
+    customNames = customNames.mapNotNull { (code, name) ->
+        AppLanguage.entries.firstOrNull { it.code == code }?.let { it to name }
+    }.toMap(),
+    scientificName = scientificName,
+    iconFile = null,
 )

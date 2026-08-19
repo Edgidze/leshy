@@ -8,6 +8,7 @@ import compose.project.leshy.data.export.dto.WALK_ENTRY_NAME
 import compose.project.leshy.data.export.dto.walkDirectory
 import compose.project.leshy.data.export.zip.ZipWriter
 import compose.project.leshy.data.platform.PhotoStorage
+import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.CategorySource
 import compose.project.leshy.domain.model.EdibilityStatus
@@ -80,8 +81,13 @@ private class FakeFieldMarkRepository : FieldMarkRepository {
     override suspend fun removeLastMushroomMark(walkId: Long, categoryId: Long) = false
 }
 
+// Pre-Phase-6, import/export never called upsert (only observeAll/getByNameKey to resolve
+// categoryId) — a stub that returned category.id without touching state was indistinguishable
+// from the real thing. Phase 6's category merge actually needs persistence, so this mirrors
+// CategoryRepositoryImpl.upsert: insert (assign an id) when id == 0, update in place otherwise.
 private class FakeCategoryRepository(seed: List<Category>) : CategoryRepository {
     private val state = MutableStateFlow(seed)
+    private var nextId = (seed.maxOfOrNull { it.id } ?: 0L) + 1
     override fun observeAll(): Flow<List<Category>> = state
     override fun observeActive(): Flow<List<Category>> = state.map { it.filter { c -> c.isActive } }
     override fun observeFilterEligible(): Flow<List<Category>> = state.map { it.filter { c -> c.isFilterEligible } }
@@ -90,7 +96,15 @@ private class FakeCategoryRepository(seed: List<Category>) : CategoryRepository 
     override suspend fun getById(id: Long): Category? = state.value.find { it.id == id }
     override suspend fun getByNameKey(nameKey: String): Category? = state.value.find { it.nameKey == nameKey }
     override suspend fun count(): Int = state.value.size
-    override suspend fun upsert(category: Category): Long = category.id
+    override suspend fun upsert(category: Category): Long {
+        if (category.id != 0L) {
+            state.update { list -> list.map { if (it.id == category.id) category else it } }
+            return category.id
+        }
+        val id = nextId++
+        state.update { it + category.copy(id = id) }
+        return id
+    }
     override suspend fun delete(category: Category) = state.update { it.filterNot { c -> c.id == category.id } }
 }
 
@@ -110,6 +124,29 @@ private fun category(id: Long, nameKey: String) = Category(
     order = 0,
     isActive = true,
     edibilityStatus = EdibilityStatus.NOT_SPECIFIED,
+)
+
+private fun userCategory(
+    id: Long,
+    nameKey: String,
+    customNames: Map<AppLanguage, String> = mapOf(AppLanguage.RU to "Мой гриб"),
+    scientificName: String? = "Mycena mea",
+    source: CategorySource = CategorySource.USER,
+    iconFile: String? = null,
+) = Category(
+    id = id,
+    nameKey = nameKey,
+    colorHex = "#112233",
+    iconRef = null,
+    order = 500,
+    isActive = true,
+    edibilityStatus = EdibilityStatus.NOT_SPECIFIED,
+    isPicked = true,
+    isFilterEligible = true,
+    source = source,
+    customNames = customNames,
+    scientificName = scientificName,
+    iconFile = iconFile,
 )
 
 private const val BOLETUS_NAME_KEY = "boletus_edulis"
@@ -159,7 +196,7 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(walks, trackPoints, fieldMarks, sourceCategories, sourceFs)
+        val exportUseCase = ExportDataUseCase(walks, trackPoints, fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs)
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -230,7 +267,7 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, categories, sourceFs)
+        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, categories, FakePhotoStorage(), sourceFs)
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -291,6 +328,232 @@ class ExportImportRoundTripTest {
 
         assertEquals(1, result.importedWalkCount)
         assertEquals(1, result.failedWalkCount)
+    }
+
+    @Test
+    fun newUserSpeciesImportsAsImportedWithIconAndFindsResolveToIt() = runBlocking {
+        val sourceFs = FakeFileSystem()
+        val iconBytes = ByteArray(64) { it.toByte() }
+        sourceFs.write("/catimg_user_1.png".toPath()) { write(iconBytes) }
+        val nameKey = "user_1"
+        val sourceCategories = FakeCategoryRepository(
+            listOf(category(1, MISC_CATEGORY_NAME_KEY), userCategory(2, nameKey, iconFile = "catimg_user_1.png")),
+        )
+        val walks = FakeWalkRepository()
+        val walkId = walks.insert(
+            Walk(
+                id = 0, name = "Прогулка", startTime = 1000, endTime = 2000, distanceMeters = 0.0,
+                avgSpeed = 0.0, startLat = 55.7, startLon = 37.6, endLat = null, endLon = null,
+                mushroomCount = 1, thumbnailPath = null,
+            ),
+        )
+        val fieldMarks = FakeFieldMarkRepository()
+        fieldMarks.addMark(
+            FieldMark(
+                0, walkId, categoryId = 2, lat = 55.701, lon = 37.601, timestamp = 1200,
+                type = MarkType.MUSHROOM, photoPath = null, name = null, description = null,
+            ),
+        )
+
+        val exportUseCase = ExportDataUseCase(
+            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs,
+        )
+        val sink = Buffer()
+        exportUseCase(sink)
+        val archiveBytes = sink.readByteArray()
+
+        val destFs = FakeFileSystem()
+        val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY)))
+        val destFieldMarks = FakeFieldMarkRepository()
+        val importUseCase = ImportDataUseCase(
+            FakeWalkRepository(), FakeTrackPointRepository(), destFieldMarks, destCategories, FakePhotoStorage(), destFs,
+        )
+        importUseCase(archiveBytes, "")
+
+        val imported = destCategories.observeAll().first().single { it.nameKey == nameKey }
+        assertEquals(CategorySource.IMPORTED, imported.source)
+        assertEquals(true, imported.isActive)
+        assertEquals(true, imported.isPicked)
+        assertEquals("Мой гриб", imported.customNames[AppLanguage.RU])
+        val iconFile = assertNotNull(imported.iconFile)
+        assertContentEquals(iconBytes, destFs.read(FakePhotoStorage().resolvePath(iconFile).toPath()) { readByteArray() })
+
+        val mark = destFieldMarks.observeAll().first().single()
+        assertEquals(imported.id, mark.categoryId)
+    }
+
+    @Test
+    fun importAttachesIconToExistingSpeciesWithoutOverwritingItsFields() = runBlocking {
+        val sourceFs = FakeFileSystem()
+        val iconBytes = ByteArray(32) { it.toByte() }
+        sourceFs.write("/catimg_user_2.png".toPath()) { write(iconBytes) }
+        val nameKey = "user_2"
+        val sourceCategories = FakeCategoryRepository(
+            listOf(
+                category(1, MISC_CATEGORY_NAME_KEY),
+                userCategory(
+                    2, nameKey,
+                    customNames = mapOf(AppLanguage.RU to "Приезжее имя"),
+                    iconFile = "catimg_user_2.png",
+                ),
+            ),
+        )
+        val walks = FakeWalkRepository()
+        val walkId = walks.insert(
+            Walk(
+                id = 0, name = "П", startTime = 1, endTime = null, distanceMeters = 0.0, avgSpeed = 0.0,
+                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 1, thumbnailPath = null,
+            ),
+        )
+        val fieldMarks = FakeFieldMarkRepository()
+        fieldMarks.addMark(
+            FieldMark(
+                0, walkId, categoryId = 2, lat = 0.0, lon = 0.0, timestamp = 1,
+                type = MarkType.MUSHROOM, photoPath = null, name = null, description = null,
+            ),
+        )
+
+        val exportUseCase = ExportDataUseCase(
+            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs,
+        )
+        val sink = Buffer()
+        exportUseCase(sink)
+        val archiveBytes = sink.readByteArray()
+
+        val destFs = FakeFileSystem()
+        val existingLocal = userCategory(
+            20, nameKey,
+            customNames = mapOf(AppLanguage.RU to "Местное имя"),
+            source = CategorySource.USER,
+            iconFile = null,
+        )
+        val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY), existingLocal))
+        val importUseCase = ImportDataUseCase(
+            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
+            destCategories, FakePhotoStorage(), destFs,
+        )
+        importUseCase(archiveBytes, "")
+
+        val merged = destCategories.observeAll().first().single { it.nameKey == nameKey }
+        assertEquals(20L, merged.id)
+        assertEquals(CategorySource.USER, merged.source)
+        assertEquals("Местное имя", merged.customNames[AppLanguage.RU])
+        val iconFile = assertNotNull(merged.iconFile)
+        assertContentEquals(iconBytes, destFs.read(FakePhotoStorage().resolvePath(iconFile).toPath()) { readByteArray() })
+    }
+
+    @Test
+    fun importLeavesExistingSpeciesWithIconCompletelyUntouched() = runBlocking {
+        val sourceFs = FakeFileSystem()
+        sourceFs.write("/catimg_user_3.png".toPath()) { write(ByteArray(10) { 9 }) }
+        val nameKey = "user_3"
+        val sourceCategories = FakeCategoryRepository(
+            listOf(category(1, MISC_CATEGORY_NAME_KEY), userCategory(2, nameKey, iconFile = "catimg_user_3.png")),
+        )
+        val walks = FakeWalkRepository()
+        val walkId = walks.insert(
+            Walk(
+                id = 0, name = "П", startTime = 1, endTime = null, distanceMeters = 0.0, avgSpeed = 0.0,
+                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 1, thumbnailPath = null,
+            ),
+        )
+        val fieldMarks = FakeFieldMarkRepository()
+        fieldMarks.addMark(
+            FieldMark(
+                0, walkId, categoryId = 2, lat = 0.0, lon = 0.0, timestamp = 1,
+                type = MarkType.MUSHROOM, photoPath = null, name = null, description = null,
+            ),
+        )
+
+        val exportUseCase = ExportDataUseCase(
+            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs,
+        )
+        val sink = Buffer()
+        exportUseCase(sink)
+        val archiveBytes = sink.readByteArray()
+
+        val destFs = FakeFileSystem()
+        destFs.write("/catimg_user_3_local.png".toPath()) { write(ByteArray(5) { 1 }) }
+        val existingLocal = userCategory(20, nameKey, iconFile = "catimg_user_3_local.png")
+        val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY), existingLocal))
+        val importUseCase = ImportDataUseCase(
+            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
+            destCategories, FakePhotoStorage(), destFs,
+        )
+        importUseCase(archiveBytes, "")
+
+        val merged = destCategories.observeAll().first().single { it.nameKey == nameKey }
+        assertEquals("catimg_user_3_local.png", merged.iconFile)
+    }
+
+    @Test
+    fun repeatedImportOfSameArchiveDuplicatesWalksButNotSpecies() = runBlocking {
+        val sourceFs = FakeFileSystem()
+        sourceFs.write("/catimg_user_4.png".toPath()) { write(ByteArray(4) { 2 }) }
+        val nameKey = "user_4"
+        val sourceCategories = FakeCategoryRepository(
+            listOf(category(1, MISC_CATEGORY_NAME_KEY), userCategory(2, nameKey, iconFile = "catimg_user_4.png")),
+        )
+        val walks = FakeWalkRepository()
+        val walkId = walks.insert(
+            Walk(
+                id = 0, name = "П", startTime = 1, endTime = null, distanceMeters = 0.0, avgSpeed = 0.0,
+                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 1, thumbnailPath = null,
+            ),
+        )
+        val fieldMarks = FakeFieldMarkRepository()
+        fieldMarks.addMark(
+            FieldMark(
+                0, walkId, categoryId = 2, lat = 0.0, lon = 0.0, timestamp = 1,
+                type = MarkType.MUSHROOM, photoPath = null, name = null, description = null,
+            ),
+        )
+
+        val exportUseCase = ExportDataUseCase(
+            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs,
+        )
+        val sink = Buffer()
+        exportUseCase(sink)
+        val archiveBytes = sink.readByteArray()
+
+        val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY)))
+        val destWalks = FakeWalkRepository()
+        val importUseCase = ImportDataUseCase(
+            destWalks, FakeTrackPointRepository(), FakeFieldMarkRepository(),
+            destCategories, FakePhotoStorage(), FakeFileSystem(),
+        )
+        importUseCase(archiveBytes, "")
+        importUseCase(archiveBytes, "")
+
+        assertEquals(2, destWalks.observeAll().first().size)
+        assertEquals(1, destCategories.observeAll().first().count { it.nameKey == nameKey })
+    }
+
+    @Test
+    fun importsOldArchiveWithoutCategoriesFolder() = runBlocking {
+        val categories = FakeCategoryRepository(listOf(category(1, MISC_CATEGORY_NAME_KEY)))
+
+        val sink = Buffer()
+        val writer = ZipWriter(sink)
+        writer.writeEntry(
+            MANIFEST_ENTRY_NAME,
+            ExportJson.encodeToString(ExportManifestDto(schemaVersion = 1, exportedAt = 0, walkCount = 1)).encodeToByteArray(),
+        )
+        writer.writeEntry(
+            "${walkDirectory(1)}/$WALK_ENTRY_NAME",
+            """{"originalId":1,"name":"Old","startTime":1,"endTime":null,"distanceMeters":0.0,""" +
+                """"avgSpeed":0.0,"startLat":0.0,"startLon":0.0,"endLat":null,"endLon":null,"mushroomCount":0}""",
+        )
+        writer.finish()
+
+        val importUseCase = ImportDataUseCase(
+            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
+            categories, FakePhotoStorage(), FakeFileSystem(),
+        )
+        val result = importUseCase(sink.readByteArray(), "")
+
+        assertEquals(1, result.importedWalkCount)
+        assertEquals(0, result.failedWalkCount)
     }
 }
 

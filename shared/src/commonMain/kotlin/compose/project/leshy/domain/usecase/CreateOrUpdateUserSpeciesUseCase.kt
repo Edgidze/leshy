@@ -10,8 +10,9 @@ import compose.project.leshy.domain.util.scientificNameFallback
 import kotlin.random.Random
 
 /** Between the bundled catalog (`order` 0–29) and the service `category_misc` (`order` 999) — same
- * band `DebugUserCategoryUseCase` used to occupy. */
-private const val USER_SPECIES_ORDER = 500
+ * band `DebugUserCategoryUseCase` used to occupy. Also used by [ImportDataUseCase] for species
+ * created from an archive — not `private` for that reason. */
+internal const val USER_SPECIES_ORDER = 500
 
 /** `nameKey` is the only identifier the export/import merge (Phase 6 of
  * `.claude/plans/user-mushrooms.md`) is allowed to key on — never the display name or scientific

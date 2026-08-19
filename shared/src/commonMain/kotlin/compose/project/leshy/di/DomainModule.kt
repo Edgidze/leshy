@@ -44,7 +44,7 @@ val domainModule = module {
     factory { AddPlaceMarkUseCase(get(), get()) }
     factory { UpdatePlaceMarkUseCase(get()) }
     factory { DeletePlaceMarkUseCase(get()) }
-    factory { ExportDataUseCase(get(), get(), get(), get()) }
+    factory { ExportDataUseCase(get(), get(), get(), get(), get()) }
     factory { ImportDataUseCase(get(), get(), get(), get(), get()) }
     factory { RefreshMapDataUseCase(get(), get()) }
     factory { CreateOrUpdateUserSpeciesUseCase(get(), get()) }
