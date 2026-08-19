@@ -130,6 +130,23 @@ ViewModel-зависимости на стиль вообще). Дальше п�
   MapLibre сама загрузить тайлы. Баннер показывается, если сработал ЛИБО
   `onMapLoadFailed`, ЛИБО пробник — не дожидаясь второго, если первый уже
   подтвердил проблему.
+  **Первая версия пробника не работала вообще** — подтверждено вторым живым
+  репортом (баннер по-прежнему не появлялся, хотя нужный код уже стоял на
+  устройстве — проверено вытаскиванием установленного APK и поиском
+  символа `isTileHostReachable` в dex). Причина —
+  `AndroidHttpTextFetcher` (`data/platform/`) не задавал
+  `connectTimeout`/`readTimeout` на `HttpURLConnection` (по умолчанию —
+  без таймаута вообще). ISP, тихо роняющий пакеты (не сбрасывающий
+  соединение активно), подвешивал блокирующий сетевой вызов НАВСЕГДА —
+  а `withTimeoutOrNull` вокруг него в `isTileHostReachable` НЕ спасает:
+  отмена корутины кооперативная, блокирующий `java.net`-вызов внутри
+  `withContext(Dispatchers.IO)` её не видит и не проверяет. Реальным
+  таймаутом обязано быть свойство самого соединения
+  (`connection.connectTimeout`/`readTimeout`, сейчас 5с), не внешний
+  `withTimeoutOrNull` — тот в лучшем случае подстраховка. На iOS этой
+  проблемы нет: `IosHttpTextFetcher` — на `suspendCancellableCoroutine`+
+  `NSURLSessionDataTask`, отмена которого (`task.cancel()`) честно
+  кооперативная.
 - **`Dispatchers.IO` — `internal` на Kotlin/Native**, не резолвится в
   `commonMain` (в отличие от JVM/Android) — `MapStyleCacheRepository`
   использует `Dispatchers.Default` для файлового I/O и сетевого запроса
