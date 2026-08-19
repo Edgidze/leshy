@@ -78,6 +78,7 @@ import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.presentation.searchOrderedCategories
 import compose.project.leshy.presentation.record.NavigationOverlayState
 import compose.project.leshy.ui.components.AddPlaceDialog
+import compose.project.leshy.ui.components.AddSpeciesTile
 import compose.project.leshy.ui.components.DeletePlaceConfirmDialog
 import compose.project.leshy.ui.components.MapFilterButton
 import compose.project.leshy.ui.components.MapFilterDialog
@@ -86,6 +87,7 @@ import compose.project.leshy.ui.components.MushroomTile
 import compose.project.leshy.ui.components.NavigationOverlayPanel
 import compose.project.leshy.ui.components.PlaceViewDialog
 import compose.project.leshy.ui.components.RECORD_MUSHROOM_TILE_WIDTH
+import compose.project.leshy.ui.components.SpeciesFormDialog
 import compose.project.leshy.ui.map.LiveTrackMap
 import compose.project.leshy.ui.map.MapMarker
 import compose.project.leshy.ui.map.PlaceMarker
@@ -141,6 +143,7 @@ fun RecordScreen(
         onAddMushroom = viewModel::addMushroom,
         onAddMushrooms = viewModel::addMushrooms,
         onRemoveMushroom = viewModel::removeMushroom,
+        onSaveSpecies = viewModel::saveNewSpecies,
         onFilterClick = { showFilterDialog = true },
         onMarkLocationClick = { showAddPlaceDialog = true },
         onSearchClick = { showSearchDialog = true },
@@ -223,6 +226,7 @@ private fun RecordScreenContent(
     onRemoveMushroom: (Long) -> Unit,
     onFilterClick: () -> Unit,
     onAddMushrooms: (Long, Int) -> Unit = { _, _ -> },
+    onSaveSpecies: (String, String?, EdibilityStatus, String, ByteArray?) -> Unit = { _, _, _, _, _ -> },
     onMarkLocationClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onPlaceClick: (Long) -> Unit = {},
@@ -232,6 +236,7 @@ private fun RecordScreenContent(
 ) {
     var showNameDialog by remember { mutableStateOf(false) }
     var bulkAddCategoryId by remember { mutableStateOf<Long?>(null) }
+    var showAddSpeciesDialog by remember { mutableStateOf(false) }
     val categoryById = uiState.categories.associateBy { it.id }
     val tileListState = rememberLazyListState()
 
@@ -436,6 +441,12 @@ private fun RecordScreenContent(
                             modifier = Modifier.width(TILE_WIDTH),
                         )
                     }
+                    item {
+                        AddSpeciesTile(
+                            onClick = { showAddSpeciesDialog = true },
+                            modifier = Modifier.width(TILE_WIDTH),
+                        )
+                    }
                 }
             }
         }
@@ -457,6 +468,15 @@ private fun RecordScreenContent(
             category = bulkAddCategory,
             onConfirm = { count -> onAddMushrooms(bulkAddCategory.id, count) },
             onDismissRequest = { bulkAddCategoryId = null },
+        )
+    }
+
+    if (showAddSpeciesDialog) {
+        SpeciesFormDialog(
+            existing = null,
+            language = LocalAppLanguage.current,
+            onSave = onSaveSpecies,
+            onDismissRequest = { showAddSpeciesDialog = false },
         )
     }
 }

@@ -41,8 +41,9 @@
   каскад (гашение `isActive`, когда вид перестаёт быть `isFilterEligible`)
   живёт в `RecalculateFilterEligibilityUseCase`, а не здесь — `MapFilterViewModel`
   только читает уже пересчитанное состояние.
-- **iOS-визуальный проход (Phase 4)**: диалог фильтра, пикер подборок в
-  Настройках и каскад `isPicked`→`isActive` из Phase 2 воспроизведены на
+- **iOS-визуальный проход (Phase 4)**: диалог фильтра, пикер подборок
+  (тогда ещё в Настройках, с `user-mushrooms.md` Phase 4 переехал в раздел
+  «Грибы» — см. ниже) и каскад `isPicked`→`isActive` из Phase 2 воспроизведены на
   симуляторе идентично Android — общий `commonMain`-код, платформенных
   расхождений в этой фиче нет. Единственный найденный на iOS баг был не в
   этой части, а в `OnboardingScreen` (см. `ui/navigation/CLAUDE.md`).
@@ -66,3 +67,15 @@
      полный» диапазон всё равно считался «уже полного». Фикс — сравнивать
      ВЕЗДЕ (коммит слайдера, `matchesDateAndSeason`, сам счётчик) по одной и
      той же гранулярности суток через общую `const val MILLIS_PER_DAY`.
+
+## `SpeciesViewModel` — не `SettingsViewModel` — владеет пикером подборок
+
+`.claude/plans/user-mushrooms.md`, Phase 4: `collectionPickerItems`/
+`toggleCollection`/`setCategoryPicked` переехали из `SettingsViewModel` в
+новый `presentation/species/SpeciesViewModel.kt` вместе с самим
+`CollectionPicker` (теперь на экране «Грибы», `ui/screens/SpeciesScreen.kt`,
+а не в `SettingsScreen`). Причина переезда — не техническая, а по месту: у
+раздела «Грибы» подборки и «Мои грибы» — одна логическая группа (выбор,
+какие виды показывать/добавлять), Настройки остались только про
+язык/размер-маркера/сортировку/данные карты. `SettingsViewModel` эту логику
+больше не знает вообще — искать её теперь здесь, а не в Settings.

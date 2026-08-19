@@ -1,0 +1,146 @@
+package compose.project.leshy.ui.screens
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.CategorySource
+import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.categoryDisplayName
+import compose.project.leshy.i18n.stringResource
+import compose.project.leshy.presentation.species.SpeciesViewModel
+import compose.project.leshy.ui.components.CategoryIcon
+import compose.project.leshy.ui.components.CollectionPicker
+import compose.project.leshy.ui.components.SpeciesFormDialog
+import org.koin.compose.viewmodel.koinViewModel
+
+@Composable
+fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = koinViewModel()) {
+    val uiState by viewModel.uiState.collectAsState()
+    var editingSpecies by remember { mutableStateOf<Category?>(null) }
+    var showCreateDialog by remember { mutableStateOf(false) }
+
+    Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp)) {
+        Text(
+            stringResource(StringKey.SpeciesCollectionsTitle),
+            modifier = Modifier.padding(bottom = 8.dp),
+        )
+        CollectionPicker(
+            items = uiState.collectionPickerItems,
+            onToggleCollection = viewModel::toggleCollection,
+            onToggleCategory = viewModel::setCategoryPicked,
+        )
+
+        Text(
+            stringResource(StringKey.SpeciesMyMushroomsTitle),
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+        )
+        if (uiState.userSpecies.isEmpty()) {
+            Text(
+                stringResource(StringKey.SpeciesMyMushroomsEmpty),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 8.dp),
+            )
+        } else {
+            uiState.userSpecies.forEach { species ->
+                UserSpeciesRow(
+                    category = species,
+                    onToggleVisibility = { viewModel.toggleSpeciesVisibility(species) },
+                    onEditClick = { editingSpecies = species },
+                )
+            }
+        }
+
+        Button(
+            onClick = { showCreateDialog = true },
+            modifier = Modifier.padding(top = 8.dp),
+        ) {
+            Icon(imageVector = Icons.Filled.Add, contentDescription = null)
+            Text(stringResource(StringKey.SpeciesAddButton))
+        }
+    }
+
+    if (showCreateDialog) {
+        SpeciesFormDialog(
+            existing = null,
+            language = uiState.language,
+            onSave = { name, scientificName, edibility, colorHex, iconBytes ->
+                viewModel.saveSpecies(null, name, scientificName, edibility, colorHex, iconBytes)
+            },
+            onDismissRequest = { showCreateDialog = false },
+        )
+    }
+
+    val speciesBeingEdited = editingSpecies
+    if (speciesBeingEdited != null) {
+        SpeciesFormDialog(
+            existing = speciesBeingEdited,
+            language = uiState.language,
+            onSave = { name, scientificName, edibility, colorHex, iconBytes ->
+                viewModel.saveSpecies(speciesBeingEdited, name, scientificName, edibility, colorHex, iconBytes)
+            },
+            onDismissRequest = { editingSpecies = null },
+        )
+    }
+}
+
+@Composable
+private fun UserSpeciesRow(
+    category: Category,
+    onToggleVisibility: () -> Unit,
+    onEditClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        CategoryIcon(category = category, modifier = Modifier.size(48.dp))
+        Column(modifier = Modifier.weight(1f).padding(start = 12.dp)) {
+            Text(categoryDisplayName(category))
+            if (category.source == CategorySource.IMPORTED) {
+                Text(
+                    stringResource(StringKey.SpeciesListImportedLabel),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+        Row {
+            IconButton(onClick = onToggleVisibility) {
+                Icon(
+                    imageVector = if (category.isPicked) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                    contentDescription = stringResource(StringKey.SpeciesListToggleVisibilityContentDescription),
+                )
+            }
+            IconButton(onClick = onEditClick) {
+                Icon(
+                    imageVector = Icons.Filled.Edit,
+                    contentDescription = stringResource(StringKey.SpeciesListEditContentDescription),
+                )
+            }
+        }
+    }
+}

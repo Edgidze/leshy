@@ -31,6 +31,9 @@ sealed interface Destination {
 
     @Serializable
     data object Data : Destination
+
+    @Serializable
+    data object Species : Destination
 }
 
 /**

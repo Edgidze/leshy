@@ -14,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Eco
 import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Place
@@ -83,6 +84,11 @@ fun HomeScreen(onNavigate: (Destination) -> Unit) {
                 label = StringKey.NavMap,
                 icon = Icons.Filled.Place,
                 onClick = { onNavigate(Destination.Map) },
+            )
+            HomeNavButton(
+                label = StringKey.NavSpecies,
+                icon = Icons.Filled.Eco,
+                onClick = { onNavigate(Destination.Species) },
             )
             HomeNavButton(
                 label = StringKey.NavPreparation,

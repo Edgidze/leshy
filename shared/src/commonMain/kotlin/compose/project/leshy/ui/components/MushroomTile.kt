@@ -2,6 +2,7 @@ package compose.project.leshy.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
@@ -26,6 +27,7 @@ import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -45,7 +47,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
+import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
+import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.ui.theme.LeshyTheme
 import compose.project.leshy.ui.util.parseHexColor
 import kotlin.time.Duration.Companion.seconds
@@ -101,6 +105,40 @@ fun MushroomTile(
                 MushroomAddButton(onClick = onAdd, onLongHold = onBulkAdd)
             }
             MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
+        }
+    }
+}
+
+/**
+ * Rightmost, permanent entry in Record's tile feed (`.claude/plans/user-mushrooms.md`, Phase 4) —
+ * not backed by a [Category], just an oversized "+" and a label, opening the species creation form
+ * right there on the record screen so a walk in progress is never interrupted. Same footprint as
+ * [MushroomTile] (border + rounded card) so it reads as part of the same strip, not a stray button.
+ */
+@Composable
+fun AddSpeciesTile(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.fillMaxWidth().clickable(onClick = onClick),
+        border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().aspectRatio(1f).padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Add,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(40.dp),
+            )
+            Text(
+                text = stringResource(StringKey.SpeciesAddButton),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.primary,
+            )
         }
     }
 }

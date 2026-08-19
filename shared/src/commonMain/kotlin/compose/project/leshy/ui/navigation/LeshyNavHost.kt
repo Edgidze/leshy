@@ -21,6 +21,7 @@ import compose.project.leshy.ui.screens.MapScreen
 import compose.project.leshy.ui.screens.PreparationScreen
 import compose.project.leshy.ui.screens.RecordScreen
 import compose.project.leshy.ui.screens.SettingsScreen
+import compose.project.leshy.ui.screens.SpeciesScreen
 import compose.project.leshy.ui.screens.WalkDetailScreen
 import compose.project.leshy.ui.screens.WalkMapScreen
 import org.koin.compose.viewmodel.koinViewModel
@@ -126,6 +127,12 @@ fun LeshyNavHost(
                     modifier = Modifier.padding(padding),
                 )
             }
+        }
+        composable<Destination.Species> {
+            SectionScaffold(
+                title = StringKey.NavSpecies,
+                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
+            ) { padding -> SpeciesScreen(modifier = Modifier.padding(padding)) }
         }
     }
 }

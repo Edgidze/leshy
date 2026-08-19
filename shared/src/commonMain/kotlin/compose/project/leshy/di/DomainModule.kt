@@ -3,7 +3,7 @@ package compose.project.leshy.di
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.AddPlaceMarkUseCase
 import compose.project.leshy.domain.usecase.BackfillWalkThumbnailsUseCase
-import compose.project.leshy.domain.usecase.DebugUserCategoryUseCase
+import compose.project.leshy.domain.usecase.CreateOrUpdateUserSpeciesUseCase
 import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
@@ -20,6 +20,7 @@ import compose.project.leshy.domain.usecase.RepairPhotoPathsUseCase
 import compose.project.leshy.domain.usecase.SetCategoryPickedUseCase
 import compose.project.leshy.domain.usecase.SetCollectionPickedUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
+import compose.project.leshy.domain.usecase.ToggleUserSpeciesVisibilityUseCase
 import compose.project.leshy.domain.usecase.UpdatePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.UpdateWalkThumbnailUseCase
 import org.koin.dsl.module
@@ -46,6 +47,6 @@ val domainModule = module {
     factory { ExportDataUseCase(get(), get(), get(), get()) }
     factory { ImportDataUseCase(get(), get(), get(), get(), get()) }
     factory { RefreshMapDataUseCase(get(), get()) }
-    // TEMPORARY (Phase 1, `.claude/plans/user-mushrooms.md`) — drop with the Settings debug button.
-    factory { DebugUserCategoryUseCase(get(), get(), get()) }
+    factory { CreateOrUpdateUserSpeciesUseCase(get(), get()) }
+    factory { ToggleUserSpeciesVisibilityUseCase(get()) }
 }

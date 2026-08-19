@@ -9,6 +9,7 @@ import compose.project.leshy.presentation.onboarding.OnboardingViewModel
 import compose.project.leshy.presentation.preparation.PreparationViewModel
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.presentation.settings.SettingsViewModel
+import compose.project.leshy.presentation.species.SpeciesViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -16,14 +17,17 @@ val presentationModule = module {
     viewModel {
         RecordViewModel(
             get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),
-            get(), get(), get(), get(), get(), get(),
+            get(), get(), get(), get(), get(), get(), get(),
         )
     }
     viewModel { ArchiveViewModel(get(), get(), get(), get(), get()) }
     viewModel { params -> WalkDetailViewModel(params.get(), get(), get(), get(), get(), get(), get()) }
     viewModel { MapViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel {
-        SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get())
+        SettingsViewModel(get(), get(), get(), get(), get(), get())
+    }
+    viewModel {
+        SpeciesViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get())
     }
     viewModel { MapFilterViewModel(get(), get(), get(), get()) }
     viewModel { DataViewModel(get(), get(), get(), get(), get()) }

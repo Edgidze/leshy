@@ -8,6 +8,7 @@ import compose.project.leshy.data.platform.WalkThumbnailRenderer
 import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.domain.model.MarkType
@@ -18,6 +19,7 @@ import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.repository.WalkRepository
 import compose.project.leshy.domain.usecase.AddMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.AddPlaceMarkUseCase
+import compose.project.leshy.domain.usecase.CreateOrUpdateUserSpeciesUseCase
 import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
@@ -90,6 +92,7 @@ class RecordViewModel(
     private val deletePlaceMark: DeletePlaceMarkUseCase,
     private val walkThumbnailRenderer: WalkThumbnailRenderer,
     private val updateWalkThumbnail: UpdateWalkThumbnailUseCase,
+    private val createOrUpdateUserSpecies: CreateOrUpdateUserSpeciesUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RecordUiState())
@@ -418,6 +421,34 @@ class RecordViewModel(
         viewModelScope.launch {
             deletePlaceMark(mark)
             _uiState.update { state -> state.copy(marks = state.marks.filter { it.id != mark.id }) }
+        }
+    }
+
+    /**
+     * Second entry point for creating a user species (`.claude/plans/user-mushrooms.md`, Phase 4)
+     * — the rightmost "Добавить гриб" tile on Record's feed opens the same form as the "Грибы"
+     * section, but saving here brings the new tile straight to the front of the feed instead of
+     * navigating anywhere, so a walk in progress is never interrupted. No find is logged
+     * automatically — the user still taps the tile's own "+" to mark it, same as any other tile.
+     */
+    fun saveNewSpecies(
+        name: String,
+        scientificNameInput: String?,
+        edibilityStatus: EdibilityStatus,
+        colorHex: String,
+        iconPngBytes: ByteArray?,
+    ) {
+        viewModelScope.launch {
+            val saved = createOrUpdateUserSpecies(
+                null,
+                name,
+                scientificNameInput,
+                currentLanguage,
+                edibilityStatus,
+                colorHex,
+                iconPngBytes,
+            )
+            bringCategoryToFront(saved.id)
         }
     }
 
