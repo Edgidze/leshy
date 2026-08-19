@@ -337,6 +337,30 @@ class RecordViewModel(
     }
 
     /**
+     * Bulk-add version of [addMushroom] — logs [count] separate finds at the current (last known)
+     * location, exactly as if the + button had been tapped [count] times in a row. Each find is
+     * still its own [addMushroomMark] call (own row, own commit) rather than a single use case
+     * that writes a combined count, so it stays consistent with the rest of the app treating one
+     * [FieldMark] row per find (thumbnail rendering, walk detail stats, etc).
+     */
+    fun addMushrooms(categoryId: Long, count: Int) {
+        if (count <= 0) return
+        val currentWalkId = walkId ?: return
+        viewModelScope.launch {
+            val location = _uiState.value.currentLocation
+            val newMarks = (1..count).map {
+                addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
+            }
+            bringCategoryToFront(categoryId)
+            _uiState.update { state ->
+                val counts = state.mushroomCounts.toMutableMap()
+                counts[categoryId] = (counts[categoryId] ?: 0) + count
+                state.copy(mushroomCounts = counts, marks = state.marks + newMarks)
+            }
+        }
+    }
+
+    /**
      * Moves [categoryId]'s tile to the front of the feed without logging a find — used both by
      * [addMushroom] and by the search dialog, where picking a result should surface its tile
      * (per the user description) but not itself count as a find.

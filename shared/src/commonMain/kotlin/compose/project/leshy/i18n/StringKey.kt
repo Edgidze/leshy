@@ -76,6 +76,8 @@ enum class StringKey {
     RecordMarkLocationContentDescription,
     RecordSearchContentDescription,
     RecordSearchDialogTitle,
+    RecordBulkAddQuestion,
+    RecordBulkAddCancelContentDescription,
 
     NavigationDirectionToPrefix,
     NavigationDistanceToTargetPrefix,
