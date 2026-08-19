@@ -169,36 +169,41 @@ private fun MapStatsView(stats: MapStats, modifier: Modifier = Modifier) {
         return
     }
 
-    Column(modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 50.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(stringResource(StringKey.MapStatsWalksCount))
-            Text(stats.walkCount.toString())
+    LazyColumn(modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 50.dp)) {
+        item {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(stringResource(StringKey.MapStatsWalksCount))
+                Text(stats.walkCount.toString())
+            }
         }
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(stringResource(StringKey.WalkDetailDistance))
-            Text(formatDistanceKm(stats.totalDistanceMeters))
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(stringResource(StringKey.WalkDetailDistance))
+                Text(formatDistanceKm(stats.totalDistanceMeters))
+            }
         }
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(stringResource(StringKey.MapStatsFindsCount))
-            Text(stats.totalMushroomCount.toString())
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(stringResource(StringKey.MapStatsFindsCount))
+                Text(stats.totalMushroomCount.toString())
+            }
         }
-
-        Text(
-            stringResource(StringKey.WalkDetailFindsTitle),
-            modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
-        )
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            items(stats.categoryCounts) { entry ->
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(categoryDisplayName(entry.category.nameKey))
-                    Text(entry.count.toString())
-                }
+        item {
+            Text(
+                stringResource(StringKey.WalkDetailFindsTitle),
+                modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
+            )
+        }
+        items(stats.categoryCounts) { entry ->
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(categoryDisplayName(entry.category.nameKey))
+                Text(entry.count.toString())
             }
         }
     }
