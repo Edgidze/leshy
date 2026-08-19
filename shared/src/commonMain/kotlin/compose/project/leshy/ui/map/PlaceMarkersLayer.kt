@@ -23,15 +23,31 @@ data class PlaceMarker(val id: Long, val lat: Double, val lon: Double, val photo
  * file already uses, just with the group size always 1. No clustering — each place is an
  * individually user-authored note, not a density signal like finds are.
  *
- * Must be called directly inside a `MaplibreMap { ... }` block. [onPlaceClick] fires with the
- * tapped place's [PlaceMarker.id] — resolved trivially per-layer (each layer's `onClick` already
- * knows which place it belongs to via the [key]/closure), no GeoJSON feature-property lookup
- * needed. [idPrefix] keeps layer/source ids from colliding if this is called twice on the same map
- * (e.g. `LiveTrackMap`'s current-walk places plus a background layer of other walks' places — same
- * rationale as `ClusteredFindsLayers.idPrefix`).
+ * Must be called directly inside a `MaplibreMap { ... }` block. [onPlaceClick]/[onPlaceLongPress]
+ * fire with the tapped/held place's [PlaceMarker.id] — resolved trivially per-layer (each layer's
+ * `onClick`/`onLongClick` already knows which place it belongs to via the [key]/closure), no
+ * GeoJSON feature-property lookup needed. [idPrefix] keeps layer/source ids from colliding if this
+ * is called twice on the same map (e.g. `LiveTrackMap`'s current-walk places plus a background
+ * layer of other walks' places — same rationale as `ClusteredFindsLayers.idPrefix`).
+ *
+ * [onPlaceLongPress] is the map's own native long-click gesture (`addOnMapLongClickListener`
+ * Android-side, a `UILongPressGestureRecognizer` registered directly on the `MLNMapView`
+ * iOS-side) — deliberately NOT a Compose `pointerInput` sibling drawn on top of the map. An
+ * earlier version tried exactly that (`MarkerLongPressOverlay.kt`, removed) and it silently never
+ * fired on iOS: `IosMapView.kt`'s embedded `MLNMapView` uses `UIKitInteropInteractionMode
+ * .NonCooperative`, under which touches landing inside the interop view's bounds never reach a
+ * sibling Compose composable at all, regardless of z-order or how small its hit target is. Routing
+ * through the layer's own native recognizer sidesteps that entirely, at the cost of losing control
+ * over the hold duration — it's whatever `UILongPressGestureRecognizer`/Android's `GestureDetector`
+ * default to (~500ms), since the library exposes no way to configure it.
  */
 @Composable
-fun PlaceMarkersLayer(places: List<PlaceMarker>, onPlaceClick: (Long) -> Unit, idPrefix: String = "place") {
+fun PlaceMarkersLayer(
+    places: List<PlaceMarker>,
+    onPlaceClick: (Long) -> Unit,
+    idPrefix: String = "place",
+    onPlaceLongPress: (Long) -> Unit = {},
+) {
     places.forEach { place ->
         key(place.id) {
             val painter = rememberPlaceMarkerPainter(place.photoPath)
@@ -43,6 +59,7 @@ fun PlaceMarkersLayer(places: List<PlaceMarker>, onPlaceClick: (Long) -> Unit, i
                 iconAnchor = const(SymbolAnchor.Bottom),
                 iconAllowOverlap = const(true),
                 onClick = { onPlaceClick(place.id); ClickResult.Consume },
+                onLongClick = { onPlaceLongPress(place.id); ClickResult.Consume },
             )
         }
     }

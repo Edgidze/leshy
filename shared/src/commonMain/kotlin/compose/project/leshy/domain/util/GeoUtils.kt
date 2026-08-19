@@ -31,6 +31,15 @@ fun bearingDegrees(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Doub
     return (radToDeg(atan2(y, x)) + 360.0) % 360.0
 }
 
+/**
+ * Under forest canopy (this app's actual use case) GPS accuracy commonly degrades to 15-30m, well
+ * past the 5-10m open-sky norm — a tight threshold would leave the target flickering between
+ * "arrived" and a turn direction as fixes jitter around it.
+ */
+private const val ARRIVAL_THRESHOLD_METERS = 15.0
+
+fun hasArrived(distanceMeters: Double): Boolean = distanceMeters <= ARRIVAL_THRESHOLD_METERS
+
 enum class TurnDirection { LEFT, RIGHT, AHEAD }
 
 data class TurnRecommendation(val direction: TurnDirection, val degrees: Double)

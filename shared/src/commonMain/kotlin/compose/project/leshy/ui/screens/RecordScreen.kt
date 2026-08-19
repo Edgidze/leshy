@@ -81,17 +81,13 @@ import compose.project.leshy.ui.components.PlaceViewDialog
 import compose.project.leshy.ui.components.RECORD_MUSHROOM_TILE_WIDTH
 import compose.project.leshy.ui.map.LiveTrackMap
 import compose.project.leshy.ui.map.MapMarker
-import compose.project.leshy.ui.map.MarkerLongPressOverlay
-import compose.project.leshy.ui.map.NavigationTargetCandidate
 import compose.project.leshy.ui.map.PlaceMarker
-import compose.project.leshy.ui.map.defaultLiveTrackCameraPosition
 import compose.project.leshy.ui.theme.LeshyTheme
 import compose.project.leshy.ui.util.formatDateOnly
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDuration
 import compose.project.leshy.ui.util.parseHexColor
 import org.koin.compose.viewmodel.koinViewModel
-import org.maplibre.compose.camera.rememberCameraState
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
@@ -244,9 +240,8 @@ private fun RecordScreenContent(
             Text(formatDistanceKm(uiState.distanceMeters), style = MaterialTheme.typography.titleLarge)
         }
 
-        // Current walk's own POI marks plus past walks' ones, deduped — shared between the map's
-        // place layers and the navigation long-press overlay's hit-test candidates so the two never
-        // drift apart (see LiveTrackMap's historicalPlaces param doc for why the dedup matters).
+        // Current walk's own POI marks plus past walks' ones, deduped — see LiveTrackMap's
+        // historicalPlaces param doc for why the dedup matters.
         val currentPlaceMarks = uiState.marks.filter { it.type == MarkType.POI }
         val dedupedHistoricalPlaces = uiState.historicalPlaces
             .filterNot { historical -> uiState.marks.any { it.id == historical.id } }
@@ -260,9 +255,6 @@ private fun RecordScreenContent(
                     modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant),
                 )
             } else {
-                val cameraState = rememberCameraState(
-                    firstPosition = defaultLiveTrackCameraPosition(uiState.currentLocation),
-                )
                 LiveTrackMap(
                     track = uiState.trackPoints,
                     markers = uiState.marks.filter { it.type != MarkType.POI }.map { mark ->
@@ -293,23 +285,14 @@ private fun RecordScreenContent(
                     // hit-tests first would silently swallow taps meant for the interactive layer.
                     historicalPlaces = dedupedHistoricalPlaces
                         .map { mark -> PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath) },
+                    // Place markers can't yet be long-pressed on an unstarted walk — same gating as
+                    // the "mark location" button.
+                    onPlaceLongPress = { id -> if (uiState.isRecording) onMarkerLongPressed(id) },
                     currentLocation = uiState.currentLocation,
-                    cameraState = cameraState,
+                    navigationTargetLat = uiState.navigationTarget?.targetLat,
+                    navigationTargetLon = uiState.navigationTarget?.targetLon,
                     modifier = Modifier.fillMaxSize(),
                 )
-
-                // Only reachable once a walk is actually recording — place markers can't yet be
-                // long-pressed on an unstarted walk (same gating as the "mark location" button).
-                if (uiState.isRecording) {
-                    MarkerLongPressOverlay(
-                        cameraState = cameraState,
-                        candidates = (currentPlaceMarks + dedupedHistoricalPlaces)
-                            .map { NavigationTargetCandidate(it.id, it.lat, it.lon) },
-                        onMarkerTapped = onPlaceClick,
-                        onMarkerLongPressed = onMarkerLongPressed,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
             }
 
             // 31.dp clears the native scale bar, which now shares this corner (see
@@ -677,9 +660,44 @@ private fun RecordScreenNavigatingPreview() {
                 navigationTarget = NavigationOverlayState(
                     targetId = 1L,
                     targetName = "Старый пень",
+                    targetLat = 55.7522,
+                    targetLon = 37.6156,
                     distanceMeters = 87.0,
+                    hasArrived = false,
                     turnDirection = TurnDirection.RIGHT,
                     turnDegrees = 42.0,
+                ),
+            ),
+            onStartWalk = PREVIEW_NOOP_STRING,
+            onPauseOrResumeClick = PREVIEW_NOOP,
+            onFinishClick = PREVIEW_NOOP,
+            onAddMushroom = PREVIEW_NOOP_LONG,
+            onRemoveMushroom = PREVIEW_NOOP_LONG,
+            onFilterClick = PREVIEW_NOOP,
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun RecordScreenArrivedPreview() {
+    LeshyTheme {
+        RecordScreenContent(
+            uiState = RecordUiState(
+                categories = PREVIEW_CATEGORIES,
+                isRecording = true,
+                elapsedMillis = 125_000L,
+                distanceMeters = 1240.0,
+                mushroomCounts = mapOf(1L to 2, 3L to 1),
+                navigationTarget = NavigationOverlayState(
+                    targetId = 1L,
+                    targetName = "Старый пень",
+                    targetLat = 55.7522,
+                    targetLon = 37.6156,
+                    distanceMeters = 8.0,
+                    hasArrived = true,
+                    turnDirection = TurnDirection.AHEAD,
+                    turnDegrees = null,
                 ),
             ),
             onStartWalk = PREVIEW_NOOP_STRING,

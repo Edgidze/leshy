@@ -32,6 +32,7 @@ import compose.project.leshy.domain.usecase.UpdatePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.UpdateWalkThumbnailUseCase
 import compose.project.leshy.domain.util.bearingDegrees
 import compose.project.leshy.domain.util.computeFilterCount
+import compose.project.leshy.domain.util.hasArrived
 import compose.project.leshy.domain.util.haversineMeters
 import compose.project.leshy.domain.util.matchesDateAndSeason
 import compose.project.leshy.domain.util.turnRecommendation
@@ -213,7 +214,10 @@ class RecordViewModel(
                 NavigationOverlayState(
                     targetId = target.id,
                     targetName = target.name.orEmpty(),
+                    targetLat = target.lat,
+                    targetLon = target.lon,
                     distanceMeters = distance,
+                    hasArrived = hasArrived(distance),
                     turnDirection = turn?.direction,
                     turnDegrees = turn?.degrees,
                 )

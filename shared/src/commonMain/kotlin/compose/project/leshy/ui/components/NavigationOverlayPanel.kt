@@ -69,6 +69,7 @@ fun NavigationOverlayPanel(state: NavigationOverlayState, onCloseClick: () -> Un
 
 @Composable
 private fun navigationBodyText(state: NavigationOverlayState): String {
+    if (state.hasArrived) return stringResource(StringKey.NavigationArrivedPhrase)
     val direction = state.turnDirection ?: return stringResource(StringKey.NavigationDeterminingDirection)
     val distancePrefix = "${stringResource(StringKey.NavigationDistanceToTargetPrefix)} " +
         "${state.distanceMeters.roundToInt()} ${stringResource(StringKey.NavigationMetersSuffix)}"

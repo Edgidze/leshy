@@ -84,6 +84,7 @@ enum class StringKey {
     NavigationKeepLeftPhrase,
     NavigationGoStraightPhrase,
     NavigationDeterminingDirection,
+    NavigationArrivedPhrase,
     NavigationCloseContentDescription,
 
     AddPlaceTitle,

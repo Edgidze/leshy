@@ -141,6 +141,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.NavigationKeepLeftPhrase -> "держитесь левее на"
     StringKey.NavigationGoStraightPhrase -> "идите прямо"
     StringKey.NavigationDeterminingDirection -> "Определяем направление…"
+    StringKey.NavigationArrivedPhrase -> "Вы на месте"
     StringKey.NavigationCloseContentDescription -> "Закрыть"
 
     StringKey.AddPlaceTitle -> "Добавьте место"
@@ -356,6 +357,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.NavigationKeepLeftPhrase -> "keep left by"
     StringKey.NavigationGoStraightPhrase -> "go straight"
     StringKey.NavigationDeterminingDirection -> "Determining direction…"
+    StringKey.NavigationArrivedPhrase -> "You have arrived"
     StringKey.NavigationCloseContentDescription -> "Close"
 
     StringKey.AddPlaceTitle -> "Add a place"

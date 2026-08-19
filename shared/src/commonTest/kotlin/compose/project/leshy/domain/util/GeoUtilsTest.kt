@@ -48,4 +48,16 @@ class GeoUtilsTest {
         val result = turnRecommendation(courseBearingDegrees = 10.0, targetBearingDegrees = 12.0)
         assertEquals(TurnDirection.AHEAD, result.direction)
     }
+
+    @Test
+    fun hasArrivedWithinThreshold() {
+        assertTrue(hasArrived(0.0))
+        assertTrue(hasArrived(15.0))
+    }
+
+    @Test
+    fun hasArrivedFalsePastThreshold() {
+        assertTrue(!hasArrived(15.01))
+        assertTrue(!hasArrived(200.0))
+    }
 }

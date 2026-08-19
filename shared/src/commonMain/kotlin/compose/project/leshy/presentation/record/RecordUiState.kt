@@ -8,7 +8,10 @@ import compose.project.leshy.domain.util.TurnDirection
 data class NavigationOverlayState(
     val targetId: Long,
     val targetName: String,
+    val targetLat: Double,
+    val targetLon: Double,
     val distanceMeters: Double,
+    val hasArrived: Boolean,
     /** Null until enough GPS movement has occurred to derive a course-over-ground. */
     val turnDirection: TurnDirection?,
     /** Null for [TurnDirection.AHEAD] and while [turnDirection] itself is null. */
