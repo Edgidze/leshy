@@ -24,6 +24,7 @@ enum class ObjectType {
             entity = CategoryEntity::class,
             parentColumns = ["id"],
             childColumns = ["categoryId"],
+            onDelete = ForeignKey.CASCADE,
         ),
     ],
     indices = [Index("walkId"), Index("categoryId")],

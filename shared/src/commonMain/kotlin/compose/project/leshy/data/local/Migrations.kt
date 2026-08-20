@@ -105,3 +105,37 @@ val MIGRATION_6_7 = object : Migration(6, 7) {
         connection.execSQL("UPDATE categories SET edibilityStatus = 'NOT_SPECIFIED'")
     }
 }
+
+// Adds ON DELETE CASCADE to objects.categoryId -> categories.id, backing real species deletion
+// (.claude/plans/user-mushrooms.md, "Только скрытие..." section, superseded by Phase 9). Until now
+// that FK had no onDelete (NO ACTION), which is exactly why deletion was ruled out originally: with
+// PRAGMA foreign_keys ON (Room), deleting a category with existing finds threw a constraint
+// violation instead of taking them with it.
+//
+// SQLite cannot ALTER a FOREIGN KEY on an existing table, so this is the standard rebuild: create a
+// new table with the desired FK, copy the data, drop the old table, rename. No other table
+// references `objects` as a parent, so there's nothing else to re-point mid-migration. Column list,
+// types and index names below are copied verbatim from the exported v7 schema
+// (shared/schemas/.../7.json) other than the one changed FK clause.
+val MIGRATION_7_8 = object : Migration(7, 8) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL(
+            "CREATE TABLE IF NOT EXISTS `objects_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "`walkId` INTEGER NOT NULL, `categoryId` INTEGER NOT NULL, `lat` REAL NOT NULL, " +
+                "`lon` REAL NOT NULL, `timestamp` INTEGER NOT NULL, `type` TEXT NOT NULL, " +
+                "`photoPath` TEXT, `name` TEXT, `description` TEXT, " +
+                "FOREIGN KEY(`walkId`) REFERENCES `walks`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , " +
+                "FOREIGN KEY(`categoryId`) REFERENCES `categories`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        )
+        connection.execSQL(
+            "INSERT INTO `objects_new` (`id`, `walkId`, `categoryId`, `lat`, `lon`, `timestamp`, " +
+                "`type`, `photoPath`, `name`, `description`) " +
+                "SELECT `id`, `walkId`, `categoryId`, `lat`, `lon`, `timestamp`, `type`, `photoPath`, " +
+                "`name`, `description` FROM `objects`",
+        )
+        connection.execSQL("DROP TABLE `objects`")
+        connection.execSQL("ALTER TABLE `objects_new` RENAME TO `objects`")
+        connection.execSQL("CREATE INDEX IF NOT EXISTS `index_objects_walkId` ON `objects` (`walkId`)")
+        connection.execSQL("CREATE INDEX IF NOT EXISTS `index_objects_categoryId` ON `objects` (`categoryId`)")
+    }
+}

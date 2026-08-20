@@ -6,17 +6,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,7 +28,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.CategorySource
 import compose.project.leshy.i18n.StringKey
@@ -70,6 +75,7 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
                     category = species,
                     onToggleVisibility = { viewModel.toggleSpeciesVisibility(species) },
                     onEditClick = { editingSpecies = species },
+                    onDeleteClick = { viewModel.onDeleteSpeciesClick(species) },
                 )
             }
         }
@@ -105,6 +111,27 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
             onDismissRequest = { editingSpecies = null },
         )
     }
+
+    val pendingDelete = uiState.pendingDelete
+    if (pendingDelete != null) {
+        AlertDialog(
+            onDismissRequest = viewModel::onDeleteSpeciesDismiss,
+            modifier = Modifier.fillMaxWidth(0.9f),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+            title = { Text(stringResource(StringKey.SpeciesDeleteConfirmTitle)) },
+            text = { Text(stringResource(StringKey.SpeciesDeleteConfirmMessage)) },
+            confirmButton = {
+                TextButton(onClick = viewModel::onDeleteSpeciesConfirm) {
+                    Text(stringResource(StringKey.SpeciesDeleteConfirmYes))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = viewModel::onDeleteSpeciesDismiss) {
+                    Text(stringResource(StringKey.SpeciesDeleteConfirmNo))
+                }
+            },
+        )
+    }
 }
 
 @Composable
@@ -112,12 +139,24 @@ private fun UserSpeciesRow(
     category: Category,
     onToggleVisibility: () -> Unit,
     onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .toggleable(
+                value = category.isPicked,
+                onValueChange = { onToggleVisibility() },
+                role = Role.Checkbox,
+            )
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        CategoryIcon(category = category, modifier = Modifier.size(48.dp))
+        Checkbox(
+            checked = category.isPicked,
+            onCheckedChange = null,
+        )
+        CategoryIcon(category = category, modifier = Modifier.size(48.dp).padding(start = 4.dp))
         Column(modifier = Modifier.weight(1f).padding(start = 12.dp)) {
             Text(categoryDisplayName(category))
             if (category.source == CategorySource.IMPORTED) {
@@ -129,16 +168,16 @@ private fun UserSpeciesRow(
             }
         }
         Row {
-            IconButton(onClick = onToggleVisibility) {
-                Icon(
-                    imageVector = if (category.isPicked) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                    contentDescription = stringResource(StringKey.SpeciesListToggleVisibilityContentDescription),
-                )
-            }
             IconButton(onClick = onEditClick) {
                 Icon(
                     imageVector = Icons.Filled.Edit,
                     contentDescription = stringResource(StringKey.SpeciesListEditContentDescription),
+                )
+            }
+            IconButton(onClick = onDeleteClick) {
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = stringResource(StringKey.SpeciesListDeleteContentDescription),
                 )
             }
         }

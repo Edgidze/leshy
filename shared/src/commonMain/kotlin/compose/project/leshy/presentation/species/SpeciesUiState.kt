@@ -12,4 +12,7 @@ data class SpeciesUiState(
      * `isActive`/`isPicked`, so a hidden species stays reachable to un-hide — see
      * `.claude/plans/user-mushrooms.md`. */
     val userSpecies: List<Category> = emptyList(),
+    /** Species pending the delete confirmation dialog (`SpeciesScreen`'s "✕" button) — non-null
+     * while the dialog is showing. */
+    val pendingDelete: Category? = null,
 )

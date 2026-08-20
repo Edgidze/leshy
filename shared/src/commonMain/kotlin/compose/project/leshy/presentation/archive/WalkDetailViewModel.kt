@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import okio.FileSystem
+import okio.Path.Companion.toPath
 
 class WalkDetailViewModel(
     private val walkId: Long,
@@ -25,6 +27,7 @@ class WalkDetailViewModel(
     categoryRepository: CategoryRepository,
     private val updatePlaceMark: UpdatePlaceMarkUseCase,
     private val deletePlaceMark: DeletePlaceMarkUseCase,
+    private val fileSystem: FileSystem = FileSystem.SYSTEM,
 ) : ViewModel() {
 
     private val showDeleteConfirmation = MutableStateFlow(false)
@@ -89,7 +92,19 @@ class WalkDetailViewModel(
     fun onDeleteConfirm() {
         viewModelScope.launch {
             showDeleteConfirmation.value = false
-            _uiState.value.walk?.let { walkRepository.delete(it) }
+            val walk = _uiState.value.walk
+            // Room's ON DELETE CASCADE on walkId only removes the `objects`/`track_points` rows,
+            // not the photo/thumbnail files they point at — collect those paths before the delete,
+            // a cascading DELETE doesn't return the rows it removes.
+            val orphanedPhotoPaths = _uiState.value.marks.mapNotNull { it.photoPath } +
+                listOfNotNull(walk?.thumbnailPath)
+            if (walk != null) {
+                walkRepository.delete(walk)
+                for (photoPath in orphanedPhotoPaths) {
+                    // Best-effort: a leftover file is harmless, a failed cleanup shouldn't surface as an error.
+                    runCatching { fileSystem.delete(photoPath.toPath()) }
+                }
+            }
             deleted.value = true
         }
     }

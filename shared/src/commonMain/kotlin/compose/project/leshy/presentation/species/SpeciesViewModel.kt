@@ -9,6 +9,7 @@ import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.CollectionRepository
 import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.usecase.CreateOrUpdateUserSpeciesUseCase
+import compose.project.leshy.domain.usecase.DeleteUserSpeciesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
@@ -41,6 +42,7 @@ class SpeciesViewModel(
     private val setCategoryPickedUseCase: SetCategoryPickedUseCase,
     private val toggleUserSpeciesVisibility: ToggleUserSpeciesVisibilityUseCase,
     private val createOrUpdateUserSpecies: CreateOrUpdateUserSpeciesUseCase,
+    private val deleteUserSpecies: DeleteUserSpeciesUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SpeciesUiState())
@@ -91,6 +93,22 @@ class SpeciesViewModel(
 
     fun toggleSpeciesVisibility(category: Category) {
         viewModelScope.launch { toggleUserSpeciesVisibility(category, !category.isPicked) }
+    }
+
+    fun onDeleteSpeciesClick(category: Category) {
+        _uiState.update { it.copy(pendingDelete = category) }
+    }
+
+    fun onDeleteSpeciesDismiss() {
+        _uiState.update { it.copy(pendingDelete = null) }
+    }
+
+    fun onDeleteSpeciesConfirm() {
+        val target = _uiState.value.pendingDelete ?: return
+        viewModelScope.launch {
+            _uiState.update { it.copy(pendingDelete = null) }
+            deleteUserSpecies(target)
+        }
     }
 
     fun saveSpecies(

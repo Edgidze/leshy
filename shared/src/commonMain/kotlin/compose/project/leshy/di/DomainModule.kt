@@ -5,6 +5,7 @@ import compose.project.leshy.domain.usecase.AddPlaceMarkUseCase
 import compose.project.leshy.domain.usecase.BackfillWalkThumbnailsUseCase
 import compose.project.leshy.domain.usecase.CreateOrUpdateUserSpeciesUseCase
 import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
+import compose.project.leshy.domain.usecase.DeleteUserSpeciesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.ExportDataUseCase
@@ -49,4 +50,5 @@ val domainModule = module {
     factory { RefreshMapDataUseCase(get(), get()) }
     factory { CreateOrUpdateUserSpeciesUseCase(get(), get()) }
     factory { ToggleUserSpeciesVisibilityUseCase(get()) }
+    factory { DeleteUserSpeciesUseCase(get(), get(), get()) }
 }

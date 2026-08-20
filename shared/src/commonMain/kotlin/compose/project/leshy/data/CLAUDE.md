@@ -1,6 +1,6 @@
 # data/ — Room + DataStore
 
-## Схема Room (актуальная — версия 7, `data/local/`)
+## Схема Room (актуальная — версия 8, `data/local/`)
 
 6 таблиц, точные поля — смотри `*Entity.kt` напрямую, они компактны и
 самодокументируемы. Кратко:
@@ -20,8 +20,9 @@
   `thumbnailPath` (v3) — кэшированный PNG-снапшот карты, см.
   `ui/map/CLAUDE.md`.
 - **`objects`** (домен-модель — `FieldMark`, не `Object`, зарезервировано в
-  Kotlin) — находки/фото/ориентиры, `ON DELETE CASCADE` от `walks`.
-  `name`/`description` (v4) — подпись места для POI-отметок.
+  Kotlin) — находки/фото/ориентиры, `ON DELETE CASCADE` от `walks` **и** (с
+  v8) от `categories` — см. миграцию v7→v8 ниже. `name`/`description` (v4) —
+  подпись места для POI-отметок.
 - **`track_points`** — точки трека, тоже каскадом от `walks`.
 - **`collections`** (v5) — подборки грибов по странам; `category_collections`
   (v5) — связь много-ко-многим с `categories` (один гриб может входить в
@@ -65,6 +66,32 @@ v5→v6 — аддитивные `categories.source` (`DEFAULT 'APP'` — уже
 финальное состояние, сознательно: `EnsureDefaultCategoriesUseCase` не знает о
 них ничего, и приписать пользовательскому виду опасность или безопасность без
 всякого основания хуже, чем промолчать.
+
+**v7→v8 — не аддитивная, меняет FK.** `objects.categoryId → categories.id`
+получил `ON DELETE CASCADE` (был `NO ACTION`) — бэкенд настоящего удаления
+пользовательских видов (`DeleteUserSpeciesUseCase`,
+`.claude/plans/user-mushrooms.md`, Phase 9). SQLite не умеет `ALTER TABLE`
+существующий `FOREIGN KEY` — миграция пересоздаёт `objects` целиком (`CREATE
+objects_new` с нужным FK → `INSERT ... SELECT` → `DROP` → `RENAME` →
+пересоздать оба индекса `index_objects_walkId`/`index_objects_categoryId` под
+именами, которые ожидает Room). Единственная в истории проекта миграция,
+трогающая FK — остальные не годятся образцом для следующей такой правки.
+`category_misc` (служебная FK-цель для находок PHOTO/POI без реального вида)
+в опасность не попадает: у неё `source = APP`, а удаление доступно только из
+списка «Мои грибы» (`WHERE source != 'APP'`), так что каскад до неё физически
+не дотягивается.
+
+**CASCADE на `categoryId` — только для БД-строк, не для файлов на диске.**
+`DeleteUserSpeciesUseCase` сам вычищает файлы, которые каскад не видит:
+находки собирает `fieldMarkRepository.observeAll()` **до** удаления
+категории (каскадный `DELETE` не возвращает удалённые строки), плюс
+собственная иконка вида (`Category.iconFile` через `PhotoStorage.
+resolvePath`). Тот же класс проблемы уже был у удаления прогулки
+(`WalkDetailViewModel.onDeleteConfirm` каскадом сносил `objects`/
+`track_points`, но не трогал `photoPath`/`Walk.thumbnailPath` на диске) —
+попутно закрыто тем же паттерном: пути берутся из уже загруженного
+`uiState`, удаление файлов — `runCatching` (осиротевший файл не страшнее
+худшего случая, упавшее удаление не должно ронять остальное).
 
 **`iconFile` хранит имя файла, а не абсолютный путь** — намеренно иначе, чем
 `objects.photoPath`/`walks.thumbnailPath`, из-за которых пришлось заводить

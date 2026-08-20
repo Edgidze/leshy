@@ -112,8 +112,14 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesFormSaveButton -> "Сохранить"
     StringKey.SpeciesFormCancelContentDescription -> "Отмена"
     StringKey.SpeciesListImportedLabel -> "из архива"
-    StringKey.SpeciesListToggleVisibilityContentDescription -> "Показывать/скрыть"
     StringKey.SpeciesListEditContentDescription -> "Редактировать"
+    StringKey.SpeciesListDeleteContentDescription -> "Удалить вид"
+    StringKey.SpeciesDeleteConfirmTitle -> "Удалить этот гриб?"
+    StringKey.SpeciesDeleteConfirmMessage ->
+        "Вы уверены, что хотели бы удалить данный гриб из всех прогулок и полностью скрыть в " +
+            "приложении? Это действие необратимо."
+    StringKey.SpeciesDeleteConfirmYes -> "Да"
+    StringKey.SpeciesDeleteConfirmNo -> "Нет"
 
     StringKey.IconEditorTitle -> "Редактор фото"
     StringKey.IconEditorToolEraser -> "Ластик"
@@ -380,8 +386,14 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesFormSaveButton -> "Save"
     StringKey.SpeciesFormCancelContentDescription -> "Cancel"
     StringKey.SpeciesListImportedLabel -> "from archive"
-    StringKey.SpeciesListToggleVisibilityContentDescription -> "Show/hide"
     StringKey.SpeciesListEditContentDescription -> "Edit"
+    StringKey.SpeciesListDeleteContentDescription -> "Delete species"
+    StringKey.SpeciesDeleteConfirmTitle -> "Delete this mushroom?"
+    StringKey.SpeciesDeleteConfirmMessage ->
+        "Are you sure you want to delete this mushroom from all walks and hide it completely in " +
+            "the app? This cannot be undone."
+    StringKey.SpeciesDeleteConfirmYes -> "Yes"
+    StringKey.SpeciesDeleteConfirmNo -> "No"
 
     StringKey.IconEditorTitle -> "Photo editor"
     StringKey.IconEditorToolEraser -> "Eraser"
