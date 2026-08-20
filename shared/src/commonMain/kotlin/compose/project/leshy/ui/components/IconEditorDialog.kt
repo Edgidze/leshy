@@ -82,6 +82,7 @@ import kotlin.math.roundToInt
 private val CHECKER_TILE = 12.dp
 private val CHECKER_LIGHT = Color(0xFFE0E0E0)
 private val CHECKER_DARK = Color(0xFFBDBDBD)
+private val MAGNIFIER_BACKGROUND = Color(0xFF757575)
 private val CROP_HANDLE_TOUCH_RADIUS = 24.dp
 private val CROP_HANDLE_DRAW_RADIUS = 6.dp
 private const val MIN_BRUSH_FRACTION = 0.015f
@@ -512,7 +513,9 @@ private fun MagnifierLoupe(
             .size(MAGNIFIER_DIAMETER)
             .clip(CircleShape)
             .border(2.dp, Color.White, CircleShape)
-            .checkerboardBackground()
+            // Deliberately not the checkerboard the main canvas uses: at this zoom level the tiles
+            // are large enough to compete with the very photo detail the loupe exists to show.
+            .background(MAGNIFIER_BACKGROUND)
             .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
             .drawWithContent {
                 drawContent()
