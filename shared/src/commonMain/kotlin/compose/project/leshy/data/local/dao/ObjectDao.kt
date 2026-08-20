@@ -37,4 +37,7 @@ interface ObjectDao {
 
     @Delete
     suspend fun delete(objectEntity: ObjectEntity)
+
+    @Query("UPDATE objects SET categoryId = :newCategoryId WHERE categoryId = :oldCategoryId")
+    suspend fun reassignCategory(oldCategoryId: Long, newCategoryId: Long)
 }

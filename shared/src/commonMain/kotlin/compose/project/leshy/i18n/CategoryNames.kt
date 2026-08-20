@@ -69,5 +69,6 @@ private fun categoryNameStringKey(nameKey: String): StringKey? = when (nameKey) 
     "category_amanita_vaginata" -> StringKey.CategoryAmanitaVaginata
     "category_russula_foetens" -> StringKey.CategoryRussulaFoetens
     "category_misc" -> StringKey.CategoryMisc
+    "category_unknown_mushroom" -> StringKey.CategoryUnknownMushroom
     else -> null
 }

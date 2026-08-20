@@ -116,8 +116,8 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesListDeleteContentDescription -> "Удалить вид"
     StringKey.SpeciesDeleteConfirmTitle -> "Удалить этот гриб?"
     StringKey.SpeciesDeleteConfirmMessage ->
-        "Вы уверены, что хотели бы удалить данный гриб из всех прогулок и полностью скрыть в " +
-            "приложении? Это действие необратимо."
+        "Вы уверены, что хотите удалить этот вид? Все отметки этого вида в прогулках будут " +
+            "перенесены в категорию «Неизвестный гриб». Это действие необратимо."
     StringKey.SpeciesDeleteConfirmYes -> "Да"
     StringKey.SpeciesDeleteConfirmNo -> "Нет"
 
@@ -171,6 +171,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.CategoryAmanitaVaginata -> "Поплавок серый"
     StringKey.CategoryRussulaFoetens -> "Валуй"
     StringKey.CategoryMisc -> "Разное"
+    StringKey.CategoryUnknownMushroom -> "Неизвестный гриб"
 
     StringKey.CollectionDemoNorth -> "Демо: Север"
     StringKey.CollectionDemoSouth -> "Демо: Юг"
@@ -390,8 +391,8 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesListDeleteContentDescription -> "Delete species"
     StringKey.SpeciesDeleteConfirmTitle -> "Delete this mushroom?"
     StringKey.SpeciesDeleteConfirmMessage ->
-        "Are you sure you want to delete this mushroom from all walks and hide it completely in " +
-            "the app? This cannot be undone."
+        "Are you sure you want to delete this species? Every find logged under it will be moved " +
+            "to \"Unknown mushroom\". This cannot be undone."
     StringKey.SpeciesDeleteConfirmYes -> "Yes"
     StringKey.SpeciesDeleteConfirmNo -> "No"
 
@@ -445,6 +446,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.CategoryAmanitaVaginata -> "Grisette"
     StringKey.CategoryRussulaFoetens -> "Valui"
     StringKey.CategoryMisc -> "Misc"
+    StringKey.CategoryUnknownMushroom -> "Unknown mushroom"
 
     StringKey.CollectionDemoNorth -> "Demo: North"
     StringKey.CollectionDemoSouth -> "Demo: South"

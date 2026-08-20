@@ -6,6 +6,11 @@ import compose.project.leshy.domain.repository.CategoryRepository
 
 const val MISC_CATEGORY_NAME_KEY = "category_misc"
 
+/** Catch-all species finds land in when their real species is deleted via
+ * `DeleteUserSpeciesUseCase` — unlike [MISC_CATEGORY_NAME_KEY], this one is a normal, visible
+ * catalog entry (tile feed, search, Filter), not a hidden FK-only bucket. */
+const val UNKNOWN_MUSHROOM_NAME_KEY = "category_unknown_mushroom"
+
 // Order is purely visual (list position on Record/Filter), unrelated to edibilityStatus below —
 // kept as originally seeded rather than resorted, to keep this diff to the one column.
 //
@@ -46,6 +51,7 @@ private val DEFAULT_CATEGORIES = listOf(
     Category(id = 0, nameKey = "category_amanita_pantherina", colorHex = "#6E5138", iconRef = "amanita_pantherina", order = 27, isActive = true, edibilityStatus = EdibilityStatus.POISONOUS),
     Category(id = 0, nameKey = "category_paxillus_involutus", colorHex = "#7A4B31", iconRef = "paxillus_involutus", order = 28, isActive = true, edibilityStatus = EdibilityStatus.POISONOUS),
     Category(id = 0, nameKey = "category_gyromitra_species", colorHex = "#8F3B2E", iconRef = "gyromitra_species", order = 29, isActive = true, edibilityStatus = EdibilityStatus.POISONOUS),
+    Category(id = 0, nameKey = UNKNOWN_MUSHROOM_NAME_KEY, colorHex = "#9E9E8C", iconRef = "unknown_mushroom", order = 30, isActive = true, edibilityStatus = EdibilityStatus.NOT_SPECIFIED),
     Category(id = 0, nameKey = MISC_CATEGORY_NAME_KEY, colorHex = "#808080", iconRef = null, order = 999, isActive = false, edibilityStatus = EdibilityStatus.NOT_SPECIFIED),
 )
 

@@ -91,6 +91,7 @@ enum class StringKey {
     CategoryAmanitaVaginata,
     CategoryRussulaFoetens,
     CategoryMisc,
+    CategoryUnknownMushroom,
 
     CollectionDemoNorth,
     CollectionDemoSouth,

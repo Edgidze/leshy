@@ -11,4 +11,5 @@ interface FieldMarkRepository {
     suspend fun updateMark(mark: FieldMark)
     suspend fun deleteMark(mark: FieldMark)
     suspend fun removeLastMushroomMark(walkId: Long, categoryId: Long): Boolean
+    suspend fun reassignCategory(oldCategoryId: Long, newCategoryId: Long)
 }

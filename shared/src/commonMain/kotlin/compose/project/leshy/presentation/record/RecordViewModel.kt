@@ -30,6 +30,7 @@ import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
 import compose.project.leshy.domain.usecase.RemoveLastMushroomMarkUseCase
 import compose.project.leshy.domain.usecase.RenameWalkUseCase
 import compose.project.leshy.domain.usecase.StartWalkUseCase
+import compose.project.leshy.domain.usecase.UNKNOWN_MUSHROOM_NAME_KEY
 import compose.project.leshy.domain.usecase.UpdatePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.UpdateWalkThumbnailUseCase
 import compose.project.leshy.domain.util.bearingDegrees
@@ -138,11 +139,17 @@ class RecordViewModel(
                 mapFilterRepository.observeFilter(),
                 sortSettings,
             ) { walks, marks, categories, filter, (sortOrder, language, order) ->
-                val defaultOrderCategories = sortCategories(
+                val sortedCategories = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
                     sortOrder,
                     language,
                 )
+                // "Unknown mushroom" defaults to the end of the feed (ahead of AddSpeciesTile),
+                // but only as a starting position — applyRecencyOrder below still bumps it to the
+                // front like any other species once it's tapped or picked from search.
+                val (unknownMushroom, restCategories) = sortedCategories
+                    .partition { it.nameKey == UNKNOWN_MUSHROOM_NAME_KEY }
+                val defaultOrderCategories = restCategories + unknownMushroom
                 val tileCategories = applyRecencyOrder(defaultOrderCategories, order)
                 val categoryById = categories.associateBy { it.id }
                 val matchingWalkIds = walks.filter { it.matchesDateAndSeason(filter) }.map { it.id }.toSet()

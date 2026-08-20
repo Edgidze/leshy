@@ -32,6 +32,9 @@ class FieldMarkRepositoryImpl(
         objectDao.delete(last)
         return true
     }
+
+    override suspend fun reassignCategory(oldCategoryId: Long, newCategoryId: Long) =
+        objectDao.reassignCategory(oldCategoryId, newCategoryId)
 }
 
 private fun ObjectEntity.toDomain() = FieldMark(

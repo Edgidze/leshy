@@ -4,9 +4,12 @@
 
 6 таблиц, точные поля — смотри `*Entity.kt` напрямую, они компактны и
 самодокументируемы. Кратко:
-- **`categories`** — виды грибов (30 штук) + служебная неактивная
+- **`categories`** — виды грибов (30 штук) + предустановленный, видимый
+  `category_unknown_mushroom` (Phase 10 `user-mushrooms.md` — приёмник
+  находок удалённых пользовательских видов, см. ниже) + служебная неактивная
   `category_misc` (для FK у отметок PHOTO/POI — `objects.categoryId` не
-  nullable). `nameKey`/`iconRef` — ключи (локализация / `Res.
+  nullable, полностью скрыта от UI, не путать с `category_unknown_mushroom`).
+  `nameKey`/`iconRef` — ключи (локализация / `Res.
   allDrawableResources` lookup), не готовые строки. `isActive` —
   пользовательское поле (что показывать на Карте/в ленте Записи, экран
   Фильтра). `isPicked`/`isFilterEligible` (v5) — модель подборок по странам,
@@ -68,30 +71,34 @@ v5→v6 — аддитивные `categories.source` (`DEFAULT 'APP'` — уже
 всякого основания хуже, чем промолчать.
 
 **v7→v8 — не аддитивная, меняет FK.** `objects.categoryId → categories.id`
-получил `ON DELETE CASCADE` (был `NO ACTION`) — бэкенд настоящего удаления
-пользовательских видов (`DeleteUserSpeciesUseCase`,
+получил `ON DELETE CASCADE` (был `NO ACTION`) — изначально заведено под
+настоящее удаление пользовательских видов (`DeleteUserSpeciesUseCase`,
 `.claude/plans/user-mushrooms.md`, Phase 9). SQLite не умеет `ALTER TABLE`
 существующий `FOREIGN KEY` — миграция пересоздаёт `objects` целиком (`CREATE
 objects_new` с нужным FK → `INSERT ... SELECT` → `DROP` → `RENAME` →
 пересоздать оба индекса `index_objects_walkId`/`index_objects_categoryId` под
 именами, которые ожидает Room). Единственная в истории проекта миграция,
 трогающая FK — остальные не годятся образцом для следующей такой правки.
-`category_misc` (служебная FK-цель для находок PHOTO/POI без реального вида)
-в опасность не попадает: у неё `source = APP`, а удаление доступно только из
-списка «Мои грибы» (`WHERE source != 'APP'`), так что каскад до неё физически
-не дотягивается.
+`category_misc`/`category_unknown_mushroom` (обе `source = APP`) в опасность
+не попадают — удаление доступно только из списка «Мои грибы» (`WHERE source
+!= 'APP'`), каскад до каталожных строк физически не дотягивается.
 
-**CASCADE на `categoryId` — только для БД-строк, не для файлов на диске.**
-`DeleteUserSpeciesUseCase` сам вычищает файлы, которые каскад не видит:
-находки собирает `fieldMarkRepository.observeAll()` **до** удаления
-категории (каскадный `DELETE` не возвращает удалённые строки), плюс
-собственная иконка вида (`Category.iconFile` через `PhotoStorage.
-resolvePath`). Тот же класс проблемы уже был у удаления прогулки
-(`WalkDetailViewModel.onDeleteConfirm` каскадом сносил `objects`/
-`track_points`, но не трогал `photoPath`/`Walk.thumbnailPath` на диске) —
-попутно закрыто тем же паттерном: пути берутся из уже загруженного
-`uiState`, удаление файлов — `runCatching` (осиротевший файл не страшнее
-худшего случая, упавшее удаление не должно ронять остальное).
+**С Phase 10 этот CASCADE на штатном пути больше никогда не срабатывает —
+и это осознанно оставлено так, а не откачено на `NO ACTION`.**
+`DeleteUserSpeciesUseCase` теперь сперва **переносит** находки удаляемого
+вида на предустановленный `category_unknown_mushroom`
+(`FieldMarkRepository.reassignCategory`, один `UPDATE objects SET
+categoryId = ...`), и только потом удаляет строку категории — к моменту
+`DELETE` на неё уже не ссылается ни одна находка, каскадить нечему. Из
+файлов на диске трогается только собственная иконка удаляемого вида
+(`Category.iconFile` через `PhotoStorage.resolvePath`, `runCatching`) —
+находки не удаляются, значит и их фото (`FieldMark.photoPath`) никто не
+трогает; версия Phase 9, что вычищала эти фото как «осиротевшие», удаляла бы
+теперь ЖИВЫЕ фото прямо под перенесённой находкой. `WalkDetailViewModel.
+onDeleteConfirm` — отдельный случай, находки там действительно удаляются
+вместе с прогулкой, и там по-прежнему нужно вручную подчищать
+`photoPath`/`Walk.thumbnailPath` тем же `runCatching`-паттерном (пути
+берутся из уже загруженного `uiState`, каскадный `DELETE` их не вернёт).
 
 **`iconFile` хранит имя файла, а не абсолютный путь** — намеренно иначе, чем
 `objects.photoPath`/`walks.thumbnailPath`, из-за которых пришлось заводить

@@ -79,6 +79,8 @@ private class FakeFieldMarkRepository : FieldMarkRepository {
     override suspend fun updateMark(mark: FieldMark) = state.update { list -> list.map { if (it.id == mark.id) mark else it } }
     override suspend fun deleteMark(mark: FieldMark) = state.update { it.filterNot { m -> m.id == mark.id } }
     override suspend fun removeLastMushroomMark(walkId: Long, categoryId: Long) = false
+    override suspend fun reassignCategory(oldCategoryId: Long, newCategoryId: Long) =
+        state.update { list -> list.map { if (it.categoryId == oldCategoryId) it.copy(categoryId = newCategoryId) else it } }
 }
 
 // Pre-Phase-6, import/export never called upsert (only observeAll/getByNameKey to resolve

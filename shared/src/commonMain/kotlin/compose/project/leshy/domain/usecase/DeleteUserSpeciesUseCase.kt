@@ -4,21 +4,17 @@ import compose.project.leshy.data.platform.PhotoStorage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.FieldMarkRepository
-import kotlinx.coroutines.flow.first
 import okio.FileSystem
 import okio.Path.Companion.toPath
 
 /**
- * Permanently deletes a user-created/imported species together with every find logged against it
- * — the explicit "delete" action next to the hide toggle in "Мои грибы". Supersedes the "hide
- * only, no delete" decision in `.claude/plans/user-mushrooms.md` ("Только скрытие..." section,
- * Phase 9): the user asked for a real delete and accepts the data loss as their own choice.
- *
- * `ObjectEntity.categoryId`'s FK is `ON DELETE CASCADE` as of migration 7→8, so removing the
- * category row cascades the matching `objects` rows in SQLite by itself — this use case only
- * cleans up what CASCADE can't reach: files on disk (find photos + the species' own icon). Those
- * have to be read out *before* the delete, since a cascading DELETE doesn't return the rows it
- * removed.
+ * Permanently deletes a user-created/imported species — the explicit "delete" action next to the
+ * hide toggle in "Мои грибы". Supersedes the cascade-delete decision in
+ * `.claude/plans/user-mushrooms.md` (Phase 9): finds logged under the deleted species are no
+ * longer destroyed along with it, they're moved onto the [UNKNOWN_MUSHROOM_NAME_KEY] catalog
+ * species instead (Phase 10) — reassigned *before* the category row is deleted, so
+ * `ObjectEntity.categoryId`'s `ON DELETE CASCADE` (migration 7→8) never actually fires on the
+ * normal path: no `objects` row still points at the deleted id by the time the `DELETE` runs.
  */
 class DeleteUserSpeciesUseCase(
     private val categoryRepository: CategoryRepository,
@@ -27,17 +23,14 @@ class DeleteUserSpeciesUseCase(
     private val fileSystem: FileSystem = FileSystem.SYSTEM,
 ) {
     suspend operator fun invoke(category: Category) {
-        // FieldMark.photoPath is stored as an absolute path already (unlike Category.iconFile).
-        val orphanedPhotoPaths = fieldMarkRepository.observeAll().first()
-            .filter { it.categoryId == category.id }
-            .mapNotNull { it.photoPath }
-
+        val unknownMushroom = requireNotNull(categoryRepository.getByNameKey(UNKNOWN_MUSHROOM_NAME_KEY)) {
+            "Unknown mushroom category must exist before deleting a species"
+        }
+        fieldMarkRepository.reassignCategory(category.id, unknownMushroom.id)
         categoryRepository.delete(category)
 
-        for (photoPath in orphanedPhotoPaths) {
-            // Best-effort: a leftover file is harmless, a failed cleanup shouldn't surface as an error.
-            runCatching { fileSystem.delete(photoPath.toPath()) }
-        }
+        // Only the species' own icon is garbage now — its finds survive under Unknown mushroom
+        // with their photos untouched, so there's nothing else to clean up on disk.
         category.iconFile?.let { iconFile ->
             runCatching { fileSystem.delete(photoStorage.resolvePath(iconFile).toPath()) }
         }
