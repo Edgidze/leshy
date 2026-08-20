@@ -2,6 +2,7 @@ package compose.project.leshy.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,7 +13,10 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -58,6 +62,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -71,6 +76,8 @@ import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.ui.util.scaledToMaxDimension
 import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 private val CHECKER_TILE = 12.dp
 private val CHECKER_LIGHT = Color(0xFFE0E0E0)
@@ -81,6 +88,10 @@ private const val MIN_BRUSH_FRACTION = 0.015f
 private const val MAX_BRUSH_FRACTION = 0.12f
 private const val DEFAULT_BRUSH_FRACTION = 0.05f
 private const val MIN_CROP_SIZE_FRACTION = 0.15f
+private const val DEFAULT_CROP_INSET_FRACTION = 0.08f
+private val MAGNIFIER_DIAMETER = 128.dp
+private val MAGNIFIER_VERTICAL_GAP = 24.dp
+private const val MAGNIFIER_SOURCE_FRACTION = 0.18f
 
 private enum class EditorTool { ERASER, CROP }
 
@@ -100,7 +111,21 @@ private fun EraseStroke.toPath(targetWidth: Float, targetHeight: Float): Path {
 
 private data class CropRect(val left: Float, val top: Float, val right: Float, val bottom: Float) {
     companion object {
+        /** True starting state: no crop applied if the user never opens the Crop tool at all. */
         val Full = CropRect(0f, 0f, 1f, 1f)
+
+        // An exactly full-frame rect makes the crop tool look broken the moment it's opened:
+        // dragging inside it is a no-op (nowhere to move a rect that already spans the whole
+        // range), and the corner handles sit exactly on the rounded-corner clip, mostly invisible.
+        // [IconEditorDialog] swaps `Full` for this the first time the Crop tool is selected, so the
+        // tool visibly *does something* right away — a handle to grab, a scrim showing what's
+        // excluded — without silently trimming the photo for anyone who never opens the tool.
+        val Default = CropRect(
+            DEFAULT_CROP_INSET_FRACTION,
+            DEFAULT_CROP_INSET_FRACTION,
+            1f - DEFAULT_CROP_INSET_FRACTION,
+            1f - DEFAULT_CROP_INSET_FRACTION,
+        )
     }
 }
 
@@ -243,6 +268,11 @@ fun IconEditorDialog(
     var currentPoints by remember { mutableStateOf<List<Offset>>(emptyList()) }
     var cropRect by remember { mutableStateOf(CropRect.Full) }
     var cropDrag by remember { mutableStateOf<CropDrag?>(null) }
+    // Raw px position (in the photo box's own coordinate space, not fraction) of the finger while
+    // actively erasing — drives the magnifier loupe below. Cleared once the drag ends, since the
+    // loupe is only useful while a stroke is actually being placed.
+    var magnifierAnchor by remember { mutableStateOf<Offset?>(null) }
+    var photoBoxSize by remember { mutableStateOf(IntSize.Zero) }
 
     Dialog(
         onDismissRequest = onCancel,
@@ -288,84 +318,112 @@ fun IconEditorDialog(
                     }
                 } else {
                     val bitmapAspect = bitmap.width.toFloat() / bitmap.height.toFloat()
+                    // Outer box is deliberately NOT clipped — the magnifier loupe below floats
+                    // above the finger and would get cut off by the inner box's rounded corners if
+                    // it lived inside the clipped layer.
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(bitmapAspect)
-                            .clip(RoundedCornerShape(12.dp)),
+                            .onSizeChanged { photoBoxSize = it },
                     ) {
                         Box(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .checkerboardBackground(),
-                        )
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-                                .drawWithContent {
-                                    drawContent()
-                                    val maxDimension = max(size.width, size.height)
-                                    val liveStroke = if (currentPoints.size >= 2) {
-                                        EraseStroke(currentPoints, brushWidthFraction)
-                                    } else {
-                                        null
-                                    }
-                                    val allStrokes = if (liveStroke != null) strokes + liveStroke else strokes
-                                    for (stroke in allStrokes) {
-                                        drawPath(
-                                            path = stroke.toPath(size.width, size.height),
-                                            color = Color.Black,
-                                            style = Stroke(
-                                                width = stroke.widthFraction * maxDimension,
-                                                cap = StrokeCap.Round,
-                                                join = StrokeJoin.Round,
-                                            ),
-                                            blendMode = BlendMode.Clear,
-                                        )
-                                    }
-                                },
+                                .matchParentSize()
+                                .clip(RoundedCornerShape(12.dp)),
                         ) {
-                            Image(
-                                bitmap = bitmap,
-                                contentDescription = null,
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.FillBounds,
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .checkerboardBackground(),
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+                                    .drawWithContent {
+                                        drawContent()
+                                        val maxDimension = max(size.width, size.height)
+                                        val liveStroke = if (currentPoints.size >= 2) {
+                                            EraseStroke(currentPoints, brushWidthFraction)
+                                        } else {
+                                            null
+                                        }
+                                        val allStrokes = if (liveStroke != null) strokes + liveStroke else strokes
+                                        for (stroke in allStrokes) {
+                                            drawPath(
+                                                path = stroke.toPath(size.width, size.height),
+                                                color = Color.Black,
+                                                style = Stroke(
+                                                    width = stroke.widthFraction * maxDimension,
+                                                    cap = StrokeCap.Round,
+                                                    join = StrokeJoin.Round,
+                                                ),
+                                                blendMode = BlendMode.Clear,
+                                            )
+                                        }
+                                    },
+                            ) {
+                                Image(
+                                    bitmap = bitmap,
+                                    contentDescription = null,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.FillBounds,
+                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .pointerInputEditor(
+                                        activeTool = activeTool,
+                                        onEraseStart = { point, size ->
+                                            currentPoints = listOf(point.toFraction(size), point.toFraction(size))
+                                            magnifierAnchor = point
+                                        },
+                                        onEraseDrag = { point, size ->
+                                            currentPoints = currentPoints + point.toFraction(size)
+                                            magnifierAnchor = point
+                                        },
+                                        onEraseEnd = {
+                                            if (currentPoints.size >= 2) {
+                                                strokes.add(EraseStroke(currentPoints, brushWidthFraction))
+                                                redoStack.clear()
+                                            }
+                                            currentPoints = emptyList()
+                                            magnifierAnchor = null
+                                        },
+                                        onCropStart = { offset, size, handleRadiusPx ->
+                                            cropDrag = resolveCropDrag(offset, size, cropRect, handleRadiusPx)
+                                        },
+                                        onCropDrag = { offset, size ->
+                                            cropRect = applyCropDrag(cropDrag, offset, size, cropRect)
+                                        },
+                                        onCropEnd = { cropDrag = null },
+                                    )
+                                    .drawWithContent {
+                                        drawContent()
+                                        if (activeTool == EditorTool.CROP) {
+                                            drawCropOverlay(cropRect)
+                                        }
+                                    },
                             )
                         }
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .pointerInputEditor(
-                                    activeTool = activeTool,
-                                    onEraseStart = { point, size ->
-                                        currentPoints = listOf(point.toFraction(size), point.toFraction(size))
-                                    },
-                                    onEraseDrag = { point, size ->
-                                        currentPoints = currentPoints + point.toFraction(size)
-                                    },
-                                    onEraseEnd = {
-                                        if (currentPoints.size >= 2) {
-                                            strokes.add(EraseStroke(currentPoints, brushWidthFraction))
-                                            redoStack.clear()
-                                        }
-                                        currentPoints = emptyList()
-                                    },
-                                    onCropStart = { offset, size, handleRadiusPx ->
-                                        cropDrag = resolveCropDrag(offset, size, cropRect, handleRadiusPx)
-                                    },
-                                    onCropDrag = { offset, size ->
-                                        cropRect = applyCropDrag(cropDrag, offset, size, cropRect)
-                                    },
-                                    onCropEnd = { cropDrag = null },
-                                )
-                                .drawWithContent {
-                                    drawContent()
-                                    if (activeTool == EditorTool.CROP) {
-                                        drawCropOverlay(cropRect)
-                                    }
-                                },
-                        )
+
+                        val anchor = magnifierAnchor
+                        if (activeTool == EditorTool.ERASER && anchor != null && photoBoxSize != IntSize.Zero) {
+                            val liveStroke = if (currentPoints.size >= 2) {
+                                EraseStroke(currentPoints, brushWidthFraction)
+                            } else {
+                                null
+                            }
+                            MagnifierLoupe(
+                                bitmap = bitmap,
+                                strokes = strokes,
+                                liveStroke = liveStroke,
+                                anchor = anchor,
+                                boxSize = photoBoxSize,
+                            )
+                        }
                     }
                 }
 
@@ -374,7 +432,15 @@ fun IconEditorDialog(
                     EditorTool.entries.forEachIndexed { index, tool ->
                         SegmentedButton(
                             selected = activeTool == tool,
-                            onClick = { activeTool = tool },
+                            onClick = {
+                                activeTool = tool
+                                // First-ever entry into Crop: swap the invisible full-frame rect
+                                // for a visible, draggable one. Leaves it alone on later re-entries
+                                // so an already-adjusted crop isn't reset by switching tools.
+                                if (tool == EditorTool.CROP && cropRect == CropRect.Full) {
+                                    cropRect = CropRect.Default
+                                }
+                            },
                             shape = SegmentedButtonDefaults.itemShape(index = index, count = EditorTool.entries.size),
                         ) {
                             Text(
@@ -418,6 +484,78 @@ fun IconEditorDialog(
     }
 }
 
+/**
+ * Floating circular zoom preview shown above the finger while actively erasing (a small photo may
+ * need edits finer than a fingertip can aim at directly). Not a screenshot of the main canvas —
+ * cheaper: crops a small square out of [bitmap] itself around [anchor] via `drawImage`'s src/dst
+ * rects, then re-draws [strokes]/[liveStroke] scaled into that same cropped-and-zoomed coordinate
+ * space with the same `BlendMode.Clear` mechanism as the main canvas, so the loupe shows the photo
+ * exactly as erased so far, not the untouched original.
+ */
+@Composable
+private fun MagnifierLoupe(
+    bitmap: ImageBitmap,
+    strokes: List<EraseStroke>,
+    liveStroke: EraseStroke?,
+    anchor: Offset,
+    boxSize: IntSize,
+) {
+    Box(
+        modifier = Modifier
+            .offset {
+                val diameterPx = MAGNIFIER_DIAMETER.toPx()
+                IntOffset(
+                    (anchor.x - diameterPx / 2).roundToInt(),
+                    (anchor.y - diameterPx - MAGNIFIER_VERTICAL_GAP.toPx()).roundToInt(),
+                )
+            }
+            .size(MAGNIFIER_DIAMETER)
+            .clip(CircleShape)
+            .border(2.dp, Color.White, CircleShape)
+            .checkerboardBackground()
+            .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+            .drawWithContent {
+                drawContent()
+                val maxBitmapDimension = max(bitmap.width, bitmap.height).toFloat()
+                val sourceSide = (maxBitmapDimension * MAGNIFIER_SOURCE_FRACTION)
+                    .coerceAtMost(min(bitmap.width, bitmap.height).toFloat())
+                val centerX = (anchor.x / boxSize.width).coerceIn(0f, 1f) * bitmap.width
+                val centerY = (anchor.y / boxSize.height).coerceIn(0f, 1f) * bitmap.height
+                val srcLeft = (centerX - sourceSide / 2).coerceIn(0f, bitmap.width - sourceSide)
+                val srcTop = (centerY - sourceSide / 2).coerceIn(0f, bitmap.height - sourceSide)
+                val zoom = size.width / sourceSide
+                drawImage(
+                    image = bitmap,
+                    srcOffset = IntOffset(srcLeft.roundToInt(), srcTop.roundToInt()),
+                    srcSize = IntSize(sourceSide.roundToInt(), sourceSide.roundToInt()),
+                    dstOffset = IntOffset.Zero,
+                    dstSize = IntSize(size.width.roundToInt(), size.height.roundToInt()),
+                )
+                val allStrokes = if (liveStroke != null) strokes + liveStroke else strokes
+                for (stroke in allStrokes) {
+                    val path = Path()
+                    stroke.points.forEachIndexed { index, point ->
+                        val local = Offset(
+                            (point.x * bitmap.width - srcLeft) * zoom,
+                            (point.y * bitmap.height - srcTop) * zoom,
+                        )
+                        if (index == 0) path.moveTo(local.x, local.y) else path.lineTo(local.x, local.y)
+                    }
+                    drawPath(
+                        path = path,
+                        color = Color.Black,
+                        style = Stroke(
+                            width = stroke.widthFraction * maxBitmapDimension * zoom,
+                            cap = StrokeCap.Round,
+                            join = StrokeJoin.Round,
+                        ),
+                        blendMode = BlendMode.Clear,
+                    )
+                }
+            },
+    )
+}
+
 private fun Offset.toFraction(size: IntSize): Offset =
     Offset((x / size.width).coerceIn(0f, 1f), (y / size.height).coerceIn(0f, 1f))
 
@@ -435,8 +573,8 @@ private fun Modifier.checkerboardBackground(): Modifier = this.background(CHECKE
                     color = CHECKER_DARK,
                     topLeft = Offset(x, y),
                     size = Size(
-                        kotlin.math.min(tilePx, size.width - x),
-                        kotlin.math.min(tilePx, size.height - y),
+                        min(tilePx, size.width - x),
+                        min(tilePx, size.height - y),
                     ),
                 )
             }
