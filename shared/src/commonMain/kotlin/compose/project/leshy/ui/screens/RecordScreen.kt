@@ -45,6 +45,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -150,6 +151,7 @@ fun RecordScreen(
         onPlaceClick = { id -> selectedPlaceId = id },
         onMarkerLongPressed = viewModel::activateNavigationTo,
         onCloseNavigation = viewModel::deactivateNavigation,
+        onTileFeedInteraction = viewModel::notifyTileFeedInteraction,
         modifier = modifier,
     )
 
@@ -232,6 +234,7 @@ private fun RecordScreenContent(
     onPlaceClick: (Long) -> Unit = {},
     onMarkerLongPressed: (Long) -> Unit = {},
     onCloseNavigation: () -> Unit = {},
+    onTileFeedInteraction: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     var showNameDialog by remember { mutableStateOf(false) }
@@ -248,6 +251,15 @@ private fun RecordScreenContent(
     LaunchedEffect(uiState.scrollToStartSignal) {
         if (uiState.scrollToStartSignal > 0) {
             tileListState.animateScrollToItem(0)
+        }
+    }
+
+    // Manual dragging of the feed counts as activity for RecordViewModel's reorder quiet window,
+    // same as a +/- tap — a no-op there while nothing is pending, so this also safely fires for
+    // the animateScrollToItem(0) call above without re-arming anything.
+    LaunchedEffect(tileListState) {
+        snapshotFlow { tileListState.isScrollInProgress }.collect { inProgress ->
+            if (inProgress) onTileFeedInteraction()
         }
     }
 

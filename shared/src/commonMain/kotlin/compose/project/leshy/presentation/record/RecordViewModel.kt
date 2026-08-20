@@ -54,9 +54,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 private const val TICK_INTERVAL_MILLIS = 1000L
 private const val MIN_COURSE_FIX_DISTANCE_METERS = 3.0
+
+/** How long the tile feed must sit idle (no +/-, no manual scroll) before a pending "bring to
+ * front" actually reorders the feed — see [RecordViewModel.scheduleFrontBump]. */
+private val TILE_REORDER_QUIET_WINDOW = 5.seconds
 
 private data class RecordFilterState(
     val categories: List<Category>,
@@ -111,6 +116,12 @@ class RecordViewModel(
     // past the end of a walk is gated by resetOrderOnWalkFinish (Settings, off by default — see
     // finish()).
     private val categoryOrder = MutableStateFlow<List<Long>>(emptyList())
+
+    // Category ids tapped (+/-) during the current quiet-window countdown, oldest first —
+    // flushed into categoryOrder (front-most last-tapped-first) once TILE_REORDER_QUIET_WINDOW
+    // passes with no further feed activity. See scheduleFrontBump/notifyTileFeedInteraction.
+    private val pendingFrontBumps = mutableListOf<Long>()
+    private var frontBumpFlushJob: Job? = null
 
     private val navigationTargetId = MutableStateFlow<Long?>(null)
     private val courseOverGround = MutableStateFlow<Double?>(null)
@@ -310,6 +321,8 @@ class RecordViewModel(
         // Last known GPS fix — the thumbnail's fallback anchor when trackPoints has too few
         // points to bound a region on its own (short walks).
         val location = _uiState.value.currentLocation
+        frontBumpFlushJob?.cancel()
+        pendingFrontBumps.clear()
         viewModelScope.launch {
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
             walkId = null
@@ -341,7 +354,7 @@ class RecordViewModel(
         val currentWalkId = walkId ?: return
         viewModelScope.launch {
             val mark = addMushroomMark(currentWalkId, categoryId, _uiState.value.currentLocation, currentTimeMillis())
-            bringCategoryToFront(categoryId)
+            scheduleFrontBump(categoryId)
             _uiState.update { state ->
                 val counts = state.mushroomCounts.toMutableMap()
                 counts[categoryId] = (counts[categoryId] ?: 0) + 1
@@ -365,7 +378,7 @@ class RecordViewModel(
             val newMarks = (1..count).map {
                 addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
             }
-            bringCategoryToFront(categoryId)
+            scheduleFrontBump(categoryId)
             _uiState.update { state ->
                 val counts = state.mushroomCounts.toMutableMap()
                 counts[categoryId] = (counts[categoryId] ?: 0) + count
@@ -384,12 +397,54 @@ class RecordViewModel(
         _uiState.update { it.copy(scrollToStartSignal = it.scrollToStartSignal + 1) }
     }
 
+    /**
+     * Queues [categoryId] to jump to the front of the feed, but not right away — tapping +/-
+     * used to call [bringCategoryToFront] directly, which reordered the tile out from under the
+     * user's finger mid-tap. Instead this (re)starts a [TILE_REORDER_QUIET_WINDOW] countdown;
+     * every further tap or manual scroll of the feed ([notifyTileFeedInteraction]) restarts it
+     * again, and the reorder only actually happens once the feed has sat idle for the full
+     * window. Leaving the Record screen doesn't pause the countdown — [viewModelScope] outlives
+     * the composable (this ViewModel is scoped to the Record back-stack entry, see
+     * `presentation/CLAUDE.md`) — so a species added just before navigating away is already at
+     * the front by the time the user comes back.
+     */
+    private fun scheduleFrontBump(categoryId: Long) {
+        pendingFrontBumps.remove(categoryId)
+        pendingFrontBumps.add(categoryId)
+        restartFrontBumpQuietWindow()
+    }
+
+    /** Called by the UI when the user manually scrolls the tile feed — counts as activity for
+     * [TILE_REORDER_QUIET_WINDOW] just like a +/- tap, so a reorder doesn't happen while the
+     * feed is actively being scrolled by hand. A no-op while nothing is pending. */
+    fun notifyTileFeedInteraction() {
+        if (pendingFrontBumps.isNotEmpty()) restartFrontBumpQuietWindow()
+    }
+
+    private fun restartFrontBumpQuietWindow() {
+        frontBumpFlushJob?.cancel()
+        frontBumpFlushJob = viewModelScope.launch {
+            delay(TILE_REORDER_QUIET_WINDOW)
+            flushPendingFrontBumps()
+        }
+    }
+
+    private fun flushPendingFrontBumps() {
+        if (pendingFrontBumps.isEmpty()) return
+        // Last-tapped ends up frontmost, same order bringCategoryToFront would produce if called
+        // once per id in tap order.
+        val front = pendingFrontBumps.asReversed().toList()
+        pendingFrontBumps.clear()
+        categoryOrder.update { current -> front + current.filter { it !in front } }
+        _uiState.update { it.copy(scrollToStartSignal = it.scrollToStartSignal + 1) }
+    }
+
     fun removeMushroom(categoryId: Long) {
         val currentWalkId = walkId ?: return
         viewModelScope.launch {
             val removed = removeLastMushroomMark(currentWalkId, categoryId)
             if (removed) {
-                bringCategoryToFront(categoryId)
+                scheduleFrontBump(categoryId)
                 _uiState.update { state ->
                     val counts = state.mushroomCounts.toMutableMap()
                     val newCount = (counts[categoryId] ?: 0) - 1
