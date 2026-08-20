@@ -53,6 +53,27 @@
 ленте», а осознанный переход к конкретной плитке, там мгновенный прыжок
 ожидаем и уместен.
 
+**Сам флаш (`flushPendingFrontBumps`) — плавный и растянутый на 1с
+(`TILE_REORDER_SCROLL_DURATION_MILLIS`), а не мгновенная перестановка.**
+`scrollToStartSignal`/`scrollToStartDurationMillis` (`RecordUiState`) —
+одна пара полей, всегда обновляется вместе одним `it.copy(...)`, чтобы
+`RecordScreen` читал согласованное значение для конкретного события.
+`bringCategoryToFront` пишет `scrollToStartDurationMillis = null`
+(прежнее поведение — `animateScrollToItem(0)`, мгновенный по ощущению
+скролл, плитки переставляются телепортом); `flushPendingFrontBumps` пишет
+`TILE_REORDER_SCROLL_DURATION_MILLIS` — тогда `RecordScreen` вместо
+`animateScrollToItem` считает точную пиксельную дистанцию до начала ленты
+(все плитки одной ширины `TILE_WIDTH` + `TILE_SPACING`, дистанция —
+`firstVisibleItemIndex * extent + firstVisibleItemScrollOffset`, без
+надобности в уже измеренных оффскрин-айтемах) и скроллит
+`animateScrollBy(-distancePx, tween(1000))`. Плитки при этом сами не
+телепортируются в новую позицию — `MushroomTile` в `LazyRow` получает
+`Modifier.animateItem(placementSpec = scrollToStartDurationMillis?.let
+{ tween(it) })`: `null` (путь `bringCategoryToFront`) явно отключает
+анимацию плейсмента (совпадает со старым мгновенным поведением), non-null
+(путь флаша) — та же секунда, что и у скролла, так что взлёт плитки к
+началу ленты и скролл к ней визуально завершаются синхронно.
+
 ## MapFilter (Часть 7) — единый фильтр для «Карты» и «Записи»
 
 Три оси: диапазон дат, диапазон месяцев (сезон, без года), виды грибов.

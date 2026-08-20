@@ -36,4 +36,14 @@ data class RecordUiState(
     val justFinished: Boolean = false,
     /** Bumped each time a tile is moved to the front of the feed — see [RecordViewModel.bringCategoryToFront]. */
     val scrollToStartSignal: Int = 0,
+    /**
+     * Null for an immediate, deliberate jump-to-tile ([RecordViewModel.bringCategoryToFront] —
+     * search-dialog selection, new-species creation): the feed snaps to the front at its usual
+     * scroll speed. Non-null (set by [RecordViewModel.flushPendingFrontBumps]) means this reorder
+     * came from a quiet +/- tap settling into place — the feed should instead scroll to the front
+     * over this many milliseconds, so the reorder reads as a deliberate, observable motion rather
+     * than a teleport. Always set together with [scrollToStartSignal] in the same state update, so
+     * a reader of the signal always sees the value meant for that specific event.
+     */
+    val scrollToStartDurationMillis: Int? = null,
 )

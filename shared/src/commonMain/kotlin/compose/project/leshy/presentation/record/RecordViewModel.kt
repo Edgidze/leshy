@@ -63,6 +63,10 @@ private const val MIN_COURSE_FIX_DISTANCE_METERS = 3.0
  * front" actually reorders the feed — see [RecordViewModel.scheduleFrontBump]. */
 private val TILE_REORDER_QUIET_WINDOW = 5.seconds
 
+/** How long [RecordViewModel.flushPendingFrontBumps]'s scroll-to-front should take, so the
+ * reorder reads as an observable motion instead of a teleport — see [RecordUiState.scrollToStartDurationMillis]. */
+private const val TILE_REORDER_SCROLL_DURATION_MILLIS = 1000
+
 private data class RecordFilterState(
     val categories: List<Category>,
     val historicalFinds: List<FieldMark>,
@@ -394,7 +398,7 @@ class RecordViewModel(
      */
     fun bringCategoryToFront(categoryId: Long) {
         categoryOrder.update { current -> listOf(categoryId) + current.filter { it != categoryId } }
-        _uiState.update { it.copy(scrollToStartSignal = it.scrollToStartSignal + 1) }
+        _uiState.update { it.copy(scrollToStartSignal = it.scrollToStartSignal + 1, scrollToStartDurationMillis = null) }
     }
 
     /**
@@ -436,7 +440,12 @@ class RecordViewModel(
         val front = pendingFrontBumps.asReversed().toList()
         pendingFrontBumps.clear()
         categoryOrder.update { current -> front + current.filter { it !in front } }
-        _uiState.update { it.copy(scrollToStartSignal = it.scrollToStartSignal + 1) }
+        _uiState.update {
+            it.copy(
+                scrollToStartSignal = it.scrollToStartSignal + 1,
+                scrollToStartDurationMillis = TILE_REORDER_SCROLL_DURATION_MILLIS,
+            )
+        }
     }
 
     fun removeMushroom(categoryId: Long) {

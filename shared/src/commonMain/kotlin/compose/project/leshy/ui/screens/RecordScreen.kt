@@ -1,8 +1,10 @@
 package compose.project.leshy.ui.screens
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -102,6 +104,10 @@ import org.koin.compose.viewmodel.koinViewModel
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
 private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
+
+// Gap between tiles in the feed's LazyRow — also fed into the pixel-distance math for the
+// slow scroll-to-front below, so keep the two in sync if this ever changes.
+private val TILE_SPACING = 8.dp
 
 // Start/Pause pill's preferred width — shrunk on narrow screens (see CENTER_BUTTON_MIN_WIDTH)
 // so the round side buttons always get their full ACTION_BUTTON_HEIGHT slot and never compress.
@@ -249,8 +255,24 @@ private fun RecordScreenContent(
     var bottomControlsHeight by remember { mutableStateOf(0.dp) }
 
     LaunchedEffect(uiState.scrollToStartSignal) {
-        if (uiState.scrollToStartSignal > 0) {
+        if (uiState.scrollToStartSignal == 0) return@LaunchedEffect
+        val slowDurationMillis = uiState.scrollToStartDurationMillis
+        if (slowDurationMillis == null) {
+            // Deliberate jump-to-tile (search-dialog selection, new-species creation) — snap to
+            // the front at the feed's usual scroll speed, no need to draw it out.
             tileListState.animateScrollToItem(0)
+        } else {
+            // A settled +/- reorder — scroll to the front slowly over slowDurationMillis so the
+            // motion is actually observable instead of reading as a teleport (see
+            // RecordUiState.scrollToStartDurationMillis). All tiles share TILE_WIDTH, so the pixel
+            // distance to the front can be computed directly instead of needing off-screen items
+            // to already be laid out.
+            val tileExtentPx = with(density) { (TILE_WIDTH + TILE_SPACING).toPx() }
+            val distancePx = tileListState.firstVisibleItemIndex * tileExtentPx +
+                tileListState.firstVisibleItemScrollOffset
+            if (distancePx > 0f) {
+                tileListState.animateScrollBy(-distancePx, tween(slowDurationMillis))
+            }
         }
     }
 
@@ -441,7 +463,7 @@ private fun RecordScreenContent(
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)),
                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(TILE_SPACING),
                 ) {
                     items(uiState.categories, key = { it.id }) { category ->
                         MushroomTile(
@@ -450,7 +472,12 @@ private fun RecordScreenContent(
                             onAdd = { onAddMushroom(category.id) },
                             onRemove = { onRemoveMushroom(category.id) },
                             onBulkAdd = { if (uiState.isRecording) bulkAddCategoryId = category.id },
-                            modifier = Modifier.width(TILE_WIDTH),
+                            // Only animates when a settled +/- reorder set a slow duration (see
+                            // the scrollToStartSignal LaunchedEffect above) — null placementSpec
+                            // means no placement animation, preserving the instant reorder that's
+                            // deliberate for search-dialog selection / new-species creation.
+                            modifier = Modifier.width(TILE_WIDTH)
+                                .animateItem(placementSpec = uiState.scrollToStartDurationMillis?.let { tween(it) }),
                         )
                     }
                     item {
