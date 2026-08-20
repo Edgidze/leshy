@@ -64,7 +64,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -82,7 +81,6 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 private val CHECKER_TILE = 12.dp
-private val MAGNIFIER_CHECKER_TILE = 5.dp
 private val CHECKER_LIGHT = Color(0xFFE0E0E0)
 private val CHECKER_DARK = Color(0xFFBDBDBD)
 private val CROP_HANDLE_TOUCH_RADIUS = 24.dp
@@ -534,61 +532,72 @@ private fun MagnifierLoupe(
             }
             .size(MAGNIFIER_DIAMETER)
             .clip(CircleShape)
-            .border(2.dp, Color.White, CircleShape)
-            // Same checkerboard-for-transparency language as the main canvas, but at a finer tile
-            // size — at loupe zoom, full-size tiles would be large enough to compete with the very
-            // photo detail the loupe exists to show.
-            .checkerboardBackground(MAGNIFIER_CHECKER_TILE)
-            .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-            .drawWithContent {
-                drawContent()
-                val maxBitmapDimension = max(bitmap.width, bitmap.height).toFloat()
-                val sourceSide = (maxBitmapDimension * MAGNIFIER_SOURCE_FRACTION)
-                    .coerceAtMost(min(bitmap.width, bitmap.height).toFloat())
-                val centerX = (anchor.x / boxSize.width).coerceIn(0f, 1f) * bitmap.width
-                val centerY = (anchor.y / boxSize.height).coerceIn(0f, 1f) * bitmap.height
-                val srcLeft = (centerX - sourceSide / 2).coerceIn(0f, bitmap.width - sourceSide)
-                val srcTop = (centerY - sourceSide / 2).coerceIn(0f, bitmap.height - sourceSide)
-                val zoom = size.width / sourceSide
-                drawImage(
-                    image = bitmap,
-                    srcOffset = IntOffset(srcLeft.roundToInt(), srcTop.roundToInt()),
-                    srcSize = IntSize(sourceSide.roundToInt(), sourceSide.roundToInt()),
-                    dstOffset = IntOffset.Zero,
-                    dstSize = IntSize(size.width.roundToInt(), size.height.roundToInt()),
-                )
-                val allStrokes = if (liveStroke != null) strokes + liveStroke else strokes
-                for (stroke in allStrokes) {
-                    val path = Path()
-                    stroke.points.forEachIndexed { index, point ->
-                        val local = Offset(
-                            (point.x * bitmap.width - srcLeft) * zoom,
-                            (point.y * bitmap.height - srcTop) * zoom,
-                        )
-                        if (index == 0) path.moveTo(local.x, local.y) else path.lineTo(local.x, local.y)
-                    }
-                    drawPath(
-                        path = path,
-                        color = Color.Black,
-                        style = Stroke(
-                            width = stroke.widthFraction * maxBitmapDimension * zoom,
-                            cap = StrokeCap.Round,
-                            join = StrokeJoin.Round,
-                        ),
-                        blendMode = BlendMode.Clear,
+            .border(2.dp, Color.White, CircleShape),
+    ) {
+        // Checkerboard and photo+strokes MUST be separate sibling layers, not one chained onto the
+        // other — chaining `checkerboardBackground()`'s own `drawWithContent` directly onto this
+        // box's photo-drawing `drawWithContent` painted the checker tiles *after* `drawContent()`,
+        // i.e. on top of the opaque photo everywhere, not only behind its transparent parts. As two
+        // siblings (same structure as the main canvas), the checkerboard is simply composited first
+        // and the offscreen photo+erase layer normally covers it wherever it's opaque, showing
+        // through only where actually erased. Same tile size as the main canvas — it's a screen-
+        // space overlay, not something that zooms with the sampled photo region, so there's no
+        // reason for it to look different here.
+        Box(modifier = Modifier.matchParentSize().checkerboardBackground())
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+                .drawWithContent {
+                    drawContent()
+                    val maxBitmapDimension = max(bitmap.width, bitmap.height).toFloat()
+                    val sourceSide = (maxBitmapDimension * MAGNIFIER_SOURCE_FRACTION)
+                        .coerceAtMost(min(bitmap.width, bitmap.height).toFloat())
+                    val centerX = (anchor.x / boxSize.width).coerceIn(0f, 1f) * bitmap.width
+                    val centerY = (anchor.y / boxSize.height).coerceIn(0f, 1f) * bitmap.height
+                    val srcLeft = (centerX - sourceSide / 2).coerceIn(0f, bitmap.width - sourceSide)
+                    val srcTop = (centerY - sourceSide / 2).coerceIn(0f, bitmap.height - sourceSide)
+                    val zoom = size.width / sourceSide
+                    drawImage(
+                        image = bitmap,
+                        srcOffset = IntOffset(srcLeft.roundToInt(), srcTop.roundToInt()),
+                        srcSize = IntSize(sourceSide.roundToInt(), sourceSide.roundToInt()),
+                        dstOffset = IntOffset.Zero,
+                        dstSize = IntSize(size.width.roundToInt(), size.height.roundToInt()),
                     )
-                }
-            },
-    )
+                    val allStrokes = if (liveStroke != null) strokes + liveStroke else strokes
+                    for (stroke in allStrokes) {
+                        val path = Path()
+                        stroke.points.forEachIndexed { index, point ->
+                            val local = Offset(
+                                (point.x * bitmap.width - srcLeft) * zoom,
+                                (point.y * bitmap.height - srcTop) * zoom,
+                            )
+                            if (index == 0) path.moveTo(local.x, local.y) else path.lineTo(local.x, local.y)
+                        }
+                        drawPath(
+                            path = path,
+                            color = Color.Black,
+                            style = Stroke(
+                                width = stroke.widthFraction * maxBitmapDimension * zoom,
+                                cap = StrokeCap.Round,
+                                join = StrokeJoin.Round,
+                            ),
+                            blendMode = BlendMode.Clear,
+                        )
+                    }
+                },
+        )
+    }
 }
 
 private fun Offset.toFraction(size: IntSize): Offset =
     Offset((x / size.width).coerceIn(0f, 1f), (y / size.height).coerceIn(0f, 1f))
 
-private fun Modifier.checkerboardBackground(tileSize: Dp = CHECKER_TILE): Modifier =
+private fun Modifier.checkerboardBackground(): Modifier =
     this.background(CHECKER_LIGHT).drawWithContent {
         drawContent()
-        val tilePx = tileSize.toPx()
+        val tilePx = CHECKER_TILE.toPx()
         var y = 0f
         var row = 0
         while (y < size.height) {
