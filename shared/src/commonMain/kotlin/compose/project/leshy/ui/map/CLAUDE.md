@@ -18,6 +18,44 @@
   не используется готовый `rememberOfflinePacksSource`, чтобы тип
   `OfflinePack` не утекал в UI-слой мимо `OfflineRegionRepository`.
 
+## Маркер пользовательского вида (`MushroomMarkerIcon.kt`, `user-mushrooms.md`)
+
+`rememberMushroomMarkerPainter(source: CategoryIconSource)` — единственная
+точка, где карта резолвит иконку маркера что для каталожного (`Bundled`),
+что для своего (`UserFile`) вида; оба `LiveTrackMap`/`ClusteredFindsLayers`
+зовут её, а не `CategoryIcon` (тот — обычный Compose UI, MapLibre нужен
+именно `Painter` для бейкинга в бренд). Идентификатор слоя строится из
+`CategoryIconSource.key`, а не из голого `iconRef`/`nameKey` — `Bundled` и
+`UserFile` с одинаковым `nameKey` в принципе невозможны (одна и та же
+категория не бывает сразу каталожной и своей), но `key` всё равно различает
+их по конструкции типа, а не по строковому совпадению.
+
+`rememberUserIconPainter` — намеренно тот же паттерн, что
+`rememberPlaceMarkerPainter` (`PlaceMarkerIcon.kt`, см. «Грабли» ниже, не
+дублирую здесь): забирает `Painter` из `AsyncImagePainter.State.Success` в
+`onSuccess`, а не передаёт `model` напрямую в `image(...)`, задаёт
+`ImageRequest.size(...)` явно и `disallowHardwareBitmaps()`. Все три причины
+теми же, что там — идентичность пейнтера для MapLibre, отсутствие
+draw-time size inference (пейнтер никогда реально не рисуется на экран),
+Android hardware bitmaps роняют софт-канвас бейкинга. `MushroomMarkerPainter`
+поверх (fit-scale + центрирование в запрошенный размер бейка) — своя
+обёртка, потому что маркер places квадратной иконкой без circle-кропа/фона
+(в отличие от `PlaceMarkerPainter`, который делает center-crop в круг), и
+исходное фото своего вида почти никогда не квадратное.
+
+**Не проверено живьём на карте в Phase 7** — симуляторный прогон (см. план)
+дошёл до формы создания вида (фото из галереи через `PHPickerViewController`
+загружается и превьюшка рендерится корректно), но не до сохранения вида и
+появления его маркера на карте: автоматизация тапов через `cliclick`/
+System Events в этой сессии смогла кликать и фокусировать поля (курсор,
+подсветка рамки), но не смогла доставить текст в Compose-текстовое поле на
+iOS-симуляторе (ни `cliclick t:`, ни `osascript keystroke` — текст не
+появлялся, хотя фокус визуально брался), так что вид без названия сохранить
+через форму не вышло. Путь `rememberUserIconPainter`/`MushroomMarkerPainter`
+на живой карте (маркер своего вида, кластеризация наравне с каталожными,
+краш на Android hardware bitmaps из «Грабли» ниже) остаётся непроверенным
+живьём — на пользователе (см. `feedback_no_self_testing`).
+
 ## Офлайн-скачивание («Подготовка», `data/repository/OfflineRegionRepositoryImpl.kt`)
 
 - **`OfflineManager` (библиотека `maplibre-compose`, `org.maplibre.compose.
