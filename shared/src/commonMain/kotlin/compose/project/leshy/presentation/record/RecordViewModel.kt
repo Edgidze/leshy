@@ -465,13 +465,13 @@ class RecordViewModel(
         val currentWalkId = walkId ?: return
         viewModelScope.launch {
             val removed = removeLastMushroomMark(currentWalkId, categoryId)
-            if (removed) {
+            if (removed != null) {
                 scheduleFrontBump(categoryId)
                 _uiState.update { state ->
                     val counts = state.mushroomCounts.toMutableMap()
                     val newCount = (counts[categoryId] ?: 0) - 1
                     if (newCount > 0) counts[categoryId] = newCount else counts.remove(categoryId)
-                    state.copy(mushroomCounts = counts)
+                    state.copy(mushroomCounts = counts, marks = state.marks.filter { it.id != removed.id })
                 }
             }
         }

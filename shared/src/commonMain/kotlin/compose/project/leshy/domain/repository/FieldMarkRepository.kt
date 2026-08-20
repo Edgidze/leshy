@@ -10,6 +10,6 @@ interface FieldMarkRepository {
     suspend fun addMark(mark: FieldMark): Long
     suspend fun updateMark(mark: FieldMark)
     suspend fun deleteMark(mark: FieldMark)
-    suspend fun removeLastMushroomMark(walkId: Long, categoryId: Long): Boolean
+    suspend fun removeLastMushroomMark(walkId: Long, categoryId: Long): FieldMark?
     suspend fun reassignCategory(oldCategoryId: Long, newCategoryId: Long)
 }

@@ -1,5 +1,6 @@
 package compose.project.leshy.domain.usecase
 
+import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.repository.FieldMarkRepository
 import compose.project.leshy.domain.repository.WalkRepository
 
@@ -7,9 +8,9 @@ class RemoveLastMushroomMarkUseCase(
     private val fieldMarkRepository: FieldMarkRepository,
     private val walkRepository: WalkRepository,
 ) {
-    suspend operator fun invoke(walkId: Long, categoryId: Long): Boolean {
+    suspend operator fun invoke(walkId: Long, categoryId: Long): FieldMark? {
         val removed = fieldMarkRepository.removeLastMushroomMark(walkId, categoryId)
-        if (removed) {
+        if (removed != null) {
             val walk = walkRepository.getById(walkId)
             if (walk != null && walk.mushroomCount > 0) {
                 walkRepository.update(walk.copy(mushroomCount = walk.mushroomCount - 1))
