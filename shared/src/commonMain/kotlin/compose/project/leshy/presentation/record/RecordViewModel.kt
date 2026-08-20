@@ -330,7 +330,12 @@ class RecordViewModel(
         // points to bound a region on its own (short walks).
         val location = _uiState.value.currentLocation
         frontBumpFlushJob?.cancel()
-        pendingFrontBumps.clear()
+        // Apply any taps still sitting in the quiet-window countdown right now instead of just
+        // discarding them — a walk finished within 5s of the last +/- tap used to lose that tap's
+        // reorder outright, even with resetOrderOnWalkFinish off, because the pending bump was
+        // cleared here without ever having been applied to categoryOrder. Flushing first still
+        // leaves the resetOrderOnWalkFinish branch below the final say — it runs after and wins.
+        flushPendingFrontBumps()
         viewModelScope.launch {
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
             walkId = null
