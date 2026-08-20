@@ -38,6 +38,14 @@ enum class StringKey {
     SpeciesListToggleVisibilityContentDescription,
     SpeciesListEditContentDescription,
 
+    IconEditorTitle,
+    IconEditorToolEraser,
+    IconEditorToolCrop,
+    IconEditorBrushSizeLabel,
+    IconEditorUndoContentDescription,
+    IconEditorRedoContentDescription,
+    IconEditorDoneContentDescription,
+
     OnboardingTitle,
     OnboardingDescription,
     OnboardingContinueButton,

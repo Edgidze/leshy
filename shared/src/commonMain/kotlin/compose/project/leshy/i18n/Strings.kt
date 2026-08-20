@@ -115,6 +115,14 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesListToggleVisibilityContentDescription -> "Показывать/скрыть"
     StringKey.SpeciesListEditContentDescription -> "Редактировать"
 
+    StringKey.IconEditorTitle -> "Редактор фото"
+    StringKey.IconEditorToolEraser -> "Ластик"
+    StringKey.IconEditorToolCrop -> "Кадр"
+    StringKey.IconEditorBrushSizeLabel -> "Размер кисти"
+    StringKey.IconEditorUndoContentDescription -> "Отменить"
+    StringKey.IconEditorRedoContentDescription -> "Вернуть"
+    StringKey.IconEditorDoneContentDescription -> "Готово"
+
     StringKey.OnboardingTitle -> "Добро пожаловать!"
     StringKey.OnboardingDescription ->
         "Выберите подборки грибов, которые вам интересны. Это можно изменить позже в Настройках."
@@ -374,6 +382,14 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesListImportedLabel -> "from archive"
     StringKey.SpeciesListToggleVisibilityContentDescription -> "Show/hide"
     StringKey.SpeciesListEditContentDescription -> "Edit"
+
+    StringKey.IconEditorTitle -> "Photo editor"
+    StringKey.IconEditorToolEraser -> "Eraser"
+    StringKey.IconEditorToolCrop -> "Crop"
+    StringKey.IconEditorBrushSizeLabel -> "Brush size"
+    StringKey.IconEditorUndoContentDescription -> "Undo"
+    StringKey.IconEditorRedoContentDescription -> "Redo"
+    StringKey.IconEditorDoneContentDescription -> "Done"
 
     StringKey.OnboardingTitle -> "Welcome!"
     StringKey.OnboardingDescription ->

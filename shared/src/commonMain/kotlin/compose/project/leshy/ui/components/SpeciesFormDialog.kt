@@ -1,5 +1,6 @@
 package compose.project.leshy.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +37,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,24 +49,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import coil3.compose.AsyncImage
-import compose.project.leshy.data.platform.EDITOR_IMAGE_MAX_DIMENSION
-import compose.project.leshy.data.platform.decodeScaledImage
-import compose.project.leshy.data.platform.encodePng
 import compose.project.leshy.data.platform.rememberCameraLauncher
 import compose.project.leshy.data.platform.rememberCameraPermissionRequester
 import compose.project.leshy.data.platform.rememberGalleryPicker
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
-import compose.project.leshy.domain.usecase.CATEGORY_ICON_MAX_DIMENSION
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.ui.util.colorToHex
 import compose.project.leshy.ui.util.hueOf
 import compose.project.leshy.ui.util.parseHexColor
-import compose.project.leshy.ui.util.scaledToMaxDimension
-import kotlinx.coroutines.launch
 
 private val PHOTO_PREVIEW_SIZE = 96.dp
 private val COLOR_SWATCH_SIZE = 40.dp
@@ -85,9 +78,9 @@ private val SPECTRUM_GRADIENT_BRUSH = Brush.horizontalGradient(
 )
 
 /**
- * Cheap dominant-hue estimate over the already-downscaled (≤[CATEGORY_ICON_MAX_DIMENSION]px) icon
- * bitmap — one pass, no libraries: bucket every pixel's hue into 10°-wide bins weighted by
- * saturation, skip near-gray/near-black/near-white pixels (background/shadow/highlight, not the
+ * Cheap dominant-hue estimate over the already-downscaled, already-edited icon bitmap
+ * [IconEditorDialog] hands back — one pass, no libraries: bucket every pixel's hue into 10°-wide
+ * bins weighted by saturation, skip near-gray/near-black/near-white pixels (background/shadow/highlight, not the
  * mushroom's own color), return the bucket with the most weight. `null` if nothing passed the
  * filter (e.g. a fully desaturated photo) — caller then leaves the hue untouched.
  */
@@ -118,10 +111,10 @@ private fun dominantHue(bitmap: ImageBitmap): Float? {
  * [MushroomSearchDialog]/`MushroomBulkAddDialog` in `RecordScreen.kt` — never a navigation route, so
  * opening it from Record never leaves the walk in progress.
  *
- * There's no eraser/crop step yet (Phase 3 of the plan) — a picked photo is just downscaled and
- * PNG-encoded as-is, same pipeline the temporary debug button in Settings used to exercise. A photo
- * is optional: [CategoryIcon] already renders a species with neither `iconFile` nor `iconRef` as
- * empty space, so skipping it doesn't break any layout downstream.
+ * A picked photo opens [IconEditorDialog] (Phase 3 of the plan) before it becomes the pending icon —
+ * this dialog only holds the already-edited PNG bytes and its preview bitmap, never a raw photo
+ * path. A photo is optional: [CategoryIcon] already renders a species with neither `iconFile` nor
+ * `iconRef` as empty space, so skipping it doesn't break any layout downstream.
  */
 @Composable
 fun SpeciesFormDialog(
@@ -136,7 +129,6 @@ fun SpeciesFormDialog(
     ) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
     var name by remember { mutableStateOf(existing?.customNames?.get(language).orEmpty()) }
     var scientificName by remember { mutableStateOf(existing?.scientificName.orEmpty()) }
     var edibility by remember { mutableStateOf(existing?.edibilityStatus ?: EdibilityStatus.NOT_SPECIFIED) }
@@ -145,24 +137,28 @@ fun SpeciesFormDialog(
     // session) must never be silently overwritten by a new photo's auto-detected hue.
     var hueManuallySet by remember { mutableStateOf(existing != null) }
     val colorHex = colorToHex(Color.hsv(hue, SPECIES_COLOR_SATURATION, SPECIES_COLOR_VALUE))
-    var pendingPhotoPath by remember { mutableStateOf<String?>(null) }
+    var pendingIconPreview by remember { mutableStateOf<ImageBitmap?>(null) }
     var pendingIconBytes by remember { mutableStateOf<ByteArray?>(null) }
+    var editorSourcePath by remember { mutableStateOf<String?>(null) }
 
-    fun onPhotoPicked(path: String) {
-        pendingPhotoPath = path
-        scope.launch {
-            val source = decodeScaledImage(path, EDITOR_IMAGE_MAX_DIMENSION) ?: return@launch
-            val icon = source.scaledToMaxDimension(CATEGORY_ICON_MAX_DIMENSION)
-            pendingIconBytes = encodePng(icon)
-            if (!hueManuallySet) {
-                dominantHue(icon)?.let { hue = it }
-            }
-        }
-    }
-
-    val takePhoto = rememberCameraLauncher(::onPhotoPicked)
+    val takePhoto = rememberCameraLauncher { path -> editorSourcePath = path }
     val requestPhoto = rememberCameraPermissionRequester(onGranted = takePhoto)
-    val pickFromGallery = rememberGalleryPicker(::onPhotoPicked)
+    val pickFromGallery = rememberGalleryPicker { path -> editorSourcePath = path }
+
+    editorSourcePath?.let { sourcePath ->
+        IconEditorDialog(
+            sourcePath = sourcePath,
+            onDone = { bytes, preview ->
+                pendingIconBytes = bytes
+                pendingIconPreview = preview
+                if (!hueManuallySet) {
+                    dominantHue(preview)?.let { hue = it }
+                }
+                editorSourcePath = null
+            },
+            onCancel = { editorSourcePath = null },
+        )
+    }
 
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -197,13 +193,13 @@ fun SpeciesFormDialog(
                         .background(MaterialTheme.colorScheme.surfaceVariant),
                     contentAlignment = Alignment.Center,
                 ) {
-                    val previewPath = pendingPhotoPath
-                    if (previewPath != null) {
-                        AsyncImage(
-                            model = "file://$previewPath",
+                    val preview = pendingIconPreview
+                    if (preview != null) {
+                        Image(
+                            bitmap = preview,
                             contentDescription = null,
                             modifier = Modifier.fillMaxWidth().aspectRatio(1f),
-                            contentScale = ContentScale.Crop,
+                            contentScale = ContentScale.Fit,
                         )
                     } else if (existing != null) {
                         CategoryIcon(category = existing, modifier = Modifier.fillMaxWidth().aspectRatio(1f))

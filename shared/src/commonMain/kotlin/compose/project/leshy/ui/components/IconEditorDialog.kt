@@ -1,0 +1,504 @@
+package compose.project.leshy.ui.components
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Redo
+import androidx.compose.material.icons.automirrored.filled.Undo
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.PaintingStyle
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import compose.project.leshy.data.platform.EDITOR_IMAGE_MAX_DIMENSION
+import compose.project.leshy.data.platform.decodeScaledImage
+import compose.project.leshy.data.platform.encodePng
+import compose.project.leshy.domain.usecase.CATEGORY_ICON_MAX_DIMENSION
+import compose.project.leshy.i18n.StringKey
+import compose.project.leshy.i18n.stringResource
+import compose.project.leshy.ui.util.scaledToMaxDimension
+import kotlin.math.max
+
+private val CHECKER_TILE = 12.dp
+private val CHECKER_LIGHT = Color(0xFFE0E0E0)
+private val CHECKER_DARK = Color(0xFFBDBDBD)
+private val CROP_HANDLE_TOUCH_RADIUS = 24.dp
+private val CROP_HANDLE_DRAW_RADIUS = 6.dp
+private const val MIN_BRUSH_FRACTION = 0.015f
+private const val MAX_BRUSH_FRACTION = 0.12f
+private const val DEFAULT_BRUSH_FRACTION = 0.05f
+private const val MIN_CROP_SIZE_FRACTION = 0.15f
+
+private enum class EditorTool { ERASER, CROP }
+
+/** One committed (or in-progress) erase gesture, in fractions (0f..1f) of the photo's own bounds — resolution-independent, so the same stroke list renders correctly both for the live on-screen preview and for the final full-resolution bake. */
+private data class EraseStroke(val points: List<Offset>, val widthFraction: Float)
+
+private fun EraseStroke.toPath(targetWidth: Float, targetHeight: Float): Path {
+    val path = Path()
+    val first = points.first()
+    path.moveTo(first.x * targetWidth, first.y * targetHeight)
+    for (index in 1 until points.size) {
+        val point = points[index]
+        path.lineTo(point.x * targetWidth, point.y * targetHeight)
+    }
+    return path
+}
+
+private data class CropRect(val left: Float, val top: Float, val right: Float, val bottom: Float) {
+    companion object {
+        val Full = CropRect(0f, 0f, 1f, 1f)
+    }
+}
+
+private enum class CropCorner { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT }
+
+private sealed interface CropDrag {
+    data class Corner(val corner: CropCorner) : CropDrag
+    data class Move(val startPointerFraction: Offset, val startRect: CropRect) : CropDrag
+}
+
+private fun resolveCropDrag(offset: Offset, size: IntSize, rect: CropRect, handleRadiusPx: Float): CropDrag? {
+    val corners = mapOf(
+        CropCorner.TOP_LEFT to Offset(rect.left * size.width, rect.top * size.height),
+        CropCorner.TOP_RIGHT to Offset(rect.right * size.width, rect.top * size.height),
+        CropCorner.BOTTOM_LEFT to Offset(rect.left * size.width, rect.bottom * size.height),
+        CropCorner.BOTTOM_RIGHT to Offset(rect.right * size.width, rect.bottom * size.height),
+    )
+    val nearest = corners.entries.minByOrNull { (offset - it.value).getDistance() }
+    if (nearest != null && (offset - nearest.value).getDistance() <= handleRadiusPx) {
+        return CropDrag.Corner(nearest.key)
+    }
+    val leftPx = rect.left * size.width
+    val topPx = rect.top * size.height
+    val rightPx = rect.right * size.width
+    val bottomPx = rect.bottom * size.height
+    if (offset.x in leftPx..rightPx && offset.y in topPx..bottomPx) {
+        return CropDrag.Move(Offset(offset.x / size.width, offset.y / size.height), rect)
+    }
+    return null
+}
+
+private fun applyCropDrag(drag: CropDrag?, pointerPosition: Offset, size: IntSize, current: CropRect): CropRect {
+    if (drag == null) return current
+    val fx = (pointerPosition.x / size.width).coerceIn(0f, 1f)
+    val fy = (pointerPosition.y / size.height).coerceIn(0f, 1f)
+    return when (drag) {
+        is CropDrag.Corner -> when (drag.corner) {
+            CropCorner.TOP_LEFT -> current.copy(
+                left = fx.coerceAtMost(current.right - MIN_CROP_SIZE_FRACTION),
+                top = fy.coerceAtMost(current.bottom - MIN_CROP_SIZE_FRACTION),
+            )
+            CropCorner.TOP_RIGHT -> current.copy(
+                right = fx.coerceAtLeast(current.left + MIN_CROP_SIZE_FRACTION),
+                top = fy.coerceAtMost(current.bottom - MIN_CROP_SIZE_FRACTION),
+            )
+            CropCorner.BOTTOM_LEFT -> current.copy(
+                left = fx.coerceAtMost(current.right - MIN_CROP_SIZE_FRACTION),
+                bottom = fy.coerceAtLeast(current.top + MIN_CROP_SIZE_FRACTION),
+            )
+            CropCorner.BOTTOM_RIGHT -> current.copy(
+                right = fx.coerceAtLeast(current.left + MIN_CROP_SIZE_FRACTION),
+                bottom = fy.coerceAtLeast(current.top + MIN_CROP_SIZE_FRACTION),
+            )
+        }
+        is CropDrag.Move -> {
+            val width = drag.startRect.right - drag.startRect.left
+            val height = drag.startRect.bottom - drag.startRect.top
+            val newLeft = (drag.startRect.left + (fx - drag.startPointerFraction.x)).coerceIn(0f, 1f - width)
+            val newTop = (drag.startRect.top + (fy - drag.startPointerFraction.y)).coerceIn(0f, 1f - height)
+            current.copy(left = newLeft, top = newTop, right = newLeft + width, bottom = newTop + height)
+        }
+    }
+}
+
+/**
+ * Bakes [strokes] (`BlendMode.Clear`, same mechanism as the live preview) into [photo] at its own
+ * resolution, then crops to [crop]. Kept as a plain function, not a `DrawScope` extension, because
+ * it draws into an offscreen [ImageBitmap] via [androidx.compose.ui.graphics.Canvas] rather than
+ * onto the screen.
+ */
+private fun renderErasedAndCropped(photo: ImageBitmap, strokes: List<EraseStroke>, crop: CropRect): ImageBitmap {
+    val baked = ImageBitmap(photo.width, photo.height)
+    val canvas = Canvas(baked)
+    canvas.drawImage(photo, Offset.Zero, Paint())
+    val erasePaint = Paint().apply {
+        style = PaintingStyle.Stroke
+        strokeCap = StrokeCap.Round
+        strokeJoin = StrokeJoin.Round
+        blendMode = BlendMode.Clear
+    }
+    val maxDimension = max(photo.width, photo.height).toFloat()
+    for (stroke in strokes) {
+        erasePaint.strokeWidth = stroke.widthFraction * maxDimension
+        canvas.drawPath(stroke.toPath(photo.width.toFloat(), photo.height.toFloat()), erasePaint)
+    }
+
+    val cropLeft = (crop.left * photo.width).toInt().coerceIn(0, photo.width - 1)
+    val cropTop = (crop.top * photo.height).toInt().coerceIn(0, photo.height - 1)
+    val cropRight = (crop.right * photo.width).toInt().coerceIn(cropLeft + 1, photo.width)
+    val cropBottom = (crop.bottom * photo.height).toInt().coerceIn(cropTop + 1, photo.height)
+    if (cropLeft == 0 && cropTop == 0 && cropRight == photo.width && cropBottom == photo.height) return baked
+
+    val cropWidth = cropRight - cropLeft
+    val cropHeight = cropBottom - cropTop
+    val cropped = ImageBitmap(cropWidth, cropHeight)
+    Canvas(cropped).drawImageRect(
+        image = baked,
+        srcOffset = IntOffset(cropLeft, cropTop),
+        srcSize = IntSize(cropWidth, cropHeight),
+        dstOffset = IntOffset.Zero,
+        dstSize = IntSize(cropWidth, cropHeight),
+        paint = Paint().apply { filterQuality = FilterQuality.High },
+    )
+    return cropped
+}
+
+/**
+ * Manual erase/crop editor for a freshly picked species photo (`.claude/plans/user-mushrooms.md`,
+ * Phase 3) — opened by [SpeciesFormDialog] between picking a photo and encoding the final icon.
+ * Isolated by design: takes a photo path in, produces the finished icon's PNG bytes and preview
+ * bitmap out, and knows nothing about `Category`.
+ *
+ * Erasing composites strokes with `BlendMode.Clear` inside a
+ * `Modifier.graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)` layer, so clearing
+ * only ever punches through the photo itself, never the checkerboard drawn behind it or the crop
+ * scrim drawn on top. Strokes are kept as raw point lists (not committed into a raster) for the
+ * whole session — undo/redo is just popping/pushing list entries. If this turns out to visibly lag
+ * on a real device with a very long erase session, the mitigation the plan already anticipated is
+ * baking older strokes into a raster every N strokes; not done upfront since it wasn't needed to
+ * make the feature work.
+ */
+@Composable
+fun IconEditorDialog(
+    sourcePath: String,
+    onDone: (pngBytes: ByteArray, preview: ImageBitmap) -> Unit,
+    onCancel: () -> Unit,
+) {
+    var workingBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+    var decodeFailed by remember { mutableStateOf(false) }
+    LaunchedEffect(sourcePath) {
+        val decoded = decodeScaledImage(sourcePath, EDITOR_IMAGE_MAX_DIMENSION)
+        if (decoded == null) decodeFailed = true else workingBitmap = decoded
+    }
+    LaunchedEffect(decodeFailed) { if (decodeFailed) onCancel() }
+
+    var activeTool by remember { mutableStateOf(EditorTool.ERASER) }
+    var brushWidthFraction by remember { mutableStateOf(DEFAULT_BRUSH_FRACTION) }
+    val strokes = remember { mutableStateListOf<EraseStroke>() }
+    val redoStack = remember { mutableStateListOf<EraseStroke>() }
+    var currentPoints by remember { mutableStateOf<List<Offset>>(emptyList()) }
+    var cropRect by remember { mutableStateOf(CropRect.Full) }
+    var cropDrag by remember { mutableStateOf<CropDrag?>(null) }
+
+    Dialog(
+        onDismissRequest = onCancel,
+        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
+    ) {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = onCancel) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(StringKey.SpeciesFormCancelContentDescription),
+                        )
+                    }
+                    Text(
+                        text = stringResource(StringKey.IconEditorTitle),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.weight(1f),
+                    )
+                    IconButton(
+                        onClick = {
+                            val bitmap = workingBitmap ?: return@IconButton
+                            val edited = renderErasedAndCropped(bitmap, strokes, cropRect)
+                                .scaledToMaxDimension(CATEGORY_ICON_MAX_DIMENSION)
+                            val bytes = encodePng(edited)
+                            if (bytes != null) onDone(bytes, edited)
+                        },
+                        enabled = workingBitmap != null,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Check,
+                            contentDescription = stringResource(StringKey.IconEditorDoneContentDescription),
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                val bitmap = workingBitmap
+                if (bitmap == null) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    val bitmapAspect = bitmap.width.toFloat() / bitmap.height.toFloat()
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(bitmapAspect)
+                            .clip(RoundedCornerShape(12.dp)),
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .checkerboardBackground(),
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+                                .drawWithContent {
+                                    drawContent()
+                                    val maxDimension = max(size.width, size.height)
+                                    val liveStroke = if (currentPoints.size >= 2) {
+                                        EraseStroke(currentPoints, brushWidthFraction)
+                                    } else {
+                                        null
+                                    }
+                                    val allStrokes = if (liveStroke != null) strokes + liveStroke else strokes
+                                    for (stroke in allStrokes) {
+                                        drawPath(
+                                            path = stroke.toPath(size.width, size.height),
+                                            color = Color.Black,
+                                            style = Stroke(
+                                                width = stroke.widthFraction * maxDimension,
+                                                cap = StrokeCap.Round,
+                                                join = StrokeJoin.Round,
+                                            ),
+                                            blendMode = BlendMode.Clear,
+                                        )
+                                    }
+                                },
+                        ) {
+                            Image(
+                                bitmap = bitmap,
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.FillBounds,
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .pointerInputEditor(
+                                    activeTool = activeTool,
+                                    onEraseStart = { point, size ->
+                                        currentPoints = listOf(point.toFraction(size), point.toFraction(size))
+                                    },
+                                    onEraseDrag = { point, size ->
+                                        currentPoints = currentPoints + point.toFraction(size)
+                                    },
+                                    onEraseEnd = {
+                                        if (currentPoints.size >= 2) {
+                                            strokes.add(EraseStroke(currentPoints, brushWidthFraction))
+                                            redoStack.clear()
+                                        }
+                                        currentPoints = emptyList()
+                                    },
+                                    onCropStart = { offset, size, handleRadiusPx ->
+                                        cropDrag = resolveCropDrag(offset, size, cropRect, handleRadiusPx)
+                                    },
+                                    onCropDrag = { offset, size ->
+                                        cropRect = applyCropDrag(cropDrag, offset, size, cropRect)
+                                    },
+                                    onCropEnd = { cropDrag = null },
+                                )
+                                .drawWithContent {
+                                    drawContent()
+                                    if (activeTool == EditorTool.CROP) {
+                                        drawCropOverlay(cropRect)
+                                    }
+                                },
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+                SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                    EditorTool.entries.forEachIndexed { index, tool ->
+                        SegmentedButton(
+                            selected = activeTool == tool,
+                            onClick = { activeTool = tool },
+                            shape = SegmentedButtonDefaults.itemShape(index = index, count = EditorTool.entries.size),
+                        ) {
+                            Text(
+                                stringResource(
+                                    when (tool) {
+                                        EditorTool.ERASER -> StringKey.IconEditorToolEraser
+                                        EditorTool.CROP -> StringKey.IconEditorToolCrop
+                                    },
+                                ),
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    IconButton(onClick = { strokes.removeLastOrNull()?.let { redoStack.add(it) } }, enabled = strokes.isNotEmpty()) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Undo,
+                            contentDescription = stringResource(StringKey.IconEditorUndoContentDescription),
+                        )
+                    }
+                    IconButton(onClick = { redoStack.removeLastOrNull()?.let { strokes.add(it) } }, enabled = redoStack.isNotEmpty()) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Redo,
+                            contentDescription = stringResource(StringKey.IconEditorRedoContentDescription),
+                        )
+                    }
+                    if (activeTool == EditorTool.ERASER) {
+                        Text(stringResource(StringKey.IconEditorBrushSizeLabel))
+                        Slider(
+                            value = brushWidthFraction,
+                            onValueChange = { brushWidthFraction = it },
+                            valueRange = MIN_BRUSH_FRACTION..MAX_BRUSH_FRACTION,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun Offset.toFraction(size: IntSize): Offset =
+    Offset((x / size.width).coerceIn(0f, 1f), (y / size.height).coerceIn(0f, 1f))
+
+private fun Modifier.checkerboardBackground(): Modifier = this.background(CHECKER_LIGHT).drawWithContent {
+    drawContent()
+    val tilePx = CHECKER_TILE.toPx()
+    var y = 0f
+    var row = 0
+    while (y < size.height) {
+        var x = 0f
+        var col = row
+        while (x < size.width) {
+            if (col % 2 != 0) {
+                drawRect(
+                    color = CHECKER_DARK,
+                    topLeft = Offset(x, y),
+                    size = Size(
+                        kotlin.math.min(tilePx, size.width - x),
+                        kotlin.math.min(tilePx, size.height - y),
+                    ),
+                )
+            }
+            x += tilePx
+            col++
+        }
+        y += tilePx
+        row++
+    }
+}
+
+private fun ContentDrawScope.drawCropOverlay(crop: CropRect) {
+    val leftPx = crop.left * size.width
+    val topPx = crop.top * size.height
+    val rightPx = crop.right * size.width
+    val bottomPx = crop.bottom * size.height
+    val scrim = Color.Black.copy(alpha = 0.55f)
+    drawRect(scrim, topLeft = Offset.Zero, size = Size(size.width, topPx))
+    drawRect(scrim, topLeft = Offset(0f, bottomPx), size = Size(size.width, size.height - bottomPx))
+    drawRect(scrim, topLeft = Offset(0f, topPx), size = Size(leftPx, bottomPx - topPx))
+    drawRect(scrim, topLeft = Offset(rightPx, topPx), size = Size(size.width - rightPx, bottomPx - topPx))
+    drawRect(
+        color = Color.White,
+        topLeft = Offset(leftPx, topPx),
+        size = Size(rightPx - leftPx, bottomPx - topPx),
+        style = Stroke(width = 2.dp.toPx()),
+    )
+    val handleRadius = CROP_HANDLE_DRAW_RADIUS.toPx()
+    for (corner in listOf(Offset(leftPx, topPx), Offset(rightPx, topPx), Offset(leftPx, bottomPx), Offset(rightPx, bottomPx))) {
+        drawCircle(color = Color.White, radius = handleRadius, center = corner)
+    }
+}
+
+/**
+ * Single `pointerInput` block shared by both tools (keyed on [activeTool] so switching tools tears
+ * down and rebuilds gesture detection): eraser drag callbacks build/commit a stroke, crop drag
+ * callbacks resize/move [CropRect] via [resolveCropDrag]/[applyCropDrag].
+ */
+private fun Modifier.pointerInputEditor(
+    activeTool: EditorTool,
+    onEraseStart: (Offset, IntSize) -> Unit,
+    onEraseDrag: (Offset, IntSize) -> Unit,
+    onEraseEnd: () -> Unit,
+    onCropStart: (Offset, IntSize, Float) -> Unit,
+    onCropDrag: (Offset, IntSize) -> Unit,
+    onCropEnd: () -> Unit,
+): Modifier = this.then(
+    Modifier.pointerInput(activeTool) {
+        val handleRadiusPx = CROP_HANDLE_TOUCH_RADIUS.toPx()
+        when (activeTool) {
+            EditorTool.ERASER -> detectDragGestures(
+                onDragStart = { offset -> onEraseStart(offset, size) },
+                onDrag = { change, _ -> change.consume(); onEraseDrag(change.position, size) },
+                onDragEnd = onEraseEnd,
+                onDragCancel = onEraseEnd,
+            )
+            EditorTool.CROP -> detectDragGestures(
+                onDragStart = { offset -> onCropStart(offset, size, handleRadiusPx) },
+                onDrag = { change, _ -> change.consume(); onCropDrag(change.position, size) },
+                onDragEnd = onCropEnd,
+                onDragCancel = onCropEnd,
+            )
+        }
+    },
+)
