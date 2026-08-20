@@ -1,6 +1,7 @@
 package compose.project.leshy.domain.model
 
 enum class MushroomSortOrder {
-    EDIBILITY_THEN_ALPHABETICAL,
     ALPHABETICAL,
+    /** Non-poisonous species first, poisonous ones last — alphabetical within each of those two groups. */
+    POISONOUS_LAST,
 }

@@ -13,13 +13,15 @@ import compose.project.leshy.i18n.categoryDisplayName
  */
 fun sortCategories(categories: List<Category>, sortOrder: MushroomSortOrder, language: AppLanguage): List<Category> =
     when (sortOrder) {
-        MushroomSortOrder.EDIBILITY_THEN_ALPHABETICAL -> categories.sortedWith(
+        MushroomSortOrder.ALPHABETICAL -> categories.sortedBy { categoryDisplayName(it, language) }
+        // EdibilityStatus.NOT_SPECIFIED sorts before POISONOUS by ordinal, so this already puts
+        // poisonous species last — alphabetical within each of the two groups.
+        MushroomSortOrder.POISONOUS_LAST -> categories.sortedWith(
             compareBy(
                 { it.edibilityStatus.ordinal },
                 { categoryDisplayName(it, language) },
             ),
         )
-        MushroomSortOrder.ALPHABETICAL -> categories.sortedBy { categoryDisplayName(it, language) }
     }
 
 /**

@@ -91,9 +91,10 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsCategoriesTitle -> "Грибы для отметки"
     StringKey.SettingsMushroomSizeTitle -> "Настройте размер грибов на карте"
     StringKey.SettingsMushroomSortTitle -> "Порядок грибов"
-    StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "По съедобности и алфавиту"
     StringKey.SettingsMushroomSortByAlphabetical -> "По алфавиту"
+    StringKey.SettingsMushroomSortByPoisonousLast -> "Ядовитые в конец"
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Сбрасывать порядок грибов в конце прогулки"
+    StringKey.SettingsFreezeMushroomOrder -> "Неподвижный порядок грибов"
 
     StringKey.SpeciesCollectionsTitle -> "Подборки грибов"
     StringKey.SpeciesMyMushroomsTitle -> "Мои грибы"
@@ -366,9 +367,10 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsCategoriesTitle -> "Mushrooms to track"
     StringKey.SettingsMushroomSizeTitle -> "Adjust mushroom size on the map"
     StringKey.SettingsMushroomSortTitle -> "Mushroom order"
-    StringKey.SettingsMushroomSortByEdibilityThenAlphabetical -> "By edibility, then alphabetically"
     StringKey.SettingsMushroomSortByAlphabetical -> "Alphabetically"
+    StringKey.SettingsMushroomSortByPoisonousLast -> "Poisonous last"
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Reset mushroom order at the end of a walk"
+    StringKey.SettingsFreezeMushroomOrder -> "Freeze mushroom order"
 
     StringKey.SpeciesCollectionsTitle -> "Mushroom collections"
     StringKey.SpeciesMyMushroomsTitle -> "My mushrooms"

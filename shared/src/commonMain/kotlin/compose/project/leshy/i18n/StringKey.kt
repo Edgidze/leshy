@@ -14,9 +14,10 @@ enum class StringKey {
     SettingsCategoriesTitle,
     SettingsMushroomSizeTitle,
     SettingsMushroomSortTitle,
-    SettingsMushroomSortByEdibilityThenAlphabetical,
     SettingsMushroomSortByAlphabetical,
+    SettingsMushroomSortByPoisonousLast,
     SettingsResetMushroomOrderOnWalkFinish,
+    SettingsFreezeMushroomOrder,
 
     SpeciesCollectionsTitle,
     SpeciesMyMushroomsTitle,

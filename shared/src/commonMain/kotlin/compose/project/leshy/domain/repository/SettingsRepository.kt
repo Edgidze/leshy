@@ -23,4 +23,14 @@ interface SettingsRepository {
      */
     fun observeResetMushroomOrderOnWalkFinish(): Flow<Boolean>
     suspend fun setResetMushroomOrderOnWalkFinish(reset: Boolean)
+
+    /**
+     * Whether the Record screen's tile feed should stop bumping a tile to the front when it's
+     * tapped (+/-) — the feed stays in its [MushroomSortOrder] order regardless of new finds. Off
+     * by default. Doesn't affect the deliberate jump-to-tile from the search dialog or right after
+     * creating a new species — those aren't "reordering because of a new find", they're a jump to
+     * a tile the user just explicitly picked.
+     */
+    fun observeFreezeMushroomOrder(): Flow<Boolean>
+    suspend fun setFreezeMushroomOrder(freeze: Boolean)
 }

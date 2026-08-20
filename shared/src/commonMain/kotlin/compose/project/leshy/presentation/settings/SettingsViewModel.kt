@@ -63,6 +63,11 @@ class SettingsViewModel(
                 _uiState.update { it.copy(resetMushroomOrderOnWalkFinish = reset) }
             }
         }
+        viewModelScope.launch {
+            settingsRepository.observeFreezeMushroomOrder().collect { freeze ->
+                _uiState.update { it.copy(freezeMushroomOrder = freeze) }
+            }
+        }
     }
 
     fun setLanguage(language: AppLanguage) {
@@ -79,6 +84,10 @@ class SettingsViewModel(
 
     fun setResetMushroomOrderOnWalkFinish(reset: Boolean) {
         viewModelScope.launch { settingsRepository.setResetMushroomOrderOnWalkFinish(reset) }
+    }
+
+    fun setFreezeMushroomOrder(freeze: Boolean) {
+        viewModelScope.launch { settingsRepository.setFreezeMushroomOrder(freeze) }
     }
 
     /** Explicit-only re-fetch of the pinned map style — see `MapStyleCacheRepository`'s doc for

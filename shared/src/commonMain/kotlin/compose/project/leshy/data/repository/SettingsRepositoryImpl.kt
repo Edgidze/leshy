@@ -19,6 +19,7 @@ private val LANGUAGE_KEY = stringPreferencesKey("language")
 private val MUSHROOM_MARKER_SIZE_SCALE_KEY = floatPreferencesKey("mushroom_marker_size_scale")
 private val MUSHROOM_SORT_ORDER_KEY = stringPreferencesKey("mushroom_sort_order")
 private val RESET_MUSHROOM_ORDER_ON_WALK_FINISH_KEY = booleanPreferencesKey("reset_mushroom_order_on_walk_finish")
+private val FREEZE_MUSHROOM_ORDER_KEY = booleanPreferencesKey("freeze_mushroom_order")
 
 class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
@@ -47,7 +48,7 @@ class SettingsRepositoryImpl(
 
     override fun observeMushroomSortOrder(): Flow<MushroomSortOrder> = dataStore.data.map { prefs ->
         prefs[MUSHROOM_SORT_ORDER_KEY]?.let { name -> MushroomSortOrder.entries.find { it.name == name } }
-            ?: MushroomSortOrder.EDIBILITY_THEN_ALPHABETICAL
+            ?: MushroomSortOrder.ALPHABETICAL
     }
 
     override suspend fun setMushroomSortOrder(sortOrder: MushroomSortOrder) {
@@ -60,5 +61,13 @@ class SettingsRepositoryImpl(
 
     override suspend fun setResetMushroomOrderOnWalkFinish(reset: Boolean) {
         dataStore.edit { prefs -> prefs[RESET_MUSHROOM_ORDER_ON_WALK_FINISH_KEY] = reset }
+    }
+
+    override fun observeFreezeMushroomOrder(): Flow<Boolean> = dataStore.data.map { prefs ->
+        prefs[FREEZE_MUSHROOM_ORDER_KEY] ?: false
+    }
+
+    override suspend fun setFreezeMushroomOrder(freeze: Boolean) {
+        dataStore.edit { prefs -> prefs[FREEZE_MUSHROOM_ORDER_KEY] = freeze }
     }
 }

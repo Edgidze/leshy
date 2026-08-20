@@ -114,6 +114,7 @@ class RecordViewModel(
     private var tickerJob: Job? = null
     private var currentLanguage = AppLanguage.EN
     private var resetOrderOnWalkFinish = false
+    private var freezeOrder = false
 
     // Most-recently-bumped category ids first — a tile jumps to the front of the feed each time
     // it's added (or picked from search). Not persisted across app restarts; whether it survives
@@ -195,6 +196,9 @@ class RecordViewModel(
         }
         viewModelScope.launch {
             settingsRepository.observeResetMushroomOrderOnWalkFinish().collect { resetOrderOnWalkFinish = it }
+        }
+        viewModelScope.launch {
+            settingsRepository.observeFreezeMushroomOrder().collect { freezeOrder = it }
         }
         viewModelScope.launch {
             locationTracker.track().collect { point ->
@@ -411,8 +415,12 @@ class RecordViewModel(
      * the composable (this ViewModel is scoped to the Record back-stack entry, see
      * `presentation/CLAUDE.md`) — so a species added just before navigating away is already at
      * the front by the time the user comes back.
+     *
+     * No-op while Settings' "неподвижный порядок грибов" (freeze order) is on — that setting
+     * means +/- taps must stop bumping tiles at all, not just delay the bump.
      */
     private fun scheduleFrontBump(categoryId: Long) {
+        if (freezeOrder) return
         pendingFrontBumps.remove(categoryId)
         pendingFrontBumps.add(categoryId)
         restartFrontBumpQuietWindow()

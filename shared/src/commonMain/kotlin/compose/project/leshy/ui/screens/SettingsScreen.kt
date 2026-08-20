@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
@@ -64,10 +65,7 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
             )
         }
 
-        Text(
-            stringResource(StringKey.SettingsLanguageTitle),
-            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
-        )
+        SettingsSectionTitle(stringResource(StringKey.SettingsLanguageTitle))
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
             AppLanguage.entries.forEachIndexed { index, language ->
                 SegmentedButton(
@@ -80,33 +78,28 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
             }
         }
 
-        Text(
-            stringResource(StringKey.SettingsMushroomSizeTitle),
-            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
-        )
+        SettingsSectionTitle(stringResource(StringKey.SettingsMushroomSizeTitle))
         MushroomMarkerSizeSlider(
             scale = uiState.mushroomMarkerSizeScale,
             previewCategory = uiState.previewCategory,
             onScaleChangeFinished = viewModel::setMushroomMarkerSizeScale,
         )
 
-        Text(
-            stringResource(StringKey.SettingsMushroomSortTitle),
-            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
-        )
+        SettingsSectionTitle(stringResource(StringKey.SettingsMushroomSortTitle))
         MushroomSortOrderOptions(
             selected = uiState.mushroomSortOrder,
             onSelected = viewModel::setMushroomSortOrder,
+        )
+        FreezeMushroomOrderOption(
+            checked = uiState.freezeMushroomOrder,
+            onCheckedChange = viewModel::setFreezeMushroomOrder,
         )
         ResetMushroomOrderOnWalkFinishOption(
             checked = uiState.resetMushroomOrderOnWalkFinish,
             onCheckedChange = viewModel::setResetMushroomOrderOnWalkFinish,
         )
 
-        Text(
-            stringResource(StringKey.SettingsMapDataTitle),
-            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
-        )
+        SettingsSectionTitle(stringResource(StringKey.SettingsMapDataTitle))
         Text(
             stringResource(StringKey.SettingsMapDataDescription),
             modifier = Modifier.padding(bottom = 8.dp),
@@ -137,6 +130,34 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
                 modifier = Modifier.padding(top = 4.dp),
             )
         }
+    }
+}
+
+/** Section header used throughout Settings — underlined so subsections read as distinct groups
+ * while scrolling a screen that's otherwise plain text and controls with no card/divider chrome. */
+@Composable
+private fun SettingsSectionTitle(text: String) {
+    Text(
+        text,
+        textDecoration = TextDecoration.Underline,
+        modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+    )
+}
+
+@Composable
+private fun FreezeMushroomOrderOption(checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .toggleable(value = checked, onValueChange = onCheckedChange, role = Role.Checkbox)
+            .padding(top = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(checked = checked, onCheckedChange = null)
+        Text(
+            text = stringResource(StringKey.SettingsFreezeMushroomOrder),
+            modifier = Modifier.padding(start = 8.dp),
+        )
     }
 }
 
@@ -176,9 +197,8 @@ private fun MushroomSortOrderOptions(selected: MushroomSortOrder, onSelected: (M
                 Text(
                     text = stringResource(
                         when (option) {
-                            MushroomSortOrder.EDIBILITY_THEN_ALPHABETICAL ->
-                                StringKey.SettingsMushroomSortByEdibilityThenAlphabetical
                             MushroomSortOrder.ALPHABETICAL -> StringKey.SettingsMushroomSortByAlphabetical
+                            MushroomSortOrder.POISONOUS_LAST -> StringKey.SettingsMushroomSortByPoisonousLast
                         },
                     ),
                     modifier = Modifier.padding(start = 8.dp),
