@@ -14,12 +14,14 @@ import compose.project.leshy.data.platform.AndroidLocationTracker
 import compose.project.leshy.data.platform.AndroidMapStyleStorage
 import compose.project.leshy.data.platform.AndroidPhotoStorage
 import compose.project.leshy.data.platform.AndroidWalkThumbnailRenderer
+import compose.project.leshy.data.platform.AndroidPinnedStyleInterceptor
 import compose.project.leshy.data.platform.ArchiveFileReader
 import compose.project.leshy.data.platform.BackgroundRecordingController
 import compose.project.leshy.data.platform.HttpTextFetcher
 import compose.project.leshy.data.platform.LocationTracker
 import compose.project.leshy.data.platform.MapStyleStorage
 import compose.project.leshy.data.platform.PhotoStorage
+import compose.project.leshy.data.platform.PinnedStyleInterceptor
 import compose.project.leshy.data.platform.WalkThumbnailRenderer
 import okio.Path.Companion.toPath
 import org.koin.android.ext.koin.androidContext
@@ -46,6 +48,9 @@ actual val platformModule: Module = module {
     single<MapStyleStorage> { AndroidMapStyleStorage(androidContext()) }
     single<ArchiveFileReader> { AndroidArchiveFileReader(androidContext()) }
     single<HttpTextFetcher> { AndroidHttpTextFetcher() }
+    // createdAtStart: must install itself into MapLibre's native HTTP client before anything below
+    // (OfflineManager, any MaplibreMap) makes its first network request — see PinnedStyleInterceptor.
+    single<PinnedStyleInterceptor>(createdAtStart = true) { AndroidPinnedStyleInterceptor(androidContext()) }
     // getOfflineManager(context) calls MapLibre.getInstance(context) internally on first use
     // (see AndroidOfflineManager) — no separate native-init step needed here.
     single<OfflineManager> { getOfflineManager(androidContext()) }

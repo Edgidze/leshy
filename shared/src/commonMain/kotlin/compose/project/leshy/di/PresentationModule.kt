@@ -20,11 +20,11 @@ val presentationModule = module {
             get(), get(), get(), get(), get(), get(), get(),
         )
     }
-    viewModel { ArchiveViewModel(get(), get(), get(), get(), get()) }
+    viewModel { ArchiveViewModel(get(), get(), get(), get()) }
     viewModel { params -> WalkDetailViewModel(params.get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { MapViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { MapViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel {
-        SettingsViewModel(get(), get(), get(), get(), get(), get())
+        SettingsViewModel(get(), get(), get(), get(), get(), get(), get())
     }
     viewModel {
         SpeciesViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get())

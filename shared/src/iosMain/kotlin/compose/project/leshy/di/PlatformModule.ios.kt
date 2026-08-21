@@ -16,10 +16,12 @@ import compose.project.leshy.data.platform.IosHttpTextFetcher
 import compose.project.leshy.data.platform.IosLocationTracker
 import compose.project.leshy.data.platform.IosMapStyleStorage
 import compose.project.leshy.data.platform.IosPhotoStorage
+import compose.project.leshy.data.platform.IosPinnedStyleInterceptor
 import compose.project.leshy.data.platform.IosWalkThumbnailRenderer
 import compose.project.leshy.data.platform.LocationTracker
 import compose.project.leshy.data.platform.MapStyleStorage
 import compose.project.leshy.data.platform.PhotoStorage
+import compose.project.leshy.data.platform.PinnedStyleInterceptor
 import compose.project.leshy.data.platform.WalkThumbnailRenderer
 import kotlinx.cinterop.ExperimentalForeignApi
 import okio.Path.Companion.toPath
@@ -59,6 +61,9 @@ actual val platformModule: Module = module {
     single<MapStyleStorage> { IosMapStyleStorage() }
     single<ArchiveFileReader> { IosArchiveFileReader() }
     single<HttpTextFetcher> { IosHttpTextFetcher() }
+    // createdAtStart: must install itself into MapLibre's native HTTP client before anything below
+    // (OfflineManager, any MLNMapView) makes its first network request — see PinnedStyleInterceptor.
+    single<PinnedStyleInterceptor>(createdAtStart = true) { IosPinnedStyleInterceptor() }
     single<OfflineManager> { getOfflineManager() }
     single<DataStore<Preferences>> {
         val settingsFilePath = documentsDirectoryPath() + "/" + SETTINGS_FILE_NAME

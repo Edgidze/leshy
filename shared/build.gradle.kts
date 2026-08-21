@@ -71,6 +71,13 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.activity.compose)
+            // org.maplibre.gl:android-sdk pulls this in at runtime already (it's what backs
+            // HttpRequestUtil.setOkHttpClient) but only as an implementation dep of its own, so it
+            // isn't visible on our compile classpath without declaring it directly — needed to build
+            // the Call.Factory/Interceptor/Response types for AndroidPinnedStyleInterceptor. Version
+            // pinned to match what's already resolved at runtime (see :shared:dependencies
+            // androidRuntimeClasspath) to avoid a second copy on the classpath.
+            implementation(libs.okhttp)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)

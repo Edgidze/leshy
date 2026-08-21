@@ -21,4 +21,8 @@ data class SettingsUiState(
      * previously-downloaded offline regions were automatically deleted and re-queued for
      * download. Cleared back to 0 at the start of the next refresh. */
     val mapDataRegionsRedownloading: Int = 0,
+    val isClearingMapCache: Boolean = false,
+    /** True right after a successful [SettingsViewModel.clearMapCache] — one-off confirmation
+     * text, same idiom as [mapDataRegionsRedownloading]. */
+    val mapCacheCleared: Boolean = false,
 )

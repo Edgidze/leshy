@@ -130,6 +130,28 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
                 modifier = Modifier.padding(top = 4.dp),
             )
         }
+
+        Text(
+            stringResource(StringKey.SettingsClearMapCacheDescription),
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+        )
+        Button(onClick = viewModel::clearMapCache, enabled = !uiState.isClearingMapCache) {
+            if (uiState.isClearingMapCache) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(18.dp),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                )
+            } else {
+                Text(stringResource(StringKey.SettingsClearMapCacheButton))
+            }
+        }
+        if (uiState.mapCacheCleared) {
+            Text(
+                stringResource(StringKey.SettingsMapCacheCleared),
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        }
     }
 }
 

@@ -83,11 +83,22 @@ iOS-14+ `forExporting:`/`UTType`), который копирует уже гот
 сегмент после `/Documents/` (стабилен при переносе контейнера) и
 пересобирает его относительно ТЕКУЩЕГО `NSDocumentDirectory`, проверяя, что
 файл действительно там лежит. `RepairPhotoPathsUseCase` гоняет это разово
-по всем `photoPath`/`thumbnailPath` при каждом заходе на Archive/Map (тот
-же идемпотентный паттерн, что `BackfillWalkThumbnailsUseCase`) и
+по всем `photoPath`/`thumbnailPath` при каждом холодном запуске приложения
+(тот же идемпотентный паттерн, что `BackfillWalkThumbnailsUseCase`) и
 перезаписывает исправленный путь в БД. `AndroidPhotoStorage`-эквивалент
 (`repairStalePhotoPath` на Android) — no-op: `Context.filesDir` так не
 переезжает.
+
+**Вызывается из `App.kt` (корень композиции), не из `ArchiveViewModel`/
+`MapViewModel`.** Раньше сидел в `init` этих двух ViewModel'ей — баг живьём:
+`RecordViewModel` (экран «Запись», где `LiveTrackMap` тоже рисует фото на
+исторических маркерах мест) этот use case не вызывал вообще, а стартовый
+экран приложения — `Home`, не `Record` (`ui/navigation/LeshyNavHost.kt`), так
+что пользователь легко попадал на «Запись», ни разу не зайдя на Архив/Карту
+— пути там оставались непочиненными. Централизация в `App.kt`
+(`LaunchedEffect(Unit)`, композится ровно раз за процесс) чинит это для
+любого экрана независимо от того, куда пользователь пойдёт первым, и заодно
+убирает дублирующийся проход по таблице находок с трёх мест до одного.
 
 ## Галерея и картинки (`GalleryPicker.ios.kt`, `ImageCodec.ios.kt`)
 

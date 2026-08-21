@@ -20,9 +20,10 @@ interface OfflineRegionRepository {
     fun pause(name: String)
     suspend fun delete(name: String)
 
-    /** Whether the map style currently live on the server differs from the pinned local copy —
-     * a mismatch means a region downloaded right now won't share tile URLs with the live map (or
-     * with previously-downloaded regions) until the user refreshes map data in Settings.
-     * Read-only, never mutates the pin. */
-    suspend fun isStyleDrifted(): Boolean
+    /** Clears MapLibre's ambient (browsing) cache — tiles fetched while just panning/zooming the
+     * live map, never pinned to a named offline region. Does NOT affect any downloaded region's own
+     * tiles. Exists as a diagnostic tool: since ambient-cached tiles render offline exactly like a
+     * downloaded region's tiles do, a user checking "is this area really covered by my download"
+     * can't otherwise tell the two apart. */
+    suspend fun clearAmbientCache()
 }

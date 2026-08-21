@@ -11,7 +11,6 @@ import compose.project.leshy.domain.repository.FieldMarkRepository
 import compose.project.leshy.domain.repository.TrackPointRepository
 import compose.project.leshy.domain.repository.WalkRepository
 import compose.project.leshy.domain.usecase.BackfillWalkThumbnailsUseCase
-import compose.project.leshy.domain.usecase.RepairPhotoPathsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,7 +30,6 @@ class ArchiveViewModel(
     private val trackPointRepository: TrackPointRepository,
     private val fieldMarkRepository: FieldMarkRepository,
     private val backfillWalkThumbnails: BackfillWalkThumbnailsUseCase,
-    private val repairPhotoPaths: RepairPhotoPathsUseCase,
 ) : ViewModel() {
 
     // UI-only flags, combined with the Room-backed item list in a second combine() below — kept
@@ -44,11 +42,11 @@ class ArchiveViewModel(
     val uiState: StateFlow<ArchiveUiState> = _uiState.asStateFlow()
 
     init {
-        // Independent of the UI-state flow below: one-shot repair passes (missing thumbnail map
-        // background, dangling photo/thumbnail paths — see BackfillWalkThumbnailsUseCase and
-        // RepairPhotoPathsUseCase) that shouldn't delay rendering the Archive list itself.
+        // Independent of the UI-state flow below: one-shot repair pass (missing thumbnail map
+        // background — see BackfillWalkThumbnailsUseCase) that shouldn't delay rendering the
+        // Archive list itself. Dangling photo/thumbnail paths are repaired once at app startup
+        // instead (App.kt), not per-screen — see RepairPhotoPathsUseCase.
         viewModelScope.launch { backfillWalkThumbnails() }
-        viewModelScope.launch { repairPhotoPaths() }
         viewModelScope.launch {
             val itemsFlow = combine(
                 walkRepository.observeAll(),

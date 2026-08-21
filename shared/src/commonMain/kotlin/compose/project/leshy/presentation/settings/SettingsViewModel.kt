@@ -6,6 +6,7 @@ import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.MushroomSortOrder
 import compose.project.leshy.domain.model.iconSource
 import compose.project.leshy.domain.repository.CategoryRepository
+import compose.project.leshy.domain.repository.OfflineRegionRepository
 import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
@@ -25,6 +26,7 @@ class SettingsViewModel(
     private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
     private val refreshMapDataUseCase: RefreshMapDataUseCase,
+    private val offlineRegionRepository: OfflineRegionRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -108,6 +110,19 @@ class SettingsViewModel(
                     mapDataRegionsRedownloading = result.regionsRedownloading,
                 )
             }
+        }
+    }
+
+    /** Diagnostic tool, not a routine action — clears MapLibre's ambient (browsing) cache so a
+     * downloaded offline region's actual coverage can be tested in isolation (ambient-cached tiles
+     * render offline exactly like a region's own tiles do, and are otherwise indistinguishable from
+     * outside the app). Never touches downloaded regions themselves — see
+     * [OfflineRegionRepository.clearAmbientCache]'s doc. */
+    fun clearMapCache() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isClearingMapCache = true, mapCacheCleared = false) }
+            val cleared = runCatching { offlineRegionRepository.clearAmbientCache() }.isSuccess
+            _uiState.update { it.copy(isClearingMapCache = false, mapCacheCleared = cleared) }
         }
     }
 }

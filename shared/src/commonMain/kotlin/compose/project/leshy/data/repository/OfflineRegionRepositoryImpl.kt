@@ -23,7 +23,6 @@ import org.maplibre.spatialk.geojson.BoundingBox
  */
 class OfflineRegionRepositoryImpl(
     private val offlineManager: OfflineManager,
-    private val mapStyleCacheRepository: MapStyleCacheRepository,
 ) : OfflineRegionRepository {
 
     override fun observeRegions(): Flow<List<OfflineRegionInfo>> =
@@ -47,15 +46,14 @@ class OfflineRegionRepositoryImpl(
         minZoom: Int,
         maxZoom: Int,
     ) {
-        // Plain remote URL, NOT the pinned local file — MapLibre's native offline downloader
-        // resolves styleUrl through its own HTTP resource loader, which can't parse a `file://`
-        // reference (confirmed on-device: "Unable to parse resourceUrl file://..." from
-        // Mbgl-HttpRequest, and the pack then silently never leaves 0 bytes downloaded). The live
-        // map never hits this code path — it reads the pinned file into memory itself and hands
-        // MapLibre already-parsed JSON, so it never needed the native loader to resolve a URL at
-        // all. See MapStyleCacheRepository's doc for why this reopens a narrow drift window (a
-        // region downloaded between a server-side snapshot rotation and the user's next "Обновить
-        // данные карты") — isStyleDrifted() below is how callers detect and warn about that.
+        // Passing OPEN_FREE_MAP_STYLE_URL, not a local file reference — MapLibre's native offline
+        // downloader can only resolve styleUrl through its own HTTP resource loader (`file://`
+        // confirmed unsupported on-device: "Unable to parse resourceUrl file://..." from
+        // Mbgl-HttpRequest, pack then silently never leaves 0 bytes). PinnedStyleInterceptor
+        // (`data/platform/`) is what makes this safe: it intercepts that native HTTP client and
+        // answers this exact URL with the already-pinned bytes instead of a real network fetch, so
+        // this always resolves to the same style the live map uses — see its doc and
+        // `ui/map/CLAUDE.md`'s "Перехват HTTP-клиента" section for the full mechanism.
         val definition = OfflinePackDefinition.TilePyramid(
             styleUrl = OPEN_FREE_MAP_STYLE_URL,
             bounds = BoundingBox(west = west, south = south, east = east, north = north),
@@ -65,8 +63,6 @@ class OfflineRegionRepositoryImpl(
         val pack = offlineManager.create(definition, metadata = name.encodeToByteArray())
         offlineManager.resume(pack)
     }
-
-    override suspend fun isStyleDrifted(): Boolean = mapStyleCacheRepository.isRemoteStyleDrifted()
 
     override fun resume(name: String) {
         findPack(name)?.let(offlineManager::resume)
@@ -79,6 +75,8 @@ class OfflineRegionRepositoryImpl(
     override suspend fun delete(name: String) {
         findPack(name)?.let { offlineManager.delete(it) }
     }
+
+    override suspend fun clearAmbientCache() = offlineManager.clearAmbientCache()
 
     private fun findPack(name: String): OfflinePack? =
         offlineManager.packs.firstOrNull { decodeName(it) == name }

@@ -2,6 +2,7 @@ package compose.project.leshy.data.repository
 
 import compose.project.leshy.data.platform.HttpTextFetcher
 import compose.project.leshy.data.platform.MapStyleStorage
+import compose.project.leshy.data.platform.PinnedStyleInterceptor
 import compose.project.leshy.ui.map.OPEN_FREE_MAP_STYLE_URL
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,7 @@ private val TILE_HOST_PROBE_TIMEOUT = 8.seconds
 class MapStyleCacheRepository(
     private val storage: MapStyleStorage,
     private val httpTextFetcher: HttpTextFetcher,
+    private val pinnedStyleInterceptor: PinnedStyleInterceptor,
 ) {
     private val fileSystem = FileSystem.SYSTEM
     private val stylePath: Path get() = storage.resolvePath(STYLE_CACHE_FILE_NAME).toPath()
@@ -58,6 +60,7 @@ class MapStyleCacheRepository(
                 val cached = runCatching { fileSystem.read(stylePath) { readUtf8() } }.getOrNull()
                 loaded = if (cached != null) {
                     _baseStyle.value = BaseStyle.Json(cached)
+                    pinnedStyleInterceptor.setPinnedStyle(cached)
                     true
                 } else {
                     // No pinned copy yet (very first launch) and no network — leave `loaded` false
@@ -86,6 +89,7 @@ class MapStyleCacheRepository(
         fileSystem.createDirectories(stylePath.parent!!)
         fileSystem.write(stylePath) { writeUtf8(json) }
         _baseStyle.value = BaseStyle.Json(json)
+        pinnedStyleInterceptor.setPinnedStyle(json)
         previous != null && previous != json
     }
 
@@ -100,20 +104,4 @@ class MapStyleCacheRepository(
         withTimeoutOrNull(TILE_HOST_PROBE_TIMEOUT) {
             runCatching { httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL) }.isSuccess
         } ?: false
-
-    /** Read-only check: does the CURRENT remote `style.json` differ from the pinned local copy?
-     * The offline-download repository uses this to warn the user when a mismatch means a region
-     * they're about to download won't share tile URLs with the live map (or with previously
-     * downloaded regions) until they refresh map data in Settings — see
-     * [OfflineRegionRepositoryImpl.downloadRegion][compose.project.leshy.data.repository.OfflineRegionRepositoryImpl]
-     * for why the download itself can no longer pin to the local file directly. Never writes to
-     * the pinned file (unlike [refreshFromNetwork]) and never throws — a failed fetch (e.g. no
-     * network) is reported as "not drifted" rather than a false alarm. */
-    suspend fun isRemoteStyleDrifted(): Boolean = withContext(Dispatchers.Default) {
-        runCatching {
-            val pinned = fileSystem.read(stylePath) { readUtf8() }
-            val remote = httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL)
-            pinned != remote
-        }.getOrDefault(false)
-    }
 }

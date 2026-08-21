@@ -329,11 +329,6 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.PreparationSubtitle -> "Скачайте карту, чтобы пользоваться ей без интернета в лесу"
     StringKey.PreparationEstimatedSizeLabel -> "Место на диске"
     StringKey.PreparationRetryContentDescription -> "Повторить скачивание"
-    StringKey.PreparationStyleDriftWarning ->
-        "Карта на сервере обновилась, пока шло скачивание — этот регион может не совпасть с " +
-            "остальными офлайн-данными. Откройте «Настройки» → «Обновить данные карты», либо " +
-            "просто удалите этот регион и скачайте его заново"
-    StringKey.PreparationStyleDriftWarningDismissContentDescription -> "Закрыть уведомление"
 
     StringKey.MapTilesLoadFailed -> "Карта не полностью загрузилась с сайта"
     StringKey.MapTilesLoadFailedDismissContentDescription -> "Закрыть уведомление"
@@ -351,6 +346,13 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMapDataRegionsCountOne -> "область"
     StringKey.SettingsMapDataRegionsCountFew -> "области"
     StringKey.SettingsMapDataRegionsCountMany -> "областей"
+    StringKey.SettingsClearMapCacheButton -> "Очистить кэш карты"
+    StringKey.SettingsClearMapCacheDescription ->
+        "Удаляет тайлы, случайно закэшированные при просмотре карты (например, при выборе " +
+            "области для скачивания) — не трогает уже скачанные офлайн-области. Полезно, чтобы " +
+            "проверить, что офлайн реально доступна только скачанная территория, а не то, что вы " +
+            "недавно просматривали."
+    StringKey.SettingsMapCacheCleared -> "Кэш очищен"
 }
 
 private fun englishStrings(key: StringKey): String = when (key) {
@@ -604,11 +606,6 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.PreparationSubtitle -> "Download the map to use it offline in the forest"
     StringKey.PreparationEstimatedSizeLabel -> "Storage"
     StringKey.PreparationRetryContentDescription -> "Retry download"
-    StringKey.PreparationStyleDriftWarning ->
-        "The map data on the server changed while this was downloading — this region may not " +
-            "match your other offline data. Open Settings → \"Update map data\", or just " +
-            "delete this region and download it again"
-    StringKey.PreparationStyleDriftWarningDismissContentDescription -> "Dismiss notice"
 
     StringKey.MapTilesLoadFailed -> "The map didn't fully load from"
     StringKey.MapTilesLoadFailedDismissContentDescription -> "Dismiss notice"
@@ -626,4 +623,11 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMapDataRegionsCountOne -> "area"
     StringKey.SettingsMapDataRegionsCountFew -> "areas"
     StringKey.SettingsMapDataRegionsCountMany -> "areas"
+    StringKey.SettingsClearMapCacheButton -> "Clear map cache"
+    StringKey.SettingsClearMapCacheDescription ->
+        "Removes tiles that got cached incidentally while browsing the map (e.g. while picking an " +
+            "area to download) — doesn't touch already-downloaded offline areas. Useful for " +
+            "checking that only your actual download is available offline, not whatever you " +
+            "recently browsed."
+    StringKey.SettingsMapCacheCleared -> "Cache cleared"
 }

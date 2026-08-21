@@ -247,8 +247,6 @@ enum class StringKey {
     PreparationSubtitle,
     PreparationEstimatedSizeLabel,
     PreparationRetryContentDescription,
-    PreparationStyleDriftWarning,
-    PreparationStyleDriftWarningDismissContentDescription,
 
     MapTilesLoadFailed,
     MapTilesLoadFailedDismissContentDescription,
@@ -262,5 +260,8 @@ enum class StringKey {
     SettingsMapDataRegionsCountOne,
     SettingsMapDataRegionsCountFew,
     SettingsMapDataRegionsCountMany,
+    SettingsClearMapCacheButton,
+    SettingsClearMapCacheDescription,
+    SettingsMapCacheCleared,
 
 }

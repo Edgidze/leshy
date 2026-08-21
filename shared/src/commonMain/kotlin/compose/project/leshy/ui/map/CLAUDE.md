@@ -130,19 +130,120 @@ ViewModel-зависимости на стиль вообще). Дальше п�
   индикаторе прогресса. Живая карта эту проблему никогда не ловила, потому
   что вообще не резолвит стиль через нативный URL-loader — читает
   `style.json` в память сама и отдаёт как `BaseStyle.Json(...)`.
-  Возврат к голому URL реоткрывает узкое окно дрейфа: если сервер
+  Возврат к голому URL реоткрывал узкое окно дрейфа: если сервер
   ротировал снапшот именно между последним пиннингом и текущим
-  скачиванием, новый регион скачается под ДРУГИМ URL-шаблоном тайлов, чем
-  показывает живая карта, пока пользователь не нажмёт «Обновить данные
-  карты». Это обнаруживается (не молча) —
-  `OfflineRegionRepository.isStyleDrifted()` /
-  `MapStyleCacheRepository.isRemoteStyleDrifted()` сравнивает текущий
-  remote `style.json` с запиненной копией read-only (без побочных
-  эффектов, в отличие от `refreshFromNetwork()`) сразу после
-  `downloadRegion()`/`onRetryClicked()`, и `PreparationViewModel`
-  показывает баннер (`PreparationUiState.styleDriftWarningVisible`,
-  `StringKey.PreparationStyleDriftWarning`) с просьбой обновить данные
-  карты в Настройках.
+  скачиванием, новый регион скачался бы под ДРУГИМ URL-шаблоном тайлов,
+  чем показывает живая карта — и оставался бы так навсегда, «Complete» от
+  нативного SDK при этом абсолютно честен (все тайлы, которые пак
+  запрашивал, реально скачаны, просто по чужому шаблону). **Закрыто
+  структурно** (не просто задетектировано) — см. «Перехват HTTP-клиента»
+  ниже: с этого момента `downloadRegion()`/`onRetryClicked()`/
+  `RefreshMapDataUseCase` резолвят `OPEN_FREE_MAP_STYLE_URL` в те же самые
+  байты, что уже использует живая карта, а не в свежий сетевой фетч —
+  дрейф между запиненным и скачанным физически не может возникнуть для
+  всего, что скачано/перекачано ПОСЛЕ этого фикса. Отдельный баннер-
+  предупреждение о дрейфе (`OfflineRegionRepository.isStyleDrifted()`,
+  `MapStyleCacheRepository.isRemoteStyleDrifted()`, `PreparationUiState.
+  styleDriftWarningVisible`, `StyleDriftWarningBanner`) существовал раньше
+  как путь обнаружения/починки для уже скачанных регионов, но **убран
+  целиком** по решению владельца продукта — раз сам класс бага для новых
+  скачиваний закрыт структурно, а старые регионы просто удаляются и
+  перекачиваются заново вручную, второй (детектирующий) уровень защиты
+  стал чистым мёртвым кодом, а не подстраховкой на будущее.
+
+### Перехват HTTP-клиента нативного SDK (`data/platform/PinnedStyleInterceptor.kt`)
+
+Раз нативный офлайн-загрузчик умеет резолвить `styleUrl` только через свой
+собственный сетевой HTTP-клиент (не `file://`, см. выше, и без параметра
+«вот тебе готовый JSON» в его API), а нам нужно, чтобы он читал ровно те
+байты, что уже запинены локально — единственный способ дать ему это без
+реального похода в сеть — перехватить сам HTTP-клиент SDK, а не пытаться
+передать что-то через `styleUrl`.
+
+- **`PinnedStyleInterceptor`** (`commonMain`, интерфейс) — `MapStyleCacheRepository`
+  зовёт `setPinnedStyle(json)` при каждом обновлении `_baseStyle` (и в
+  `ensureLoaded()`, и в `refreshFromNetworkLocked()`), так что перехватчик
+  всегда отдаёт актуальную запиненную копию.
+- **Android (`AndroidPinnedStyleInterceptor`)** — на конструкторе один раз
+  ставит `HttpRequestUtil.setOkHttpClient(...)` (`org.maplibre.android.
+  module.http`, публичный API нативного `org.maplibre.gl:android-sdk`) с
+  собственным `OkHttpClient` + `Interceptor`: запрос на
+  `OPEN_FREE_MAP_STYLE_URL` — синтетический `Response` из текущих
+  запиненных байт БЕЗ `chain.proceed()` (реального сетевого похода не
+  происходит вообще), любой другой URL — `chain.proceed()` без изменений.
+  **`setOkHttpClient` подменяет клиент для ВСЕГО сетевого трафика SDK**
+  (тайлы живой карты, ambient-кэш, офлайн-скачивание) — короткое замыкание
+  специально узкое (точное совпадение URL), чтобы не задеть ничего, кроме
+  резолва стиля. `okhttp3` не был виден на compile classpath напрямую (SDK
+  тянет его только как собственную `implementation`-зависимость, видна
+  только в `androidRuntimeClasspath`) — пришлось добавить явную
+  `implementation(libs.okhttp)` в `androidMain`, версия синхронизирована с
+  уже резолвящейся рантайм-версией (`4.12.0`, проверено
+  `:shared:dependencies --configuration androidRuntimeClasspath`).
+- **iOS (`IosPinnedStyleInterceptor`)** — свой `NSURLProtocol`-наследник
+  (`PinnedStyleURLProtocol`), зарегистрированный через `NSURLSessionConfiguration
+  .defaultSessionConfiguration` (каждый доступ отдаёт новый, независимо
+  мутируемый объект — копировать не нужно) с добавленным в
+  `protocolClasses` нашим классом, присвоенную в `MLNNetworkConfiguration.
+  sharedManager.sessionConfiguration` — заголовок `MLNNetworkConfiguration.h`
+  прямо предписывает делать это «before instantiating any MLNMapView, or
+  using MLNOfflineStorage». Первый в проекте случай переопределения
+  ObjC-метода КЛАССА (`canInitWithRequest:`, `+`, не `-`) из Kotlin/Native —
+  паттерн: `companion object : NSURLProtocolMeta() { override fun ... }`
+  (K/N генерирует `<Class>Meta` под метакласс ObjC-типа). Требует явного
+  `@OverrideInit`-конструктора, форвардящего в `super(request, cachedResponse,
+  client)` — без него компилятор требует инициализатор
+  («This type has a constructor, so it must be initialized here»), т.к. у
+  `NSURLProtocol` нет беспараметрового `init`. Компилятор попутно ругается на
+  сам `@OverrideInit`-конструктор (`CONFLICTING_OVERLOADS`, suppressed) и на
+  `(json as NSString)` перед `dataUsingEncoding` («This cast can never
+  succeed» — `kotlin.String`/`NSString` toll-free bridged, но перегрузка
+  резолвится только через явно NSString-типизированный ресивер) — оба
+  warning'а безобидны и не найдены применимыми альтернативами при отладке
+  (см. коммит, добавивший этот файл, если пригодится история проб).
+- Оба перехватчика регистрируются в Koin как `single(createdAtStart = true)`
+  — должны установиться ДО того, как что-либо (`OfflineManager`, любая
+  `MaplibreMap`) успеет коснуться сети первым запросом; `createdAtStart`
+  гарантирует это, инстанцируясь сразу по завершении `startKoin { ... }`
+  в `initKoin()`, до первой Compose-композиции. **Само по себе это гарантирует
+  только, что перехватчик УСТАНОВЛЕН — не то, что ему есть чем ответить.**
+  Байты в него кладёт `MapStyleCacheRepository.ensureLoaded()`, а он раньше
+  звался только лениво, из composable конкретного экрана с картой
+  (`RegionPickerMap.kt` и др.). На «Подготовке» это гонка без гарантии
+  порядка с `PreparationViewModel.init` — а тот первым создаёт нативный
+  `OfflineManager` (`getOfflineManager()`/`MapLibre.getInstance()`), что
+  может само по себе разбудить нативный автовозврат к докачке пака,
+  оставшегося `ACTIVE` после убитого процесса — если это случится раньше,
+  чем `ensureLoaded()` успеет положить байты, докачка в этом узком окне
+  снова уйдёт в реальную сеть мимо перехвата. Закрыто — `App.kt` теперь
+  тоже зовёт `mapStyleCacheRepository.ensureLoaded()` (параллельным
+  `LaunchedEffect`, рядом с `RepairPhotoPathsUseCase`) сразу при первой
+  композиции после онбординга, до того как пользователь вообще может
+  куда-то перейти — вызов из самих экранов остался (безвредно, идемпотентно
+  по документации самого `ensureLoaded()`).
+- **Android: `AndroidPinnedStyleInterceptor` крашил приложение на старте
+  насмерть** — подтверждённый живой краш при первом запуске
+  (`ExceptionInInitializerError` → `MapLibreConfigurationException:
+  Using MapView requires calling MapLibre.getInstance(...) before
+  inflating or creating the view`). Причина: `HttpRequestUtil.
+  setOkHttpClient(...)` сам триггерит статическую инициализацию
+  `HttpRequestImpl` (нужна для сборки User-Agent строки через
+  `MapLibre.getApplicationContext()`), которая падает, если нативный SDK
+  ещё ни разу не инициализирован — а этот перехватчик `createdAtStart`,
+  то есть он самый первый код в приложении, который вообще трогает
+  MapLibre, раньше обычного первого вызова (`AndroidOfflineManager`'s
+  `MapLibre.getInstance(context)`, который до этого момента и был неявно
+  первым). Фикс — `AndroidPinnedStyleInterceptor` теперь сам принимает
+  `Context` и явно зовёт `MapLibre.getInstance(context)` ПЕРЕД
+  `setOkHttpClient(...)`; `getInstance` — synchronized singleton-геттер,
+  повторный вызов из `AndroidOfflineManager` позже безопасен. Проверено
+  живьём на Pixel 4a (`adb logcat` до и после фикса).
+- **iOS-сторона этой проблеме не подвержена** — у `MLNNetworkConfiguration`
+  нет аналога Android-контекста/статического юзер-агента, который надо
+  было бы предварительно инициализировать; `IosPinnedStyleInterceptor`
+  компилируется и устанавливается без него. Живьём на iOS-устройстве
+  фактическая офлайн-отрисовка региона (не только отсутствие краша) пока
+  не подтверждена — см. `feedback_no_self_testing`.
 - **«Обновить данные карты» сам проверяет, изменилось ли реально
   содержимое `style.json`, и если да — автоматически перекачивает ВСЕ уже
   скачанные регионы** (`RefreshMapDataUseCase`, `domain/usecase/`), без
@@ -163,6 +264,22 @@ ViewModel-зависимости на стиль вообще). Дальше п�
   байтов идёт в фоне как обычно — прогресс виден в «Подготовке», а в
   Настройках просто показывается одноразовая надпись со счётчиком
   перекачиваемых регионов (`SettingsUiState.mapDataRegionsRedownloading`).
+- **Баннер-предупреждение о дрейфе стиля существовал и был убран в ту же
+  сессию, что и перехват HTTP-клиента.** Короткая история для контекста
+  (искать в `git log`, если понадобятся детали): изначально проверка дрейфа
+  запускалась только сразу после `downloadRegion()`/`onRetryClicked()` —
+  подтверждённый живой баг показал, что этого недостаточно (сервер может
+  ротировать снапшот уже ПОСЛЕ того, как регион успешно докачался, и старая
+  проверка это никогда не ловила), поэтому её сначала расширили на разовый
+  прогон при каждом заходе на «Подготовку». Затем появился перехват
+  HTTP-клиента (см. выше), который делает сам дрейф структурно невозможным
+  для новых/перекачанных регионов — и в этот момент вся
+  детектирующая машинерия (`isStyleDrifted()`, `isRemoteStyleDrifted()`,
+  `styleDriftWarningVisible`, `StyleDriftWarningBanner`) стала не нужна и
+  была удалена целиком, а не оставлена «на всякий случай» — по явному
+  решению владельца продукта: старые (потенциально уже сдрейфовавшие)
+  регионы просто удаляются и перекачиваются вручную, отдельный путь
+  обнаружения для них не поддерживается.
 - **`MapLoadFailedBanner.kt`** (`ui/components/`) — плавающий оверлей,
   подписанный на `onMapLoadFailed`/`onMapLoadFinished` `MaplibreMap(...)`
   (параметры библиотеки, раньше нигде не использовались) — единственный
