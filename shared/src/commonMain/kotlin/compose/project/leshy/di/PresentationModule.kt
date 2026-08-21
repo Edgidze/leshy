@@ -17,7 +17,7 @@ val presentationModule = module {
     viewModel {
         RecordViewModel(
             get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),
-            get(), get(), get(), get(), get(), get(), get(),
+            get(), get(), get(), get(), get(), get(), get(), get(),
         )
     }
     viewModel { ArchiveViewModel(get(), get(), get(), get()) }

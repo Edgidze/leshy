@@ -41,7 +41,22 @@ class WalkRecordingService : Service() {
         } else {
             startForeground(NOTIFICATION_ID, notification)
         }
-        return START_STICKY
+        // NOT_STICKY: if the process is killed mid-recording, RecordViewModel's in-memory walkId
+        // is gone too (nothing persists it), so a system-driven restart of just this service would
+        // resurrect "Идёт запись прогулки" with no walk behind it — see androidMain/CLAUDE.md.
+        return START_NOT_STICKY
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        // Swiping the task away from Recents keeps this process alive (that's what a foreground
+        // service is for) but really destroys MainActivity, which clears RecordViewModel's
+        // viewModelScope — the GPS collector is gone for good. Nothing else tells THIS service to
+        // stop (only RecordViewModel.finish() does, and its own next-launch self-heal only runs
+        // once the app is reopened), so without this override "Идёт запись прогулки" is left
+        // showing with nothing behind it until then — see androidMain/CLAUDE.md.
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
+        super.onTaskRemoved(rootIntent)
     }
 
     private fun buildNotification(language: AppLanguage): Notification {

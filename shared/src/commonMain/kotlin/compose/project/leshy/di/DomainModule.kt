@@ -10,6 +10,7 @@ import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.ExportDataUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
+import compose.project.leshy.domain.usecase.HealOrphanedWalksUseCase
 import compose.project.leshy.domain.usecase.ImportDataUseCase
 import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
@@ -35,6 +36,7 @@ val domainModule = module {
     factory { SaveCategoryIconUseCase(get(), get()) }
     factory { StartWalkUseCase(get()) }
     factory { FinishWalkUseCase(get()) }
+    factory { HealOrphanedWalksUseCase(get(), get(), get()) }
     factory { RenameWalkUseCase(get()) }
     factory { UpdateWalkThumbnailUseCase(get()) }
     factory { BackfillWalkThumbnailsUseCase(get(), get(), get(), get(), get()) }

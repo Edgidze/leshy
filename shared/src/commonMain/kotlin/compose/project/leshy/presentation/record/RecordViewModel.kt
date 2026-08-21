@@ -24,6 +24,7 @@ import compose.project.leshy.domain.usecase.DeletePlaceMarkUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCategoriesUseCase
 import compose.project.leshy.domain.usecase.EnsureDefaultCollectionsUseCase
 import compose.project.leshy.domain.usecase.FinishWalkUseCase
+import compose.project.leshy.domain.usecase.HealOrphanedWalksUseCase
 import compose.project.leshy.domain.usecase.MISC_CATEGORY_NAME_KEY
 import compose.project.leshy.domain.usecase.RecalculateFilterEligibilityUseCase
 import compose.project.leshy.domain.usecase.RecordTrackPointUseCase
@@ -93,6 +94,7 @@ class RecordViewModel(
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
     private val startWalk: StartWalkUseCase,
     private val finishWalk: FinishWalkUseCase,
+    private val healOrphanedWalks: HealOrphanedWalksUseCase,
     private val renameWalk: RenameWalkUseCase,
     private val recordTrackPoint: RecordTrackPointUseCase,
     private val addMushroomMark: AddMushroomMarkUseCase,
@@ -131,6 +133,24 @@ class RecordViewModel(
     private val navigationTargetId = MutableStateFlow<Long?>(null)
     private val courseOverGround = MutableStateFlow<Double?>(null)
     private var courseBaselineFix: GeoPoint? = null
+
+    // Runs first, in its own launch rather than queued behind ensureDefaultCategories/
+    // ensureDefaultCollections below (those upsert 30+ rows and can be slow right after
+    // install/migration) — start() joins this before creating a walk, so it must resolve fast
+    // and can't end up racing a real user tap. See start() and androidMain/CLAUDE.md.
+    private val startupHealJob: Job = viewModelScope.launch {
+        // Self-heal walks a destroyed instance left open (walkId lives only in that instance's
+        // memory) — cheap no-op once nothing has endTime == null. Safe here specifically because
+        // this VM instance hasn't assigned walkId yet, so nothing open in the DB can be "this"
+        // walk — it can only be a walk an earlier, now-gone instance abandoned (process death, or
+        // this backStackEntry recreated — either way its viewModelScope/GPS collector is already
+        // cancelled, so nothing is still writing to it).
+        healOrphanedWalks()
+        // The service survives its ViewModel's destruction (only finish() stops it) — anything
+        // healOrphanedWalks() just closed left its notification stuck showing "Идёт запись" with
+        // no walk behind it. Harmless no-op if nothing was actually running.
+        backgroundRecordingController.stop()
+    }
 
     init {
         viewModelScope.launch {
@@ -280,6 +300,10 @@ class RecordViewModel(
 
     private fun start() {
         viewModelScope.launch {
+            // Must resolve before a new walk can be created — otherwise a fast enough tap here
+            // races startupHealJob's query for endTime == null walks and this walk (freshly
+            // inserted, no track points yet) gets swept up and closed as if orphaned.
+            startupHealJob.join()
             val location = _uiState.value.currentLocation
             val name = _uiState.value.walkName.ifBlank { string(StringKey.DefaultWalkName, currentLanguage) }
             val id = startWalk(
