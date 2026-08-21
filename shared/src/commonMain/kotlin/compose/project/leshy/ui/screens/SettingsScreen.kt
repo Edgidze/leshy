@@ -13,6 +13,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
@@ -24,6 +25,7 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
@@ -100,11 +103,11 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
         )
 
         SettingsSectionTitle(stringResource(StringKey.SettingsMapDataTitle))
-        Text(
-            stringResource(StringKey.SettingsMapDataDescription),
-            modifier = Modifier.padding(bottom = 8.dp),
-        )
-        Button(onClick = viewModel::refreshMapData, enabled = !uiState.isRefreshingMapData) {
+        Button(
+            onClick = viewModel::onUpdateMapDataClick,
+            enabled = !uiState.isRefreshingMapData,
+            modifier = Modifier.padding(top = 8.dp),
+        ) {
             if (uiState.isRefreshingMapData) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(18.dp),
@@ -131,12 +134,11 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
             )
         }
 
-        Text(
-            stringResource(StringKey.SettingsClearMapCacheDescription),
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-        )
-        Button(onClick = viewModel::clearMapCache, enabled = !uiState.isClearingMapCache) {
+        Button(
+            onClick = viewModel::onClearMapCacheClick,
+            enabled = !uiState.isClearingMapCache,
+            modifier = Modifier.padding(top = 16.dp),
+        ) {
             if (uiState.isClearingMapCache) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(18.dp),
@@ -152,6 +154,46 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
                 modifier = Modifier.padding(top = 4.dp),
             )
         }
+    }
+
+    if (uiState.showUpdateMapDataConfirm) {
+        AlertDialog(
+            onDismissRequest = viewModel::onUpdateMapDataDismiss,
+            modifier = Modifier.fillMaxWidth(0.9f),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+            title = { Text(stringResource(StringKey.SettingsMapDataUpdateConfirmTitle)) },
+            text = { Text(stringResource(StringKey.SettingsMapDataUpdateConfirmMessage)) },
+            confirmButton = {
+                TextButton(onClick = viewModel::onUpdateMapDataConfirm) {
+                    Text(stringResource(StringKey.SettingsMapDataUpdateConfirmYes))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = viewModel::onUpdateMapDataDismiss) {
+                    Text(stringResource(StringKey.SettingsMapDataUpdateConfirmNo))
+                }
+            },
+        )
+    }
+
+    if (uiState.showClearMapCacheConfirm) {
+        AlertDialog(
+            onDismissRequest = viewModel::onClearMapCacheDismiss,
+            modifier = Modifier.fillMaxWidth(0.9f),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+            title = { Text(stringResource(StringKey.SettingsClearMapCacheConfirmTitle)) },
+            text = { Text(stringResource(StringKey.SettingsClearMapCacheConfirmMessage)) },
+            confirmButton = {
+                TextButton(onClick = viewModel::onClearMapCacheConfirm) {
+                    Text(stringResource(StringKey.SettingsClearMapCacheConfirmYes))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = viewModel::onClearMapCacheDismiss) {
+                    Text(stringResource(StringKey.SettingsClearMapCacheConfirmNo))
+                }
+            },
+        )
     }
 }
 

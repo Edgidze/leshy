@@ -22,7 +22,9 @@ data class SettingsUiState(
      * download. Cleared back to 0 at the start of the next refresh. */
     val mapDataRegionsRedownloading: Int = 0,
     val isClearingMapCache: Boolean = false,
-    /** True right after a successful [SettingsViewModel.clearMapCache] — one-off confirmation
+    /** True right after a successful [SettingsViewModel.onClearMapCacheConfirm] — one-off confirmation
      * text, same idiom as [mapDataRegionsRedownloading]. */
     val mapCacheCleared: Boolean = false,
+    val showUpdateMapDataConfirm: Boolean = false,
+    val showClearMapCacheConfirm: Boolean = false,
 )

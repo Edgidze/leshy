@@ -252,8 +252,11 @@ enum class StringKey {
     MapTilesLoadFailedDismissContentDescription,
 
     SettingsMapDataTitle,
-    SettingsMapDataDescription,
     SettingsRefreshMapDataButton,
+    SettingsMapDataUpdateConfirmTitle,
+    SettingsMapDataUpdateConfirmMessage,
+    SettingsMapDataUpdateConfirmYes,
+    SettingsMapDataUpdateConfirmNo,
     SettingsMapDataRefreshError,
     SettingsMapDataRedownloadingPrefix,
     SettingsMapDataRedownloadingSuffix,
@@ -261,7 +264,10 @@ enum class StringKey {
     SettingsMapDataRegionsCountFew,
     SettingsMapDataRegionsCountMany,
     SettingsClearMapCacheButton,
-    SettingsClearMapCacheDescription,
+    SettingsClearMapCacheConfirmTitle,
+    SettingsClearMapCacheConfirmMessage,
+    SettingsClearMapCacheConfirmYes,
+    SettingsClearMapCacheConfirmNo,
     SettingsMapCacheCleared,
 
 }

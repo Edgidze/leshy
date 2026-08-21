@@ -334,12 +334,13 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.MapTilesLoadFailedDismissContentDescription -> "Закрыть уведомление"
 
     StringKey.SettingsMapDataTitle -> "Данные карты"
-    StringKey.SettingsMapDataDescription ->
-        "Карта не обновляется автоматически — так скачанные офлайн-области остаются доступны, " +
-            "даже если источник тайлов недоступен или изменился на сервере. Если после обновления " +
-            "содержимое карты действительно изменится, все скачанные офлайн-области будут " +
-            "автоматически перекачаны заново."
     StringKey.SettingsRefreshMapDataButton -> "Обновить данные карты"
+    StringKey.SettingsMapDataUpdateConfirmTitle -> "Обновить данные карты?"
+    StringKey.SettingsMapDataUpdateConfirmMessage ->
+        "Если содержимое карты изменится, все скачанные офлайн-области будут загружены заново. " +
+            "Вы уверены, что хотите обновить данные карты?"
+    StringKey.SettingsMapDataUpdateConfirmYes -> "Да"
+    StringKey.SettingsMapDataUpdateConfirmNo -> "Нет"
     StringKey.SettingsMapDataRefreshError -> "Не удалось обновить — проверьте подключение к интернету"
     StringKey.SettingsMapDataRedownloadingPrefix -> "Данные карты обновлены. Перекачивается"
     StringKey.SettingsMapDataRedownloadingSuffix -> "— прогресс можно посмотреть в разделе «Подготовка»."
@@ -347,11 +348,12 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMapDataRegionsCountFew -> "области"
     StringKey.SettingsMapDataRegionsCountMany -> "областей"
     StringKey.SettingsClearMapCacheButton -> "Очистить кэш карты"
-    StringKey.SettingsClearMapCacheDescription ->
-        "Удаляет тайлы, случайно закэшированные при просмотре карты (например, при выборе " +
-            "области для скачивания) — не трогает уже скачанные офлайн-области. Полезно, чтобы " +
-            "проверить, что офлайн реально доступна только скачанная территория, а не то, что вы " +
-            "недавно просматривали."
+    StringKey.SettingsClearMapCacheConfirmTitle -> "Очистить кэш карты?"
+    StringKey.SettingsClearMapCacheConfirmMessage ->
+        "При очистке кэша карты будут удалены просмотренные участки карты, которые не были " +
+            "сохранены в разделе «Подготовка». Вы уверены, что хотите очистить кэш?"
+    StringKey.SettingsClearMapCacheConfirmYes -> "Да"
+    StringKey.SettingsClearMapCacheConfirmNo -> "Нет"
     StringKey.SettingsMapCacheCleared -> "Кэш очищен"
 }
 
@@ -611,12 +613,13 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.MapTilesLoadFailedDismissContentDescription -> "Dismiss notice"
 
     StringKey.SettingsMapDataTitle -> "Map data"
-    StringKey.SettingsMapDataDescription ->
-        "The map doesn't update automatically — this keeps downloaded offline areas always " +
-            "available, even if the tile source is unreachable or has changed on the server. If " +
-            "updating actually changes the map content, all downloaded offline areas are " +
-            "automatically re-downloaded."
     StringKey.SettingsRefreshMapDataButton -> "Update map data"
+    StringKey.SettingsMapDataUpdateConfirmTitle -> "Update map data?"
+    StringKey.SettingsMapDataUpdateConfirmMessage ->
+        "If the map content has changed, all downloaded offline areas will be re-downloaded. " +
+            "Are you sure you want to update the map data?"
+    StringKey.SettingsMapDataUpdateConfirmYes -> "Yes"
+    StringKey.SettingsMapDataUpdateConfirmNo -> "No"
     StringKey.SettingsMapDataRefreshError -> "Update failed — check your internet connection"
     StringKey.SettingsMapDataRedownloadingPrefix -> "Map data updated. Re-downloading"
     StringKey.SettingsMapDataRedownloadingSuffix -> "— check progress in the Preparation section."
@@ -624,10 +627,11 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMapDataRegionsCountFew -> "areas"
     StringKey.SettingsMapDataRegionsCountMany -> "areas"
     StringKey.SettingsClearMapCacheButton -> "Clear map cache"
-    StringKey.SettingsClearMapCacheDescription ->
-        "Removes tiles that got cached incidentally while browsing the map (e.g. while picking an " +
-            "area to download) — doesn't touch already-downloaded offline areas. Useful for " +
-            "checking that only your actual download is available offline, not whatever you " +
-            "recently browsed."
+    StringKey.SettingsClearMapCacheConfirmTitle -> "Clear map cache?"
+    StringKey.SettingsClearMapCacheConfirmMessage ->
+        "Clearing the map cache removes browsed map areas that weren't saved in the Preparation " +
+            "section. Are you sure you want to clear the cache?"
+    StringKey.SettingsClearMapCacheConfirmYes -> "Yes"
+    StringKey.SettingsClearMapCacheConfirmNo -> "No"
     StringKey.SettingsMapCacheCleared -> "Cache cleared"
 }

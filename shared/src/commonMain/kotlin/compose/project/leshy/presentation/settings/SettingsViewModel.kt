@@ -92,15 +92,28 @@ class SettingsViewModel(
         viewModelScope.launch { settingsRepository.setFreezeMushroomOrder(freeze) }
     }
 
+    fun onUpdateMapDataClick() {
+        _uiState.update { it.copy(showUpdateMapDataConfirm = true) }
+    }
+
+    fun onUpdateMapDataDismiss() {
+        _uiState.update { it.copy(showUpdateMapDataConfirm = false) }
+    }
+
     /** Explicit-only re-fetch of the pinned map style — see `MapStyleCacheRepository`'s doc for
      * why this never happens automatically beyond the very first launch. When the fetched style
      * actually changed, [RefreshMapDataUseCase] has already deleted and re-queued every
      * previously-downloaded offline region by the time this returns — [mapDataRegionsRedownloading]
      * just reports how many, for the one-off notice in Settings. */
-    fun refreshMapData() {
+    fun onUpdateMapDataConfirm() {
         viewModelScope.launch {
             _uiState.update {
-                it.copy(isRefreshingMapData = true, mapDataRefreshFailed = false, mapDataRegionsRedownloading = 0)
+                it.copy(
+                    showUpdateMapDataConfirm = false,
+                    isRefreshingMapData = true,
+                    mapDataRefreshFailed = false,
+                    mapDataRegionsRedownloading = 0,
+                )
             }
             val result = refreshMapDataUseCase()
             _uiState.update {
@@ -113,14 +126,22 @@ class SettingsViewModel(
         }
     }
 
+    fun onClearMapCacheClick() {
+        _uiState.update { it.copy(showClearMapCacheConfirm = true) }
+    }
+
+    fun onClearMapCacheDismiss() {
+        _uiState.update { it.copy(showClearMapCacheConfirm = false) }
+    }
+
     /** Diagnostic tool, not a routine action — clears MapLibre's ambient (browsing) cache so a
      * downloaded offline region's actual coverage can be tested in isolation (ambient-cached tiles
      * render offline exactly like a region's own tiles do, and are otherwise indistinguishable from
      * outside the app). Never touches downloaded regions themselves — see
      * [OfflineRegionRepository.clearAmbientCache]'s doc. */
-    fun clearMapCache() {
+    fun onClearMapCacheConfirm() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isClearingMapCache = true, mapCacheCleared = false) }
+            _uiState.update { it.copy(showClearMapCacheConfirm = false, isClearingMapCache = true, mapCacheCleared = false) }
             val cleared = runCatching { offlineRegionRepository.clearAmbientCache() }.isSuccess
             _uiState.update { it.copy(isClearingMapCache = false, mapCacheCleared = cleared) }
         }
