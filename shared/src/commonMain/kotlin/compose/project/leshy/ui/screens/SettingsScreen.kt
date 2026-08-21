@@ -1,7 +1,5 @@
 package compose.project.leshy.ui.screens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,9 +48,6 @@ import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.settings.SettingsViewModel
 import compose.project.leshy.ui.components.CategoryIcon
 import compose.project.leshy.ui.map.MUSHROOM_MARKER_BASE_SIZE
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.leshy_logo
-import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -60,14 +55,6 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
     val uiState by viewModel.uiState.collectAsState()
 
     Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Image(
-                painter = painterResource(Res.drawable.leshy_logo),
-                contentDescription = stringResource(StringKey.AppName),
-                modifier = Modifier.size(96.dp),
-            )
-        }
-
         SettingsSectionTitle(stringResource(StringKey.SettingsLanguageTitle))
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
             AppLanguage.entries.forEachIndexed { index, language ->

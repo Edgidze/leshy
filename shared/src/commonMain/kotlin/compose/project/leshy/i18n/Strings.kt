@@ -97,7 +97,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsFreezeMushroomOrder -> "Неподвижный порядок грибов"
 
     StringKey.SpeciesCollectionsTitle -> "Подборки грибов"
-    StringKey.SpeciesMyMushroomsTitle -> "Мои грибы"
+    StringKey.SpeciesMyMushroomsTitle -> "Добавленные грибы"
     StringKey.SpeciesMyMushroomsEmpty -> "Здесь появятся грибы, которые вы добавите сами"
     StringKey.SpeciesAddButton -> "Добавить гриб"
     StringKey.SpeciesFormTitleCreate -> "Новый гриб"
@@ -135,7 +135,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
         "Выберите подборки грибов, которые вам интересны. Это можно изменить позже в Настройках."
     StringKey.OnboardingContinueButton -> "Начать"
 
-    StringKey.NavHomeContentDescription -> "На главную"
+    StringKey.NavMenuContentDescription -> "Меню"
     StringKey.HelpContentDescription -> "Помощь"
     StringKey.HelpDialogTitle -> "Помощь"
     StringKey.HelpDialogMessage -> "Инструкции для этого экрана появятся здесь в будущем обновлении."
@@ -377,7 +377,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsFreezeMushroomOrder -> "Freeze mushroom order"
 
     StringKey.SpeciesCollectionsTitle -> "Mushroom collections"
-    StringKey.SpeciesMyMushroomsTitle -> "My mushrooms"
+    StringKey.SpeciesMyMushroomsTitle -> "Added mushrooms"
     StringKey.SpeciesMyMushroomsEmpty -> "Mushrooms you add yourself will show up here"
     StringKey.SpeciesAddButton -> "Add mushroom"
     StringKey.SpeciesFormTitleCreate -> "New mushroom"
@@ -415,7 +415,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
         "Pick the mushroom collections you're interested in. You can change this later in Settings."
     StringKey.OnboardingContinueButton -> "Get started"
 
-    StringKey.NavHomeContentDescription -> "Home"
+    StringKey.NavMenuContentDescription -> "Menu"
     StringKey.HelpContentDescription -> "Help"
     StringKey.HelpDialogTitle -> "Help"
     StringKey.HelpDialogMessage -> "Instructions for this screen will be available here in a future update."

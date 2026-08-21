@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,7 +27,7 @@ import compose.project.leshy.i18n.stringResource
 @Composable
 fun SectionScaffold(
     title: StringKey,
-    onHomeClick: () -> Unit,
+    onMenuClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     var showHelpDialog by remember { mutableStateOf(false) }
@@ -37,10 +37,10 @@ fun SectionScaffold(
             TopAppBar(
                 title = { Text(stringResource(title)) },
                 navigationIcon = {
-                    IconButton(onClick = onHomeClick) {
+                    IconButton(onClick = onMenuClick) {
                         Icon(
-                            imageVector = Icons.Filled.Home,
-                            contentDescription = stringResource(StringKey.NavHomeContentDescription),
+                            imageVector = Icons.Filled.Menu,
+                            contentDescription = stringResource(StringKey.NavMenuContentDescription),
                             modifier = Modifier.size(36.dp),
                         )
                     }

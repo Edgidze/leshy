@@ -16,7 +16,6 @@ import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.ui.components.SectionScaffold
 import compose.project.leshy.ui.screens.ArchiveScreen
 import compose.project.leshy.ui.screens.DataScreen
-import compose.project.leshy.ui.screens.HomeScreen
 import compose.project.leshy.ui.screens.MapScreen
 import compose.project.leshy.ui.screens.PreparationScreen
 import compose.project.leshy.ui.screens.RecordScreen
@@ -35,23 +34,23 @@ private const val NAV_TRANSITION_DURATION_MS = 200
 @Composable
 fun LeshyNavHost(
     navController: NavHostController,
+    onMenuClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destination.Home,
+        startDestination = Destination.Record,
         modifier = modifier,
         enterTransition = { fadeIn(animationSpec = tween(NAV_TRANSITION_DURATION_MS)) },
         exitTransition = { fadeOut(animationSpec = tween(NAV_TRANSITION_DURATION_MS)) },
     ) {
-        composable<Destination.Home> {
-            HomeScreen(onNavigate = { destination -> navController.navigateToTopLevel(destination) })
-        }
         composable<Destination.Record> { backStackEntry ->
             val viewModel = koinViewModel<RecordViewModel>(viewModelStoreOwner = backStackEntry)
+            // Title is the app name (this is now the home screen), not "New Entry" — the drawer's
+            // own row for this destination still reads NavRecord, see App.kt's drawerNavEntries.
             SectionScaffold(
-                title = StringKey.NavRecord,
-                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
+                title = StringKey.AppName,
+                onMenuClick = onMenuClick,
             ) { padding ->
                 RecordScreen(
                     viewModel = viewModel,
@@ -63,7 +62,7 @@ fun LeshyNavHost(
         composable<Destination.Archive> {
             SectionScaffold(
                 title = StringKey.NavArchive,
-                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
+                onMenuClick = onMenuClick,
             ) { padding ->
                 ArchiveScreen(
                     onWalkClick = { walkId -> navController.navigate(Destination.WalkDetail(walkId)) },
@@ -86,8 +85,9 @@ fun LeshyNavHost(
         composable<Destination.WalkMap> { backStackEntry ->
             val route = backStackEntry.toRoute<Destination.WalkMap>()
             // The parent WalkDetail entry can already be gone from the back stack while this
-            // composable is still recomposing during the exit transition (e.g. the user tapped
-            // the home icon, which pops WalkDetail via popUpTo) — guard instead of crashing.
+            // composable is still recomposing during the exit transition (e.g. the user opened
+            // the drawer and picked another section, which pops WalkDetail via popUpTo) — guard
+            // instead of crashing.
             val detailEntry = runCatching {
                 navController.getBackStackEntry(Destination.WalkDetail(route.walkId))
             }.getOrNull()
@@ -102,25 +102,25 @@ fun LeshyNavHost(
         composable<Destination.Map> {
             SectionScaffold(
                 title = StringKey.NavMap,
-                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
+                onMenuClick = onMenuClick,
             ) { padding -> MapScreen(modifier = Modifier.padding(padding)) }
         }
         composable<Destination.Preparation> {
             SectionScaffold(
                 title = StringKey.NavPreparation,
-                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
+                onMenuClick = onMenuClick,
             ) { padding -> PreparationScreen(modifier = Modifier.padding(padding)) }
         }
         composable<Destination.Settings> {
             SectionScaffold(
                 title = StringKey.SettingsTitle,
-                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
+                onMenuClick = onMenuClick,
             ) { padding -> SettingsScreen(modifier = Modifier.padding(padding)) }
         }
         composable<Destination.Data> {
             SectionScaffold(
                 title = StringKey.NavData,
-                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
+                onMenuClick = onMenuClick,
             ) { padding ->
                 DataScreen(
                     onNavigateToArchive = { navController.navigateToTopLevel(Destination.Archive) },
@@ -131,7 +131,7 @@ fun LeshyNavHost(
         composable<Destination.Species> {
             SectionScaffold(
                 title = StringKey.NavSpecies,
-                onHomeClick = { navController.popBackStack(Destination.Home, inclusive = false, saveState = true) },
+                onMenuClick = onMenuClick,
             ) { padding -> SpeciesScreen(modifier = Modifier.padding(padding)) }
         }
     }

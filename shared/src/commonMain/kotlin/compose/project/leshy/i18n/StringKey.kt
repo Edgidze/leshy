@@ -55,7 +55,7 @@ enum class StringKey {
     OnboardingDescription,
     OnboardingContinueButton,
 
-    NavHomeContentDescription,
+    NavMenuContentDescription,
     HelpContentDescription,
     HelpDialogTitle,
     HelpDialogMessage,

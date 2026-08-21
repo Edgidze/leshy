@@ -6,9 +6,6 @@ import kotlinx.serialization.Serializable
 
 sealed interface Destination {
     @Serializable
-    data object Home : Destination
-
-    @Serializable
     data object Record : Destination
 
     @Serializable
@@ -37,14 +34,14 @@ sealed interface Destination {
 }
 
 /**
- * All top-level section destinations (home-screen entries) must navigate through this
+ * All top-level section destinations (side-drawer entries) must navigate through this
  * same pop/save/restore scheme. Mixing a plain `navigate()` for one of them corrupts the
  * saved-state cache the others rely on to survive tab switches.
  *
- * `inclusive = false` keeps `Home` (the graph's start destination) anchored at the bottom
- * of the back stack rather than removing it — that's what makes back-from-a-section land
- * on Home, and back-from-Home fall through to the platform default (app exit) instead of
- * a custom exit handler.
+ * `inclusive = false` keeps `Record` (the graph's start destination / home screen) anchored
+ * at the bottom of the back stack rather than removing it — that's what makes back-from-a-
+ * section land on Record, and back-from-Record fall through to the platform default (app
+ * exit) instead of a custom exit handler.
  */
 fun NavHostController.navigateToTopLevel(destination: Destination) {
     navigate(destination) {
