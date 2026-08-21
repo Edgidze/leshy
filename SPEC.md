@@ -136,3 +136,7 @@
   лентой плашек грибов (как в разделе «Запись»), без разблокировки телефона.
   Исследование и план для Android — `.claude/plans/cuddly-toasting-fog.md`; для
   iOS нужен отдельный нативный Live Activity-виджет, вне текущего скоупа.
+- **Идея на будущее (не начато):** переключаемый второй источник карты —
+  OpenStreetMap (`vector.openstreetmap.org`) рядом с текущим OpenFreeMap,
+  раздел «Выбор источника карты» в Настройках. План —
+  `.claude/plans/sparkling-sparking-pie.md`.
