@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,12 +20,13 @@ import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -122,27 +124,27 @@ private fun HomeHeader() {
     // A real TopAppBar (same component SectionScaffold uses) so the header sits at the exact
     // same level as every other screen's app bar, instead of a custom Card that ignored the
     // status-bar inset TopAppBar applies automatically — just taller and darker than section
-    // bars/button tiles to read as the page's own distinct header.
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = stringResource(StringKey.AppName),
-                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-            )
-        },
+    // bars/button tiles to read as the page's own distinct header. Title lives inside the
+    // navigationIcon slot (title slot left empty) so it sits right next to the logo instead of
+    // wherever TopAppBar's own centered/start title layout would otherwise place it.
+    TopAppBar(
+        title = {},
         navigationIcon = {
-            Image(
-                painter = painterResource(Res.drawable.leshy_logo),
-                contentDescription = null,
-                modifier = Modifier.padding(start = 12.dp).size(HOME_HEADER_LOGO_SIZE),
-            )
-        },
-        actions = {
-            Image(
-                painter = painterResource(Res.drawable.leshy_logo),
-                contentDescription = null,
-                modifier = Modifier.padding(end = 12.dp).size(HOME_HEADER_LOGO_SIZE),
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.padding(start = 12.dp),
+            ) {
+                Image(
+                    painter = painterResource(Res.drawable.leshy_logo),
+                    contentDescription = null,
+                    modifier = Modifier.size(HOME_HEADER_LOGO_SIZE),
+                )
+                Text(
+                    text = stringResource(StringKey.AppName),
+                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                )
+            }
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,

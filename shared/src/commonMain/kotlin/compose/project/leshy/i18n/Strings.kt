@@ -78,13 +78,13 @@ private fun russianRegionsPluralKey(count: Int): StringKey {
 }
 
 private fun russianStrings(key: StringKey): String = when (key) {
-    StringKey.AppName -> "Леший"
-    StringKey.NavRecord -> "Запись"
-    StringKey.NavArchive -> "Архив"
-    StringKey.NavData -> "Данные"
-    StringKey.NavMap -> "Карта"
-    StringKey.NavPreparation -> "Подготовка"
-    StringKey.NavSpecies -> "Грибы"
+    StringKey.AppName -> "Грибная карта от Лешего"
+    StringKey.NavRecord -> "Новая запись"
+    StringKey.NavArchive -> "Архив прогулок"
+    StringKey.NavData -> "Экспорт/Импорт"
+    StringKey.NavMap -> "Карта находок"
+    StringKey.NavPreparation -> "Предзагрузка"
+    StringKey.NavSpecies -> "Мои грибы"
     StringKey.SettingsTitle -> "Настройки"
     StringKey.SettingsContentDescription -> "Настройки"
     StringKey.SettingsLanguageTitle -> "Язык"
@@ -358,13 +358,13 @@ private fun russianStrings(key: StringKey): String = when (key) {
 }
 
 private fun englishStrings(key: StringKey): String = when (key) {
-    StringKey.AppName -> "Leshy"
-    StringKey.NavRecord -> "Record"
-    StringKey.NavArchive -> "Archive"
-    StringKey.NavData -> "Data"
-    StringKey.NavMap -> "Map"
-    StringKey.NavPreparation -> "Preparation"
-    StringKey.NavSpecies -> "Mushrooms"
+    StringKey.AppName -> "Mushroom Map from Leshy"
+    StringKey.NavRecord -> "New Entry"
+    StringKey.NavArchive -> "Walk Archive"
+    StringKey.NavData -> "Export/Import"
+    StringKey.NavMap -> "Finds Map"
+    StringKey.NavPreparation -> "Preload"
+    StringKey.NavSpecies -> "My Mushrooms"
     StringKey.SettingsTitle -> "Settings"
     StringKey.SettingsContentDescription -> "Settings"
     StringKey.SettingsLanguageTitle -> "Language"

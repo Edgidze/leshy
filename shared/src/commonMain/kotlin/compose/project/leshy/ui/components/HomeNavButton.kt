@@ -52,17 +52,18 @@ fun HomeNavButton(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            // Icon-to-text gap matches the card's own edge-to-icon padding (both 20.dp) so the
+            // label reads as evenly inset from the icon as the icon is from the card edge.
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp),
         ) {
             Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(40.dp))
             Text(
                 text = stringResource(label),
                 style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Start,
                 modifier = Modifier.weight(1f),
             )
-            Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(40.dp))
         }
     }
 }
