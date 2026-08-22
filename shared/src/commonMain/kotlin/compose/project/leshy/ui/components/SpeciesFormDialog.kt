@@ -3,6 +3,7 @@ package compose.project.leshy.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,6 +50,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import compose.project.leshy.data.platform.PhotoStorage
 import compose.project.leshy.data.platform.rememberCameraLauncher
 import compose.project.leshy.data.platform.rememberCameraPermissionRequester
 import compose.project.leshy.data.platform.rememberGalleryPicker
@@ -60,8 +62,17 @@ import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.ui.util.colorToHex
 import compose.project.leshy.ui.util.hueOf
 import compose.project.leshy.ui.util.parseHexColor
+import okio.FileSystem
+import okio.Path.Companion.toPath
+import org.koin.compose.koinInject
 
 private val PHOTO_PREVIEW_SIZE = 96.dp
+
+// Reused (overwritten, not uniquely named) scratch file for reopening a photo that was already
+// edited this session but not saved yet — [IconEditorDialog] only takes a source *path*, so the
+// in-memory pending PNG bytes need a file to reopen from. Only one `SpeciesFormDialog` is ever open
+// at a time (plain `Dialog` overlay, never a nav route), so a fixed name can't collide.
+private const val ICON_EDIT_REOPEN_SCRATCH_FILE = "species_form_icon_edit_scratch.png"
 private val COLOR_SWATCH_SIZE = 40.dp
 private val SPECTRUM_TRACK_HEIGHT = 28.dp
 private val SPECTRUM_THUMB_SIZE = 28.dp
@@ -140,6 +151,7 @@ fun SpeciesFormDialog(
     var pendingIconPreview by remember { mutableStateOf<ImageBitmap?>(null) }
     var pendingIconBytes by remember { mutableStateOf<ByteArray?>(null) }
     var editorSourcePath by remember { mutableStateOf<String?>(null) }
+    val photoStorage = koinInject<PhotoStorage>()
 
     val takePhoto = rememberCameraLauncher { path -> editorSourcePath = path }
     val requestPhoto = rememberCameraPermissionRequester(onGranted = takePhoto)
@@ -186,11 +198,25 @@ fun SpeciesFormDialog(
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
+                val canReopenEditor = pendingIconPreview != null || existing?.iconFile != null
                 Box(
                     modifier = Modifier
                         .size(PHOTO_PREVIEW_SIZE)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .clickable(enabled = canReopenEditor) {
+                            val bytes = pendingIconBytes
+                            val existingIconFile = existing?.iconFile
+                            editorSourcePath = when {
+                                bytes != null -> {
+                                    val path = photoStorage.resolvePath(ICON_EDIT_REOPEN_SCRATCH_FILE)
+                                    FileSystem.SYSTEM.write(path.toPath()) { write(bytes) }
+                                    path
+                                }
+                                existingIconFile != null -> photoStorage.resolvePath(existingIconFile)
+                                else -> null
+                            }
+                        },
                     contentAlignment = Alignment.Center,
                 ) {
                     val preview = pendingIconPreview

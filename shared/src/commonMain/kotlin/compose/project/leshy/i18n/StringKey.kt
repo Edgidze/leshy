@@ -46,6 +46,8 @@ enum class StringKey {
     IconEditorTitle,
     IconEditorToolEraser,
     IconEditorToolCrop,
+    IconEditorShapeRectangle,
+    IconEditorShapeOval,
     IconEditorBrushSizeLabel,
     IconEditorUndoContentDescription,
     IconEditorRedoContentDescription,
