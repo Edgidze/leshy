@@ -62,6 +62,13 @@
   на части реальных устройств — используй кластеризованный
   `CircleLayer`/`SymbolLayer` (`GeoJsonOptions(cluster = true)`) вместо него.
   Подробности — `ui/map/CLAUDE.md`.
+- **iOS: главный поток может зависнуть внутри `MapLibre.framework` на уходе
+  приложения в фон** (`std::future::get()` без символов внутри SDK) —
+  воспроизведено дважды на реальном устройстве, второй раз закончилось
+  полной перезагрузкой телефона (watchdog не дождался ответа от системных
+  демонов). Не починено, фактура и план расследования —
+  `.claude/investigations/ios-maplibre-background-watchdog/README.md`,
+  короткая версия — `ui/map/CLAUDE.md`.
 - **Навигация: все top-level разделы (пункты бокового выдвижного меню)
   обязаны идти через `navigateToTopLevel()`** (`ui/navigation/Destinations.kt`)
   — подмена на голый `navigate()` для одного из них ломает
