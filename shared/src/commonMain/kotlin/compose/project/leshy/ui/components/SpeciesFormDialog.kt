@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -35,9 +36,11 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,12 +59,17 @@ import compose.project.leshy.data.platform.rememberCameraPermissionRequester
 import compose.project.leshy.data.platform.rememberGalleryPicker
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.CategorySource
 import compose.project.leshy.domain.model.EdibilityStatus
+import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.ui.util.colorToHex
 import compose.project.leshy.ui.util.hueOf
 import compose.project.leshy.ui.util.parseHexColor
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import leshy.shared.generated.resources.Res
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import org.koin.compose.koinInject
@@ -73,6 +81,12 @@ private val PHOTO_PREVIEW_SIZE = 96.dp
 // in-memory pending PNG bytes need a file to reopen from. Only one `SpeciesFormDialog` is ever open
 // at a time (plain `Dialog` overlay, never a nav route), so a fixed name can't collide.
 private const val ICON_EDIT_REOPEN_SCRATCH_FILE = "species_form_icon_edit_scratch.png"
+
+// Scratch copy of a catalog illustration picked via the "Картинки" button — [IconEditorDialog]
+// only takes a source *path* (see above), but a catalog image lives as a composeResources drawable,
+// not a file. Reused/overwritten the same way as [ICON_EDIT_REOPEN_SCRATCH_FILE] and for the same
+// reason (only one `SpeciesFormDialog` open at a time).
+private const val CATALOG_PICK_SCRATCH_FILE = "species_form_catalog_pick_scratch.webp"
 private val COLOR_SWATCH_SIZE = 40.dp
 private val SPECTRUM_TRACK_HEIGHT = 28.dp
 private val SPECTRUM_THUMB_SIZE = 28.dp
@@ -152,10 +166,34 @@ fun SpeciesFormDialog(
     var pendingIconBytes by remember { mutableStateOf<ByteArray?>(null) }
     var editorSourcePath by remember { mutableStateOf<String?>(null) }
     val photoStorage = koinInject<PhotoStorage>()
+    val categoryRepository = koinInject<CategoryRepository>()
+    val coroutineScope = rememberCoroutineScope()
+    var showCatalogPicker by remember { mutableStateOf(false) }
+    val catalogCategories by remember(categoryRepository) {
+        categoryRepository.observeAll().map { list -> list.filter { it.source == CategorySource.APP && it.iconRef != null } }
+    }.collectAsState(initial = emptyList())
 
     val takePhoto = rememberCameraLauncher { path -> editorSourcePath = path }
     val requestPhoto = rememberCameraPermissionRequester(onGranted = takePhoto)
     val pickFromGallery = rememberGalleryPicker { path -> editorSourcePath = path }
+    val pickFromCatalog: () -> Unit = { showCatalogPicker = true }
+
+    if (showCatalogPicker) {
+        CatalogPhotoPickerDialog(
+            categories = catalogCategories,
+            onSelect = { picked ->
+                showCatalogPicker = false
+                val iconRef = picked.iconRef ?: return@CatalogPhotoPickerDialog
+                coroutineScope.launch {
+                    val bytes = Res.readBytes("drawable/$iconRef.webp")
+                    val path = photoStorage.resolvePath(CATALOG_PICK_SCRATCH_FILE)
+                    FileSystem.SYSTEM.write(path.toPath()) { write(bytes) }
+                    editorSourcePath = path
+                }
+            },
+            onDismissRequest = { showCatalogPicker = false },
+        )
+    }
 
     editorSourcePath?.let { sourcePath ->
         IconEditorDialog(
@@ -232,12 +270,18 @@ fun SpeciesFormDialog(
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
                     OutlinedButton(onClick = requestPhoto) {
                         Text(stringResource(StringKey.SpeciesFormTakePhotoButton))
                     }
                     OutlinedButton(onClick = pickFromGallery) {
                         Text(stringResource(StringKey.SpeciesFormPickPhotoButton))
+                    }
+                    OutlinedButton(onClick = pickFromCatalog) {
+                        Text(stringResource(StringKey.SpeciesFormPickCatalogButton))
                     }
                 }
 

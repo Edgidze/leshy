@@ -114,6 +114,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesFormColorLabel -> "Цвет"
     StringKey.SpeciesFormTakePhotoButton -> "Камера"
     StringKey.SpeciesFormPickPhotoButton -> "Галерея"
+    StringKey.SpeciesFormPickCatalogButton -> "Картинки"
     StringKey.SpeciesFormSaveButton -> "Сохранить"
     StringKey.SpeciesFormCancelContentDescription -> "Отмена"
     StringKey.SpeciesListImportedLabel -> "из архива"
@@ -125,6 +126,8 @@ private fun russianStrings(key: StringKey): String = when (key) {
             "перенесены в категорию «Неизвестный гриб». Это действие необратимо."
     StringKey.SpeciesDeleteConfirmYes -> "Да"
     StringKey.SpeciesDeleteConfirmNo -> "Нет"
+
+    StringKey.CatalogPhotoPickerTitle -> "Выбрать изображение"
 
     StringKey.IconEditorTitle -> "Редактор фото"
     StringKey.IconEditorToolEraser -> "Ластик"
@@ -402,6 +405,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesFormColorLabel -> "Color"
     StringKey.SpeciesFormTakePhotoButton -> "Camera"
     StringKey.SpeciesFormPickPhotoButton -> "Gallery"
+    StringKey.SpeciesFormPickCatalogButton -> "Pictures"
     StringKey.SpeciesFormSaveButton -> "Save"
     StringKey.SpeciesFormCancelContentDescription -> "Cancel"
     StringKey.SpeciesListImportedLabel -> "from archive"
@@ -413,6 +417,8 @@ private fun englishStrings(key: StringKey): String = when (key) {
             "to \"Unknown mushroom\". This cannot be undone."
     StringKey.SpeciesDeleteConfirmYes -> "Yes"
     StringKey.SpeciesDeleteConfirmNo -> "No"
+
+    StringKey.CatalogPhotoPickerTitle -> "Choose a picture"
 
     StringKey.IconEditorTitle -> "Photo editor"
     StringKey.IconEditorToolEraser -> "Eraser"

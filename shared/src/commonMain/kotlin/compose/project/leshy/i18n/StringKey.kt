@@ -35,6 +35,7 @@ enum class StringKey {
     SpeciesFormColorLabel,
     SpeciesFormTakePhotoButton,
     SpeciesFormPickPhotoButton,
+    SpeciesFormPickCatalogButton,
     SpeciesFormSaveButton,
     SpeciesFormCancelContentDescription,
     SpeciesListImportedLabel,
@@ -44,6 +45,8 @@ enum class StringKey {
     SpeciesDeleteConfirmMessage,
     SpeciesDeleteConfirmYes,
     SpeciesDeleteConfirmNo,
+
+    CatalogPhotoPickerTitle,
 
     IconEditorTitle,
     IconEditorToolEraser,
