@@ -11,6 +11,7 @@ import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.domain.model.MAX_MUSHROOM_FINDS_PER_WALK
 import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.FieldMarkRepository
@@ -389,6 +390,7 @@ class RecordViewModel(
 
     fun addMushroom(categoryId: Long) {
         val currentWalkId = walkId ?: return
+        if ((_uiState.value.mushroomCounts[categoryId] ?: 0) >= MAX_MUSHROOM_FINDS_PER_WALK) return
         viewModelScope.launch {
             val mark = addMushroomMark(currentWalkId, categoryId, _uiState.value.currentLocation, currentTimeMillis())
             scheduleFrontBump(categoryId)
@@ -406,21 +408,26 @@ class RecordViewModel(
      * still its own [addMushroomMark] call (own row, own commit) rather than a single use case
      * that writes a combined count, so it stays consistent with the rest of the app treating one
      * [FieldMark] row per find (thumbnail rendering, walk detail stats, etc).
+     *
+     * The `_uiState` update happens once PER find, inside the loop, not once after it — each
+     * [addMushroomMark] call is a real suspending Room write, so this lets `mushroomCounts` (and
+     * the tile's displayed count) tick up as the batch commits instead of jumping straight from
+     * the old value to `old + count` only once every row has landed.
      */
     fun addMushrooms(categoryId: Long, count: Int) {
         if (count <= 0) return
         val currentWalkId = walkId ?: return
         viewModelScope.launch {
             val location = _uiState.value.currentLocation
-            val newMarks = (1..count).map {
-                addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
+            repeat(count) {
+                val mark = addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
+                _uiState.update { state ->
+                    val counts = state.mushroomCounts.toMutableMap()
+                    counts[categoryId] = (counts[categoryId] ?: 0) + 1
+                    state.copy(mushroomCounts = counts, marks = state.marks + mark)
+                }
             }
             scheduleFrontBump(categoryId)
-            _uiState.update { state ->
-                val counts = state.mushroomCounts.toMutableMap()
-                counts[categoryId] = (counts[categoryId] ?: 0) + count
-                state.copy(mushroomCounts = counts, marks = state.marks + newMarks)
-            }
         }
     }
 

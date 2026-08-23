@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
+import compose.project.leshy.domain.model.MAX_MUSHROOM_FINDS_PER_WALK
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.stringResource
@@ -60,7 +62,7 @@ import kotlinx.coroutines.launch
 private val MUSHROOM_COUNT_BUTTON_SIZE = 40.dp
 
 /** Holding the + button this long opens the bulk-add dialog instead of logging a single find. */
-private val MUSHROOM_BULK_ADD_HOLD_DURATION = 3.seconds
+private val MUSHROOM_BULK_ADD_HOLD_DURATION = 2.seconds
 
 /** Width [MushroomTile] is displayed at on the record screen — other tiles size themselves relative to it. */
 val RECORD_MUSHROOM_TILE_WIDTH = 120.dp
@@ -102,7 +104,11 @@ fun MushroomTile(
                     maxLines = 1,
                     modifier = Modifier.width(28.dp),
                 )
-                MushroomAddButton(onClick = onAdd, onLongHold = onBulkAdd)
+                MushroomAddButton(
+                    onClick = onAdd,
+                    onLongHold = onBulkAdd,
+                    enabled = count < MAX_MUSHROOM_FINDS_PER_WALK,
+                )
             }
             MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
         }
@@ -152,19 +158,28 @@ fun AddSpeciesTile(onClick: () -> Unit, modifier: Modifier = Modifier) {
  * (`MarkerLongPressOverlay.kt`), with the press state fed into [LocalIndication] by hand so the
  * button still shows the normal ripple while held.
  *
- * [onClick]/[onLongHold] are read through [rememberUpdatedState] and [pointerInput] is keyed on
- * `Unit`, NOT on the callbacks themselves — while a walk is actively recording, every GPS fix
+ * [onClick]/[onLongHold]/[enabled] are all read through [rememberUpdatedState] and [pointerInput]
+ * is keyed on `Unit`, NOT on any of them — while a walk is actively recording, every GPS fix
  * updates `trackPoints`/`distanceMeters` on the record screen, which recreates these closures on
  * each recomposition of the tile feed. Keying `pointerInput` on the lambdas (the first version of
  * this button did) restarted the gesture-detection coroutine on every one of those fixes, wiping
- * out the in-flight 3s hold before it could ever complete — reproduced live: the long-press only
- * "worked" while paused, when nothing was recomposing the tiles fast enough to interrupt it.
+ * out the in-flight 2s hold before it could ever complete — reproduced live: the long-press only
+ * "worked" while paused, when nothing was recomposing the tiles fast enough to interrupt it. Once
+ * [MAX_MUSHROOM_FINDS_PER_WALK] is reached, [enabled] goes `false` — the gesture is still detected
+ * (so the loop doesn't need restarting once the count drops back below the cap) but fires neither
+ * callback nor any ripple, and the icon is shown dimmed.
  */
 @Composable
-private fun MushroomAddButton(onClick: () -> Unit, onLongHold: () -> Unit, modifier: Modifier = Modifier) {
+private fun MushroomAddButton(
+    onClick: () -> Unit,
+    onLongHold: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
     val interactionSource = remember { MutableInteractionSource() }
     val currentOnClick = rememberUpdatedState(onClick)
     val currentOnLongHold = rememberUpdatedState(onLongHold)
+    val currentEnabled = rememberUpdatedState(enabled)
     Box(
         modifier = modifier
             .size(MUSHROOM_COUNT_BUTTON_SIZE)
@@ -173,6 +188,10 @@ private fun MushroomAddButton(onClick: () -> Unit, onLongHold: () -> Unit, modif
             .pointerInput(Unit) {
                 while (true) {
                     val down = awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
+                    if (!currentEnabled.value) {
+                        awaitPointerEventScope { waitForUpOrCancellation() }
+                        continue
+                    }
                     val press = PressInteraction.Press(down.position)
                     interactionSource.tryEmit(press)
                     var longHoldFired = false
@@ -196,7 +215,12 @@ private fun MushroomAddButton(onClick: () -> Unit, onLongHold: () -> Unit, modif
             },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(Icons.Filled.Add, contentDescription = null, Modifier.size(32.dp))
+        Icon(
+            Icons.Filled.Add,
+            contentDescription = null,
+            tint = LocalContentColor.current.copy(alpha = if (enabled) 1f else 0.38f),
+            modifier = Modifier.size(32.dp),
+        )
     }
 }
 

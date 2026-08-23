@@ -114,6 +114,8 @@ enum class StringKey {
     RecordSearchDialogTitle,
     RecordBulkAddQuestion,
     RecordBulkAddCancelContentDescription,
+    RecordBulkAddLimitMessage,
+    RecordBulkAddLimitConfirm,
 
     NavigationDirectionToPrefix,
     NavigationDistanceToTargetPrefix,

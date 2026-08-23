@@ -40,6 +40,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -70,6 +71,7 @@ import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.GeoPoint
+import compose.project.leshy.domain.model.MAX_MUSHROOM_FINDS_PER_WALK
 import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.model.iconSource
 import compose.project.leshy.domain.util.TurnDirection
@@ -505,6 +507,7 @@ private fun RecordScreenContent(
     if (bulkAddCategory != null) {
         MushroomBulkAddDialog(
             category = bulkAddCategory,
+            currentCount = uiState.mushroomCounts[bulkAddCategory.id] ?: 0,
             onConfirm = { count -> onAddMushrooms(bulkAddCategory.id, count) },
             onDismissRequest = { bulkAddCategoryId = null },
         )
@@ -611,24 +614,43 @@ private fun WalkNameDialog(onConfirm: (String) -> Unit, onDismissRequest: () -> 
 }
 
 /**
- * Opened by holding a [MushroomTile]'s + button for 3s — equivalent to tapping + [count] times
+ * Opened by holding a [MushroomTile]'s + button for 2s — equivalent to tapping + [count] times
  * for [category] from the last known location, without [count] individual taps. The field forces
  * [KeyboardType.NumberPassword] (not the plain [KeyboardType.Number]) specifically so the keyboard
  * that pops up is a bare digit pad on BOTH platforms — regular `Number` still offers a decimal
  * separator/other punctuation whose exact glyphs depend on the OS locale, which a find count never
  * needs. Confirming is the field's own IME "Done" key, not a dialog button — there is deliberately
  * no separate confirm affordance, only [onDismissRequest]'s cancel arrow top-left.
+ *
+ * Input is capped at 3 digits — [MAX_MUSHROOM_FINDS_PER_WALK] is the largest count that could ever
+ * be valid, so a longer input could never confirm anyway; this also sidesteps `toIntOrNull()`
+ * silently returning `null` (and the dialog no-op'ing with no feedback) on an absurdly long digit
+ * string. If [currentCount] plus the entered count would exceed the cap, confirming shows
+ * [MushroomBulkAddLimitDialog] on top instead of adding anything — the count field is left as-is
+ * underneath so the user can correct it rather than having to retype it.
  */
 @Composable
-private fun MushroomBulkAddDialog(category: Category, onConfirm: (Int) -> Unit, onDismissRequest: () -> Unit) {
+private fun MushroomBulkAddDialog(
+    category: Category,
+    currentCount: Int,
+    onConfirm: (Int) -> Unit,
+    onDismissRequest: () -> Unit,
+) {
     var countInput by remember { mutableStateOf("") }
+    var showLimitWarning by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     fun confirm() {
         val count = countInput.toIntOrNull() ?: 0
-        if (count > 0) onConfirm(count)
-        onDismissRequest()
+        when {
+            count <= 0 -> onDismissRequest()
+            currentCount + count > MAX_MUSHROOM_FINDS_PER_WALK -> showLimitWarning = true
+            else -> {
+                onConfirm(count)
+                onDismissRequest()
+            }
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -661,7 +683,7 @@ private fun MushroomBulkAddDialog(category: Category, onConfirm: (Int) -> Unit, 
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
                     value = countInput,
-                    onValueChange = { new -> if (new.all(Char::isDigit)) countInput = new },
+                    onValueChange = { new -> if (new.all(Char::isDigit) && new.length <= 3) countInput = new },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.NumberPassword,
@@ -673,6 +695,26 @@ private fun MushroomBulkAddDialog(category: Category, onConfirm: (Int) -> Unit, 
             }
         }
     }
+
+    if (showLimitWarning) {
+        MushroomBulkAddLimitDialog(onDismissRequest = { showLimitWarning = false })
+    }
+}
+
+/** Shown by [MushroomBulkAddDialog] when the entered count would push a species' total past
+ * [MAX_MUSHROOM_FINDS_PER_WALK] for the walk — single acknowledgment button, no title, matching
+ * the bulk-add dialog it sits on top of, which also has no title. */
+@Composable
+private fun MushroomBulkAddLimitDialog(onDismissRequest: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        modifier = Modifier.fillMaxWidth(0.9f),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        text = { Text(stringResource(StringKey.RecordBulkAddLimitMessage)) },
+        confirmButton = {
+            TextButton(onClick = onDismissRequest) { Text(stringResource(StringKey.RecordBulkAddLimitConfirm)) }
+        },
+    )
 }
 
 /**
