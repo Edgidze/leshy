@@ -19,6 +19,8 @@ enum class StringKey {
     SettingsResetMushroomOrderOnWalkFinish,
     SettingsFreezeMushroomOrder,
 
+    MushroomImagesDisclaimer,
+
     SpeciesCollectionsTitle,
     SpeciesMyMushroomsTitle,
     SpeciesMyMushroomsEmpty,

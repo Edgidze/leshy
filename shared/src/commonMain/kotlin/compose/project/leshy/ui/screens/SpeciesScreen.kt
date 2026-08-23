@@ -39,6 +39,7 @@ import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.species.SpeciesViewModel
 import compose.project.leshy.ui.components.CategoryIcon
 import compose.project.leshy.ui.components.CollectionPicker
+import compose.project.leshy.ui.components.MushroomImageDisclaimerBanner
 import compose.project.leshy.ui.components.SpeciesFormDialog
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -53,6 +54,7 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
             stringResource(StringKey.SpeciesCollectionsTitle),
             modifier = Modifier.padding(bottom = 8.dp),
         )
+        MushroomImageDisclaimerBanner(modifier = Modifier.padding(bottom = 8.dp))
         CollectionPicker(
             items = uiState.collectionPickerItems,
             onToggleCollection = viewModel::toggleCollection,

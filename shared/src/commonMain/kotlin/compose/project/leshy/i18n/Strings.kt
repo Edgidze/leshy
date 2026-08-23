@@ -96,6 +96,10 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Сбрасывать порядок грибов в конце прогулки"
     StringKey.SettingsFreezeMushroomOrder -> "Неподвижный порядок грибов"
 
+    StringKey.MushroomImagesDisclaimer ->
+        "Все изображения грибов в приложении условны — не используйте их для определения " +
+            "незнакомых грибов!"
+
     StringKey.SpeciesCollectionsTitle -> "Подборки грибов"
     StringKey.SpeciesMyMushroomsTitle -> "Добавленные грибы"
     StringKey.SpeciesMyMushroomsEmpty -> "Здесь появятся грибы, которые вы добавите сами"
@@ -379,6 +383,10 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMushroomSortByPoisonousLast -> "Poisonous last"
     StringKey.SettingsResetMushroomOrderOnWalkFinish -> "Reset mushroom order at the end of a walk"
     StringKey.SettingsFreezeMushroomOrder -> "Freeze mushroom order"
+
+    StringKey.MushroomImagesDisclaimer ->
+        "All mushroom images in the app are illustrative only — do not use them to identify " +
+            "unfamiliar mushrooms!"
 
     StringKey.SpeciesCollectionsTitle -> "Mushroom collections"
     StringKey.SpeciesMyMushroomsTitle -> "Added mushrooms"

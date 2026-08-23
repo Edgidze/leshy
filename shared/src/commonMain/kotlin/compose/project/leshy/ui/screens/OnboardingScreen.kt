@@ -21,6 +21,7 @@ import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
 import compose.project.leshy.presentation.onboarding.OnboardingViewModel
 import compose.project.leshy.ui.components.CollectionPicker
+import compose.project.leshy.ui.components.MushroomImageDisclaimerBanner
 import org.koin.compose.viewmodel.koinViewModel
 
 /**
@@ -40,6 +41,7 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
         )
+        MushroomImageDisclaimerBanner(modifier = Modifier.padding(bottom = 8.dp))
         CollectionPicker(
             items = uiState.collectionPickerItems,
             onToggleCollection = viewModel::toggleCollection,
