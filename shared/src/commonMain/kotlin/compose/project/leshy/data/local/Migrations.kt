@@ -139,3 +139,12 @@ val MIGRATION_7_8 = object : Migration(7, 8) {
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_objects_categoryId` ON `objects` (`categoryId`)")
     }
 }
+
+// Additive-only: backs the free-text walk description field (WalkDetailScreen, edited on its own
+// screen rather than a dialog — see WalkDescriptionEditScreen doc comment for why). Existing rows
+// get description = null, rendered as an empty/placeholder description.
+val MIGRATION_8_9 = object : Migration(8, 9) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE walks ADD COLUMN description TEXT")
+    }
+}

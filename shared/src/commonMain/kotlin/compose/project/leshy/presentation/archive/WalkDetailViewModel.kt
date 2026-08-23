@@ -81,6 +81,12 @@ class WalkDetailViewModel(
         }
     }
 
+    fun onDescriptionConfirm(description: String) {
+        viewModelScope.launch {
+            _uiState.value.walk?.let { walkRepository.update(it.copy(description = description.ifBlank { null })) }
+        }
+    }
+
     fun onDeleteClick() {
         showDeleteConfirmation.value = true
     }

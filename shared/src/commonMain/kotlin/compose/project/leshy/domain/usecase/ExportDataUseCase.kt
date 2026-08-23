@@ -156,6 +156,7 @@ private fun Walk.toExportDto() = WalkExportDto(
     endLat = endLat,
     endLon = endLon,
     mushroomCount = mushroomCount,
+    description = description,
 )
 
 private fun TrackPoint.toExportDto() = TrackPointExportDto(

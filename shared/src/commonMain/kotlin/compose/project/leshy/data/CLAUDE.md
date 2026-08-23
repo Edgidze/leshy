@@ -1,6 +1,6 @@
 # data/ — Room + DataStore
 
-## Схема Room (актуальная — версия 8, `data/local/`)
+## Схема Room (актуальная — версия 9, `data/local/`)
 
 6 таблиц, точные поля — смотри `*Entity.kt` напрямую, они компактны и
 самодокументируемы. Кратко:
@@ -21,7 +21,10 @@
   истины сам каталог (см. `EnsureDefaultCategoriesUseCase` ниже).
 - **`walks`** — прогулки, `mushroomCount` денормализован для ленты Архива,
   `thumbnailPath` (v3) — кэшированный PNG-снапшот карты, см.
-  `ui/map/CLAUDE.md`.
+  `ui/map/CLAUDE.md`. `description` (v9) — свободный многострочный текст,
+  редактируется с отдельного экрана (не диалога — см. doc-комментарий
+  `WalkDescriptionEditScreen`), идёт в export/import вместе с прогулкой
+  (`WalkExportDto`).
 - **`objects`** (домен-модель — `FieldMark`, не `Object`, зарезервировано в
   Kotlin) — находки/фото/ориентиры, `ON DELETE CASCADE` от `walks` **и** (с
   v8) от `categories` — см. миграцию v7→v8 ниже. `name`/`description` (v4) —
@@ -82,6 +85,10 @@ objects_new` с нужным FK → `INSERT ... SELECT` → `DROP` → `RENAME` 
 `category_misc`/`category_unknown_mushroom` (обе `source = APP`) в опасность
 не попадают — удаление доступно только из списка «Мои грибы» (`WHERE source
 != 'APP'`), каскад до каталожных строк физически не дотягивается.
+
+**v8→v9 — снова чисто аддитивная**, `walks.description TEXT` (nullable, без
+`DEFAULT`) — существующие прогулки получают `NULL`, что и рендерится как
+пустое описание.
 
 **С Phase 10 этот CASCADE на штатном пути больше никогда не срабатывает —
 и это осознанно оставлено так, а не откачено на `NO ACTION`.**

@@ -21,6 +21,7 @@ import compose.project.leshy.ui.screens.PreparationScreen
 import compose.project.leshy.ui.screens.RecordScreen
 import compose.project.leshy.ui.screens.SettingsScreen
 import compose.project.leshy.ui.screens.SpeciesScreen
+import compose.project.leshy.ui.screens.WalkDescriptionEditScreen
 import compose.project.leshy.ui.screens.WalkDetailScreen
 import compose.project.leshy.ui.screens.WalkMapScreen
 import org.koin.compose.viewmodel.koinViewModel
@@ -80,6 +81,7 @@ fun LeshyNavHost(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
                 onViewMap = { navController.navigate(Destination.WalkMap(route.walkId)) },
+                onEditDescription = { navController.navigate(Destination.WalkDescriptionEdit(route.walkId)) },
             )
         }
         composable<Destination.WalkMap> { backStackEntry ->
@@ -97,6 +99,21 @@ fun LeshyNavHost(
                     parameters = { parametersOf(route.walkId) },
                 )
                 WalkMapScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+            }
+        }
+        composable<Destination.WalkDescriptionEdit> { backStackEntry ->
+            val route = backStackEntry.toRoute<Destination.WalkDescriptionEdit>()
+            // Same guard as Destination.WalkMap above — the parent WalkDetail entry can already be
+            // gone from the back stack during an exit transition.
+            val detailEntry = runCatching {
+                navController.getBackStackEntry(Destination.WalkDetail(route.walkId))
+            }.getOrNull()
+            if (detailEntry != null) {
+                val viewModel = koinViewModel<WalkDetailViewModel>(
+                    viewModelStoreOwner = detailEntry,
+                    parameters = { parametersOf(route.walkId) },
+                )
+                WalkDescriptionEditScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
             }
         }
         composable<Destination.Map> {

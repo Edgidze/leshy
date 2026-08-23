@@ -32,6 +32,7 @@ class ExportDtoSerializationTest {
             endLat = null,
             endLon = null,
             mushroomCount = 3,
+            description = "Заметка",
         )
         val json = ExportJson.encodeToString(walk)
         assertEquals(walk, ExportJson.decodeFromString<WalkExportDto>(json))

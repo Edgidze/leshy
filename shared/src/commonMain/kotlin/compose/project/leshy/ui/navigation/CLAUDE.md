@@ -76,12 +76,17 @@ fun NavHostController.navigateToTopLevel(destination: Destination) {
    структурно недостижим, пока `onMenuClick` не начнёт вызывать `navigate`
    напрямую.
 
-## Общий `viewModelStoreOwner` для вложенных экранов карты
+## Общий `viewModelStoreOwner` для вложенных экранов под `WalkDetail`
 
 `WalkMapScreen`/детальные карты берут `koinViewModel` с тем же
 `viewModelStoreOwner`, что и родительский экран (`backStackEntry` через
 `navController.getBackStackEntry(Destination.WalkDetail(...))`), чтобы не
-плодить второй ViewModel и не терять состояние.
+плодить второй ViewModel и не терять состояние. `Destination.
+WalkDescriptionEdit` (экран редактирования описания прогулки) — тот же
+паттерн: своего ViewModel нет, берёт `WalkDetailViewModel` родителя. Умышленно
+NavHost-экран, не `Dialog` — многострочный `OutlinedTextField` внутри
+Compose `Dialog` был источником IME-бага, см. doc-комментарий
+`WalkDescriptionEditScreen`/`AddPlaceDialog.kt`.
 
 **Обязательно оборачивать в `runCatching { ... }.getOrNull()`.** Переход по
 `navigateToTopLevel` выталкивает записи из бэкстека СИНХРОННО

@@ -21,6 +21,7 @@ class StartWalkUseCase(
                 endLon = null,
                 mushroomCount = 0,
                 thumbnailPath = null,
+                description = null,
             ),
         )
 }

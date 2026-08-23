@@ -179,6 +179,7 @@ class ExportImportRoundTripTest {
                 endLon = 37.61,
                 mushroomCount = 1,
                 thumbnailPath = "/thumbnails/walk_1.png",
+                description = "Заметки о прогулке",
             ),
         )
         val trackPoints = FakeTrackPointRepository()
@@ -224,6 +225,7 @@ class ExportImportRoundTripTest {
         assertEquals(1000L, walk.startTime)
         assertEquals(1234.5, walk.distanceMeters)
         assertNull(walk.thumbnailPath)
+        assertEquals("Заметки о прогулке", walk.description)
 
         val importedTrack = destTrackPoints.observeByWalkId(walk.id).first().sortedBy { it.sequence }
         assertEquals(2, importedTrack.size)
@@ -258,7 +260,7 @@ class ExportImportRoundTripTest {
             Walk(
                 id = 0, name = "Прогулка", startTime = 1000, endTime = 2000, distanceMeters = 0.0,
                 avgSpeed = 0.0, startLat = 55.7, startLon = 37.6, endLat = null, endLon = null,
-                mushroomCount = 1, thumbnailPath = null,
+                mushroomCount = 1, thumbnailPath = null, description = null,
             ),
         )
         val fieldMarks = FakeFieldMarkRepository()
@@ -346,7 +348,7 @@ class ExportImportRoundTripTest {
             Walk(
                 id = 0, name = "Прогулка", startTime = 1000, endTime = 2000, distanceMeters = 0.0,
                 avgSpeed = 0.0, startLat = 55.7, startLon = 37.6, endLat = null, endLon = null,
-                mushroomCount = 1, thumbnailPath = null,
+                mushroomCount = 1, thumbnailPath = null, description = null,
             ),
         )
         val fieldMarks = FakeFieldMarkRepository()
@@ -404,7 +406,7 @@ class ExportImportRoundTripTest {
         val walkId = walks.insert(
             Walk(
                 id = 0, name = "П", startTime = 1, endTime = null, distanceMeters = 0.0, avgSpeed = 0.0,
-                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 1, thumbnailPath = null,
+                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 1, thumbnailPath = null, description = null,
             ),
         )
         val fieldMarks = FakeFieldMarkRepository()
@@ -456,7 +458,7 @@ class ExportImportRoundTripTest {
         val walkId = walks.insert(
             Walk(
                 id = 0, name = "П", startTime = 1, endTime = null, distanceMeters = 0.0, avgSpeed = 0.0,
-                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 1, thumbnailPath = null,
+                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 1, thumbnailPath = null, description = null,
             ),
         )
         val fieldMarks = FakeFieldMarkRepository()
@@ -500,7 +502,7 @@ class ExportImportRoundTripTest {
         val walkId = walks.insert(
             Walk(
                 id = 0, name = "П", startTime = 1, endTime = null, distanceMeters = 0.0, avgSpeed = 0.0,
-                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 1, thumbnailPath = null,
+                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 1, thumbnailPath = null, description = null,
             ),
         )
         val fieldMarks = FakeFieldMarkRepository()

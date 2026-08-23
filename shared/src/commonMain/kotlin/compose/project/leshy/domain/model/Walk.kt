@@ -13,4 +13,5 @@ data class Walk(
     val endLon: Double?,
     val mushroomCount: Int,
     val thumbnailPath: String?,
+    val description: String?,
 )

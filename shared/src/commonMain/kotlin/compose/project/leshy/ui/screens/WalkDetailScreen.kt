@@ -76,7 +76,12 @@ private val PLACE_THUMBNAIL_SIZE = 48.dp
 private val MUSHROOM_TOAST_DURATION = 3000.milliseconds
 
 @Composable
-fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewMap: () -> Unit) {
+fun WalkDetailScreen(
+    viewModel: WalkDetailViewModel,
+    onBack: () -> Unit,
+    onViewMap: () -> Unit,
+    onEditDescription: () -> Unit,
+) {
     val uiState by viewModel.uiState.collectAsState()
     val walk = uiState.walk
     val snackbarHostState = remember { SnackbarHostState() }
@@ -219,6 +224,29 @@ fun WalkDetailScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit, onViewM
                             },
                         )
                     }
+                }
+
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 4.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            stringResource(StringKey.WalkDetailDescriptionTitle),
+                            textDecoration = TextDecoration.Underline,
+                        )
+                        IconButton(onClick = onEditDescription) {
+                            Icon(
+                                Icons.Filled.Edit,
+                                contentDescription = stringResource(StringKey.WalkDetailEditDescriptionContentDescription),
+                            )
+                        }
+                    }
+                    Text(
+                        walk.description?.ifBlank { null } ?: stringResource(StringKey.WalkDetailDescriptionEmpty),
+                        modifier = Modifier.fillMaxWidth().clickable(onClick = onEditDescription),
+                    )
                 }
 
                 if (places.isNotEmpty()) {

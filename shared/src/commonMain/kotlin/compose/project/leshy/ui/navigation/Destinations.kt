@@ -18,6 +18,9 @@ sealed interface Destination {
     data class WalkMap(val walkId: Long) : Destination
 
     @Serializable
+    data class WalkDescriptionEdit(val walkId: Long) : Destination
+
+    @Serializable
     data object Map : Destination
 
     @Serializable

@@ -24,4 +24,5 @@ data class WalkExportDto(
     val endLat: Double?,
     val endLon: Double?,
     val mushroomCount: Int,
+    val description: String? = null,
 )

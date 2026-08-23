@@ -38,6 +38,7 @@ private fun WalkEntity.toDomain() = Walk(
     endLon = endLon,
     mushroomCount = mushroomCount,
     thumbnailPath = thumbnailPath,
+    description = description,
 )
 
 private fun Walk.toEntity() = WalkEntity(
@@ -53,4 +54,5 @@ private fun Walk.toEntity() = WalkEntity(
     endLon = endLon,
     mushroomCount = mushroomCount,
     thumbnailPath = thumbnailPath,
+    description = description,
 )

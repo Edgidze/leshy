@@ -18,4 +18,5 @@ data class WalkEntity(
     val endLon: Double?,
     val mushroomCount: Int,
     val thumbnailPath: String? = null,
+    val description: String? = null,
 )

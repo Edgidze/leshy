@@ -184,6 +184,12 @@ enum class StringKey {
     WalkDetailMushroomsCountOne,
     WalkDetailMushroomsCountFew,
     WalkDetailMushroomsCountMany,
+    WalkDetailDescriptionTitle,
+    WalkDetailDescriptionEmpty,
+    WalkDetailDescriptionHint,
+    WalkDetailEditDescriptionContentDescription,
+    WalkDetailDescriptionCancelContentDescription,
+    WalkDetailDescriptionSaveContentDescription,
 
     MapToggleMap,
     MapToggleStats,

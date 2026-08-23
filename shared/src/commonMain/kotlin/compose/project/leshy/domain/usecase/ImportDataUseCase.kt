@@ -192,6 +192,7 @@ private fun WalkExportDto.toDomain(nameTag: String) = Walk(
     endLon = endLon,
     mushroomCount = mushroomCount,
     thumbnailPath = null, // re-derived by BackfillWalkThumbnailsUseCase next time Archive opens
+    description = description,
 )
 
 private fun TrackPointExportDto.toDomain(walkId: Long) = TrackPoint(
