@@ -8,26 +8,30 @@ import MapLibre.MLNMapSnapshotter
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.ui.map.OPEN_FREE_MAP_STYLE_URL
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.convert
+import kotlinx.cinterop.usePinned
 import kotlinx.cinterop.useContents
 import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.CoreGraphics.CGPointMake
 import platform.CoreGraphics.CGRectMake
 import platform.CoreGraphics.CGSizeMake
 import platform.CoreLocation.CLLocationCoordinate2DMake
+import platform.Foundation.NSData
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
+import platform.Foundation.create
 import platform.Foundation.writeToFile
 import platform.UIKit.UIBezierPath
 import platform.UIKit.UIColor
 import platform.UIKit.UIGraphicsImageRenderer
+import platform.UIKit.UIImage
 import platform.UIKit.UIImagePNGRepresentation
 import kotlin.coroutines.resume
 import kotlin.math.max
 import kotlin.math.min
-
-private const val THUMBNAIL_POINTS = 240.0
 
 // Same rationale as AndroidWalkThumbnailRenderer: a near-zero-span region (a walk that barely
 // moved from its start point) would otherwise zoom the snapshot in absurdly far.
@@ -41,7 +45,7 @@ private const val FIND_RED = 0xB3 / 255.0
 private const val FIND_GREEN = 0x26 / 255.0
 private const val FIND_BLUE = 0x1E / 255.0 // Material3 baseline light colorScheme.error.
 
-class IosWalkThumbnailRenderer : WalkThumbnailRenderer {
+class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThumbnailRenderer {
 
     @OptIn(ExperimentalForeignApi::class)
     override suspend fun render(
@@ -49,11 +53,15 @@ class IosWalkThumbnailRenderer : WalkThumbnailRenderer {
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
+        sizePx: Int,
+        variant: String,
+        speciesMarkers: List<WalkFindMarker>,
+        markerIconSizePx: Int,
     ): String? {
         if (track.isEmpty() && findLocations.isEmpty() && anchor == null) return null
         return try {
-            val snapshot = takeSnapshot(track, findLocations, anchor) ?: return null
-            writeAnnotated(walkId, snapshot, track, findLocations, anchor)
+            val snapshot = takeSnapshot(track, findLocations, anchor, sizePx.toDouble()) ?: return null
+            writeAnnotated(walkId, snapshot, track, findLocations, anchor, variant, speciesMarkers, markerIconSizePx.toDouble())
         } catch (_: Throwable) {
             null
         }
@@ -64,6 +72,7 @@ class IosWalkThumbnailRenderer : WalkThumbnailRenderer {
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
+        sizePoints: Double,
     ): MLNMapSnapshot? =
         suspendCancellableCoroutine { continuation ->
             val allPoints = track + findLocations + listOfNotNull(anchor)
@@ -96,7 +105,7 @@ class IosWalkThumbnailRenderer : WalkThumbnailRenderer {
             val options = MLNMapSnapshotOptions(
                 styleURL = NSURL(string = OPEN_FREE_MAP_STYLE_URL),
                 camera = MLNMapCamera.camera(),
-                size = CGSizeMake(THUMBNAIL_POINTS, THUMBNAIL_POINTS),
+                size = CGSizeMake(sizePoints, sizePoints),
             )
             options.coordinateBounds = bounds
 
@@ -108,14 +117,25 @@ class IosWalkThumbnailRenderer : WalkThumbnailRenderer {
         }
 
     @OptIn(ExperimentalForeignApi::class)
-    private fun writeAnnotated(
+    private suspend fun writeAnnotated(
         walkId: Long,
         snapshot: MLNMapSnapshot,
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
+        variant: String,
+        speciesMarkers: List<WalkFindMarker>,
+        markerIconSizePoints: Double,
     ): String? {
         val baseImage = snapshot.image
+
+        // Icon bytes are resolved up front (suspend, off the UIGraphicsImageRenderer closure —
+        // imageWithActions's block isn't a suspend context) into plain UIImages the draw block
+        // below can use synchronously, same split as Android's decode-then-draw.
+        val markerIcons = speciesMarkers.map { marker ->
+            marker to resolveCategoryIconBytes(marker.category, photoStorage)?.let { bytes -> UIImage.imageWithData(bytes.toNSData()) }
+        }
+
         val renderer = UIGraphicsImageRenderer(size = baseImage.size)
         val annotated = renderer.imageWithActions { _ ->
             baseImage.drawAtPoint(CGPointMake(0.0, 0.0))
@@ -143,13 +163,34 @@ class IosWalkThumbnailRenderer : WalkThumbnailRenderer {
                 }
             }
 
-            findLocations.forEach { point ->
+            fun drawFindDot(point: GeoPoint) {
                 val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(point.lat, point.lon))
                 cgPoint.useContents {
                     val dotRect = CGRectMake(x - 4.0, y - 4.0, 8.0, 8.0)
                     UIColor.colorWithRed(FIND_RED, FIND_GREEN, FIND_BLUE, 1.0).setFill()
                     UIBezierPath.bezierPathWithOvalInRect(dotRect).fill()
                 }
+            }
+
+            if (markerIcons.isNotEmpty()) {
+                markerIcons.forEach { (marker, icon) ->
+                    if (icon != null) {
+                        val cgPoint = snapshot.pointForCoordinate(
+                            CLLocationCoordinate2DMake(marker.location.lat, marker.location.lon),
+                        )
+                        cgPoint.useContents {
+                            val (width, height) = icon.size.useContents { width to height }
+                            val scale = min(markerIconSizePoints / width, markerIconSizePoints / height)
+                            val drawWidth = width * scale
+                            val drawHeight = height * scale
+                            icon.drawInRect(CGRectMake(x - drawWidth / 2.0, y - drawHeight / 2.0, drawWidth, drawHeight))
+                        }
+                    } else {
+                        drawFindDot(marker.location)
+                    }
+                }
+            } else {
+                findLocations.forEach { point -> drawFindDot(point) }
             }
         }
 
@@ -168,7 +209,13 @@ class IosWalkThumbnailRenderer : WalkThumbnailRenderer {
             attributes = null,
             error = null,
         )
-        val filePath = "$thumbnailsDir/walk_$walkId.png"
+        val filePath = "$thumbnailsDir/walk_$walkId$variant.png"
         return if (data.writeToFile(filePath, atomically = true)) filePath else null
     }
 }
+
+/** Same bridging as `IosHttpTextFetcher`/`ImageCodec.ios.kt`'s `NSData.toByteArray()`, reversed —
+ * avoids `NSString`/toll-free-bridging pitfalls those files already document. */
+@OptIn(ExperimentalForeignApi::class, kotlinx.cinterop.BetaInteropApi::class)
+private fun ByteArray.toNSData(): NSData =
+    if (isEmpty()) NSData() else usePinned { pinned -> NSData.create(bytes = pinned.addressOf(0), length = size.convert()) }

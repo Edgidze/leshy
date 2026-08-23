@@ -2,11 +2,13 @@ package compose.project.leshy.data.platform
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PointF
+import android.graphics.Rect
 import android.util.Log
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.ui.map.OPEN_FREE_MAP_STYLE_URL
@@ -25,7 +27,6 @@ import kotlin.coroutines.resume
 
 private const val LOG_TAG = "WalkThumbnailRenderer"
 
-private const val THUMBNAIL_PIXELS = 240
 private const val SNAPSHOT_PADDING_PX = 24
 
 // A degenerate (near-zero-span) region — e.g. a walk that barely moved from its start point —
@@ -35,18 +36,27 @@ private const val MIN_BOUNDS_SPAN_DEGREES = 0.0015
 private const val ROUTE_COLOR = "#1B4332" // LeshyGreen, ui/theme/Theme.kt — not reachable from here.
 private const val FIND_COLOR = "#B3261E" // Material3 baseline light colorScheme.error.
 
-class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnailRenderer {
+class AndroidWalkThumbnailRenderer(
+    private val context: Context,
+    private val photoStorage: PhotoStorage,
+) : WalkThumbnailRenderer {
 
     override suspend fun render(
         walkId: Long,
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
+        sizePx: Int,
+        variant: String,
+        speciesMarkers: List<WalkFindMarker>,
+        markerIconSizePx: Int,
     ): String? {
         if (track.isEmpty() && findLocations.isEmpty() && anchor == null) return null
         return try {
-            val snapshot = takeSnapshot(track, findLocations, anchor) ?: return null
-            withContext(Dispatchers.IO) { writeAnnotated(walkId, snapshot, track, findLocations, anchor) }
+            val snapshot = takeSnapshot(track, findLocations, anchor, sizePx) ?: return null
+            withContext(Dispatchers.IO) {
+                writeAnnotated(walkId, snapshot, track, findLocations, anchor, variant, speciesMarkers, markerIconSizePx)
+            }
         } catch (e: Exception) {
             Log.w(LOG_TAG, "render($walkId) failed", e)
             null
@@ -58,6 +68,7 @@ class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnail
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
+        sizePx: Int,
     ): MapSnapshot? =
         withContext(Dispatchers.Main) {
             suspendCancellableCoroutine { continuation ->
@@ -75,7 +86,7 @@ class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnail
                 (track + findLocations + listOfNotNull(anchor)).forEach { boundsBuilder.include(LatLng(it.lat, it.lon)) }
                 val region = padIfDegenerate(boundsBuilder.build())
 
-                val options = MapSnapshotter.Options(THUMBNAIL_PIXELS, THUMBNAIL_PIXELS)
+                val options = MapSnapshotter.Options(sizePx, sizePx)
                     .withStyleBuilder(Style.Builder().fromUri(OPEN_FREE_MAP_STYLE_URL))
                     .withRegion(region)
                     .withPadding(SNAPSHOT_PADDING_PX, SNAPSHOT_PADDING_PX, SNAPSHOT_PADDING_PX, SNAPSHOT_PADDING_PX)
@@ -103,12 +114,15 @@ class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnail
             .build()
     }
 
-    private fun writeAnnotated(
+    private suspend fun writeAnnotated(
         walkId: Long,
         snapshot: MapSnapshot,
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
+        variant: String,
+        speciesMarkers: List<WalkFindMarker>,
+        markerIconSizePx: Int,
     ): String? {
         val mutableBitmap = snapshot.bitmap.copy(Bitmap.Config.ARGB_8888, true) ?: return null
         val canvas = Canvas(mutableBitmap)
@@ -147,18 +161,48 @@ class AndroidWalkThumbnailRenderer(private val context: Context) : WalkThumbnail
             color = Color.parseColor(FIND_COLOR)
             style = Paint.Style.FILL
         }
-        findLocations.forEach { point ->
-            val pixel = pixelOf(point)
-            canvas.drawCircle(pixel.x, pixel.y, 6f, findPaint)
+
+        if (speciesMarkers.isNotEmpty()) {
+            for (marker in speciesMarkers) {
+                val pixel = pixelOf(marker.location)
+                val iconBitmap = resolveCategoryIconBytes(marker.category, photoStorage)
+                    ?.let { bytes -> runCatching { BitmapFactory.decodeByteArray(bytes, 0, bytes.size) }.getOrNull() }
+                if (iconBitmap != null) {
+                    canvas.drawIconAspectFit(iconBitmap, pixel, markerIconSizePx)
+                } else {
+                    canvas.drawCircle(pixel.x, pixel.y, 6f, findPaint)
+                }
+            }
+        } else {
+            findLocations.forEach { point ->
+                val pixel = pixelOf(point)
+                canvas.drawCircle(pixel.x, pixel.y, 6f, findPaint)
+            }
         }
 
         val thumbnailsDir = File(context.filesDir, "thumbnails").apply { mkdirs() }
-        val file = File(thumbnailsDir, "walk_$walkId.png")
+        val file = File(thumbnailsDir, "walk_$walkId$variant.png")
         return try {
             FileOutputStream(file).use { out -> mutableBitmap.compress(Bitmap.CompressFormat.PNG, 100, out) }
             file.absolutePath
         } catch (_: Exception) {
             null
         }
+    }
+
+    /** Aspect-fits [icon] into a [boxPx]×[boxPx] square centered at [center] and draws it there —
+     * the plain-`Canvas` equivalent of `MushroomMarkerPainter`'s `DrawScope` fit math in
+     * `ui/map/MushroomMarkerIcon.kt`, which can't be invoked outside a `DrawScope`. */
+    private fun Canvas.drawIconAspectFit(icon: Bitmap, center: PointF, boxPx: Int) {
+        val scale = minOf(boxPx.toFloat() / icon.width, boxPx.toFloat() / icon.height)
+        val drawWidth = icon.width * scale
+        val drawHeight = icon.height * scale
+        val destRect = Rect(
+            (center.x - drawWidth / 2f).toInt(),
+            (center.y - drawHeight / 2f).toInt(),
+            (center.x + drawWidth / 2f).toInt(),
+            (center.y + drawHeight / 2f).toInt(),
+        )
+        drawBitmap(icon, null, destRect, Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG))
     }
 }

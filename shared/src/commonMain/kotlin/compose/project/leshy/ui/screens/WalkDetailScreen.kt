@@ -20,6 +20,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -63,6 +64,7 @@ import compose.project.leshy.ui.components.AddPlaceDialog
 import compose.project.leshy.ui.components.DeletePlaceConfirmDialog
 import compose.project.leshy.ui.components.MushroomDonutChart
 import compose.project.leshy.ui.components.PlaceViewDialog
+import compose.project.leshy.ui.components.WalkShareDialog
 import compose.project.leshy.ui.util.formatDateTime
 import compose.project.leshy.ui.util.formatDistanceKm
 import compose.project.leshy.ui.util.formatDurationLabeled
@@ -90,6 +92,7 @@ fun WalkDetailScreen(
     var selectedPlaceId by remember { mutableStateOf<Long?>(null) }
     var isEditingPlace by remember { mutableStateOf(false) }
     var confirmDeletePlace by remember { mutableStateOf(false) }
+    var showShareDialog by remember { mutableStateOf(false) }
     val selectedPlace = places.find { it.id == selectedPlaceId }
 
     LaunchedEffect(uiState.deleted) {
@@ -140,6 +143,12 @@ fun WalkDetailScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = { showShareDialog = true }) {
+                        Icon(
+                            Icons.Filled.Share,
+                            contentDescription = stringResource(StringKey.WalkShareContentDescription),
+                        )
+                    }
                     IconButton(onClick = viewModel::onEditClick) {
                         Icon(
                             Icons.Filled.Edit,
@@ -299,6 +308,17 @@ fun WalkDetailScreen(
                 selectedPlaceId = null
             },
             onDismissRequest = { confirmDeletePlace = false },
+        )
+    }
+
+    if (showShareDialog && walk != null) {
+        WalkShareDialog(
+            walk = walk,
+            mushroomCounts = uiState.mushroomCounts,
+            track = uiState.track,
+            marks = uiState.marks,
+            categories = uiState.categories,
+            onDismiss = { showShareDialog = false },
         )
     }
 }

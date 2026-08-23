@@ -56,7 +56,7 @@ actual val platformModule: Module = module {
     single { IosLocationTracker() }
     single<LocationTracker> { get<IosLocationTracker>() }
     single<BackgroundRecordingController> { IosBackgroundRecordingController(get()) }
-    single<WalkThumbnailRenderer> { IosWalkThumbnailRenderer() }
+    single<WalkThumbnailRenderer> { IosWalkThumbnailRenderer(get()) }
     single<PhotoStorage> { IosPhotoStorage() }
     single<MapStyleStorage> { IosMapStyleStorage() }
     single<ArchiveFileReader> { IosArchiveFileReader() }

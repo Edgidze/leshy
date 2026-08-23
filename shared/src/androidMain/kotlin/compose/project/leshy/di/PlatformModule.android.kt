@@ -43,7 +43,7 @@ actual val platformModule: Module = module {
     }
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
     single<BackgroundRecordingController> { AndroidBackgroundRecordingController(androidContext()) }
-    single<WalkThumbnailRenderer> { AndroidWalkThumbnailRenderer(androidContext()) }
+    single<WalkThumbnailRenderer> { AndroidWalkThumbnailRenderer(androidContext(), get()) }
     single<PhotoStorage> { AndroidPhotoStorage(androidContext()) }
     single<MapStyleStorage> { AndroidMapStyleStorage(androidContext()) }
     single<ArchiveFileReader> { AndroidArchiveFileReader(androidContext()) }
