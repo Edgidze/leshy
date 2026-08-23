@@ -103,12 +103,13 @@ fun formatDurationShort(millis: Long): String {
     }
 }
 
+@Composable
 fun formatSpeedKmh(metersPerSecond: Double): String {
     val kmh = metersPerSecond * 3.6
     val rounded = (kmh * 10).toLong() / 10.0
     val whole = rounded.toLong()
     val fraction = ((rounded - whole) * 10).toLong().let { if (it < 0) -it else it }
-    return "$whole.$fraction km/h"
+    return "$whole.$fraction ${stringResource(StringKey.UnitKmh)}"
 }
 
 @Composable

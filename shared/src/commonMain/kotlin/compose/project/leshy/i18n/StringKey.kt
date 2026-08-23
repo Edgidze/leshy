@@ -168,6 +168,7 @@ enum class StringKey {
     WalkCardDurationHours,
     WalkCardDurationMinutes,
     UnitKilometers,
+    UnitKmh,
     UnitMegabytes,
     WalkDetailFindsTitle,
     WalkDetailFindsEmpty,
