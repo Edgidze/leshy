@@ -1,8 +1,6 @@
 package compose.project.leshy.ui.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +29,6 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -68,14 +65,6 @@ import org.maplibre.spatialk.geojson.Position
 
 private val WORLD_VIEW_ZOOM = 2.0
 
-// How much of the (map-minus-strip) usable area's shorter side the selection box can shrink/grow
-// to. The usable area itself already excludes whatever's showing in the bottom strip (see
-// PreparationScreen below, the weighted Box vs. the strip's own wrap-content height), so — unlike
-// an overlay drawn across the full viewport — even MAX_SELECTION_FRACTION always fits on screen.
-private const val MIN_SELECTION_FRACTION = 0.2f
-private const val MAX_SELECTION_FRACTION = 0.85f
-private const val DEFAULT_SELECTION_FRACTION = 0.5f
-
 private val REGION_CHIP_WIDTH = 140.dp
 private val STRIP_BACKGROUND_ALPHA = 0.92f
 
@@ -88,11 +77,11 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     val coroutineScope = rememberCoroutineScope()
     val density = LocalDensity.current
     var isSelectingArea by remember { mutableStateOf(false) }
-    var selectionFraction by remember { mutableStateOf(DEFAULT_SELECTION_FRACTION) }
     // The usable area's measured size — everything above the bottom strip, whatever that strip's
     // current content happens to need. Tracked via onSizeChanged rather than BoxWithConstraints
-    // because the selection-bounds math below needs it from sibling scopes (the live estimate, the
-    // confirm button), not just the box that draws the rectangle.
+    // because the bounds math below (the live estimate, the confirm button) needs it from sibling
+    // scopes, not just the box it's measured on. This is also exactly the area that's actually
+    // visible on screen once the strip covers the rest, so it doubles as the download region.
     var usableAreaSizePx by remember { mutableStateOf(IntSize.Zero) }
 
     Column(modifier = modifier.fillMaxSize()) {
@@ -108,7 +97,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
             // Reading the camera position (not just the projection, which is a stable object
             // reference that doesn't change on pan/zoom) subscribes this recomposition scope to
             // camera moves, so the live size estimate below stays in sync while the user pans or
-            // zooms the map underneath the fixed-on-screen selection box.
+            // zooms the map underneath.
             cameraState.position
             val projection = cameraState.projection
             val usableWidth = with(density) { usableAreaSizePx.width.toDp() }
@@ -118,14 +107,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                 Box(
                     modifier = Modifier.fillMaxWidth().weight(1f).onSizeChanged { usableAreaSizePx = it },
                 ) {
-                    if (isSelectingArea) {
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .fillMaxSize(selectionFraction)
-                                .border(BorderStroke(2.dp, MaterialTheme.colorScheme.primary)),
-                        )
-                    } else {
+                    if (!isSelectingArea) {
                         FloatingActionButton(
                             onClick = { isSelectingArea = true },
                             modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
@@ -143,7 +125,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                             .padding(16.dp),
                     ) {
                         val estimate = projection?.let {
-                            val bounds = selectionBoundsFromScreen(it, usableWidth, usableHeight, selectionFraction)
+                            val bounds = visibleBoundsFromScreen(it, usableWidth, usableHeight)
                             estimateOfflineRegion(bounds.west, bounds.south, bounds.east, bounds.north)
                         }
                         if (estimate != null) {
@@ -153,12 +135,6 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                         }
-                        Slider(
-                            value = selectionFraction,
-                            onValueChange = { selectionFraction = it },
-                            valueRange = MIN_SELECTION_FRACTION..MAX_SELECTION_FRACTION,
-                            modifier = Modifier.padding(top = 8.dp),
-                        )
                         Row(
                             modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -172,12 +148,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                             Button(
                                 onClick = {
                                     val currentProjection = cameraState.projection ?: return@Button
-                                    val bounds = selectionBoundsFromScreen(
-                                        currentProjection,
-                                        usableWidth,
-                                        usableHeight,
-                                        selectionFraction,
-                                    )
+                                    val bounds = visibleBoundsFromScreen(currentProjection, usableWidth, usableHeight)
                                     viewModel.onAreaSelected(bounds.west, bounds.south, bounds.east, bounds.north)
                                     isSelectingArea = false
                                 },
@@ -289,23 +260,17 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
 
 private data class SelectionBounds(val west: Double, val south: Double, val east: Double, val north: Double)
 
-// Converts the fixed on-screen selection box (a fraction of the usable area above the bottom
-// strip, centered) into map coordinates via the four corners rather than just two — robust if the
-// camera is rotated, same "always axis-aligned, possibly a bit larger than what's visually inside
-// the box" tradeoff CameraProjection.queryVisibleBoundingBox itself documents for a tilted view.
-private fun selectionBoundsFromScreen(
-    projection: CameraProjection,
-    maxWidth: Dp,
-    maxHeight: Dp,
-    fraction: Float,
-): SelectionBounds {
-    val insetX = maxWidth * (1f - fraction) / 2f
-    val insetY = maxHeight * (1f - fraction) / 2f
+// Converts the usable on-screen area (everything above the bottom strip — i.e. what's actually
+// visible on screen right now) into map coordinates via its four corners rather than just two —
+// robust if the camera is rotated, same "always axis-aligned, possibly a bit larger than what's
+// visually inside the box" tradeoff CameraProjection.queryVisibleBoundingBox itself documents for
+// a tilted view.
+private fun visibleBoundsFromScreen(projection: CameraProjection, maxWidth: Dp, maxHeight: Dp): SelectionBounds {
     val corners = listOf(
-        DpOffset(insetX, insetY),
-        DpOffset(maxWidth - insetX, insetY),
-        DpOffset(insetX, maxHeight - insetY),
-        DpOffset(maxWidth - insetX, maxHeight - insetY),
+        DpOffset(0.dp, 0.dp),
+        DpOffset(maxWidth, 0.dp),
+        DpOffset(0.dp, maxHeight),
+        DpOffset(maxWidth, maxHeight),
     ).map(projection::positionFromScreenLocation)
     return SelectionBounds(
         west = corners.minOf { it.longitude },
