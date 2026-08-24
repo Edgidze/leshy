@@ -66,9 +66,7 @@ enum class StringKey {
     CategoryMisc,
     CategoryUnknownMushroom,
 
-    CollectionDemoNorth,
-    CollectionDemoSouth,
-    CollectionDemoEast,
+    CollectionPickerSearchHint,
 
     DefaultWalkName,
     RecordWalkNameHint,

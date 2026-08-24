@@ -20,7 +20,11 @@ class CollectionRepositoryImpl(
             crossRefs.map { CategoryCollectionMembership(categoryId = it.categoryId, collectionId = it.collectionId) }
         }
 
+    override suspend fun getAll(): List<Collection> = collectionDao.getAll().map { it.toDomain() }
+
     override suspend fun getByNameKey(nameKey: String): Collection? = collectionDao.getByNameKey(nameKey)?.toDomain()
+
+    override suspend fun count(): Int = collectionDao.count()
 
     // Real UPDATE for existing rows — see CategoryRepositoryImpl.upsert for why REPLACE (delete+
     // reinsert) is unsafe now that category_collections cascades off collections.id too.
@@ -34,8 +38,20 @@ class CollectionRepositoryImpl(
         }
     }
 
+    // Same insert-or-update split as `upsert` above, batched — see CategoryRepositoryImpl.upsertAll.
+    override suspend fun upsertAll(collections: List<Collection>) {
+        val (new, existing) = collections.partition { it.id == 0L }
+        if (new.isNotEmpty()) collectionDao.insertAll(new.map { it.toEntity() })
+        if (existing.isNotEmpty()) collectionDao.updateAll(existing.map { it.toEntity() })
+    }
+
     override suspend fun addMember(categoryId: Long, collectionId: Long) =
         collectionDao.insertMember(CategoryCollectionCrossRef(categoryId = categoryId, collectionId = collectionId))
+
+    override suspend fun addMembers(memberships: List<CategoryCollectionMembership>) =
+        collectionDao.insertMembers(
+            memberships.map { CategoryCollectionCrossRef(categoryId = it.categoryId, collectionId = it.collectionId) },
+        )
 
     override suspend fun getMemberCategoryIds(collectionId: Long): List<Long> =
         collectionDao.getMemberCategoryIds(collectionId)

@@ -29,6 +29,24 @@ FILES_CATALOG_DIR = REPO_ROOT / "shared" / "src" / "commonMain" / "composeResour
 RU_PRESET_ADD = ["GC0094", "GC0007", "GC0048", "GC0031", "GC0011"]
 RU_PRESET_REMOVE = ["GC0165"]
 
+# Phase 3 (countries-and-languages.md): country display names, only en/ru for
+# now (`AppLanguage` itself is still 2 values until Phase 4). English is taken
+# straight from the source dump's `country` field (already English); Russian
+# has no source data at all (plan §1, "Названий стран ни на одном языке, кроме
+# английского") so it's hand-maintained here, the same "manual layer on top of
+# generated data" precedent as `name_overrides.json`.
+RU_COUNTRY_NAMES = {
+    "AT": "Австрия", "AU": "Австралия", "BG": "Болгария", "BY": "Беларусь",
+    "CA": "Канада", "CZ": "Чехия", "DE": "Германия", "EE": "Эстония",
+    "ES": "Испания", "FI": "Финляндия", "FR": "Франция", "GB": "Великобритания",
+    "GE": "Грузия", "HR": "Хорватия", "HU": "Венгрия", "IT": "Италия",
+    "JP": "Япония", "KR": "Южная Корея", "LT": "Литва", "LV": "Латвия",
+    "MD": "Молдова", "MX": "Мексика", "NZ": "Новая Зеландия", "PL": "Польша",
+    "RO": "Румыния", "RS": "Сербия", "RU": "Россия", "SE": "Швеция",
+    "SI": "Словения", "SK": "Словакия", "TR": "Турция", "UA": "Украина",
+    "US": "США",
+}
+
 # Section 3.5 addendum for Phase 0: the 6 old demo-catalog group illustrations
 # have no 1:1 counterpart in the new 408-category set (their concept got
 # split into specific species) and become orphaned once the new images land.
@@ -204,6 +222,21 @@ def main() -> None:
     print(f"countries.json: {len(countries_out)} countries")
     print(f"  avg distinct colors/country: {avg_country_colors:.1f} (expect ~48.4)")
     print(f"  RU: {len(ru_entry['keys'])} keys, {ru_colors} distinct colors (expect 54, 50)")
+
+    # ---- countries/<lang>.json ---------------------------------------------
+    country_names_dir = FILES_CATALOG_DIR / "countries"
+    country_names_dir.mkdir(parents=True, exist_ok=True)
+    en_names = {cc: presets[cc]["country"] for cc in sorted(presets)}
+    missing_ru = sorted(set(en_names) - set(RU_COUNTRY_NAMES))
+    if missing_ru:
+        raise ValueError(f"RU_COUNTRY_NAMES is missing codes: {missing_ru}")
+    (country_names_dir / "en.json").write_text(
+        json.dumps(en_names, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
+    )
+    (country_names_dir / "ru.json").write_text(
+        json.dumps(RU_COUNTRY_NAMES, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
+    )
+    print(f"countries/: 2 files written ({len(en_names)} countries each)")
 
     # ---- names/<lang>.json -----------------------------------------------------
     pair_index = defaultdict(list)

@@ -2,6 +2,8 @@ package compose.project.leshy.presentation.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import compose.project.leshy.data.catalog.countryCollectionNameKey
+import compose.project.leshy.data.platform.currentDeviceRegionCode
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.CollectionRepository
@@ -48,6 +50,7 @@ class OnboardingViewModel(
             ensureDefaultCategories()
             ensureDefaultCollections()
             recalculateFilterEligibility()
+            preselectByDeviceRegion()
         }
         viewModelScope.launch {
             combine(
@@ -71,6 +74,24 @@ class OnboardingViewModel(
 
     fun setCategoryPicked(category: Category, picked: Boolean) {
         viewModelScope.launch { setCategoryPickedUseCase(category, picked) }
+    }
+
+    /**
+     * Plan §"Фаза 3" ("предвыбор по региону устройства при первом запуске") — pre-picks the
+     * collection matching the device's region so a fresh install lands with a plausible starting
+     * point instead of every species unpicked.
+     *
+     * Gated on "nothing is picked yet at all" rather than a dedicated one-shot flag: every catalog
+     * species is seeded with `isPicked = false` (`EnsureDefaultCategoriesUseCase`), and nothing else
+     * writes `isPicked = true` before the user reaches this screen, so a non-empty picked set can
+     * only mean this already ran (or, in principle, a restored backup) — either way, re-forcing a
+     * region pick on top of a state the user or a previous run already touched would be surprising.
+     */
+    private suspend fun preselectByDeviceRegion() {
+        if (categoryRepository.getAll().any { it.isPicked }) return
+        val regionCode = currentDeviceRegionCode() ?: return
+        val collection = collectionRepository.getByNameKey(countryCollectionNameKey(regionCode)) ?: return
+        setCollectionPickedUseCase(collection.id, true)
     }
 
     /**

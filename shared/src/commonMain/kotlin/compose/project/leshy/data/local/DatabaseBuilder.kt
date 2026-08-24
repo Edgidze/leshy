@@ -19,6 +19,7 @@ fun getRoomDatabase(builder: RoomDatabase.Builder<LeshyDatabase>): LeshyDatabase
             MIGRATION_8_9,
             MIGRATION_9_10,
             MIGRATION_10_11,
+            MIGRATION_11_12,
         )
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.Default)

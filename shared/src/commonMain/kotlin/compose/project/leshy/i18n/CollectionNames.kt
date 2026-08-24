@@ -1,20 +1,29 @@
 package compose.project.leshy.i18n
 
 import androidx.compose.runtime.Composable
+import compose.project.leshy.data.catalog.countryCodeForCollectionNameKey
 import compose.project.leshy.domain.model.AppLanguage
+import org.koin.mp.KoinPlatform.getKoin
 
-/** Resolves a [compose.project.leshy.domain.model.Collection.nameKey] to a localized display name. */
+/**
+ * Resolves a [compose.project.leshy.domain.model.Collection.nameKey] to a localized display name.
+ * 33 per-country collections can't go through `StringKey` (same reasoning as catalog species names,
+ * `.claude/plans/countries-and-languages.md` §3.1) — the name comes from [CountryNames] instead,
+ * falling back to English, then to the bare ISO code as a last resort (mirrors
+ * `categoryDisplayName`'s `MushroomNames` → `CatalogSource.scientificName` → `nameKey` chain).
+ *
+ * [CountryNames] is resolved via [getKoin] rather than a constructor parameter for the same reason
+ * `categoryDisplayName` does — this is called from a plain composable/pure-function context with no
+ * DI plumbing, see `i18n/CLAUDE.md`.
+ */
 @Composable
-fun collectionDisplayName(nameKey: String): String =
-    collectionNameStringKey(nameKey)?.let { stringResource(it) } ?: nameKey
+fun collectionDisplayName(nameKey: String): String = collectionDisplayName(nameKey, LocalAppLanguage.current)
 
 /** Non-composable counterpart of [collectionDisplayName]. */
-fun collectionDisplayName(nameKey: String, language: AppLanguage): String =
-    collectionNameStringKey(nameKey)?.let { string(it, language) } ?: nameKey
-
-private fun collectionNameStringKey(nameKey: String): StringKey? = when (nameKey) {
-    "collection_demo_north" -> StringKey.CollectionDemoNorth
-    "collection_demo_south" -> StringKey.CollectionDemoSouth
-    "collection_demo_east" -> StringKey.CollectionDemoEast
-    else -> null
+fun collectionDisplayName(nameKey: String, language: AppLanguage): String {
+    val countryCode = countryCodeForCollectionNameKey(nameKey) ?: return nameKey
+    val countryNames = getKoin().get<CountryNames>()
+    return countryNames.namesFor(language)[countryCode]
+        ?: countryNames.namesFor(AppLanguage.EN)[countryCode]
+        ?: countryCode
 }

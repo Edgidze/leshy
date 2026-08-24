@@ -29,7 +29,7 @@ import org.koin.dsl.module
 
 val domainModule = module {
     factory { EnsureDefaultCategoriesUseCase(get(), get(), get()) }
-    factory { EnsureDefaultCollectionsUseCase(get(), get()) }
+    factory { EnsureDefaultCollectionsUseCase(get(), get(), get(), get()) }
     factory { RecalculateFilterEligibilityUseCase(get(), get()) }
     factory { SetCollectionPickedUseCase(get(), get(), get()) }
     factory { SetCategoryPickedUseCase(get(), get()) }

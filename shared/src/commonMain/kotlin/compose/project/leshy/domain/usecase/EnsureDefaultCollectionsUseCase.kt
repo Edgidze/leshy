@@ -1,95 +1,70 @@
 package compose.project.leshy.domain.usecase
 
-import compose.project.leshy.data.catalog.catalogKeyForLegacy
+import compose.project.leshy.data.catalog.CountriesSource
+import compose.project.leshy.data.catalog.countryCodeForCollectionNameKey
+import compose.project.leshy.data.catalog.countryCollectionNameKey
+import compose.project.leshy.domain.model.CategoryCollectionMembership
 import compose.project.leshy.domain.model.Collection
+import compose.project.leshy.domain.repository.CatalogStateRepository
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.CollectionRepository
 
-private data class DemoCollection(val nameKey: String, val order: Int, val memberNameKeys: List<String>)
-
-// Demo-only grouping of the existing 30-species catalog into arbitrary buckets, just to exercise
-// the collections plumbing end-to-end before real per-country data exists — see
-// .claude/plans/mushroom-collections.md, Phase 5 replaces this with real data. Two members are
-// deliberately shared between adjacent buckets (imleria_badia/lactarius_deliciosus,
-// russula_species/agaricus_species) so the many-to-many join is exercised now rather than only
-// once real overlapping country data shows up.
-private val DEMO_COLLECTIONS = listOf(
-    DemoCollection(
-        nameKey = "collection_demo_north",
-        order = 0,
-        memberNameKeys = listOf(
-            "category_boletus_edulis",
-            "category_pleurotus_ostreatus",
-            "category_macrolepiota_procera",
-            "category_suillus_bovinus",
-            "category_cantharellus_cibarius",
-            "category_suillus_luteus",
-            "category_xerocomus_subtomentosus_group",
-            "category_coprinus_comatus",
-            "category_leccinum_scabrum",
-            "category_leccinum_aurantiacum",
-            "category_imleria_badia",
-            "category_lactarius_deliciosus",
-        ),
-    ),
-    DemoCollection(
-        nameKey = "collection_demo_south",
-        order = 1,
-        memberNameKeys = listOf(
-            "category_imleria_badia",
-            "category_lactarius_deliciosus",
-            "category_craterellus_tubaeformis",
-            "category_russula_foetens",
-            "category_lactarius_torminosus",
-            "category_lactarius_resimus",
-            "category_lycoperdon_calvatia_species",
-            "category_armillaria_mellea",
-            "category_amanita_vaginata",
-            "category_morchella_species",
-            "category_russula_species",
-            "category_agaricus_species",
-        ),
-    ),
-    DemoCollection(
-        nameKey = "collection_demo_east",
-        order = 2,
-        memberNameKeys = listOf(
-            "category_russula_species",
-            "category_agaricus_species",
-            "category_amanita_virosa",
-            "category_amanita_phalloides",
-            "category_galerina_marginata",
-            "category_hygrophoropsis_aurantiaca",
-            "category_amanita_muscaria",
-            "category_amanita_pantherina",
-            "category_paxillus_involutus",
-            "category_gyromitra_species",
-        ),
-    ),
-)
-
+/**
+ * Reconciles the `collections` table with the bundled per-country presets (`countries.json`, 33
+ * countries — `.claude/plans/countries-and-languages.md`, Phase 3). Replaces the old hardcoded
+ * 3-bucket demo seeding; same batch/gate shape as `EnsureDefaultCategoriesUseCase`.
+ *
+ * Membership is always re-inserted in full rather than diffed against what's already there —
+ * `CollectionDao.insertMembers` uses `OnConflictStrategy.IGNORE`, so handing it the complete desired
+ * list every time this runs is idempotent by construction and cheap (~1650 rows, one transaction),
+ * without needing to compute a per-row diff. A country losing a species between catalog
+ * regenerations does *not* remove the stale membership row — same additive-only philosophy as
+ * `EnsureDefaultCategoriesUseCase`, which never deletes rows either.
+ */
 class EnsureDefaultCollectionsUseCase(
     private val collectionRepository: CollectionRepository,
     private val categoryRepository: CategoryRepository,
+    private val countriesSource: CountriesSource,
+    private val catalogStateRepository: CatalogStateRepository,
 ) {
     suspend operator fun invoke() {
-        DEMO_COLLECTIONS.forEach { demo ->
-            val existing = collectionRepository.getByNameKey(demo.nameKey)
-            val collectionId = when {
-                existing == null ->
-                    collectionRepository.upsert(Collection(id = 0, nameKey = demo.nameKey, order = demo.order))
-                existing.order != demo.order -> collectionRepository.upsert(existing.copy(order = demo.order))
-                else -> existing.id
-            }
-            demo.memberNameKeys.forEach { legacyNameKey ->
-                // The lists above are still written in pre-v11 keys (`category_boletus_edulis`),
-                // which no longer exist in `categories` — Phase 3 of
-                // .claude/plans/countries-and-languages.md throws this whole demo seeding away and
-                // replaces it with countries.json, so translating at lookup time is cheaper than
-                // rewriting 34 literals that are about to be deleted.
-                val category = categoryRepository.getByNameKey(catalogKeyForLegacy(legacyNameKey)) ?: return@forEach
-                collectionRepository.addMember(category.id, collectionId)
+        val countries = countriesSource.entries
+
+        // Fast path — see EnsureDefaultCategoriesUseCase for why the row-count check matters too.
+        if (catalogStateRepository.getSeededCountriesVersion() == countriesSource.version &&
+            collectionRepository.count() >= countries.size
+        ) {
+            return
+        }
+
+        val desired = countries.mapIndexed { index, country ->
+            Collection(id = 0, nameKey = countryCollectionNameKey(country.code), order = index)
+        }
+        val existingByNameKey = collectionRepository.getAll().associateBy { it.nameKey }
+        val pending = desired.mapNotNull { canonical ->
+            val existing = existingByNameKey[canonical.nameKey]
+            when {
+                existing == null -> canonical
+                existing.order == canonical.order -> null
+                else -> canonical.copy(id = existing.id)
             }
         }
+        if (pending.isNotEmpty()) collectionRepository.upsertAll(pending)
+
+        val collectionIdByCode = collectionRepository.getAll()
+            .mapNotNull { collection -> countryCodeForCollectionNameKey(collection.nameKey)?.let { it to collection.id } }
+            .toMap()
+        val categoryIdByKey = categoryRepository.getAll().associateBy { it.nameKey }.mapValues { it.value.id }
+        val memberships = countries.flatMap { country ->
+            val collectionId = collectionIdByCode[country.code] ?: return@flatMap emptyList()
+            country.keys.mapNotNull { key ->
+                categoryIdByKey[key]?.let { categoryId ->
+                    CategoryCollectionMembership(categoryId = categoryId, collectionId = collectionId)
+                }
+            }
+        }
+        if (memberships.isNotEmpty()) collectionRepository.addMembers(memberships)
+
+        catalogStateRepository.setSeededCountriesVersion(countriesSource.version)
     }
 }

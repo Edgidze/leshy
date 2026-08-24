@@ -63,3 +63,30 @@ images: copied 408, removed 6 orphaned group images
 
 `app_assets_256/` удалён после подтверждения владельца проекта (данные из
 него уже полностью в `drawable/` и `docs/catalog/leshy_core_app.json`).
+
+## Фаза 3 (2026-08-25) — `countries/<lang>.json`
+
+`tools/build_catalog.py` расширен новой секцией: `countries/en.json` и
+`countries/ru.json` (`{countryCode: name}`, 33 страны каждый). Английский —
+из `country_presets[cc]["country"]` источника как есть (включая `"Türkiye"`
+для `TR` — это то значение, что реально лежит в `leshy_core_app.json`, не
+подгонялось). Русский — источник его не содержит вообще (раздел 1 плана),
+поэтому `RU_COUNTRY_NAMES` — рукописная таблица прямо в скрипте (33 строки,
+рядом с `RU_PRESET_ADD`/`RU_PRESET_REMOVE`), тот же принцип «ручной слой
+поверх генератора», что и `name_overrides.json`, но не вынесена в отдельный
+JSON — 33×2 строки не оправдывают отдельный файл.
+
+**Скрипт целиком после Фазы 0 больше не прогоняется end-to-end** —
+`app_assets_256/` удалён (см. выше), а секция `catalog.json` требует его для
+`dominant_color_hex`. Новая секция `countries/<lang>.json` от изображений не
+зависит, но чтобы не задевать остальной (уже нерабочий без картинок) путь,
+она была прогнана отдельно — импортом констант скрипта
+(`RU_COUNTRY_NAMES`, `SOURCE_JSON`, `FILES_CATALOG_DIR`) в разовом снипете,
+воспроизводящем ровно тот код, что лежит в `build_catalog.py`. Если
+`app_assets_256/` когда-нибудь вернётся (например, для будущей
+перегенерации каталога), `python3 tools/build_catalog.py` снова станет
+прогоняемым целиком, включая эту секцию — специально ничего не разошлось.
+
+Проверено скриптом по JSON напрямую: коды в `countries/en.json` и
+`countries/ru.json` совпадают с кодами `countries.json` (33 = 33 = 33), обе
+таблицы полные (`assert set(en) == set(ru) == codes`).

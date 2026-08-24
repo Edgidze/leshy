@@ -80,6 +80,34 @@
 (`data/catalog/LegacyCategoryKeys.kt`), которым импорт архива переводит ключи
 из выгрузок до v11.
 
+## Названия стран (`collection_country_<CC>`) — тот же приём, ещё один слой данных
+
+Фаза 3: 33 подборки по странам заменили 3 демо-подборки
+(`.claude/plans/countries-and-languages.md`, `data/CLAUDE.md` — раздел про
+`collections`). Их `nameKey` (`collection_country_RU` и т.д.) резолвится
+`i18n/CollectionNames.kt` тем же паттерном, что и имена грибов, но с ещё
+одним уровнем фолбэка, потому что языков с готовым переводом названия
+страны меньше, чем языков интерфейса: `CountryNames.namesFor(активный
+язык)[код]` → `CountryNames.namesFor(EN)[код]` → сам код страны как
+последний резерв. Два новых Koin-синглтона, оба зеркалят
+`CatalogSource`/`MushroomNames` буква-в-букву: `data/catalog/
+CountriesSource.kt` (парсит `countries.json`, даёт `version` для гейта
+`EnsureDefaultCollectionsUseCase`) и `CountryNames.kt` (парсит
+`files/catalog/countries/<lang>.json`, лениво по языку). **Отличие от
+`MushroomNames`: сейчас `en`/`ru` — единственные языки с файлом
+(`countries/en.json`/`countries/ru.json`)**, но `AppLanguage` пока и есть
+ровно `{RU, EN}` (Фаза 4 расширит до 26), так что `namesFor` не нуждается ни
+в каком `runCatching` — файл на диске есть под каждое текущее значение
+`AppLanguage`, как и у `MushroomNames`. Двухуровневый фолбэк в
+`collectionDisplayName` — задел именно под Фазу 4, когда появятся языки
+интерфейса без своего `countries/<lang>.json`.
+
+`countryCollectionNameKey(code)`/`countryCodeForCollectionNameKey(nameKey)`
+(`data/catalog/CountriesSource.kt`) — единственное место, где зашита
+строка-префикс `collection_country_`; и сидирование, и резолвинг имени, и
+предвыбор подборки по региону устройства (`OnboardingViewModel`) идут через
+них, а не через собственные `"collection_country_" + code`.
+
 **Тесты каталожного слоя (`data/catalog/CatalogSourceTest.kt`,
 `i18n/MushroomNamesTest.kt`) написаны, но не запускаются в этом окружении** —
 два независимых и не связанных с этой фичей пробела инфраструктуры:

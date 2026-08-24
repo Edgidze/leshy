@@ -1,6 +1,6 @@
 # data/ — Room + DataStore
 
-## Схема Room (актуальная — версия 11, `data/local/`)
+## Схема Room (актуальная — версия 12, `data/local/`)
 
 6 таблиц, точные поля — смотри `*Entity.kt` напрямую, они компактны и
 самодокументируемы. Кратко:
@@ -42,12 +42,34 @@
   несколько подборок), `ON DELETE CASCADE` в обе стороны. Сама подборка не
   хранит «выбрана ли» — это производное состояние от `Category.isPicked` её
   участников (выбор подборки целиком в UI — просто bulk-запись `isPicked` по
-  всем участникам). Пока сидируются демо-подборки, нарезанные из старых 30
-  видов (`EnsureDefaultCollectionsUseCase`); их списки участников так и
-  записаны старыми ключами и переводятся на каталожные через
-  `catalogKeyForLegacy` в момент поиска — Фаза 3
-  `countries-and-languages.md` выбрасывает эти списки целиком и заменяет на
-  33 страны из `countries.json`, схему это не тронет, только сид-данные.
+  всем участникам). **С Фазы 3 `countries-and-languages.md` сидируются 33
+  реальные страны** из `composeResources/files/catalog/countries.json`
+  (`nameKey` вида `collection_country_<CC>`, например
+  `collection_country_RU`) — старые 3 демо-подборки (`collection_demo_*`,
+  `.claude/plans/mushroom-collections.md`) удалены `MIGRATION_11_12`
+  (`DELETE FROM collections WHERE nameKey IN (...)`, каскад по
+  `category_collections` срабатывает сам). Схему это не тронуло — только
+  сид-данные, `MIGRATION_11_12` чисто на удаление, без единого `ALTER`.
+
+  **`EnsureDefaultCollectionsUseCase` — тот же батч/гейт-паттерн, что
+  `EnsureDefaultCategoriesUseCase` (см. ниже), с одной сознательной
+  асимметрией.** Сами 33 строки `collections` диффятся честно (`getAll()` →
+  сравнение по `nameKey`/`order` → `upsertAll` только для новых/изменённых).
+  А вот ~1650 строк `category_collections` **не диффятся — пересобираются и
+  вставляются заново при каждом полном проходе**, батчем через
+  `CollectionDao.insertMembers` (`OnConflictStrategy.IGNORE`): раз стратегия
+  конфликта — IGNORE, повторная вставка уже существующей пары
+  `(categoryId, collectionId)` — no-op, так что можно каждый раз слать полный
+  желаемый список без вычисления дельты. Обратная сторона — **устаревшее
+  членство не убирается**: если следующая перегенерация `countries.json`
+  уберёт вид из подборки страны, старая строка `category_collections`
+  переживёт это неограниченно (тот же принцип, каким
+  `EnsureDefaultCategoriesUseCase` никогда не делает `DELETE` каталожных
+  строк — обе реконсиляции только досеивают, никогда не убирают). Гейт —
+  версия `countries.json` (`CountriesSource.version`, тот же
+  `contentHashCode`-приём, что у `CatalogSource.version`) в
+  `CatalogStateRepository.getSeededCountriesVersion`/
+  `setSeededCountriesVersion`, отдельный ключ DataStore от версии каталога.
 
 **Явные `Migration`-объекты с v1, экспорт схемы включён — никакого
 `fallbackToDestructiveMigration`.** v1→v2 добавила `edibilityStatus` и
@@ -141,6 +163,20 @@ DataStore-ключ `mushroom_sort_order` (`SettingsRepository`) исчез — �
 без второго прохода через `catalogKeyForLegacy` все находки из него легли бы
 в `category_misc`. Это единственная причина, по которой таблица лежит в
 `data/catalog/`, а не внутри `Migrations.kt`.
+
+**v11→v12 — тоже без изменения схемы**, `12.json` отличается от `11.json`
+только `version`/`identityHash` (проверено побайтовым JSON-сравнением после
+пересборки). Единственное действие — `DELETE FROM collections WHERE nameKey
+IN ('collection_demo_north', 'collection_demo_south', 'collection_demo_east')`
+(Фаза 3 `countries-and-languages.md`, раздел про `collections` выше). Ни
+одного `ALTER`/`categories`-`UPDATE`: `categories.isPicked`/`isActive`
+пользователя эта миграция не трогает вовсе — удаляются только сами
+строки-контейнеры демо-подборок, `category_collections` подчищается за счёт
+уже существующего с v4→v5 `ON DELETE CASCADE` на `collectionId`. Проверено
+прогоном по настоящей SQLite (тем же приёмом, что и v10→v11 — засеять
+таблицы вручную, выполнить `DELETE`, сравнить до/после): 5 подборок → 2,
+6 строк membership → 3, уцелевшие — ровно две не-демо, membership на демо-id
+пропал полностью.
 
 **С Phase 10 этот CASCADE на штатном пути больше никогда не срабатывает —
 и это осознанно оставлено так, а не откачено на `NO ACTION`.**

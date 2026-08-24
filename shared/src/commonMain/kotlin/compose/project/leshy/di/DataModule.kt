@@ -2,6 +2,7 @@ package compose.project.leshy.di
 
 import androidx.room.RoomDatabase
 import compose.project.leshy.data.catalog.CatalogSource
+import compose.project.leshy.data.catalog.CountriesSource
 import compose.project.leshy.data.local.LeshyDatabase
 import compose.project.leshy.data.local.getRoomDatabase
 import compose.project.leshy.data.repository.CatalogStateRepositoryImpl
@@ -25,12 +26,15 @@ import compose.project.leshy.domain.repository.OnboardingRepository
 import compose.project.leshy.domain.repository.SettingsRepository
 import compose.project.leshy.domain.repository.TrackPointRepository
 import compose.project.leshy.domain.repository.WalkRepository
+import compose.project.leshy.i18n.CountryNames
 import compose.project.leshy.i18n.MushroomNames
 import org.koin.dsl.module
 
 val dataModule = module {
     single { CatalogSource() }
     single { MushroomNames() }
+    single { CountriesSource() }
+    single { CountryNames() }
     single { getRoomDatabase(get<RoomDatabase.Builder<LeshyDatabase>>()) }
     single { get<LeshyDatabase>().categoryDao() }
     single { get<LeshyDatabase>().walkDao() }

@@ -148,9 +148,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.CategoryMisc -> "Разное"
     StringKey.CategoryUnknownMushroom -> "Неизвестный гриб"
 
-    StringKey.CollectionDemoNorth -> "Демо: Север"
-    StringKey.CollectionDemoSouth -> "Демо: Юг"
-    StringKey.CollectionDemoEast -> "Демо: Восток"
+    StringKey.CollectionPickerSearchHint -> "Поиск страны"
 
     StringKey.DefaultWalkName -> "Прогулка"
     StringKey.RecordWalkNameHint -> "Название прогулки"
@@ -424,9 +422,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.CategoryMisc -> "Misc"
     StringKey.CategoryUnknownMushroom -> "Unknown mushroom"
 
-    StringKey.CollectionDemoNorth -> "Demo: North"
-    StringKey.CollectionDemoSouth -> "Demo: South"
-    StringKey.CollectionDemoEast -> "Demo: East"
+    StringKey.CollectionPickerSearchHint -> "Search country"
 
     StringKey.DefaultWalkName -> "Walk"
     StringKey.RecordWalkNameHint -> "Walk name"

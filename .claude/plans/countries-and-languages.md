@@ -722,3 +722,106 @@ no-op.
 подборки в ленте только «Неизвестный гриб».
 
 Следующая — Фаза 3 (подборки по странам).
+
+**Фаза 3 выполнена (2026-08-25):** `EnsureDefaultCollectionsUseCase`
+переписан на `countries.json` (33 страны), тем же батч/гейт-паттерном, что
+`EnsureDefaultCategoriesUseCase`: одна выборка `getAll()` → диф по
+`nameKey`/`order` для 33 строк `collections`, гейт по версии `countries.json`
+(`CountriesSource.version`, тот же `contentHashCode`-приём, новый ключ
+DataStore `seeded_countries_version` в `CatalogStateRepository`). `collections`/
+`category_collections` DAO и репозиторий получили батч-методы (`getAll`,
+`count`, `insertAll`/`updateAll`/`upsertAll`, `insertMembers`), которых не
+было вовсе — раньше сидировалось по одному `getByNameKey`+upsert на 3 демо-
+подборки. `MIGRATION_11_12` удаляет 3 строки `collection_demo_*` (`DELETE`,
+без единого `ALTER` — схема v12 идентична v11, отличается только `version`/
+`identityHash`), `category_collections` подчищается каскадом, заведённым ещё
+в v4→v5. Проверено прогоном по настоящей SQLite (тот же приём, что в Фазе 2):
+5 подборок → 2, 6 membership-строк → 3, ни одна не-демо строка не задета.
+
+**Названия стран (`i18n/CollectionNames.kt` переписан).** Два новых
+Koin-синглтона, зеркалят `CatalogSource`/`MushroomNames`: `data/catalog/
+CountriesSource.kt` (парсит `countries.json`) и `i18n/CountryNames.kt`
+(парсит `files/catalog/countries/<lang>.json`). `collectionDisplayName`
+резолвит `collection_country_<CC>` → имя на активном языке → имя на
+английском → сам код страны как последний резерв. `countryCollectionNameKey`/
+`countryCodeForCollectionNameKey` (`CountriesSource.kt`) — единственное место
+со строкой-префиксом `collection_country_`, используется сидированием,
+резолвингом имени и предвыбором по региону устройства одинаково.
+
+**Отклонение от плана — `countries/<lang>.json` генерируется в этой фазе, а
+не в Фазе 0.** План (раздел «Фаза 0») перечислял только `catalog.json`,
+`countries.json`, `names/<lang>.json` — про сами названия стран отдельная
+строка «Фаза 3» плана прямо говорит "названия стран пока только en/ru", но
+не называла, где именно это генерируется; естественное место — тот же
+`tools/build_catalog.py`, туда и добавлено (`countries/en.json` — прямое
+поле `country` источника, `countries/ru.json` — рукописная таблица
+`RU_COUNTRY_NAMES`, источник не содержит русских названий стран вовсе, см.
+раздел 1 плана). **Скрипт целиком после Фазы 0 больше не прогоняем
+end-to-end** — `app_assets_256/` удалён, а секция `catalog.json` требует
+исходные картинки для `dominant_color_hex`. Новая секция от картинок не
+зависит, поэтому она прогнана отдельно (импортом констант скрипта в разовый
+снипет, воспроизводящий ровно код из `build_catalog.py`) — если
+`app_assets_256/` когда-нибудь вернётся, скрипт снова станет полностью
+прогоняемым, включая эту секцию. Подробности — `docs/catalog/CLAUDE.md`.
+
+**Отклонение — членство (`category_collections`) не диффится, каждый полный
+проход пересобирает и вставляет заново.** ~1650 строк батчатся через
+`insertMembers` с `OnConflictStrategy.IGNORE` — раз конфликт игнорируется,
+повторная вставка уже существующей пары `(categoryId, collectionId)`
+безопасна, так что дельту можно не считать. Обратная сторона — если
+следующая перегенерация `countries.json` уберёт вид из чьей-то подборки,
+старая строка membership не удалится (тот же принцип, каким
+`EnsureDefaultCategoriesUseCase` никогда не `DELETE`-ит каталожные строки).
+План этого явно не описывал («batch-вставка cross-ref») — решение принято
+по аналогии с уже одобренной философией «только досеивать» для каталога.
+
+**`CollectionPicker` (`ui/components/CollectionPicker.kt`) — добавлено поле
+поиска.** Простой регистронезависимый `contains` по резолвленному имени
+страны, не тот ранжированный `startsWith`→`contains`→нечёткий-префикс
+приём, что `searchOrderedCategories` использует для поиска гриба
+(`presentation/CLAUDE.md`) — названия стран короткие и почти не
+пересекаются, простого фильтра достаточно, а генерализация того приёма под
+переиспользование языковым пикером — уже явное намерение Фазы 4 плана
+(раздел 405, п. «поиск языка и поиск гриба вели себя одинаково»); заводить
+её здесь заранее означало бы дублировать работу, которую Фаза 4 и так
+планирует. Все 33 секции по-прежнему стартуют свёрнутыми — это было
+готово даром ещё с исходной реализации на 3 демо-подборках, отдельно
+трогать не пришлось. Новый `StringKey.CollectionPickerSearchHint` (плейсхолдер
+поля) — три `StringKey.CollectionDemo{North,South,East}` и обе их ветки в
+`Strings.kt` удалены вместе со старыми подборками.
+
+**Предвыбор по региону устройства — новый `expect fun
+currentDeviceRegionCode()`** (`data/platform/DeviceRegion.kt`; Android —
+`Locale.getDefault().country`, iOS — `NSLocale.currentLocale.countryCode`),
+вызывается из `OnboardingViewModel.preselectByDeviceRegion()` сразу после
+сидирования. Гейт — не отдельный флаг DataStore, а факт «ни один вид ещё не
+выбран» (`categoryRepository.getAll().any { it.isPicked }` перед вызовом);
+обоснование — `presentation/CLAUDE.md`, новый раздел про
+`OnboardingViewModel`. Несовпадение кода региона с одной из 33 подборок или
+`null` от `currentDeviceRegionCode()` — тихий no-op, а не ошибка.
+
+**`SpeciesScreen`/`OnboardingScreen` не потребовали правок вовсе** — они уже
+рендерили `CollectionPicker(items = uiState.collectionPickerItems, ...)`
+напрямую из потока `collectionRepository.observeAll()`, так что 33 секции
+вместо 3 — следствие одних только новых сид-данных, пункт плана «33 секции
+вместо 3» закрылся без изменения самих экранов.
+
+Проверено: `:shared:compileAndroidMain`, `:shared:compileKotlinIosSimulatorArm64`,
+`:androidApp:assembleDebug` — все зелёные. Целостность данных (коды в
+`countries.json`/`countries/en.json`/`countries/ru.json` совпадают 33=33=33,
+все `keys[]` существуют в `catalog.json`) проверена Python-скриптом
+напрямую по JSON. Самотестирования на устройстве не было (см.
+`feedback_no_self_testing`).
+
+**Что должен проверить владелец проекта:** экран онбординга и «Грибы»
+показывают 33 свёрнутые секции по странам вместо 3 демо; поле поиска
+фильтрует список по названию страны на активном языке (en/ru); при первом
+запуске (свежая установка, все виды `isPicked=false`) подборка, совпадающая
+с регионом устройства, оказывается предвыбранной; на уже установленной
+копии с ранее выбранной демо-подборкой — сами находки и `isActive`/
+`isPicked` отмеченных видов не потерялись, но секция «Демо: Север/Юг/Восток»
+исчезла и заменилась на 33 страны (ожидаемо: раньше выбранные виды остаются
+видны в ленте/на Карте, просто теперь показываются под другой, «настоящей»
+страной-подборкой, а не под удалённой демо).
+
+Следующая — Фаза 4 (`AppLanguage` × 26 и экран выбора языка; Sonnet).

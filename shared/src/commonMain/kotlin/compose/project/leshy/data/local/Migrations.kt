@@ -194,3 +194,19 @@ val MIGRATION_10_11 = object : Migration(10, 11) {
         )
     }
 }
+
+// Drops the 3 demo collections (`.claude/plans/mushroom-collections.md`) now that
+// `EnsureDefaultCollectionsUseCase` seeds the real 33-country ones instead
+// (`.claude/plans/countries-and-languages.md`, Phase 3). No schema change — `category_collections`
+// has had `ON DELETE CASCADE` on `collectionId` since v4->v5, so their membership rows go with them
+// automatically; `categories.isPicked` is untouched either way, same as every other collection
+// change in this project (a species a user picked stays picked regardless of which collection
+// brought it in).
+val MIGRATION_11_12 = object : Migration(11, 12) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL(
+            "DELETE FROM collections WHERE nameKey IN " +
+                "('collection_demo_north', 'collection_demo_south', 'collection_demo_east')",
+        )
+    }
+}
