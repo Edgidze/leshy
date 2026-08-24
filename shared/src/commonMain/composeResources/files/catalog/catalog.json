@@ -1,0 +1,3674 @@
+[
+  {
+    "key": "amanita_muscaria",
+    "sci": "Amanita muscaria",
+    "image": "amanita_muscaria",
+    "color": "#b59971",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "amanita_phalloides",
+    "sci": "Amanita phalloides",
+    "image": "amanita_phalloides",
+    "color": "#aa9659",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "boletus_edulis",
+    "sci": "Boletus edulis",
+    "image": "boletus_edulis",
+    "color": "#b37549",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "macrolepiota_procera",
+    "sci": "Macrolepiota procera",
+    "image": "macrolepiota_procera",
+    "color": "#be9f74",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "pleurotus_ostreatus",
+    "sci": "Pleurotus ostreatus",
+    "image": "pleurotus_ostreatus",
+    "color": "#c0a47d",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "cantharellus_cibarius",
+    "sci": "Cantharellus cibarius",
+    "image": "cantharellus_cibarius",
+    "color": "#bd8942",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "coprinus_comatus",
+    "sci": "Coprinus comatus",
+    "image": "coprinus_comatus",
+    "color": "#5d7612",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_pantherina",
+    "sci": "Amanita pantherina",
+    "image": "amanita_pantherina",
+    "color": "#9d7558",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "lactarius_deliciosus",
+    "sci": "Lactarius deliciosus",
+    "image": "lactarius_deliciosus",
+    "color": "#c56e30",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "marasmius_oreades",
+    "sci": "Marasmius oreades",
+    "image": "marasmius_oreades",
+    "color": "#c69a5d",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "armillaria_mellea",
+    "sci": "Armillaria mellea",
+    "image": "armillaria_mellea",
+    "color": "#c59756",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "morchella_esculenta",
+    "sci": "Morchella esculenta",
+    "image": "morchella_esculenta",
+    "color": "#b98f55",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "hydnum_repandum",
+    "sci": "Hydnum repandum",
+    "image": "hydnum_repandum",
+    "color": "#cca56d",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "galerina_marginata",
+    "sci": "Galerina marginata",
+    "image": "galerina_marginata",
+    "color": "#b06631",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "craterellus_cornucopioides",
+    "sci": "Craterellus cornucopioides",
+    "image": "craterellus_cornucopioides",
+    "color": "#6b7311",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "hypholoma_fasciculare",
+    "sci": "Hypholoma fasciculare",
+    "image": "hypholoma_fasciculare",
+    "color": "#9b6821",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "amanita_virosa",
+    "sci": "Amanita virosa",
+    "image": "amanita_virosa",
+    "color": "#6b7311",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "calocybe_gambosa",
+    "sci": "Calocybe gambosa",
+    "image": "calocybe_gambosa",
+    "color": "#c6a77c",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "paxillus_involutus",
+    "sci": "Paxillus involutus",
+    "image": "paxillus_involutus",
+    "color": "#a35f2e",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "leccinum_scabrum",
+    "sci": "Leccinum scabrum",
+    "image": "leccinum_scabrum",
+    "color": "#a88c65",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "calvatia_gigantea",
+    "sci": "Calvatia gigantea",
+    "image": "calvatia_gigantea",
+    "color": "#6b7311",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "gyromitra_esculenta",
+    "sci": "Gyromitra esculenta",
+    "image": "gyromitra_esculenta",
+    "color": "#73221b",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "suillus_luteus",
+    "sci": "Suillus luteus",
+    "image": "suillus_luteus",
+    "color": "#aa7935",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "flammulina_velutipes",
+    "sci": "Flammulina velutipes",
+    "image": "flammulina_velutipes",
+    "color": "#985322",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "imleria_badia",
+    "sci": "Imleria badia",
+    "image": "imleria_badia",
+    "color": "#8e3c20",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "tylopilus_felleus",
+    "sci": "Tylopilus felleus",
+    "image": "tylopilus_felleus",
+    "color": "#b6794d",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_xanthodermus",
+    "sci": "Agaricus xanthodermus",
+    "image": "agaricus_xanthodermus",
+    "color": "#734d32",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "rubroboletus_satanas",
+    "sci": "Rubroboletus satanas",
+    "image": "rubroboletus_satanas",
+    "color": "#ae2b1f",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "cortinarius_caperatus",
+    "sci": "Cortinarius caperatus",
+    "image": "cortinarius_caperatus",
+    "color": "#c8a574",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "laetiporus_sulphureus",
+    "sci": "Laetiporus sulphureus",
+    "image": "laetiporus_sulphureus",
+    "color": "#73411e",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "hygrophoropsis_aurantiaca",
+    "sci": "Hygrophoropsis aurantiaca",
+    "image": "hygrophoropsis_aurantiaca",
+    "color": "#c6641e",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "agaricus_campestris",
+    "sci": "Agaricus campestris",
+    "image": "agaricus_campestris",
+    "color": "#734434",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "kuehneromyces_mutabilis",
+    "sci": "Kuehneromyces mutabilis",
+    "image": "kuehneromyces_mutabilis",
+    "color": "#9d5725",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_cyanoxantha",
+    "sci": "Russula cyanoxantha",
+    "image": "russula_cyanoxantha",
+    "color": "#9c835f",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactifluus_volemus",
+    "sci": "Lactifluus volemus",
+    "image": "lactifluus_volemus",
+    "color": "#c87133",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "tricholoma_portentosum",
+    "sci": "Tricholoma portentosum",
+    "image": "tricholoma_portentosum",
+    "color": "#978162",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_rubescens",
+    "sci": "Amanita rubescens",
+    "image": "amanita_rubescens",
+    "color": "#bb8a67",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "suillellus_luridus",
+    "sci": "Suillellus luridus",
+    "image": "suillellus_luridus",
+    "color": "#a95e29",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_cyanoxantha__2",
+    "sci": "Russula cyanoxantha",
+    "image": "russula_cyanoxantha_2",
+    "color": "#6c731c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "tricholoma_equestre",
+    "sci": "Tricholoma equestre",
+    "image": "tricholoma_equestre",
+    "color": "#ccaa45",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "agaricus_campestris__2",
+    "sci": "Agaricus campestris",
+    "image": "agaricus_campestris_2",
+    "color": "#6b7317",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_torminosus",
+    "sci": "Lactarius torminosus",
+    "image": "lactarius_torminosus",
+    "color": "#cc7659",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "leccinum_aurantiacum",
+    "sci": "Leccinum aurantiacum",
+    "image": "leccinum_aurantiacum",
+    "color": "#b47a50",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_caesarea",
+    "sci": "Amanita caesarea",
+    "image": "amanita_caesarea",
+    "color": "#be832f",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lepista_nuda",
+    "sci": "Lepista nuda",
+    "image": "lepista_nuda",
+    "color": "#926296",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "sparassis_crispa",
+    "sci": "Sparassis crispa",
+    "image": "sparassis_crispa",
+    "color": "#cca165",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "cortinarius_orellanus",
+    "sci": "Cortinarius orellanus",
+    "image": "cortinarius_orellanus",
+    "color": "#8c3315",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "craterellus_tubaeformis",
+    "sci": "Craterellus tubaeformis",
+    "image": "craterellus_tubaeformis",
+    "color": "#a27330",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "entoloma_sinuatum",
+    "sci": "Entoloma sinuatum",
+    "image": "entoloma_sinuatum",
+    "color": "#ccab7e",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "lactifluus_piperatus",
+    "sci": "Lactifluus piperatus",
+    "image": "lactifluus_piperatus",
+    "color": "#b89d77",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_virescens",
+    "sci": "Russula virescens",
+    "image": "russula_virescens",
+    "color": "#707535",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "chlorophyllum_rhacodes",
+    "sci": "Chlorophyllum rhacodes",
+    "image": "chlorophyllum_rhacodes",
+    "color": "#bca17a",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "omphalotus_olearius",
+    "sci": "Omphalotus olearius",
+    "image": "omphalotus_olearius",
+    "color": "#c9651e",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "cerioporus_squamosus",
+    "sci": "Cerioporus squamosus",
+    "image": "cerioporus_squamosus",
+    "color": "#b79462",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_emetica",
+    "sci": "Russula emetica",
+    "image": "russula_emetica",
+    "color": "#cc4134",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "suillus_luteus__2",
+    "sci": "Suillus luteus",
+    "image": "suillus_luteus_2",
+    "color": "#a88f44",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "collybia_nuda",
+    "sci": "Collybia nuda",
+    "image": "collybia_nuda",
+    "color": "#6b7311",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "grifola_frondosa",
+    "sci": "Grifola frondosa",
+    "image": "grifola_frondosa",
+    "color": "#a08661",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "coprinopsis_atramentaria",
+    "sci": "Coprinopsis atramentaria",
+    "image": "coprinopsis_atramentaria",
+    "color": "#957761",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "fistulina_hepatica",
+    "sci": "Fistulina hepatica",
+    "image": "fistulina_hepatica",
+    "color": "#a22e24",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "albatrellus_ovinus",
+    "sci": "Albatrellus ovinus",
+    "image": "albatrellus_ovinus",
+    "color": "#ccae85",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_verna",
+    "sci": "Amanita verna",
+    "image": "amanita_verna",
+    "color": "#6c731e",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "suillus_granulatus",
+    "sci": "Suillus granulatus",
+    "image": "suillus_granulatus",
+    "color": "#b16127",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "suillus_variegatus",
+    "sci": "Suillus variegatus",
+    "image": "suillus_variegatus",
+    "color": "#af5c21",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "xerocomus_subtomentosus",
+    "sci": "Xerocomus subtomentosus",
+    "image": "xerocomus_subtomentosus",
+    "color": "#b4833e",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_arvensis",
+    "sci": "Agaricus arvensis",
+    "image": "agaricus_arvensis",
+    "color": "#845f45",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "leccinum_aurantiacum__2",
+    "sci": "Leccinum aurantiacum",
+    "image": "leccinum_aurantiacum_2",
+    "color": "#cc4d23",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "gomphidius_glutinosus",
+    "sci": "Gomphidius glutinosus",
+    "image": "gomphidius_glutinosus",
+    "color": "#947661",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "cortinarius_rubellus",
+    "sci": "Cortinarius rubellus",
+    "image": "cortinarius_rubellus",
+    "color": "#8a381d",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "auricularia_auricula_judae",
+    "sci": "Auricularia auricula-judae",
+    "image": "auricularia_auricula_judae",
+    "color": "#ac4725",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "suillus_grevillei",
+    "sci": "Suillus grevillei",
+    "image": "suillus_grevillei",
+    "color": "#9a6317",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "scleroderma_citrinum",
+    "sci": "Scleroderma citrinum",
+    "image": "scleroderma_citrinum",
+    "color": "#c79f66",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "clitopilus_prunulus",
+    "sci": "Clitopilus prunulus",
+    "image": "clitopilus_prunulus",
+    "color": "#ad9470",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lycoperdon_perlatum",
+    "sci": "Lycoperdon perlatum",
+    "image": "lycoperdon_perlatum",
+    "color": "#c4a880",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_vesca",
+    "sci": "Russula vesca",
+    "image": "russula_vesca",
+    "color": "#cc4752",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "tricholoma_terreum",
+    "sci": "Tricholoma terreum",
+    "image": "tricholoma_terreum",
+    "color": "#6b7314",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_rufus",
+    "sci": "Lactarius rufus",
+    "image": "lactarius_rufus",
+    "color": "#982e24",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_deterrimus",
+    "sci": "Lactarius deterrimus",
+    "image": "lactarius_deterrimus",
+    "color": "#c88e3c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_delica",
+    "sci": "Russula delica",
+    "image": "russula_delica",
+    "color": "#caad84",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "morchella_esculenta__2",
+    "sci": "Morchella esculenta",
+    "image": "morchella_esculenta_2",
+    "color": "#a45720",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "neoboletus_erythropus",
+    "sci": "Neoboletus erythropus",
+    "image": "neoboletus_erythropus",
+    "color": "#814632",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "suillus_bovinus",
+    "sci": "Suillus bovinus",
+    "image": "suillus_bovinus",
+    "color": "#c38835",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "xerocomellus_chrysenteron",
+    "sci": "Xerocomellus chrysenteron",
+    "image": "xerocomellus_chrysenteron",
+    "color": "#937722",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "tuber_aestivum",
+    "sci": "Tuber aestivum",
+    "image": "tuber_aestivum",
+    "color": "#735a49",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lycoperdon_perlatum__2",
+    "sci": "Lycoperdon perlatum",
+    "image": "lycoperdon_perlatum_2",
+    "color": "#c4a77f",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_citrina",
+    "sci": "Amanita citrina",
+    "image": "amanita_citrina",
+    "color": "#ccb981",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "craterellus_lutescens",
+    "sci": "Craterellus lutescens",
+    "image": "craterellus_lutescens",
+    "color": "#cc841f",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactifluus_vellereus",
+    "sci": "Lactifluus vellereus",
+    "image": "lactifluus_vellereus",
+    "color": "#c4a67d",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "pleurotus_eryngii",
+    "sci": "Pleurotus eryngii",
+    "image": "pleurotus_eryngii",
+    "color": "#ae936e",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "infundibulicybe_geotropa",
+    "sci": "Infundibulicybe geotropa",
+    "image": "infundibulicybe_geotropa",
+    "color": "#c6a981",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_foetens",
+    "sci": "Russula foetens",
+    "image": "russula_foetens",
+    "color": "#c4985b",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "fomes_fomentarius",
+    "sci": "Fomes fomentarius",
+    "image": "fomes_fomentarius",
+    "color": "#9b7e55",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "phallus_impudicus",
+    "sci": "Phallus impudicus",
+    "image": "phallus_impudicus",
+    "color": "#a18764",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_vaginata",
+    "sci": "Amanita vaginata",
+    "image": "amanita_vaginata",
+    "color": "#937d5f",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "clitocybe_nebularis",
+    "sci": "Clitocybe nebularis",
+    "image": "clitocybe_nebularis",
+    "color": "#b79c77",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "gyroporus_cyanescens",
+    "sci": "Gyroporus cyanescens",
+    "image": "gyroporus_cyanescens",
+    "color": "#c9a169",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "boletus_aereus",
+    "sci": "Boletus aereus",
+    "image": "boletus_aereus",
+    "color": "#935d37",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "boletus_pinophilus",
+    "sci": "Boletus pinophilus",
+    "image": "boletus_pinophilus",
+    "color": "#b45839",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "boletus_reticulatus",
+    "sci": "Boletus reticulatus",
+    "image": "boletus_reticulatus",
+    "color": "#a55e2c",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "inosperma_erubescens",
+    "sci": "Inosperma erubescens",
+    "image": "inosperma_erubescens",
+    "color": "#caa570",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "inonotus_obliquus",
+    "sci": "Inonotus obliquus",
+    "image": "inonotus_obliquus",
+    "color": "#754a2c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_trivialis",
+    "sci": "Lactarius trivialis",
+    "image": "lactarius_trivialis",
+    "color": "#ae744a",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "ramaria_botrytis",
+    "sci": "Ramaria botrytis",
+    "image": "ramaria_botrytis",
+    "color": "#cc5146",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "tricholoma_matsutake",
+    "sci": "Tricholoma matsutake",
+    "image": "tricholoma_matsutake",
+    "color": "#9b6c4b",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "hypholoma_lateritium",
+    "sci": "Hypholoma lateritium",
+    "image": "hypholoma_lateritium",
+    "color": "#b7441e",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "russula_aeruginea",
+    "sci": "Russula aeruginea",
+    "image": "russula_aeruginea",
+    "color": "#b69b76",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "chlorophyllum_molybdites",
+    "sci": "Chlorophyllum molybdites",
+    "image": "chlorophyllum_molybdites",
+    "color": "#b8996f",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "gyromitra_esculenta__2",
+    "sci": "Gyromitra esculenta",
+    "image": "gyromitra_esculenta_2",
+    "color": "#73241c",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "pleurocybella_porrigens",
+    "sci": "Pleurocybella porrigens",
+    "image": "pleurocybella_porrigens",
+    "color": "#6b7311",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "scleroderma_sp",
+    "sci": "Scleroderma sp.",
+    "image": "scleroderma_sp",
+    "color": "#b78744",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "tricholoma_pardinum",
+    "sci": "Tricholoma pardinum",
+    "image": "tricholoma_pardinum",
+    "color": "#ba9f79",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "tuber_melanosporum",
+    "sci": "Tuber melanosporum",
+    "image": "tuber_melanosporum",
+    "color": "#735b4b",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "trametes_versicolor",
+    "sci": "Trametes versicolor",
+    "image": "trametes_versicolor",
+    "color": "#875430",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "hericium_erinaceus",
+    "sci": "Hericium erinaceus",
+    "image": "hericium_erinaceus",
+    "color": "#ccae85",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "clitocybe_rivulosa",
+    "sci": "Clitocybe rivulosa",
+    "image": "clitocybe_rivulosa",
+    "color": "#c0a47d",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "cyclocybe_cylindracea",
+    "sci": "Cyclocybe cylindracea",
+    "image": "cyclocybe_cylindracea",
+    "color": "#c89e62",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "neoboletus_luridiformis",
+    "sci": "Neoboletus luridiformis",
+    "image": "neoboletus_luridiformis",
+    "color": "#9a5b2d",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "verpa_bohemica",
+    "sci": "Verpa bohemica",
+    "image": "verpa_bohemica",
+    "color": "#bf9252",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "chroogomphus_rutilus",
+    "sci": "Chroogomphus rutilus",
+    "image": "chroogomphus_rutilus",
+    "color": "#ac5d42",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "gyroporus_castaneus",
+    "sci": "Gyroporus castaneus",
+    "image": "gyroporus_castaneus",
+    "color": "#bc8a44",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_thyinos",
+    "sci": "Lactarius thyinos",
+    "image": "lactarius_thyinos",
+    "color": "#cc671f",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "leccinum_versipelle",
+    "sci": "Leccinum versipelle",
+    "image": "leccinum_versipelle",
+    "color": "#bf8359",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_sylvaticus",
+    "sci": "Agaricus sylvaticus",
+    "image": "agaricus_sylvaticus",
+    "color": "#be9273",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_regalis",
+    "sci": "Amanita regalis",
+    "image": "amanita_regalis",
+    "color": "#c4a375",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "auricularia_americana",
+    "sci": "Auricularia americana",
+    "image": "auricularia_americana",
+    "color": "#b3502e",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "hydnum_rufescens",
+    "sci": "Hydnum rufescens",
+    "image": "hydnum_rufescens",
+    "color": "#c17036",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "hygrophorus_russula",
+    "sci": "Hygrophorus russula",
+    "image": "hygrophorus_russula",
+    "color": "#cc6c74",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "leccinellum_pseudoscabrum",
+    "sci": "Leccinellum pseudoscabrum",
+    "image": "leccinellum_pseudoscabrum",
+    "color": "#af8a57",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lepista_personata",
+    "sci": "Lepista personata",
+    "image": "lepista_personata",
+    "color": "#ccae85",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_paludosa",
+    "sci": "Russula paludosa",
+    "image": "russula_paludosa",
+    "color": "#cc2e20",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_bisporigera",
+    "sci": "Amanita bisporigera",
+    "image": "amanita_bisporigera",
+    "color": "#af9570",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "clitocybe_dealbata",
+    "sci": "Clitocybe dealbata",
+    "image": "clitocybe_dealbata",
+    "color": "#6b7311",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "entoloma_rhodopolium",
+    "sci": "Entoloma rhodopolium",
+    "image": "entoloma_rhodopolium",
+    "color": "#6b7317",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "hebeloma_aminophilum",
+    "sci": "Hebeloma aminophilum",
+    "image": "hebeloma_aminophilum",
+    "color": "#c09d6c",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "hypomyces_lactifluorum",
+    "sci": "Hypomyces lactifluorum",
+    "image": "hypomyces_lactifluorum",
+    "color": "#c1461d",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_resimus",
+    "sci": "Lactarius resimus",
+    "image": "lactarius_resimus",
+    "color": "#c0a175",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "hydnum_sp",
+    "sci": "Hydnum sp.",
+    "image": "hydnum_sp",
+    "color": "#caa673",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_necator",
+    "sci": "Lactarius necator",
+    "image": "lactarius_necator",
+    "color": "#927a57",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "lactarius_salmonicolor",
+    "sci": "Lactarius salmonicolor",
+    "image": "lactarius_salmonicolor",
+    "color": "#cc783c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_turpis",
+    "sci": "Lactarius turpis",
+    "image": "lactarius_turpis",
+    "color": "#7d6646",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_scrobiculatus",
+    "sci": "Lactarius scrobiculatus",
+    "image": "lactarius_scrobiculatus",
+    "color": "#c39658",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "ramaria_flava",
+    "sci": "Ramaria flava",
+    "image": "ramaria_flava",
+    "color": "#ccaa44",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "sarcodon_imbricatus",
+    "sci": "Sarcodon imbricatus",
+    "image": "sarcodon_imbricatus",
+    "color": "#85664f",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lyophyllum_decastes",
+    "sci": "Lyophyllum decastes",
+    "image": "lyophyllum_decastes",
+    "color": "#96735a",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "fomitopsis_betulina",
+    "sci": "Fomitopsis betulina",
+    "image": "fomitopsis_betulina",
+    "color": "#b19773",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "laccaria_amethystina",
+    "sci": "Laccaria amethystina",
+    "image": "laccaria_amethystina",
+    "color": "#8f5495",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lentinula_edodes",
+    "sci": "Lentinula edodes",
+    "image": "lentinula_edodes",
+    "color": "#a76739",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "laccaria_laccata",
+    "sci": "Laccaria laccata",
+    "image": "laccaria_laccata",
+    "color": "#c36c2d",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lepiota_brunneoincarnata",
+    "sci": "Lepiota brunneoincarnata",
+    "image": "lepiota_brunneoincarnata",
+    "color": "#9d7254",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "lepiota_cristata",
+    "sci": "Lepiota cristata",
+    "image": "lepiota_cristata",
+    "color": "#bea27c",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "tricholoma_ustale",
+    "sci": "Tricholoma ustale",
+    "image": "tricholoma_ustale",
+    "color": "#bb522f",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "tuber_magnatum",
+    "sci": "Tuber magnatum",
+    "image": "tuber_magnatum",
+    "color": "#cca36a",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "entoloma_clypeatum",
+    "sci": "Entoloma clypeatum",
+    "image": "entoloma_clypeatum",
+    "color": "#a18969",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "hericium_coralloides",
+    "sci": "Hericium coralloides",
+    "image": "hericium_coralloides",
+    "color": "#ccae85",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "hygrophorus_marzuolus",
+    "sci": "Hygrophorus marzuolus",
+    "image": "hygrophorus_marzuolus",
+    "color": "#736249",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "pleurotus_pulmonarius",
+    "sci": "Pleurotus pulmonarius",
+    "image": "pleurotus_pulmonarius",
+    "color": "#ccae84",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_decolorans",
+    "sci": "Russula decolorans",
+    "image": "russula_decolorans",
+    "color": "#cc7538",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "sarcodon_squamosus",
+    "sci": "Sarcodon squamosus",
+    "image": "sarcodon_squamosus",
+    "color": "#7a5941",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "tremella_mesenterica",
+    "sci": "Tremella mesenterica",
+    "image": "tremella_mesenterica",
+    "color": "#cb831e",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_helvus",
+    "sci": "Lactarius helvus",
+    "image": "lactarius_helvus",
+    "color": "#c27b48",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": true
+  },
+  {
+    "key": "russula_xerampelina",
+    "sci": "Russula xerampelina",
+    "image": "russula_xerampelina",
+    "color": "#772d3f",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_pantherinoides",
+    "sci": "Amanita pantherinoides",
+    "image": "amanita_pantherinoides",
+    "color": "#cca46c",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "amanita_smithiana",
+    "sci": "Amanita smithiana",
+    "image": "amanita_smithiana",
+    "color": "#6b731b",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "amanita_subjunquillea",
+    "sci": "Amanita subjunquillea",
+    "image": "amanita_subjunquillea",
+    "color": "#cba73a",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "armillaria_borealis",
+    "sci": "Armillaria borealis",
+    "image": "armillaria_borealis",
+    "color": "#a06133",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "chlorophyllum_brunneum",
+    "sci": "Chlorophyllum brunneum",
+    "image": "chlorophyllum_brunneum",
+    "color": "#bfa37c",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "ileodictyon_cibarium",
+    "sci": "Ileodictyon cibarium",
+    "image": "ileodictyon_cibarium",
+    "color": "#b5986f",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_indigo",
+    "sci": "Lactarius indigo",
+    "image": "lactarius_indigo",
+    "color": "#4b609e",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_sanguifluus",
+    "sci": "Lactarius sanguifluus",
+    "image": "lactarius_sanguifluus",
+    "color": "#b16b3a",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lepiota_subincarnata",
+    "sci": "Lepiota subincarnata",
+    "image": "lepiota_subincarnata",
+    "color": "#bc9e75",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "russula_subnigricans",
+    "sci": "Russula subnigricans",
+    "image": "russula_subnigricans",
+    "color": "#783731",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "sarcodon_aspratus",
+    "sci": "Sarcodon aspratus",
+    "image": "sarcodon_aspratus",
+    "color": "#7b5940",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "terfezia_boudieri",
+    "sci": "Terfezia boudieri",
+    "image": "terfezia_boudieri",
+    "color": "#98623c",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "trichoderma_cornu_damae",
+    "sci": "Trichoderma cornu-damae",
+    "image": "trichoderma_cornu_damae",
+    "color": "#c32b1d",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "tricholoma_murrillianum",
+    "sci": "Tricholoma murrillianum",
+    "image": "tricholoma_murrillianum",
+    "color": "#bd9e72",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "anthracophyllum_archeri",
+    "sci": "Anthracophyllum archeri",
+    "image": "anthracophyllum_archeri",
+    "color": "#bc3f34",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "aseroe_rubra",
+    "sci": "Aseroe rubra",
+    "image": "aseroe_rubra",
+    "color": "#972117",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "chalciporus_piperatus",
+    "sci": "Chalciporus piperatus",
+    "image": "chalciporus_piperatus",
+    "color": "#b2741c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "craterellus_fallax",
+    "sci": "Craterellus fallax",
+    "image": "craterellus_fallax",
+    "color": "#6b7316",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "ganoderma_tsugae",
+    "sci": "Ganoderma tsugae",
+    "image": "ganoderma_tsugae",
+    "color": "#a23e1d",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "pleurotus_australis",
+    "sci": "Pleurotus australis",
+    "image": "pleurotus_australis",
+    "color": "#9e7e52",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "ramaria_formosa",
+    "sci": "Ramaria formosa",
+    "image": "ramaria_formosa",
+    "color": "#cc584d",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "schizophyllum_commune",
+    "sci": "Schizophyllum commune",
+    "image": "schizophyllum_commune",
+    "color": "#2d5ea2",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "sparassis_latifolia",
+    "sci": "Sparassis latifolia",
+    "image": "sparassis_latifolia",
+    "color": "#c7a575",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "sparassis_spathulata",
+    "sci": "Sparassis spathulata",
+    "image": "sparassis_spathulata",
+    "color": "#c9a778",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "caloboletus_calopus",
+    "sci": "Caloboletus calopus",
+    "image": "caloboletus_calopus",
+    "color": "#bd955d",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": true
+  },
+  {
+    "key": "hygrophorus_camarophyllus",
+    "sci": "Hygrophorus camarophyllus",
+    "image": "hygrophorus_camarophyllus",
+    "color": "#867051",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "pleurotus_citrinopileatus",
+    "sci": "Pleurotus citrinopileatus",
+    "image": "pleurotus_citrinopileatus",
+    "color": "#b67e30",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_claroflava",
+    "sci": "Russula claroflava",
+    "image": "russula_claroflava",
+    "color": "#ccae52",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_aurea",
+    "sci": "Russula aurea",
+    "image": "russula_aurea",
+    "color": "#bb873e",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "hypholoma_capnoides",
+    "sci": "Hypholoma capnoides",
+    "image": "hypholoma_capnoides",
+    "color": "#c5934c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "tricholoma_populinum",
+    "sci": "Tricholoma populinum",
+    "image": "tricholoma_populinum",
+    "color": "#b97e53",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "sarcoscypha_austriaca",
+    "sci": "Sarcoscypha austriaca",
+    "image": "sarcoscypha_austriaca",
+    "color": "#c92c1e",
+    "breadth": "mid",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_bisporus",
+    "sci": "Agaricus bisporus",
+    "image": "agaricus_bisporus",
+    "color": "#b48461",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "ganoderma_applanatum",
+    "sci": "Ganoderma applanatum",
+    "image": "ganoderma_applanatum",
+    "color": "#a87550",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_volemus",
+    "sci": "Lactarius volemus",
+    "image": "lactarius_volemus",
+    "color": "#bc6629",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "tuber_macrosporum",
+    "sci": "Tuber macrosporum",
+    "image": "tuber_macrosporum",
+    "color": "#73554b",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_augustus",
+    "sci": "Agaricus augustus",
+    "image": "agaricus_augustus",
+    "color": "#935f3b",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_fulva",
+    "sci": "Amanita fulva",
+    "image": "amanita_fulva",
+    "color": "#bea177",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "coprinellus_micaceus",
+    "sci": "Coprinellus micaceus",
+    "image": "coprinellus_micaceus",
+    "color": "#915c36",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": true
+  },
+  {
+    "key": "desarmillaria_tabescens",
+    "sci": "Desarmillaria tabescens",
+    "image": "desarmillaria_tabescens",
+    "color": "#a06032",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "hygrocybe_conica",
+    "sci": "Hygrocybe conica",
+    "image": "hygrocybe_conica",
+    "color": "#b47925",
+    "breadth": "broad",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "hygrophorus_hypothejus",
+    "sci": "Hygrophorus hypothejus",
+    "image": "hygrophorus_hypothejus",
+    "color": "#c78323",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "phaeolepiota_aurea",
+    "sci": "Phaeolepiota aurea",
+    "image": "phaeolepiota_aurea",
+    "color": "#cc8829",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": true
+  },
+  {
+    "key": "stropharia_rugosoannulata",
+    "sci": "Stropharia rugosoannulata",
+    "image": "stropharia_rugosoannulata",
+    "color": "#946949",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "tricholoma_sejunctum",
+    "sci": "Tricholoma sejunctum",
+    "image": "tricholoma_sejunctum",
+    "color": "#a7814c",
+    "breadth": "broad",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_subrufescens",
+    "sci": "Agaricus subrufescens",
+    "image": "agaricus_subrufescens",
+    "color": "#80422e",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "auricularia_cornea",
+    "sci": "Auricularia cornea",
+    "image": "auricularia_cornea",
+    "color": "#73464a",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "inocybe_erubescens",
+    "sci": "Inocybe erubescens",
+    "image": "inocybe_erubescens",
+    "color": "#c09d6c",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "pleurotus_djamor",
+    "sci": "Pleurotus djamor",
+    "image": "pleurotus_djamor",
+    "color": "#cc4b3f",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "tuber_aestivum__2",
+    "sci": "Tuber aestivum",
+    "image": "tuber_aestivum_2",
+    "color": "#735845",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "ustilago_maydis",
+    "sci": "Ustilago maydis",
+    "image": "ustilago_maydis",
+    "color": "#6b7311",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "volvariella_bombycina",
+    "sci": "Volvariella bombycina",
+    "image": "volvariella_bombycina",
+    "color": "#6b7311",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_ovoidea",
+    "sci": "Amanita ovoidea",
+    "image": "amanita_ovoidea",
+    "color": "#ac9370",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "cantharellus_pallens",
+    "sci": "Cantharellus pallens",
+    "image": "cantharellus_pallens",
+    "color": "#b37e33",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "clathrus_archeri",
+    "sci": "Clathrus archeri",
+    "image": "clathrus_archeri",
+    "color": "#c12330",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "cyclocybe_aegerita",
+    "sci": "Cyclocybe aegerita",
+    "image": "cyclocybe_aegerita",
+    "color": "#9b5e33",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "entoloma_sepium",
+    "sci": "Entoloma sepium",
+    "image": "entoloma_sepium",
+    "color": "#c5a77d",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "gomphus_clavatus",
+    "sci": "Gomphus clavatus",
+    "image": "gomphus_clavatus",
+    "color": "#b77787",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "hypsizygus_marmoreus",
+    "sci": "Hypsizygus marmoreus",
+    "image": "hypsizygus_marmoreus",
+    "color": "#ccab7d",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "hypsizygus_ulmarius",
+    "sci": "Hypsizygus ulmarius",
+    "image": "hypsizygus_ulmarius",
+    "color": "#c9ac83",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "polyporus_squamosus",
+    "sci": "Polyporus squamosus",
+    "image": "polyporus_squamosus",
+    "color": "#cca46c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "tremella_fuciformis",
+    "sci": "Tremella fuciformis",
+    "image": "tremella_fuciformis",
+    "color": "#b0a173",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_bitorquis",
+    "sci": "Agaricus bitorquis",
+    "image": "agaricus_bitorquis",
+    "color": "#c4a77f",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_silvicola",
+    "sci": "Agaricus silvicola",
+    "image": "agaricus_silvicola",
+    "color": "#9b815d",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "bovista_plumbea",
+    "sci": "Bovista plumbea",
+    "image": "bovista_plumbea",
+    "color": "#8a765a",
+    "breadth": "broad",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "collybia_personata",
+    "sci": "Collybia personata",
+    "image": "collybia_personata",
+    "color": "#bfa37b",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "coprinus_sp",
+    "sci": "Coprinus sp.",
+    "image": "coprinus_sp",
+    "color": "#927a59",
+    "breadth": "broad",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "cortinarius_mucosus",
+    "sci": "Cortinarius mucosus",
+    "image": "cortinarius_mucosus",
+    "color": "#ac6532",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "cuphophyllus_pratensis",
+    "sci": "Cuphophyllus pratensis",
+    "image": "cuphophyllus_pratensis",
+    "color": "#ca9b5a",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "entoloma_abortivum",
+    "sci": "Entoloma abortivum",
+    "image": "entoloma_abortivum",
+    "color": "#a48c6a",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_camphoratus",
+    "sci": "Lactarius camphoratus",
+    "image": "lactarius_camphoratus",
+    "color": "#be5e3e",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "pseudohydnum_gelatinosum",
+    "sci": "Pseudohydnum gelatinosum",
+    "image": "pseudohydnum_gelatinosum",
+    "color": "#6b7316",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_heterophylla",
+    "sci": "Russula heterophylla",
+    "image": "russula_heterophylla",
+    "color": "#8a8f53",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_nigricans",
+    "sci": "Russula nigricans",
+    "image": "russula_nigricans",
+    "color": "#735b4b",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_olivacea",
+    "sci": "Russula olivacea",
+    "image": "russula_olivacea",
+    "color": "#b69261",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_arvensis__2",
+    "sci": "Agaricus arvensis",
+    "image": "agaricus_arvensis_2",
+    "color": "#ab916c",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_macrosporus",
+    "sci": "Agaricus macrosporus",
+    "image": "agaricus_macrosporus",
+    "color": "#c09678",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "agaricus_xanthoderma",
+    "sci": "Agaricus xanthoderma",
+    "image": "agaricus_xanthoderma",
+    "color": "#a68c67",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "amanita_amerivirosa",
+    "sci": "Amanita amerivirosa",
+    "image": "amanita_amerivirosa",
+    "color": "#6b7316",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "amanita_basii",
+    "sci": "Amanita basii",
+    "image": "amanita_basii",
+    "color": "#b17e37",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_chrysoblema",
+    "sci": "Amanita chrysoblema",
+    "image": "amanita_chrysoblema",
+    "color": "#bc9c6f",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "amanita_ponderosa",
+    "sci": "Amanita ponderosa",
+    "image": "amanita_ponderosa",
+    "color": "#bea27b",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "boletaceae",
+    "sci": "Boletaceae",
+    "image": "boletaceae",
+    "color": "#8a6449",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "boletus_aestivalis",
+    "sci": "Boletus aestivalis",
+    "image": "boletus_aestivalis",
+    "color": "#ad6d3f",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "cantharellus_enelensis",
+    "sci": "Cantharellus enelensis",
+    "image": "cantharellus_enelensis",
+    "color": "#bd7a1c",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "cantharellus_phasmatis",
+    "sci": "Cantharellus phasmatis",
+    "image": "cantharellus_phasmatis",
+    "color": "#bf7b1d",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "cyclocybe_parasitica",
+    "sci": "Cyclocybe parasitica",
+    "image": "cyclocybe_parasitica",
+    "color": "#8b3b20",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "entoloma_hochstetteri",
+    "sci": "Entoloma hochstetteri",
+    "image": "entoloma_hochstetteri",
+    "color": "#1c5db8",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "entoloma_sarcopum",
+    "sci": "Entoloma sarcopum",
+    "image": "entoloma_sarcopum",
+    "color": "#a38b69",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "helvella_lacunosa",
+    "sci": "Helvella lacunosa",
+    "image": "helvella_lacunosa",
+    "color": "#8b7658",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "hericium_novae_zealandiae",
+    "sci": "Hericium novae-zealandiae",
+    "image": "hericium_novae_zealandiae",
+    "color": "#ccae85",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "laetiporus_cincinnatus",
+    "sci": "Laetiporus cincinnatus",
+    "image": "laetiporus_cincinnatus",
+    "color": "#95592f",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "lampteromyces_japonicus",
+    "sci": "Lampteromyces japonicus",
+    "image": "lampteromyces_japonicus",
+    "color": "#c2621d",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "leccinum_leucopodium",
+    "sci": "Leccinum leucopodium",
+    "image": "leccinum_leucopodium",
+    "color": "#b16935",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "leccinum_rufum",
+    "sci": "Leccinum rufum",
+    "image": "leccinum_rufum",
+    "color": "#c1461d",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "leucocybe_candicans",
+    "sci": "Leucocybe candicans",
+    "image": "leucocybe_candicans",
+    "color": "#c4a77f",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "lyophyllum_shimeji",
+    "sci": "Lyophyllum shimeji",
+    "image": "lyophyllum_shimeji",
+    "color": "#9f6d49",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "morchella_septentrionalis",
+    "sci": "Morchella septentrionalis",
+    "image": "morchella_septentrionalis",
+    "color": "#734f36",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "omphalotus_illudens",
+    "sci": "Omphalotus illudens",
+    "image": "omphalotus_illudens",
+    "color": "#ba5e1c",
+    "breadth": "mid",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "omphalotus_japonicus",
+    "sci": "Omphalotus japonicus",
+    "image": "omphalotus_japonicus",
+    "color": "#b96223",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "omphalotus_nidiformis",
+    "sci": "Omphalotus nidiformis",
+    "image": "omphalotus_nidiformis",
+    "color": "#ccae85",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "paralepistopsis_acromelalga",
+    "sci": "Paralepistopsis acromelalga",
+    "image": "paralepistopsis_acromelalga",
+    "color": "#c7a87b",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": true
+  },
+  {
+    "key": "pholiota_microspora",
+    "sci": "Pholiota microspora",
+    "image": "pholiota_microspora",
+    "color": "#c08635",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_brevipes",
+    "sci": "Russula brevipes",
+    "image": "russula_brevipes",
+    "color": "#c59a5c",
+    "breadth": "broad",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "sarcomyxa_edulis",
+    "sci": "Sarcomyxa edulis",
+    "image": "sarcomyxa_edulis",
+    "color": "#c68831",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "tricholoma_anatolicum",
+    "sci": "Tricholoma anatolicum",
+    "image": "tricholoma_anatolicum",
+    "color": "#a78f6d",
+    "breadth": "narrow",
+    "importance": 5.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_arocheae",
+    "sci": "Amanita arocheae",
+    "image": "amanita_arocheae",
+    "color": "#917c5e",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "amanita_australis",
+    "sci": "Amanita australis",
+    "image": "amanita_australis",
+    "color": "#bda27b",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "amanita_austroviridis",
+    "sci": "Amanita austroviridis",
+    "image": "amanita_austroviridis",
+    "color": "#98914a",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_caesareoides",
+    "sci": "Amanita caesareoides",
+    "image": "amanita_caesareoides",
+    "color": "#af7625",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_hemibapha",
+    "sci": "Amanita hemibapha",
+    "image": "amanita_hemibapha",
+    "color": "#b98946",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_novinupta",
+    "sci": "Amanita novinupta",
+    "image": "amanita_novinupta",
+    "color": "#cca285",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_xanthocephala",
+    "sci": "Amanita xanthocephala",
+    "image": "amanita_xanthocephala",
+    "color": "#ba9055",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "anthurus_archeri",
+    "sci": "Anthurus archeri",
+    "image": "anthurus_archeri",
+    "color": "#b41e2a",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "armillaria_luteobubalina",
+    "sci": "Armillaria luteobubalina",
+    "image": "armillaria_luteobubalina",
+    "color": "#c98c37",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "armillaria_novae_zelandiae",
+    "sci": "Armillaria novae-zelandiae",
+    "image": "armillaria_novae_zelandiae",
+    "color": "#9c5624",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "astraeus_hygrometricus",
+    "sci": "Astraeus hygrometricus",
+    "image": "astraeus_hygrometricus",
+    "color": "#b1956e",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "boletellus_obscurecoccineus",
+    "sci": "Boletellus obscurecoccineus",
+    "image": "boletellus_obscurecoccineus",
+    "color": "#c83642",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "boletus_sp",
+    "sci": "Boletus sp.",
+    "image": "boletus_sp",
+    "color": "#c5a880",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "bovista_nigrescens",
+    "sci": "Bovista nigrescens",
+    "image": "bovista_nigrescens",
+    "color": "#6b7315",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "calostoma_fuscum",
+    "sci": "Calostoma fuscum",
+    "image": "calostoma_fuscum",
+    "color": "#735641",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "calvatia_cyathiformis",
+    "sci": "Calvatia cyathiformis",
+    "image": "calvatia_cyathiformis",
+    "color": "#734541",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "chlorophyllum_neomastoideum",
+    "sci": "Chlorophyllum neomastoideum",
+    "image": "chlorophyllum_neomastoideum",
+    "color": "#ad9470",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "claustula_fischeri",
+    "sci": "Claustula fischeri",
+    "image": "claustula_fischeri",
+    "color": "#947a56",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "clitocybe_gibba",
+    "sci": "Clitocybe gibba",
+    "image": "clitocybe_gibba",
+    "color": "#ccae85",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "clitocybe_nuda",
+    "sci": "Clitocybe nuda",
+    "image": "clitocybe_nuda",
+    "color": "#976ba5",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "collybia_nuda__2",
+    "sci": "Collybia nuda",
+    "image": "collybia_nuda_2",
+    "color": "#a374b2",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "conocybe_filaris",
+    "sci": "Conocybe filaris",
+    "image": "conocybe_filaris",
+    "color": "#b06129",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "cordyceps_militaris",
+    "sci": "Cordyceps militaris",
+    "image": "cordyceps_militaris",
+    "color": "#c0611d",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "cortinarius_austrovenetus",
+    "sci": "Cortinarius austrovenetus",
+    "image": "cortinarius_austrovenetus",
+    "color": "#c0a44e",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "cortinarius_porphyroideus",
+    "sci": "Cortinarius porphyroideus",
+    "image": "cortinarius_porphyroideus",
+    "color": "#814a93",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "cortinarius_rotundisporus",
+    "sci": "Cortinarius rotundisporus",
+    "image": "cortinarius_rotundisporus",
+    "color": "#7b674a",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "cortinarius_sp",
+    "sci": "Cortinarius sp.",
+    "image": "cortinarius_sp",
+    "color": "#c59d66",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "cruentomycena_viscidocruenta",
+    "sci": "Cruentomycena viscidocruenta",
+    "image": "cruentomycena_viscidocruenta",
+    "color": "#b41b28",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "cyptotrama_aspratum",
+    "sci": "Cyptotrama aspratum",
+    "image": "cyptotrama_aspratum",
+    "color": "#b28240",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "cyttaria_gunnii",
+    "sci": "Cyttaria gunnii",
+    "image": "cyttaria_gunnii",
+    "color": "#cc974e",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "drechmeria_gunnii",
+    "sci": "Drechmeria gunnii",
+    "image": "drechmeria_gunnii",
+    "color": "#5a7311",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "echinoderma_asperum",
+    "sci": "Echinoderma asperum",
+    "image": "echinoderma_asperum",
+    "color": "#c4a77f",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "favolaschia_claudopus",
+    "sci": "Favolaschia claudopus",
+    "image": "favolaschia_claudopus",
+    "color": "#cc671f",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "fomitopsis_mounceae",
+    "sci": "Fomitopsis mounceae",
+    "image": "fomitopsis_mounceae",
+    "color": "#9e3e1d",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "ganoderma_lingzhi",
+    "sci": "Ganoderma lingzhi",
+    "image": "ganoderma_lingzhi",
+    "color": "#792922",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "geastrum_fornicatum",
+    "sci": "Geastrum fornicatum",
+    "image": "geastrum_fornicatum",
+    "color": "#73533c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "gliophorus_sp",
+    "sci": "Gliophorus sp.",
+    "image": "gliophorus_sp",
+    "color": "#6d7512",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "gymnopilus_junonius",
+    "sci": "Gymnopilus junonius",
+    "image": "gymnopilus_junonius",
+    "color": "#cc841f",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "hebeloma_crustuliniforme",
+    "sci": "Hebeloma crustuliniforme",
+    "image": "hebeloma_crustuliniforme",
+    "color": "#bc9e74",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "hericium_americanum",
+    "sci": "Hericium americanum",
+    "image": "hericium_americanum",
+    "color": "#c3a67f",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "hygrophorus_latitabundus",
+    "sci": "Hygrophorus latitabundus",
+    "image": "hygrophorus_latitabundus",
+    "color": "#866c48",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "ileodictyon_gracile",
+    "sci": "Ileodictyon gracile",
+    "image": "ileodictyon_gracile",
+    "color": "#6b7311",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "inocybe_sp",
+    "sci": "Inocybe sp.",
+    "image": "inocybe_sp",
+    "color": "#8a6b3e",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "inosperma_adaequatum",
+    "sci": "Inosperma adaequatum",
+    "image": "inosperma_adaequatum",
+    "color": "#a98062",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "laccocephalum_hartmannii",
+    "sci": "Laccocephalum hartmannii",
+    "image": "laccocephalum_hartmannii",
+    "color": "#b8662b",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "laccocephalum_mylittae",
+    "sci": "Laccocephalum mylittae",
+    "image": "laccocephalum_mylittae",
+    "color": "#c7aa81",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_hatsudake",
+    "sci": "Lactarius hatsudake",
+    "image": "lactarius_hatsudake",
+    "color": "#a55135",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_laeticolorus",
+    "sci": "Lactarius laeticolorus",
+    "image": "lactarius_laeticolorus",
+    "color": "#b06b39",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_pyrogalus",
+    "sci": "Lactarius pyrogalus",
+    "image": "lactarius_pyrogalus",
+    "color": "#a68960",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_rubidus",
+    "sci": "Lactarius rubidus",
+    "image": "lactarius_rubidus",
+    "color": "#cc4a1f",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_vinosus",
+    "sci": "Lactarius vinosus",
+    "image": "lactarius_vinosus",
+    "color": "#cc9166",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "laetiporus_portentosus",
+    "sci": "Laetiporus portentosus",
+    "image": "laetiporus_portentosus",
+    "color": "#c7a575",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "leccinum_pseudoscabrum",
+    "sci": "Leccinum pseudoscabrum",
+    "image": "leccinum_pseudoscabrum",
+    "color": "#aa724a",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lentinula_novae_zelandiae",
+    "sci": "Lentinula novae-zelandiae",
+    "image": "lentinula_novae_zelandiae",
+    "color": "#824f2b",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "lyophyllum_fumosum",
+    "sci": "Lyophyllum fumosum",
+    "image": "lyophyllum_fumosum",
+    "color": "#987861",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "macrolepiota_mastoidea",
+    "sci": "Macrolepiota mastoidea",
+    "image": "macrolepiota_mastoidea",
+    "color": "#a2795b",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "marasmius_elegans",
+    "sci": "Marasmius elegans",
+    "image": "marasmius_elegans",
+    "color": "#b86f3a",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "mattirolomyces_terfezioides",
+    "sci": "Mattirolomyces terfezioides",
+    "image": "mattirolomyces_terfezioides",
+    "color": "#9a8464",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "morchella_steppicola",
+    "sci": "Morchella steppicola",
+    "image": "morchella_steppicola",
+    "color": "#9a5c2f",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "mycena_interrupta",
+    "sci": "Mycena interrupta",
+    "image": "mycena_interrupta",
+    "color": "#3b96b4",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "mycoleptodonoides_aitchisonii",
+    "sci": "Mycoleptodonoides aitchisonii",
+    "image": "mycoleptodonoides_aitchisonii",
+    "color": "#ccae85",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "neolentiporus_maculatissimus",
+    "sci": "Neolentiporus maculatissimus",
+    "image": "neolentiporus_maculatissimus",
+    "color": "#cc974c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "omphalotus_illudens__2",
+    "sci": "Omphalotus illudens",
+    "image": "omphalotus_illudens_2",
+    "color": "#cc671f",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "panellus_serotinus",
+    "sci": "Panellus serotinus",
+    "image": "panellus_serotinus",
+    "color": "#757036",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "panus_fasciatus",
+    "sci": "Panus fasciatus",
+    "image": "panus_fasciatus",
+    "color": "#b98f54",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "panus_rudis",
+    "sci": "Panus rudis",
+    "image": "panus_rudis",
+    "color": "#ca8168",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "phallus_indusiatus",
+    "sci": "Phallus indusiatus",
+    "image": "phallus_indusiatus",
+    "color": "#74492a",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "pholiota_lubrica",
+    "sci": "Pholiota lubrica",
+    "image": "pholiota_lubrica",
+    "color": "#ad632f",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "piptoporus_australiensis",
+    "sci": "Piptoporus australiensis",
+    "image": "piptoporus_australiensis",
+    "color": "#b55c1c",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "pleurotus_opuntiae",
+    "sci": "Pleurotus opuntiae",
+    "image": "pleurotus_opuntiae",
+    "color": "#c6a26f",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "pleurotus_parsonsiae",
+    "sci": "Pleurotus parsonsiae",
+    "image": "pleurotus_parsonsiae",
+    "color": "#ccae83",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "podaxis_pistillaris",
+    "sci": "Podaxis pistillaris",
+    "image": "podaxis_pistillaris",
+    "color": "#735845",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "podoserpula_pusio",
+    "sci": "Podoserpula pusio",
+    "image": "podoserpula_pusio",
+    "color": "#cba775",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "polyozellus_multiplex",
+    "sci": "Polyozellus multiplex",
+    "image": "polyozellus_multiplex",
+    "color": "#6b731b",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "pseudosperma_rimosum",
+    "sci": "Pseudosperma rimosum",
+    "image": "pseudosperma_rimosum",
+    "color": "#c5a375",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "psilocybe_caerulescens",
+    "sci": "Psilocybe caerulescens",
+    "image": "psilocybe_caerulescens",
+    "color": "#b89d78",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "psilocybe_cubensis",
+    "sci": "Psilocybe cubensis",
+    "image": "psilocybe_cubensis",
+    "color": "#bd9e72",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "psilocybe_mexicana",
+    "sci": "Psilocybe mexicana",
+    "image": "psilocybe_mexicana",
+    "color": "#b18952",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "psilocybe_subaeruginosa",
+    "sci": "Psilocybe subaeruginosa",
+    "image": "psilocybe_subaeruginosa",
+    "color": "#b18b55",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "ramaria_aurea",
+    "sci": "Ramaria aurea",
+    "image": "ramaria_aurea",
+    "color": "#cca328",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "ramaria_flava__2",
+    "sci": "Ramaria flava",
+    "image": "ramaria_flava_2",
+    "color": "#b77b28",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_rosea",
+    "sci": "Russula rosea",
+    "image": "russula_rosea",
+    "color": "#cc535d",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "sanghuangporus_sanghuang",
+    "sci": "Sanghuangporus sanghuang",
+    "image": "sanghuangporus_sanghuang",
+    "color": "#734524",
+    "breadth": "broad",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "sutorius_venenatus",
+    "sci": "Sutorius venenatus",
+    "image": "sutorius_venenatus",
+    "color": "#b37c30",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "tricholoma_bakamatsutake",
+    "sci": "Tricholoma bakamatsutake",
+    "image": "tricholoma_bakamatsutake",
+    "color": "#95623e",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "tricholoma_muscarium",
+    "sci": "Tricholoma muscarium",
+    "image": "tricholoma_muscarium",
+    "color": "#a7875a",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "tricholoma_sciodes",
+    "sci": "Tricholoma sciodes",
+    "image": "tricholoma_sciodes",
+    "color": "#7b6250",
+    "breadth": "mid",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "tuber_borchii",
+    "sci": "Tuber borchii",
+    "image": "tuber_borchii",
+    "color": "#8e5d3a",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "turbinellus_floccosus",
+    "sci": "Turbinellus floccosus",
+    "image": "turbinellus_floccosus",
+    "color": "#c87c46",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "umbilicaria_esculenta",
+    "sci": "Umbilicaria esculenta",
+    "image": "umbilicaria_esculenta",
+    "color": "#6d7332",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "volvariella_volvacea",
+    "sci": "Volvariella volvacea",
+    "image": "volvariella_volvacea",
+    "color": "#b09672",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": true
+  },
+  {
+    "key": "wolfiporia_cocos",
+    "sci": "Wolfiporia cocos",
+    "image": "wolfiporia_cocos",
+    "color": "#c8aa80",
+    "breadth": "narrow",
+    "importance": 4.0,
+    "dangerous": false
+  },
+  {
+    "key": "amanita_gemmata",
+    "sci": "Amanita gemmata",
+    "image": "amanita_gemmata",
+    "color": "#cba672",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": true
+  },
+  {
+    "key": "boletopsis_leucomelaena",
+    "sci": "Boletopsis leucomelaena",
+    "image": "boletopsis_leucomelaena",
+    "color": "#9a8464",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "bovista_sp",
+    "sci": "Bovista sp.",
+    "image": "bovista_sp",
+    "color": "#b29874",
+    "breadth": "broad",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "bovistella_utriformis",
+    "sci": "Bovistella utriformis",
+    "image": "bovistella_utriformis",
+    "color": "#6b7311",
+    "breadth": "mid",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "cantharellus_cinnabarinus",
+    "sci": "Cantharellus cinnabarinus",
+    "image": "cantharellus_cinnabarinus",
+    "color": "#cc4a1f",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "catathelasma_ventricosum",
+    "sci": "Catathelasma ventricosum",
+    "image": "catathelasma_ventricosum",
+    "color": "#b89d77",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "clavariadelphus_truncatus",
+    "sci": "Clavariadelphus truncatus",
+    "image": "clavariadelphus_truncatus",
+    "color": "#cc964b",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "clavogaster_virescens",
+    "sci": "Clavogaster virescens",
+    "image": "clavogaster_virescens",
+    "color": "#65a39e",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "clavulinopsis_sulcata",
+    "sci": "Clavulinopsis sulcata",
+    "image": "clavulinopsis_sulcata",
+    "color": "#b75f1f",
+    "breadth": "mid",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "crucibulum_simile",
+    "sci": "Crucibulum simile",
+    "image": "crucibulum_simile",
+    "color": "#923516",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "entoloma_canoconicum",
+    "sci": "Entoloma canoconicum",
+    "image": "entoloma_canoconicum",
+    "color": "#735947",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "ganoderma_oerstedii",
+    "sci": "Ganoderma oerstedii",
+    "image": "ganoderma_oerstedii",
+    "color": "#76231b",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "geastrum_fimbriatum",
+    "sci": "Geastrum fimbriatum",
+    "image": "geastrum_fimbriatum",
+    "color": "#bc9763",
+    "breadth": "broad",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "guepinia_helvelloides",
+    "sci": "Guepinia helvelloides",
+    "image": "guepinia_helvelloides",
+    "color": "#cc4d22",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "gymnopus_dryophilus",
+    "sci": "Gymnopus dryophilus",
+    "image": "gymnopus_dryophilus",
+    "color": "#b86c36",
+    "breadth": "mid",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "hydnopolyporus_fimbriatus",
+    "sci": "Hydnopolyporus fimbriatus",
+    "image": "hydnopolyporus_fimbriatus",
+    "color": "#ccae85",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "hygrophorus_chrysodon",
+    "sci": "Hygrophorus chrysodon",
+    "image": "hygrophorus_chrysodon",
+    "color": "#c7b16f",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "hygrophorus_eburneus",
+    "sci": "Hygrophorus eburneus",
+    "image": "hygrophorus_eburneus",
+    "color": "#6b7318",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "hygrophorus_gliocyclus",
+    "sci": "Hygrophorus gliocyclus",
+    "image": "hygrophorus_gliocyclus",
+    "color": "#b28a52",
+    "breadth": "mid",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "infundibulicybe_gibba",
+    "sci": "Infundibulicybe gibba",
+    "image": "infundibulicybe_gibba",
+    "color": "#cba775",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_flexuosus",
+    "sci": "Lactarius flexuosus",
+    "image": "lactarius_flexuosus",
+    "color": "#cc9f7e",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_lignyotus",
+    "sci": "Lactarius lignyotus",
+    "image": "lactarius_lignyotus",
+    "color": "#735b4b",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_pubescens",
+    "sci": "Lactarius pubescens",
+    "image": "lactarius_pubescens",
+    "color": "#c29371",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_repraesentaneus",
+    "sci": "Lactarius repraesentaneus",
+    "image": "lactarius_repraesentaneus",
+    "color": "#b27f37",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lactarius_semisanguifluus",
+    "sci": "Lactarius semisanguifluus",
+    "image": "lactarius_semisanguifluus",
+    "color": "#c19a64",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lentinus_crinitus",
+    "sci": "Lentinus crinitus",
+    "image": "lentinus_crinitus",
+    "color": "#ba9663",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "lentinus_sp",
+    "sci": "Lentinus sp.",
+    "image": "lentinus_sp",
+    "color": "#9d825c",
+    "breadth": "broad",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "leratiomyces_erythrocephalus",
+    "sci": "Leratiomyces erythrocephalus",
+    "image": "leratiomyces_erythrocephalus",
+    "color": "#be2e21",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "leucoagaricus_americanus",
+    "sci": "Leucoagaricus americanus",
+    "image": "leucoagaricus_americanus",
+    "color": "#b98f72",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "leucocoprinus_leucothites",
+    "sci": "Leucocoprinus leucothites",
+    "image": "leucocoprinus_leucothites",
+    "color": "#a88a61",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "neoboletus_luridiformis__2",
+    "sci": "Neoboletus luridiformis",
+    "image": "neoboletus_luridiformis_2",
+    "color": "#9d5b2c",
+    "breadth": "mid",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "neolentinus_lepideus",
+    "sci": "Neolentinus lepideus",
+    "image": "neolentinus_lepideus",
+    "color": "#b29266",
+    "breadth": "broad",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "nidula_niveotomentosa",
+    "sci": "Nidula niveotomentosa",
+    "image": "nidula_niveotomentosa",
+    "color": "#956340",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "phellodon_sinclairii",
+    "sci": "Phellodon sinclairii",
+    "image": "phellodon_sinclairii",
+    "color": "#5c7316",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "pleurotus_albidus",
+    "sci": "Pleurotus albidus",
+    "image": "pleurotus_albidus",
+    "color": "#b69c76",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "pleurotus_cornucopiae",
+    "sci": "Pleurotus cornucopiae",
+    "image": "pleurotus_cornucopiae",
+    "color": "#cc9f60",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "rhodocollybia_butyracea",
+    "sci": "Rhodocollybia butyracea",
+    "image": "rhodocollybia_butyracea",
+    "color": "#be8258",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "rossbeevera_pachydermis",
+    "sci": "Rossbeevera pachydermis",
+    "image": "rossbeevera_pachydermis",
+    "color": "#6b7313",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "rugiboletus_extremiorientalis",
+    "sci": "Rugiboletus extremiorientalis",
+    "image": "rugiboletus_extremiorientalis",
+    "color": "#a44322",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_adusta",
+    "sci": "Russula adusta",
+    "image": "russula_adusta",
+    "color": "#733925",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_alutacea",
+    "sci": "Russula alutacea",
+    "image": "russula_alutacea",
+    "color": "#b08f62",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_chloroides",
+    "sci": "Russula chloroides",
+    "image": "russula_chloroides",
+    "color": "#aa916f",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_risigallina",
+    "sci": "Russula risigallina",
+    "image": "russula_risigallina",
+    "color": "#c39350",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "russula_vinosa",
+    "sci": "Russula vinosa",
+    "image": "russula_vinosa",
+    "color": "#8a453e",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "trichoglossum_sp",
+    "sci": "Trichoglossum sp.",
+    "image": "trichoglossum_sp",
+    "color": "#6b7311",
+    "breadth": "broad",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "turbinellus_kauffmanii",
+    "sci": "Turbinellus kauffmanii",
+    "image": "turbinellus_kauffmanii",
+    "color": "#be8a42",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "xylaria_hypoxylon",
+    "sci": "Xylaria hypoxylon",
+    "image": "xylaria_hypoxylon",
+    "color": "#5c7317",
+    "breadth": "narrow",
+    "importance": 3.0,
+    "dangerous": false
+  },
+  {
+    "key": "fomitiporia_robusta",
+    "sci": "Fomitiporia robusta",
+    "image": "fomitiporia_robusta",
+    "color": "#77553d",
+    "breadth": "narrow",
+    "importance": 2.0,
+    "dangerous": false
+  },
+  {
+    "key": "laccaria_ochropurpurea",
+    "sci": "Laccaria ochropurpurea",
+    "image": "laccaria_ochropurpurea",
+    "color": "#c5a579",
+    "breadth": "narrow",
+    "importance": 2.0,
+    "dangerous": false
+  }
+]
