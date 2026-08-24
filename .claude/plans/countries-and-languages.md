@@ -586,3 +586,62 @@ names/<36 файлов>.json}`, 408 webp скопированы в `drawable/`, 
 на неё блокируется защитным классификатором автоматически, единственный
 раз в этой сессии, когда потребовалось живое подтверждение). Фаза 0
 полностью закрыта, следующая — Фаза 1.
+
+**Фаза 1 выполнена (2026-08-24):** `data/catalog/CatalogSource.kt` (парсит
+`catalog.json`, 408 записей, `by lazy` + `runBlocking` вокруг `Res.readBytes`)
+и `i18n/MushroomNames.kt` (парсит `names/<lang>.json` лениво по языку, кэш в
+`MutableMap<AppLanguage, Map<String,String>>`) написаны, оба — Koin-синглтоны
+(`di/DataModule.kt`). `categoryDisplayName` в `CategoryNames.kt` переписан по
+правилу 3.1: два служебных ключа (`category_misc`/`category_unknown_mushroom`)
+по-прежнему через `StringKey`, остальные — `MushroomNames` →
+`CatalogSource.scientificName` → сам `nameKey`. Удалены 30
+`StringKey.Category*` и обе ветки `when` в `Strings.kt` (~60 строк) —
+`CategoryMisc`/`CategoryUnknownMushroom` остались, как и указано в плане.
+`./gradlew :shared:compileAndroidMain`, `:shared:compileKotlinIosArm64`,
+`:shared:compileKotlinIosSimulatorArm64` — все зелёные.
+
+**Отклонение от плана — `getKoin()` вместо параметра.**
+`CatalogSource`/`MushroomNames` резолвятся через `org.koin.mp.KoinPlatform
+.getKoin()` прямо внутри non-composable `categoryDisplayName(nameKey,
+language)`, а не передаются параметром — эта перегрузка зовётся из чистых
+функций без DI (`presentation/CategorySorting.kt`), и протаскивать
+зависимость через них означало бы менять сигнатуры
+`sortCategories`/`searchOrderedCategories`/`RecordViewModel`/
+`MapFilterViewModel`, то есть выходить далеко за рамки файлов, перечисленных
+для этой фазы. Подробности и обоснование — `i18n/CLAUDE.md`.
+
+**Найдено, но не чинится в этой фазе — легаси-категории до Фазы 2.**
+`EnsureDefaultCategoriesUseCase` (не тронут, это работа Фазы 2) продолжает
+сеять 30 категорий со старыми ключами (`category_boletus_edulis` и т.п.) —
+их нет ни в `catalog.json`, ни в `names/<lang>.json` (новый каталог — голые
+ключи без префикса), так что **на реальном устройстве без Фазы 2 эти 30
+категорий сейчас отображаются как сырой `nameKey`**, а не человекочитаемое
+имя. Это прямое следствие удаления `StringKey.Category*` до переименования
+ключей в Room, и ожидаемо по объёму работ из плана (переименование — явно
+Фаза 2), но означает, что Фазы 1 и 2 стоит проводить подряд, не оставляя
+приложение в этом промежуточном состоянии надолго. Самотестирование на
+устройстве не проводилось (см. `feedback_no_self_testing`) — если нужно
+проверить внешний вид до Фазы 2, это должен сделать владелец проекта на
+своём устройстве.
+
+**Тесты написаны, но не выполнены в этом окружении.**
+`data/catalog/CatalogSourceTest.kt` + `i18n/MushroomNamesTest.kt` покрывают
+все три пункта из плана (408 записей с непустым `sci`, `names/<lang>.json`
+не содержит ключей вне каталога — проверено по всем 36 файлам жёстко
+прописанным списком кодов, фолбэк на `sci` срабатывает). Они не смогли
+выполниться в этой сессии: `testAndroidHostTest` падает — Compose Resources
+на Android требует живой `Context` (`DefaultAndroidResourceReader`), которого
+нет в чистом JVM unit-тесте без Robolectric (в проекте не настроен);
+`iosSimulatorArm64Test` падает на линковке с не связанной с этой фичей
+ошибкой тулчейна (`IrTypeAliasSymbolImpl is already bound`,
+`kotlinx.datetime/Clock` против `kotlin.time.Clock` — воспроизводится и без
+изменений каталога, похоже на версионный конфликт Kotlin/kotlinx-datetime).
+Данные проверены независимо Python-скриптом по тем же JSON-файлам — все три
+свойства подтверждены (408/408 непустых `sci`, 0 файлов со сторонними
+ключами, 268 каталожных ключей без русского имени — есть чем проверить
+фолбэк). Логика верна, но тесты нужно будет реально прогнать после того, как
+кто-то заведёт Robolectric для `androidHostTest` или починит
+`iosSimulatorArm64Test`-линковку — вне рамок этой фазы.
+
+Следующая — Фаза 2 (Room v10→v11, сид 408 категорий; Opus, риск для данных
+пользователя).
