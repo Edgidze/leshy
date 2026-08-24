@@ -26,7 +26,7 @@ import compose.project.leshy.data.local.entity.WalkEntity
         CollectionEntity::class,
         CategoryCollectionCrossRef::class,
     ],
-    version = 10,
+    version = 11,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)

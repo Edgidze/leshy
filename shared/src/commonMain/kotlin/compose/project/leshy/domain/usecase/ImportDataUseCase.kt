@@ -1,5 +1,6 @@
 package compose.project.leshy.domain.usecase
 
+import compose.project.leshy.data.catalog.catalogKeyForLegacy
 import compose.project.leshy.data.export.dto.CATEGORIES_ENTRY_NAME
 import compose.project.leshy.data.export.dto.CategoryExportDto
 import compose.project.leshy.data.export.dto.EXPORT_SCHEMA_VERSION
@@ -118,7 +119,13 @@ class ImportDataUseCase(
         trackDtos.forEach { point -> trackPointRepository.addPoint(point.toDomain(newWalkId)) }
 
         objectDtos.forEachIndexed { index, obj ->
-            val categoryId = categoryIdByNameKey[obj.categoryNameKey] ?: miscCategoryId
+            // An archive written before the v10->v11 re-keying records catalog species under their
+            // old key (`category_boletus_edulis`); without the second lookup every find in it would
+            // land on `category_misc` and lose its species. `catalogKeyForLegacy` is the same
+            // mapping the migration itself uses, and a no-op for anything already current.
+            val categoryId = categoryIdByNameKey[obj.categoryNameKey]
+                ?: categoryIdByNameKey[catalogKeyForLegacy(obj.categoryNameKey)]
+                ?: miscCategoryId
             val photoPath = obj.photoFile?.let { relativePath ->
                 copyPhoto(reader, "$dir/$relativePath", importBatchId, walkDto.originalId, index)
             }

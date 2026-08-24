@@ -28,7 +28,7 @@ import compose.project.leshy.domain.usecase.UpdateWalkThumbnailUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
-    factory { EnsureDefaultCategoriesUseCase(get()) }
+    factory { EnsureDefaultCategoriesUseCase(get(), get(), get()) }
     factory { EnsureDefaultCollectionsUseCase(get(), get()) }
     factory { RecalculateFilterEligibilityUseCase(get(), get()) }
     factory { SetCollectionPickedUseCase(get(), get(), get()) }

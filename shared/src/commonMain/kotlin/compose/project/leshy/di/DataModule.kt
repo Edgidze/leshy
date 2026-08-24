@@ -4,6 +4,7 @@ import androidx.room.RoomDatabase
 import compose.project.leshy.data.catalog.CatalogSource
 import compose.project.leshy.data.local.LeshyDatabase
 import compose.project.leshy.data.local.getRoomDatabase
+import compose.project.leshy.data.repository.CatalogStateRepositoryImpl
 import compose.project.leshy.data.repository.CategoryRepositoryImpl
 import compose.project.leshy.data.repository.CollectionRepositoryImpl
 import compose.project.leshy.data.repository.FieldMarkRepositoryImpl
@@ -14,6 +15,7 @@ import compose.project.leshy.data.repository.OnboardingRepositoryImpl
 import compose.project.leshy.data.repository.SettingsRepositoryImpl
 import compose.project.leshy.data.repository.TrackPointRepositoryImpl
 import compose.project.leshy.data.repository.WalkRepositoryImpl
+import compose.project.leshy.domain.repository.CatalogStateRepository
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.CollectionRepository
 import compose.project.leshy.domain.repository.FieldMarkRepository
@@ -45,4 +47,5 @@ val dataModule = module {
     single { MapStyleCacheRepository(get(), get(), get()) }
     single<OfflineRegionRepository> { OfflineRegionRepositoryImpl(get()) }
     single<OnboardingRepository> { OnboardingRepositoryImpl(get()) }
+    single<CatalogStateRepository> { CatalogStateRepositoryImpl(get()) }
 }

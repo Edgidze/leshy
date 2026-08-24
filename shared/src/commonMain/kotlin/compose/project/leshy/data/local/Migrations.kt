@@ -3,6 +3,7 @@ package compose.project.leshy.data.local
 import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
+import compose.project.leshy.data.catalog.LEGACY_CATEGORY_KEY_REMAP
 
 // Remaps the 4 pre-existing default categories onto their equivalents in the
 // expanded 30-species catalog in place, rather than delete+reseed, so finds
@@ -158,5 +159,38 @@ val MIGRATION_8_9 = object : Migration(8, 9) {
 val MIGRATION_9_10 = object : Migration(9, 10) {
     override fun migrate(connection: SQLiteConnection) {
         connection.execSQL("ALTER TABLE categories DROP COLUMN edibilityStatus")
+    }
+}
+
+// Re-keys the 30 bundled catalog rows onto the 408-entry catalog's keys (`category_boletus_edulis`
+// -> `boletus_edulis`), so `EnsureDefaultCategoriesUseCase` can reconcile them against catalog.json
+// instead of the hard-coded list it used to carry (.claude/plans/countries-and-languages.md, Phase
+// 2). No schema change at all — v11 is structurally identical to v10, the version bump exists only
+// to give this data rewrite a migration to live in.
+//
+// UPDATE, never DELETE + reseed: `objects.categoryId` has cascaded from `categories` since v7->v8,
+// so any delete here would take the user's recorded finds with it. Renaming in place keeps every
+// find bound to the same row id, and leaves isActive/isPicked/isFilterEligible (all user-owned)
+// untouched.
+//
+// Seven of the 30 aren't a plain prefix strip — the old catalog's broad "group" entries, whose
+// targets the project owner picked by GC code (see LEGACY_CATEGORY_KEY_REMAP). They run first: once
+// renamed they no longer carry the `category_` prefix, so the generic strip below can't touch them
+// a second time. Both statements are scoped to `source = 'APP'` (user-created/imported species'
+// keys are generated `user_…` and could never legitimately match, but an imported archive is
+// outside data this app generated) and skip the two service keys, which aren't catalog entries and
+// keep their StringKey-backed names.
+val MIGRATION_10_11 = object : Migration(10, 11) {
+    override fun migrate(connection: SQLiteConnection) {
+        LEGACY_CATEGORY_KEY_REMAP.forEach { (legacyKey, catalogKey) ->
+            connection.execSQL(
+                "UPDATE categories SET nameKey = '$catalogKey' WHERE nameKey = '$legacyKey' AND source = 'APP'",
+            )
+        }
+        connection.execSQL(
+            "UPDATE categories SET nameKey = substr(nameKey, 10) " +
+                "WHERE source = 'APP' AND nameKey LIKE 'category_%' " +
+                "AND nameKey NOT IN ('category_misc', 'category_unknown_mushroom')",
+        )
     }
 }

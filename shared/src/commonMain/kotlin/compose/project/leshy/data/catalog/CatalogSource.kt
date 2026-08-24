@@ -30,9 +30,22 @@ data class CatalogEntry(
  * effectively instant, and every access after it is a plain in-memory map lookup.
  */
 class CatalogSource {
-    val entries: List<CatalogEntry> by lazy {
-        runBlocking { CatalogJson.decodeFromString<List<CatalogEntry>>(Res.readBytes(CATALOG_PATH).decodeToString()) }
+    private class Parsed(val entries: List<CatalogEntry>, val version: Int)
+
+    private val parsed: Parsed by lazy {
+        val bytes = runBlocking { Res.readBytes(CATALOG_PATH) }
+        Parsed(CatalogJson.decodeFromString(bytes.decodeToString()), bytes.contentHashCode())
     }
+
+    val entries: List<CatalogEntry> get() = parsed.entries
+
+    /**
+     * Fingerprint of the bundled `catalog.json`, used to skip the (408-row) reseeding diff when
+     * nothing has changed — see `EnsureDefaultCategoriesUseCase`. Derived from the file's bytes
+     * rather than a hand-maintained constant precisely so it can't be forgotten: any rerun of
+     * `tools/build_catalog.py` that changes the output invalidates it automatically.
+     */
+    val version: Int get() = parsed.version
 
     private val byKey: Map<String, CatalogEntry> by lazy { entries.associateBy { it.key } }
 

@@ -22,6 +22,8 @@ class CategoryRepositoryImpl(
     override fun observeNonCatalog(): Flow<List<Category>> =
         categoryDao.observeNonCatalog().map { entities -> entities.map { it.toDomain() } }
 
+    override suspend fun getAll(): List<Category> = categoryDao.getAll().map { it.toDomain() }
+
     override suspend fun getById(id: Long): Category? = categoryDao.getById(id)?.toDomain()
 
     override suspend fun getByNameKey(nameKey: String): Category? = categoryDao.getByNameKey(nameKey)?.toDomain()
@@ -40,6 +42,14 @@ class CategoryRepositoryImpl(
             categoryDao.update(entity)
             category.id
         }
+    }
+
+    // Same insert-or-update split as `upsert` above (and the same reason for it), just batched:
+    // two statements for the whole catalog instead of 408 round trips.
+    override suspend fun upsertAll(categories: List<Category>) {
+        val (new, existing) = categories.partition { it.id == 0L }
+        if (new.isNotEmpty()) categoryDao.insertAll(new.map { it.toEntity() })
+        if (existing.isNotEmpty()) categoryDao.updateAll(existing.map { it.toEntity() })
     }
 
     override suspend fun delete(category: Category) = categoryDao.delete(category.toEntity())

@@ -1,10 +1,11 @@
 # data/ — Room + DataStore
 
-## Схема Room (актуальная — версия 10, `data/local/`)
+## Схема Room (актуальная — версия 11, `data/local/`)
 
 6 таблиц, точные поля — смотри `*Entity.kt` напрямую, они компактны и
 самодокументируемы. Кратко:
-- **`categories`** — виды грибов (30 штук) + предустановленный, видимый
+- **`categories`** — виды грибов (408 штук, весь каталог из
+  `composeResources/files/catalog/catalog.json`) + предустановленный, видимый
   `category_unknown_mushroom` (Phase 10 `user-mushrooms.md` — приёмник
   находок удалённых пользовательских видов, см. ниже) + служебная неактивная
   `category_misc` (для FK у отметок PHOTO/POI — `objects.categoryId` не
@@ -16,9 +17,15 @@
   см. `.claude/plans/mushroom-collections.md` и раздел про `collections`
   ниже. `source`/`customNames`/`scientificName`/`iconFile` (v6) — свои виды
   грибов, см. `.claude/plans/user-mushrooms.md`; у каталожных строк
-  `source = APP` и остальные три пусты (имя приходит из `StringKey`,
-  картинка — из `composeResources` по `iconRef`). Остальное — источник
-  истины сам каталог (см. `EnsureDefaultCategoriesUseCase` ниже).
+  `source = APP`, `customNames`/`iconFile` пусты, а вот **`scientificName` с
+  v11 заполнен и у них** (латынь из `catalog.json`) — из-за этого
+  `customDisplayName` (`i18n/CategoryNames.kt`) обязан отсекать
+  `source == APP` первой же строкой, иначе все 408 каталожных видов
+  показывались бы латынью вместо локализованного имени. Имя каталожной
+  строки приходит из `files/catalog/names/<lang>.json` (не из `StringKey` —
+  см. `i18n/CLAUDE.md`), картинка — из `composeResources` по `iconRef`.
+  Остальное — источник истины сам каталог (см.
+  `EnsureDefaultCategoriesUseCase` ниже).
 - **`walks`** — прогулки, `mushroomCount` денормализован для ленты Архива,
   `thumbnailPath` (v3) — кэшированный PNG-снапшот карты, см.
   `ui/map/CLAUDE.md`. `description` (v9) — свободный многострочный текст,
@@ -35,9 +42,12 @@
   несколько подборок), `ON DELETE CASCADE` в обе стороны. Сама подборка не
   хранит «выбрана ли» — это производное состояние от `Category.isPicked` её
   участников (выбор подборки целиком в UI — просто bulk-запись `isPicked` по
-  всем участникам). Пока сидируются демо-подборки, нарезанные из текущих 30
-  видов (`EnsureDefaultCollectionsUseCase`) — финальные по странам приходят
-  Phase 5 плана, схему это не тронет, только сид-данные.
+  всем участникам). Пока сидируются демо-подборки, нарезанные из старых 30
+  видов (`EnsureDefaultCollectionsUseCase`); их списки участников так и
+  записаны старыми ключами и переводятся на каталожные через
+  `catalogKeyForLegacy` в момент поиска — Фаза 3
+  `countries-and-languages.md` выбрасывает эти списки целиком и заменяет на
+  33 страны из `countries.json`, схему это не тронет, только сид-данные.
 
 **Явные `Migration`-объекты с v1, экспорт схемы включён — никакого
 `fallbackToDestructiveMigration`.** v1→v2 добавила `edibilityStatus` и
@@ -108,6 +118,30 @@ DataStore-ключ `mushroom_sort_order` (`SettingsRepository`) исчез — �
 таблицы (в отличие от v7→v8): колонка ни в одном FK/индексе не участвует,
 и `sqlite-bundled` достаточно новый для `DROP COLUMN` (SQLite ≥ 3.35).
 
+**v10→v11 — единственная миграция без единого изменения схемы.**
+`11.json` побайтово совпадает с `10.json` (тот же `identityHash`), номер
+версии поднят только ради того, чтобы у переименования ключей было где
+жить. Переименование: 30 каталожных строк переезжают со старых ключей
+(`category_boletus_edulis`) на ключи 408-категорийного каталога
+(`boletus_edulis`) — 23 простым снятием префикса, 7 явной таблицей
+`LEGACY_CATEGORY_KEY_REMAP` (`data/catalog/LegacyCategoryKeys.kt`; это
+бывшие «групповые» строки старого каталога, цели выбраны владельцем проекта
+по GC-кодам, см. `.claude/plans/countries-and-languages.md` §3.3). Только
+`UPDATE`, ни одного `DELETE`: `objects.categoryId` каскадится от
+`categories` с v7→v8, так что удаление унесло бы находки пользователя —
+переименование на месте оставляет каждую находку на той же строке.
+`isActive`/`isPicked`/`isFilterEligible` не трогаются вовсе. Оба `UPDATE`
+ограничены `source = 'APP'` и обходят два служебных ключа (`category_misc`/
+`category_unknown_mushroom` — они не из каталога и остаются на `StringKey`).
+Порядок важен: сперва 7 явных (после переименования они уже без префикса),
+потом общий `substr(nameKey, 10)`.
+
+**Та же таблица переиспользуется импортом архива** (`ImportDataUseCase`) —
+архив, выгруженный до v11, помнит вид каждой находки под старым ключом, и
+без второго прохода через `catalogKeyForLegacy` все находки из него легли бы
+в `category_misc`. Это единственная причина, по которой таблица лежит в
+`data/catalog/`, а не внутри `Migrations.kt`.
+
 **С Phase 10 этот CASCADE на штатном пути больше никогда не срабатывает —
 и это осознанно оставлено так, а не откачено на `NO ACTION`.**
 `DeleteUserSpeciesUseCase` теперь сперва **переносит** находки удаляемого
@@ -141,12 +175,32 @@ onDeleteConfirm` — отдельный случай, находки там де
 
 **`EnsureDefaultCategoriesUseCase` — upsert-diff, не «insert только если
 таблица пуста».** Для каждой категории каталога: если строки ещё нет —
-insert; если есть, но `order`/`colorHex`/`iconRef`
+insert; если есть, но `order`/`colorHex`/`iconRef`/`scientificName`
 отличаются от канонических — update по `id`; `isActive`/`isPicked`/
 `isFilterEligible` сохраняются как есть (все три — пользовательские поля).
 Так правки каталога (например, переупорядочивание) доезжают до уже
 установленных копий приложения без новой `Migration` — `order` чисто
 визуальное поле, заводить под него миграцию было бы overkill.
+
+**С v11 источник — `catalog.json` (408 строк), а не список в коде, и проход
+по нему батчевый и гейтованный.** Один `getAll()` → диф в памяти → два
+батч-запроса (`insertAll`/`updateAll`, каждый одной транзакцией) вместо 408
+`getByNameKey`+upsert по одному. Сверху — гейт по «версии» каталога
+(`CatalogStateRepository`, DataStore): версия — это `contentHashCode` байтов
+самого `catalog.json` (`CatalogSource.version`), а не константа в коде,
+которую можно забыть поднять при перегенерации. Гейт дополнительно
+проверяет число строк в таблице (`count() >= 410`) — версия живёт в
+DataStore, а строки в Room, и эти два хранилища расходятся (восстановление
+бэкапа, очистка данных), тогда полный проход обязан отработать несмотря на
+совпадающую версию.
+
+**Новые каталожные виды сеются выключенными** —
+`isPicked`/`isFilterEligible`/`isActive` = `false`. Иначе обновление
+приложения превратило бы у существующего пользователя выверенную ленту из
+30 плиток в 408; что показывать — решает пикер подборок, ровно как и
+задумано (`.claude/plans/countries-and-languages.md` §4.3). Исключение —
+две служебные строки: `category_unknown_mushroom` остаётся видимым
+(`isActive = true`), `category_misc` — как был, скрытым по `nameKey`.
 `EnsureDefaultCollectionsUseCase` — тот же паттерн для `collections`, но
 поверх (вызывается после — сидирует членство по `nameKey` категорий, которые
 уже должны существовать). Оба вызываются из каждого экрана, чей ViewModel их

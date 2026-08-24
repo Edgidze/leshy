@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import compose.project.leshy.data.catalog.CatalogSource
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
+import compose.project.leshy.domain.model.CategorySource
 import org.koin.mp.KoinPlatform.getKoin
 
 /**
@@ -24,11 +25,19 @@ fun categoryDisplayName(category: Category, language: AppLanguage): String =
  * The user-entered name for [language], falling back across the other language and then the Latin
  * name: a species named in Russian only must still show *something* readable after switching the
  * app to English, and vice versa. Null means "nothing user-entered here", i.e. a catalog species.
+ *
+ * The [CategorySource.APP] guard is load-bearing since Phase 2 of
+ * `.claude/plans/countries-and-languages.md`: catalog rows now carry `scientificName` too (seeded
+ * from `catalog.json`), and without the guard every one of the 408 would display as its Latin name
+ * instead of its localized one. Both fields below only ever mean anything for non-catalog species
+ * anyway — see [Category.source].
  */
-private fun customDisplayName(category: Category, language: AppLanguage): String? =
-    category.customNames[language]?.takeIf { it.isNotBlank() }
+private fun customDisplayName(category: Category, language: AppLanguage): String? {
+    if (category.source == CategorySource.APP) return null
+    return category.customNames[language]?.takeIf { it.isNotBlank() }
         ?: category.customNames.values.firstOrNull { it.isNotBlank() }
         ?: category.scientificName?.takeIf { it.isNotBlank() }
+}
 
 /** Resolves a [compose.project.leshy.domain.model.Category.nameKey] to a localized display name. */
 @Composable

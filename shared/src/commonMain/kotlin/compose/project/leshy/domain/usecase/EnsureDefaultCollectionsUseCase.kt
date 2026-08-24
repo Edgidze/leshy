@@ -1,5 +1,6 @@
 package compose.project.leshy.domain.usecase
 
+import compose.project.leshy.data.catalog.catalogKeyForLegacy
 import compose.project.leshy.domain.model.Collection
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.CollectionRepository
@@ -80,8 +81,13 @@ class EnsureDefaultCollectionsUseCase(
                 existing.order != demo.order -> collectionRepository.upsert(existing.copy(order = demo.order))
                 else -> existing.id
             }
-            demo.memberNameKeys.forEach { categoryNameKey ->
-                val category = categoryRepository.getByNameKey(categoryNameKey) ?: return@forEach
+            demo.memberNameKeys.forEach { legacyNameKey ->
+                // The lists above are still written in pre-v11 keys (`category_boletus_edulis`),
+                // which no longer exist in `categories` — Phase 3 of
+                // .claude/plans/countries-and-languages.md throws this whole demo seeding away and
+                // replaces it with countries.json, so translating at lookup time is cheaper than
+                // rewriting 34 literals that are about to be deleted.
+                val category = categoryRepository.getByNameKey(catalogKeyForLegacy(legacyNameKey)) ?: return@forEach
                 collectionRepository.addMember(category.id, collectionId)
             }
         }
