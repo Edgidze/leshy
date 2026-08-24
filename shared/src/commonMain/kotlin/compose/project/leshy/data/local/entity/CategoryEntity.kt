@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.CategorySource
-import compose.project.leshy.domain.model.EdibilityStatus
 
 @Entity(tableName = "categories")
 data class CategoryEntity(
@@ -15,7 +14,6 @@ data class CategoryEntity(
     val iconRef: String?,
     val order: Int,
     val isActive: Boolean,
-    val edibilityStatus: EdibilityStatus,
     val isPicked: Boolean = true,
     val isFilterEligible: Boolean = true,
     val source: CategorySource = CategorySource.APP,

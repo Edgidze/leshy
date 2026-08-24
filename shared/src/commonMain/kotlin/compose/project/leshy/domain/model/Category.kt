@@ -7,7 +7,6 @@ data class Category(
     val iconRef: String?,
     val order: Int,
     val isActive: Boolean,
-    val edibilityStatus: EdibilityStatus,
     /** User picked this species via the collection picker (Settings / first-run) — see
      * `.claude/plans/mushroom-collections.md`. Independent of [isActive]: this only feeds into
      * which species are *offered* on the Filter screen, [isActive] still governs what's actually

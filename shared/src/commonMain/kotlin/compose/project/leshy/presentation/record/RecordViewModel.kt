@@ -8,7 +8,6 @@ import compose.project.leshy.data.platform.WalkThumbnailRenderer
 import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
-import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.GeoPoint
 import compose.project.leshy.domain.model.MAX_MUSHROOM_FINDS_PER_WALK
@@ -165,20 +164,18 @@ class RecordViewModel(
         }
         viewModelScope.launch {
             val sortSettings = combine(
-                settingsRepository.observeMushroomSortOrder(),
                 settingsRepository.observeLanguage(),
                 categoryOrder,
-            ) { sortOrder, language, order -> Triple(sortOrder, language, order) }
+            ) { language, order -> language to order }
             combine(
                 walkRepository.observeAll(),
                 fieldMarkRepository.observeAll(),
                 categoryRepository.observeAll(),
                 mapFilterRepository.observeFilter(),
                 sortSettings,
-            ) { walks, marks, categories, filter, (sortOrder, language, order) ->
+            ) { walks, marks, categories, filter, (language, order) ->
                 val sortedCategories = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
-                    sortOrder,
                     language,
                 )
                 // "Unknown mushroom" defaults to the end of the feed (ahead of AddSpeciesTile),
@@ -549,7 +546,6 @@ class RecordViewModel(
     fun saveNewSpecies(
         name: String,
         scientificNameInput: String?,
-        edibilityStatus: EdibilityStatus,
         colorHex: String,
         iconPngBytes: ByteArray?,
     ) {
@@ -559,7 +555,6 @@ class RecordViewModel(
                 name,
                 scientificNameInput,
                 currentLanguage,
-                edibilityStatus,
                 colorHex,
                 iconPngBytes,
             )

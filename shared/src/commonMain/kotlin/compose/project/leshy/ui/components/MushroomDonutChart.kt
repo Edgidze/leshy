@@ -87,7 +87,7 @@ private data class RingSlice(
  * is drawn smaller than the chart's outer bounds, freeing an annular band around it (sized to fit
  * the card band exactly, so cards never draw outside the chart's own measured bounds) where every
  * species gets a bordered photo card next to its own sector — no
- * count/buttons/edibility badge/name on the card (too little room at this size, and the finds list
+ * count/buttons/name on the card (too little room at this size, and the finds list
  * above this chart already has name+count per species); tapping a card reports the species'
  * localized display name via [onMushroomClick] so the caller can surface it (walk detail shows it
  * as a bottom snackbar, Toast-style).

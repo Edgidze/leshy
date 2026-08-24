@@ -2,27 +2,16 @@ package compose.project.leshy.presentation
 
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
-import compose.project.leshy.domain.model.MushroomSortOrder
 import compose.project.leshy.i18n.categoryDisplayName
 
 /**
- * Orders mushroom categories per the user's [MushroomSortOrder] setting — shared by the Record
- * screen's tile feed ([compose.project.leshy.presentation.record.RecordViewModel]) and the map
- * filter dialog's species list ([compose.project.leshy.presentation.mapfilter.MapFilterViewModel])
- * so both stay in sync with the same choice made in Settings.
+ * Orders mushroom categories alphabetically by display name — shared by the Record screen's tile
+ * feed ([compose.project.leshy.presentation.record.RecordViewModel]) and the map filter dialog's
+ * species list ([compose.project.leshy.presentation.mapfilter.MapFilterViewModel]) so both stay in
+ * sync.
  */
-fun sortCategories(categories: List<Category>, sortOrder: MushroomSortOrder, language: AppLanguage): List<Category> =
-    when (sortOrder) {
-        MushroomSortOrder.ALPHABETICAL -> categories.sortedBy { categoryDisplayName(it, language) }
-        // EdibilityStatus.NOT_SPECIFIED sorts before POISONOUS by ordinal, so this already puts
-        // poisonous species last — alphabetical within each of the two groups.
-        MushroomSortOrder.POISONOUS_LAST -> categories.sortedWith(
-            compareBy(
-                { it.edibilityStatus.ordinal },
-                { categoryDisplayName(it, language) },
-            ),
-        )
-    }
+fun sortCategories(categories: List<Category>, language: AppLanguage): List<Category> =
+    categories.sortedBy { categoryDisplayName(it, language) }
 
 /**
  * Reorders [base] so that ids in [recencyOrder] (most-recently-bumped first) lead the list,

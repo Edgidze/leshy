@@ -19,6 +19,5 @@ data class CategoryExportDto(
     val customNames: Map<String, String>,
     val scientificName: String?,
     val colorHex: String,
-    val edibilityStatus: String,
     val hasIcon: Boolean,
 )

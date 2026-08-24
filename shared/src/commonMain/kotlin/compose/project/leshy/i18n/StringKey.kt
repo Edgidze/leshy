@@ -14,8 +14,6 @@ enum class StringKey {
     SettingsCategoriesTitle,
     SettingsMushroomSizeTitle,
     SettingsMushroomSortTitle,
-    SettingsMushroomSortByAlphabetical,
-    SettingsMushroomSortByPoisonousLast,
     SettingsResetMushroomOrderOnWalkFinish,
     SettingsFreezeMushroomOrder,
 
@@ -29,9 +27,6 @@ enum class StringKey {
     SpeciesFormTitleEdit,
     SpeciesFormNameHint,
     SpeciesFormScientificNameHint,
-    SpeciesFormEdibilityLabel,
-    SpeciesFormEdibilityPoisonous,
-    SpeciesFormEdibilityNotSpecified,
     SpeciesFormColorLabel,
     SpeciesFormTakePhotoButton,
     SpeciesFormPickPhotoButton,

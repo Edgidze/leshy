@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.CategorySource
-import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.CollectionRepository
 import compose.project.leshy.domain.repository.SettingsRepository
@@ -115,13 +114,12 @@ class SpeciesViewModel(
         existing: Category?,
         name: String,
         scientificNameInput: String?,
-        edibilityStatus: EdibilityStatus,
         colorHex: String,
         iconPngBytes: ByteArray?,
     ) {
         val language = _uiState.value.language
         viewModelScope.launch {
-            createOrUpdateUserSpecies(existing, name, scientificNameInput, language, edibilityStatus, colorHex, iconPngBytes)
+            createOrUpdateUserSpecies(existing, name, scientificNameInput, language, colorHex, iconPngBytes)
         }
     }
 }

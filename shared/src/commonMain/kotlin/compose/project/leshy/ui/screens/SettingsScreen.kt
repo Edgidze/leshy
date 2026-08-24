@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -16,7 +14,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -40,7 +37,6 @@ import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MIN
-import compose.project.leshy.domain.model.MushroomSortOrder
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
 import compose.project.leshy.i18n.regionsUnitLabel
@@ -76,10 +72,6 @@ fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel =
         )
 
         SettingsSectionTitle(stringResource(StringKey.SettingsMushroomSortTitle))
-        MushroomSortOrderOptions(
-            selected = uiState.mushroomSortOrder,
-            onSelected = viewModel::setMushroomSortOrder,
-        )
         FreezeMushroomOrderOption(
             checked = uiState.freezeMushroomOrder,
             onCheckedChange = viewModel::setFreezeMushroomOrder,
@@ -226,36 +218,6 @@ private fun ResetMushroomOrderOnWalkFinishOption(checked: Boolean, onCheckedChan
             text = stringResource(StringKey.SettingsResetMushroomOrderOnWalkFinish),
             modifier = Modifier.padding(start = 8.dp),
         )
-    }
-}
-
-@Composable
-private fun MushroomSortOrderOptions(selected: MushroomSortOrder, onSelected: (MushroomSortOrder) -> Unit) {
-    Column(modifier = Modifier.fillMaxWidth().selectableGroup()) {
-        MushroomSortOrder.entries.forEach { option ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .selectable(
-                        selected = selected == option,
-                        onClick = { onSelected(option) },
-                        role = Role.RadioButton,
-                    )
-                    .padding(vertical = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                RadioButton(selected = selected == option, onClick = null)
-                Text(
-                    text = stringResource(
-                        when (option) {
-                            MushroomSortOrder.ALPHABETICAL -> StringKey.SettingsMushroomSortByAlphabetical
-                            MushroomSortOrder.POISONOUS_LAST -> StringKey.SettingsMushroomSortByPoisonousLast
-                        },
-                    ),
-                    modifier = Modifier.padding(start = 8.dp),
-                )
-            }
-        }
     }
 }
 

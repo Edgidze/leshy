@@ -3,12 +3,10 @@ package compose.project.leshy.presentation.settings
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_DEFAULT
-import compose.project.leshy.domain.model.MushroomSortOrder
 
 data class SettingsUiState(
     val language: AppLanguage = AppLanguage.EN,
     val mushroomMarkerSizeScale: Float = MUSHROOM_MARKER_SIZE_SCALE_DEFAULT,
-    val mushroomSortOrder: MushroomSortOrder = MushroomSortOrder.ALPHABETICAL,
     val resetMushroomOrderOnWalkFinish: Boolean = false,
     val freezeMushroomOrder: Boolean = false,
     /** One randomly picked species, shown at the current [mushroomMarkerSizeScale] so sizing the

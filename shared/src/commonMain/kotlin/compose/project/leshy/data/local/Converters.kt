@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import compose.project.leshy.data.local.entity.ObjectType
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.CategorySource
-import compose.project.leshy.domain.model.EdibilityStatus
 import kotlinx.serialization.json.Json
 
 private val customNamesJson = Json
@@ -15,12 +14,6 @@ class Converters {
 
     @TypeConverter
     fun toObjectType(value: String): ObjectType = ObjectType.valueOf(value)
-
-    @TypeConverter
-    fun fromEdibilityStatus(value: EdibilityStatus): String = value.name
-
-    @TypeConverter
-    fun toEdibilityStatus(value: String): EdibilityStatus = EdibilityStatus.valueOf(value)
 
     @TypeConverter
     fun fromCategorySource(value: CategorySource): String = value.name

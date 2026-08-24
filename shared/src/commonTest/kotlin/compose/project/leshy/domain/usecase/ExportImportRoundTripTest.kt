@@ -11,7 +11,6 @@ import compose.project.leshy.data.platform.PhotoStorage
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.CategorySource
-import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.model.TrackPoint
@@ -125,7 +124,6 @@ private fun category(id: Long, nameKey: String) = Category(
     iconRef = null,
     order = 0,
     isActive = true,
-    edibilityStatus = EdibilityStatus.NOT_SPECIFIED,
 )
 
 private fun userCategory(
@@ -142,7 +140,6 @@ private fun userCategory(
     iconRef = null,
     order = 500,
     isActive = true,
-    edibilityStatus = EdibilityStatus.NOT_SPECIFIED,
     isPicked = true,
     isFilterEligible = true,
     source = source,

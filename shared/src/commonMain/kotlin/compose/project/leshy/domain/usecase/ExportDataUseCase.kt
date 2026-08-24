@@ -183,6 +183,5 @@ private fun Category.toExportDto(hasIcon: Boolean) = CategoryExportDto(
     customNames = customNames.mapKeys { (language, _) -> language.code },
     scientificName = scientificName,
     colorHex = colorHex,
-    edibilityStatus = edibilityStatus.name,
     hasIcon = hasIcon,
 )

@@ -29,9 +29,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -60,7 +57,6 @@ import compose.project.leshy.data.platform.rememberGalleryPicker
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.CategorySource
-import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.stringResource
@@ -148,7 +144,6 @@ fun SpeciesFormDialog(
     onSave: (
         name: String,
         scientificNameInput: String?,
-        edibilityStatus: EdibilityStatus,
         colorHex: String,
         iconPngBytes: ByteArray?,
     ) -> Unit,
@@ -156,7 +151,6 @@ fun SpeciesFormDialog(
 ) {
     var name by remember { mutableStateOf(existing?.customNames?.get(language).orEmpty()) }
     var scientificName by remember { mutableStateOf(existing?.scientificName.orEmpty()) }
-    var edibility by remember { mutableStateOf(existing?.edibilityStatus ?: EdibilityStatus.NOT_SPECIFIED) }
     var hue by remember { mutableStateOf(existing?.colorHex?.let { hueOf(parseHexColor(it)) } ?: DEFAULT_SPECIES_HUE) }
     // An explicitly picked/edited color (existing species, or the slider already touched this
     // session) must never be silently overwritten by a new photo's auto-detected hue.
@@ -304,28 +298,6 @@ fun SpeciesFormDialog(
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(stringResource(StringKey.SpeciesFormEdibilityLabel))
-                Spacer(modifier = Modifier.height(4.dp))
-                SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                    EdibilityStatus.entries.forEachIndexed { index, status ->
-                        SegmentedButton(
-                            selected = edibility == status,
-                            onClick = { edibility = status },
-                            shape = SegmentedButtonDefaults.itemShape(index = index, count = EdibilityStatus.entries.size),
-                        ) {
-                            Text(
-                                stringResource(
-                                    when (status) {
-                                        EdibilityStatus.NOT_SPECIFIED -> StringKey.SpeciesFormEdibilityNotSpecified
-                                        EdibilityStatus.POISONOUS -> StringKey.SpeciesFormEdibilityPoisonous
-                                    },
-                                ),
-                            )
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
                 Text(stringResource(StringKey.SpeciesFormColorLabel))
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -370,7 +342,7 @@ fun SpeciesFormDialog(
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(
                     onClick = {
-                        onSave(name.trim(), scientificName.trim().ifBlank { null }, edibility, colorHex, pendingIconBytes)
+                        onSave(name.trim(), scientificName.trim().ifBlank { null }, colorHex, pendingIconBytes)
                         onDismissRequest()
                     },
                     enabled = name.isNotBlank(),

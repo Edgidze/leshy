@@ -3,7 +3,6 @@ package compose.project.leshy.presentation.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import compose.project.leshy.domain.model.AppLanguage
-import compose.project.leshy.domain.model.MushroomSortOrder
 import compose.project.leshy.domain.model.iconSource
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.OfflineRegionRepository
@@ -56,11 +55,6 @@ class SettingsViewModel(
             _uiState.update { it.copy(previewCategory = preview) }
         }
         viewModelScope.launch {
-            settingsRepository.observeMushroomSortOrder().collect { sortOrder ->
-                _uiState.update { it.copy(mushroomSortOrder = sortOrder) }
-            }
-        }
-        viewModelScope.launch {
             settingsRepository.observeResetMushroomOrderOnWalkFinish().collect { reset ->
                 _uiState.update { it.copy(resetMushroomOrderOnWalkFinish = reset) }
             }
@@ -78,10 +72,6 @@ class SettingsViewModel(
 
     fun setMushroomMarkerSizeScale(scale: Float) {
         viewModelScope.launch { settingsRepository.setMushroomMarkerSizeScale(scale) }
-    }
-
-    fun setMushroomSortOrder(sortOrder: MushroomSortOrder) {
-        viewModelScope.launch { settingsRepository.setMushroomSortOrder(sortOrder) }
     }
 
     fun setResetMushroomOrderOnWalkFinish(reset: Boolean) {

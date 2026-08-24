@@ -95,8 +95,8 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
         SpeciesFormDialog(
             existing = null,
             language = uiState.language,
-            onSave = { name, scientificName, edibility, colorHex, iconBytes ->
-                viewModel.saveSpecies(null, name, scientificName, edibility, colorHex, iconBytes)
+            onSave = { name, scientificName, colorHex, iconBytes ->
+                viewModel.saveSpecies(null, name, scientificName, colorHex, iconBytes)
             },
             onDismissRequest = { showCreateDialog = false },
         )
@@ -107,8 +107,8 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
         SpeciesFormDialog(
             existing = speciesBeingEdited,
             language = uiState.language,
-            onSave = { name, scientificName, edibility, colorHex, iconBytes ->
-                viewModel.saveSpecies(speciesBeingEdited, name, scientificName, edibility, colorHex, iconBytes)
+            onSave = { name, scientificName, colorHex, iconBytes ->
+                viewModel.saveSpecies(speciesBeingEdited, name, scientificName, colorHex, iconBytes)
             },
             onDismissRequest = { editingSpecies = null },
         )

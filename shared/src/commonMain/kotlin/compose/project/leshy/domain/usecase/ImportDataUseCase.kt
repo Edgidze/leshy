@@ -19,7 +19,6 @@ import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.CategorySource
-import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.model.TrackPoint
@@ -225,7 +224,6 @@ private fun CategoryExportDto.toDomain() = Category(
     iconRef = null,
     order = USER_SPECIES_ORDER,
     isActive = true,
-    edibilityStatus = EdibilityStatus.valueOf(edibilityStatus),
     isPicked = true,
     isFilterEligible = true,
     source = CategorySource.IMPORTED,

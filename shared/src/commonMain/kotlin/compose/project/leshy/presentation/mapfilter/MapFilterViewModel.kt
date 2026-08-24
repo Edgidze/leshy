@@ -28,23 +28,18 @@ class MapFilterViewModel(
 
     init {
         viewModelScope.launch {
-            val sortSettings = combine(
-                settingsRepository.observeMushroomSortOrder(),
-                settingsRepository.observeLanguage(),
-            ) { sortOrder, language -> sortOrder to language }
             combine(
                 walkRepository.observeAll(),
                 categoryRepository.observeFilterEligible(),
                 mapFilterRepository.observeFilter(),
-                sortSettings,
-            ) { walks, categories, filter, (sortOrder, language) ->
+                settingsRepository.observeLanguage(),
+            ) { walks, categories, filter, language ->
                 val starts = walks.map { it.startTime }
                 // isPicked DESC, otherwise the normal sort order — "inherited" species (finds
                 // exist but the collection was un-picked) sink to the bottom instead of vanishing,
                 // see .claude/plans/mushroom-collections.md.
                 val eligible = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY },
-                    sortOrder,
                     language,
                 )
                 val (picked, inherited) = eligible.partition { it.isPicked }

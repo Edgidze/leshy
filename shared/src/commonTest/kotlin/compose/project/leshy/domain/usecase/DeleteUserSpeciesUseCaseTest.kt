@@ -3,7 +3,6 @@ package compose.project.leshy.domain.usecase
 import compose.project.leshy.data.platform.PhotoStorage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.CategorySource
-import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.FieldMark
 import compose.project.leshy.domain.model.MarkType
 import compose.project.leshy.domain.repository.CategoryRepository
@@ -64,7 +63,6 @@ private val unknownMushroom = Category(
     iconRef = "unknown_mushroom",
     order = 30,
     isActive = true,
-    edibilityStatus = EdibilityStatus.NOT_SPECIFIED,
 )
 
 private val userSpecies = Category(
@@ -74,7 +72,6 @@ private val userSpecies = Category(
     iconRef = null,
     order = 500,
     isActive = true,
-    edibilityStatus = EdibilityStatus.NOT_SPECIFIED,
     source = CategorySource.USER,
     customNames = mapOf(),
     iconFile = "catimg_user_123_456.png",

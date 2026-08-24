@@ -47,7 +47,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import compose.project.leshy.domain.model.Category
-import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.model.MAX_MUSHROOM_FINDS_PER_WALK
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.i18n.categoryDisplayName
@@ -234,10 +233,6 @@ fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
         CategoryIcon(category = category, modifier = Modifier.fillMaxSize())
 
-        if (category.edibilityStatus == EdibilityStatus.POISONOUS) {
-            EdibilityBadge(modifier = Modifier.align(Alignment.TopEnd).padding(top = 6.dp, end = 6.dp))
-        }
-
         MushroomLabel(
             text = categoryDisplayName(category),
             modifier = Modifier
@@ -247,21 +242,6 @@ fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
                 .padding(horizontal = 6.dp, vertical = 2.dp),
         )
     }
-}
-
-/** Only ever shown for [EdibilityStatus.POISONOUS] (see [MushroomPhoto]) — NOT_SPECIFIED renders no
- * badge at all rather than a neutral-colored one, since it makes no safety claim either way. */
-@Composable
-private fun EdibilityBadge(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .size(18.dp)
-            .clip(CircleShape)
-            .background(Color.White)
-            .padding(2.dp)
-            .clip(CircleShape)
-            .background(Color(0xFFD64545)),
-    )
 }
 
 private val BASE_LABEL_STYLE = TextStyle(
@@ -308,7 +288,6 @@ fun MushroomTilePreview(){
                 "boletus_edulis",
                 0,
                 true,
-                EdibilityStatus.NOT_SPECIFIED
             ),
             count = 0,
             onAdd = {},

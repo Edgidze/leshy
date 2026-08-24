@@ -148,3 +148,15 @@ val MIGRATION_8_9 = object : Migration(8, 9) {
         connection.execSQL("ALTER TABLE walks ADD COLUMN description TEXT")
     }
 }
+
+// Drops `categories.edibilityStatus` — the app no longer classifies species as poisonous/not (out
+// of scope for the app per product decision), so the column, its sort-order tie-in, and every
+// derived UI (species form field, tile badge, "poisonous last" sort option) are gone together.
+// `ALTER TABLE ... DROP COLUMN` needs no table rebuild here (no FK/index touches this column,
+// unlike the v7->v8 migration) — supported by the bundled SQLite (androidx.sqlite:sqlite-bundled,
+// >= 3.35).
+val MIGRATION_9_10 = object : Migration(9, 10) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE categories DROP COLUMN edibilityStatus")
+    }
+}

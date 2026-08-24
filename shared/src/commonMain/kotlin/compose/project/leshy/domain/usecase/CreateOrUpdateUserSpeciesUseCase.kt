@@ -4,7 +4,6 @@ import compose.project.leshy.data.platform.currentTimeMillis
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.CategorySource
-import compose.project.leshy.domain.model.EdibilityStatus
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.util.scientificNameFallback
 import kotlin.random.Random
@@ -40,7 +39,6 @@ class CreateOrUpdateUserSpeciesUseCase(
         name: String,
         scientificNameInput: String?,
         language: AppLanguage,
-        edibilityStatus: EdibilityStatus,
         colorHex: String,
         iconPngBytes: ByteArray?,
     ): Category {
@@ -53,14 +51,12 @@ class CreateOrUpdateUserSpeciesUseCase(
             iconRef = null,
             order = USER_SPECIES_ORDER,
             isActive = true,
-            edibilityStatus = edibilityStatus,
             isPicked = true,
             isFilterEligible = true,
             source = CategorySource.USER,
         )
         val updated = base.copy(
             colorHex = colorHex,
-            edibilityStatus = edibilityStatus,
             scientificName = scientificName,
             customNames = base.customNames + (language to name),
         )
