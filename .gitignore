@@ -9,6 +9,9 @@ node_modules/
 
 # ============ Android ============
 local.properties
+*.jks
+*.keystore
+keystore.properties
 *.apk
 *.aab
 *.ap_

@@ -22,4 +22,40 @@ options:
 
 ---
 
+### Release signing
+
+Release builds are signed with a single app signing key shared between the Play and
+RuStore builds. The keystore itself and its passwords never live in this repository or
+in `local.properties` — they are read from Gradle properties in the developer's own
+`~/.gradle/gradle.properties`:
+
+```properties
+LESHY_STORE_FILE=/absolute/path/to/leshy-release.jks
+LESHY_STORE_PASSWORD=<store password>
+LESHY_KEY_ALIAS=<key alias>
+LESHY_KEY_PASSWORD=<key password>
+```
+
+If these properties are absent, `assembleRelease` still succeeds and produces an
+**unsigned** artifact — this is intentional so CI/dev machines without the key can still
+build.
+
+To generate the key (once, by a human — not by an agent):
+
+```bash
+keytool -genkeypair -v \
+  -keystore leshy-release.jks \
+  -alias <key alias> \
+  -keyalg RSA -keysize 2048 -validity 10000 \
+  -storepass <store password> \
+  -keypass <key password>
+```
+
+Store the resulting `.jks` file and the passwords outside the repo (password manager +
+encrypted backup). This key must be uploaded to Play Console via PEPK when the app is
+first created there — Google-generated signing keys cannot be swapped in later, and
+Play/RuStore builds must share this same key to stay compatible.
+
+---
+
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…

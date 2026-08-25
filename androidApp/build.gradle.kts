@@ -24,6 +24,13 @@ dependencies {
     implementation(libs.koin.android)
 }
 
+val releaseStoreFile = findProperty("LESHY_STORE_FILE") as String?
+val releaseStorePassword = findProperty("LESHY_STORE_PASSWORD") as String?
+val releaseKeyAlias = findProperty("LESHY_KEY_ALIAS") as String?
+val releaseKeyPassword = findProperty("LESHY_KEY_PASSWORD") as String?
+val hasReleaseSigningConfig = releaseStoreFile != null && releaseStorePassword != null &&
+    releaseKeyAlias != null && releaseKeyPassword != null
+
 android {
     namespace = "leshy.mushrooms.map"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -45,8 +52,21 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    signingConfigs {
+        if (hasReleaseSigningConfig) {
+            create("release") {
+                storeFile = file(releaseStoreFile!!)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
+    }
     buildTypes {
         getByName("release") {
+            if (hasReleaseSigningConfig) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
