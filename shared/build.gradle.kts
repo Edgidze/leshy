@@ -50,7 +50,7 @@ kotlin {
     }
 
     androidLibrary {
-        namespace = "compose.project.leshy.shared"
+        namespace = "leshy.mushrooms.map.shared"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
