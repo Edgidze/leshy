@@ -42,6 +42,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -238,14 +239,29 @@ fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .height(46.dp)
+                .height(54.dp)
                 .padding(horizontal = 6.dp, vertical = 2.dp),
         )
     }
 }
 
+/**
+ * [lineHeight]/[lineHeightStyle] are explicit (not left to the font's own metrics) so the two-line
+ * block's rendered height is the same 2 * 20.sp regardless of script — fallback fonts for CJK
+ * carry noticeably taller ascent/descent than Latin at the same [fontSize], and the surrounding
+ * [Box] in [MushroomLabel] doesn't clip, so with font-derived line height the second line poked
+ * out past the plate's fixed-height bottom edge for those languages. [MushroomPhoto]'s label
+ * container is sized with a few dp of headroom above the exact 2 * 20.sp this implies — Georgian
+ * glyphs (წ, ჯ, ყ, ...) carry deep descenders that still reach past an exactly-fitted box even
+ * with [LineHeightStyle.Trim.Both], reproduced live on-device with "მერცხალასოკო"/"მყრალიხრაშუნა".
+ */
 private val BASE_LABEL_STYLE = TextStyle(
     fontSize = 18.sp,
+    lineHeight = 20.sp,
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.Both,
+    ),
     fontWeight = FontWeight.Bold,
     textAlign = TextAlign.Center,
 )
@@ -285,7 +301,7 @@ fun MushroomTilePreview(){
                 1,
                 "category_boletus_edulis",
                 "#A95620",
-                "boletus_edulis",
+                "agaricus_silvicola",
                 0,
                 true,
             ),
