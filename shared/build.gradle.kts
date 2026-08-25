@@ -63,6 +63,9 @@ kotlin {
         withHostTest {
             isIncludeAndroidResources = true
         }
+        withDeviceTest {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
     }
 
     sourceSets {
@@ -109,6 +112,11 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.okio.fakefilesystem)
+        }
+        getByName("androidDeviceTest").dependencies {
+            implementation(libs.androidx.room.testing)
+            implementation(libs.androidx.testExt.junit)
+            implementation(libs.androidx.test.runner)
         }
     }
 }
