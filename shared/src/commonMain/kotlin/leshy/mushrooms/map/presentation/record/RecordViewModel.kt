@@ -1,0 +1,574 @@
+package leshy.mushrooms.map.presentation.record
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import leshy.mushrooms.map.data.platform.BackgroundRecordingController
+import leshy.mushrooms.map.data.platform.LocationTracker
+import leshy.mushrooms.map.data.platform.WalkThumbnailRenderer
+import leshy.mushrooms.map.data.platform.currentTimeMillis
+import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.domain.model.Category
+import leshy.mushrooms.map.domain.model.FieldMark
+import leshy.mushrooms.map.domain.model.GeoPoint
+import leshy.mushrooms.map.domain.model.MAX_MUSHROOM_FINDS_PER_WALK
+import leshy.mushrooms.map.domain.model.MarkType
+import leshy.mushrooms.map.domain.repository.CategoryRepository
+import leshy.mushrooms.map.domain.repository.FieldMarkRepository
+import leshy.mushrooms.map.domain.repository.MapFilterRepository
+import leshy.mushrooms.map.domain.repository.SettingsRepository
+import leshy.mushrooms.map.domain.repository.WalkRepository
+import leshy.mushrooms.map.domain.usecase.AddMushroomMarkUseCase
+import leshy.mushrooms.map.domain.usecase.AddPlaceMarkUseCase
+import leshy.mushrooms.map.domain.usecase.CreateOrUpdateUserSpeciesUseCase
+import leshy.mushrooms.map.domain.usecase.DeletePlaceMarkUseCase
+import leshy.mushrooms.map.domain.usecase.EnsureDefaultCategoriesUseCase
+import leshy.mushrooms.map.domain.usecase.EnsureDefaultCollectionsUseCase
+import leshy.mushrooms.map.domain.usecase.FinishWalkUseCase
+import leshy.mushrooms.map.domain.usecase.HealOrphanedWalksUseCase
+import leshy.mushrooms.map.domain.usecase.MISC_CATEGORY_NAME_KEY
+import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
+import leshy.mushrooms.map.domain.usecase.RecordTrackPointUseCase
+import leshy.mushrooms.map.domain.usecase.RemoveLastMushroomMarkUseCase
+import leshy.mushrooms.map.domain.usecase.RenameWalkUseCase
+import leshy.mushrooms.map.domain.usecase.StartWalkUseCase
+import leshy.mushrooms.map.domain.usecase.UNKNOWN_MUSHROOM_NAME_KEY
+import leshy.mushrooms.map.domain.usecase.UpdatePlaceMarkUseCase
+import leshy.mushrooms.map.domain.usecase.UpdateWalkThumbnailUseCase
+import leshy.mushrooms.map.domain.util.bearingDegrees
+import leshy.mushrooms.map.domain.util.computeFilterCount
+import leshy.mushrooms.map.domain.util.hasArrived
+import leshy.mushrooms.map.domain.util.haversineMeters
+import leshy.mushrooms.map.domain.util.matchesDateAndSeason
+import leshy.mushrooms.map.domain.util.turnRecommendation
+import leshy.mushrooms.map.i18n.StringKey
+import leshy.mushrooms.map.i18n.string
+import leshy.mushrooms.map.presentation.applyRecencyOrder
+import leshy.mushrooms.map.presentation.sortCategories
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
+
+private const val TICK_INTERVAL_MILLIS = 1000L
+private const val MIN_COURSE_FIX_DISTANCE_METERS = 3.0
+
+/** How long the tile feed must sit idle (no +/-, no manual scroll) before a pending "bring to
+ * front" actually reorders the feed — see [RecordViewModel.scheduleFrontBump]. */
+private val TILE_REORDER_QUIET_WINDOW = 5.seconds
+
+/** How long [RecordViewModel.flushPendingFrontBumps]'s scroll-to-front should take, so the
+ * reorder reads as an observable motion instead of a teleport — see [RecordUiState.scrollToStartDurationMillis]. */
+private const val TILE_REORDER_SCROLL_DURATION_MILLIS = 1000
+
+private data class RecordFilterState(
+    val categories: List<Category>,
+    val historicalFinds: List<FieldMark>,
+    val historicalPlaces: List<FieldMark>,
+    val filterCount: Int,
+)
+
+private data class NavigationSourceSnapshot(
+    val currentLocation: GeoPoint?,
+    val marks: List<FieldMark>,
+    val historicalPlaces: List<FieldMark>,
+)
+
+class RecordViewModel(
+    private val categoryRepository: CategoryRepository,
+    private val walkRepository: WalkRepository,
+    private val fieldMarkRepository: FieldMarkRepository,
+    private val mapFilterRepository: MapFilterRepository,
+    private val locationTracker: LocationTracker,
+    private val backgroundRecordingController: BackgroundRecordingController,
+    private val settingsRepository: SettingsRepository,
+    private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
+    private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
+    private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
+    private val startWalk: StartWalkUseCase,
+    private val finishWalk: FinishWalkUseCase,
+    private val healOrphanedWalks: HealOrphanedWalksUseCase,
+    private val renameWalk: RenameWalkUseCase,
+    private val recordTrackPoint: RecordTrackPointUseCase,
+    private val addMushroomMark: AddMushroomMarkUseCase,
+    private val removeLastMushroomMark: RemoveLastMushroomMarkUseCase,
+    private val addPlaceMark: AddPlaceMarkUseCase,
+    private val updatePlaceMark: UpdatePlaceMarkUseCase,
+    private val deletePlaceMark: DeletePlaceMarkUseCase,
+    private val walkThumbnailRenderer: WalkThumbnailRenderer,
+    private val updateWalkThumbnail: UpdateWalkThumbnailUseCase,
+    private val createOrUpdateUserSpecies: CreateOrUpdateUserSpeciesUseCase,
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(RecordUiState())
+    val uiState: StateFlow<RecordUiState> = _uiState.asStateFlow()
+
+    private var walkId: Long? = null
+    private var lastPersistedPoint: GeoPoint? = null
+    private var trackSequence = 0
+    private var tickerJob: Job? = null
+    private var currentLanguage = AppLanguage.EN
+    private var resetOrderOnWalkFinish = false
+    private var freezeOrder = false
+
+    // Most-recently-bumped category ids first — a tile jumps to the front of the feed each time
+    // it's added (or picked from search). Not persisted across app restarts; whether it survives
+    // past the end of a walk is gated by resetOrderOnWalkFinish (Settings, off by default — see
+    // finish()).
+    private val categoryOrder = MutableStateFlow<List<Long>>(emptyList())
+
+    // Category ids tapped (+/-) during the current quiet-window countdown, oldest first —
+    // flushed into categoryOrder (front-most last-tapped-first) once TILE_REORDER_QUIET_WINDOW
+    // passes with no further feed activity. See scheduleFrontBump/notifyTileFeedInteraction.
+    private val pendingFrontBumps = mutableListOf<Long>()
+    private var frontBumpFlushJob: Job? = null
+
+    private val navigationTargetId = MutableStateFlow<Long?>(null)
+    private val courseOverGround = MutableStateFlow<Double?>(null)
+    private var courseBaselineFix: GeoPoint? = null
+
+    // Runs first, in its own launch rather than queued behind ensureDefaultCategories/
+    // ensureDefaultCollections below (those upsert 30+ rows and can be slow right after
+    // install/migration) — start() joins this before creating a walk, so it must resolve fast
+    // and can't end up racing a real user tap. See start() and androidMain/CLAUDE.md.
+    private val startupHealJob: Job = viewModelScope.launch {
+        // Self-heal walks a destroyed instance left open (walkId lives only in that instance's
+        // memory) — cheap no-op once nothing has endTime == null. Safe here specifically because
+        // this VM instance hasn't assigned walkId yet, so nothing open in the DB can be "this"
+        // walk — it can only be a walk an earlier, now-gone instance abandoned (process death, or
+        // this backStackEntry recreated — either way its viewModelScope/GPS collector is already
+        // cancelled, so nothing is still writing to it).
+        healOrphanedWalks()
+        // The service survives its ViewModel's destruction (only finish() stops it) — anything
+        // healOrphanedWalks() just closed left its notification stuck showing "Идёт запись" with
+        // no walk behind it. Harmless no-op if nothing was actually running.
+        backgroundRecordingController.stop()
+    }
+
+    init {
+        viewModelScope.launch {
+            ensureDefaultCategories()
+            // Must run after categories exist — looks categories up by nameKey to seed collection
+            // membership.
+            ensureDefaultCollections()
+            // Self-heal after the v4->v5 migration / any earlier crash mid-recalculation — cheap
+            // no-op once isFilterEligible is already in sync with isPicked/finds.
+            recalculateFilterEligibility()
+        }
+        viewModelScope.launch {
+            val sortSettings = combine(
+                settingsRepository.observeLanguage(),
+                categoryOrder,
+            ) { language, order -> language to order }
+            combine(
+                walkRepository.observeAll(),
+                fieldMarkRepository.observeAll(),
+                categoryRepository.observeAll(),
+                mapFilterRepository.observeFilter(),
+                sortSettings,
+            ) { walks, marks, categories, filter, (language, order) ->
+                val sortedCategories = sortCategories(
+                    categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
+                    language,
+                )
+                // "Unknown mushroom" defaults to the end of the feed (ahead of AddSpeciesTile),
+                // but only as a starting position — applyRecencyOrder below still bumps it to the
+                // front like any other species once it's tapped or picked from search.
+                val (unknownMushroom, restCategories) = sortedCategories
+                    .partition { it.nameKey == UNKNOWN_MUSHROOM_NAME_KEY }
+                val defaultOrderCategories = restCategories + unknownMushroom
+                val tileCategories = applyRecencyOrder(defaultOrderCategories, order)
+                val categoryById = categories.associateBy { it.id }
+                val matchingWalkIds = walks.filter { it.matchesDateAndSeason(filter) }.map { it.id }.toSet()
+                val historicalFinds = marks.filter {
+                    it.walkId in matchingWalkIds && it.type == MarkType.MUSHROOM &&
+                        categoryById[it.categoryId]?.isActive == true
+                }
+                val historicalPlaces = marks.filter { it.walkId in matchingWalkIds && it.type == MarkType.POI }
+                RecordFilterState(
+                    tileCategories,
+                    historicalFinds,
+                    historicalPlaces,
+                    computeFilterCount(filter, walks, categories),
+                )
+            }.collect { s ->
+                _uiState.update {
+                    it.copy(
+                        categories = s.categories,
+                        historicalFinds = s.historicalFinds,
+                        historicalPlaces = s.historicalPlaces,
+                        filterCount = s.filterCount,
+                    )
+                }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.observeLanguage().collect { currentLanguage = it }
+        }
+        viewModelScope.launch {
+            settingsRepository.observeResetMushroomOrderOnWalkFinish().collect { resetOrderOnWalkFinish = it }
+        }
+        viewModelScope.launch {
+            settingsRepository.observeFreezeMushroomOrder().collect { freezeOrder = it }
+        }
+        viewModelScope.launch {
+            locationTracker.track().collect { point ->
+                _uiState.update { it.copy(currentLocation = point) }
+                val baseline = courseBaselineFix
+                if (baseline == null) {
+                    courseBaselineFix = point
+                } else {
+                    val moved = haversineMeters(baseline.lat, baseline.lon, point.lat, point.lon)
+                    if (moved >= MIN_COURSE_FIX_DISTANCE_METERS) {
+                        courseOverGround.value = bearingDegrees(baseline.lat, baseline.lon, point.lat, point.lon)
+                        courseBaselineFix = point
+                    }
+                    // else: leave both courseBaselineFix and courseOverGround untouched — jitter
+                    // accumulates against the same baseline instead of resetting it every fix, so
+                    // slow drift while nearly stationary doesn't produce a new noisy bearing.
+                }
+                val currentWalkId = walkId
+                if (currentWalkId != null && _uiState.value.isRecording && !_uiState.value.isPaused) {
+                    val delta = recordTrackPoint(currentWalkId, point, trackSequence, lastPersistedPoint)
+                    trackSequence += 1
+                    lastPersistedPoint = point
+                    _uiState.update {
+                        it.copy(distanceMeters = it.distanceMeters + delta, trackPoints = it.trackPoints + point)
+                    }
+                }
+            }
+        }
+        viewModelScope.launch {
+            val navigationSources = uiState
+                .map { NavigationSourceSnapshot(it.currentLocation, it.marks, it.historicalPlaces) }
+                .distinctUntilChanged()
+            combine(navigationSources, navigationTargetId, courseOverGround) { sources, targetId, course ->
+                if (targetId == null) return@combine null
+                val target = (sources.marks + sources.historicalPlaces)
+                    .find { it.id == targetId && it.type == MarkType.POI } ?: return@combine null
+                val location = sources.currentLocation ?: return@combine null
+                val distance = haversineMeters(location.lat, location.lon, target.lat, target.lon)
+                val turn = course?.let {
+                    turnRecommendation(it, bearingDegrees(location.lat, location.lon, target.lat, target.lon))
+                }
+                NavigationOverlayState(
+                    targetId = target.id,
+                    targetName = target.name.orEmpty(),
+                    targetLat = target.lat,
+                    targetLon = target.lon,
+                    distanceMeters = distance,
+                    hasArrived = hasArrived(distance),
+                    turnDirection = turn?.direction,
+                    turnDegrees = turn?.degrees,
+                )
+            }.collect { computed -> _uiState.update { it.copy(navigationTarget = computed) } }
+        }
+    }
+
+    fun activateNavigationTo(targetId: Long) {
+        navigationTargetId.value = targetId
+    }
+
+    fun deactivateNavigation() {
+        navigationTargetId.value = null
+    }
+
+    fun setWalkName(name: String) {
+        _uiState.update { it.copy(walkName = name) }
+        val currentWalkId = walkId
+        if (currentWalkId != null) {
+            viewModelScope.launch { renameWalk(currentWalkId, name) }
+        }
+    }
+
+    fun onStartOrPauseClick() {
+        when {
+            !_uiState.value.isRecording -> start()
+            !_uiState.value.isPaused -> pause()
+            else -> resume()
+        }
+    }
+
+    private fun start() {
+        viewModelScope.launch {
+            // Must resolve before a new walk can be created — otherwise a fast enough tap here
+            // races startupHealJob's query for endTime == null walks and this walk (freshly
+            // inserted, no track points yet) gets swept up and closed as if orphaned.
+            startupHealJob.join()
+            val location = _uiState.value.currentLocation
+            val name = _uiState.value.walkName.ifBlank { string(StringKey.DefaultWalkName, currentLanguage) }
+            val id = startWalk(
+                name = name,
+                startTime = currentTimeMillis(),
+                startLat = location?.lat ?: 0.0,
+                startLon = location?.lon ?: 0.0,
+            )
+            walkId = id
+            trackSequence = 0
+            lastPersistedPoint = null
+            backgroundRecordingController.start(currentLanguage)
+            _uiState.update {
+                it.copy(
+                    isRecording = true,
+                    isPaused = false,
+                    elapsedMillis = 0L,
+                    distanceMeters = 0.0,
+                    mushroomCounts = emptyMap(),
+                    trackPoints = emptyList(),
+                    marks = emptyList(),
+                )
+            }
+            startTicker()
+        }
+    }
+
+    private fun pause() {
+        tickerJob?.cancel()
+        _uiState.update { it.copy(isPaused = true) }
+    }
+
+    private fun resume() {
+        _uiState.update { it.copy(isPaused = false) }
+        startTicker()
+    }
+
+    fun finish() {
+        val currentWalkId = walkId ?: return
+        tickerJob?.cancel()
+        backgroundRecordingController.stop()
+        // Captured now, before the state reset below wipes trackPoints/marks back to empty.
+        val trackPoints = _uiState.value.trackPoints
+        val findLocations = _uiState.value.marks
+            .filter { it.type == MarkType.MUSHROOM }
+            .map { mark -> GeoPoint(mark.lat, mark.lon, null, mark.timestamp) }
+        // Last known GPS fix — the thumbnail's fallback anchor when trackPoints has too few
+        // points to bound a region on its own (short walks).
+        val location = _uiState.value.currentLocation
+        frontBumpFlushJob?.cancel()
+        // Apply any taps still sitting in the quiet-window countdown right now instead of just
+        // discarding them — a walk finished within 5s of the last +/- tap used to lose that tap's
+        // reorder outright, even with resetOrderOnWalkFinish off, because the pending bump was
+        // cleared here without ever having been applied to categoryOrder. Flushing first still
+        // leaves the resetOrderOnWalkFinish branch below the final say — it runs after and wins.
+        flushPendingFrontBumps()
+        viewModelScope.launch {
+            finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
+            walkId = null
+            navigationTargetId.value = null
+            if (resetOrderOnWalkFinish) categoryOrder.value = emptyList()
+            _uiState.update { state ->
+                RecordUiState(
+                    categories = state.categories,
+                    currentLocation = state.currentLocation,
+                    historicalFinds = state.historicalFinds,
+                    filterCount = state.filterCount,
+                    justFinished = true,
+                )
+            }
+        }
+        // Independent coroutine: a slow or offline tile fetch must never delay the Archive
+        // navigation triggered by justFinished above.
+        viewModelScope.launch {
+            val thumbnailPath = walkThumbnailRenderer.render(currentWalkId, trackPoints, findLocations, location)
+            if (thumbnailPath != null) updateWalkThumbnail(currentWalkId, thumbnailPath)
+        }
+    }
+
+    fun consumeFinished() {
+        _uiState.update { it.copy(justFinished = false) }
+    }
+
+    fun addMushroom(categoryId: Long) {
+        val currentWalkId = walkId ?: return
+        if ((_uiState.value.mushroomCounts[categoryId] ?: 0) >= MAX_MUSHROOM_FINDS_PER_WALK) return
+        viewModelScope.launch {
+            val mark = addMushroomMark(currentWalkId, categoryId, _uiState.value.currentLocation, currentTimeMillis())
+            scheduleFrontBump(categoryId)
+            _uiState.update { state ->
+                val counts = state.mushroomCounts.toMutableMap()
+                counts[categoryId] = (counts[categoryId] ?: 0) + 1
+                state.copy(mushroomCounts = counts, marks = state.marks + mark)
+            }
+        }
+    }
+
+    /**
+     * Bulk-add version of [addMushroom] — logs [count] separate finds at the current (last known)
+     * location, exactly as if the + button had been tapped [count] times in a row. Each find is
+     * still its own [addMushroomMark] call (own row, own commit) rather than a single use case
+     * that writes a combined count, so it stays consistent with the rest of the app treating one
+     * [FieldMark] row per find (thumbnail rendering, walk detail stats, etc).
+     *
+     * The `_uiState` update happens once PER find, inside the loop, not once after it — each
+     * [addMushroomMark] call is a real suspending Room write, so this lets `mushroomCounts` (and
+     * the tile's displayed count) tick up as the batch commits instead of jumping straight from
+     * the old value to `old + count` only once every row has landed.
+     */
+    fun addMushrooms(categoryId: Long, count: Int) {
+        if (count <= 0) return
+        val currentWalkId = walkId ?: return
+        viewModelScope.launch {
+            val location = _uiState.value.currentLocation
+            repeat(count) {
+                val mark = addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
+                _uiState.update { state ->
+                    val counts = state.mushroomCounts.toMutableMap()
+                    counts[categoryId] = (counts[categoryId] ?: 0) + 1
+                    state.copy(mushroomCounts = counts, marks = state.marks + mark)
+                }
+            }
+            scheduleFrontBump(categoryId)
+        }
+    }
+
+    /**
+     * Moves [categoryId]'s tile to the front of the feed without logging a find — used both by
+     * [addMushroom] and by the search dialog, where picking a result should surface its tile
+     * (per the user description) but not itself count as a find.
+     */
+    fun bringCategoryToFront(categoryId: Long) {
+        categoryOrder.update { current -> listOf(categoryId) + current.filter { it != categoryId } }
+        _uiState.update { it.copy(scrollToStartSignal = it.scrollToStartSignal + 1, scrollToStartDurationMillis = null) }
+    }
+
+    /**
+     * Queues [categoryId] to jump to the front of the feed, but not right away — tapping +/-
+     * used to call [bringCategoryToFront] directly, which reordered the tile out from under the
+     * user's finger mid-tap. Instead this (re)starts a [TILE_REORDER_QUIET_WINDOW] countdown;
+     * every further tap or manual scroll of the feed ([notifyTileFeedInteraction]) restarts it
+     * again, and the reorder only actually happens once the feed has sat idle for the full
+     * window. Leaving the Record screen doesn't pause the countdown — [viewModelScope] outlives
+     * the composable (this ViewModel is scoped to the Record back-stack entry, see
+     * `presentation/CLAUDE.md`) — so a species added just before navigating away is already at
+     * the front by the time the user comes back.
+     *
+     * No-op while Settings' "неподвижный порядок грибов" (freeze order) is on — that setting
+     * means +/- taps must stop bumping tiles at all, not just delay the bump.
+     */
+    private fun scheduleFrontBump(categoryId: Long) {
+        if (freezeOrder) return
+        pendingFrontBumps.remove(categoryId)
+        pendingFrontBumps.add(categoryId)
+        restartFrontBumpQuietWindow()
+    }
+
+    /** Called by the UI when the user manually scrolls the tile feed — counts as activity for
+     * [TILE_REORDER_QUIET_WINDOW] just like a +/- tap, so a reorder doesn't happen while the
+     * feed is actively being scrolled by hand. A no-op while nothing is pending. */
+    fun notifyTileFeedInteraction() {
+        if (pendingFrontBumps.isNotEmpty()) restartFrontBumpQuietWindow()
+    }
+
+    private fun restartFrontBumpQuietWindow() {
+        frontBumpFlushJob?.cancel()
+        frontBumpFlushJob = viewModelScope.launch {
+            delay(TILE_REORDER_QUIET_WINDOW)
+            flushPendingFrontBumps()
+        }
+    }
+
+    private fun flushPendingFrontBumps() {
+        if (pendingFrontBumps.isEmpty()) return
+        // Last-tapped ends up frontmost, same order bringCategoryToFront would produce if called
+        // once per id in tap order.
+        val front = pendingFrontBumps.asReversed().toList()
+        pendingFrontBumps.clear()
+        categoryOrder.update { current -> front + current.filter { it !in front } }
+        _uiState.update {
+            it.copy(
+                scrollToStartSignal = it.scrollToStartSignal + 1,
+                scrollToStartDurationMillis = TILE_REORDER_SCROLL_DURATION_MILLIS,
+            )
+        }
+    }
+
+    fun removeMushroom(categoryId: Long) {
+        val currentWalkId = walkId ?: return
+        viewModelScope.launch {
+            val removed = removeLastMushroomMark(currentWalkId, categoryId)
+            if (removed != null) {
+                scheduleFrontBump(categoryId)
+                _uiState.update { state ->
+                    val counts = state.mushroomCounts.toMutableMap()
+                    val newCount = (counts[categoryId] ?: 0) - 1
+                    if (newCount > 0) counts[categoryId] = newCount else counts.remove(categoryId)
+                    state.copy(mushroomCounts = counts, marks = state.marks.filter { it.id != removed.id })
+                }
+            }
+        }
+    }
+
+    fun addPlace(name: String, description: String, photoPath: String?) {
+        val currentWalkId = walkId ?: return
+        viewModelScope.launch {
+            val mark = addPlaceMark(
+                currentWalkId,
+                _uiState.value.currentLocation,
+                currentTimeMillis(),
+                name,
+                description,
+                photoPath,
+            )
+            _uiState.update { state -> state.copy(marks = state.marks + mark) }
+        }
+    }
+
+    fun updatePlace(mark: FieldMark, name: String, description: String, photoPath: String?) {
+        viewModelScope.launch {
+            val updated = updatePlaceMark(mark, name, description, photoPath)
+            _uiState.update { state ->
+                state.copy(marks = state.marks.map { if (it.id == updated.id) updated else it })
+            }
+        }
+    }
+
+    fun deletePlace(mark: FieldMark) {
+        viewModelScope.launch {
+            deletePlaceMark(mark)
+            _uiState.update { state -> state.copy(marks = state.marks.filter { it.id != mark.id }) }
+        }
+    }
+
+    /**
+     * Second entry point for creating a user species (`.claude/plans/user-mushrooms.md`, Phase 4)
+     * — the rightmost "Добавить гриб" tile on Record's feed opens the same form as the "Грибы"
+     * section, but saving here brings the new tile straight to the front of the feed instead of
+     * navigating anywhere, so a walk in progress is never interrupted. No find is logged
+     * automatically — the user still taps the tile's own "+" to mark it, same as any other tile.
+     */
+    fun saveNewSpecies(
+        name: String,
+        scientificNameInput: String?,
+        colorHex: String,
+        iconPngBytes: ByteArray?,
+    ) {
+        viewModelScope.launch {
+            val saved = createOrUpdateUserSpecies(
+                null,
+                name,
+                scientificNameInput,
+                currentLanguage,
+                colorHex,
+                iconPngBytes,
+            )
+            bringCategoryToFront(saved.id)
+        }
+    }
+
+    private fun startTicker() {
+        tickerJob?.cancel()
+        tickerJob = viewModelScope.launch {
+            while (true) {
+                delay(TICK_INTERVAL_MILLIS.milliseconds)
+                _uiState.update { it.copy(elapsedMillis = it.elapsedMillis + TICK_INTERVAL_MILLIS) }
+            }
+        }
+    }
+}

@@ -25,7 +25,7 @@ dependencies {
 }
 
 android {
-    namespace = "compose.project.leshy"
+    namespace = "leshy.mushrooms.map"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

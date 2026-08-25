@@ -50,7 +50,7 @@ kotlin {
     }
 
     androidLibrary {
-        namespace = "compose.project.leshy.shared"
+        namespace = "leshy.mushrooms.map.shared"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -62,6 +62,9 @@ kotlin {
         }
         withHostTest {
             isIncludeAndroidResources = true
+        }
+        withDeviceTest {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
     }
 
@@ -109,6 +112,11 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.okio.fakefilesystem)
+        }
+        getByName("androidDeviceTest").dependencies {
+            implementation(libs.androidx.room.testing)
+            implementation(libs.androidx.testExt.junit)
+            implementation(libs.androidx.test.runner)
         }
     }
 }
