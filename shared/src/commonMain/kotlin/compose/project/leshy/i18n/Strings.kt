@@ -3,6 +3,10 @@ package compose.project.leshy.i18n
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import compose.project.leshy.domain.model.AppLanguage
+import compose.project.leshy.i18n.strings.frenchStrings
+import compose.project.leshy.i18n.strings.germanStrings
+import compose.project.leshy.i18n.strings.italianStrings
+import compose.project.leshy.i18n.strings.spanishStrings
 
 val LocalAppLanguage = compositionLocalOf { AppLanguage.EN }
 
@@ -28,8 +32,14 @@ fun string(key: StringKey, language: AppLanguage): String = when (language) {
 /** Per-language translation tables for every [AppLanguage] beyond `ru`/`en` — see [string]'s doc.
  * Populated one language at a time in Phases 6–11 of `.claude/plans/countries-and-languages.md`;
  * `internal` rather than `private` so `StringsTest` (`commonTest`) can assert completeness once
- * entries land. */
-internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = emptyMap()
+ * entries land. Phase 6 fills `de`/`fr`/`es`/`it` (`i18n/strings/Strings<Xx>.kt`); the rest still
+ * fall back to English until their own phase lands. */
+internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = mapOf(
+    AppLanguage.DE to germanStrings,
+    AppLanguage.FR to frenchStrings,
+    AppLanguage.ES to spanishStrings,
+    AppLanguage.IT to italianStrings,
+)
 
 /** The countable units this app formats, each with its six per-[PluralCategory] [StringKey]s.
  * A unit's forms are picked by [pluralCategory] for the active language — Phase 5 of
