@@ -31,74 +31,57 @@ fun string(key: StringKey, language: AppLanguage): String = when (language) {
  * entries land. */
 internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = emptyMap()
 
-/** "гриб"/"гриба"/"грибов" (Russian 3-way plural, agreeing with [count]) or the English-style
- * one/many split for every other language — CLDR plural rules per language land in Phase 5 of
- * `.claude/plans/countries-and-languages.md`; until then, a language with no rule of its own reads
- * the same "one"/"many" split English does, which is the correct approximation for most of the 24
- * (English-style two-way plurals are the common case; Russian's three-way split is the outlier). */
+/** The countable units this app formats, each with its six per-[PluralCategory] [StringKey]s.
+ * A unit's forms are picked by [pluralCategory] for the active language — Phase 5 of
+ * `.claude/plans/countries-and-languages.md`; before it, every non-Russian language read the
+ * English one/other split. */
+internal val mushroomsForms = PluralForms(
+    zero = StringKey.WalkDetailMushroomsCountZero,
+    one = StringKey.WalkDetailMushroomsCountOne,
+    two = StringKey.WalkDetailMushroomsCountTwo,
+    few = StringKey.WalkDetailMushroomsCountFew,
+    many = StringKey.WalkDetailMushroomsCountMany,
+    other = StringKey.WalkDetailMushroomsCountOther,
+)
+
+internal val walksForms = PluralForms(
+    zero = StringKey.DataWalksCountZero,
+    one = StringKey.DataWalksCountOne,
+    two = StringKey.DataWalksCountTwo,
+    few = StringKey.DataWalksCountFew,
+    many = StringKey.DataWalksCountMany,
+    other = StringKey.DataWalksCountOther,
+)
+
+internal val regionsForms = PluralForms(
+    zero = StringKey.SettingsMapDataRegionsCountZero,
+    one = StringKey.SettingsMapDataRegionsCountOne,
+    two = StringKey.SettingsMapDataRegionsCountTwo,
+    few = StringKey.SettingsMapDataRegionsCountFew,
+    many = StringKey.SettingsMapDataRegionsCountMany,
+    other = StringKey.SettingsMapDataRegionsCountOther,
+)
+
+/** The [forms] of a unit agreeing with [count] in the active language, per CLDR — see
+ * [pluralCategory]. Not `@Composable`-free by accident: the active language comes from
+ * [LocalAppLanguage], same as [stringResource]. */
 @Composable
-fun mushroomsUnitLabel(count: Int): String {
-    val key = when (LocalAppLanguage.current) {
-        AppLanguage.RU -> russianMushroomsPluralKey(count)
-        else -> if (count == 1) StringKey.WalkDetailMushroomsCountOne else StringKey.WalkDetailMushroomsCountMany
-    }
-    return stringResource(key)
-}
+internal fun pluralLabel(forms: PluralForms, count: Int): String =
+    stringResource(forms.keyFor(pluralCategory(LocalAppLanguage.current, count)))
 
-private fun russianMushroomsPluralKey(count: Int): StringKey {
-    val mod100 = count % 100
-    val mod10 = count % 10
-    return when {
-        mod100 in 11..14 -> StringKey.WalkDetailMushroomsCountMany
-        mod10 == 1 -> StringKey.WalkDetailMushroomsCountOne
-        mod10 in 2..4 -> StringKey.WalkDetailMushroomsCountFew
-        else -> StringKey.WalkDetailMushroomsCountMany
-    }
-}
-
-/** "прогулка"/"прогулки"/"прогулок" (Russian 3-way plural, agreeing with [count]) or the
- * English-style one/many split for every other language — see [mushroomsUnitLabel]'s doc. */
+/** "гриб"/"гриба"/"грибов" and the equivalent in the other 25 languages, agreeing with [count]. */
 @Composable
-fun walksUnitLabel(count: Int): String {
-    val key = when (LocalAppLanguage.current) {
-        AppLanguage.RU -> russianWalksPluralKey(count)
-        else -> if (count == 1) StringKey.DataWalksCountOne else StringKey.DataWalksCountMany
-    }
-    return stringResource(key)
-}
+fun mushroomsUnitLabel(count: Int): String = pluralLabel(mushroomsForms, count)
 
-private fun russianWalksPluralKey(count: Int): StringKey {
-    val mod100 = count % 100
-    val mod10 = count % 10
-    return when {
-        mod100 in 11..14 -> StringKey.DataWalksCountMany
-        mod10 == 1 -> StringKey.DataWalksCountOne
-        mod10 in 2..4 -> StringKey.DataWalksCountFew
-        else -> StringKey.DataWalksCountMany
-    }
-}
-
-/** "область"/"области"/"областей" (Russian 3-way plural, agreeing with [count]) or the
- * English-style one/many split for every other language — see [mushroomsUnitLabel]'s doc. */
+/** "прогулка"/"прогулки"/"прогулок" and the equivalent in the other 25 languages, agreeing with
+ * [count]. */
 @Composable
-fun regionsUnitLabel(count: Int): String {
-    val key = when (LocalAppLanguage.current) {
-        AppLanguage.RU -> russianRegionsPluralKey(count)
-        else -> if (count == 1) StringKey.SettingsMapDataRegionsCountOne else StringKey.SettingsMapDataRegionsCountMany
-    }
-    return stringResource(key)
-}
+fun walksUnitLabel(count: Int): String = pluralLabel(walksForms, count)
 
-private fun russianRegionsPluralKey(count: Int): StringKey {
-    val mod100 = count % 100
-    val mod10 = count % 10
-    return when {
-        mod100 in 11..14 -> StringKey.SettingsMapDataRegionsCountMany
-        mod10 == 1 -> StringKey.SettingsMapDataRegionsCountOne
-        mod10 in 2..4 -> StringKey.SettingsMapDataRegionsCountFew
-        else -> StringKey.SettingsMapDataRegionsCountMany
-    }
-}
+/** "область"/"области"/"областей" and the equivalent in the other 25 languages, agreeing with
+ * [count]. */
+@Composable
+fun regionsUnitLabel(count: Int): String = pluralLabel(regionsForms, count)
 
 private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.AppName -> "Грибная карта от Лешего"
@@ -256,9 +239,14 @@ private fun russianStrings(key: StringKey): String = when (key) {
         "Прогулка и все находки будут удалены безвозвратно. Восстановить их будет невозможно."
     StringKey.WalkDetailDeleteConfirmYes -> "Да"
     StringKey.WalkDetailDeleteConfirmNo -> "Нет"
+    // Russian reaches only One/Few/Many for integer counts (`Plurals.kt`); the other three repeat
+    // the genitive plural so a rule that ever mis-fires still reads as Russian.
+    StringKey.WalkDetailMushroomsCountZero -> "грибов"
     StringKey.WalkDetailMushroomsCountOne -> "гриб"
+    StringKey.WalkDetailMushroomsCountTwo -> "гриба"
     StringKey.WalkDetailMushroomsCountFew -> "гриба"
     StringKey.WalkDetailMushroomsCountMany -> "грибов"
+    StringKey.WalkDetailMushroomsCountOther -> "грибов"
     StringKey.WalkDetailDescriptionTitle -> "Описание"
     StringKey.WalkDetailDescriptionEmpty -> "Описание не добавлено"
     StringKey.WalkDetailDescriptionHint -> "Опишите прогулку"
@@ -327,9 +315,12 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.DataWalksBackContentDescription -> "Назад без сохранения выбора"
     StringKey.DataWalksConfirmContentDescription -> "Подтвердить выбор"
     StringKey.DataWalksSelectedLabel -> "Выбрано"
+    StringKey.DataWalksCountZero -> "прогулок"
     StringKey.DataWalksCountOne -> "прогулка"
+    StringKey.DataWalksCountTwo -> "прогулки"
     StringKey.DataWalksCountFew -> "прогулки"
     StringKey.DataWalksCountMany -> "прогулок"
+    StringKey.DataWalksCountOther -> "прогулок"
     StringKey.PreparationSelectAreaButton -> "Скачать видимую область"
     StringKey.PreparationDownloadThisAreaButton -> "Скачать эту область"
     StringKey.PreparationRegionNameDialogTitle -> "Название области"
@@ -365,9 +356,12 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMapDataRefreshError -> "Не удалось обновить — проверьте подключение к интернету"
     StringKey.SettingsMapDataRedownloadingPrefix -> "Данные карты обновлены. Перекачивается"
     StringKey.SettingsMapDataRedownloadingSuffix -> "— прогресс можно посмотреть в разделе «Подготовка»."
+    StringKey.SettingsMapDataRegionsCountZero -> "областей"
     StringKey.SettingsMapDataRegionsCountOne -> "область"
+    StringKey.SettingsMapDataRegionsCountTwo -> "области"
     StringKey.SettingsMapDataRegionsCountFew -> "области"
     StringKey.SettingsMapDataRegionsCountMany -> "областей"
+    StringKey.SettingsMapDataRegionsCountOther -> "областей"
     StringKey.SettingsClearMapCacheButton -> "Очистить кэш карты"
     StringKey.SettingsClearMapCacheConfirmTitle -> "Очистить кэш карты?"
     StringKey.SettingsClearMapCacheConfirmMessage ->
@@ -533,9 +527,14 @@ private fun englishStrings(key: StringKey): String = when (key) {
         "The walk and all its finds will be permanently deleted. This cannot be undone."
     StringKey.WalkDetailDeleteConfirmYes -> "Yes"
     StringKey.WalkDetailDeleteConfirmNo -> "No"
+    // English reaches only One/Other (`Plurals.kt`), but every form has to carry a value: these
+    // are also what an untranslated language falls back to, form by form, in `string()`.
+    StringKey.WalkDetailMushroomsCountZero -> "mushrooms"
     StringKey.WalkDetailMushroomsCountOne -> "mushroom"
+    StringKey.WalkDetailMushroomsCountTwo -> "mushrooms"
     StringKey.WalkDetailMushroomsCountFew -> "mushrooms"
     StringKey.WalkDetailMushroomsCountMany -> "mushrooms"
+    StringKey.WalkDetailMushroomsCountOther -> "mushrooms"
     StringKey.WalkDetailDescriptionTitle -> "Description"
     StringKey.WalkDetailDescriptionEmpty -> "No description added"
     StringKey.WalkDetailDescriptionHint -> "Describe the walk"
@@ -604,9 +603,12 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.DataWalksBackContentDescription -> "Back without saving the selection"
     StringKey.DataWalksConfirmContentDescription -> "Confirm selection"
     StringKey.DataWalksSelectedLabel -> "Selected"
+    StringKey.DataWalksCountZero -> "walks"
     StringKey.DataWalksCountOne -> "walk"
+    StringKey.DataWalksCountTwo -> "walks"
     StringKey.DataWalksCountFew -> "walks"
     StringKey.DataWalksCountMany -> "walks"
+    StringKey.DataWalksCountOther -> "walks"
     StringKey.PreparationSelectAreaButton -> "Download visible area"
     StringKey.PreparationDownloadThisAreaButton -> "Download this area"
     StringKey.PreparationRegionNameDialogTitle -> "Area name"
@@ -642,9 +644,12 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SettingsMapDataRefreshError -> "Update failed — check your internet connection"
     StringKey.SettingsMapDataRedownloadingPrefix -> "Map data updated. Re-downloading"
     StringKey.SettingsMapDataRedownloadingSuffix -> "— check progress in the Preparation section."
+    StringKey.SettingsMapDataRegionsCountZero -> "areas"
     StringKey.SettingsMapDataRegionsCountOne -> "area"
+    StringKey.SettingsMapDataRegionsCountTwo -> "areas"
     StringKey.SettingsMapDataRegionsCountFew -> "areas"
     StringKey.SettingsMapDataRegionsCountMany -> "areas"
+    StringKey.SettingsMapDataRegionsCountOther -> "areas"
     StringKey.SettingsClearMapCacheButton -> "Clear map cache"
     StringKey.SettingsClearMapCacheConfirmTitle -> "Clear map cache?"
     StringKey.SettingsClearMapCacheConfirmMessage ->
