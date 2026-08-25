@@ -32,8 +32,13 @@ android {
         applicationId = "leshy.mushrooms.map"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = property("leshy.versionCode").toString().toInt()
+        versionName = property("leshy.versionName").toString()
+    }
+    flavorDimensions += "store"
+    productFlavors {
+        create("play") { dimension = "store" }
+        create("rustore") { dimension = "store" }
     }
     packaging {
         resources {
@@ -42,7 +47,15 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                file("proguard-rules.pro")
+            )
+            ndk {
+                debugSymbolLevel = "SYMBOL_TABLE"
+            }
         }
     }
     compileOptions {
