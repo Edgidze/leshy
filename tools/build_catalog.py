@@ -6,46 +6,56 @@ See `.claude/plans/countries-and-languages.md`, section 3 and Phase 0, for
 the rules this implements. Idempotent — re-running overwrites all outputs
 from scratch, safe after the source JSON or `name_overrides.json` changes.
 
+Requires `Pillow` (dominant colors) and `Babel` (CLDR country names); neither
+ships in the system python, so run from a venv.
+
 Usage: python3 tools/build_catalog.py
+       python3 tools/build_catalog.py --only-country-names
+
+The catalog and image sections read `app_assets_256/`, which was deleted after
+Phase 0 — so a full run only works if those source images are restored. The
+country-name section does not depend on them and has its own flag.
 """
 
+import argparse
 import colorsys
 import json
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Optional
 
+from babel import Locale
 from PIL import Image
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SOURCE_JSON = REPO_ROOT / "docs" / "catalog" / "leshy_core_app.json"
 OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "name_overrides.json"
+COUNTRY_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "country_name_overrides.json"
 IMAGES_SRC_DIR = REPO_ROOT / "app_assets_256" / "mushrooms"
 DRAWABLE_DIR = REPO_ROOT / "shared" / "src" / "commonMain" / "composeResources" / "drawable"
 FILES_CATALOG_DIR = REPO_ROOT / "shared" / "src" / "commonMain" / "composeResources" / "files" / "catalog"
+APP_LANGUAGE_KT = (
+    REPO_ROOT / "shared" / "src" / "commonMain" / "kotlin" / "compose" / "project" / "leshy"
+    / "domain" / "model" / "AppLanguage.kt"
+)
 
 # Section 3.3: RU preset gained/lost these categories relative to what the
 # source dump shipped, per the project owner's decisions.
 RU_PRESET_ADD = ["GC0094", "GC0007", "GC0048", "GC0031", "GC0011"]
 RU_PRESET_REMOVE = ["GC0165"]
 
-# Phase 3 (countries-and-languages.md): country display names, only en/ru for
-# now (`AppLanguage` itself is still 2 values until Phase 4). English is taken
-# straight from the source dump's `country` field (already English); Russian
-# has no source data at all (plan §1, "Названий стран ни на одном языке, кроме
-# английского") so it's hand-maintained here, the same "manual layer on top of
-# generated data" precedent as `name_overrides.json`.
-RU_COUNTRY_NAMES = {
-    "AT": "Австрия", "AU": "Австралия", "BG": "Болгария", "BY": "Беларусь",
-    "CA": "Канада", "CZ": "Чехия", "DE": "Германия", "EE": "Эстония",
-    "ES": "Испания", "FI": "Финляндия", "FR": "Франция", "GB": "Великобритания",
-    "GE": "Грузия", "HR": "Хорватия", "HU": "Венгрия", "IT": "Италия",
-    "JP": "Япония", "KR": "Южная Корея", "LT": "Литва", "LV": "Латвия",
-    "MD": "Молдова", "MX": "Мексика", "NZ": "Новая Зеландия", "PL": "Польша",
-    "RO": "Румыния", "RS": "Сербия", "RU": "Россия", "SE": "Швеция",
-    "SI": "Словения", "SK": "Словакия", "TR": "Турция", "UA": "Украина",
-    "US": "США",
-}
+# Country display names come from CLDR (shipped inside `babel`), for every
+# `AppLanguage` at once — see the plan's "Решения, принятые после Фазы 5". This
+# replaced the hand-written per-language tables Phase 3 started with, which
+# would otherwise have made every translation batch carry 33 country names.
+# Verified when switching: all 33 codes resolve in all 26 languages, and CLDR's
+# English matches the source dump's `country` field exactly.
+#
+# `docs/catalog/country_name_overrides.json` is the manual layer on top, same
+# precedent as `name_overrides.json`: CLDR gives only the formal form of a
+# territory (`Locale.territories` has no access to CLDR's `alt="short"`), and a
+# picker list wants the short one — "США", not "Соединенные Штаты".
 
 # Section 3.5 addendum for Phase 0: the 6 old demo-catalog group illustrations
 # have no 1:1 counterpart in the new 408-category set (their concept got
@@ -157,7 +167,78 @@ def merge_name(
     return category["labels"].get(lang)
 
 
+def app_language_codes() -> list[str]:
+    """The `code` of every `AppLanguage` entry, read out of the enum itself.
+
+    Parsed rather than duplicated here so that adding a 27th interface language
+    is a one-line Kotlin change: re-running this script then generates its
+    country names too, instead of silently leaving the language without a
+    `countries/<lang>.json` (which `CountryNames.namesFor` would swallow via its
+    `runCatching`, falling back to English forever).
+    """
+    text = APP_LANGUAGE_KT.read_text(encoding="utf-8")
+    codes = re.findall(r'^\s+[A-Z_]+\("([a-z]{2}(?:-[A-Za-z]+)?)",', text, re.MULTILINE)
+    if len(codes) < 20 or "ru" not in codes or "en" not in codes:
+        raise ValueError(f"AppLanguage.kt parse looks wrong, got {len(codes)} codes: {codes}")
+    if len(set(codes)) != len(codes):
+        raise ValueError(f"AppLanguage.kt has duplicate codes: {codes}")
+    return codes
+
+
+def write_country_names(presets: dict, out_dir: Path) -> None:
+    codes = sorted(presets)
+    languages = app_language_codes()
+    overrides = json.loads(COUNTRY_OVERRIDES_JSON.read_text(encoding="utf-8"))
+
+    unknown = sorted(set(overrides) - set(codes))
+    if unknown:
+        raise ValueError(f"country_name_overrides.json names unknown countries: {unknown}")
+
+    # The source dump's own English names are no longer written out directly,
+    # so check they still agree with CLDR rather than dropping them silently.
+    for cc in codes:
+        source_name = presets[cc]["country"]
+        cldr_name = Locale.parse("en").territories.get(cc)
+        if source_name != cldr_name:
+            print(f"  warning: source `country` for {cc} is {source_name!r}, CLDR says {cldr_name!r}")
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    overridden = 0
+    for lang in languages:
+        territories = Locale.parse(lang.replace("-", "_")).territories
+        missing = [cc for cc in codes if cc not in territories]
+        if missing:
+            raise ValueError(f"CLDR has no {lang} name for: {missing}")
+        names = {cc: territories[cc] for cc in codes}
+        for cc, per_lang in overrides.items():
+            if lang in per_lang:
+                names[cc] = per_lang[lang]
+                overridden += 1
+        (out_dir / f"{lang}.json").write_text(
+            json.dumps(names, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
+        )
+    print(f"countries/: {len(languages)} files written ({len(codes)} countries each, "
+          f"{overridden} manual overrides applied)")
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--only-country-names", action="store_true",
+        help="Regenerate countries/<lang>.json only. The catalog and image sections need "
+             "app_assets_256/, which was removed after Phase 0; this section does not.",
+    )
+    args = parser.parse_args()
+
+    if args.only_country_names:
+        data = json.loads(SOURCE_JSON.read_text(encoding="utf-8"))
+        write_country_names(data["country_presets"], FILES_CATALOG_DIR / "countries")
+        return
+
+    run_full()
+
+
+def run_full() -> None:
     data = json.loads(SOURCE_JSON.read_text(encoding="utf-8"))
     overrides = json.loads(OVERRIDES_JSON.read_text(encoding="utf-8"))
     categories = data["categories"]
@@ -224,19 +305,7 @@ def main() -> None:
     print(f"  RU: {len(ru_entry['keys'])} keys, {ru_colors} distinct colors (expect 54, 50)")
 
     # ---- countries/<lang>.json ---------------------------------------------
-    country_names_dir = FILES_CATALOG_DIR / "countries"
-    country_names_dir.mkdir(parents=True, exist_ok=True)
-    en_names = {cc: presets[cc]["country"] for cc in sorted(presets)}
-    missing_ru = sorted(set(en_names) - set(RU_COUNTRY_NAMES))
-    if missing_ru:
-        raise ValueError(f"RU_COUNTRY_NAMES is missing codes: {missing_ru}")
-    (country_names_dir / "en.json").write_text(
-        json.dumps(en_names, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
-    )
-    (country_names_dir / "ru.json").write_text(
-        json.dumps(RU_COUNTRY_NAMES, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
-    )
-    print(f"countries/: 2 files written ({len(en_names)} countries each)")
+    write_country_names(presets, FILES_CATALOG_DIR / "countries")
 
     # ---- names/<lang>.json -----------------------------------------------------
     pair_index = defaultdict(list)
