@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -20,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,12 +49,19 @@ import compose.project.leshy.presentation.searchOrdered
  * Search ranks with [searchOrdered] against `"${endonym} ${englishName}"`, so typing either the
  * language's own name ("Deutsch") or its English name ("German") finds it — necessary since the
  * interface might currently be in a third, unrelated language when this screen is opened.
+ *
+ * Re-ranking on every keystroke moves the best match to the top of the list, but doesn't move the
+ * *scroll position* there — after scrolling down and then typing a query, the top match could land
+ * back under the search field, off-screen. [listState] jumps back to the top on every [query]
+ * change to keep the best match visible.
  */
 @Composable
 fun LanguagePickerScreen(currentLanguage: AppLanguage, onConfirm: (AppLanguage) -> Unit, onBack: () -> Unit) {
     var selected by remember { mutableStateOf(currentLanguage) }
     var query by remember { mutableStateOf("") }
     val filtered = searchOrdered(AppLanguage.entries, query) { "${it.endonym} ${it.englishName}" }
+    val listState = rememberLazyListState()
+    LaunchedEffect(query) { listState.scrollToItem(0) }
 
     Scaffold(
         topBar = {
@@ -85,7 +94,7 @@ fun LanguagePickerScreen(currentLanguage: AppLanguage, onConfirm: (AppLanguage) 
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
             )
-            LazyColumn {
+            LazyColumn(state = listState) {
                 items(filtered, key = { it.code }) { language ->
                     LanguageRow(
                         language = language,
