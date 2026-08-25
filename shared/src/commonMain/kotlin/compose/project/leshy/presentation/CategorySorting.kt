@@ -3,15 +3,22 @@ package compose.project.leshy.presentation
 import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.i18n.categoryDisplayName
+import compose.project.leshy.i18n.hasLocalizedName
 
 /**
  * Orders mushroom categories alphabetically by display name — shared by the Record screen's tile
  * feed ([compose.project.leshy.presentation.record.RecordViewModel]) and the map filter dialog's
  * species list ([compose.project.leshy.presentation.mapfilter.MapFilterViewModel]) so both stay in
- * sync.
+ * sync. Species with no real name in [language] (Latin-name/`nameKey` fallback — see
+ * [hasLocalizedName]) sort after every species that does have one, each group alphabetical on its
+ * own — otherwise Latin names would interleave alphabetically among translated ones instead of
+ * reading as a distinct trailing group.
  */
-fun sortCategories(categories: List<Category>, language: AppLanguage): List<Category> =
-    categories.sortedBy { categoryDisplayName(it, language) }
+fun sortCategories(categories: List<Category>, language: AppLanguage): List<Category> {
+    val (named, fallback) = categories.partition { hasLocalizedName(it, language) }
+    return named.sortedBy { categoryDisplayName(it, language) } +
+        fallback.sortedBy { categoryDisplayName(it, language) }
+}
 
 /**
  * Reorders [base] so that ids in [recencyOrder] (most-recently-bumped first) lead the list,

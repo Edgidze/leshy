@@ -55,6 +55,22 @@ private fun categoryNameStringKey(nameKey: String): StringKey? = when (nameKey) 
 }
 
 /**
+ * True when [category] has a real name in [language] — a user-entered [Category.customNames] entry
+ * for a non-catalog species, or a [MushroomNames] entry for a catalog one — as opposed to falling
+ * back to the Latin name or the raw [Category.nameKey]. Used by
+ * [compose.project.leshy.presentation.sortCategories] to sort species without a real name in the
+ * current language after every species that has one, rather than interleaving Latin names
+ * alphabetically among translated ones.
+ */
+fun hasLocalizedName(category: Category, language: AppLanguage): Boolean =
+    if (category.source == CategorySource.APP) {
+        categoryNameStringKey(category.nameKey) != null ||
+            getKoin().get<MushroomNames>().namesFor(language)[category.nameKey] != null
+    } else {
+        category.customNames[language]?.isNotBlank() == true
+    }
+
+/**
  * Catalog naming rule (`.claude/plans/countries-and-languages.md` §3.1): [language]'s name from
  * [MushroomNames], else the catalog's Latin name, else [nameKey] itself as a last resort — an id
  * nobody could translate. [MushroomNames]/[CatalogSource] are looked up through Koin directly
