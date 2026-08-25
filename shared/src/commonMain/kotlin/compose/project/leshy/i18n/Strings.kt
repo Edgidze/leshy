@@ -7,14 +7,22 @@ import compose.project.leshy.i18n.strings.belarusianStrings
 import compose.project.leshy.i18n.strings.bulgarianStrings
 import compose.project.leshy.i18n.strings.croatianStrings
 import compose.project.leshy.i18n.strings.czechStrings
+import compose.project.leshy.i18n.strings.estonianStrings
+import compose.project.leshy.i18n.strings.finnishStrings
 import compose.project.leshy.i18n.strings.frenchStrings
+import compose.project.leshy.i18n.strings.georgianStrings
 import compose.project.leshy.i18n.strings.germanStrings
+import compose.project.leshy.i18n.strings.hungarianStrings
 import compose.project.leshy.i18n.strings.italianStrings
 import compose.project.leshy.i18n.strings.japaneseStrings
 import compose.project.leshy.i18n.strings.koreanStrings
+import compose.project.leshy.i18n.strings.latvianStrings
+import compose.project.leshy.i18n.strings.lithuanianStrings
 import compose.project.leshy.i18n.strings.polishStrings
 import compose.project.leshy.i18n.strings.romanianStrings
 import compose.project.leshy.i18n.strings.serbianStrings
+import compose.project.leshy.i18n.strings.slovakStrings
+import compose.project.leshy.i18n.strings.slovenianStrings
 import compose.project.leshy.i18n.strings.spanishStrings
 import compose.project.leshy.i18n.strings.swedishStrings
 import compose.project.leshy.i18n.strings.turkishStrings
@@ -32,8 +40,9 @@ fun stringResource(key: StringKey): String = string(key, LocalAppLanguage.curren
  * per-language `Map<StringKey, String>` (`i18n/strings/Strings<Xx>.kt`, Phases 6–11 of
  * `.claude/plans/countries-and-languages.md`) checked for completeness by a `commonTest`, not the
  * compiler — a missing key there degrades to English rather than failing the build, the right
- * tradeoff for 24 languages translated in batches over many sessions. [uiTranslations] is empty as
- * of Phase 4, so every non-ru/en language currently reads as English end to end.
+ * tradeoff for 24 languages translated in batches over many sessions. As of Phase 11 all 24 are
+ * filled, so the `else` branch reaches a real table for every [AppLanguage]; the `?: englishStrings`
+ * fallback stays as the safety net for a 27th language added before its translation lands.
  */
 fun string(key: StringKey, language: AppLanguage): String = when (language) {
     AppLanguage.RU -> russianStrings(key)
@@ -45,8 +54,10 @@ fun string(key: StringKey, language: AppLanguage): String = when (language) {
  * Populated one language at a time in Phases 6–11 of `.claude/plans/countries-and-languages.md`;
  * `internal` rather than `private` so `StringsTest` (`commonTest`) can assert completeness once
  * entries land. Phase 6 filled `de`/`fr`/`es`/`it`, Phase 7 added `pl`/`cs`/`uk`/`sv`, Phase 8
- * `ja`/`ko`/`tr`/`ro`, Phase 9 adds `be`/`bg`/`sr`/`hr` (`i18n/strings/Strings<Xx>.kt`); the rest
- * still fall back to English until their own phase lands. */
+ * `ja`/`ko`/`tr`/`ro`, Phase 9 `be`/`bg`/`sr`/`hr`, Phase 10 `sk`/`sl`/`hu`/`fi`, Phase 11
+ * `lt`/`lv`/`et`/`ka` (`i18n/strings/Strings<Xx>.kt`). **This map is now complete** — all 24
+ * non-ru/en [AppLanguage] values have a table; a 27th language would land here without one and
+ * degrade to English until its own file is written. */
 internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = mapOf(
     AppLanguage.DE to germanStrings,
     AppLanguage.FR to frenchStrings,
@@ -64,6 +75,14 @@ internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = mapOf(
     AppLanguage.BG to bulgarianStrings,
     AppLanguage.SR to serbianStrings,
     AppLanguage.HR to croatianStrings,
+    AppLanguage.SK to slovakStrings,
+    AppLanguage.SL to slovenianStrings,
+    AppLanguage.HU to hungarianStrings,
+    AppLanguage.FI to finnishStrings,
+    AppLanguage.LT to lithuanianStrings,
+    AppLanguage.LV to latvianStrings,
+    AppLanguage.ET to estonianStrings,
+    AppLanguage.KA to georgianStrings,
 )
 
 /** The countable units this app formats, each with its six per-[PluralCategory] [StringKey]s.

@@ -8,11 +8,15 @@ import kotlin.test.assertTrue
 /**
  * `uiTranslations` (`Strings.kt`) replaces the compiler's exhaustive-`when` completeness check for
  * every [AppLanguage] beyond `ru`/`en` (`.claude/plans/countries-and-languages.md` §3.2) — this is
- * that check, run at test time instead. As of Phase 4 `uiTranslations` is empty (translations land
- * in Phases 6–11), so [everyKeyFallsBackToEnglishForUntranslatedLanguages] is the only one that
- * currently exercises anything; [everyTranslationMapIsCompleteAndNonBlank] is written now so a
- * later phase adding an entry to `uiTranslations` gets the completeness check for free, without
- * having to remember to add a test alongside the translation.
+ * that check, run at test time instead.
+ *
+ * The balance between the two tests has flipped since they were written in Phase 4. Back then
+ * `uiTranslations` was empty and only [everyKeyFallsBackToEnglishForUntranslatedLanguages]
+ * exercised anything; as of Phase 11 all 24 non-ru/en languages are translated, so
+ * [everyTranslationMapIsCompleteAndNonBlank] carries the real load (26 × 251 assertions) and the
+ * fallback test now iterates an empty list. It is kept deliberately rather than deleted: it starts
+ * covering a 27th [AppLanguage] the moment one is added, which is exactly when the English
+ * degradation path matters again.
  */
 class StringsTest {
     @Test
