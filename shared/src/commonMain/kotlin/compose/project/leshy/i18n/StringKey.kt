@@ -68,6 +68,10 @@ enum class StringKey {
 
     CollectionPickerSearchHint,
 
+    LanguagePickerSearchHint,
+    LanguagePickerBackContentDescription,
+    LanguagePickerConfirmContentDescription,
+
     DefaultWalkName,
     RecordWalkNameHint,
     RecordStart,

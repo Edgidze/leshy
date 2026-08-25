@@ -825,3 +825,70 @@ currentDeviceRegionCode()`** (`data/platform/DeviceRegion.kt`; Android —
 страной-подборкой, а не под удалённой демо).
 
 Следующая — Фаза 4 (`AppLanguage` × 26 и экран выбора языка; Sonnet).
+
+**Фаза 4 выполнена (2026-08-25):** `AppLanguage` расширен до 26 значений
+(`code`/`endonym`/`englishName`; `displayName` убран). `string()` резолвер —
+`ru`/`en` остаются exhaustive `when`, остальные 24 читают `internal val
+uiTranslations: Map<AppLanguage, Map<StringKey, String>>` (пока пустая карта)
+с фолбэком на английский; три плюральные функции получили `else ->` вместо
+отдельной ветки `EN` (тот же one/many-сплит для всех не-русских языков до
+CLDR в Фазе 5). Новый `LanguagePickerScreen` (`ui/screens/`) — не top-level,
+обычный `navigate()`/`popBackStack()` без своего `ViewModel`; `TopAppBar` со
+стрелкой назад (отмена) и галочкой (подтвердить), тап по строке двигает
+только локальный выбор — тот же cancel/confirm-паттерн, что
+`WalkDescriptionEditScreen`. `SettingsScreen`: `SingleChoiceSegmentedButton
+Row` заменён кликабельной строкой «Язык интерфейса → `<эндоним>`».
+`searchOrderedCategories` (`presentation/CategorySorting.kt`) обобщён в
+`searchOrdered<T>(items, query, label)` (по индексам, не `Category.id`) —
+второй потребитель, поиск по языку, ранжирует по `"${endonym}
+${englishName}"`.
+
+**Отклонения и находки, которых в плане не было:**
+
+1. **`CountryNames.namesFor` обёрнут в `runCatching`.** Не упомянуто явно
+   Фазой 3 плана как её собственная задача, но было прямо помечено в её
+   же `i18n/CLAUDE.md`-заметке как «задел под Фазу 4» — 24 новых языка
+   интерфейса не имеют своего `countries/<lang>.json` на диске (только
+   `en`/`ru` сгенерированы), и непойманный `Res.readBytes` на
+   отсутствующий файл падал бы вместо фолбэка на `EN`.
+2. **`SettingsViewModel.setLanguage()` удалён как мёртвый код.**
+   Подтверждение в `LanguagePickerScreen` пишет напрямую в
+   `koinInject<SettingsRepository>()` (`ui/navigation/LeshyNavHost.kt`) —
+   тот же приём, что `App.kt` уже использует для этого репозитория, без
+   необходимости поднимать целый `SettingsViewModel` (с его сидированием
+   категорий/подборок в `init`) только чтобы записать один язык.
+3. **Побочная находка — тестовые фейки `CategoryRepository` не собирались
+   вообще, независимо от Фазы 4.** `DeleteUserSpeciesUseCaseTest.kt`/
+   `ExportImportRoundTripTest.kt` не реализовывали `getAll()`/`upsertAll()`
+   (добавлены в интерфейс Фазой 2) — `compileAndroidHostTest` был красным
+   с Фазы 2, и ни один commonTest не мог быть запущен ни в одной из
+   прошлых фаз (Фазы 1–3 проверяли только `compileAndroidMain`). Починено
+   двумя однострочными `override`, иначе было невозможно верифицировать
+   новый `StringsTest.kt` через реальный прогон.
+4. **`StringsTest.kt` — первый i18n-тест, который реально выполняется в
+   этом окружении** (не зависит от `Res.readBytes`/Android `Context`, в
+   отличие от `CatalogSourceTest`/`MushroomNamesTest`) — прогнан через
+   `testAndroidHostTest`, оба теста зелёные. Полный прогон `testAndroidHostTest`
+   — 28 из 33 зелёные, 5 старых падений (`CatalogSourceTest`,
+   `MushroomNamesTest`) — та же документированная Robolectric-причина из
+   Фазы 1, не регрессия этой фазы.
+
+Проверено: `:shared:compileAndroidMain`, `:shared:compileKotlinIosArm64`,
+`:shared:compileKotlinIosSimulatorArm64`, `:shared:compileAndroidHostTest`,
+`:shared:testAndroidHostTest`, `:androidApp:assembleDebug` — все зелёные
+(с учётом пяти доперфазных падений выше). Самотестирования UI на устройстве
+не было (см. `feedback_no_self_testing`).
+
+**Что должен проверить владелец проекта:** «Настройки» показывают строку
+«Язык интерфейса → <текущий эндоним>» вместо сегментированной кнопки; тап
+открывает `LanguagePickerScreen` со всеми 26 языками, полем поиска
+(находит и по эндониму, и по английскому имени), радио-списком; выбор
+строки не меняет интерфейс немедленно — только галочка сверху применяет и
+возвращает назад, стрелка назад — отменяет; после подтверждения любого из
+24 новых языков (не `ru`/`en`) весь интерфейс читается по-английски (ожидаемо
+— переводы будут в Фазах 6–11), а названия грибов/стран — на выбранном языке
+там, где для него есть файл (`names/<lang>.json` — все 26; `countries/
+<lang>.json` — только `en`/`ru`, остальные падают на английское название
+страны).
+
+Следующая — Фаза 5 (множественные числа, CLDR; Opus).

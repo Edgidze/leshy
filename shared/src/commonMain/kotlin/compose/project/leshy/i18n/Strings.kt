@@ -9,17 +9,38 @@ val LocalAppLanguage = compositionLocalOf { AppLanguage.EN }
 @Composable
 fun stringResource(key: StringKey): String = string(key, LocalAppLanguage.current)
 
+/**
+ * `ru`/`en` stay exhaustive `when` branches on [StringKey] — the compiler catches a forgotten
+ * translation the moment a new key is added, which is the whole point of the enum
+ * (`i18n/CLAUDE.md`). The other 24 languages go through [uiTranslations] instead: a generated
+ * per-language `Map<StringKey, String>` (`i18n/strings/Strings<Xx>.kt`, Phases 6–11 of
+ * `.claude/plans/countries-and-languages.md`) checked for completeness by a `commonTest`, not the
+ * compiler — a missing key there degrades to English rather than failing the build, the right
+ * tradeoff for 24 languages translated in batches over many sessions. [uiTranslations] is empty as
+ * of Phase 4, so every non-ru/en language currently reads as English end to end.
+ */
 fun string(key: StringKey, language: AppLanguage): String = when (language) {
     AppLanguage.RU -> russianStrings(key)
     AppLanguage.EN -> englishStrings(key)
+    else -> uiTranslations[language]?.get(key) ?: englishStrings(key)
 }
 
-/** "гриб"/"гриба"/"грибов" (Russian 3-way plural, agreeing with [count]) or "mushroom"/"mushrooms" (English). */
+/** Per-language translation tables for every [AppLanguage] beyond `ru`/`en` — see [string]'s doc.
+ * Populated one language at a time in Phases 6–11 of `.claude/plans/countries-and-languages.md`;
+ * `internal` rather than `private` so `StringsTest` (`commonTest`) can assert completeness once
+ * entries land. */
+internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = emptyMap()
+
+/** "гриб"/"гриба"/"грибов" (Russian 3-way plural, agreeing with [count]) or the English-style
+ * one/many split for every other language — CLDR plural rules per language land in Phase 5 of
+ * `.claude/plans/countries-and-languages.md`; until then, a language with no rule of its own reads
+ * the same "one"/"many" split English does, which is the correct approximation for most of the 24
+ * (English-style two-way plurals are the common case; Russian's three-way split is the outlier). */
 @Composable
 fun mushroomsUnitLabel(count: Int): String {
     val key = when (LocalAppLanguage.current) {
         AppLanguage.RU -> russianMushroomsPluralKey(count)
-        AppLanguage.EN -> if (count == 1) StringKey.WalkDetailMushroomsCountOne else StringKey.WalkDetailMushroomsCountMany
+        else -> if (count == 1) StringKey.WalkDetailMushroomsCountOne else StringKey.WalkDetailMushroomsCountMany
     }
     return stringResource(key)
 }
@@ -35,12 +56,13 @@ private fun russianMushroomsPluralKey(count: Int): StringKey {
     }
 }
 
-/** "прогулка"/"прогулки"/"прогулок" (Russian 3-way plural, agreeing with [count]) or "walk"/"walks" (English). */
+/** "прогулка"/"прогулки"/"прогулок" (Russian 3-way plural, agreeing with [count]) or the
+ * English-style one/many split for every other language — see [mushroomsUnitLabel]'s doc. */
 @Composable
 fun walksUnitLabel(count: Int): String {
     val key = when (LocalAppLanguage.current) {
         AppLanguage.RU -> russianWalksPluralKey(count)
-        AppLanguage.EN -> if (count == 1) StringKey.DataWalksCountOne else StringKey.DataWalksCountMany
+        else -> if (count == 1) StringKey.DataWalksCountOne else StringKey.DataWalksCountMany
     }
     return stringResource(key)
 }
@@ -56,12 +78,13 @@ private fun russianWalksPluralKey(count: Int): StringKey {
     }
 }
 
-/** "область"/"области"/"областей" (Russian 3-way plural, agreeing with [count]) or "area"/"areas" (English). */
+/** "область"/"области"/"областей" (Russian 3-way plural, agreeing with [count]) or the
+ * English-style one/many split for every other language — see [mushroomsUnitLabel]'s doc. */
 @Composable
 fun regionsUnitLabel(count: Int): String {
     val key = when (LocalAppLanguage.current) {
         AppLanguage.RU -> russianRegionsPluralKey(count)
-        AppLanguage.EN -> if (count == 1) StringKey.SettingsMapDataRegionsCountOne else StringKey.SettingsMapDataRegionsCountMany
+        else -> if (count == 1) StringKey.SettingsMapDataRegionsCountOne else StringKey.SettingsMapDataRegionsCountMany
     }
     return stringResource(key)
 }
@@ -87,7 +110,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.NavSpecies -> "Мои грибы"
     StringKey.SettingsTitle -> "Настройки"
     StringKey.SettingsContentDescription -> "Настройки"
-    StringKey.SettingsLanguageTitle -> "Язык"
+    StringKey.SettingsLanguageTitle -> "Язык интерфейса"
     StringKey.SettingsCategoriesTitle -> "Грибы для отметки"
     StringKey.SettingsMushroomSizeTitle -> "Настройте размер грибов на карте"
     StringKey.SettingsMushroomSortTitle -> "Порядок грибов"
@@ -149,6 +172,10 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.CategoryUnknownMushroom -> "Неизвестный гриб"
 
     StringKey.CollectionPickerSearchHint -> "Поиск страны"
+
+    StringKey.LanguagePickerSearchHint -> "Поиск языка"
+    StringKey.LanguagePickerBackContentDescription -> "Назад"
+    StringKey.LanguagePickerConfirmContentDescription -> "Подтвердить"
 
     StringKey.DefaultWalkName -> "Прогулка"
     StringKey.RecordWalkNameHint -> "Название прогулки"
@@ -361,7 +388,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.NavSpecies -> "My Mushrooms"
     StringKey.SettingsTitle -> "Settings"
     StringKey.SettingsContentDescription -> "Settings"
-    StringKey.SettingsLanguageTitle -> "Language"
+    StringKey.SettingsLanguageTitle -> "Interface language"
     StringKey.SettingsCategoriesTitle -> "Mushrooms to track"
     StringKey.SettingsMushroomSizeTitle -> "Adjust mushroom size on the map"
     StringKey.SettingsMushroomSortTitle -> "Mushroom order"
@@ -423,6 +450,10 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.CategoryUnknownMushroom -> "Unknown mushroom"
 
     StringKey.CollectionPickerSearchHint -> "Search country"
+
+    StringKey.LanguagePickerSearchHint -> "Search language"
+    StringKey.LanguagePickerBackContentDescription -> "Back"
+    StringKey.LanguagePickerConfirmContentDescription -> "Confirm"
 
     StringKey.DefaultWalkName -> "Walk"
     StringKey.RecordWalkNameHint -> "Walk name"

@@ -212,7 +212,15 @@ clear()` — если прогулка завершалась в первые 5�
   находками — экран Фильтра, как и раньше, не теряет их из списка, только
   уводит вниз (`isPicked DESC`).
 
-## `searchOrderedCategories` (`CategorySorting.kt`) — поиск по названию в диалоге «Записи»
+## `searchOrdered<T>`/`searchOrderedCategories` (`CategorySorting.kt`) — поиск по названию в диалоге «Записи»
+
+Фаза 4 плана про страны/языки обобщила это в `searchOrdered<T>(items, query,
+label)` (по индексам, не по `Category.id` — общей функции неоткуда взять
+поле идентичности произвольного `T`), `searchOrderedCategories` теперь
+однострочный вызов через `categoryDisplayName`. Второй потребитель —
+`LanguagePickerScreen` (`i18n/CLAUDE.md`, раздел про Фазу 4), ранжирует
+языки по `"${endonym} ${englishName}"`. Описание самого алгоритма ниже не
+изменилось.
 
 Три уровня приоритета, каждый сохраняет исходный относительный порядок
 `categories`: `startsWith(query)`, затем `contains(query)`, затем —

@@ -1,5 +1,6 @@
 package compose.project.leshy.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,14 +10,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -33,7 +34,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.Category
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
 import compose.project.leshy.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MIN
@@ -47,21 +47,26 @@ import compose.project.leshy.ui.map.MUSHROOM_MARKER_BASE_SIZE
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel = koinViewModel()) {
+fun SettingsScreen(
+    onLanguageClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SettingsViewModel = koinViewModel(),
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp)) {
-        SettingsSectionTitle(stringResource(StringKey.SettingsLanguageTitle))
-        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-            AppLanguage.entries.forEachIndexed { index, language ->
-                SegmentedButton(
-                    selected = uiState.language == language,
-                    onClick = { viewModel.setLanguage(language) },
-                    shape = SegmentedButtonDefaults.itemShape(index = index, count = AppLanguage.entries.size),
-                ) {
-                    Text(language.displayName)
-                }
-            }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onLanguageClick)
+                .padding(top = 24.dp, bottom = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "${stringResource(StringKey.SettingsLanguageTitle)} → ${uiState.language.endonym}",
+                modifier = Modifier.weight(1f),
+            )
+            Icon(imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
         }
 
         SettingsSectionTitle(stringResource(StringKey.SettingsMushroomSizeTitle))

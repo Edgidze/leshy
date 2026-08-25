@@ -108,6 +108,73 @@ CountriesSource.kt` (парсит `countries.json`, даёт `version` для г
 предвыбор подборки по региону устройства (`OnboardingViewModel`) идут через
 них, а не через собственные `"collection_country_" + code`.
 
+## `AppLanguage` × 26 и `LanguagePickerScreen` (Фаза 4)
+
+`AppLanguage` — 26 значений (`code`/`endonym`/`englishName`; `displayName`
+убран, он путал эндоним с общим лейблом). `ru`/`en` остаются exhaustive
+`when`-ветками (`russianStrings`/`englishStrings`) — компилятор ловит
+забытый перевод для них, как и раньше. Остальные 24 идут через `internal val
+uiTranslations: Map<AppLanguage, Map<StringKey, String>>` (`Strings.kt`,
+пока пустая карта — заполняется по языку за сессию в Фазах 6–11) и общий
+резолвер `string()`: `uiTranslations[language]?.get(key) ?: englishStrings
+(key)` — пропущенный ключ или вовсе отсутствующая карта языка молча
+деградируют до английского, а не роняют сборку. `StringsTest.kt`
+(`commonTest`) — тест этой деградации плюс тест полноты каждой непустой
+карты (все ключи, значения не пустые); он реально выполняется в этом
+окружении (не завязан на `Res.readBytes`/Android `Context`, в отличие от
+`CatalogSourceTest`/`MushroomNamesTest` выше) — прогнан, зелёный.
+
+Три плюральные функции (`mushroomsUnitLabel`/`walksUnitLabel`/
+`regionsUnitLabel`) получили `else ->` вместо отдельной ветки `AppLanguage.EN`
+— до CLDR-правил Фазы 5 все 25 не-русских языков читают тот же
+one/many-сплит, что и английский (правильное приближение для большинства:
+двузначный plural — обычный случай, русский трёхзначный — исключение).
+
+**`CountryNames.namesFor` обёрнут в `runCatching`.** До Фазы 4 у каждого
+значения `AppLanguage` был свой `countries/<lang>.json` (только `ru`/`en`
+существовали, и оба входили в `AppLanguage`) — теперь 24 новых языка
+интерфейса читают файл, которого физически нет на диске (только `en`/`ru`
+сгенерированы, Фаза 3 §3). Без `runCatching` `Res.readBytes` на
+несуществующий файл падает, а не возвращает пусто — `collectionDisplayName`
+рассчитывает именно на пустую карту, чтобы отработал её собственный фолбэк
+на `EN`.
+
+**`searchOrdered<T>(items, query, label)` — обобщение `searchOrderedCategories`
+(`presentation/CategorySorting.kt`).** Та же ранжировка (`startsWith` →
+`contains` → нечёткий префикс), но по индексам, а не по `Category.id` —
+общей функции неоткуда взять поле идентичности для произвольного `T`.
+`searchOrderedCategories` теперь однострочный вызов через
+`categoryDisplayName`; `LanguagePickerScreen` — второй потребитель, ранжирует
+по `"${endonym} ${englishName}"`, чтобы поиск находил язык что по эндониму
+(«Deutsch»), что по английскому имени («German») — интерфейс в момент поиска
+вполне может быть на третьем, ещё третьем языке.
+
+**`LanguagePickerScreen` — не top-level, обычный `navigate()`/`popBackStack()`,
+без своего `ViewModel`.** `TopAppBar` со стрелкой назад (отмена, как есть) и
+галочкой (подтвердить и выйти) — тот же cancel/confirm-паттерн, что
+`WalkDescriptionEditScreen` использует для своего двухкнопочного
+`TopAppBar`, и по той же причине: тап по строке списка двигает только
+локальный `selected`, реальное сохранение — только по галочке, иначе
+исследовательский скролл длинного списка на 26 языков перещёлкивал бы
+интерфейс на каждый тап. Экран получает текущий язык через
+`LocalAppLanguage.current` (уже реактивен, провайдится один раз в
+`App()`), а подтверждение пишет напрямую в `koinInject<SettingsRepository>()`
+(`ui/navigation/LeshyNavHost.kt`) — тот же приём, что `App.kt` уже
+использует для этого репозитория, не через `SettingsViewModel.setLanguage`
+(метод удалён как мёртвый код: `SettingsScreen` больше не вызывает `set
+Language` сам, вместо сегментированной кнопки — кликабельная строка «Язык
+интерфейса → `<эндоним>`», ведущая на этот экран).
+
+**Побочная находка — тестовые фейки `CategoryRepository` не собирались.**
+`DeleteUserSpeciesUseCaseTest.kt`/`ExportImportRoundTripTest.kt` (оба вне
+области Фазы 4) не реализовывали `getAll()`/`upsertAll()` — добавлены
+Фазой 2 в интерфейс, но эти два фейка остались не обновлены, и
+`compileAndroidHostTest` не собирался вовсе (ни один тест не мог быть
+запущен ни в одной прошлой фазе — Фазы 1–3 проверяли только
+`compileAndroidMain`, не тестовый компайл). Починено тут же двумя
+однострочными `override`, потому что иначе было невозможно верифицировать
+`StringsTest.kt` через `testAndroidHostTest`.
+
 **Тесты каталожного слоя (`data/catalog/CatalogSourceTest.kt`,
 `i18n/MushroomNamesTest.kt`) написаны, но не запускаются в этом окружении** —
 два независимых и не связанных с этой фичей пробела инфраструктуры:

@@ -46,7 +46,9 @@ private class DeleteSpeciesFakeCategoryRepository(seed: List<Category>) : Catego
     override suspend fun getById(id: Long): Category? = state.value.find { it.id == id }
     override suspend fun getByNameKey(nameKey: String): Category? = state.value.find { it.nameKey == nameKey }
     override suspend fun count(): Int = state.value.size
+    override suspend fun getAll(): List<Category> = state.value
     override suspend fun upsert(category: Category): Long = error("not needed")
+    override suspend fun upsertAll(categories: List<Category>) = error("not needed")
     override suspend fun delete(category: Category) {
         state.value = state.value.filterNot { it.id == category.id }
     }

@@ -2,7 +2,6 @@ package compose.project.leshy.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import compose.project.leshy.domain.model.AppLanguage
 import compose.project.leshy.domain.model.iconSource
 import compose.project.leshy.domain.repository.CategoryRepository
 import compose.project.leshy.domain.repository.OfflineRegionRepository
@@ -64,10 +63,6 @@ class SettingsViewModel(
                 _uiState.update { it.copy(freezeMushroomOrder = freeze) }
             }
         }
-    }
-
-    fun setLanguage(language: AppLanguage) {
-        viewModelScope.launch { settingsRepository.setLanguage(language) }
     }
 
     fun setMushroomMarkerSizeScale(scale: Float) {

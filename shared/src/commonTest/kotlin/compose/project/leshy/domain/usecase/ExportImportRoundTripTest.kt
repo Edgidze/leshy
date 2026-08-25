@@ -97,6 +97,7 @@ private class FakeCategoryRepository(seed: List<Category>) : CategoryRepository 
     override suspend fun getById(id: Long): Category? = state.value.find { it.id == id }
     override suspend fun getByNameKey(nameKey: String): Category? = state.value.find { it.nameKey == nameKey }
     override suspend fun count(): Int = state.value.size
+    override suspend fun getAll(): List<Category> = state.value
     override suspend fun upsert(category: Category): Long {
         if (category.id != 0L) {
             state.update { list -> list.map { if (it.id == category.id) category else it } }
@@ -106,6 +107,7 @@ private class FakeCategoryRepository(seed: List<Category>) : CategoryRepository 
         state.update { it + category.copy(id = id) }
         return id
     }
+    override suspend fun upsertAll(categories: List<Category>) = error("not needed")
     override suspend fun delete(category: Category) = state.update { it.filterNot { c -> c.id == category.id } }
 }
 

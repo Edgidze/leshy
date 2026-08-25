@@ -30,6 +30,9 @@ sealed interface Destination {
     data object Settings : Destination
 
     @Serializable
+    data object LanguagePicker : Destination
+
+    @Serializable
     data object Data : Destination
 
     @Serializable

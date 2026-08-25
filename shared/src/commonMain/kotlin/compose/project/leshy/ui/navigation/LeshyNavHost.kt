@@ -5,17 +5,21 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import compose.project.leshy.domain.repository.SettingsRepository
+import compose.project.leshy.i18n.LocalAppLanguage
 import compose.project.leshy.i18n.StringKey
 import compose.project.leshy.presentation.archive.WalkDetailViewModel
 import compose.project.leshy.presentation.record.RecordViewModel
 import compose.project.leshy.ui.components.SectionScaffold
 import compose.project.leshy.ui.screens.ArchiveScreen
 import compose.project.leshy.ui.screens.DataScreen
+import compose.project.leshy.ui.screens.LanguagePickerScreen
 import compose.project.leshy.ui.screens.MapScreen
 import compose.project.leshy.ui.screens.PreparationScreen
 import compose.project.leshy.ui.screens.RecordScreen
@@ -24,6 +28,8 @@ import compose.project.leshy.ui.screens.SpeciesScreen
 import compose.project.leshy.ui.screens.WalkDescriptionEditScreen
 import compose.project.leshy.ui.screens.WalkDetailScreen
 import compose.project.leshy.ui.screens.WalkMapScreen
+import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -132,7 +138,30 @@ fun LeshyNavHost(
             SectionScaffold(
                 title = StringKey.SettingsTitle,
                 onMenuClick = onMenuClick,
-            ) { padding -> SettingsScreen(modifier = Modifier.padding(padding)) }
+            ) { padding ->
+                SettingsScreen(
+                    onLanguageClick = { navController.navigate(Destination.LanguagePicker) },
+                    modifier = Modifier.padding(padding),
+                )
+            }
+        }
+        composable<Destination.LanguagePicker> {
+            // No dedicated ViewModel — the current language is already reactive via
+            // LocalAppLanguage (provided once at the App() root from the same SettingsRepository),
+            // and confirming only ever needs to write, not observe, so injecting the repository
+            // straight into this route (same pattern App.kt itself uses for it) avoids spinning up
+            // a whole SettingsViewModel — with its category/collection seeding side effects in
+            // init — just to flip one DataStore value.
+            val settingsRepository: SettingsRepository = koinInject()
+            val scope = rememberCoroutineScope()
+            LanguagePickerScreen(
+                currentLanguage = LocalAppLanguage.current,
+                onConfirm = { language ->
+                    scope.launch { settingsRepository.setLanguage(language) }
+                    navController.popBackStack()
+                },
+                onBack = { navController.popBackStack() },
+            )
         }
         composable<Destination.Data> {
             SectionScaffold(
