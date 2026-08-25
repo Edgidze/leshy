@@ -7,9 +7,13 @@ import compose.project.leshy.i18n.strings.czechStrings
 import compose.project.leshy.i18n.strings.frenchStrings
 import compose.project.leshy.i18n.strings.germanStrings
 import compose.project.leshy.i18n.strings.italianStrings
+import compose.project.leshy.i18n.strings.japaneseStrings
+import compose.project.leshy.i18n.strings.koreanStrings
 import compose.project.leshy.i18n.strings.polishStrings
+import compose.project.leshy.i18n.strings.romanianStrings
 import compose.project.leshy.i18n.strings.spanishStrings
 import compose.project.leshy.i18n.strings.swedishStrings
+import compose.project.leshy.i18n.strings.turkishStrings
 import compose.project.leshy.i18n.strings.ukrainianStrings
 
 val LocalAppLanguage = compositionLocalOf { AppLanguage.EN }
@@ -36,9 +40,9 @@ fun string(key: StringKey, language: AppLanguage): String = when (language) {
 /** Per-language translation tables for every [AppLanguage] beyond `ru`/`en` — see [string]'s doc.
  * Populated one language at a time in Phases 6–11 of `.claude/plans/countries-and-languages.md`;
  * `internal` rather than `private` so `StringsTest` (`commonTest`) can assert completeness once
- * entries land. Phase 6 filled `de`/`fr`/`es`/`it`, Phase 7 adds `pl`/`cs`/`uk`/`sv`
- * (`i18n/strings/Strings<Xx>.kt`); the rest still fall back to English until their own phase
- * lands. */
+ * entries land. Phase 6 filled `de`/`fr`/`es`/`it`, Phase 7 added `pl`/`cs`/`uk`/`sv`, Phase 8 adds
+ * `ja`/`ko`/`tr`/`ro` (`i18n/strings/Strings<Xx>.kt`); the rest still fall back to English until
+ * their own phase lands. */
 internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = mapOf(
     AppLanguage.DE to germanStrings,
     AppLanguage.FR to frenchStrings,
@@ -48,6 +52,10 @@ internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = mapOf(
     AppLanguage.CS to czechStrings,
     AppLanguage.UK to ukrainianStrings,
     AppLanguage.SV to swedishStrings,
+    AppLanguage.JA to japaneseStrings,
+    AppLanguage.KO to koreanStrings,
+    AppLanguage.TR to turkishStrings,
+    AppLanguage.RO to romanianStrings,
 )
 
 /** The countable units this app formats, each with its six per-[PluralCategory] [StringKey]s.
