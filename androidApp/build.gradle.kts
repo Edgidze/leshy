@@ -34,6 +34,7 @@ val hasReleaseSigningConfig = releaseStoreFile != null && releaseStorePassword !
 android {
     namespace = "leshy.mushrooms.map"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+    ndkVersion ="29.0.14206865"
 
     defaultConfig {
         applicationId = "leshy.mushrooms.map"
