@@ -33,9 +33,26 @@
 
 ## Ресурсы
 
-Изображения категорий грибов (~408 штук) грузятся динамически. Перед любым изменением
-работы с ресурсами проверить `keep.xml` и убедиться, что `shrinkResources` их не удаляет —
-это происходит молча, без ошибки сборки.
+Изображения категорий грибов (410 файлов, `shared/src/commonMain/composeResources/drawable/`)
+грузятся по строковому имени (`Category.iconRef` → `Res.allDrawableResources[iconRef]` в
+`ui/components/CategoryIcon.kt`, `ui/map/MushroomMarkerIcon.kt`,
+`data/platform/CategoryIconBytes.kt`; ручной путь `Res.readBytes("drawable/$iconRef.webp")`
+в `SpeciesFormDialog.kt`). На классическом Android это был бы паттерн, ломаемый
+`shrinkResources` молча — но здесь **не ломает**, проверено на собранном release AAB/APK:
+Compose Multiplatform кладёт содержимое `composeResources/drawable/` в
+`assets/composeResources/...`, а не в таблицу ресурсов `res/`. `shrinkResources` работает
+только по таблице ресурсов и до `assets/` не дотягивается — `R.drawable`-паттерна (когда
+шринкер реально бьёт по динамическим строковым именам) в проекте нет вообще, всё живёт
+за пределами его области действия по конструкции. Подтверждение: `resources.txt` в
+`androidApp/build/outputs/mapping/playRelease/` не содержит ни одного упоминания грибов
+(они там в принципе не могут появиться — не resource-table записи), и APK после
+`assemblePlayRelease` с `--no-build-cache` содержит все 410 файлов из исходников 1:1.
+
+Если каталог видов когда-нибудь переедет с `composeResources` на честный Android
+`res/drawable` (например, ради снижения памяти на bitmap-декодинге) — это переносит
+изображения обратно в область действия `shrinkResources`, и тогда `keep.xml` с
+`tools:keep="@drawable/mushroom_*"` действительно понадобится. До тех пор эта опасность
+теоретическая, не текущая.
 
 ## Секреты
 
