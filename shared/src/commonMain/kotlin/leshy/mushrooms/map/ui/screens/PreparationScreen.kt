@@ -110,7 +110,11 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                     if (!isSelectingArea) {
                         FloatingActionButton(
                             onClick = { isSelectingArea = true },
-                            modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
+                            // bottom = 64.dp, not the usual 16.dp: this corner is also where
+                            // mapOrnamentOptions leaves the OSM/OpenFreeMap attribution button
+                            // (library default, BottomEnd) — a plain 16.dp FAB footprint sits
+                            // directly on top of it and hides the ODbL-mandated attribution.
+                            modifier = Modifier.align(Alignment.BottomEnd).padding(end = 16.dp, bottom = 64.dp),
                         ) {
                             Icon(Icons.Filled.Download, contentDescription = stringResource(StringKey.PreparationSelectAreaButton))
                         }
