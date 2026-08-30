@@ -75,8 +75,6 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Допомога",
     StringKey.HelpDialogTitle to "Допомога",
-    StringKey.HelpDialogMessage to
-        "Інструкції для цього екрана з'являться тут у майбутньому оновленні.",
     StringKey.HelpDialogDismiss to "Зрозуміло",
 
     StringKey.CategoryMisc to "Різне",

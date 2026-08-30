@@ -78,8 +78,6 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Valikko",
     StringKey.HelpContentDescription to "Ohje",
     StringKey.HelpDialogTitle to "Ohje",
-    StringKey.HelpDialogMessage to
-        "Tämän näkymän ohjeet ilmestyvät tähän jossakin tulevassa versiossa.",
     StringKey.HelpDialogDismiss to "Selvä",
 
     StringKey.CategoryMisc to "Sekalaiset",

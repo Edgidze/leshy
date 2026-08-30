@@ -73,8 +73,6 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Menü",
     StringKey.HelpContentDescription to "Hilfe",
     StringKey.HelpDialogTitle to "Hilfe",
-    StringKey.HelpDialogMessage to
-        "Anleitungen für diesen Bildschirm werden in einem zukünftigen Update verfügbar sein.",
     StringKey.HelpDialogDismiss to "Verstanden",
 
     StringKey.CategoryMisc to "Sonstiges",

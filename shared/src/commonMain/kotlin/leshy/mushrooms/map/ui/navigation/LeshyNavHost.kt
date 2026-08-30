@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import leshy.mushrooms.map.domain.repository.SettingsRepository
+import leshy.mushrooms.map.i18n.HelpTopic
 import leshy.mushrooms.map.i18n.LocalAppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.presentation.archive.WalkDetailViewModel
@@ -57,6 +58,7 @@ fun LeshyNavHost(
             // own row for this destination still reads NavRecord, see App.kt's drawerNavEntries.
             SectionScaffold(
                 title = StringKey.AppName,
+                help = HelpTopic.RECORD,
                 onMenuClick = onMenuClick,
             ) { padding ->
                 RecordScreen(
@@ -69,6 +71,7 @@ fun LeshyNavHost(
         composable<Destination.Archive> {
             SectionScaffold(
                 title = StringKey.NavArchive,
+                help = HelpTopic.ARCHIVE,
                 onMenuClick = onMenuClick,
             ) { padding ->
                 ArchiveScreen(
@@ -125,18 +128,21 @@ fun LeshyNavHost(
         composable<Destination.Map> {
             SectionScaffold(
                 title = StringKey.NavMap,
+                help = HelpTopic.MAP,
                 onMenuClick = onMenuClick,
             ) { padding -> MapScreen(modifier = Modifier.padding(padding)) }
         }
         composable<Destination.Preparation> {
             SectionScaffold(
                 title = StringKey.NavPreparation,
+                help = HelpTopic.PREPARATION,
                 onMenuClick = onMenuClick,
             ) { padding -> PreparationScreen(modifier = Modifier.padding(padding)) }
         }
         composable<Destination.Settings> {
             SectionScaffold(
                 title = StringKey.SettingsTitle,
+                help = HelpTopic.SETTINGS,
                 onMenuClick = onMenuClick,
             ) { padding ->
                 SettingsScreen(
@@ -166,6 +172,7 @@ fun LeshyNavHost(
         composable<Destination.Data> {
             SectionScaffold(
                 title = StringKey.NavData,
+                help = HelpTopic.DATA,
                 onMenuClick = onMenuClick,
             ) { padding ->
                 DataScreen(
@@ -177,6 +184,7 @@ fun LeshyNavHost(
         composable<Destination.Species> {
             SectionScaffold(
                 title = StringKey.NavSpecies,
+                help = HelpTopic.SPECIES,
                 onMenuClick = onMenuClick,
             ) { padding -> SpeciesScreen(modifier = Modifier.padding(padding)) }
         }

@@ -79,8 +79,6 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Meniu",
     StringKey.HelpContentDescription to "Pagalba",
     StringKey.HelpDialogTitle to "Pagalba",
-    StringKey.HelpDialogMessage to
-        "Šio ekrano instrukcijos čia atsiras viename iš kitų atnaujinimų.",
     StringKey.HelpDialogDismiss to "Supratau",
 
     StringKey.CategoryMisc to "Įvairūs",

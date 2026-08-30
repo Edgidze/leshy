@@ -70,7 +70,6 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "メニュー",
     StringKey.HelpContentDescription to "ヘルプ",
     StringKey.HelpDialogTitle to "ヘルプ",
-    StringKey.HelpDialogMessage to "この画面の説明は今後のアップデートで追加される予定です。",
     StringKey.HelpDialogDismiss to "了解",
 
     StringKey.CategoryMisc to "その他",

@@ -72,7 +72,6 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Menü",
     StringKey.HelpContentDescription to "Yardım",
     StringKey.HelpDialogTitle to "Yardım",
-    StringKey.HelpDialogMessage to "Bu ekrana ait talimatlar gelecekteki bir güncellemede eklenecektir.",
     StringKey.HelpDialogDismiss to "Anladım",
 
     StringKey.CategoryMisc to "Diğer",

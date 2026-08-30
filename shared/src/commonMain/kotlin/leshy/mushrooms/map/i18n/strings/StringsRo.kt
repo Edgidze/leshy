@@ -74,8 +74,6 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Meniu",
     StringKey.HelpContentDescription to "Ajutor",
     StringKey.HelpDialogTitle to "Ajutor",
-    StringKey.HelpDialogMessage to
-        "Instrucțiunile pentru acest ecran vor fi disponibile aici într-o actualizare viitoare.",
     StringKey.HelpDialogDismiss to "Am înțeles",
 
     StringKey.CategoryMisc to "Diverse",

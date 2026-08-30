@@ -75,8 +75,6 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Nabídka",
     StringKey.HelpContentDescription to "Nápověda",
     StringKey.HelpDialogTitle to "Nápověda",
-    StringKey.HelpDialogMessage to
-        "Návod pro tuto obrazovku bude k dispozici v některé z budoucích aktualizací.",
     StringKey.HelpDialogDismiss to "Rozumím",
 
     StringKey.CategoryMisc to "Ostatní",

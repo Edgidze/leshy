@@ -77,8 +77,6 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "მენიუ",
     StringKey.HelpContentDescription to "დახმარება",
     StringKey.HelpDialogTitle to "დახმარება",
-    StringKey.HelpDialogMessage to
-        "ამ ეკრანის ინსტრუქციები აქ ერთ-ერთ მომავალ ვერსიაში გამოჩნდება.",
     StringKey.HelpDialogDismiss to "გასაგებია",
 
     StringKey.CategoryMisc to "სხვადასხვა",

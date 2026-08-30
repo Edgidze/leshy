@@ -77,8 +77,6 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Мени",
     StringKey.HelpContentDescription to "Помоћ",
     StringKey.HelpDialogTitle to "Помоћ",
-    StringKey.HelpDialogMessage to
-        "Упутства за овај екран појавиће се овде у некој од наредних верзија.",
     StringKey.HelpDialogDismiss to "Разумем",
 
     StringKey.CategoryMisc to "Разно",

@@ -76,8 +76,6 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Menu",
     StringKey.HelpContentDescription to "Aide",
     StringKey.HelpDialogTitle to "Aide",
-    StringKey.HelpDialogMessage to
-        "Les instructions pour cet écran seront disponibles ici dans une prochaine mise à jour.",
     StringKey.HelpDialogDismiss to "Compris",
 
     StringKey.CategoryMisc to "Divers",

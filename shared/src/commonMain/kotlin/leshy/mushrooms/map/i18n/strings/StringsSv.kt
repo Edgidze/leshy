@@ -72,8 +72,6 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Meny",
     StringKey.HelpContentDescription to "Hjälp",
     StringKey.HelpDialogTitle to "Hjälp",
-    StringKey.HelpDialogMessage to
-        "Instruktioner för den här skärmen kommer att finnas här i en framtida uppdatering.",
     StringKey.HelpDialogDismiss to "Förstått",
 
     StringKey.CategoryMisc to "Övrigt",

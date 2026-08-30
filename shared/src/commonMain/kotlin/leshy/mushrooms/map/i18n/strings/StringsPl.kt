@@ -74,8 +74,6 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Menu",
     StringKey.HelpContentDescription to "Pomoc",
     StringKey.HelpDialogTitle to "Pomoc",
-    StringKey.HelpDialogMessage to
-        "Instrukcje dla tego ekranu pojawią się tutaj w przyszłej aktualizacji.",
     StringKey.HelpDialogDismiss to "Rozumiem",
 
     StringKey.CategoryMisc to "Inne",

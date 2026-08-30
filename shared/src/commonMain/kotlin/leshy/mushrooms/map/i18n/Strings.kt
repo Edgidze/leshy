@@ -202,7 +202,6 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.NavMenuContentDescription -> "Меню"
     StringKey.HelpContentDescription -> "Помощь"
     StringKey.HelpDialogTitle -> "Помощь"
-    StringKey.HelpDialogMessage -> "Инструкции для этого экрана появятся здесь в будущем обновлении."
     StringKey.HelpDialogDismiss -> "Понятно"
 
     StringKey.CategoryMisc -> "Разное"
@@ -491,7 +490,6 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.NavMenuContentDescription -> "Menu"
     StringKey.HelpContentDescription -> "Help"
     StringKey.HelpDialogTitle -> "Help"
-    StringKey.HelpDialogMessage -> "Instructions for this screen will be available here in a future update."
     StringKey.HelpDialogDismiss -> "Got it"
 
     StringKey.CategoryMisc -> "Misc"

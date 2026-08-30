@@ -78,8 +78,6 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Menü",
     StringKey.HelpContentDescription to "Súgó",
     StringKey.HelpDialogTitle to "Súgó",
-    StringKey.HelpDialogMessage to
-        "Az ehhez a képernyőhöz tartozó útmutató egy későbbi verzióban jelenik meg itt.",
     StringKey.HelpDialogDismiss to "Értem",
 
     StringKey.CategoryMisc to "Egyéb",

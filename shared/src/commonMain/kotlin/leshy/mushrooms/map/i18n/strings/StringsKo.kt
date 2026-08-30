@@ -70,7 +70,6 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "메뉴",
     StringKey.HelpContentDescription to "도움말",
     StringKey.HelpDialogTitle to "도움말",
-    StringKey.HelpDialogMessage to "이 화면에 대한 안내는 추후 업데이트에서 제공될 예정입니다.",
     StringKey.HelpDialogDismiss to "확인",
 
     StringKey.CategoryMisc to "기타",

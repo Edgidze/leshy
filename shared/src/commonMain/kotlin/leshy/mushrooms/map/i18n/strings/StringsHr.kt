@@ -78,8 +78,6 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Izbornik",
     StringKey.HelpContentDescription to "Pomoć",
     StringKey.HelpDialogTitle to "Pomoć",
-    StringKey.HelpDialogMessage to
-        "Upute za ovaj zaslon pojavit će se ovdje u jednoj od sljedećih verzija.",
     StringKey.HelpDialogDismiss to "Razumijem",
 
     StringKey.CategoryMisc to "Razno",

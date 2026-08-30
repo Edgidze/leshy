@@ -60,7 +60,6 @@ enum class StringKey {
     NavMenuContentDescription,
     HelpContentDescription,
     HelpDialogTitle,
-    HelpDialogMessage,
     HelpDialogDismiss,
 
     CategoryMisc,

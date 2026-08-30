@@ -74,8 +74,6 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Даведка",
     StringKey.HelpDialogTitle to "Даведка",
-    StringKey.HelpDialogMessage to
-        "Інструкцыі для гэтага экрана з'явяцца тут у наступным абнаўленні.",
     StringKey.HelpDialogDismiss to "Зразумела",
 
     StringKey.CategoryMisc to "Рознае",

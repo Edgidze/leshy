@@ -81,8 +81,6 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Meni",
     StringKey.HelpContentDescription to "Pomoč",
     StringKey.HelpDialogTitle to "Pomoč",
-    StringKey.HelpDialogMessage to
-        "Navodila za ta zaslon se bodo tukaj pojavila v eni od naslednjih različic.",
     StringKey.HelpDialogDismiss to "Razumem",
 
     StringKey.CategoryMisc to "Razno",

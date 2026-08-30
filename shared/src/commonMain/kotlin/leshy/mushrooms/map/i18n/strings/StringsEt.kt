@@ -76,8 +76,6 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Menüü",
     StringKey.HelpContentDescription to "Abi",
     StringKey.HelpDialogTitle to "Abi",
-    StringKey.HelpDialogMessage to
-        "Selle ekraani juhised ilmuvad siia mõnes järgmises versioonis.",
     StringKey.HelpDialogDismiss to "Selge",
 
     StringKey.CategoryMisc to "Muu",

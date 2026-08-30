@@ -75,8 +75,6 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Ponuka",
     StringKey.HelpContentDescription to "Pomocník",
     StringKey.HelpDialogTitle to "Pomocník",
-    StringKey.HelpDialogMessage to
-        "Pokyny pre túto obrazovku sa tu objavia v niektorej z ďalších verzií.",
     StringKey.HelpDialogDismiss to "Rozumiem",
 
     StringKey.CategoryMisc to "Rôzne",

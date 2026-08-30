@@ -74,9 +74,6 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Menú",
     StringKey.HelpContentDescription to "Ayuda",
     StringKey.HelpDialogTitle to "Ayuda",
-    StringKey.HelpDialogMessage to
-        "Las instrucciones para esta pantalla estarán disponibles aquí en una futura " +
-            "actualización.",
     StringKey.HelpDialogDismiss to "Entendido",
 
     StringKey.CategoryMisc to "Varios",

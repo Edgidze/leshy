@@ -1,8 +1,12 @@
 package leshy.mushrooms.map.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.filled.Menu
@@ -21,12 +25,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import leshy.mushrooms.map.i18n.HelpTopic
 import leshy.mushrooms.map.i18n.StringKey
+import leshy.mushrooms.map.i18n.helpResource
 import leshy.mushrooms.map.i18n.stringResource
 
+/**
+ * Top bar shared by every top-level section (the side-drawer entries) — hamburger on the left, `?`
+ * on the right. [help] is what the `?` shows: the section's own instructions, two or three
+ * paragraphs of them ([HelpTopic]), in the interface language like any other text.
+ */
 @Composable
 fun SectionScaffold(
     title: StringKey,
+    help: HelpTopic,
     onMenuClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -64,7 +76,18 @@ fun SectionScaffold(
             modifier = Modifier.fillMaxWidth(0.9f),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.HelpDialogTitle)) },
-            text = { Text(stringResource(StringKey.HelpDialogMessage)) },
+            text = {
+                // Three paragraphs of prose overflow a phone-height dialog on most sections (and
+                // all of them once a language translates longer than Russian) — Material3 caps the
+                // dialog's height but does not scroll the text slot itself, so the tail would
+                // simply be cut off without this.
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    help.paragraphs.forEach { paragraph -> Text(helpResource(paragraph)) }
+                }
+            },
             confirmButton = {
                 TextButton(onClick = { showHelpDialog = false }) {
                     Text(stringResource(StringKey.HelpDialogDismiss))

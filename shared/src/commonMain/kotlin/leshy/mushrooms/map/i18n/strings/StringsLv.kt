@@ -79,8 +79,6 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Izvēlne",
     StringKey.HelpContentDescription to "Palīdzība",
     StringKey.HelpDialogTitle to "Palīdzība",
-    StringKey.HelpDialogMessage to
-        "Norādījumi par šo ekrānu šeit parādīsies kādā no nākamajām versijām.",
     StringKey.HelpDialogDismiss to "Sapratu",
 
     StringKey.CategoryMisc to "Dažādi",

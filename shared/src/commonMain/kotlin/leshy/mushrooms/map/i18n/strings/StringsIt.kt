@@ -75,8 +75,6 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Menu",
     StringKey.HelpContentDescription to "Aiuto",
     StringKey.HelpDialogTitle to "Aiuto",
-    StringKey.HelpDialogMessage to
-        "Le istruzioni per questa schermata saranno disponibili qui in un futuro aggiornamento.",
     StringKey.HelpDialogDismiss to "Capito",
 
     StringKey.CategoryMisc to "Varie",

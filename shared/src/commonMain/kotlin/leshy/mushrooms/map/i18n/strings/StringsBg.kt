@@ -74,8 +74,6 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Помощ",
     StringKey.HelpDialogTitle to "Помощ",
-    StringKey.HelpDialogMessage to
-        "Инструкциите за този екран ще се появят тук в бъдеща актуализация.",
     StringKey.HelpDialogDismiss to "Разбрах",
 
     StringKey.CategoryMisc to "Разни",
