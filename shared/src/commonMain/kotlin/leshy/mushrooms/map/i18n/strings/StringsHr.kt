@@ -207,6 +207,8 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Natrag",
     StringKey.MapFilterDateRangeTitle to "Raspon datuma",
     StringKey.MapFilterMonthRangeTitle to "Sezona",
+    StringKey.MapFilterPastRoutesTitle to "Prikaz prošlih ruta",
+    StringKey.MapFilterShowPastRoutes to "Prikaži prošle rute",
 
     StringKey.MonthJanuary to "Siječanj",
     StringKey.MonthFebruary to "Veljača",

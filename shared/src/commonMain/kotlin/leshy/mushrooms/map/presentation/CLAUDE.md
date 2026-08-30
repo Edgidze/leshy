@@ -150,14 +150,29 @@ clear()` — если прогулка завершалась в первые 5�
 
 ## MapFilter (Часть 7) — единый фильтр для «Карты» и «Записи»
 
-Три оси: диапазон дат, диапазон месяцев (сезон, без года), виды грибов.
+Четыре оси: диапазон дат, диапазон месяцев (сезон, без года), показ прошлых
+маршрутов, виды грибов.
+
+- **«Показывать прошлые маршруты» (`MapFilter.showPastRoutes`, DataStore) —
+  единственная булева ось.** Дефолт `true` хранится как ОТСУТСТВИЕ ключа
+  (`?: true`), а не как записанный `false` — иначе уже установленные копии
+  не включились бы. Гасит треки прошлых прогулок сразу на ДВУХ экранах:
+  «Карта находок» (`MapViewModel.buildUiState` → `tracks = emptyMap()`) и
+  «Запись» (`RecordViewModel` → `RecordUiState.historicalTracks` →
+  `LiveTrackMap.historicalTracks`). Оба гасят на уровне ViewModel (пустая
+  коллекция), а не скрытием слоя в UI — иначе подгонка камеры
+  (`AggregatedFindsMap`) продолжала бы кадрировать невидимые треки.
+  На «Записи» в `historicalTracks` попадают только ЗАВЕРШЁННЫЕ прогулки
+  (`endTime != null`): текущая рисуется отдельно, живьём, из
+  `RecordUiState.trackPoints`, и вторая линия под ней отставала бы на одну
+  запись в Room.
 
 - **Виды грибов переиспользуют `Category.isActive`**, не заводят новый
   персистентный набор — подтверждено явным вопросом пользователю. Поле уже
   означает «этот гриб включён»; окно фильтра просто переехало сюда с экрана
   «Настройки», пишет тем же `categoryRepository.upsert(category.copy
-  (isActive=...))`. `MapFilterRepository` (DataStore) хранит только 2
-  оставшиеся оси — 4 ключа, все nullable.
+  (isActive=...))`. `MapFilterRepository` (DataStore) хранит остальные три
+  оси — 4 nullable-ключа под даты/месяцы плюс булев `filter_show_past_routes`.
 - **Список видов в самом диалоге фильтра гейтится `Category.
   isFilterEligible`**, не полным каталогом — `MapFilterViewModel` читает
   `categoryRepository.observeFilterEligible()`, сортировка `isPicked DESC`

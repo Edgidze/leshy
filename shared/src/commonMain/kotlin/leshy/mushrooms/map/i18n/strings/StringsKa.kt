@@ -206,6 +206,8 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "უკან",
     StringKey.MapFilterDateRangeTitle to "თარიღების დიაპაზონი",
     StringKey.MapFilterMonthRangeTitle to "სეზონი",
+    StringKey.MapFilterPastRoutesTitle to "წარსული მარშრუტების ჩვენება",
+    StringKey.MapFilterShowPastRoutes to "ნაჩვენები იყოს წარსული მარშრუტები",
 
     StringKey.MonthJanuary to "იანვარი",
     StringKey.MonthFebruary to "თებერვალი",

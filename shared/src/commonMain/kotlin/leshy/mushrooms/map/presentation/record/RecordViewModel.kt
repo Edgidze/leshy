@@ -12,10 +12,12 @@ import leshy.mushrooms.map.domain.model.FieldMark
 import leshy.mushrooms.map.domain.model.GeoPoint
 import leshy.mushrooms.map.domain.model.MAX_MUSHROOM_FINDS_PER_WALK
 import leshy.mushrooms.map.domain.model.MarkType
+import leshy.mushrooms.map.domain.model.TrackPoint
 import leshy.mushrooms.map.domain.repository.CategoryRepository
 import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 import leshy.mushrooms.map.domain.repository.MapFilterRepository
 import leshy.mushrooms.map.domain.repository.SettingsRepository
+import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
 import leshy.mushrooms.map.domain.usecase.AddMushroomMarkUseCase
 import leshy.mushrooms.map.domain.usecase.AddPlaceMarkUseCase
@@ -71,6 +73,7 @@ private const val TILE_REORDER_SCROLL_DURATION_MILLIS = 1000
 private data class RecordFilterState(
     val categories: List<Category>,
     val historicalFinds: List<FieldMark>,
+    val historicalTracks: Map<Long, List<GeoPoint>>,
     val historicalPlaces: List<FieldMark>,
     val filterCount: Int,
 )
@@ -86,6 +89,7 @@ class RecordViewModel(
     private val walkRepository: WalkRepository,
     private val fieldMarkRepository: FieldMarkRepository,
     private val mapFilterRepository: MapFilterRepository,
+    trackPointRepository: TrackPointRepository,
     private val locationTracker: LocationTracker,
     private val backgroundRecordingController: BackgroundRecordingController,
     private val settingsRepository: SettingsRepository,
@@ -167,13 +171,20 @@ class RecordViewModel(
                 settingsRepository.observeLanguage(),
                 categoryOrder,
             ) { language, order -> language to order }
-            combine(
+            // Walks and their track points travel together: combine() only types five sources, and
+            // the two are always consumed as a pair here (a track is only kept if its walk passed
+            // the filter).
+            val walkData = combine(
                 walkRepository.observeAll(),
+                trackPointRepository.observeAll(),
+            ) { walks, trackPoints -> walks to trackPoints }
+            combine(
+                walkData,
                 fieldMarkRepository.observeAll(),
                 categoryRepository.observeAll(),
                 mapFilterRepository.observeFilter(),
                 sortSettings,
-            ) { walks, marks, categories, filter, (language, order) ->
+            ) { (walks, trackPoints), marks, categories, filter, (language, order) ->
                 val sortedCategories = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
                     language,
@@ -192,9 +203,21 @@ class RecordViewModel(
                         categoryById[it.categoryId]?.isActive == true
                 }
                 val historicalPlaces = marks.filter { it.walkId in matchingWalkIds && it.type == MarkType.POI }
+                // Only finished walks: the walk being recorded right now is already drawn, live and
+                // at full weight, as RecordUiState.trackPoints — repeating it here would stack a
+                // second line under it that lags one Room write behind.
+                val finishedWalkIds = walks.filter { it.endTime != null }.map { it.id }.toSet()
+                val historicalTracks = if (!filter.showPastRoutes) {
+                    emptyMap()
+                } else {
+                    trackPoints
+                        .filter { it.walkId in matchingWalkIds && it.walkId in finishedWalkIds }
+                        .groupBy(TrackPoint::walkId) { GeoPoint(it.lat, it.lon, it.elevation, it.timestamp) }
+                }
                 RecordFilterState(
                     tileCategories,
                     historicalFinds,
+                    historicalTracks,
                     historicalPlaces,
                     computeFilterCount(filter, walks, categories),
                 )
@@ -203,6 +226,7 @@ class RecordViewModel(
                     it.copy(
                         categories = s.categories,
                         historicalFinds = s.historicalFinds,
+                        historicalTracks = s.historicalTracks,
                         historicalPlaces = s.historicalPlaces,
                         filterCount = s.filterCount,
                     )
@@ -368,6 +392,8 @@ class RecordViewModel(
                     categories = state.categories,
                     currentLocation = state.currentLocation,
                     historicalFinds = state.historicalFinds,
+                    historicalTracks = state.historicalTracks,
+                    historicalPlaces = state.historicalPlaces,
                     filterCount = state.filterCount,
                     justFinished = true,
                 )

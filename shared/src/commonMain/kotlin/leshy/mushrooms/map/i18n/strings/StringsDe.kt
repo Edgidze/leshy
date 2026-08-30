@@ -202,6 +202,8 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Zurück",
     StringKey.MapFilterDateRangeTitle to "Datumsbereich",
     StringKey.MapFilterMonthRangeTitle to "Saison",
+    StringKey.MapFilterPastRoutesTitle to "Anzeige vergangener Routen",
+    StringKey.MapFilterShowPastRoutes to "Vergangene Routen anzeigen",
 
     StringKey.MonthJanuary to "Januar",
     StringKey.MonthFebruary to "Februar",

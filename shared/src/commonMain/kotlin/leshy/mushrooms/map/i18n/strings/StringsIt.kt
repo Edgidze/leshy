@@ -204,6 +204,8 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Indietro",
     StringKey.MapFilterDateRangeTitle to "Intervallo di date",
     StringKey.MapFilterMonthRangeTitle to "Stagione",
+    StringKey.MapFilterPastRoutesTitle to "Visualizzazione dei percorsi passati",
+    StringKey.MapFilterShowPastRoutes to "Mostra i percorsi passati",
 
     StringKey.MonthJanuary to "Gennaio",
     StringKey.MonthFebruary to "Febbraio",

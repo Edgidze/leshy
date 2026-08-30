@@ -207,6 +207,8 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Retour",
     StringKey.MapFilterDateRangeTitle to "Période",
     StringKey.MapFilterMonthRangeTitle to "Saison",
+    StringKey.MapFilterPastRoutesTitle to "Affichage des itinéraires passés",
+    StringKey.MapFilterShowPastRoutes to "Afficher les itinéraires passés",
 
     StringKey.MonthJanuary to "Janvier",
     StringKey.MonthFebruary to "Février",

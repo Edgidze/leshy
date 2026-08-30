@@ -202,6 +202,8 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Wstecz",
     StringKey.MapFilterDateRangeTitle to "Zakres dat",
     StringKey.MapFilterMonthRangeTitle to "Sezon",
+    StringKey.MapFilterPastRoutesTitle to "Wyświetlanie poprzednich tras",
+    StringKey.MapFilterShowPastRoutes to "Pokazuj poprzednie trasy",
 
     StringKey.MonthJanuary to "Styczeń",
     StringKey.MonthFebruary to "Luty",

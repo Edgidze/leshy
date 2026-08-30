@@ -208,6 +208,8 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Atpakaļ",
     StringKey.MapFilterDateRangeTitle to "Datumu diapazons",
     StringKey.MapFilterMonthRangeTitle to "Sezona",
+    StringKey.MapFilterPastRoutesTitle to "Iepriekšējo maršrutu attēlošana",
+    StringKey.MapFilterShowPastRoutes to "Rādīt iepriekšējos maršrutus",
 
     StringKey.MonthJanuary to "Janvāris",
     StringKey.MonthFebruary to "Februāris",

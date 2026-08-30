@@ -84,9 +84,15 @@ class MapViewModel(
             .map { it.id }
             .toSet()
 
-        val tracks = raw.trackPoints
-            .filter { it.walkId in filteredWalkIds }
-            .groupBy(TrackPoint::walkId) { GeoPoint(it.lat, it.lon, it.elevation, it.timestamp) }
+        // Empty (not just hidden at the layer level) when the user turned past routes off, so the
+        // camera-fitting in AggregatedFindsMap frames the finds alone instead of an invisible track.
+        val tracks = if (!filter.showPastRoutes) {
+            emptyMap()
+        } else {
+            raw.trackPoints
+                .filter { it.walkId in filteredWalkIds }
+                .groupBy(TrackPoint::walkId) { GeoPoint(it.lat, it.lon, it.elevation, it.timestamp) }
+        }
 
         val categoryById = raw.categories.associateBy { it.id }
         val mushroomMarks = raw.marks.filter {

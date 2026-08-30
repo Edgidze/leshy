@@ -44,10 +44,10 @@ fun Walk.matchesDateAndSeason(filter: MapFilter): Boolean {
 /**
  * "Filters: N" badge count: +1 if the selected date range is narrower than the full span of
  * [allWalks] (compared by calendar day, see [MILLIS_PER_DAY]), +1 if the selected month range is
- * narrower than 1..12, +1 if at least one real species is excluded (`isActive == false`) — the
- * synthetic `category_misc` bucket (PHOTO/POI marks, never shown as a toggle) is deliberately
- * excluded from this check since it's always seeded `isActive = false` and isn't a species the
- * user can "deselect".
+ * narrower than 1..12, +1 if past routes are hidden, +1 if at least one real species is excluded
+ * (`isActive == false`) — the synthetic `category_misc` bucket (PHOTO/POI marks, never shown as a
+ * toggle) is deliberately excluded from this check since it's always seeded `isActive = false` and
+ * isn't a species the user can "deselect".
  */
 fun computeFilterCount(filter: MapFilter, allWalks: List<Walk>, allCategories: List<Category>): Int {
     var count = 0
@@ -62,6 +62,7 @@ fun computeFilterCount(filter: MapFilter, allWalks: List<Walk>, allCategories: L
     val effectiveMonthFrom = filter.monthFrom ?: 1
     val effectiveMonthTo = filter.monthTo ?: 12
     if (effectiveMonthFrom > 1 || effectiveMonthTo < 12) count++
+    if (!filter.showPastRoutes) count++
     if (allCategories.any { it.nameKey != MISC_CATEGORY_NAME_KEY && !it.isActive }) count++
     return count
 }

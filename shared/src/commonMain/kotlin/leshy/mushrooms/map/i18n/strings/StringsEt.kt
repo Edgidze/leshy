@@ -205,6 +205,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Tagasi",
     StringKey.MapFilterDateRangeTitle to "Ajavahemik",
     StringKey.MapFilterMonthRangeTitle to "Hooaeg",
+    StringKey.MapFilterPastRoutesTitle to "Varasemate marsruutide kuvamine",
+    StringKey.MapFilterShowPastRoutes to "Näita varasemaid marsruute",
 
     StringKey.MonthJanuary to "Jaanuar",
     StringKey.MonthFebruary to "Veebruar",

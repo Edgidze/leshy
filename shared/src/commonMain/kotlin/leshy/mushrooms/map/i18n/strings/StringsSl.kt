@@ -210,6 +210,8 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Nazaj",
     StringKey.MapFilterDateRangeTitle to "Obdobje",
     StringKey.MapFilterMonthRangeTitle to "Sezona",
+    StringKey.MapFilterPastRoutesTitle to "Prikaz preteklih poti",
+    StringKey.MapFilterShowPastRoutes to "Prikaži pretekle poti",
 
     StringKey.MonthJanuary to "Januar",
     StringKey.MonthFebruary to "Februar",

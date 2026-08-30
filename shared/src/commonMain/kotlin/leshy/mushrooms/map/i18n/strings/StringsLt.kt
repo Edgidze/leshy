@@ -208,6 +208,8 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Atgal",
     StringKey.MapFilterDateRangeTitle to "Datų intervalas",
     StringKey.MapFilterMonthRangeTitle to "Sezonas",
+    StringKey.MapFilterPastRoutesTitle to "Ankstesnių maršrutų rodymas",
+    StringKey.MapFilterShowPastRoutes to "Rodyti ankstesnius maršrutus",
 
     StringKey.MonthJanuary to "Sausis",
     StringKey.MonthFebruary to "Vasaris",

@@ -200,6 +200,8 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Tillbaka",
     StringKey.MapFilterDateRangeTitle to "Datumintervall",
     StringKey.MapFilterMonthRangeTitle to "Säsong",
+    StringKey.MapFilterPastRoutesTitle to "Visning av tidigare rutter",
+    StringKey.MapFilterShowPastRoutes to "Visa tidigare rutter",
 
     StringKey.MonthJanuary to "Januari",
     StringKey.MonthFebruary to "Februari",

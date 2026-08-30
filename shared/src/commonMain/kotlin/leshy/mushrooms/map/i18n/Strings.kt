@@ -330,6 +330,8 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.MapFilterBackContentDescription -> "Назад"
     StringKey.MapFilterDateRangeTitle -> "Диапазон дат"
     StringKey.MapFilterMonthRangeTitle -> "Сезон"
+    StringKey.MapFilterPastRoutesTitle -> "Отображение прошлых маршрутов"
+    StringKey.MapFilterShowPastRoutes -> "Показывать прошлые маршруты"
 
     StringKey.MonthJanuary -> "Январь"
     StringKey.MonthFebruary -> "Февраль"
@@ -617,6 +619,8 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.MapFilterBackContentDescription -> "Back"
     StringKey.MapFilterDateRangeTitle -> "Date range"
     StringKey.MapFilterMonthRangeTitle -> "Season"
+    StringKey.MapFilterPastRoutesTitle -> "Past routes display"
+    StringKey.MapFilterShowPastRoutes -> "Show past routes"
 
     StringKey.MonthJanuary -> "January"
     StringKey.MonthFebruary -> "February"

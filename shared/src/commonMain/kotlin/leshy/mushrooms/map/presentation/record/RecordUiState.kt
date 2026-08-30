@@ -30,6 +30,10 @@ data class RecordUiState(
     val trackPoints: List<GeoPoint> = emptyList(),
     val marks: List<FieldMark> = emptyList(),
     val historicalFinds: List<FieldMark> = emptyList(),
+    /** Tracks of past (finished) walks that pass the date/season filter, keyed by walk id — drawn
+     * as a muted background layer under the current walk's own track. Empty while the filter's
+     * "show past routes" toggle is off. */
+    val historicalTracks: Map<Long, List<GeoPoint>> = emptyMap(),
     val historicalPlaces: List<FieldMark> = emptyList(),
     val filterCount: Int = 0,
     val navigationTarget: NavigationOverlayState? = null,

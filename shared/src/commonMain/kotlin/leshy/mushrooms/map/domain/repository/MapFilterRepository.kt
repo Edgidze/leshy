@@ -7,4 +7,5 @@ interface MapFilterRepository {
     fun observeFilter(): Flow<MapFilter>
     suspend fun setDateRange(startMillis: Long?, endMillis: Long?)
     suspend fun setMonthRange(from: Int?, to: Int?)
+    suspend fun setShowPastRoutes(show: Boolean)
 }

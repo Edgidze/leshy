@@ -203,6 +203,8 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Atrás",
     StringKey.MapFilterDateRangeTitle to "Rango de fechas",
     StringKey.MapFilterMonthRangeTitle to "Temporada",
+    StringKey.MapFilterPastRoutesTitle to "Visualización de rutas anteriores",
+    StringKey.MapFilterShowPastRoutes to "Mostrar rutas anteriores",
 
     StringKey.MonthJanuary to "Enero",
     StringKey.MonthFebruary to "Febrero",

@@ -330,6 +330,7 @@ private fun RecordScreenContent(
                             icon = category?.iconSource(),
                         )
                     },
+                    historicalTracks = uiState.historicalTracks,
                     places = currentPlaceMarks.map { mark ->
                         PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
                     },

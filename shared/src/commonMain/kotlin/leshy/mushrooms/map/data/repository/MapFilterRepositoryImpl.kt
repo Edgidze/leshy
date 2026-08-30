@@ -3,6 +3,7 @@ package leshy.mushrooms.map.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import leshy.mushrooms.map.domain.model.MapFilter
@@ -14,6 +15,7 @@ private val FILTER_DATE_START = longPreferencesKey("filter_date_start")
 private val FILTER_DATE_END = longPreferencesKey("filter_date_end")
 private val FILTER_MONTH_FROM = intPreferencesKey("filter_month_from")
 private val FILTER_MONTH_TO = intPreferencesKey("filter_month_to")
+private val FILTER_SHOW_PAST_ROUTES = booleanPreferencesKey("filter_show_past_routes")
 
 class MapFilterRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
@@ -24,6 +26,8 @@ class MapFilterRepositoryImpl(
             endMillis = prefs[FILTER_DATE_END],
             monthFrom = prefs[FILTER_MONTH_FROM],
             monthTo = prefs[FILTER_MONTH_TO],
+            // Absent key means "never touched" — past routes are shown until turned off.
+            showPastRoutes = prefs[FILTER_SHOW_PAST_ROUTES] ?: true,
         )
     }
 
@@ -39,5 +43,9 @@ class MapFilterRepositoryImpl(
             if (from == null) prefs.remove(FILTER_MONTH_FROM) else prefs[FILTER_MONTH_FROM] = from
             if (to == null) prefs.remove(FILTER_MONTH_TO) else prefs[FILTER_MONTH_TO] = to
         }
+    }
+
+    override suspend fun setShowPastRoutes(show: Boolean) {
+        dataStore.edit { prefs -> prefs[FILTER_SHOW_PAST_ROUTES] = show }
     }
 }

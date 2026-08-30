@@ -202,6 +202,8 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Назад",
     StringKey.MapFilterDateRangeTitle to "Дыяпазон дат",
     StringKey.MapFilterMonthRangeTitle to "Сезон",
+    StringKey.MapFilterPastRoutesTitle to "Адлюстраванне мінулых маршрутаў",
+    StringKey.MapFilterShowPastRoutes to "Паказваць мінулыя маршруты",
 
     StringKey.MonthJanuary to "Студзень",
     StringKey.MonthFebruary to "Люты",

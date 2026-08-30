@@ -85,6 +85,11 @@ fun LiveTrackMap(
     currentLocation: GeoPoint?,
     modifier: Modifier,
     historicalMarkers: List<MapMarker> = emptyList(),
+    // Tracks of past walks, keyed by walk id (the current walk's own track comes in as [track] and
+    // must not be repeated here). Deliberately kept out of the camera-fitting math below — framing
+    // every past route would zoom the Record screen out to the whole region the user has ever
+    // walked, which is the Map screen's job, not this one's.
+    historicalTracks: Map<Long, List<GeoPoint>> = emptyMap(),
     places: List<PlaceMarker> = emptyList(),
     onPlaceClick: (Long) -> Unit = {},
     historicalPlaces: List<PlaceMarker> = emptyList(),
@@ -192,6 +197,25 @@ fun LiveTrackMap(
             onMapLoadFailed = { tilesLoadFailed = true },
             onMapLoadFinished = { tilesLoadFailed = false },
         ) {
+            // First in the layer list — past routes are background context and must never draw over
+            // the current walk's own track, its markers, or the location dot.
+            historicalTracks.forEach { (walkId, points) ->
+                if (points.size >= 2) {
+                    key(walkId) {
+                        val historicalTrackSource = rememberGeoJsonSource(
+                            GeoJsonData.Features(LineString(points.map { Position(it.lon, it.lat) })),
+                        )
+                        LineLayer(
+                            id = "historical-track-$walkId",
+                            source = historicalTrackSource,
+                            color = const(TRACK_COLOR),
+                            width = const(2.dp),
+                            opacity = const(0.45f),
+                        )
+                    }
+                }
+            }
+
             ClusteredFindsLayers(historicalMarkers, idPrefix = "historical")
             // Reuses the same onPlaceClick as the current walk's own places below — safe because
             // RecordScreen.kt excludes the current walk's marks from historicalPlaces, so the two

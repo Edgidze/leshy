@@ -199,6 +199,8 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Înapoi",
     StringKey.MapFilterDateRangeTitle to "Interval de date",
     StringKey.MapFilterMonthRangeTitle to "Sezon",
+    StringKey.MapFilterPastRoutesTitle to "Afișarea traseelor anterioare",
+    StringKey.MapFilterShowPastRoutes to "Afișează traseele anterioare",
 
     StringKey.MonthJanuary to "Ianuarie",
     StringKey.MonthFebruary to "Februarie",

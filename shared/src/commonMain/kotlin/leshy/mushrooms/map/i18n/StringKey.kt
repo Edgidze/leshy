@@ -184,6 +184,8 @@ enum class StringKey {
     MapFilterBackContentDescription,
     MapFilterDateRangeTitle,
     MapFilterMonthRangeTitle,
+    MapFilterPastRoutesTitle,
+    MapFilterShowPastRoutes,
 
     MonthJanuary,
     MonthFebruary,

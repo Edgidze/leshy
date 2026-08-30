@@ -50,6 +50,7 @@ class MapFilterViewModel(
                     endMillis = filter.endMillis ?: starts.maxOrNull(),
                     monthFrom = filter.monthFrom ?: 1,
                     monthTo = filter.monthTo ?: 12,
+                    showPastRoutes = filter.showPastRoutes,
                     categories = picked + inherited,
                 )
             }.collect { state -> _uiState.value = state }
@@ -78,6 +79,10 @@ class MapFilterViewModel(
         viewModelScope.launch {
             mapFilterRepository.setMonthRange(if (from <= 1) null else from, if (to >= 12) null else to)
         }
+    }
+
+    fun setShowPastRoutes(show: Boolean) {
+        viewModelScope.launch { mapFilterRepository.setShowPastRoutes(show) }
     }
 
     fun setCategoryIncluded(category: Category, included: Boolean) {

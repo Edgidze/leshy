@@ -207,6 +207,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Takaisin",
     StringKey.MapFilterDateRangeTitle to "Aikaväli",
     StringKey.MapFilterMonthRangeTitle to "Kausi",
+    StringKey.MapFilterPastRoutesTitle to "Aiempien reittien näyttö",
+    StringKey.MapFilterShowPastRoutes to "Näytä aiemmat reitit",
 
     StringKey.MonthJanuary to "Tammikuu",
     StringKey.MonthFebruary to "Helmikuu",

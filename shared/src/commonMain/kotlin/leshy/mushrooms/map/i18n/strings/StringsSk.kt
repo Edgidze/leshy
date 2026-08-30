@@ -204,6 +204,8 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Späť",
     StringKey.MapFilterDateRangeTitle to "Rozsah dátumov",
     StringKey.MapFilterMonthRangeTitle to "Sezóna",
+    StringKey.MapFilterPastRoutesTitle to "Zobrazenie minulých trás",
+    StringKey.MapFilterShowPastRoutes to "Zobrazovať minulé trasy",
 
     StringKey.MonthJanuary to "Január",
     StringKey.MonthFebruary to "Február",

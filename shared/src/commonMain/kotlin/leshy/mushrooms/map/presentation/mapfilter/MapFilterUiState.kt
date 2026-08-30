@@ -9,5 +9,6 @@ data class MapFilterUiState(
     val endMillis: Long? = null,
     val monthFrom: Int = 1,
     val monthTo: Int = 12,
+    val showPastRoutes: Boolean = true,
     val categories: List<Category> = emptyList(),
 )

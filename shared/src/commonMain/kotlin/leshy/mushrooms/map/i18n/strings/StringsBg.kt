@@ -204,6 +204,8 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Назад",
     StringKey.MapFilterDateRangeTitle to "Период",
     StringKey.MapFilterMonthRangeTitle to "Сезон",
+    StringKey.MapFilterPastRoutesTitle to "Показване на минали маршрути",
+    StringKey.MapFilterShowPastRoutes to "Показвай миналите маршрути",
 
     StringKey.MonthJanuary to "Януари",
     StringKey.MonthFebruary to "Февруари",

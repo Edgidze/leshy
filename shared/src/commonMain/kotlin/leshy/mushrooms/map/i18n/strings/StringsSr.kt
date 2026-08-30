@@ -206,6 +206,8 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Назад",
     StringKey.MapFilterDateRangeTitle to "Опсег датума",
     StringKey.MapFilterMonthRangeTitle to "Сезона",
+    StringKey.MapFilterPastRoutesTitle to "Приказ претходних рута",
+    StringKey.MapFilterShowPastRoutes to "Приказуј претходне руте",
 
     StringKey.MonthJanuary to "Јануар",
     StringKey.MonthFebruary to "Фебруар",

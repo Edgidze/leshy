@@ -198,6 +198,8 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "뒤로",
     StringKey.MapFilterDateRangeTitle to "날짜 범위",
     StringKey.MapFilterMonthRangeTitle to "계절",
+    StringKey.MapFilterPastRoutesTitle to "지난 경로 표시 설정",
+    StringKey.MapFilterShowPastRoutes to "지난 경로 표시",
 
     StringKey.MonthJanuary to "1월",
     StringKey.MonthFebruary to "2월",

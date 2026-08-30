@@ -96,6 +96,17 @@ fun MapFilterDialog(onDismissRequest: () -> Unit, viewModel: MapFilterViewModel 
                             HorizontalDivider()
                         }
                         Text(
+                            text = stringResource(StringKey.MapFilterPastRoutesTitle),
+                            style = MaterialTheme.typography.titleSmall,
+                            modifier = Modifier.padding(vertical = 12.dp),
+                        )
+                        ToggleFilterRow(
+                            label = stringResource(StringKey.MapFilterShowPastRoutes),
+                            checked = uiState.showPastRoutes,
+                            onToggle = viewModel::setShowPastRoutes,
+                        )
+                        HorizontalDivider()
+                        Text(
                             text = stringResource(StringKey.SettingsCategoriesTitle),
                             style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier.padding(vertical = 12.dp),
@@ -166,6 +177,20 @@ private fun MonthRangeSection(uiState: MapFilterUiState, onRangeChanged: (Int, I
                 onRangeChanged(sliderRange.start.roundToInt(), sliderRange.endInclusive.roundToInt())
             },
         )
+    }
+}
+
+/**
+ * Species-row twin for a filter that isn't a species: same 56.dp row height and same trailing
+ * [Switch], with the icon slot left empty (there is no per-species picture to show) but its width
+ * kept, so the label column stays aligned with the species list right below it.
+ */
+@Composable
+private fun ToggleFilterRow(label: String, checked: Boolean, onToggle: (Boolean) -> Unit) {
+    Row(modifier = Modifier.fillMaxWidth().height(56.dp), verticalAlignment = Alignment.CenterVertically) {
+        Spacer(modifier = Modifier.size(56.dp))
+        Text(text = label, modifier = Modifier.weight(1f).padding(start = 12.dp))
+        Switch(checked = checked, onCheckedChange = onToggle)
     }
 }
 

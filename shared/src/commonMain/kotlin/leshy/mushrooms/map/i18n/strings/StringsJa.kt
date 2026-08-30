@@ -198,6 +198,8 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "戻る",
     StringKey.MapFilterDateRangeTitle to "期間",
     StringKey.MapFilterMonthRangeTitle to "シーズン",
+    StringKey.MapFilterPastRoutesTitle to "過去のルートの表示",
+    StringKey.MapFilterShowPastRoutes to "過去のルートを表示する",
 
     StringKey.MonthJanuary to "1月",
     StringKey.MonthFebruary to "2月",

@@ -203,6 +203,8 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Назад",
     StringKey.MapFilterDateRangeTitle to "Діапазон дат",
     StringKey.MapFilterMonthRangeTitle to "Сезон",
+    StringKey.MapFilterPastRoutesTitle to "Відображення минулих маршрутів",
+    StringKey.MapFilterShowPastRoutes to "Показувати минулі маршрути",
 
     StringKey.MonthJanuary to "Січень",
     StringKey.MonthFebruary to "Лютий",

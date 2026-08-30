@@ -207,6 +207,8 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Vissza",
     StringKey.MapFilterDateRangeTitle to "Időszak",
     StringKey.MapFilterMonthRangeTitle to "Szezon",
+    StringKey.MapFilterPastRoutesTitle to "Korábbi útvonalak megjelenítése",
+    StringKey.MapFilterShowPastRoutes to "Korábbi útvonalak mutatása",
 
     StringKey.MonthJanuary to "Január",
     StringKey.MonthFebruary to "Február",

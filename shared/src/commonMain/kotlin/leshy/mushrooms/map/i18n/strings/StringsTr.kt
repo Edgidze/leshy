@@ -198,6 +198,8 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Geri",
     StringKey.MapFilterDateRangeTitle to "Tarih aralığı",
     StringKey.MapFilterMonthRangeTitle to "Mevsim",
+    StringKey.MapFilterPastRoutesTitle to "Geçmiş rotaların gösterimi",
+    StringKey.MapFilterShowPastRoutes to "Geçmiş rotaları göster",
 
     StringKey.MonthJanuary to "Ocak",
     StringKey.MonthFebruary to "Şubat",

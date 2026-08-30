@@ -203,6 +203,8 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.MapFilterBackContentDescription to "Zpět",
     StringKey.MapFilterDateRangeTitle to "Rozsah dat",
     StringKey.MapFilterMonthRangeTitle to "Sezóna",
+    StringKey.MapFilterPastRoutesTitle to "Zobrazení minulých tras",
+    StringKey.MapFilterShowPastRoutes to "Zobrazovat minulé trasy",
 
     StringKey.MonthJanuary to "Leden",
     StringKey.MonthFebruary to "Únor",
