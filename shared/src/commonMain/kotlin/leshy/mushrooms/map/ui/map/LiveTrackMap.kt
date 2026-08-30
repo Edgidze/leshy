@@ -64,13 +64,22 @@ private val CURRENT_LOCATION_COLOR = Color(0xFF2196F3)
 private val NAVIGATION_LINE_COLOR = Color(0xFFFF8F00)
 private val NAVIGATION_LINE_DASH = listOf(2f, 2f)
 private const val DEFAULT_ZOOM = 15.0
+
+/**
+ * Zoom used while the device location is unknown (GPS off, permission denied/revoked, no fix yet).
+ * MapLibre's minimum — the map opens as the whole world instead of a street-level view of Null
+ * Island, which is what a (0, 0) target at [DEFAULT_ZOOM] looked like: an anonymous patch of ocean
+ * off Africa that the user had to pinch out of for a long while before it was even clear what they
+ * were looking at.
+ */
+private const val NO_LOCATION_ZOOM = 0.0
 private const val MIN_BOUNDS_SPAN_DEGREES = 0.001
 private val FOLLOW_RESUME_DELAY = 10.seconds
 
 /** Shared default starting camera position — also used by callers that hoist their own [CameraState]. */
 fun defaultLiveTrackCameraPosition(currentLocation: GeoPoint?): CameraPosition = CameraPosition(
     target = Position(currentLocation?.lon ?: 0.0, currentLocation?.lat ?: 0.0),
-    zoom = DEFAULT_ZOOM,
+    zoom = if (currentLocation == null) NO_LOCATION_ZOOM else DEFAULT_ZOOM,
 )
 
 /**
@@ -148,12 +157,22 @@ fun LiveTrackMap(
         }
     }
 
+    // False while the map is still sitting at NO_LOCATION_ZOOM waiting for a first fix — see the
+    // zoom argument below. Already true when the map composed with a location in hand, since
+    // defaultLiveTrackCameraPosition started it at DEFAULT_ZOOM in that case.
+    var hasFramedLocation by remember(cameraState) { mutableStateOf(currentLocation != null) }
+
     LaunchedEffect(currentLocation, historyPoints, followEnabled) {
         if (!followEnabled) return@LaunchedEffect
         if (currentLocation != null) {
             cameraState.position = cameraState.position.copy(
                 target = Position(currentLocation.lon, currentLocation.lat),
+                // The first fix has to undo the whole-world zoom too, not just recenter — otherwise
+                // the camera would sit exactly on the user while still showing a whole continent.
+                // Every later fix leaves the zoom alone: by then it's whatever the user chose.
+                zoom = if (hasFramedLocation) cameraState.position.zoom else DEFAULT_ZOOM,
             )
+            hasFramedLocation = true
         } else if (historyPoints.isNotEmpty()) {
             val lats = historyPoints.map { it.first }
             val lons = historyPoints.map { it.second }
