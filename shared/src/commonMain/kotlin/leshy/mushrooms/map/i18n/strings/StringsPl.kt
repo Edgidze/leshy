@@ -161,6 +161,8 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Zmień nazwę spaceru:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Zatwierdź",
     StringKey.WalkDetailDeleteContentDescription to "Usuń spacer",
+    StringKey.WalkDetailShareAction to "Udostępnij",
+    StringKey.WalkDetailDeleteAction to "Usuń",
     StringKey.WalkDetailDeleteConfirmTitle to "Usunąć spacer?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Spacer i wszystkie znaleziska zostaną trwale usunięte. Tej operacji nie można cofnąć.",

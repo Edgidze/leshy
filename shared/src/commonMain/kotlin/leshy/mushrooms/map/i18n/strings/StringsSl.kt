@@ -168,6 +168,8 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Spremenite ime sprehoda:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Potrdi",
     StringKey.WalkDetailDeleteContentDescription to "Izbriši sprehod",
+    StringKey.WalkDetailShareAction to "Deli",
+    StringKey.WalkDetailDeleteAction to "Izbriši",
     StringKey.WalkDetailDeleteConfirmTitle to "Izbrisati sprehod?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Sprehod in vse najdbe bodo trajno izbrisani. Obnovitev ne bo mogoča.",

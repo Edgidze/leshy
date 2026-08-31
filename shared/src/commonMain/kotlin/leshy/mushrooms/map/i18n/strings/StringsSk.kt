@@ -162,6 +162,8 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Zmeňte názov prechádzky:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Potvrdiť",
     StringKey.WalkDetailDeleteContentDescription to "Odstrániť prechádzku",
+    StringKey.WalkDetailShareAction to "Zdieľať",
+    StringKey.WalkDetailDeleteAction to "Vymazať",
     StringKey.WalkDetailDeleteConfirmTitle to "Odstrániť prechádzku?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Prechádzka a všetky nálezy budú natrvalo odstránené. Obnoviť ich nebude možné.",

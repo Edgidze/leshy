@@ -158,6 +158,8 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Schimbați numele plimbării:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Confirmă",
     StringKey.WalkDetailDeleteContentDescription to "Șterge plimbarea",
+    StringKey.WalkDetailShareAction to "Distribuie",
+    StringKey.WalkDetailDeleteAction to "Șterge",
     StringKey.WalkDetailDeleteConfirmTitle to "Ștergeți plimbarea?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Plimbarea și toate descoperirile vor fi șterse definitiv. Această acțiune nu poate fi anulată.",

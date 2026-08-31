@@ -166,6 +166,8 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Mainiet pastaigas nosaukumu:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Apstiprināt",
     StringKey.WalkDetailDeleteContentDescription to "Dzēst pastaigu",
+    StringKey.WalkDetailShareAction to "Kopīgot",
+    StringKey.WalkDetailDeleteAction to "Dzēst",
     StringKey.WalkDetailDeleteConfirmTitle to "Dzēst pastaigu?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Pastaiga un visi atradumi tiks neatgriezeniski dzēsti. Tos vairs nevarēs atjaunot.",

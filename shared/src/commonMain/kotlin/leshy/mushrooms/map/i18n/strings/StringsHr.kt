@@ -165,6 +165,8 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Promijenite naziv šetnje:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Potvrdi",
     StringKey.WalkDetailDeleteContentDescription to "Izbriši šetnju",
+    StringKey.WalkDetailShareAction to "Podijeli",
+    StringKey.WalkDetailDeleteAction to "Obriši",
     StringKey.WalkDetailDeleteConfirmTitle to "Izbrisati šetnju?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Šetnja i svi nalazi bit će trajno izbrisani. Vraćanje neće biti moguće.",

@@ -165,6 +165,8 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Módosítsa a séta nevét:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Elfogadás",
     StringKey.WalkDetailDeleteContentDescription to "Séta törlése",
+    StringKey.WalkDetailShareAction to "Megosztás",
+    StringKey.WalkDetailDeleteAction to "Törlés",
     StringKey.WalkDetailDeleteConfirmTitle to "Törli a sétát?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "A séta és az összes lelet véglegesen törlődik. A visszaállításuk nem lesz lehetséges.",

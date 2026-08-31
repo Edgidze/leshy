@@ -157,6 +157,8 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "散策の名前を変更してください:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "確定",
     StringKey.WalkDetailDeleteContentDescription to "散策を削除",
+    StringKey.WalkDetailShareAction to "共有",
+    StringKey.WalkDetailDeleteAction to "削除",
     StringKey.WalkDetailDeleteConfirmTitle to "この散策を削除しますか?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "この散策とすべての発見記録が完全に削除されます。元に戻すことはできません。",

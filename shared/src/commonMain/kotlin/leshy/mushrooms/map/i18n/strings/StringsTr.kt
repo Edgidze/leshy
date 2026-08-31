@@ -157,6 +157,8 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Yürüyüşün adını değiştirin:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Onayla",
     StringKey.WalkDetailDeleteContentDescription to "Yürüyüşü sil",
+    StringKey.WalkDetailShareAction to "Paylaş",
+    StringKey.WalkDetailDeleteAction to "Sil",
     StringKey.WalkDetailDeleteConfirmTitle to "Bu yürüyüş silinsin mi?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Yürüyüş ve tüm bulgular kalıcı olarak silinecektir. Bu işlem geri alınamaz.",

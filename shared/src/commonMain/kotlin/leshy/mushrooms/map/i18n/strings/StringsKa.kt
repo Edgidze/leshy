@@ -164,6 +164,8 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "შეცვალეთ გასეირნების სახელი:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "დადასტურება",
     StringKey.WalkDetailDeleteContentDescription to "გასეირნების წაშლა",
+    StringKey.WalkDetailShareAction to "გაზიარება",
+    StringKey.WalkDetailDeleteAction to "წაშლა",
     StringKey.WalkDetailDeleteConfirmTitle to "წავშალოთ გასეირნება?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "გასეირნება და ყველა აღმოჩენა სამუდამოდ წაიშლება. მათი აღდგენა შეუძლებელი იქნება.",

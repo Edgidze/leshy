@@ -162,6 +162,8 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Změňte název procházky:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Potvrdit",
     StringKey.WalkDetailDeleteContentDescription to "Odstranit procházku",
+    StringKey.WalkDetailShareAction to "Sdílet",
+    StringKey.WalkDetailDeleteAction to "Smazat",
     StringKey.WalkDetailDeleteConfirmTitle to "Odstranit procházku?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Procházka a všechny nálezy budou trvale odstraněny. Tuto akci nelze vrátit zpět.",

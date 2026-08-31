@@ -162,6 +162,8 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Modifica il nome dell'uscita:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Conferma",
     StringKey.WalkDetailDeleteContentDescription to "Elimina uscita",
+    StringKey.WalkDetailShareAction to "Condividi",
+    StringKey.WalkDetailDeleteAction to "Elimina",
     StringKey.WalkDetailDeleteConfirmTitle to "Eliminare l'uscita?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "L'uscita e tutti i suoi ritrovamenti verranno eliminati definitivamente. Questa azione " +

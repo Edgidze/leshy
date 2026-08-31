@@ -163,6 +163,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Muutke matka nime:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Kinnita",
     StringKey.WalkDetailDeleteContentDescription to "Kustuta matk",
+    StringKey.WalkDetailShareAction to "Jaga",
+    StringKey.WalkDetailDeleteAction to "Kustuta",
     StringKey.WalkDetailDeleteConfirmTitle to "Kustutada matk?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Matk ja kõik leiud kustutatakse jäädavalt. Neid ei saa taastada.",

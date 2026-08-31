@@ -3,6 +3,7 @@ package leshy.mushrooms.map.ui.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +26,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -44,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -74,6 +78,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private val PLACE_THUMBNAIL_SIZE = 48.dp
+
+// Nothing in this bar is taller than an icon button once the title is gone — see the TopAppBar below.
+private val TOP_BAR_HEIGHT = 48.dp
+
+// Caps how much of the bar a single action label may claim before it ellipsizes, so a language
+// with long words for "share"/"delete" can't push the pair past the screen edge.
+private val ACTION_LABEL_MAX_WIDTH = 120.dp
 
 private val MUSHROOM_TOAST_DURATION = 3000.milliseconds
 
@@ -129,38 +140,30 @@ fun WalkDetailScreen(
 
     Scaffold(
         topBar = {
+            // The name moved out of the bar and onto its own row below (see WalkNameRow), so the
+            // bar carries no title at all any more — which is also why it can be shorter than the
+            // Material default of TopAppBarDefaults.TopAppBarExpandedHeight (64.dp): nothing in it
+            // is taller than an icon button. Still a real TopAppBar rather than a hand-rolled Row,
+            // so it keeps handling the status-bar inset itself under enableEdgeToEdge().
             TopAppBar(
-                title = {
-                    Text(
-                        walk?.name.orEmpty(),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
+                title = {},
+                expandedHeight = TOP_BAR_HEIGHT,
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                     }
                 },
                 actions = {
-                    IconButton(onClick = { showShareDialog = true }) {
-                        Icon(
-                            Icons.Filled.Share,
-                            contentDescription = stringResource(StringKey.WalkShareContentDescription),
-                        )
-                    }
-                    IconButton(onClick = viewModel::onEditClick) {
-                        Icon(
-                            Icons.Filled.Edit,
-                            contentDescription = stringResource(StringKey.WalkDetailEditContentDescription),
-                        )
-                    }
-                    IconButton(onClick = viewModel::onDeleteClick) {
-                        Icon(
-                            Icons.Filled.Delete,
-                            contentDescription = stringResource(StringKey.WalkDetailDeleteContentDescription),
-                        )
-                    }
+                    LabeledAction(
+                        icon = Icons.Filled.Share,
+                        label = stringResource(StringKey.WalkDetailShareAction),
+                        onClick = { showShareDialog = true },
+                    )
+                    LabeledAction(
+                        icon = Icons.Filled.Delete,
+                        label = stringResource(StringKey.WalkDetailDeleteAction),
+                        onClick = viewModel::onDeleteClick,
+                    )
                 },
             )
         },
@@ -168,7 +171,8 @@ fun WalkDetailScreen(
     ) { padding ->
         if (walk == null) return@Scaffold
 
-        Column(modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
+        Column(modifier = Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp)) {
+            WalkNameRow(name = walk.name, onEditClick = viewModel::onEditClick)
             LazyColumn(modifier = Modifier.weight(1f)) {
                 item {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -271,7 +275,10 @@ fun WalkDetailScreen(
                 }
             }
 
-            OutlinedButton(onClick = onViewMap, modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
+            OutlinedButton(
+                onClick = onViewMap,
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 16.dp),
+            ) {
                 Text(stringResource(StringKey.WalkDetailViewMap))
             }
         }
@@ -319,6 +326,54 @@ fun WalkDetailScreen(
             marks = uiState.marks,
             categories = uiState.categories,
             onDismiss = { showShareDialog = false },
+        )
+    }
+}
+
+/**
+ * The walk name on its own line under the top bar, with the rename pencil at the end of that line.
+ * Deliberately outside the LazyColumn below: it is the screen's heading, so it stays put while the
+ * stats/finds/places list scrolls under it. Keeps roughly the type size it had as the top bar's
+ * title (both titleLarge), just with room to wrap onto a second line now that it no longer has to
+ * share the bar with three action buttons.
+ */
+@Composable
+private fun WalkNameRow(name: String, onEditClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = name,
+            style = MaterialTheme.typography.titleLarge,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
+        )
+        IconButton(onClick = onEditClick) {
+            Icon(
+                Icons.Filled.Edit,
+                contentDescription = stringResource(StringKey.WalkDetailEditContentDescription),
+            )
+        }
+    }
+}
+
+/**
+ * Top-bar action with its name spelled out next to the icon. `contentDescription` is null on the
+ * icon on purpose — the visible label already names the action for a screen reader, and setting
+ * both would have it announced twice.
+ */
+@Composable
+private fun LabeledAction(icon: ImageVector, label: String, onClick: () -> Unit) {
+    TextButton(onClick = onClick, contentPadding = PaddingValues(horizontal = 10.dp)) {
+        Icon(icon, contentDescription = null, modifier = Modifier.size(20.dp))
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(
+            text = label,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.widthIn(max = ACTION_LABEL_MAX_WIDTH),
         )
     }
 }

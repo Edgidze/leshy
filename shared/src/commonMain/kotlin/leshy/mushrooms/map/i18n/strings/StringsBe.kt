@@ -161,6 +161,8 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Змяніце назву прагулкі:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Прыняць",
     StringKey.WalkDetailDeleteContentDescription to "Выдаліць прагулку",
+    StringKey.WalkDetailShareAction to "Падзяліцца",
+    StringKey.WalkDetailDeleteAction to "Выдаліць",
     StringKey.WalkDetailDeleteConfirmTitle to "Выдаліць прагулку?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Прагулка і ўсе знаходкі будуць выдалены беззваротна. Аднавіць іх будзе немагчыма.",

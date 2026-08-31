@@ -144,6 +144,8 @@ enum class StringKey {
     WalkDetailEditWalkNameTitle,
     WalkDetailConfirmEditWalkNameContentDescription,
     WalkDetailDeleteContentDescription,
+    WalkDetailShareAction,
+    WalkDetailDeleteAction,
     WalkDetailDeleteConfirmTitle,
     WalkDetailDeleteConfirmMessage,
     WalkDetailDeleteConfirmYes,

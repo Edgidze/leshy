@@ -162,6 +162,8 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Змініть назву прогулянки:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Прийняти",
     StringKey.WalkDetailDeleteContentDescription to "Видалити прогулянку",
+    StringKey.WalkDetailShareAction to "Поділитися",
+    StringKey.WalkDetailDeleteAction to "Видалити",
     StringKey.WalkDetailDeleteConfirmTitle to "Видалити прогулянку?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Прогулянку та всі знахідки буде видалено безповоротно. Відновити їх буде неможливо.",

@@ -164,6 +164,8 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Измените назив шетње:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Потврди",
     StringKey.WalkDetailDeleteContentDescription to "Обриши шетњу",
+    StringKey.WalkDetailShareAction to "Подели",
+    StringKey.WalkDetailDeleteAction to "Обриши",
     StringKey.WalkDetailDeleteConfirmTitle to "Обрисати шетњу?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Шетња и сви налази биће трајно обрисани. Њихово враћање неће бити могуће.",

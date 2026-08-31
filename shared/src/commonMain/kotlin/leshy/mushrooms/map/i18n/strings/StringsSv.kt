@@ -159,6 +159,8 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Ändra promenadens namn:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Bekräfta",
     StringKey.WalkDetailDeleteContentDescription to "Ta bort promenad",
+    StringKey.WalkDetailShareAction to "Dela",
+    StringKey.WalkDetailDeleteAction to "Radera",
     StringKey.WalkDetailDeleteConfirmTitle to "Ta bort promenaden?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Promenaden och alla fynd tas bort permanent. Detta kan inte ångras.",

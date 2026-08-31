@@ -160,6 +160,8 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Namen des Spaziergangs ändern:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Bestätigen",
     StringKey.WalkDetailDeleteContentDescription to "Spaziergang löschen",
+    StringKey.WalkDetailShareAction to "Teilen",
+    StringKey.WalkDetailDeleteAction to "Löschen",
     StringKey.WalkDetailDeleteConfirmTitle to "Spaziergang löschen?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Der Spaziergang und alle Funde werden endgültig gelöscht. Dies kann nicht rückgängig " +

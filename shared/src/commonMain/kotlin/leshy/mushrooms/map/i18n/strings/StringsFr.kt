@@ -163,6 +163,8 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Modifiez le nom de la promenade :",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Valider",
     StringKey.WalkDetailDeleteContentDescription to "Supprimer la promenade",
+    StringKey.WalkDetailShareAction to "Partager",
+    StringKey.WalkDetailDeleteAction to "Supprimer",
     StringKey.WalkDetailDeleteConfirmTitle to "Supprimer la promenade ?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "La promenade et toutes ses trouvailles seront supprimées définitivement. Cette action " +

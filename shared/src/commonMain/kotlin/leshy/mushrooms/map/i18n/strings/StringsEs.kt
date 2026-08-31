@@ -161,6 +161,8 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Cambie el nombre del paseo:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Confirmar",
     StringKey.WalkDetailDeleteContentDescription to "Eliminar paseo",
+    StringKey.WalkDetailShareAction to "Compartir",
+    StringKey.WalkDetailDeleteAction to "Eliminar",
     StringKey.WalkDetailDeleteConfirmTitle to "¿Eliminar paseo?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "El paseo y todos sus hallazgos se eliminarán de forma permanente. Esta acción no se " +

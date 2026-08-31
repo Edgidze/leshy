@@ -166,6 +166,8 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Pakeiskite žygio pavadinimą:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Patvirtinti",
     StringKey.WalkDetailDeleteContentDescription to "Ištrinti žygį",
+    StringKey.WalkDetailShareAction to "Bendrinti",
+    StringKey.WalkDetailDeleteAction to "Ištrinti",
     StringKey.WalkDetailDeleteConfirmTitle to "Ištrinti žygį?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Žygis ir visi radiniai bus negrįžtamai ištrinti. Jų atkurti nebus galima.",

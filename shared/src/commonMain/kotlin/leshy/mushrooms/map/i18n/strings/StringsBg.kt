@@ -161,6 +161,8 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Променете името на разходката:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Потвърди",
     StringKey.WalkDetailDeleteContentDescription to "Изтриване на разходката",
+    StringKey.WalkDetailShareAction to "Сподели",
+    StringKey.WalkDetailDeleteAction to "Изтрий",
     StringKey.WalkDetailDeleteConfirmTitle to "Да се изтрие ли разходката?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Разходката и всички находки ще бъдат изтрити безвъзвратно. Възстановяването им няма " +

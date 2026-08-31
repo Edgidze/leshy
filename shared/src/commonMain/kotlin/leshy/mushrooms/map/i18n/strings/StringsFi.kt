@@ -165,6 +165,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "Muuta retken nimeä:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "Hyväksy",
     StringKey.WalkDetailDeleteContentDescription to "Poista retki",
+    StringKey.WalkDetailShareAction to "Jaa",
+    StringKey.WalkDetailDeleteAction to "Poista",
     StringKey.WalkDetailDeleteConfirmTitle to "Poistetaanko retki?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "Retki ja kaikki sen löydöt poistetaan pysyvästi. Niitä ei voi palauttaa.",

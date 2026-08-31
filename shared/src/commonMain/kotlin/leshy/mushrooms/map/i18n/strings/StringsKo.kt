@@ -157,6 +157,8 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkDetailEditWalkNameTitle to "산책 이름을 변경하세요:",
     StringKey.WalkDetailConfirmEditWalkNameContentDescription to "확인",
     StringKey.WalkDetailDeleteContentDescription to "산책 삭제",
+    StringKey.WalkDetailShareAction to "공유",
+    StringKey.WalkDetailDeleteAction to "삭제",
     StringKey.WalkDetailDeleteConfirmTitle to "이 산책을 삭제할까요?",
     StringKey.WalkDetailDeleteConfirmMessage to
         "산책과 모든 발견 기록이 영구적으로 삭제됩니다. 되돌릴 수 없습니다.",
