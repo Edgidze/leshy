@@ -67,6 +67,30 @@ private val MUSHROOM_BULK_ADD_HOLD_DURATION = 2.seconds
 /** Width [MushroomTile] is displayed at on the record screen — other tiles size themselves relative to it. */
 val RECORD_MUSHROOM_TILE_WIDTH = 120.dp
 
+/**
+ * Площадка под фото гриба — КВАДРАТ, а не прежние 1.5:1.
+ *
+ * Все 410 изображений каталога квадратные (256×256) и рисуются `ContentScale.Fit`, поэтому в
+ * прямоугольной площадке они вписывались по высоте и оставляли пустыми боковые поля: при ширине
+ * плитки 120dp картинка занимала 80×80dp, то есть **две трети ширины плитки уходили в никуда**.
+ * Квадратная площадка убирает это подчистую — сам гриб становится крупнее примерно в полтора раза
+ * по линейному размеру.
+ *
+ * Это осознанная альтернатива обрезке полей у самих файлов (`.claude/plans/task-7-mushroom-image-crop.md`,
+ * вариант 4): изображения — lossy VP8, любая обрезка означала бы второй проход кодирования по всем
+ * 410 файлам ради выигрыша, который здесь получается вообще без касания ассетов. Цена — плитка
+ * стала выше на 40dp, см. [RECORD_TILE_HEIGHT].
+ */
+private const val MUSHROOM_PHOTO_ASPECT_RATIO = 1f
+
+/**
+ * Полная высота плитки ленты «Записи»: строка счётчика плюс квадратная площадка фото (её сторона
+ * равна ширине плитки). [AddSpeciesTile] задаёт себе эту высоту явно — у него другое внутреннее
+ * устройство, и совпасть с [MushroomTile] по построению он не может, а лента обязана читаться
+ * одной ровной полосой.
+ */
+val RECORD_TILE_HEIGHT = MUSHROOM_COUNT_BUTTON_SIZE + RECORD_MUSHROOM_TILE_WIDTH
+
 @Composable
 fun MushroomTile(
     category: Category,
@@ -110,7 +134,10 @@ fun MushroomTile(
                     enabled = count < MAX_MUSHROOM_FINDS_PER_WALK,
                 )
             }
-            MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
+            MushroomPhoto(
+                category = category,
+                modifier = Modifier.fillMaxWidth().aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO),
+            )
         }
     }
 }
@@ -128,7 +155,9 @@ fun AddSpeciesTile(onClick: () -> Unit, modifier: Modifier = Modifier) {
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f).padding(8.dp),
+            // Явная высота, а не aspectRatio: плитка перестала быть квадратной — у MushroomTile
+            // над квадратным фото есть ещё строка счётчика, см. RECORD_TILE_HEIGHT.
+            modifier = Modifier.fillMaxWidth().height(RECORD_TILE_HEIGHT).padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {

@@ -701,6 +701,11 @@ private fun MushroomBulkAddDialog(
                         contentDescription = stringResource(StringKey.RecordBulkAddCancelContentDescription),
                     )
                 }
+                // Единственная площадка фото гриба, оставшаяся прямоугольной. Здесь квадрат не
+                // подходит: ширину задаёт сам диалог (92% экрана), поэтому квадратное фото было бы
+                // высотой почти во всю ширину экрана, и на невысоком телефоне поле ввода числа
+                // ушло бы под клавиатуру — а без него диалог бесполезен. Боковые поля картинки тут
+                // не жалко: фото и так крупное, это опознавательный снимок, а не компактная плитка.
                 MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
@@ -812,7 +817,10 @@ private fun MushroomSearchDialog(
 private fun SearchResultTile(category: Category, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .aspectRatio(1.5f)
+            // Квадрат по той же причине, что и площадка фото на плитке ленты (см.
+            // MushroomTile.kt): изображения каталога квадратные, и в прямоугольнике две трети
+            // ширины уходили в пустые боковые поля.
+            .aspectRatio(1f)
             .clip(RoundedCornerShape(12.dp))
             .border(2.dp, parseHexColor(category.colorHex), RoundedCornerShape(12.dp))
             .clickable(onClick = onClick),
