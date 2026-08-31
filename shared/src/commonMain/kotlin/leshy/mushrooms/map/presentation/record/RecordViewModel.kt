@@ -46,6 +46,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.string
 import leshy.mushrooms.map.presentation.applyRecencyOrder
 import leshy.mushrooms.map.presentation.sortCategories
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,6 +54,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -84,6 +87,7 @@ private data class NavigationSourceSnapshot(
     val historicalPlaces: List<FieldMark>,
 )
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class RecordViewModel(
     private val categoryRepository: CategoryRepository,
     private val walkRepository: WalkRepository,
@@ -133,6 +137,10 @@ class RecordViewModel(
     // passes with no further feed activity. See scheduleFrontBump/notifyTileFeedInteraction.
     private val pendingFrontBumps = mutableListOf<Long>()
     private var frontBumpFlushJob: Job? = null
+
+    // Whether the Record screen is currently in front of the user (composed AND resumed). Gates
+    // the GPS subscription together with isRecording — see the collector in init().
+    private val isRecordScreenResumed = MutableStateFlow(false)
 
     private val navigationTargetId = MutableStateFlow<Long?>(null)
     private val courseOverGround = MutableStateFlow<Double?>(null)
@@ -243,31 +251,44 @@ class RecordViewModel(
             settingsRepository.observeFreezeMushroomOrder().collect { freezeOrder = it }
         }
         viewModelScope.launch {
-            locationTracker.track().collect { point ->
-                _uiState.update { it.copy(currentLocation = point) }
-                val baseline = courseBaselineFix
-                if (baseline == null) {
-                    courseBaselineFix = point
-                } else {
-                    val moved = haversineMeters(baseline.lat, baseline.lon, point.lat, point.lon)
-                    if (moved >= MIN_COURSE_FIX_DISTANCE_METERS) {
-                        courseOverGround.value = bearingDegrees(baseline.lat, baseline.lon, point.lat, point.lon)
+            // GPS is subscribed to only while it is actually needed: the Record screen is in front
+            // of the user, or a walk is being recorded (which keeps running in the background, by
+            // design, and is what the foreground service exists for). Before this, the collector
+            // started in init() and never stopped — this ViewModel is scoped to the Record
+            // back-stack entry and survives navigating away with saveState, so the system's
+            // "app is using your location" indicator stayed lit on Archive/Map/Settings, with no
+            // walk running and nothing consuming the fixes.
+            combine(
+                isRecordScreenResumed,
+                uiState.map { it.isRecording }.distinctUntilChanged(),
+            ) { resumed, recording -> resumed || recording }
+                .distinctUntilChanged()
+                .flatMapLatest { needed -> if (needed) locationTracker.track() else emptyFlow() }
+                .collect { point ->
+                    _uiState.update { it.copy(currentLocation = point) }
+                    val baseline = courseBaselineFix
+                    if (baseline == null) {
                         courseBaselineFix = point
+                    } else {
+                        val moved = haversineMeters(baseline.lat, baseline.lon, point.lat, point.lon)
+                        if (moved >= MIN_COURSE_FIX_DISTANCE_METERS) {
+                            courseOverGround.value = bearingDegrees(baseline.lat, baseline.lon, point.lat, point.lon)
+                            courseBaselineFix = point
+                        }
+                        // else: leave both courseBaselineFix and courseOverGround untouched — jitter
+                        // accumulates against the same baseline instead of resetting it every fix, so
+                        // slow drift while nearly stationary doesn't produce a new noisy bearing.
                     }
-                    // else: leave both courseBaselineFix and courseOverGround untouched — jitter
-                    // accumulates against the same baseline instead of resetting it every fix, so
-                    // slow drift while nearly stationary doesn't produce a new noisy bearing.
-                }
-                val currentWalkId = walkId
-                if (currentWalkId != null && _uiState.value.isRecording && !_uiState.value.isPaused) {
-                    val delta = recordTrackPoint(currentWalkId, point, trackSequence, lastPersistedPoint)
-                    trackSequence += 1
-                    lastPersistedPoint = point
-                    _uiState.update {
-                        it.copy(distanceMeters = it.distanceMeters + delta, trackPoints = it.trackPoints + point)
+                    val currentWalkId = walkId
+                    if (currentWalkId != null && _uiState.value.isRecording && !_uiState.value.isPaused) {
+                        val delta = recordTrackPoint(currentWalkId, point, trackSequence, lastPersistedPoint)
+                        trackSequence += 1
+                        lastPersistedPoint = point
+                        _uiState.update {
+                            it.copy(distanceMeters = it.distanceMeters + delta, trackPoints = it.trackPoints + point)
+                        }
                     }
                 }
-            }
         }
         viewModelScope.launch {
             val navigationSources = uiState
@@ -294,6 +315,19 @@ class RecordViewModel(
                 )
             }.collect { computed -> _uiState.update { it.copy(navigationTarget = computed) } }
         }
+    }
+
+    /**
+     * Called by [leshy.mushrooms.map.ui.screens.RecordScreen] on ON_RESUME / ON_PAUSE-or-dispose.
+     * The screen going away (navigating to another section, or the app going to the background)
+     * releases GPS unless a walk is actually being recorded.
+     */
+    fun onRecordScreenResumed() {
+        isRecordScreenResumed.value = true
+    }
+
+    fun onRecordScreenPaused() {
+        isRecordScreenResumed.value = false
     }
 
     fun activateNavigationTo(targetId: Long) {

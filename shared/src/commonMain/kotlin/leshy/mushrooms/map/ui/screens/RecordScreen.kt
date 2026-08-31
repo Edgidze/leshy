@@ -42,6 +42,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -138,6 +139,16 @@ fun RecordScreen(
             onFinished()
             viewModel.consumeFinished()
         }
+    }
+
+    // GPS is only subscribed to while this screen is actually in front of the user — the
+    // ViewModel outlives the composable (it is scoped to the Record back-stack entry, see
+    // presentation/CLAUDE.md), so without this the location collector kept running on every other
+    // section. A walk in progress is unaffected: the ViewModel keeps GPS alive on isRecording
+    // regardless of this flag, which is what makes background recording work.
+    LifecycleResumeEffect(viewModel) {
+        viewModel.onRecordScreenResumed()
+        onPauseOrDispose { viewModel.onRecordScreenPaused() }
     }
 
     RecordScreenContent(
