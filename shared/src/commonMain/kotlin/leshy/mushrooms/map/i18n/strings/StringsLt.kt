@@ -105,6 +105,8 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Pasirinkite reikiamą grybą",
     StringKey.RecordBulkAddQuestion to "Kiek naujų grybų rasta?",
     StringKey.RecordBulkAddCancelContentDescription to "Atšaukti",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Patvirtinti",
     StringKey.RecordBulkAddLimitMessage to
         "Ne daugiau kaip 999 tos pačios rūšies radiniai per vieną žygį.",
     StringKey.RecordBulkAddLimitConfirm to "Supratau",

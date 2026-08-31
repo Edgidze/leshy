@@ -100,6 +100,8 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Elija la seta que busca",
     StringKey.RecordBulkAddQuestion to "¿Cuántas setas nuevas ha encontrado?",
     StringKey.RecordBulkAddCancelContentDescription to "Cancelar",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Confirmar",
     StringKey.RecordBulkAddLimitMessage to
         "Máximo de 999 hallazgos de la misma especie por paseo.",
     StringKey.RecordBulkAddLimitConfirm to "Entendido",

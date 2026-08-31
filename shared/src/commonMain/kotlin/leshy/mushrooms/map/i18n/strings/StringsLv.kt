@@ -105,6 +105,8 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Izvēlieties vajadzīgo sēni",
     StringKey.RecordBulkAddQuestion to "Cik jaunu sēņu atrasts?",
     StringKey.RecordBulkAddCancelContentDescription to "Atcelt",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Apstiprināt",
     StringKey.RecordBulkAddLimitMessage to
         "Ne vairāk kā 999 vienas sugas atradumi vienā pastaigā.",
     StringKey.RecordBulkAddLimitConfirm to "Sapratu",

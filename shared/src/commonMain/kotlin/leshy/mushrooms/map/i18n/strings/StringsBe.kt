@@ -100,6 +100,8 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Выберыце патрэбны грыб",
     StringKey.RecordBulkAddQuestion to "Колькі новых грыбоў знойдзена?",
     StringKey.RecordBulkAddCancelContentDescription to "Скасаваць",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Прыняць",
     StringKey.RecordBulkAddLimitMessage to
         "Максімум аднолькавых грыбоў за адну прагулку — 999.",
     StringKey.RecordBulkAddLimitConfirm to "Зразумела",

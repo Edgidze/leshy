@@ -98,6 +98,8 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Välj den svamp du behöver",
     StringKey.RecordBulkAddQuestion to "Hur många nya svampar hittades?",
     StringKey.RecordBulkAddCancelContentDescription to "Avbryt",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Bekräfta",
     StringKey.RecordBulkAddLimitMessage to
         "Högst 999 fynd av samma art per promenad.",
     StringKey.RecordBulkAddLimitConfirm to "Förstått",

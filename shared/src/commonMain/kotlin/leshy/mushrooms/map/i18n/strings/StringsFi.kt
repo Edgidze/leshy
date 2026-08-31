@@ -104,6 +104,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Valitse haluamasi sieni",
     StringKey.RecordBulkAddQuestion to "Montako uutta sientä löytyi?",
     StringKey.RecordBulkAddCancelContentDescription to "Peruuta",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Hyväksy",
     StringKey.RecordBulkAddLimitMessage to
         "Enintään 999 saman lajin löytöä yhdellä retkellä.",
     StringKey.RecordBulkAddLimitConfirm to "Selvä",

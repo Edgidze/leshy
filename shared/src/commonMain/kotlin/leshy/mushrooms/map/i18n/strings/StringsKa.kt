@@ -103,6 +103,8 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "აირჩიეთ საჭირო სოკო",
     StringKey.RecordBulkAddQuestion to "რამდენი ახალი სოკო იპოვეთ?",
     StringKey.RecordBulkAddCancelContentDescription to "გაუქმება",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "დადასტურება",
     StringKey.RecordBulkAddLimitMessage to
         "ერთ გასეირნებაზე მაქსიმუმ 999 ერთი და იმავე სახეობის აღმოჩენა.",
     StringKey.RecordBulkAddLimitConfirm to "გასაგებია",

@@ -101,6 +101,8 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Виберіть потрібний гриб",
     StringKey.RecordBulkAddQuestion to "Скільки нових грибів знайдено?",
     StringKey.RecordBulkAddCancelContentDescription to "Скасувати",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Прийняти",
     StringKey.RecordBulkAddLimitMessage to
         "Максимум однакових грибів за одну прогулянку — 999.",
     StringKey.RecordBulkAddLimitConfirm to "Зрозуміло",

@@ -86,6 +86,7 @@ enum class StringKey {
     RecordSearchDialogTitle,
     RecordBulkAddQuestion,
     RecordBulkAddCancelContentDescription,
+    RecordBulkAddConfirmContentDescription,
     RecordBulkAddLimitMessage,
     RecordBulkAddLimitConfirm,
 

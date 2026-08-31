@@ -107,6 +107,8 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Izberite želeno gobo",
     StringKey.RecordBulkAddQuestion to "Koliko novih gob ste našli?",
     StringKey.RecordBulkAddCancelContentDescription to "Prekliči",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Potrdi",
     StringKey.RecordBulkAddLimitMessage to
         "Največ 999 najdb iste vrste na en sprehod.",
     StringKey.RecordBulkAddLimitConfirm to "Razumem",

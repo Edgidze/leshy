@@ -98,6 +98,8 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "İhtiyacınız olan mantarı seçin",
     StringKey.RecordBulkAddQuestion to "Kaç yeni mantar bulundu?",
     StringKey.RecordBulkAddCancelContentDescription to "İptal",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Onayla",
     StringKey.RecordBulkAddLimitMessage to "Bir yürüyüşte aynı türden en fazla 999 bulgu kaydedilebilir.",
     StringKey.RecordBulkAddLimitConfirm to "Anladım",
 

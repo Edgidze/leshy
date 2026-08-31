@@ -13,19 +13,24 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddLocationAlt
@@ -642,13 +647,27 @@ private fun WalkNameDialog(onConfirm: (String) -> Unit, onDismissRequest: () -> 
 }
 
 /**
+ * Below this available height (after [Modifier.imePadding] has already subtracted the keyboard),
+ * [MushroomBulkAddDialog] shows the photo at [TILE_WIDTH] — the Record feed's tile size — instead
+ * of its normal large identification-sized plate. Threshold has headroom over the real minimum
+ * (~400dp: back arrow + tile-sized photo + question + text field + padding) so compact mode kicks
+ * in a bit before content would actually start clipping, not exactly at the cutoff. Below either
+ * size, [verticalScroll] on the content [Column] is still the hard backstop.
+ */
+private val BULK_ADD_COMPACT_HEIGHT_THRESHOLD = 500.dp
+
+/**
  * Opened by holding a [MushroomTile]'s + button for 2s — equivalent to tapping + [count] times
  * for [category] from the last known location, without [count] individual taps. The field forces
  * [KeyboardType.NumberPassword] (not the plain [KeyboardType.Number]) specifically so the keyboard
  * that pops up is a bare digit pad on BOTH platforms — regular `Number` still offers a decimal
  * separator/other punctuation whose exact glyphs depend on the OS locale, which a find count never
- * needs. Confirming is the field's own IME "Done" key, not a dialog button — there is deliberately
- * no separate confirm affordance, only [onDismissRequest]'s cancel arrow top-left.
+ * needs. Confirming works two ways: the field's own IME "Done" key, and a checkmark [IconButton]
+ * next to [onDismissRequest]'s cancel arrow. The checkmark is required, not just a convenience —
+ * iOS's numeric keypad (`NumberPassword`/`Number`) has no Done/return key at all, so without it
+ * there would be no way to submit a count on iOS. It's disabled while the field isn't a positive
+ * number — [confirm] treats an empty/zero field as a dismiss (indistinguishable from tapping the
+ * cancel arrow), which would be a confusing thing for a checkmark specifically to do on tap.
  *
  * Input is capped at 3 digits — [MAX_MUSHROOM_FINDS_PER_WALK] is the largest count that could ever
  * be valid, so a longer input could never confirm anyway; this also sidesteps `toIntOrNull()`
@@ -690,41 +709,73 @@ private fun MushroomBulkAddDialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
     ) {
-        Surface(
-            modifier = Modifier.fillMaxWidth(0.92f),
-            shape = RoundedCornerShape(24.dp),
-            tonalElevation = 4.dp,
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                IconButton(onClick = onDismissRequest) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(StringKey.RecordBulkAddCancelContentDescription),
+        // imePadding() here (not just inside the Column) so maxHeight below already excludes the
+        // keyboard — that's what compactPhoto and the Surface's height cap both need to react to.
+        BoxWithConstraints(modifier = Modifier.fillMaxWidth(0.92f).imePadding()) {
+            val compactPhoto = maxHeight < BULK_ADD_COMPACT_HEIGHT_THRESHOLD
+            Surface(
+                modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight),
+                shape = RoundedCornerShape(24.dp),
+                tonalElevation = 4.dp,
+            ) {
+                Column(modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
+                    // Confirm has to live here, not on the field's IME "Done" key alone — iOS's
+                    // NumberPassword/numeric keypad has no Done/return key at all, so without this
+                    // checkmark there is no way to submit the count on iOS.
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        IconButton(onClick = onDismissRequest) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(StringKey.RecordBulkAddCancelContentDescription),
+                            )
+                        }
+                        IconButton(onClick = { confirm() }, enabled = countInput.toIntOrNull()?.let { it > 0 } == true) {
+                            Icon(
+                                imageVector = Icons.Filled.Check,
+                                contentDescription = stringResource(StringKey.RecordBulkAddConfirmContentDescription),
+                            )
+                        }
+                    }
+                    if (compactPhoto) {
+                        // Тесно по высоте — площадка того же размера, что у плиток на «Записи»:
+                        // какой гриб добавляем, пользователь уже выбрал (это открывается долгим
+                        // нажатием на плитке), крупное опознавательное фото здесь не обязательно.
+                        MushroomPhoto(
+                            category = category,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .width(TILE_WIDTH)
+                                .aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO),
+                        )
+                    } else {
+                        // Единственная площадка фото гриба, оставшаяся прямоугольной. Здесь квадрат не
+                        // подходит: ширину задаёт сам диалог (92% экрана), поэтому квадратное фото было бы
+                        // высотой почти во всю ширину экрана, и на невысоком телефоне поле ввода числа
+                        // ушло бы под клавиатуру — а без него диалог бесполезен. Боковые поля картинки тут
+                        // не жалко: фото и так крупное, это опознавательный снимок, а не компактная плитка.
+                        MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = stringResource(StringKey.RecordBulkAddQuestion),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = countInput,
+                        onValueChange = { new -> if (new.all(Char::isDigit) && new.length <= 3) countInput = new },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.NumberPassword,
+                            imeAction = ImeAction.Done,
+                        ),
+                        keyboardActions = KeyboardActions(onDone = { confirm() }),
+                        modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
                     )
                 }
-                // Единственная площадка фото гриба, оставшаяся прямоугольной. Здесь квадрат не
-                // подходит: ширину задаёт сам диалог (92% экрана), поэтому квадратное фото было бы
-                // высотой почти во всю ширину экрана, и на невысоком телефоне поле ввода числа
-                // ушло бы под клавиатуру — а без него диалог бесполезен. Боковые поля картинки тут
-                // не жалко: фото и так крупное, это опознавательный снимок, а не компактная плитка.
-                MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = stringResource(StringKey.RecordBulkAddQuestion),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = countInput,
-                    onValueChange = { new -> if (new.all(Char::isDigit) && new.length <= 3) countInput = new },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.NumberPassword,
-                        imeAction = ImeAction.Done,
-                    ),
-                    keyboardActions = KeyboardActions(onDone = { confirm() }),
-                    modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
-                )
             }
         }
     }

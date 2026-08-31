@@ -100,6 +100,8 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Alegeți ciuperca de care aveți nevoie",
     StringKey.RecordBulkAddQuestion to "Câte ciuperci noi ați găsit?",
     StringKey.RecordBulkAddCancelContentDescription to "Anulează",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Confirmă",
     StringKey.RecordBulkAddLimitMessage to "Maximum 999 descoperiri din aceeași specie pe plimbare.",
     StringKey.RecordBulkAddLimitConfirm to "Am înțeles",
 

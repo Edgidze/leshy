@@ -101,6 +101,8 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Scegli il fungo che cerchi",
     StringKey.RecordBulkAddQuestion to "Quanti nuovi funghi hai trovato?",
     StringKey.RecordBulkAddCancelContentDescription to "Annulla",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Conferma",
     StringKey.RecordBulkAddLimitMessage to
         "Massimo 999 ritrovamenti della stessa specie per uscita.",
     StringKey.RecordBulkAddLimitConfirm to "Capito",

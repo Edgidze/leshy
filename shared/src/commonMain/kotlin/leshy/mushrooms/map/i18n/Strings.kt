@@ -228,6 +228,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.RecordSearchDialogTitle -> "Выберите необходимый гриб"
     StringKey.RecordBulkAddQuestion -> "Сколько новых грибов найдено?"
     StringKey.RecordBulkAddCancelContentDescription -> "Отмена"
+    StringKey.RecordBulkAddConfirmContentDescription -> "Принять"
     StringKey.RecordBulkAddLimitMessage -> "Максимум одинаковых грибов за одну прогулку — 999."
     StringKey.RecordBulkAddLimitConfirm -> "Понятно"
 
@@ -528,6 +529,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.RecordSearchDialogTitle -> "Choose the mushroom you need"
     StringKey.RecordBulkAddQuestion -> "How many new mushrooms found?"
     StringKey.RecordBulkAddCancelContentDescription -> "Cancel"
+    StringKey.RecordBulkAddConfirmContentDescription -> "Confirm"
     StringKey.RecordBulkAddLimitMessage -> "Maximum of 999 finds of the same species per walk."
     StringKey.RecordBulkAddLimitConfirm -> "Got it"
 

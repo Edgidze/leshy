@@ -104,6 +104,8 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Válassza ki a keresett gombát",
     StringKey.RecordBulkAddQuestion to "Hány új gombát talált?",
     StringKey.RecordBulkAddCancelContentDescription to "Mégse",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Elfogadás",
     StringKey.RecordBulkAddLimitMessage to
         "Sétánként legfeljebb 999 azonos fajú lelet.",
     StringKey.RecordBulkAddLimitConfirm to "Értem",

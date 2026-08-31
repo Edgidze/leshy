@@ -99,6 +99,8 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Wählen Sie den gesuchten Pilz aus",
     StringKey.RecordBulkAddQuestion to "Wie viele neue Pilze gefunden?",
     StringKey.RecordBulkAddCancelContentDescription to "Abbrechen",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Bestätigen",
     StringKey.RecordBulkAddLimitMessage to
         "Maximal 999 Funde derselben Art pro Spaziergang.",
     StringKey.RecordBulkAddLimitConfirm to "Verstanden",

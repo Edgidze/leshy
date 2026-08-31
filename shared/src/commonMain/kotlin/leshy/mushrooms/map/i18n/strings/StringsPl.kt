@@ -100,6 +100,8 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Wybierz potrzebny grzyb",
     StringKey.RecordBulkAddQuestion to "Ile nowych grzybów znaleziono?",
     StringKey.RecordBulkAddCancelContentDescription to "Anuluj",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Zatwierdź",
     StringKey.RecordBulkAddLimitMessage to
         "Maksymalnie 999 znalezisk tego samego gatunku na jeden spacer.",
     StringKey.RecordBulkAddLimitConfirm to "Rozumiem",

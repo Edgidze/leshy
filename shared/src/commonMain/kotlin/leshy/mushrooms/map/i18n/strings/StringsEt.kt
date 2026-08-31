@@ -102,6 +102,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Valige soovitud seen",
     StringKey.RecordBulkAddQuestion to "Mitu uut seent leidsite?",
     StringKey.RecordBulkAddCancelContentDescription to "Loobu",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Kinnita",
     StringKey.RecordBulkAddLimitMessage to
         "Ühe matka kohta kuni 999 sama liigi leidu.",
     StringKey.RecordBulkAddLimitConfirm to "Selge",

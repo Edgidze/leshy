@@ -96,6 +96,8 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "必要なキノコを選択してください",
     StringKey.RecordBulkAddQuestion to "新しく見つけたキノコの数は?",
     StringKey.RecordBulkAddCancelContentDescription to "キャンセル",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "確定",
     StringKey.RecordBulkAddLimitMessage to "1回の散策で記録できる同じ種類のキノコは最大999個までです。",
     StringKey.RecordBulkAddLimitConfirm to "了解",
 

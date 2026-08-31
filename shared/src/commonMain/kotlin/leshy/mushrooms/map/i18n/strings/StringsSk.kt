@@ -101,6 +101,8 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Vyberte požadovanú hubu",
     StringKey.RecordBulkAddQuestion to "Koľko nových húb ste našli?",
     StringKey.RecordBulkAddCancelContentDescription to "Zrušiť",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Potvrdiť",
     StringKey.RecordBulkAddLimitMessage to
         "Maximálne 999 nálezov rovnakého druhu na jednu prechádzku.",
     StringKey.RecordBulkAddLimitConfirm to "Rozumiem",

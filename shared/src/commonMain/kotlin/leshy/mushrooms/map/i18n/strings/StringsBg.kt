@@ -100,6 +100,8 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Изберете нужната гъба",
     StringKey.RecordBulkAddQuestion to "Колко нови гъби са намерени?",
     StringKey.RecordBulkAddCancelContentDescription to "Отказ",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Потвърди",
     StringKey.RecordBulkAddLimitMessage to
         "Максимум еднакви гъби за една разходка — 999.",
     StringKey.RecordBulkAddLimitConfirm to "Разбрах",

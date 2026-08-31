@@ -102,6 +102,8 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Choisissez le champignon recherché",
     StringKey.RecordBulkAddQuestion to "Combien de nouveaux champignons trouvés ?",
     StringKey.RecordBulkAddCancelContentDescription to "Annuler",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Valider",
     StringKey.RecordBulkAddLimitMessage to
         "Maximum de 999 trouvailles de la même espèce par promenade.",
     StringKey.RecordBulkAddLimitConfirm to "Compris",

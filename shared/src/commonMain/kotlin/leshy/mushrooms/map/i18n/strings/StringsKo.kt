@@ -96,6 +96,8 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "필요한 버섯을 선택하세요",
     StringKey.RecordBulkAddQuestion to "새로 발견한 버섯은 몇 개인가요?",
     StringKey.RecordBulkAddCancelContentDescription to "취소",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "확인",
     StringKey.RecordBulkAddLimitMessage to "한 번의 산책에서 같은 종은 최대 999개까지 기록할 수 있습니다.",
     StringKey.RecordBulkAddLimitConfirm to "확인",
 

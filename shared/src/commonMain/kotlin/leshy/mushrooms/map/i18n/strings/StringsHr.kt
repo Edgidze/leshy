@@ -104,6 +104,8 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Odaberite željenu gljivu",
     StringKey.RecordBulkAddQuestion to "Koliko je novih gljiva pronađeno?",
     StringKey.RecordBulkAddCancelContentDescription to "Odustani",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Potvrdi",
     StringKey.RecordBulkAddLimitMessage to
         "Najviše 999 istih gljiva po jednoj šetnji.",
     StringKey.RecordBulkAddLimitConfirm to "Razumijem",

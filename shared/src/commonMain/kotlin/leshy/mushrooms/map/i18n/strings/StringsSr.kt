@@ -103,6 +103,8 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Изаберите жељену гљиву",
     StringKey.RecordBulkAddQuestion to "Колико нових гљива је пронађено?",
     StringKey.RecordBulkAddCancelContentDescription to "Откажи",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Потврди",
     StringKey.RecordBulkAddLimitMessage to
         "Највише 999 истих гљива по једној шетњи.",
     StringKey.RecordBulkAddLimitConfirm to "Разумем",

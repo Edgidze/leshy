@@ -101,6 +101,8 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordSearchDialogTitle to "Vyberte potřebnou houbu",
     StringKey.RecordBulkAddQuestion to "Kolik nových hub bylo nalezeno?",
     StringKey.RecordBulkAddCancelContentDescription to "Zrušit",
+
+    StringKey.RecordBulkAddConfirmContentDescription to "Potvrdit",
     StringKey.RecordBulkAddLimitMessage to
         "Maximálně 999 nálezů stejného druhu na jednu procházku.",
     StringKey.RecordBulkAddLimitConfirm to "Rozumím",
