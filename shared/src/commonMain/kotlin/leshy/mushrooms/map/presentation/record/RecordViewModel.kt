@@ -57,6 +57,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
@@ -263,9 +264,15 @@ class RecordViewModel(
                 uiState.map { it.isRecording }.distinctUntilChanged(),
             ) { resumed, recording -> resumed || recording }
                 .distinctUntilChanged()
+                // Re-checked on every gate change rather than once: returning from the system
+                // settings resumes this screen, which flips the gate, which is exactly when the
+                // answer can have changed.
+                .onEach { needed ->
+                    _uiState.update { it.copy(locationUnavailable = needed && !locationTracker.isAvailable()) }
+                }
                 .flatMapLatest { needed -> if (needed) locationTracker.track() else emptyFlow() }
                 .collect { point ->
-                    _uiState.update { it.copy(currentLocation = point) }
+                    _uiState.update { it.copy(currentLocation = point, locationUnavailable = false) }
                     val baseline = courseBaselineFix
                     if (baseline == null) {
                         courseBaselineFix = point

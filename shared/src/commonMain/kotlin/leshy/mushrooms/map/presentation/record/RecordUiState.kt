@@ -27,6 +27,10 @@ data class RecordUiState(
     val categories: List<Category> = emptyList(),
     val mushroomCounts: Map<Long, Int> = emptyMap(),
     val currentLocation: GeoPoint? = null,
+    /** The platform cannot deliver fixes at all — permission denied, or location services off.
+     * Distinct from "no fix yet": this one needs the user to change something in system settings,
+     * so the Record screen says so instead of leaving them waiting. */
+    val locationUnavailable: Boolean = false,
     val trackPoints: List<GeoPoint> = emptyList(),
     val marks: List<FieldMark> = emptyList(),
     val historicalFinds: List<FieldMark> = emptyList(),

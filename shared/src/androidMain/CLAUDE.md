@@ -56,6 +56,14 @@ Location (не тянуть лишнюю зависимость). Эмитит `
 (provider)` сразу при подписке (не только будущие апдейты) — иначе карта
 показывает `(0,0)` до первого реального фикса GPS-провайдера.
 
+Провайдер выбирается из `locationManager.allProviders`, а НЕ по
+`isProviderEnabled` — `requestLocationUpdates` штатно принимает выключенный
+сейчас провайдер и начинает доставлять фиксы, когда его включат. Прошлая
+версия при выключенной геолокации закрывала flow, и после включения
+геолокации посреди прогулки фиксы уже не возвращались никогда: пока идёт
+запись, гейт подписки (`RecordViewModel`) не меняется, а значит и
+переподписки не происходит.
+
 ## Разрешения
 
 `MainActivity.onCreate` — единственное место, где `ACCESS_FINE_LOCATION`
@@ -65,6 +73,26 @@ GPS нужен сразу. **`CAMERA` туда намеренно не вход�
 только по клику, через `rememberCameraPermissionRequester`
 (`data/platform/CameraPermission.kt`) — проверяет текущий статус и просит
 систему только если разрешения ещё нет.
+
+**Отказ в геолокации + «Start» = краш, если не заблокировать запуск
+сервиса.** Воспроизведено на API 37: `pm revoke ACCESS_FINE_LOCATION`
+(и COARSE) → тап «Start» → `java.lang.SecurityException: Starting FGS with
+type location ... requires permissions: all of the permissions
+[FOREGROUND_SERVICE_LOCATION] and any of the permissions
+[ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION]`, вылетающая ИЗ
+`startForeground()` в `WalkRecordingService.onStartCommand` и роняющая
+процесс. Два барьера: `AndroidBackgroundRecordingController.start()` вообще
+не зовёт `startForegroundService`, если разрешения нет (сервису и делать
+нечего — он существует только чтобы GPS-колбэки не глохли в фоне), и сам
+`onStartCommand` при отсутствии разрешения делает `stopSelf()` до вызова
+`startForeground`, плюс `runCatching` вокруг самого вызова на случай гонки
+и `ForegroundServiceStartNotAllowedException`.
+
+**Отказ в камере теперь виден пользователю.**
+`rememberCameraPermissionRequester` принимает и `onDenied`; без него
+повторный тап по плейсхолдеру фото просто ничего не делал (при
+окончательном отказе система даже не показывает диалог), и отличить это от
+«приложение зависло» было нельзя.
 
 ## Экспорт/импорт (`DataLocationPicker.android.kt`)
 

@@ -11,17 +11,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 
 @Composable
-actual fun rememberCameraPermissionRequester(onGranted: () -> Unit): () -> Unit {
+actual fun rememberCameraPermissionRequester(
+    onGranted: () -> Unit,
+    onDenied: () -> Unit,
+): () -> Unit {
     val context = LocalContext.current
-    val callback = rememberUpdatedState(onGranted)
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) callback.value()
+    val granted = rememberUpdatedState(onGranted)
+    val denied = rememberUpdatedState(onDenied)
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        // A permanently-denied permission returns here immediately without ever showing a prompt,
+        // which is exactly the case the user cannot otherwise tell apart from "nothing happened".
+        if (isGranted) granted.value() else denied.value()
     }
     return remember(context) {
         {
-            val granted = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
+            val hasPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
                 PackageManager.PERMISSION_GRANTED
-            if (granted) callback.value() else launcher.launch(Manifest.permission.CAMERA)
+            if (hasPermission) granted.value() else launcher.launch(Manifest.permission.CAMERA)
         }
     }
 }

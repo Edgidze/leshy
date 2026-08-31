@@ -14,16 +14,22 @@ import platform.darwin.dispatch_get_main_queue
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-actual fun rememberCameraPermissionRequester(onGranted: () -> Unit): () -> Unit {
-    val callback = rememberUpdatedState(onGranted)
+actual fun rememberCameraPermissionRequester(
+    onGranted: () -> Unit,
+    onDenied: () -> Unit,
+): () -> Unit {
+    val granted = rememberUpdatedState(onGranted)
+    val denied = rememberUpdatedState(onDenied)
     return remember {
         {
             if (AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo) == AVAuthorizationStatusAuthorized) {
-                callback.value()
+                granted.value()
             } else {
-                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted ->
-                    if (granted) {
-                        dispatch_async(dispatch_get_main_queue()) { callback.value() }
+                // Already-denied/restricted returns false through this same completion handler
+                // without showing anything, so both refusals land on onDenied.
+                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { isGranted ->
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if (isGranted) granted.value() else denied.value()
                     }
                 }
             }

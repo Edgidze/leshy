@@ -88,7 +88,17 @@ fun AddPlaceDialog(
     var description by remember { mutableStateOf(initialDescription) }
     var photoPath by remember { mutableStateOf(initialPhotoPath) }
     val takePhoto = rememberCameraLauncher { path -> photoPath = path }
-    val requestPhoto = rememberCameraPermissionRequester(onGranted = takePhoto)
+    // Refusing camera access used to leave the photo placeholder as a control that silently did
+    // nothing on every tap — and a permanently-denied permission does not even show a prompt, so
+    // there was no signal at all.
+    var cameraDenied by remember { mutableStateOf(false) }
+    val requestPhoto = rememberCameraPermissionRequester(
+        onGranted = {
+            cameraDenied = false
+            takePhoto()
+        },
+        onDenied = { cameraDenied = true },
+    )
     val clipboard = LocalClipboard.current
     val coroutineScope = rememberCoroutineScope()
     val coordinatesText = location?.let { formatCoordinates(it.lat, it.lon) }
@@ -145,6 +155,14 @@ fun AddPlaceDialog(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     PlacePhotoBox(photoPath = photoPath, onClick = requestPhoto, modifier = Modifier.fillMaxWidth())
+                    if (cameraDenied) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = stringResource(StringKey.CameraPermissionDenied),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Text(

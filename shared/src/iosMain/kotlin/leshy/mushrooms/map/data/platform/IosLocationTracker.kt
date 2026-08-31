@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.callbackFlow
 import platform.CoreLocation.CLLocation
 import platform.CoreLocation.CLLocationManager
 import platform.CoreLocation.CLLocationManagerDelegateProtocol
+import platform.CoreLocation.kCLAuthorizationStatusAuthorizedAlways
+import platform.CoreLocation.kCLAuthorizationStatusAuthorizedWhenInUse
+import platform.CoreLocation.kCLAuthorizationStatusNotDetermined
 import platform.CoreLocation.kCLLocationAccuracyBest
 import platform.Foundation.NSError
 import platform.darwin.NSObject
@@ -26,6 +29,15 @@ class IosLocationTracker : LocationTracker {
     private var manager: CLLocationManager? = null
     private var delegate: CLLocationManagerDelegateProtocol? = null
     private var backgroundUpdatesEnabled = false
+
+    override fun isAvailable(): Boolean {
+        val status = CLLocationManager.authorizationStatus()
+        return status == kCLAuthorizationStatusAuthorizedWhenInUse ||
+            status == kCLAuthorizationStatusAuthorizedAlways ||
+            // Not yet asked — the prompt appears as soon as track() runs, so this is not a state
+            // the user has to go fix in Settings and must not raise the warning.
+            status == kCLAuthorizationStatusNotDetermined
+    }
 
     @OptIn(ExperimentalForeignApi::class)
     override fun track(): Flow<GeoPoint> = callbackFlow {

@@ -306,6 +306,22 @@ private fun RecordScreenContent(
             Text(formatDistanceKm(uiState.distanceMeters), style = MaterialTheme.typography.titleLarge)
         }
 
+        // A full-width strip rather than an overlay on the map: it must not fight the filter
+        // button, the navigation panel or the tile-load banner for the map's corners, and unlike
+        // those it is not transient — it stays until the user actually fixes something in the
+        // system settings.
+        if (uiState.locationUnavailable) {
+            Text(
+                text = stringResource(StringKey.RecordLocationUnavailable),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.errorContainer)
+                    .padding(horizontal = 20.dp, vertical = 8.dp),
+            )
+        }
+
         // Current walk's own POI marks plus past walks' ones, deduped — see LiveTrackMap's
         // historicalPlaces param doc for why the dedup matters.
         val currentPlaceMarks = uiState.marks.filter { it.type == MarkType.POI }

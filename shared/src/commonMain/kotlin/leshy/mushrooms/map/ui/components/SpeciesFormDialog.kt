@@ -168,7 +168,15 @@ fun SpeciesFormDialog(
     }.collectAsState(initial = emptyList())
 
     val takePhoto = rememberCameraLauncher { path -> editorSourcePath = path }
-    val requestPhoto = rememberCameraPermissionRequester(onGranted = takePhoto)
+    // See AddPlaceDialog for why a refusal needs to say something.
+    var cameraDenied by remember { mutableStateOf(false) }
+    val requestPhoto = rememberCameraPermissionRequester(
+        onGranted = {
+            cameraDenied = false
+            takePhoto()
+        },
+        onDenied = { cameraDenied = true },
+    )
     val pickFromGallery = rememberGalleryPicker { path -> editorSourcePath = path }
     val pickFromCatalog: () -> Unit = { showCatalogPicker = true }
 
@@ -277,6 +285,14 @@ fun SpeciesFormDialog(
                     OutlinedButton(onClick = pickFromCatalog) {
                         Text(stringResource(StringKey.SpeciesFormPickCatalogButton))
                     }
+                }
+                if (cameraDenied) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(StringKey.CameraPermissionDenied),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
