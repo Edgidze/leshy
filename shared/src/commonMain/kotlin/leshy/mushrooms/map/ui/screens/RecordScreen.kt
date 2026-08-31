@@ -87,6 +87,7 @@ import leshy.mushrooms.map.ui.components.AddSpeciesTile
 import leshy.mushrooms.map.ui.components.DeletePlaceConfirmDialog
 import leshy.mushrooms.map.ui.components.MapFilterButton
 import leshy.mushrooms.map.ui.components.MapFilterDialog
+import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
 import leshy.mushrooms.map.ui.components.MushroomPhoto
 import leshy.mushrooms.map.ui.components.MushroomTile
 import leshy.mushrooms.map.ui.components.NavigationOverlayPanel
@@ -817,10 +818,9 @@ private fun MushroomSearchDialog(
 private fun SearchResultTile(category: Category, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            // Квадрат по той же причине, что и площадка фото на плитке ленты (см.
-            // MushroomTile.kt): изображения каталога квадратные, и в прямоугольнике две трети
-            // ширины уходили в пустые боковые поля.
-            .aspectRatio(1f)
+            // То же соотношение, что у площадки фото на плитке ленты — под пропорции обрезанных
+            // изображений каталога, см. MUSHROOM_PHOTO_ASPECT_RATIO.
+            .aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO)
             .clip(RoundedCornerShape(12.dp))
             .border(2.dp, parseHexColor(category.colorHex), RoundedCornerShape(12.dp))
             .clickable(onClick = onClick),
