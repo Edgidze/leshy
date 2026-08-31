@@ -3,10 +3,7 @@ package leshy.mushrooms.map.domain.usecase
 import leshy.mushrooms.map.data.catalog.catalogKeyForLegacy
 import leshy.mushrooms.map.data.export.dto.CATEGORIES_ENTRY_NAME
 import leshy.mushrooms.map.data.export.dto.CategoryExportDto
-import leshy.mushrooms.map.data.export.dto.EXPORT_SCHEMA_VERSION
 import leshy.mushrooms.map.data.export.dto.ExportJson
-import leshy.mushrooms.map.data.export.dto.ExportManifestDto
-import leshy.mushrooms.map.data.export.dto.MANIFEST_ENTRY_NAME
 import leshy.mushrooms.map.data.export.dto.OBJECTS_ENTRY_NAME
 import leshy.mushrooms.map.data.export.dto.ObjectExportDto
 import leshy.mushrooms.map.data.export.dto.TRACK_ENTRY_NAME
@@ -52,6 +49,7 @@ import okio.Path.Companion.toPath
  * `categoryNameKey` always has.
  */
 class ImportDataUseCase(
+    private val validateArchive: ValidateImportArchiveUseCase,
     private val walkRepository: WalkRepository,
     private val trackPointRepository: TrackPointRepository,
     private val fieldMarkRepository: FieldMarkRepository,
@@ -61,15 +59,16 @@ class ImportDataUseCase(
 ) {
     data class Result(val importedWalkCount: Int, val failedWalkCount: Int)
 
+    class RejectedException(val problem: ImportArchiveProblem) : IllegalArgumentException(problem.name)
+
     suspend operator fun invoke(archiveBytes: ByteArray, walkNameTag: String): Result {
+        // Nothing is written until the whole archive has been checked — the species merge below
+        // runs before the first walk is even parsed, so a file that only falls apart halfway would
+        // otherwise still leave new category rows behind. The caller (DataViewModel) normally
+        // validates at file-pick time and never gets here with a bad archive; this is the barrier
+        // that makes that a guarantee rather than a convention.
+        validateArchive(archiveBytes)?.let { throw RejectedException(it) }
         val reader = ZipReader(archiveBytes)
-        val manifest = reader.readEntry(MANIFEST_ENTRY_NAME)?.decodeToString()
-            ?.let { ExportJson.decodeFromString<ExportManifestDto>(it) }
-            ?: error("Not a Leshy export archive: missing $MANIFEST_ENTRY_NAME")
-        require(manifest.schemaVersion <= EXPORT_SCHEMA_VERSION) {
-            "This archive (format v${manifest.schemaVersion}) is newer than this app supports " +
-                "(v$EXPORT_SCHEMA_VERSION) — update the app first"
-        }
 
         importCategories(reader)
 
@@ -167,6 +166,12 @@ class ImportDataUseCase(
      * already → the local species wins outright, nothing to do. */
     private suspend fun importCategory(reader: ZipReader, dto: CategoryExportDto) {
         val existing = categoryRepository.getByNameKey(dto.nameKey)
+        // Catalog rows are never a merge target. ExportDataUseCase only ever writes non-APP
+        // species, so this can't happen for an archive this app produced — but `nameKey` is just a
+        // string in a JSON file, and a hand-edited or corrupted one naming `boletus_edulis` (or
+        // `category_misc`) would otherwise attach a foreign icon to a catalog species, which
+        // EnsureDefaultCategoriesUseCase would then keep re-seeding around forever.
+        if (existing != null && existing.source == CategorySource.APP) return
         val target = when {
             existing == null -> {
                 val created = dto.toDomain()

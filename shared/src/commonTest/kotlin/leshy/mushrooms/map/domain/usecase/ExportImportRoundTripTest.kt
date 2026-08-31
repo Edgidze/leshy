@@ -1,5 +1,6 @@
 package leshy.mushrooms.map.domain.usecase
 
+import leshy.mushrooms.map.data.export.dto.CATEGORIES_ENTRY_NAME
 import leshy.mushrooms.map.data.export.dto.EXPORT_SCHEMA_VERSION
 import leshy.mushrooms.map.data.export.dto.ExportJson
 import leshy.mushrooms.map.data.export.dto.ExportManifestDto
@@ -213,6 +214,7 @@ class ExportImportRoundTripTest {
         val destTrackPoints = FakeTrackPointRepository()
         val destFieldMarks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
             destWalks, destTrackPoints, destFieldMarks, destCategories, FakePhotoStorage(), destFs,
         )
 
@@ -277,6 +279,7 @@ class ExportImportRoundTripTest {
 
         val destFieldMarks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), destFieldMarks,
             FakeCategoryRepository(listOf(category(1, BOLETUS_NAME_KEY), category(2, MISC_CATEGORY_NAME_KEY))),
             FakePhotoStorage(), FakeFileSystem(),
@@ -297,6 +300,7 @@ class ExportImportRoundTripTest {
 
         val categories = FakeCategoryRepository(listOf(category(1, MISC_CATEGORY_NAME_KEY)))
         val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
             categories, FakePhotoStorage(), FakeFileSystem(),
         )
@@ -324,6 +328,7 @@ class ExportImportRoundTripTest {
         writer.finish()
 
         val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
             categories, FakePhotoStorage(), FakeFileSystem(),
         )
@@ -369,6 +374,7 @@ class ExportImportRoundTripTest {
         val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY)))
         val destFieldMarks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), destFieldMarks, destCategories, FakePhotoStorage(), destFs,
         )
         importUseCase(archiveBytes, "")
@@ -432,6 +438,7 @@ class ExportImportRoundTripTest {
         )
         val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY), existingLocal))
         val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
             destCategories, FakePhotoStorage(), destFs,
         )
@@ -480,6 +487,7 @@ class ExportImportRoundTripTest {
         val existingLocal = userCategory(20, nameKey, iconFile = "catimg_user_3_local.png")
         val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY), existingLocal))
         val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
             destCategories, FakePhotoStorage(), destFs,
         )
@@ -522,6 +530,7 @@ class ExportImportRoundTripTest {
         val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY)))
         val destWalks = FakeWalkRepository()
         val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
             destWalks, FakeTrackPointRepository(), FakeFieldMarkRepository(),
             destCategories, FakePhotoStorage(), FakeFileSystem(),
         )
@@ -550,6 +559,7 @@ class ExportImportRoundTripTest {
         writer.finish()
 
         val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
             categories, FakePhotoStorage(), FakeFileSystem(),
         )
@@ -557,6 +567,182 @@ class ExportImportRoundTripTest {
 
         assertEquals(1, result.importedWalkCount)
         assertEquals(0, result.failedWalkCount)
+    }
+    // --- Проверка архива перед импортом (задача 10) -------------------------------------------
+
+    private fun archiveOf(vararg entries: Pair<String, String>): ByteArray {
+        val sink = Buffer()
+        val writer = ZipWriter(sink)
+        entries.forEach { (name, content) -> writer.writeEntry(name, content) }
+        writer.finish()
+        return sink.readByteArray()
+    }
+
+    private fun manifestEntry(schemaVersion: Int = EXPORT_SCHEMA_VERSION, walkCount: Int = 1) =
+        MANIFEST_ENTRY_NAME to ExportJson.encodeToString(ExportManifestDto(schemaVersion, 0, walkCount))
+
+    private fun goodWalkEntry(id: Long) = "${walkDirectory(id)}/$WALK_ENTRY_NAME" to
+        """{"originalId":$id,"name":"W$id","startTime":1,"endTime":null,"distanceMeters":0.0,""" +
+        """"avgSpeed":0.0,"startLat":0.0,"startLon":0.0,"endLat":null,"endLon":null,"mushroomCount":0}"""
+
+    @Test
+    fun rejectsFilesThatArentArchivesAtAll() {
+        val validate = ValidateImportArchiveUseCase()
+        assertEquals(ImportArchiveProblem.NOT_AN_ARCHIVE, validate(ByteArray(0)))
+        assertEquals(ImportArchiveProblem.NOT_AN_ARCHIVE, validate("совсем не архив".encodeToByteArray()))
+        // Правдоподобный «почти zip»: сигнатура на месте, дальше мусор.
+        assertEquals(
+            ImportArchiveProblem.NOT_AN_ARCHIVE,
+            validate(byteArrayOf(0x50, 0x4B, 0x03, 0x04) + ByteArray(200) { 0x7F }),
+        )
+    }
+
+    @Test
+    fun rejectsAZipThatIsntALeshyArchive() {
+        val validate = ValidateImportArchiveUseCase()
+        assertEquals(
+            ImportArchiveProblem.NOT_A_LESHY_ARCHIVE,
+            validate(archiveOf("readme.txt" to "чужой архив")),
+        )
+        assertEquals(
+            ImportArchiveProblem.NOT_A_LESHY_ARCHIVE,
+            validate(archiveOf(MANIFEST_ENTRY_NAME to "{ это не манифест")),
+        )
+    }
+
+    @Test
+    fun rejectsAnArchiveFromANewerAppVersion() {
+        assertEquals(
+            ImportArchiveProblem.NEWER_FORMAT,
+            ValidateImportArchiveUseCase()(
+                archiveOf(manifestEntry(schemaVersion = EXPORT_SCHEMA_VERSION + 1), goodWalkEntry(1)),
+            ),
+        )
+    }
+
+    @Test
+    fun rejectsAnArchiveWithNothingToImport() {
+        assertEquals(
+            ImportArchiveProblem.NO_WALKS,
+            ValidateImportArchiveUseCase()(archiveOf(manifestEntry(walkCount = 0))),
+        )
+    }
+
+    @Test
+    fun rejectsAnArchiveWhoseEveryWalkIsBrokenButAcceptsOneGoodWalkAmongBad() {
+        val validate = ValidateImportArchiveUseCase()
+        assertEquals(
+            ImportArchiveProblem.DAMAGED_CONTENT,
+            validate(
+                archiveOf(
+                    manifestEntry(walkCount = 2),
+                    "${walkDirectory(1)}/$WALK_ENTRY_NAME" to "not json",
+                    "${walkDirectory(2)}/$WALK_ENTRY_NAME" to "also not json",
+                ),
+            ),
+        )
+        // Одна битая прогулка среди целых — не повод выбрасывать целые: их импорт пропускает
+        // поштучно и отчитывается failedWalkCount, см. doc ValidateImportArchiveUseCase.
+        assertNull(
+            validate(
+                archiveOf(
+                    manifestEntry(walkCount = 2),
+                    goodWalkEntry(1),
+                    "${walkDirectory(2)}/$WALK_ENTRY_NAME" to "not json",
+                ),
+            ),
+        )
+    }
+
+    @Test
+    fun rejectsAnArchiveWithAnUnreadableCategoriesSection() {
+        assertEquals(
+            ImportArchiveProblem.DAMAGED_CONTENT,
+            ValidateImportArchiveUseCase()(
+                archiveOf(manifestEntry(), CATEGORIES_ENTRY_NAME to "{{{", goodWalkEntry(1)),
+            ),
+        )
+    }
+
+    @Test
+    fun aRejectedArchiveWritesNothingAtAll() = runBlocking {
+        val walks = FakeWalkRepository()
+        val categories = FakeCategoryRepository(listOf(category(1, MISC_CATEGORY_NAME_KEY)))
+        val marks = FakeFieldMarkRepository()
+        val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
+            walks, FakeTrackPointRepository(), marks, categories, FakePhotoStorage(), FakeFileSystem(),
+        )
+
+        // Валидный манифест и валидная секция видов, но НИ ОДНОЙ читаемой прогулки: без
+        // предварительной проверки импорт успел бы слить виды в каталог до первой прогулки.
+        val archive = archiveOf(
+            manifestEntry(walkCount = 1),
+            CATEGORIES_ENTRY_NAME to
+                """[{"nameKey":"user_9","colorHex":"#ABCDEF","customNames":{"ru":"Чужой"},""" +
+                """"scientificName":null,"hasIcon":false}]""",
+            "${walkDirectory(1)}/$WALK_ENTRY_NAME" to "not json",
+        )
+
+        val failure = assertFailsWith<ImportDataUseCase.RejectedException> { importUseCase(archive, "") }
+        assertEquals(ImportArchiveProblem.DAMAGED_CONTENT, failure.problem)
+        assertEquals(emptyList(), walks.observeAll().first())
+        assertEquals(emptyList(), marks.observeAll().first())
+        assertEquals(listOf(MISC_CATEGORY_NAME_KEY), categories.getAll().map { it.nameKey })
+    }
+
+    // --- Конфликты с уже имеющимися данными (задача 10) --------------------------------------
+
+    @Test
+    fun importingTheSameArchiveTwiceNeverMergesWalks() = runBlocking {
+        val categories = FakeCategoryRepository(listOf(category(1, MISC_CATEGORY_NAME_KEY)))
+        val walks = FakeWalkRepository()
+        // Прогулка, уже лежащая в базе, с тем же originalId и именем, что в архиве.
+        walks.insert(
+            Walk(
+                id = 0, name = "W1", startTime = 1, endTime = null, distanceMeters = 0.0, avgSpeed = 0.0,
+                startLat = 0.0, startLon = 0.0, endLat = null, endLon = null, mushroomCount = 0,
+                thumbnailPath = null, description = null,
+            ),
+        )
+        val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
+            walks, FakeTrackPointRepository(), FakeFieldMarkRepository(), categories,
+            FakePhotoStorage(), FakeFileSystem(),
+        )
+        val archive = archiveOf(manifestEntry(), goodWalkEntry(1))
+
+        importUseCase(archive, "")
+        importUseCase(archive, "")
+
+        // Ни слияния, ни перезаписи: три отдельные строки с разными id.
+        val all = walks.observeAll().first()
+        assertEquals(3, all.size)
+        assertEquals(3, all.map { it.id }.distinct().size)
+    }
+
+    @Test
+    fun importNeverTouchesCatalogSpecies() = runBlocking {
+        val catalogRow = category(1, BOLETUS_NAME_KEY).copy(source = CategorySource.APP, colorHex = "#AAAAAA")
+        val categories = FakeCategoryRepository(listOf(category(2, MISC_CATEGORY_NAME_KEY), catalogRow))
+        val importUseCase = ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
+            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(), categories,
+            FakePhotoStorage(), FakeFileSystem(),
+        )
+        // Архив, выгруженный этим приложением, каталожных видов не содержит — но nameKey в JSON
+        // всего лишь строка, и правленый/битый архив может назвать каталожный ключ своим.
+        val archive = archiveOf(
+            manifestEntry(),
+            CATEGORIES_ENTRY_NAME to
+                """[{"nameKey":"$BOLETUS_NAME_KEY","colorHex":"#FF0000","customNames":{"ru":"Подделка"},""" +
+                """"scientificName":"Fake fake","hasIcon":false}]""",
+            goodWalkEntry(1),
+        )
+
+        importUseCase(archive, "")
+
+        assertEquals(catalogRow, categories.getByNameKey(BOLETUS_NAME_KEY))
     }
 }
 

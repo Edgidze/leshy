@@ -12,6 +12,7 @@ import leshy.mushrooms.map.domain.usecase.ExportDataUseCase
 import leshy.mushrooms.map.domain.usecase.FinishWalkUseCase
 import leshy.mushrooms.map.domain.usecase.HealOrphanedWalksUseCase
 import leshy.mushrooms.map.domain.usecase.ImportDataUseCase
+import leshy.mushrooms.map.domain.usecase.ValidateImportArchiveUseCase
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
 import leshy.mushrooms.map.domain.usecase.RecordTrackPointUseCase
 import leshy.mushrooms.map.domain.usecase.RefreshMapDataUseCase
@@ -48,7 +49,8 @@ val domainModule = module {
     factory { UpdatePlaceMarkUseCase(get()) }
     factory { DeletePlaceMarkUseCase(get()) }
     factory { ExportDataUseCase(get(), get(), get(), get(), get()) }
-    factory { ImportDataUseCase(get(), get(), get(), get(), get()) }
+    factory { ValidateImportArchiveUseCase() }
+    factory { ImportDataUseCase(get(), get(), get(), get(), get(), get()) }
     factory { RefreshMapDataUseCase(get(), get()) }
     factory { CreateOrUpdateUserSpeciesUseCase(get(), get()) }
     factory { ToggleUserSpeciesVisibilityUseCase(get()) }

@@ -9,6 +9,8 @@ import leshy.mushrooms.map.domain.repository.WalkRepository
 import leshy.mushrooms.map.domain.usecase.BackfillWalkThumbnailsUseCase
 import leshy.mushrooms.map.domain.usecase.ExportDataUseCase
 import leshy.mushrooms.map.domain.usecase.ImportDataUseCase
+import leshy.mushrooms.map.domain.usecase.ImportArchiveProblem
+import leshy.mushrooms.map.domain.usecase.ValidateImportArchiveUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,6 +34,7 @@ import kotlin.time.Instant
 class DataViewModel(
     private val exportDataUseCase: ExportDataUseCase,
     private val importDataUseCase: ImportDataUseCase,
+    private val validateImportArchive: ValidateImportArchiveUseCase,
     private val archiveFileReader: ArchiveFileReader,
     private val walkRepository: WalkRepository,
     private val backfillWalkThumbnails: BackfillWalkThumbnailsUseCase,
@@ -96,6 +99,12 @@ class DataViewModel(
         }
     }
 
+    /**
+     * Checks the file the moment it is picked, not when "Import" is pressed — so an unusable file
+     * is named as such right away instead of after the user has typed a label and committed. The
+     * archive is read twice in the happy path (once here, once on import); that is a local file
+     * read, and it buys a verdict before anything is written.
+     */
     fun onImportFilePicked(location: PickedLocation) {
         _uiState.update {
             it.copy(
@@ -103,8 +112,26 @@ class DataViewModel(
                 importFileHandle = location.handle,
                 errorMessage = null,
                 importResult = null,
+                importProblem = null,
+                importProblemDialogVisible = false,
+                isProcessing = true,
             )
         }
+        viewModelScope.launch {
+            val problem = runCatching { validateImportArchive(archiveFileReader.readBytes(location.handle)) }
+                // Unreadable file (permission lost, deleted between picking and reading) is, from
+                // the user's point of view, the same answer as "not an archive".
+                .getOrDefault(ImportArchiveProblem.NOT_AN_ARCHIVE)
+            _uiState.update {
+                it.copy(isProcessing = false, importProblem = problem, importProblemDialogVisible = problem != null)
+            }
+        }
+    }
+
+    /** Closes the dialog only — [DataUiState.importProblem] survives, so the import button stays
+     * disabled and the reason stays readable until a different file is picked. */
+    fun dismissImportProblem() {
+        _uiState.update { it.copy(importProblemDialogVisible = false) }
     }
 
     fun setImportWalkLabel(label: String) {
@@ -114,6 +141,9 @@ class DataViewModel(
     fun confirmImport() {
         val state = _uiState.value
         val handle = state.importFileHandle ?: return
+        // Belt and braces: the button is disabled while importProblem != null, but the use case
+        // re-validates internally anyway and would throw RejectedException rather than write.
+        if (state.importProblem != null) return
         _uiState.update { it.copy(isProcessing = true, errorMessage = null, importResult = null) }
         viewModelScope.launch {
             val result = runCatching { importDataUseCase(archiveFileReader.readBytes(handle), state.importWalkLabel) }
@@ -142,6 +172,8 @@ class DataViewModel(
                 importFileHandle = null,
                 importWalkLabel = "",
                 importResult = null,
+                importProblem = null,
+                importProblemDialogVisible = false,
                 exportSucceeded = false,
                 errorMessage = null,
             )

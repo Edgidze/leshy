@@ -11,6 +11,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FileOpen
 import androidx.compose.material.icons.filled.Hiking
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -21,6 +22,7 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,6 +30,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.data.platform.rememberExportLauncher
 import leshy.mushrooms.map.data.platform.rememberImportFilePicker
+import androidx.compose.ui.window.DialogProperties
+import leshy.mushrooms.map.domain.usecase.ImportArchiveProblem
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.data.DataMode
@@ -78,6 +82,21 @@ fun DataScreen(
 
         DataStatus(uiState)
 
+        uiState.importProblem?.takeIf { uiState.importProblemDialogVisible }?.let { problem ->
+            AlertDialog(
+                onDismissRequest = viewModel::dismissImportProblem,
+                modifier = Modifier.fillMaxWidth(0.9f),
+                properties = DialogProperties(usePlatformDefaultWidth = false),
+                title = { Text(stringResource(StringKey.DataImportRejectedTitle)) },
+                text = { Text(stringResource(importProblemStringKey(problem))) },
+                confirmButton = {
+                    TextButton(onClick = viewModel::dismissImportProblem) {
+                        Text(stringResource(StringKey.HelpDialogDismiss))
+                    }
+                },
+            )
+        }
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
@@ -97,7 +116,9 @@ fun DataScreen(
                 enabled = !uiState.isProcessing &&
                     when (uiState.mode) {
                         DataMode.EXPORT -> uiState.selectedWalkIds.isNotEmpty() && !uiState.exportSucceeded
-                        DataMode.IMPORT -> uiState.importFileHandle != null
+                        // A file that failed the pre-check keeps the button off until another one
+                        // is picked — the dialog says why, the button just stops being a trap.
+                        DataMode.IMPORT -> uiState.importFileHandle != null && uiState.importProblem == null
                     },
                 modifier = Modifier.weight(1f),
             ) {
@@ -174,6 +195,16 @@ private fun ImportSection(uiState: DataUiState, viewModel: DataViewModel) {
 }
 
 @Composable
+/** One place both the dialog and the persistent line under the picker read the reason from. */
+private fun importProblemStringKey(problem: ImportArchiveProblem): StringKey = when (problem) {
+    ImportArchiveProblem.NOT_AN_ARCHIVE -> StringKey.DataImportRejectedNotArchive
+    ImportArchiveProblem.NOT_A_LESHY_ARCHIVE -> StringKey.DataImportRejectedNotLeshy
+    ImportArchiveProblem.NEWER_FORMAT -> StringKey.DataImportRejectedNewerFormat
+    ImportArchiveProblem.DAMAGED_CONTENT -> StringKey.DataImportRejectedDamaged
+    ImportArchiveProblem.NO_WALKS -> StringKey.DataImportRejectedNoWalks
+}
+
+@Composable
 private fun DataStatus(uiState: DataUiState) {
     Column(modifier = Modifier.padding(top = 16.dp)) {
         if (uiState.isProcessing) {
@@ -190,6 +221,12 @@ private fun DataStatus(uiState: DataUiState) {
             if (result.failedWalkCount > 0) {
                 Text("${stringResource(StringKey.DataImportFailedWalksLabel)}: ${result.failedWalkCount}")
             }
+        }
+        uiState.importProblem?.let { problem ->
+            Text(
+                "${stringResource(StringKey.DataImportRejectedTitle)}. ${stringResource(importProblemStringKey(problem))}",
+                color = MaterialTheme.colorScheme.error,
+            )
         }
         uiState.errorMessage?.let { message ->
             Text(

@@ -63,7 +63,10 @@ fun LanguagePickerScreen(
     // first screen of a fresh install, and a dead arrow reads as a broken control.
     onBack: (() -> Unit)? = null,
 ) {
-    var selected by remember { mutableStateOf(currentLanguage) }
+    // Keyed on [currentLanguage]: the onboarding step feeds this from a DataStore-backed flow that
+    // starts at the EN default and only then emits the stored language, so an unkeyed remember
+    // would leave the radio stuck on English while the rest of the screen is already translated.
+    var selected by remember(currentLanguage) { mutableStateOf(currentLanguage) }
     var query by remember { mutableStateOf("") }
     val filtered = searchOrdered(AppLanguage.entries, query) { "${it.endonym} ${it.englishName}" }
     val listState = rememberLazyListState()
