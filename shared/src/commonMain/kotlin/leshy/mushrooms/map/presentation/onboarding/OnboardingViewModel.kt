@@ -2,12 +2,16 @@ package leshy.mushrooms.map.presentation.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import leshy.mushrooms.map.data.catalog.CountriesSource
+import leshy.mushrooms.map.data.catalog.countryCodeForCollectionNameKey
 import leshy.mushrooms.map.data.catalog.countryCollectionNameKey
 import leshy.mushrooms.map.data.platform.currentDeviceRegionCode
+import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.repository.CategoryRepository
 import leshy.mushrooms.map.domain.repository.CollectionRepository
 import leshy.mushrooms.map.domain.repository.OnboardingRepository
+import leshy.mushrooms.map.domain.repository.SettingsRepository
 import leshy.mushrooms.map.domain.usecase.EnsureDefaultCategoriesUseCase
 import leshy.mushrooms.map.domain.usecase.EnsureDefaultCollectionsUseCase
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
@@ -33,6 +37,8 @@ class OnboardingViewModel(
     private val categoryRepository: CategoryRepository,
     private val collectionRepository: CollectionRepository,
     private val onboardingRepository: OnboardingRepository,
+    private val settingsRepository: SettingsRepository,
+    private val countriesSource: CountriesSource,
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
@@ -57,12 +63,55 @@ class OnboardingViewModel(
                 collectionRepository.observeAll(),
                 categoryRepository.observeAll(),
                 collectionRepository.observeAllMemberships(),
-            ) { collections, categories, memberships ->
-                buildCollectionPickerItems(collections, categories, memberships)
-            }.collect { items ->
-                _uiState.update { it.copy(collectionPickerItems = items) }
+                settingsRepository.observeLanguage(),
+            ) { collections, categories, memberships, language ->
+                language to buildCollectionPickerItems(collections, categories, memberships)
+            }.collect { (language, items) ->
+                _uiState.update {
+                    it.copy(language = language, collectionPickerItems = sortByLanguage(items, language))
+                }
             }
         }
+    }
+
+    /**
+     * Countries that speak the language picked on the previous step float to the top; everything
+     * else keeps the ordinary [leshy.mushrooms.map.domain.model.Collection.order] below them. This
+     * is a default ORDER, not a filter — every one of the 33 countries is still in the list, and
+     * the search field still finds any of them.
+     *
+     * Only the onboarding step reorders like this. The same picker on the "Грибы" screen keeps the
+     * plain alphabetical/catalog order: there, the user is looking for a specific country they
+     * already have in mind, and a list that silently reshuffles itself around the interface
+     * language would just make it harder to find.
+     */
+    private fun sortByLanguage(
+        items: List<CollectionPickerItem>,
+        language: AppLanguage,
+    ): List<CollectionPickerItem> {
+        val countryCodesForLanguage = countriesSource.entries
+            .filter { language.code in it.langs }
+            .map { it.code }
+            .toSet()
+        if (countryCodesForLanguage.isEmpty()) return items
+        // partition preserves the relative order inside each half, so the tail is untouched.
+        val (matching, rest) = items.partition { item ->
+            countryCodeForCollectionNameKey(item.collection.nameKey) in countryCodesForLanguage
+        }
+        return matching + rest
+    }
+
+    /** Step 1's confirm: applies the language app-wide (Settings' own picker writes the same key)
+     * and moves on to the countries. */
+    fun onLanguageConfirmed(language: AppLanguage) {
+        viewModelScope.launch { settingsRepository.setLanguage(language) }
+        _uiState.update { it.copy(step = OnboardingStep.COLLECTIONS) }
+    }
+
+    /** Step 2's back arrow — the language choice is already applied, so this is a real "let me
+     * change it", not a cancel. */
+    fun onBackToLanguage() {
+        _uiState.update { it.copy(step = OnboardingStep.LANGUAGE) }
     }
 
     /** Tri-state click convention: anything short of fully picked selects every member, only a

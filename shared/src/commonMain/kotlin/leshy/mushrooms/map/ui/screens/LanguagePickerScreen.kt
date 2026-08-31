@@ -56,7 +56,13 @@ import leshy.mushrooms.map.presentation.searchOrdered
  * change to keep the best match visible.
  */
 @Composable
-fun LanguagePickerScreen(currentLanguage: AppLanguage, onConfirm: (AppLanguage) -> Unit, onBack: () -> Unit) {
+fun LanguagePickerScreen(
+    currentLanguage: AppLanguage,
+    onConfirm: (AppLanguage) -> Unit,
+    // Null on the onboarding screen's first step: there is nowhere to go back TO from the very
+    // first screen of a fresh install, and a dead arrow reads as a broken control.
+    onBack: (() -> Unit)? = null,
+) {
     var selected by remember { mutableStateOf(currentLanguage) }
     var query by remember { mutableStateOf("") }
     val filtered = searchOrdered(AppLanguage.entries, query) { "${it.endonym} ${it.englishName}" }
@@ -68,11 +74,13 @@ fun LanguagePickerScreen(currentLanguage: AppLanguage, onConfirm: (AppLanguage) 
             TopAppBar(
                 title = { Text(stringResource(StringKey.SettingsLanguageTitle)) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(StringKey.LanguagePickerBackContentDescription),
-                        )
+                    if (onBack != null) {
+                        IconButton(onClick = onBack) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(StringKey.LanguagePickerBackContentDescription),
+                            )
+                        }
                     }
                 },
                 actions = {
