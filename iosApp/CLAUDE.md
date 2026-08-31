@@ -82,6 +82,31 @@ UIKit-хост.** Причина: сборка генерирует `UIApplicati
   `LeshyApplication.onCreate` ровно один раз на процесс, и тихий no-op там
   прятал бы ошибку).
 
+### Окно ОБЯЗАНО создаваться из `UIWindowScene` — от этого зависит GPS
+
+Не только показ окна. `ComposeContainerLifecycleDelegate` (CMP,
+`iosMain/androidx/compose/ui/window/`) выводит состояние Compose-жизненного
+цикла ИСКЛЮЧИТЕЛЬНО из сцены:
+
+```
+isViewAppeared && isSceneInForeground && isSceneActive -> RESUMED
+```
+
+а `isSceneInForeground`/`isSceneActive` считают `SceneActiveStateListener`/
+`SceneForegroundStateListener`, фильтруя нотификации по конкретному объекту
+`UIWindowScene`, который приходит из `ComposeContainer.onDidMoveToWindow` как
+`window.windowScene`.
+
+Отсюда следствие, не видное по коду ни задачи 5, ни задачи 6: окно,
+созданное как `UIWindow(frame:)` без сцены (ровно первая, сломанная версия
+UIKit-хоста), дало бы `window.windowScene == null`, Compose никогда не дошёл
+бы до `RESUMED`, и `LifecycleResumeEffect` на экране «Запись» —
+единственное, что теперь включает подписку на GPS (задача 6) — не сработал
+бы ни разу. То есть **на iOS геолокация вообще не завелась бы**, причём
+молча. `UIWindow(windowScene:)` в `SceneDelegate` закрывает это по
+построению, но при любой будущей правке хоста проверять надо именно GPS на
+«Записи», а не только «нарисовалось ли что-нибудь».
+
 **Не воспроизведено на симуляторах.** Прогон портрет→ландшафт→портрет на
 iPhone 17 и iPhone SE (2-го поколения), обе — iOS 26.5, до фикса даёт
 пиксельно одинаковую шапку, то есть баг там не проявляется вовсе;
