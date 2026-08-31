@@ -19,23 +19,28 @@ import leshy.mushrooms.map.domain.usecase.UpdatePlaceMarkUseCase
 import leshy.mushrooms.map.domain.util.computeFilterCount
 import leshy.mushrooms.map.domain.util.matchesDateAndSeason
 import leshy.mushrooms.map.presentation.archive.CategoryCount
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private data class RawMapData(
     val walks: List<Walk>,
     val marks: List<FieldMark>,
-    val trackPoints: List<TrackPoint>,
     val categories: List<Category>,
 )
+
+/** Ключ перезагрузки треков — см. комментарий у его collect в [MapViewModel.init]. */
+private data class TracksKey(val walkIds: Set<Long>, val visible: Boolean)
 
 class MapViewModel(
     walkRepository: WalkRepository,
     fieldMarkRepository: FieldMarkRepository,
-    trackPointRepository: TrackPointRepository,
+    private val trackPointRepository: TrackPointRepository,
     categoryRepository: CategoryRepository,
     mapFilterRepository: MapFilterRepository,
     private val updatePlaceMark: UpdatePlaceMarkUseCase,
@@ -43,6 +48,10 @@ class MapViewModel(
 ) : ViewModel() {
 
     private val _mode = MutableStateFlow(MapMode.MAP)
+
+    /** Заполняется отдельным сборщиком ниже и входит в общий combine готовым значением — см.
+     * комментарий у этого сборщика. */
+    private val tracks = MutableStateFlow<Map<Long, List<GeoPoint>>>(emptyMap())
 
     private val _uiState = MutableStateFlow(MapUiState())
     val uiState: StateFlow<MapUiState> = _uiState.asStateFlow()
@@ -54,13 +63,42 @@ class MapViewModel(
             val rawData = combine(
                 walkRepository.observeAll(),
                 fieldMarkRepository.observeAll(),
-                trackPointRepository.observeAll(),
                 categoryRepository.observeAll(),
-            ) { walks, marks, trackPoints, categories -> RawMapData(walks, marks, trackPoints, categories) }
+            ) { walks, marks, categories -> RawMapData(walks, marks, categories) }
 
-            combine(rawData, _mode, mapFilterRepository.observeFilter()) { raw, mode, filter ->
-                buildUiState(raw, mode, filter)
+            combine(rawData, _mode, mapFilterRepository.observeFilter(), tracks) { raw, mode, filter, tracks ->
+                buildUiState(raw, mode, filter, tracks)
             }.collect { state -> _uiState.value = state }
+        }
+        viewModelScope.launch {
+            // Ровно тот же приём, что в RecordViewModel (там же и подробное объяснение): треки
+            // читаются одноразовым запросом по ключу «набор показываемых прогулок + флаг
+            // показа», а не подпиской на track_points. Здесь это важно не меньше — если
+            // прогулка пишется в фоне, пока пользователь смотрит «Карту находок», подписка
+            // перечитывала бы и перегруппировывала всю таблицу на каждый GPS-фикс.
+            //
+            // Прореживания, в отличие от «Записи», нет: тут маршруты — само содержимое экрана,
+            // а не фоновый контекст, и их можно рассматривать вблизи.
+            combine(
+                walkRepository.observeAll(),
+                mapFilterRepository.observeFilter(),
+            ) { walks, filter ->
+                TracksKey(
+                    walkIds = walks.filter { it.matchesDateAndSeason(filter) }.map { it.id }.toSet(),
+                    visible = filter.showPastRoutes,
+                )
+            }.distinctUntilChanged().collect { key ->
+                tracks.value = if (!key.visible || key.walkIds.isEmpty()) {
+                    emptyMap()
+                } else {
+                    withContext(Dispatchers.Default) {
+                        trackPointRepository.getPoints(key.walkIds)
+                            .groupBy(TrackPoint::walkId) {
+                                GeoPoint(it.lat, it.lon, it.elevation, it.timestamp)
+                            }
+                    }
+                }
+            }
         }
     }
 
@@ -78,21 +116,19 @@ class MapViewModel(
         viewModelScope.launch { deletePlaceMark(mark) }
     }
 
-    private fun buildUiState(raw: RawMapData, mode: MapMode, filter: MapFilter): MapUiState {
+    private fun buildUiState(
+        raw: RawMapData,
+        mode: MapMode,
+        filter: MapFilter,
+        // Пустая карта, когда показ прошлых маршрутов выключен (так решает сборщик выше) — это
+        // не просто скрытие слоя: подгонка камеры в AggregatedFindsMap иначе продолжала бы
+        // кадрировать невидимые треки.
+        tracks: Map<Long, List<GeoPoint>>,
+    ): MapUiState {
         val filteredWalkIds = raw.walks
             .filter { it.matchesDateAndSeason(filter) }
             .map { it.id }
             .toSet()
-
-        // Empty (not just hidden at the layer level) when the user turned past routes off, so the
-        // camera-fitting in AggregatedFindsMap frames the finds alone instead of an invisible track.
-        val tracks = if (!filter.showPastRoutes) {
-            emptyMap()
-        } else {
-            raw.trackPoints
-                .filter { it.walkId in filteredWalkIds }
-                .groupBy(TrackPoint::walkId) { GeoPoint(it.lat, it.lon, it.elevation, it.timestamp) }
-        }
 
         val categoryById = raw.categories.associateBy { it.id }
         val mushroomMarks = raw.marks.filter {

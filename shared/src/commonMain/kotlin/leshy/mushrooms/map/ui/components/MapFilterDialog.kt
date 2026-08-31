@@ -181,15 +181,15 @@ private fun MonthRangeSection(uiState: MapFilterUiState, onRangeChanged: (Int, I
 }
 
 /**
- * Species-row twin for a filter that isn't a species: same 56.dp row height and same trailing
- * [Switch], with the icon slot left empty (there is no per-species picture to show) but its width
- * kept, so the label column stays aligned with the species list right below it.
+ * Строка фильтра, не относящегося к грибу: та же высота 56.dp и тот же [Switch] справа, что у
+ * [SpeciesFilterRow], но БЕЗ слота под картинку слева — ни картинки, ни зарезервированного под неё
+ * отступа. Надпись начинается от левого края строки, вровень с заголовками разделов над ней, а не
+ * вровень с названиями грибов, сдвинутыми вправо своими иконками.
  */
 @Composable
 private fun ToggleFilterRow(label: String, checked: Boolean, onToggle: (Boolean) -> Unit) {
     Row(modifier = Modifier.fillMaxWidth().height(56.dp), verticalAlignment = Alignment.CenterVertically) {
-        Spacer(modifier = Modifier.size(56.dp))
-        Text(text = label, modifier = Modifier.weight(1f).padding(start = 12.dp))
+        Text(text = label, modifier = Modifier.weight(1f))
         Switch(checked = checked, onCheckedChange = onToggle)
     }
 }

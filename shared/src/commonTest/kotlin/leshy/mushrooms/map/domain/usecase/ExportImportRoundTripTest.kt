@@ -63,6 +63,10 @@ private class FakeTrackPointRepository : TrackPointRepository {
         state.update { it + point.copy(id = id) }
         return id
     }
+    // Повторяет семантику SQL-запроса, включая порядок сортировки.
+    override suspend fun getPoints(walkIds: Collection<Long>): List<TrackPoint> =
+        state.value.filter { it.walkId in walkIds }
+            .sortedWith(compareBy({ it.walkId }, { it.sequence }))
 }
 
 private class FakeFieldMarkRepository : FieldMarkRepository {

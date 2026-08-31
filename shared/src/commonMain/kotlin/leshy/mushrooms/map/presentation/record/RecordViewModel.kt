@@ -38,6 +38,7 @@ import leshy.mushrooms.map.domain.usecase.UpdatePlaceMarkUseCase
 import leshy.mushrooms.map.domain.usecase.UpdateWalkThumbnailUseCase
 import leshy.mushrooms.map.domain.util.bearingDegrees
 import leshy.mushrooms.map.domain.util.computeFilterCount
+import leshy.mushrooms.map.domain.util.decimateTrack
 import leshy.mushrooms.map.domain.util.hasArrived
 import leshy.mushrooms.map.domain.util.haversineMeters
 import leshy.mushrooms.map.domain.util.matchesDateAndSeason
@@ -46,6 +47,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.string
 import leshy.mushrooms.map.presentation.applyRecencyOrder
 import leshy.mushrooms.map.presentation.sortCategories
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -60,6 +62,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
@@ -74,10 +77,19 @@ private val TILE_REORDER_QUIET_WINDOW = 5.seconds
  * reorder reads as an observable motion instead of a teleport — see [RecordUiState.scrollToStartDurationMillis]. */
 private const val TILE_REORDER_SCROLL_DURATION_MILLIS = 1000
 
+/**
+ * Шаг прореживания фоновых линий прошлых маршрутов — обоснование и гарантии см. в
+ * [leshy.mushrooms.map.domain.util.decimateTrack]. Экран «Карта находок» прореживания НЕ
+ * применяет: там маршруты сами по себе содержимое, а не фоновый контекст.
+ */
+private const val HISTORICAL_TRACK_STRIDE = 4
+
+/** Ключ перезагрузки фоновых треков — см. комментарий у его collect в [RecordViewModel.init]. */
+private data class HistoricalTracksKey(val walkIds: Set<Long>, val visible: Boolean)
+
 private data class RecordFilterState(
     val categories: List<Category>,
     val historicalFinds: List<FieldMark>,
-    val historicalTracks: Map<Long, List<GeoPoint>>,
     val historicalPlaces: List<FieldMark>,
     val filterCount: Int,
 )
@@ -180,20 +192,13 @@ class RecordViewModel(
                 settingsRepository.observeLanguage(),
                 categoryOrder,
             ) { language, order -> language to order }
-            // Walks and their track points travel together: combine() only types five sources, and
-            // the two are always consumed as a pair here (a track is only kept if its walk passed
-            // the filter).
-            val walkData = combine(
-                walkRepository.observeAll(),
-                trackPointRepository.observeAll(),
-            ) { walks, trackPoints -> walks to trackPoints }
             combine(
-                walkData,
+                walkRepository.observeAll(),
                 fieldMarkRepository.observeAll(),
                 categoryRepository.observeAll(),
                 mapFilterRepository.observeFilter(),
                 sortSettings,
-            ) { (walks, trackPoints), marks, categories, filter, (language, order) ->
+            ) { walks, marks, categories, filter, (language, order) ->
                 val sortedCategories = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
                     language,
@@ -212,21 +217,9 @@ class RecordViewModel(
                         categoryById[it.categoryId]?.isActive == true
                 }
                 val historicalPlaces = marks.filter { it.walkId in matchingWalkIds && it.type == MarkType.POI }
-                // Only finished walks: the walk being recorded right now is already drawn, live and
-                // at full weight, as RecordUiState.trackPoints — repeating it here would stack a
-                // second line under it that lags one Room write behind.
-                val finishedWalkIds = walks.filter { it.endTime != null }.map { it.id }.toSet()
-                val historicalTracks = if (!filter.showPastRoutes) {
-                    emptyMap()
-                } else {
-                    trackPoints
-                        .filter { it.walkId in matchingWalkIds && it.walkId in finishedWalkIds }
-                        .groupBy(TrackPoint::walkId) { GeoPoint(it.lat, it.lon, it.elevation, it.timestamp) }
-                }
                 RecordFilterState(
                     tileCategories,
                     historicalFinds,
-                    historicalTracks,
                     historicalPlaces,
                     computeFilterCount(filter, walks, categories),
                 )
@@ -235,11 +228,59 @@ class RecordViewModel(
                     it.copy(
                         categories = s.categories,
                         historicalFinds = s.historicalFinds,
-                        historicalTracks = s.historicalTracks,
                         historicalPlaces = s.historicalPlaces,
                         filterCount = s.filterCount,
                     )
                 }
+            }
+        }
+        viewModelScope.launch {
+            // Треки прошлых прогулок живут ОТДЕЛЬНЫМ потоком, а не внутри combine выше, и
+            // читаются одноразовым запросом, а не подпиской. Причина — стоимость: подписка на
+            // track_points переотдаёт всю таблицу на каждый GPS-фикс (RecordTrackPointUseCase
+            // пишет точку, а следом ещё и строку walks), то есть во время записи прогулки все
+            // точки всех прошлых прогулок пересоздавались бы объектами и перегруппировывались
+            // каждые несколько секунд — ровно тогда, когда подтормаживать нельзя.
+            //
+            // Ключ перезагрузки — набор id прогулок, чьи треки надо показать, плюс сам флаг
+            // показа. Он меняется, когда прогулка завершилась, удалилась или приехала импортом,
+            // либо когда сдвинули фильтр, — но НЕ когда в текущую прогулку дописана точка.
+            // distinctUntilChanged поверх него и есть то, что развязывает эти два события.
+            // Треки завершённых прогулок неизменны по определению, поэтому одного чтения на
+            // каждое изменение ключа достаточно.
+            combine(
+                walkRepository.observeAll(),
+                mapFilterRepository.observeFilter(),
+            ) { walks, filter ->
+                HistoricalTracksKey(
+                    // Только завершённые: текущая прогулка уже рисуется живьём и во всю силу из
+                    // RecordUiState.trackPoints, вторая линия под ней всё равно отставала бы на
+                    // одну запись в Room.
+                    walkIds = walks
+                        .filter { it.endTime != null && it.matchesDateAndSeason(filter) }
+                        .map { it.id }
+                        .toSet(),
+                    visible = filter.showPastRoutes,
+                )
+            }.distinctUntilChanged().collect { key ->
+                val tracks = if (!key.visible || key.walkIds.isEmpty()) {
+                    emptyMap()
+                } else {
+                    // Dispatchers.Default, а не Main: сам запрос Room уводит с вызывающего
+                    // потока сам, а вот группировка десятков тысяч точек — уже нет.
+                    // Dispatchers.IO в commonMain недоступен (internal на Kotlin/Native).
+                    withContext(Dispatchers.Default) {
+                        trackPointRepository.getPoints(key.walkIds)
+                            .groupBy(TrackPoint::walkId)
+                            .mapValues { (_, points) ->
+                                // Прореживание — до превращения в GeoPoint, чтобы лишние объекты
+                                // не создавались вовсе.
+                                decimateTrack(points, HISTORICAL_TRACK_STRIDE)
+                                    .map { GeoPoint(it.lat, it.lon, it.elevation, it.timestamp) }
+                            }
+                    }
+                }
+                _uiState.update { it.copy(historicalTracks = tracks) }
             }
         }
         viewModelScope.launch {
