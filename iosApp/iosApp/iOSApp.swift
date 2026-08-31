@@ -12,18 +12,49 @@ import Shared
 /// на системную полосу значков. Полноэкранность (карта под статус-баром) при этом
 /// сохраняется: у корневого контроллера окна нет чужой безопасной зоны, которую надо было
 /// бы игнорировать.
+///
+/// **Окно создаёт `SceneDelegate`, а не этот класс.** У приложения есть
+/// `UIApplicationSceneManifest` (его генерирует сборка, `INFOPLIST_KEY_
+/// UIApplicationSceneManifest_Generation = YES`), а значит iOS ведёт жизненный цикл через
+/// `UIScene` и свойство `window` у делегата приложения попросту игнорирует. Пока хостом был
+/// SwiftUI, это было незаметно: `@main struct App` ставит собственный scene-делегат сам.
+/// Подробности и симптом — в `iosApp/CLAUDE.md`.
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
 
+    /// Сцены в манифесте перечислены пустым списком (`UISceneConfigurations = {}`), поэтому
+    /// класс делегата задаётся здесь кодом, а не строкой с именем класса в plist: строку
+    /// пришлось бы держать в синхроне с именем Swift-модуля, и её опечатку никто бы не поймал
+    /// на сборке.
     func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        let window = UIWindow(frame: UIScreen.main.bounds)
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
+        let configuration = UISceneConfiguration(
+            name: "Default Configuration",
+            sessionRole: connectingSceneSession.role
+        )
+        configuration.delegateClass = SceneDelegate.self
+        return configuration
+    }
+}
+
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    var window: UIWindow?
+
+    func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
+        guard let windowScene = scene as? UIWindowScene else { return }
+        let window = UIWindow(windowScene: windowScene)
         window.rootViewController = MainViewControllerKt.MainViewController()
+        // Не только показывает окно, но и делает его ключевым: `UIApplication.keyWindow`
+        // (устаревшее, но всё ещё то, через что iosMain достаёт rootViewController для
+        // камеры/шаринга/файловых пикеров) без этого остаётся nil.
         window.makeKeyAndVisible()
         self.window = window
-        return true
     }
 }

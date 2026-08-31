@@ -8,6 +8,20 @@
 	<string>Leshy records your route and mushroom finds during a walk.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Leshy uses the camera to photograph mushrooms and landmarks during a walk.</string>
+	<!-- Объявлен здесь явно, а не сгенерирован сборкой
+	     (INFOPLIST_KEY_UIApplicationSceneManifest_Generation): генератор всегда ставит
+	     UIApplicationSupportsMultipleScenes = true, а приложение однооконное — второе окно на
+	     iPad подняло бы вторую Compose-сцену со своим сбором GPS и своей картой.
+	     UISceneConfigurations намеренно пуст: класс делегата сцены задаётся кодом, в
+	     AppDelegate.application(_:configurationForConnecting:options:), чтобы имя класса не
+	     жило строкой в plist в паре с именем Swift-модуля. -->
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict/>
+	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
