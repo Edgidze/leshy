@@ -22,6 +22,17 @@ import Shared
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    /// Подписка на MetricKit ставится здесь, а не в `SceneDelegate`: она нужна одна на
+    /// процесс, а сцен может быть несколько. Метод вызывается и при жизненном цикле
+    /// `UIScene` — раньше, чем подключается первая сцена.
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        DiagnosticsArchive.shared.start()
+        return true
+    }
+
     /// Сцены в манифесте перечислены пустым списком (`UISceneConfigurations = {}`), поэтому
     /// класс делегата задаётся здесь кодом, а не строкой с именем класса в plist: строку
     /// пришлось бы держать в синхроне с именем Swift-модуля, и её опечатку никто бы не поймал

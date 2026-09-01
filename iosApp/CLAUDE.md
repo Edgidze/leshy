@@ -140,3 +140,58 @@ Build settings (Debug+Release): `OTHER_LDFLAGS = (-framework Shared,
 `IPHONEOS_DEPLOYMENT_TARGET` проекта — Xcode этого ограничения не имеет.
 На устройствах <iOS 16 запуск — только через Xcode; IntelliJ — для
 редактирования кода и запуска на Android/симуляторе.
+
+## Диагностика зависаний: архив символов + MetricKit
+
+Обе вещи существуют ради одного расследования —
+`.claude/investigations/ios-maplibre-background-watchdog/README.md` (шаги 0 и 4).
+Там же причина: из трёх инцидентов два оказались нечитаемыми, потому что
+сборка была перезаписана, а crash-репорт самого приложения система записать
+не успела.
+
+### Фаза `Archive symbols for crash reports`
+
+`iosApp/Scripts/archive-symbols.sh`, последняя фаза таргета. Кладёт Mach-O
+каждой сборки в `~/Library/Developer/leshy-symbols/` (переопределяется
+`LESHY_SYMBOL_ARCHIVE`), последние 10 сборок.
+
+- **Только `PLATFORM_NAME = iphoneos`.** Симуляторная сборка на телефон не
+  попадает, значит и в репорт с устройства тоже.
+- **Копируются только бинари, не `.app` целиком** — для `atos`/`dwarfdump`
+  ресурсы не нужны, а с ними архив был бы на порядок толще.
+  `MapLibre.framework` включён намеренно: именно его UUID понадобился, чтобы
+  расшифровать зависшие кадры (`otool -oV` → `imp` метода → `imageOffset` из
+  репорта).
+- **Ключевой бинарь в Debug — `leshy.debug.dylib`, а не `leshy`.** Xcode 16
+  выносит весь код в debug-dylib, `leshy` остаётся тонким загрузчиком; UUID
+  из репорта — от dylib. По нему же именуется папка архива.
+- `.dSYM` копируются только в Release: в Debug `DEBUG_INFORMATION_FORMAT =
+  dwarf`, отладочная информация лежит внутри самого бинаря.
+- Фаза стоит ДО подписи кода, но это безразлично: `codesign` не трогает
+  `LC_UUID`.
+- Поиск сборки по UUID из `.ips`:
+  `grep -ril <UUID> ~/Library/Developer/leshy-symbols/*/uuids.txt`
+- **Порядок цены — ~85 МБ на сборку** (из них 69 МБ — `leshy.debug.dylib`: в
+  него статически влинкован весь `Shared.framework`, отдельным фреймворком в
+  бандле его нет). Десять сборок ≈ 850 МБ; если жалко — `KEEP` в начале
+  скрипта.
+
+### `DiagnosticsArchive` (MetricKit)
+
+`iosApp/iosApp/DiagnosticsArchive.swift`, подписка ставится из
+`AppDelegate.application(_:didFinishLaunchingWithOptions:)` — одна на процесс,
+а не из `SceneDelegate` (сцен может быть несколько).
+
+- **Файлы — в `Application Support/diagnostics/`**, а не в `Documents`:
+  открывать `Documents` наружу через `UIFileSharingEnabled` пришлось бы
+  вместе с данными пользователя. Забирать — Xcode → Devices and Simulators →
+  выгрузка контейнера. Краткая сводка (длительность зависания, CPU) при этом
+  дублируется в syslog, её видно сразу через `idevicesyslog` без выгрузки.
+- **Доставку расписывает система: не чаще раза в сутки, обычно на следующем
+  запуске после события.** Сразу после зависания файла не будет — это не
+  поломка. Проверять код — Xcode → Debug → Simulate MetricKit Payloads (только
+  на подключённом устройстве). На старте дополнительно вычитываются
+  `pastDiagnosticPayloads`/`pastPayloads` — системный буфер за 7 суток.
+- `MXMetricPayload` сохраняется наравне с диагностикой намеренно: в нём
+  `cpuMetrics.cumulativeCPUTime` за сутки реального пользования — то самое
+  измерение расхода CPU из шага 1 плана, но в поле, а не в Instruments.

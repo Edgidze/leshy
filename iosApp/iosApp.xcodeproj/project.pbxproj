@@ -75,6 +75,7 @@
 				8FD7D0C90C155BB429E5F8F8 /* Sources */,
 				0E6EB613DEEF47B2DD614D21 /* Frameworks */,
 				51AEA86DB7267422E12CC55E /* Resources */,
+				A11CE0DE5CA1B0000000B0B0 /* Archive symbols for crash reports */,
 			);
 			buildRules = (
 			);
@@ -153,6 +154,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+		};
+		A11CE0DE5CA1B0000000B0B0 /* Archive symbols for crash reports */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Archive symbols for crash reports";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/Scripts/archive-symbols.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
