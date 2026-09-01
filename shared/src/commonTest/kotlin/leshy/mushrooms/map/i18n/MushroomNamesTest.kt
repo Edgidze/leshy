@@ -17,9 +17,9 @@ private val TestNamesJson = Json { ignoreUnknownKeys = true }
  * `drawable/`'s `allDrawableResources` — and [AppLanguage] itself only carries `ru`/`en` until
  * Phase 4, so [MushroomNames] alone can't be asked for the other 34. */
 private val ALL_NAME_LANGUAGE_CODES = listOf(
-    "be", "bg", "ca", "cs", "de", "en", "es", "et", "eu", "fi", "fr", "gl", "hch", "hr", "hu",
-    "it", "ja", "ka", "ko", "lt", "lv", "maa", "mi", "nah", "pl", "ro", "ru", "sk", "sl",
-    "sr-Cyrl", "sr", "sv", "tr", "tsz", "tzo", "uk",
+    "az", "be", "bg", "ca", "cs", "de", "en", "es", "et", "eu", "fi", "fr", "gl", "hch", "hr",
+    "hu", "hy", "it", "ja", "ka", "kk", "ko", "ky", "lt", "lv", "maa", "mi", "nah", "pl", "ro",
+    "ru", "sk", "sl", "sr-Cyrl", "sr", "sv", "tg", "tk", "tr", "tsz", "tzo", "uk", "uz",
 )
 
 class MushroomNamesTest {

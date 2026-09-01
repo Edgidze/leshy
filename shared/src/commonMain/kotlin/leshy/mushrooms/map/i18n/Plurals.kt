@@ -61,15 +61,24 @@ fun pluralCategory(language: AppLanguage, count: Int): PluralCategory {
     val mod10 = (n % 10).toInt()
     val mod100 = (n % 100).toInt()
     return when (language) {
-        // No grammatical number: everything is `other`.
-        AppLanguage.JA, AppLanguage.KO -> PluralCategory.Other
+        // No grammatical number: everything is `other`. Tajik belongs here for a different reason
+        // than Japanese and Korean but with the same effect — CLDR gives `tg` no plural categories
+        // at all, because a Tajik noun after a numeral simply doesn't inflect. Not a placeholder
+        // for a rule nobody wrote: this *is* the rule.
+        AppLanguage.JA, AppLanguage.KO, AppLanguage.TG -> PluralCategory.Other
 
         // Two-way split on n = 1. Germanic/Finnic/Turkic/Kartvelian plus Bulgarian and Hungarian:
         // CLDR writes some of these as `i = 1 and v = 0` and others as `n = 1`, which are the same
-        // rule for integers.
-        AppLanguage.BG, AppLanguage.DE, AppLanguage.EN, AppLanguage.ET, AppLanguage.FI,
-        AppLanguage.HU, AppLanguage.KA, AppLanguage.SV, AppLanguage.TR,
+        // rule for integers. The five Turkic languages of `post-soviet-countries.md` join Turkish
+        // here unchanged.
+        AppLanguage.AZ, AppLanguage.BG, AppLanguage.DE, AppLanguage.EN, AppLanguage.ET,
+        AppLanguage.FI, AppLanguage.HU, AppLanguage.KA, AppLanguage.KK, AppLanguage.KY,
+        AppLanguage.SV, AppLanguage.TK, AppLanguage.TR, AppLanguage.UZ,
         -> if (n == 1L) PluralCategory.One else PluralCategory.Other
+
+        // Armenian: 0 is singular as well ("0 սունկ"), same shape as French on integers but
+        // without French's million-form `many`.
+        AppLanguage.HY -> if (n == 0L || n == 1L) PluralCategory.One else PluralCategory.Other
 
         // French: 0 is singular too ("0 champignon"). `many` is the "million" form ("un million
         // *de* champignons") — unreachable at realistic counts, kept for exactness.

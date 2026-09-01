@@ -1,6 +1,8 @@
 {
+  "AM": "Armenien",
   "AT": "Österreich",
   "AU": "Australien",
+  "AZ": "Aserbaidschan",
   "BG": "Bulgarien",
   "BY": "Belarus",
   "CA": "Kanada",
@@ -16,7 +18,9 @@
   "HU": "Ungarn",
   "IT": "Italien",
   "JP": "Japan",
+  "KG": "Kirgisistan",
   "KR": "Südkorea",
+  "KZ": "Kasachstan",
   "LT": "Litauen",
   "LV": "Lettland",
   "MD": "Republik Moldau",
@@ -29,7 +33,10 @@
   "SE": "Schweden",
   "SI": "Slowenien",
   "SK": "Slowakei",
+  "TJ": "Tadschikistan",
+  "TM": "Turkmenistan",
   "TR": "Türkei",
   "UA": "Ukraine",
-  "US": "USA"
+  "US": "USA",
+  "UZ": "Usbekistan"
 }
