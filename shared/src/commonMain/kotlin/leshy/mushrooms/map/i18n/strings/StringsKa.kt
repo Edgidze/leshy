@@ -285,7 +285,6 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "შეცდომა",
     StringKey.PreparationSubtitle to
         "ჩამოტვირთეთ რუკის ხილული ტერიტორია, რომ ინტერნეტის გარეშე გამოიყენოთ",
-    StringKey.PreparationEstimatedSizeLabel to "ადგილი დისკზე",
     StringKey.PreparationRetryContentDescription to "ჩამოტვირთვის გამეორება",
 
     StringKey.MapTilesLoadFailed to "რუკა სრულად არ ჩაიტვირთა აქედან:",

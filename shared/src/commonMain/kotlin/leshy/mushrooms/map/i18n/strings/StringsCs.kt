@@ -282,7 +282,6 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Chyba",
     StringKey.PreparationSubtitle to
         "Stáhněte viditelnou oblast mapy, abyste ji mohli používat offline",
-    StringKey.PreparationEstimatedSizeLabel to "Místo na disku",
     StringKey.PreparationRetryContentDescription to "Opakovat stahování",
 
     StringKey.MapTilesLoadFailed to "Mapa se nenačetla úplně z",

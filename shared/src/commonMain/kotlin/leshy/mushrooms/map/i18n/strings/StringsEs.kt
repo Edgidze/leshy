@@ -282,7 +282,6 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Error",
     StringKey.PreparationSubtitle to
         "Descargue la zona de mapa visible para usarla sin conexión",
-    StringKey.PreparationEstimatedSizeLabel to "Espacio de almacenamiento",
     StringKey.PreparationRetryContentDescription to "Reintentar descarga",
 
     StringKey.MapTilesLoadFailed to "El mapa no se cargó por completo desde",

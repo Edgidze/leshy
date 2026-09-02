@@ -275,7 +275,6 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusComplete to "다운로드됨",
     StringKey.PreparationStatusError to "오류",
     StringKey.PreparationSubtitle to "표시된 지도 영역을 다운로드하면 오프라인에서도 사용할 수 있습니다",
-    StringKey.PreparationEstimatedSizeLabel to "저장 공간",
     StringKey.PreparationRetryContentDescription to "다운로드 다시 시도",
 
     StringKey.MapTilesLoadFailed to "지도를 완전히 불러오지 못했습니다:",

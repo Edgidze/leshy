@@ -279,7 +279,6 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Fel",
     StringKey.PreparationSubtitle to
         "Ladda ner det synliga kartområdet för att använda det offline",
-    StringKey.PreparationEstimatedSizeLabel to "Lagringsutrymme",
     StringKey.PreparationRetryContentDescription to "Försök igen",
 
     StringKey.MapTilesLoadFailed to "Kartan laddades inte helt från",

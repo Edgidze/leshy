@@ -281,7 +281,6 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Սխալ",
     StringKey.PreparationSubtitle to
         "Ներբեռնեք քարտեզի տեսանելի հատվածը՝ այն առանց ինտերնետի օգտագործելու համար",
-    StringKey.PreparationEstimatedSizeLabel to "Հիշողություն",
     StringKey.PreparationRetryContentDescription to "Կրկնել ներբեռնումը",
 
     StringKey.MapTilesLoadFailed to "Քարտեզը լիովին չբեռնվեց՝",

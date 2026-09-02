@@ -281,7 +281,6 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Xəta",
     StringKey.PreparationSubtitle to
         "Oflayn istifadə etmək üçün xəritənin görünən hissəsini yükləyin",
-    StringKey.PreparationEstimatedSizeLabel to "Yaddaş",
     StringKey.PreparationRetryContentDescription to "Yükləməni təkrarla",
 
     StringKey.MapTilesLoadFailed to "Xəritə tam yüklənmədi:",

@@ -290,7 +290,6 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Xato",
     StringKey.PreparationSubtitle to
         "Internetsiz foydalanish uchun xaritaning koʻrinib turgan qismini yuklab oling",
-    StringKey.PreparationEstimatedSizeLabel to "Xotira",
     StringKey.PreparationRetryContentDescription to "Yuklashni qayta urinish",
 
     StringKey.MapTilesLoadFailed to "Xarita toʻliq yuklanmadi:",

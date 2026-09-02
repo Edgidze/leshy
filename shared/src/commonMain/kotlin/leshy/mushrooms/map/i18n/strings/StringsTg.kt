@@ -285,7 +285,6 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Хато",
     StringKey.PreparationSubtitle to
         "Барои истифода бе интернет қисми намоёни харитаро боргирӣ кунед",
-    StringKey.PreparationEstimatedSizeLabel to "Ҳофиза",
     StringKey.PreparationRetryContentDescription to "Такрори боргирӣ",
 
     StringKey.MapTilesLoadFailed to "Харита пурра бор нашуд:",

@@ -49,11 +49,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import leshy.mushrooms.map.domain.model.OfflineRegionInfo
 import leshy.mushrooms.map.domain.model.OfflineRegionStatus
+import leshy.mushrooms.map.domain.util.boundsExtentMeters
 import leshy.mushrooms.map.domain.util.estimateOfflineRegion
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.preparation.PreparationViewModel
 import leshy.mushrooms.map.ui.map.RegionPickerMap
+import leshy.mushrooms.map.ui.util.formatKilometersExtent
 import leshy.mushrooms.map.ui.util.formatMegabytes
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -128,14 +130,19 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                             .background(MaterialTheme.colorScheme.surface.copy(alpha = STRIP_BACKGROUND_ALPHA))
                             .padding(16.dp),
                     ) {
-                        val estimate = projection?.let {
+                        val selection = projection?.let {
                             val bounds = visibleBoundsFromScreen(it, usableWidth, usableHeight)
-                            estimateOfflineRegion(bounds.west, bounds.south, bounds.east, bounds.north)
+                            bounds to estimateOfflineRegion(bounds.west, bounds.south, bounds.east, bounds.north)
                         }
-                        if (estimate != null) {
+                        if (selection != null) {
+                            val (bounds, estimate) = selection
+                            // What is actually being saved, in units the user can judge: a screenful
+                            // at walking zoom is a couple of kilometres across, which is nothing like
+                            // what "download this area" sounds like — and the zoom range says how
+                            // deep the detail goes (14 = buildings, POIs, most labels). No size
+                            // forecast on purpose — see regionExtentLabel.
                             Text(
-                                "${stringResource(StringKey.PreparationEstimatedSizeLabel)}: " +
-                                    "≈${formatMegabytes(estimate.estimatedBytes)}",
+                                regionExtentLabel(bounds.west, bounds.south, bounds.east, bounds.north, estimate.minZoom, estimate.maxZoom),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                         }
@@ -217,7 +224,10 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                     )
                     uiState.pendingSelection?.let { selection ->
                         Text(
-                            "${stringResource(StringKey.PreparationEstimatedSizeLabel)}: ≈${formatMegabytes(selection.estimatedBytes)}",
+                            regionExtentLabel(
+                                selection.west, selection.south, selection.east, selection.north,
+                                selection.minZoom, selection.maxZoom,
+                            ),
                             style = MaterialTheme.typography.bodySmall,
                             modifier = Modifier.padding(top = 8.dp),
                         )
@@ -269,6 +279,29 @@ private data class SelectionBounds(val west: Double, val south: Double, val east
 // robust if the camera is rotated, same "always axis-aligned, possibly a bit larger than what's
 // visually inside the box" tradeoff CameraProjection.queryVisibleBoundingBox itself documents for
 // a tilted view.
+/**
+ * "2.4x3.1 км · z8-14" — ground size and detail depth of a region, the two things that decide
+ * whether a download is worth anything and neither of which was visible anywhere before.
+ *
+ * Deliberately NOT accompanied by a size forecast. One used to be shown and was removed by product
+ * decision: tile weight at the same zoom swings ~10x between open forest and dense city (measured,
+ * see `ui/map/CLAUDE.md`), so any single number is wrong for most of the terrain someone might pick,
+ * and a confidently-wrong megabyte figure is worse than none. The real size is shown per region once
+ * it's downloaded, where it's a fact rather than a guess.
+ */
+@Composable
+private fun regionExtentLabel(
+    west: Double,
+    south: Double,
+    east: Double,
+    north: Double,
+    minZoom: Int,
+    maxZoom: Int,
+): String {
+    val (widthMeters, heightMeters) = boundsExtentMeters(west, south, east, north)
+    return "${formatKilometersExtent(widthMeters, heightMeters)} \u00B7 z$minZoom\u2013$maxZoom"
+}
+
 private fun visibleBoundsFromScreen(projection: CameraProjection, maxWidth: Dp, maxHeight: Dp): SelectionBounds {
     val corners = listOf(
         DpOffset(0.dp, 0.dp),
@@ -320,6 +353,10 @@ private fun OfflineRegionChip(
                 "≈${formatMegabytes(region.completedBytes)}",
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(top = 4.dp),
+            )
+            Text(
+                regionExtentLabel(region.west, region.south, region.east, region.north, region.minZoom, region.maxZoom),
+                style = MaterialTheme.typography.bodySmall,
             )
 
             Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp), horizontalArrangement = Arrangement.End) {

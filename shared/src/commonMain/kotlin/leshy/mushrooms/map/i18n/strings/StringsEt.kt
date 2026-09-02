@@ -284,7 +284,6 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Viga",
     StringKey.PreparationSubtitle to
         "Laadige alla kaardi nähtav piirkond, et seda võrguühenduseta kasutada",
-    StringKey.PreparationEstimatedSizeLabel to "Ruum kettal",
     StringKey.PreparationRetryContentDescription to "Korda allalaadimist",
 
     StringKey.MapTilesLoadFailed to "Kaart ei laadinud täielikult aadressilt",

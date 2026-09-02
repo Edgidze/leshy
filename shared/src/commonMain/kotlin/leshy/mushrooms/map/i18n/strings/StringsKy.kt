@@ -288,7 +288,6 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Ката",
     StringKey.PreparationSubtitle to
         "Интернетсиз пайдалануу үчүн картанын көрүнүп турган бөлүгүн жүктөңүз",
-    StringKey.PreparationEstimatedSizeLabel to "Эстутум",
     StringKey.PreparationRetryContentDescription to "Жүктөөнү кайталоо",
 
     StringKey.MapTilesLoadFailed to "Карта толук жүктөлгөн жок:",

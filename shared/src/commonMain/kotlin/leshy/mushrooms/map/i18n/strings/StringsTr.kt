@@ -275,7 +275,6 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusComplete to "İndirildi",
     StringKey.PreparationStatusError to "Hata",
     StringKey.PreparationSubtitle to "Çevrimdışı kullanmak için görünen harita alanını indirin",
-    StringKey.PreparationEstimatedSizeLabel to "Depolama alanı",
     StringKey.PreparationRetryContentDescription to "İndirmeyi yeniden dene",
 
     StringKey.MapTilesLoadFailed to "Harita şu kaynaktan tam olarak yüklenemedi:",

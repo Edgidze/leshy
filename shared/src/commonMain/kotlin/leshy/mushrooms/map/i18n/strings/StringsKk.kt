@@ -282,7 +282,6 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Қате",
     StringKey.PreparationSubtitle to
         "Интернетсіз пайдалану үшін картаның көрініп тұрған бөлігін жүктеңіз",
-    StringKey.PreparationEstimatedSizeLabel to "Жад",
     StringKey.PreparationRetryContentDescription to "Жүктеуді қайталау",
 
     StringKey.MapTilesLoadFailed to "Карта толық жүктелмеді:",

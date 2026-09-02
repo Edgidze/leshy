@@ -121,6 +121,20 @@ fun formatDistanceKm(meters: Double): String {
     return "$whole.${fraction.toString().padStart(2, '0')} ${stringResource(StringKey.UnitKilometers)}"
 }
 
+/** "2.4x3.1 км" — the ground size of an area, so "small region" stops being a guess. Deliberately
+ * one decimal and no thousands separator: this is a glance-value next to a size estimate, not a
+ * measurement. */
+@Composable
+fun formatKilometersExtent(widthMeters: Double, heightMeters: Double): String {
+    fun km(meters: Double): String {
+        val rounded = (meters / 100).toLong() / 10.0
+        val whole = rounded.toLong()
+        val fraction = ((rounded - whole) * 10).toLong().let { if (it < 0) -it else it }
+        return "$whole.$fraction"
+    }
+    return "${km(widthMeters)}\u00D7${km(heightMeters)} ${stringResource(StringKey.UnitKilometers)}"
+}
+
 @Composable
 fun formatMegabytes(bytes: Long): String {
     val mb = bytes / 1_000_000.0

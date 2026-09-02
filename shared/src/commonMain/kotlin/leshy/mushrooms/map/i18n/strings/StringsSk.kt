@@ -283,7 +283,6 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Chyba",
     StringKey.PreparationSubtitle to
         "Stiahnite si viditeľnú oblasť mapy, aby ste ju mohli používať offline",
-    StringKey.PreparationEstimatedSizeLabel to "Miesto na disku",
     StringKey.PreparationRetryContentDescription to "Zopakovať sťahovanie",
 
     StringKey.MapTilesLoadFailed to "Mapa sa úplne nenačítala z",

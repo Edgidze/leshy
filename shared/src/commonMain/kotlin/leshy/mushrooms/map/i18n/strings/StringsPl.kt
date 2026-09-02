@@ -281,7 +281,6 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Błąd",
     StringKey.PreparationSubtitle to
         "Pobierz widoczny obszar mapy, aby korzystać z niego offline",
-    StringKey.PreparationEstimatedSizeLabel to "Miejsce na dysku",
     StringKey.PreparationRetryContentDescription to "Ponów pobieranie",
 
     StringKey.MapTilesLoadFailed to "Mapa nie została w pełni załadowana z",

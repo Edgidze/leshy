@@ -281,7 +281,6 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Памылка",
     StringKey.PreparationSubtitle to
         "Спампуйце бачную вобласць карты, каб карыстацца ёй без інтэрнэту",
-    StringKey.PreparationEstimatedSizeLabel to "Месца на дыску",
     StringKey.PreparationRetryContentDescription to "Паўтарыць спампоўку",
 
     StringKey.MapTilesLoadFailed to "Карта не цалкам загрузілася з сайта",

@@ -282,7 +282,6 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Помилка",
     StringKey.PreparationSubtitle to
         "Завантажте видиму область карти, щоб користуватися нею офлайн",
-    StringKey.PreparationEstimatedSizeLabel to "Місце на диску",
     StringKey.PreparationRetryContentDescription to "Повторити завантаження",
 
     StringKey.MapTilesLoadFailed to "Карта не повністю завантажилася з сайту",

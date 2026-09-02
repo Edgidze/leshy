@@ -119,6 +119,12 @@ fun App() {
                     // Two independent effects, not one sequential block — neither should wait on the
                     // other to start.
                     LaunchedEffect(Unit) { repairPhotoPaths() }
+                    // Keyed on `language`, before ensureLoaded()'s effect: on a cold start this
+                    // just records the language (nothing is pinned yet, so ensureLoaded() then
+                    // publishes already-localized bytes), and on a later switch in Settings it
+                    // re-localizes the pinned style in place. Never touches the network, the pinned
+                    // file or offline packs — see MapStyleCacheRepository.setLabelLanguage.
+                    LaunchedEffect(language) { mapStyleCacheRepository.setLabelLanguage(language) }
                     LaunchedEffect(Unit) { mapStyleCacheRepository.ensureLoaded() }
 
                     val backStackEntry by navController.currentBackStackEntryAsState()

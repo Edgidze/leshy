@@ -275,7 +275,6 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusComplete to "ダウンロード済み",
     StringKey.PreparationStatusError to "エラー",
     StringKey.PreparationSubtitle to "表示中の地図エリアをダウンロードすると、オフラインでも利用できます",
-    StringKey.PreparationEstimatedSizeLabel to "使用容量",
     StringKey.PreparationRetryContentDescription to "ダウンロードを再試行",
 
     StringKey.MapTilesLoadFailed to "地図の読み込みが完了しませんでした:",

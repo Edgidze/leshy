@@ -283,7 +283,6 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Errore",
     StringKey.PreparationSubtitle to
         "Scarica l'area di mappa visibile per usarla offline",
-    StringKey.PreparationEstimatedSizeLabel to "Spazio di archiviazione",
     StringKey.PreparationRetryContentDescription to "Riprova il download",
 
     StringKey.MapTilesLoadFailed to "La mappa non si è caricata completamente da",

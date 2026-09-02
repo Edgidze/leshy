@@ -287,7 +287,6 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Klaida",
     StringKey.PreparationSubtitle to
         "Atsisiųskite matomą žemėlapio sritį, kad galėtumėte ja naudotis neprisijungę",
-    StringKey.PreparationEstimatedSizeLabel to "Vieta diske",
     StringKey.PreparationRetryContentDescription to "Kartoti atsisiuntimą",
 
     StringKey.MapTilesLoadFailed to "Žemėlapis ne visas įkeltas iš",

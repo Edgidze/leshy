@@ -282,7 +282,6 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Ýalňyşlyk",
     StringKey.PreparationSubtitle to
         "Internetsiz ulanmak üçin kartanyň görünýän bölegini ýükläň",
-    StringKey.PreparationEstimatedSizeLabel to "Ýat",
     StringKey.PreparationRetryContentDescription to "Ýüklemegi gaýtalamak",
 
     StringKey.MapTilesLoadFailed to "Karta doly ýüklenmedi:",

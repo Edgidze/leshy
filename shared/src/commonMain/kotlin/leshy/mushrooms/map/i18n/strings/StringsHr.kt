@@ -286,7 +286,6 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Greška",
     StringKey.PreparationSubtitle to
         "Preuzmite vidljivi dio karte da biste ga koristili izvan mreže",
-    StringKey.PreparationEstimatedSizeLabel to "Prostor na disku",
     StringKey.PreparationRetryContentDescription to "Ponovi preuzimanje",
 
     StringKey.MapTilesLoadFailed to "Karta se nije u potpunosti učitala s",

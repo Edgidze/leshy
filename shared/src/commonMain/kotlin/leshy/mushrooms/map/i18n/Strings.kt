@@ -419,7 +419,6 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.PreparationStatusComplete -> "Скачано"
     StringKey.PreparationStatusError -> "Ошибка"
     StringKey.PreparationSubtitle -> "Скачайте видимую область карты, чтобы пользоваться ей без интернета"
-    StringKey.PreparationEstimatedSizeLabel -> "Место на диске"
     StringKey.PreparationRetryContentDescription -> "Повторить скачивание"
 
     StringKey.MapTilesLoadFailed -> "Карта не полностью загрузилась с сайта"
@@ -719,7 +718,6 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.PreparationStatusComplete -> "Downloaded"
     StringKey.PreparationStatusError -> "Error"
     StringKey.PreparationSubtitle -> "Download the visible map area to use it offline"
-    StringKey.PreparationEstimatedSizeLabel -> "Storage"
     StringKey.PreparationRetryContentDescription -> "Retry download"
 
     StringKey.MapTilesLoadFailed -> "The map didn't fully load from"

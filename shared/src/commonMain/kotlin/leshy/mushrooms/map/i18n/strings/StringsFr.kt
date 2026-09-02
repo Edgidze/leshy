@@ -286,7 +286,6 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Erreur",
     StringKey.PreparationSubtitle to
         "Téléchargez la zone de carte visible pour l'utiliser hors ligne",
-    StringKey.PreparationEstimatedSizeLabel to "Espace de stockage",
     StringKey.PreparationRetryContentDescription to "Relancer le téléchargement",
 
     StringKey.MapTilesLoadFailed to "La carte ne s'est pas chargée complètement depuis",

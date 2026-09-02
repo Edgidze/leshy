@@ -41,7 +41,6 @@ class PreparationViewModel(
                     north = north,
                     minZoom = estimate.minZoom,
                     maxZoom = estimate.maxZoom,
-                    estimatedBytes = estimate.estimatedBytes,
                 ),
             )
         }

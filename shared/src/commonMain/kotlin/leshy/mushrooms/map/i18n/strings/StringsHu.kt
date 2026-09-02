@@ -287,7 +287,6 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Hiba",
     StringKey.PreparationSubtitle to
         "Töltse le a térkép látható területét, hogy internet nélkül is használhassa",
-    StringKey.PreparationEstimatedSizeLabel to "Tárhely",
     StringKey.PreparationRetryContentDescription to "Letöltés újrapróbálása",
 
     StringKey.MapTilesLoadFailed to "A térkép nem töltődött be teljesen innen:",
