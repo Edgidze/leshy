@@ -61,6 +61,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -83,6 +84,7 @@ import leshy.mushrooms.map.domain.util.TurnDirection
 import leshy.mushrooms.map.i18n.LocalAppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.i18n.mushroomsUnitLabel
 import leshy.mushrooms.map.presentation.record.RecordUiState
 import leshy.mushrooms.map.presentation.record.RecordViewModel
 import leshy.mushrooms.map.presentation.searchOrderedCategories
@@ -104,6 +106,11 @@ import leshy.mushrooms.map.ui.map.MapMarker
 import leshy.mushrooms.map.ui.map.PlaceMarker
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.mushrooms.map.ui.util.formatDateOnly
+import leshy.shared.generated.resources.Res
+import leshy.shared.generated.resources.ic_mushrooms
+import leshy.shared.generated.resources.ic_route
+import leshy.shared.generated.resources.ic_stopwatch
+import org.jetbrains.compose.resources.painterResource
 import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDuration
 import leshy.mushrooms.map.ui.util.parseHexColor
@@ -112,6 +119,20 @@ import org.koin.compose.viewmodel.koinViewModel
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
 private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
+
+/**
+ * Значки шапки. Крупнее строчных букв рядом намеренно: значения набраны `titleLarge` (22sp), у
+ * которого высота прописной около 16dp, и значок вровень с ними читался мелким довеском к цифрам,
+ * а не парой к ним. Картинки заполняют своё поле целиком (`tools/prepare_icon_assets.py`), поэтому
+ * это число и есть видимая высота значка, без скрытых полей внутри файла.
+ */
+private val STAT_ICON_SIZE = 30.dp
+private val STAT_ICON_GAP = 6.dp
+
+/** Поля строки показателей. Уже прежних 20.dp: три показателя вместо двух, и запас по ширине
+ * нужнее полей — сама строка ничем не отделена от карты под ней, поэтому воздух ей дают отступы
+ * сверху и снизу, а не по бокам. */
+private val STAT_ROW_PADDING = 12.dp
 
 // Gap between tiles in the feed's LazyRow — also fed into the pixel-distance math for the
 // slow scroll-to-front below, so keep the two in sync if this ever changes.
@@ -242,6 +263,13 @@ fun RecordScreen(
     }
 }
 
+/** Значок показателя вместе с отбивкой до значения — три места в строке, одинаковые до знака. */
+@Composable
+private fun StatIcon(icon: Painter, contentDescription: String) {
+    Icon(painter = icon, contentDescription = contentDescription, modifier = Modifier.size(STAT_ICON_SIZE))
+    Spacer(modifier = Modifier.width(STAT_ICON_GAP))
+}
+
 /**
  * Its own composable — and therefore its own restart scope — reading [elapsedMillis] through a
  * lambda so that the snapshot read lands in *this* scope. `Row`/`Column` are inline, so calling it
@@ -322,13 +350,64 @@ private fun RecordScreenContent(
         }
     }
 
+    // Суммируется здесь, а не в RecordViewModel: mushroomCounts уже лежит в состоянии и читается
+    // на этом же экране лентой плиток, так что новое поле в UiState только дублировало бы источник
+    // истины. remember на самой карте — пересчёт нужен при отметке находки, а не при каждом
+    // GPS-фиксе, которых за прогулку на порядки больше.
+    val totalMushroomCount = remember(uiState.mushroomCounts) { uiState.mushroomCounts.values.sum() }
+
     Column(modifier = modifier.fillMaxSize()) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            ElapsedTimeText(elapsedMillis)
-            Text(formatDistanceKm(uiState.distanceMeters), style = MaterialTheme.typography.titleLarge)
+        // Три показателя, находки — посередине. Раньше их тут не было вовсе: шапка показывала
+        // время и километраж, то есть ровно метрики бегового трекера, тогда как VISION.md первым
+        // же абзацем говорит, что трек и километраж — контекст, а ценность — история находок.
+        // Середина строки — сильнейшая позиция из трёх, туда счётчик и встал.
+        // Три показателя: время слева, находки по центру, километраж справа.
+        //
+        // Box с тремя независимо выровненными детьми, а не Row. Row перепробован в двух видах, и
+        // оба проигрывают. `Arrangement.SpaceBetween` раздаёт промежутки между элементами
+        // натуральной ширины — середина при этом попадает в центр ЭКРАНА только если крайние
+        // показатели равной ширины, а они не равны почти никогда: слева «1:23:45», справа
+        // «12.34 км». Счётчик находок, ради позиции которого всё и затевалось, уезжал бы то влево,
+        // то вправо и подрагивал на каждой смене разрядности времени. Равные трети чинят центр, но
+        // режут ширину: каждому показателю достаётся треть строки независимо от того, сколько ему
+        // нужно, и на узком экране с крупным системным шрифтом у километража отрезало «км»
+        // (проверено на 360dp при масштабе шрифта 1.3).
+        //
+        // Box снимает оба: середина выровнена по центру всей строки, а каждый показатель меряется
+        // по своему содержимому и ничего не теряет. Дети могут наложиться только если сумма их
+        // ширин превысит строку — а это уже за пределами тех размеров, при которых трети резали.
+        Box(modifier = Modifier.fillMaxWidth().padding(horizontal = STAT_ROW_PADDING, vertical = 12.dp)) {
+            // Значок и значение — соседи внутри inline-Row, а не обёрнуты в общий композабл:
+            // ElapsedTimeText обязан остаться собственной restart-scope (см. его док), а обёртка
+            // втянула бы посекундное чтение в себя вместе со значком.
+            Row(
+                modifier = Modifier.align(Alignment.CenterStart),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                StatIcon(painterResource(Res.drawable.ic_stopwatch), stringResource(StringKey.WalkDetailDuration))
+                ElapsedTimeText(elapsedMillis)
+            }
+            Row(
+                modifier = Modifier.align(Alignment.Center),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                StatIcon(
+                    icon = painterResource(Res.drawable.ic_mushrooms),
+                    contentDescription = "$totalMushroomCount ${mushroomsUnitLabel(totalMushroomCount)}",
+                )
+                Text(totalMushroomCount.toString(), style = MaterialTheme.typography.titleLarge)
+            }
+            Row(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                StatIcon(painterResource(Res.drawable.ic_route), stringResource(StringKey.WalkDetailDistance))
+                Text(
+                    text = formatDistanceKm(uiState.distanceMeters),
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                )
+            }
         }
 
         // A full-width strip rather than an overlay on the map: it must not fight the filter
