@@ -131,6 +131,10 @@ fun RecordScreen(
     viewModel: RecordViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    // Collected without `by` on purpose: the snapshot read has to happen inside the callee's own
+    // restart scope, not here — reading it in this composable would put the once-a-second
+    // invalidation straight back onto the whole screen. See RecordViewModel.elapsedMillis.
+    val elapsedMillisState = viewModel.elapsedMillis.collectAsState()
     var showFilterDialog by remember { mutableStateOf(false) }
     var showAddPlaceDialog by remember { mutableStateOf(false) }
     var showSearchDialog by remember { mutableStateOf(false) }
@@ -159,6 +163,7 @@ fun RecordScreen(
 
     RecordScreenContent(
         uiState = uiState,
+        elapsedMillis = { elapsedMillisState.value },
         onStartWalk = { name ->
             viewModel.setWalkName(name)
             viewModel.onStartOrPauseClick()
@@ -238,6 +243,18 @@ fun RecordScreen(
 }
 
 /**
+ * Its own composable — and therefore its own restart scope — reading [elapsedMillis] through a
+ * lambda so that the snapshot read lands in *this* scope. `Row`/`Column` are inline, so calling it
+ * directly in [RecordScreenContent]'s body would hoist the read back up and invalidate the whole
+ * screen once a second, which is exactly what the split exists to prevent. See
+ * [RecordViewModel.elapsedMillis].
+ */
+@Composable
+private fun ElapsedTimeText(elapsedMillis: () -> Long) {
+    Text(formatDuration(elapsedMillis()), style = MaterialTheme.typography.titleLarge)
+}
+
+/**
  * Pure presentation layer, no [RecordViewModel]/DI dependency — kept separate so it can be driven
  * by hand-built [RecordUiState] samples in [@Preview][Preview] functions below without a Koin
  * graph or platform camera/GPS plumbing.
@@ -245,6 +262,8 @@ fun RecordScreen(
 @Composable
 private fun RecordScreenContent(
     uiState: RecordUiState,
+    /** Deferred read — see [ElapsedTimeText]; never a plain `Long` parameter. */
+    elapsedMillis: () -> Long,
     onStartWalk: (String) -> Unit,
     onPauseOrResumeClick: () -> Unit,
     onFinishClick: () -> Unit,
@@ -264,7 +283,7 @@ private fun RecordScreenContent(
     var showNameDialog by remember { mutableStateOf(false) }
     var bulkAddCategoryId by remember { mutableStateOf<Long?>(null) }
     var showAddSpeciesDialog by remember { mutableStateOf(false) }
-    val categoryById = uiState.categories.associateBy { it.id }
+    val categoryById = remember(uiState.categories) { uiState.categories.associateBy { it.id } }
     val tileListState = rememberLazyListState()
 
     // Measured (not hardcoded) so the tile-load-failed banner clears the Start/Pause pill + tile
@@ -308,7 +327,7 @@ private fun RecordScreenContent(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(formatDuration(uiState.elapsedMillis), style = MaterialTheme.typography.titleLarge)
+            ElapsedTimeText(elapsedMillis)
             Text(formatDistanceKm(uiState.distanceMeters), style = MaterialTheme.typography.titleLarge)
         }
 
@@ -330,9 +349,50 @@ private fun RecordScreenContent(
 
         // Current walk's own POI marks plus past walks' ones, deduped — see LiveTrackMap's
         // historicalPlaces param doc for why the dedup matters.
-        val currentPlaceMarks = uiState.marks.filter { it.type == MarkType.POI }
-        val dedupedHistoricalPlaces = uiState.historicalPlaces
-            .filterNot { historical -> uiState.marks.any { it.id == historical.id } }
+        val currentPlaceMarks = remember(uiState.marks) { uiState.marks.filter { it.type == MarkType.POI } }
+        val dedupedHistoricalPlaces = remember(uiState.historicalPlaces, uiState.marks) {
+            // Set rather than the nested `any` this used to do: with both lists growing over a
+            // long walk that was quadratic, and it ran on every single recomposition.
+            val currentIds = uiState.marks.mapTo(mutableSetOf()) { it.id }
+            uiState.historicalPlaces.filterNot { it.id in currentIds }
+        }
+
+        // Every list below is remembered on its inputs. LiveTrackMap compares its parameters by
+        // instance, so rebuilding them each recomposition handed MapLibre fresh-but-equal lists and
+        // made it re-diff its layers for unchanged data. Cheap to keep: when nothing changed the
+        // keys are the very same instances, so the comparison short-circuits on identity.
+        val findMarkers = remember(uiState.marks, categoryById) {
+            uiState.marks.filter { it.type != MarkType.POI }.map { mark ->
+                val category = categoryById[mark.categoryId]
+                MapMarker(
+                    lat = mark.lat,
+                    lon = mark.lon,
+                    colorHex = category?.colorHex ?: "#808080",
+                    icon = category?.iconSource(),
+                )
+            }
+        }
+        val historicalFindMarkers = remember(uiState.historicalFinds, categoryById) {
+            uiState.historicalFinds.map { mark ->
+                val category = categoryById[mark.categoryId]
+                MapMarker(
+                    lat = mark.lat,
+                    lon = mark.lon,
+                    colorHex = category?.colorHex ?: "#808080",
+                    icon = category?.iconSource(),
+                )
+            }
+        }
+        val placeMarkers = remember(currentPlaceMarks) {
+            currentPlaceMarks.map { mark ->
+                PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
+            }
+        }
+        val historicalPlaceMarkers = remember(dedupedHistoricalPlaces) {
+            dedupedHistoricalPlaces.map { mark ->
+                PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
+            }
+        }
 
         Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
             if (LocalInspectionMode.current) {
@@ -345,35 +405,16 @@ private fun RecordScreenContent(
             } else {
                 LiveTrackMap(
                     track = uiState.trackPoints,
-                    markers = uiState.marks.filter { it.type != MarkType.POI }.map { mark ->
-                        val category = categoryById[mark.categoryId]
-                        MapMarker(
-                            lat = mark.lat,
-                            lon = mark.lon,
-                            colorHex = category?.colorHex ?: "#808080",
-                            icon = category?.iconSource(),
-                        )
-                    },
-                    historicalMarkers = uiState.historicalFinds.map { mark ->
-                        val category = categoryById[mark.categoryId]
-                        MapMarker(
-                            lat = mark.lat,
-                            lon = mark.lon,
-                            colorHex = category?.colorHex ?: "#808080",
-                            icon = category?.iconSource(),
-                        )
-                    },
+                    markers = findMarkers,
+                    historicalMarkers = historicalFindMarkers,
                     historicalTracks = uiState.historicalTracks,
-                    places = currentPlaceMarks.map { mark ->
-                        PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
-                    },
+                    places = placeMarkers,
                     onPlaceClick = onPlaceClick,
                     // Excludes the current walk's own places (already shown above, interactive) —
                     // unlike historicalMarkers/historicalFinds, a duplicate here would mean two
                     // literal SymbolLayers stacked on the exact same pin, and whichever one MapLibre
                     // hit-tests first would silently swallow taps meant for the interactive layer.
-                    historicalPlaces = dedupedHistoricalPlaces
-                        .map { mark -> PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath) },
+                    historicalPlaces = historicalPlaceMarkers,
                     // Place markers can't yet be long-pressed on an unstarted walk — same gating as
                     // the "mark location" button.
                     onPlaceLongPress = { id -> if (uiState.isRecording) onMarkerLongPressed(id) },
@@ -899,6 +940,7 @@ private fun RecordScreenStartPreview() {
     LeshyTheme {
         RecordScreenContent(
             uiState = RecordUiState(categories = PREVIEW_CATEGORIES),
+            elapsedMillis = { 0L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,
@@ -917,10 +959,10 @@ private fun RecordScreenRecordingPreview() {
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,
                 isRecording = true,
-                elapsedMillis = 125_000L,
                 distanceMeters = 1240.0,
                 mushroomCounts = mapOf(1L to 2, 3L to 1),
             ),
+            elapsedMillis = { 125_000L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,
@@ -939,7 +981,6 @@ private fun RecordScreenNavigatingPreview() {
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,
                 isRecording = true,
-                elapsedMillis = 125_000L,
                 distanceMeters = 1240.0,
                 mushroomCounts = mapOf(1L to 2, 3L to 1),
                 navigationTarget = NavigationOverlayState(
@@ -953,6 +994,7 @@ private fun RecordScreenNavigatingPreview() {
                     turnDegrees = 42.0,
                 ),
             ),
+            elapsedMillis = { 125_000L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,
@@ -971,7 +1013,6 @@ private fun RecordScreenArrivedPreview() {
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,
                 isRecording = true,
-                elapsedMillis = 125_000L,
                 distanceMeters = 1240.0,
                 mushroomCounts = mapOf(1L to 2, 3L to 1),
                 navigationTarget = NavigationOverlayState(
@@ -985,6 +1026,7 @@ private fun RecordScreenArrivedPreview() {
                     turnDegrees = null,
                 ),
             ),
+            elapsedMillis = { 125_000L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,
@@ -1004,10 +1046,10 @@ private fun RecordScreenPausedPreview() {
                 categories = PREVIEW_CATEGORIES,
                 isRecording = true,
                 isPaused = true,
-                elapsedMillis = 754_000L,
                 distanceMeters = 3120.0,
                 mushroomCounts = mapOf(1L to 4),
             ),
+            elapsedMillis = { 754_000L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,

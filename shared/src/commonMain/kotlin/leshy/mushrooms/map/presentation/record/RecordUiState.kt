@@ -22,7 +22,8 @@ data class RecordUiState(
     val walkName: String = "",
     val isRecording: Boolean = false,
     val isPaused: Boolean = false,
-    val elapsedMillis: Long = 0L,
+    // Elapsed walk time is deliberately NOT here — it ticks once a second, and this whole object
+    // travels into RecordScreenContent as one parameter. See RecordViewModel.elapsedMillis.
     val distanceMeters: Double = 0.0,
     val categories: List<Category> = emptyList(),
     val mushroomCounts: Map<Long, Int> = emptyMap(),

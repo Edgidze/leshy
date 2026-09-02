@@ -747,3 +747,244 @@ MapLibre не лез в SQLite и сеть, пока приложение раб
   ветка сопровождения; браться только если шаги 2 и 3 не сработают.
 - **Искать пропажу сети** — гипотеза снята, поток `OnlineFileSource` в
   момент зависания не имел ни одной операции в полёте.
+
+---
+
+## Разбор 2026-09-02: шаг 1 снят с поля, символы совпали
+
+Устройство было подключено кабелем, `idevicecrashreport -k` (флаг `-k` —
+копировать, НЕ удаляя с телефона) принёс два репорта, которых в этой папке
+ещё не было:
+
+- `leshy.wakeups_resource-2026-09-01-122937.ips`
+- `leshy.wakeups_resource-2026-09-01-214054.ips`
+
+Плюс не наш, но влияющий на «телефон тормозит»:
+`apfs_iosd.cpu_resource-2026-09-02-012404.ips` — системный демон APFS сжёг
+90с CPU за 169с (53% в среднем при лимите 50% за 180с) ночью 2026-09-02.
+
+### Шаг 0 окупился с первого раза
+
+`slice_uuid` репортов — `87C227D6…` (`leshy`), кадры стека — из
+`D72C2DD0…` (`leshy.debug.dylib`). Оба UUID лежат в
+`~/Library/Developer/leshy-symbols/20260901-121746-Debug-D72C2DD0/uuids.txt`
+(коммит `dc92f2a`). **Это первый инцидент в расследовании, символизированный
+точно, а не «приблизительно по району попадания».**
+
+Грабля символизации: `atos -o leshy.debug.dylib -l 0 <offset>` даёт
+**неверные** имена (резолвит `_main` в аксессор Compose-ресурса). Работает
+поиск ближайшего предшествующего символа по `nm -n`; `__TEXT` у этого
+dylib начинается с `vmaddr 0`, код — с `0x4000`. Результат сохранён рядом:
+`leshy-wakeups-2026-09-01-214054-symbolicated.txt`.
+
+### Что это за репорты (`bug_type 142`, не крэш)
+
+Не падение и не watchdog: `Action taken: none`. Это нарушение бюджета
+**пробуждений потоков** — iOS считает их и логирует превышение:
+
+| | 12:24:52 | 21:36:18 |
+|---|---|---|
+| Пробуждений | 45001 за 283с | 45001 за 272с |
+| Средняя частота | **159/с** | **165/с** |
+| Лимит | 150/с за 300с | 150/с за 300с |
+| Footprint | 270.69 → 218.55 МБ | 174.39 → 179.38 МБ (max 188.30) |
+| Frontmost | 39 из 73 сэмплов | 20 из 44 сэмплов |
+| ThermalPressure | 0 | 0 |
+| Питание | — | 44/44 сэмпла от батареи |
+
+`User Activity: 0 samples Idle` в обоих — приложение не простаивало ни разу
+за всё окно наблюдения. Оба раза заметная доля сэмплов — НЕ frontmost, то
+есть пробуждения продолжались и в фоне (у нас `UIBackgroundModes: location`).
+
+### Главный поток: расшифрованный стек
+
+`Data Source: Microstackshots` — это фактически бесплатный Time Profiler с
+поля, ровно то измерение, которое шаг 1 предлагал снимать руками в Xcode.
+Из 32 сэмплов главного потока 11 дошли до `CFRunLoop` → `QuartzCore`
+(CADisplayLink), из них 7 — вот сюда:
+
+```
+SurfaceDisplayLinkProxy.handleDisplayLinkTick
+  SurfaceMetalRedrawer$2.invoke
+    SurfaceMetalRedrawer.draw
+      SurfaceMetalView$1.invoke(Canvas, Double)
+        ComposeContainer$initializeComposeScene$metalView$2.invoke
+          ComposeSceneMediator.render(Canvas, Long)
+            BaseComposeScene.render
+              BroadcastFrameClock.sendFrame          ← 6
+                AwaiterQueue.flushAndDispatchAwaiters
+                  BroadcastFrameClock.FrameAwaiter.resume
+                    Recomposer$runRecomposeAndApplyChanges$2$invoke$2
+                      ├ Recomposer.performRecompose → CompositionImpl.recompose
+                      │   GapComposer.doCompose → recomposeToGroupEnd
+                      │     RecomposeScopeImpl.compose               ← 3
+                      │       leshy.mushrooms.map.ui.screens.RecordScreen$1
+                      │       leshy.mushrooms.map.ui.screens.RecordScreenContent
+                      │       leshy.mushrooms.map.ui.screens.RecordScreenContent$$inlined$Column$…
+                      │       leshy.mushrooms.map.ui.map.LiveTrackMap$$inlined$Box$3
+                      └ ControlledComposition.applyChanges           ← 3
+                          CompositionImpl.applyChangesInLocked
+                            RememberEventDispatcher.dispatchRememberObservers
+                              LaunchedEffectImpl.onRemembered
+                                kotlinx.coroutines.launch
+```
+
+Два вывода, которых до этого не было:
+
+1. **Экран подтверждён — «Запись» (`RecordScreen`/`RecordScreenContent`),
+   вместе с `LiveTrackMap`.** Гипотеза шага 3.1 (Compose поверх `UIKitView`
+   с картой заставляет перерисовывать сцену каждый кадр дисплей-линка)
+   попадает точно: тик дисплей-линка не просто рисует, он каждый раз
+   доходит до `sendFrame` и будит рекомпозер.
+2. **Рекомпозиция на тике реально что-то делает.** `performRecompose` и
+   `applyChanges` набрали по 3 сэмпла из 7 — это не пустой проход по
+   инвалидациям. Причём `applyChanges` доходит до `LaunchedEffectImpl.
+   onRemembered` → `coroutines.launch`, то есть на этих кадрах
+   пересоздаются `LaunchedEffect`'ы — верный признак, что меняется ключ
+   эффекта или пересоздаётся содержащая его группа.
+
+### Найденный механизм для пункта 3.2 (тикер)
+
+`RecordViewModel.startTicker()` раз в секунду делает
+`_uiState.update { it.copy(elapsedMillis = …) }`, а `RecordScreen`
+передаёт состояние вниз одним объектом: `RecordScreenContent(uiState = uiState, …)`
+(`RecordScreen.kt:160`). Новый инстанс `RecordUiState` — новый аргумент,
+значит `RecordScreenContent` рекомпозируется **целиком раз в секунду**, а в
+его теле на каждом проходе заново считаются
+
+```
+uiState.categories.associateBy { it.id }                          // :267
+uiState.marks.filter { it.type == MarkType.POI }                  // :333
+uiState.historicalPlaces.filterNot { … uiState.marks.any { … } }  // :334
+uiState.marks.filter { it.type != MarkType.POI }.map { … }        // :348
+uiState.historicalFinds.map { … }                                 // :357
+```
+
+— пять свежих коллекций, которые тут же уходят аргументами в
+`MaplibreMap`. То есть раз в секунду карта получает новые (по ссылке)
+списки маркеров и передиффивает слои. `filterNot`+`any` на :334 — ещё и
+квадратичный по числу отметок.
+
+Это ровно то, что шаг 3.2 предлагал «проверить изоляцией состояния
+таймера»; изоляция теперь не гипотетическая мера, а очевидный первый фикс:
+`elapsedMillis` (и вообще всё, что тикает) не должен ехать в том же
+объекте, что и данные карты.
+
+### Что это меняет в плане
+
+- **Шаг 1 можно считать закрытым** — экран локализован (Запись + карта),
+  профиль снят с реального устройства, руками в Xcode повторять не нужно.
+  Открытый вопрос шага 1 («проседает ли CPU на экранах без карты») остаётся,
+  но он теперь дешевле: достаточно посмотреть, приходят ли
+  `wakeups_resource`-репорты, когда пользователь сидит на Архиве/Настройках.
+- **Шаг 3 получил конкретный порядок:** сначала 3.2 (расщепить
+  `RecordUiState`, убрать пересчёт коллекций из тела композабла), потом 3.1
+  (ограничить FPS карты / останавливать редрор, когда карта не видна).
+  **Неинвазивная часть 3.2 сделана 2026-09-02** — см. ниже.
+- **Шаг 2 (снятие наблюдателя `pauseFileSource:`) по-прежнему не сделан** —
+  в `shared/src/iosMain/` нет ни одного `removeObserver`. Выделен в
+  самодостаточный план `.claude/plans/ios-maplibre-pause-observer.md`,
+  который можно выполнить с нуля в отдельной сессии, не перечитывая этот
+  файл целиком.
+
+### Сопутствующее: сборка на телефоне — Debug
+
+Всё вышеописанное измерено на **Debug**-сборке (`leshy.debug.dylib`, 93.5 МБ,
+`SWIFT_OPTIMIZATION_LEVEL = -Onone`, `GCC_OPTIMIZATION_LEVEL = 0`, и —
+главное — Kotlin/Native тоже собран в debug: `embedAndSignAppleFrameworkForXcode`
+берёт тип сборки из `CONFIGURATION` Xcode). Debug-бинарь Kotlin/Native не
+оптимизирован вовсе, так что абсолютные цифры завышены. Но нарушение
+бюджета — по **пробуждениям**, а не по инструкциям: 60 Гц дисплей-линка,
+который каждый кадр будит рекомпозер, останется 60 Гц и в Release.
+Прежде чем принимать решения по 3.1/3.2, стоит снять те же цифры с
+Release-сборки — тогда станет видно, сколько из этого цена debug, а сколько
+цена архитектуры.
+
+### Сделано 2026-09-02: неинвазивная часть шага 3.2
+
+Пункт 3 («разбить `RecordUiState` на группы по частоте изменения») сознательно
+НЕ делался — это рефакторинг, его решено не начинать до замера на Release.
+Сделаны две локальные правки, не меняющие поведения:
+
+1. **`elapsedMillis` вынесен из `RecordUiState` в собственный `StateFlow`**
+   (`RecordViewModel`), читается отложенно через лямбду в отдельном
+   композабле `ElapsedTimeText`. Тик раз в секунду больше не доходит до
+   карты. Подробности и три условия, при нарушении любого из которых фикс
+   разваливается, — `presentation/CLAUDE.md`, раздел «`elapsedMillis` —
+   отдельный `StateFlow`».
+2. **Пять производных коллекций в `RecordScreenContent` обёрнуты в
+   `remember`** по своим входам (`categoryById`, `currentPlaceMarks`,
+   `dedupedHistoricalPlaces` и четыре списка маркеров карты). Дедупликация
+   мест переведена с вложенного `any` на `Set` — была квадратичной.
+
+Проверено: `:shared:compileAndroidMain` и `:shared:compileKotlinIosArm64`
+зелёные; `:shared:testAndroidHostTest` — 5 падений, но ровно те же 5 падают
+на чистом HEAD (`android.util.Log not mocked` в чтении Compose-ресурсов,
+`CatalogSourceTest`/`MushroomNamesTest`), то есть к правкам отношения не
+имеют.
+
+**Эффект на устройстве не подтверждён** — измерять пользователю. Критерий
+простой и не требует Instruments: перестанут ли появляться новые
+`leshy.wakeups_resource-*.ips`. Забирать `idevicecrashreport -k <папка>`.
+Замер осмысленно делать на Release-сборке — на Debug цифры завышены
+неоптимизированным Kotlin/Native.
+
+---
+
+## Инцидент №4 — 2026-09-02, 09:52 — САМ ВОСПРОИЗВЁЛ, причина наша целиком
+
+Единственный инцидент, вызванный намеренно (по неосторожности) и потому
+воспроизводимый по желанию. Ценен тем, что **подтверждает механизм из
+раздела 5**: голодание системных демонов от нашего расхода CPU действительно
+роняет watchdog — здесь это видно без всяких «лидов».
+
+Что было сделано: оптимизация цены слоёв карты (см. `ui/map/CLAUDE.md`,
+«Стоимость слоя»), в которой исторические слои выдавались **по одному за
+кадр** через `withFrameNanos`. Прожило меньше часа.
+
+Симптом со слов пользователя: «фон подложка карты становится белым и всё
+надолго зависает», сначала на общей «Карте», затем воспроизвелось на
+«Записи».
+
+Репорты (в этой же папке): `SpringBoard-2026-09-02-095218.ips` (+ ещё два
+`SpringBoard` в 09:52:20 и 09:52:27, и `backboardd-2026-09-02-095225.ips`) —
+`bug_type 309`, «1 monitored services unresponsive … likely hung 60 seconds
+since last successful checkin». Само приложение при этом НЕ падало и
+собственного репорта не оставило.
+
+### Первый полностью символизированный стекшот
+
+Сборка `20260902-094611-Release-D9F3D959`, символизирована её же `.dSYM` —
+шаг 0 (архив символов) окупился второй раз.
+
+```
+pid 17553 leshy: userTimeTask 111.3s, flags ["foreground"], timesThrottled 0,
+residentMemory 197 МБ, 39 потоков
+
+thread 617512  com.apple.main-thread      57.12s CPU  TH_RUN
+    13 кадров внутри MapLibre, ниже — CFRunLoop/UIApplicationMain, выше — наш код
+    ДЕРЖИТ os_unfair_lock 0x1f53f8900
+thread 617917  RenderingDispatchQueue     44.44s CPU  TH_RUN
+    SurfaceMetalRedrawer.renderAndPresentFrame (SurfaceMetalRedrawer.ios.kt:533)
+    + kotlin::alloc::FixedBlockPage::Sweep<ObjectSweepTraits>  (GC Kotlin/Native)
+
+waitInfo: thread 617700 (com.apple.uikit.eventfetch-thread) — unfair lock,
+          owned by 617699, который в свою очередь ждёт 617512
+```
+
+Два потока `USER_INTERACTIVE` съели 101 из 111 секунд CPU процесса — тот
+самый профиль из разделов 4–5, только теперь с именами функций и с известной
+причиной.
+
+### Вывод, полезный за пределами этой ошибки
+
+Дробление мутаций стиля MapLibre по кадрам не делит работу, а **умножает** её
+на число перевалидаций стиля, каждая из которых дороже предыдущей. Правило и
+подробный разбор — `ui/map/CLAUDE.md`, раздел «⚠️ Отложить — можно,
+РАСТЯНУТЬ ПО КАДРАМ — нельзя». Лечение заменено на одну пачку со сдвигом
+250 мс (`DeferredMapContent.kt`).
+
+**Для основного расследования это ещё и доказательство обратного хода:** если
+наш собственный расход CPU способен уронить SpringBoard за 60 секунд, то
+шаг 3 (снижение расхода CPU) — не «желательная оптимизация», а условие
+устойчивости устройства.

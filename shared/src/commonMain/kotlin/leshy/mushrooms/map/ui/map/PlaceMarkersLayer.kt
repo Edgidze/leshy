@@ -2,7 +2,13 @@ package leshy.mushrooms.map.ui.map
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.DpSize
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.longOrNull
+import kotlinx.serialization.json.put
 import org.maplibre.compose.expressions.dsl.const
 import org.maplibre.compose.expressions.dsl.image
 import org.maplibre.compose.expressions.value.SymbolAnchor
@@ -10,18 +16,23 @@ import org.maplibre.compose.layers.SymbolLayer
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.compose.util.ClickResult
+import org.maplibre.spatialk.geojson.Feature
+import org.maplibre.spatialk.geojson.FeatureCollection
+import org.maplibre.spatialk.geojson.Geometry
 import org.maplibre.spatialk.geojson.Point
 import org.maplibre.spatialk.geojson.Position
 
 data class PlaceMarker(val id: Long, val lat: Double, val lon: Double, val photoPath: String?)
 
 /**
- * Renders [places] as pin-shaped markers (see `PlaceMarkerIcon.kt`), one `SymbolLayer` per place —
- * unlike mushroom finds, which share one icon per species and so get grouped into one layer per
- * species (`ClusteredFindsLayers.kt`/`LiveTrackMap.kt`), each place has its own distinct photo, so
- * there's nothing to group by; this follows the same "one layer per icon" shape the rest of the
- * file already uses, just with the group size always 1. No clustering — each place is an
- * individually user-authored note, not a density signal like finds are.
+ * Renders [places] as pin-shaped markers (see `PlaceMarkerIcon.kt`). No clustering — each place is
+ * an individually user-authored note, not a density signal like finds are.
+ *
+ * **Разбито надвое по цене слоя** (см. `ui/map/CLAUDE.md`, «Стоимость слоя»): места БЕЗ фото все
+ * до одного рисуются дефолтным пином, то есть делят одну иконку — им хватает ОДНОГО слоя с общим
+ * источником, а id кликнутого места достаётся из `properties` фичи. Места С фото так не
+ * схлопываются: у каждого своя картинка, а один `SymbolLayer` умеет ровно одну `iconImage`; они
+ * остаются слоем на место и выдаются по одному за кадр, тем же приёмом, что `ClusteredFindsLayers`.
  *
  * Must be called directly inside a `MaplibreMap { ... }` block. [onPlaceClick]/[onPlaceLongPress]
  * fire with the tapped/held place's [PlaceMarker.id] — resolved trivially per-layer (each layer's
@@ -48,7 +59,39 @@ fun PlaceMarkersLayer(
     idPrefix: String = "place",
     onPlaceLongPress: (Long) -> Unit = {},
 ) {
-    places.forEach { place ->
+    val (plain, photographed) = remember(places) { places.partition { it.photoPath == null } }
+
+    if (plain.isNotEmpty()) {
+        val painter = rememberPlaceMarkerPainter(null)
+        val plainSource = rememberGeoJsonSource(
+            GeoJsonData.Features(
+                FeatureCollection(
+                    plain.map { place ->
+                        Feature(
+                            Point(Position(place.lon, place.lat)),
+                            properties = buildJsonObject { put(PLACE_ID_PROPERTY, place.id) },
+                        )
+                    },
+                ),
+            ),
+        )
+        SymbolLayer(
+            id = "$idPrefix-plain",
+            source = plainSource,
+            iconImage = image(painter, size = DpSize(PLACE_MARKER_WIDTH, PLACE_MARKER_HEIGHT)),
+            iconAnchor = const(SymbolAnchor.Bottom),
+            iconAllowOverlap = const(true),
+            onClick = { features -> features.placeId()?.let(onPlaceClick); ClickResult.Consume },
+            onLongClick = { features -> features.placeId()?.let(onPlaceLongPress); ClickResult.Consume },
+        )
+    }
+
+    // Места с фото — по слою на место, каждое стоит декода фото, растеризации пина и регистрации
+    // битмапа в стиле. Пачка сдвигается за кадр перехода целиком, не дробится, см.
+    // [rememberHistoryRevealed].
+    val revealed = rememberHistoryRevealed(photographed)
+
+    if (revealed) photographed.forEach { place ->
         key(place.id) {
             val painter = rememberPlaceMarkerPainter(place.photoPath)
             val source = rememberGeoJsonSource(GeoJsonData.Features(Point(Position(place.lon, place.lat))))
@@ -64,3 +107,10 @@ fun PlaceMarkersLayer(
         }
     }
 }
+
+/** Ключ, под которым id места едет в `properties` фичи общего слоя мест без фото. */
+private const val PLACE_ID_PROPERTY = "placeId"
+
+/** Id места из кликнутых фич общего слоя — обратная сторона [PLACE_ID_PROPERTY]. */
+private fun List<Feature<Geometry, JsonObject?>>.placeId(): Long? =
+    firstNotNullOfOrNull { it.properties?.get(PLACE_ID_PROPERTY)?.jsonPrimitive?.longOrNull }

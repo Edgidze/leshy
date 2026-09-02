@@ -2,6 +2,7 @@ package leshy.mushrooms.map.ui.map
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.DpSize
 import org.maplibre.compose.expressions.dsl.asNumber
 import org.maplibre.compose.expressions.dsl.const
@@ -50,11 +51,25 @@ private const val MANY_SORT_OFFSET = 0f
  * screen's background layer of previously-found mushrooms) — must be called directly inside a
  * `MaplibreMap { ... }` block. [idPrefix] keeps layer/source ids from colliding if both a
  * foreground and a background clustered layer ever end up on the same map.
+ *
+ * **Слои появляются не в первом кадре, а одной пачкой чуть позже** — см. [rememberHistoryRevealed].
+ * Для вызывающего это значит, что сразу после первого кадра карта ещё пуста; ничего синхронно на
+ * её содержимое полагаться не должно.
  */
 @Composable
 fun ClusteredFindsLayers(markers: List<MapMarker>, idPrefix: String = "finds") {
-    markers.groupBy { it.icon }.forEach { (icon, group) ->
-        if (icon == null) return@forEach
+    val groups = remember(markers) {
+        markers.groupBy { it.icon }.mapNotNull { (icon, group) -> icon?.let { it to group } }
+    }
+
+    // Каждая группа стоит декода картинки вида, растеризации её в битмап маркера, регистрации
+    // битмапа в стиле, кластеризованного источника и слоя — всё это синхронные мутации нативного
+    // стиля, и их число растёт с числом РАЗНЫХ ВИДОВ за всю историю. На нескольких десятках видов
+    // это замораживало переход между экранами целиком. Поэтому пачка сдвинута за пределы кадра
+    // перехода — но именно ПАЧКОЙ, дробить по кадрам нельзя, см. [rememberHistoryRevealed].
+    val revealed = rememberHistoryRevealed(groups)
+
+    if (revealed) groups.forEach { (icon, group) ->
         key(icon.key) {
             val painter = rememberMushroomMarkerPainter(icon)
             if (painter != null) {

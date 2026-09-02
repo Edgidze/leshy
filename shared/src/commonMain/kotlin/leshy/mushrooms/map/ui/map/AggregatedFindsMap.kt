@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,7 +28,7 @@ import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.spatialk.geojson.BoundingBox
-import org.maplibre.spatialk.geojson.LineString
+import org.maplibre.spatialk.geojson.MultiLineString
 import org.maplibre.spatialk.geojson.Position
 
 private val ROUTE_COLOR = Color(0xFF1B4332)
@@ -92,21 +91,23 @@ fun AggregatedFindsMap(
             onMapLoadFailed = { tilesLoadFailed = true },
             onMapLoadFinished = { tilesLoadFailed = false },
         ) {
-            tracks.forEach { (walkId, points) ->
-                if (points.size >= 2) {
-                    key(walkId) {
-                        val routeSource = rememberGeoJsonSource(
-                            GeoJsonData.Features(LineString(points.map { Position(it.lon, it.lat) })),
-                        )
-                        LineLayer(
-                            id = "route-$walkId",
-                            source = routeSource,
-                            color = const(ROUTE_COLOR),
-                            width = const(2.dp),
-                            opacity = const(0.45f),
-                        )
-                    }
-                }
+            // ONE layer for all routes, not one per walk — same rationale as LiveTrackMap's
+            // historical tracks: a layer plus its source is a synchronous native style mutation
+            // each, and this screen draws the whole archive. See ui/map/CLAUDE.md, «Стоимость слоя».
+            val routeLines = remember(tracks) {
+                tracks.values
+                    .filter { it.size >= 2 }
+                    .map { points -> points.map { Position(it.lon, it.lat) } }
+            }
+            if (routeLines.isNotEmpty()) {
+                val routesSource = rememberGeoJsonSource(GeoJsonData.Features(MultiLineString(routeLines)))
+                LineLayer(
+                    id = "routes",
+                    source = routesSource,
+                    color = const(ROUTE_COLOR),
+                    width = const(2.dp),
+                    opacity = const(0.45f),
+                )
             }
 
             ClusteredFindsLayers(markers)
