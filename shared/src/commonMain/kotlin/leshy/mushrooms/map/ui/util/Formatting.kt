@@ -112,13 +112,50 @@ fun formatSpeedKmh(metersPerSecond: Double): String {
     return "$whole.$fraction ${stringResource(StringKey.UnitKmh)}"
 }
 
+/**
+ * Километраж с точностью, убывающей по мере роста числа, — так запись никогда не длиннее трёх
+ * цифр: `0.05`, `9.99`, `12.3`, `247`.
+ *
+ * Постоянные две цифры после точки этого не давали: `123.45 км` — шесть знаков, и на шапке
+ * «Записи», где километраж делит строку со временем и счётчиком находок, третий показатель на
+ * узком экране просто не помещался. Точность теряется ровно там, где не нужна: десять метров важны,
+ * когда прошёл сто, и ничего не значат, когда прошёл пятьдесят километров.
+ *
+ * Ведущего нуля нет намеренно. Была промежуточная редакция с ним (`00.05`) — ради того, чтобы блок
+ * километража повторял по ширине блок времени `00:00` и оба конца шапки выглядели одинаково
+ * набранными. Отвергнута владельцем: километраж так не пишут, и в строке «Километраж: 00.05 км» на
+ * экране детализации ведущий ноль выглядит опечаткой, а не выравниванием.
+ *
+ * Дробь **отсекается, а не округляется**. Разница принципиальна на границе разрядов: округление
+ * превратило бы 9.999 в `10.00`, то есть в ту самую четвёртую цифру, ради отсутствия которой всё и
+ * затевалось.
+ *
+ * Сотни километров — это уже не одна прогулка, а сумма всех: столько показывает статистика раздела
+ * «Карта» (`stats.totalDistanceMeters`). Для неё десятые доли тем более не значат ничего.
+ */
 @Composable
 fun formatDistanceKm(meters: Double): String {
     val km = meters / 1000.0
-    val rounded = (km * 100).toLong() / 100.0
-    val whole = rounded.toLong()
-    val fraction = ((rounded - whole) * 100).toLong().let { if (it < 0) -it else it }
-    return "$whole.${fraction.toString().padStart(2, '0')} ${stringResource(StringKey.UnitKilometers)}"
+    val absKm = if (km < 0) -km else km
+    val unit = stringResource(StringKey.UnitKilometers)
+    val text = when {
+        absKm < 10 -> truncatedToScale(km, scale = 100, decimals = 2)
+        absKm < 100 -> truncatedToScale(km, scale = 10, decimals = 1)
+        else -> km.toLong().toString()
+    }
+    return "$text $unit"
+}
+
+/**
+ * [value], отсечённое до [decimals] знаков после запятой; [scale] — 10 в степени [decimals].
+ * Собирается из целой и дробной частей вручную, потому что в общем коде KMP нет
+ * `String.format`/локалезависимого форматтера чисел.
+ */
+private fun truncatedToScale(value: Double, scale: Int, decimals: Int): String {
+    val truncated = (value * scale).toLong()
+    val whole = truncated / scale
+    val fraction = (truncated % scale).let { if (it < 0) -it else it }
+    return "$whole.${fraction.toString().padStart(decimals, '0')}"
 }
 
 /** "2.4x3.1 км" — the ground size of an area, so "small region" stops being a guess. Deliberately
