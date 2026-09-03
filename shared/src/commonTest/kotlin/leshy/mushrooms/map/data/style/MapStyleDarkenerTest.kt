@@ -142,9 +142,11 @@ class MapStyleDarkenerTest {
         assertEquals(null, paint["fill-pattern"])
         val fill = paint["fill-color"]!!.jsonPrimitive.content
         assertTrue(isDark(fill), fill)
-        // Слегка светлее леса и с коричневым уклоном — красный канал выше синего.
-        val (r, _, b) = channels(fill)
-        assertTrue(r > b, fill)
+        // Коричневатый ЗЕЛЁНЫЙ, а не коричневый: зелень преобладает над красным, но тёплый уклон
+        // сохранён — красный выше синего. Первый заход был чисто коричневым и на устройстве
+        // оказался слишком землистым.
+        val (r, g, b) = channels(fill)
+        assertTrue(g > r && r > b, fill)
         // `fill-opacity` — часть замысла слоя, снятие паттерна не должно её задеть.
         assertEquals("0.8", paint["fill-opacity"]!!.jsonPrimitive.content)
     }
