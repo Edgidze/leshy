@@ -2,6 +2,7 @@ package leshy.mushrooms.map.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import leshy.mushrooms.map.domain.model.ThemeMode
 import leshy.mushrooms.map.domain.model.iconSource
 import leshy.mushrooms.map.domain.repository.CategoryRepository
 import leshy.mushrooms.map.domain.repository.OfflineRegionRepository
@@ -45,6 +46,11 @@ class SettingsViewModel(
             }
         }
         viewModelScope.launch {
+            settingsRepository.observeThemeMode().collect { mode ->
+                _uiState.update { it.copy(themeMode = mode) }
+            }
+        }
+        viewModelScope.launch {
             settingsRepository.observeMushroomMarkerSizeScale().collect { scale ->
                 _uiState.update { it.copy(mushroomMarkerSizeScale = scale) }
             }
@@ -63,6 +69,10 @@ class SettingsViewModel(
                 _uiState.update { it.copy(freezeMushroomOrder = freeze) }
             }
         }
+    }
+
+    fun setThemeMode(mode: ThemeMode) {
+        viewModelScope.launch { settingsRepository.setThemeMode(mode) }
     }
 
     fun setMushroomMarkerSizeScale(scale: Float) {

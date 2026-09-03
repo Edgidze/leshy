@@ -18,6 +18,9 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -37,6 +40,7 @@ import androidx.compose.ui.window.DialogProperties
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MIN
+import leshy.mushrooms.map.domain.model.ThemeMode
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.categoryDisplayName
 import leshy.mushrooms.map.i18n.regionsUnitLabel
@@ -67,6 +71,27 @@ fun SettingsScreen(
                 modifier = Modifier.weight(1f),
             )
             Icon(imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
+        }
+
+        SettingsSectionTitle(stringResource(StringKey.SettingsThemeTitle))
+        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+            ThemeMode.entries.forEachIndexed { index, mode ->
+                SegmentedButton(
+                    selected = uiState.themeMode == mode,
+                    onClick = { viewModel.setThemeMode(mode) },
+                    shape = SegmentedButtonDefaults.itemShape(index = index, count = ThemeMode.entries.size),
+                ) {
+                    Text(
+                        stringResource(
+                            when (mode) {
+                                ThemeMode.LIGHT -> StringKey.SettingsThemeLight
+                                ThemeMode.DARK -> StringKey.SettingsThemeDark
+                                ThemeMode.SYSTEM -> StringKey.SettingsThemeSystem
+                            },
+                        ),
+                    )
+                }
+            }
         }
 
         SettingsSectionTitle(stringResource(StringKey.SettingsMushroomSizeTitle))

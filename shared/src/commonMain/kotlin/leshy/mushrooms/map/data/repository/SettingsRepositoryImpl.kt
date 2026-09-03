@@ -10,11 +10,13 @@ import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_DEFAULT
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MIN
+import leshy.mushrooms.map.domain.model.ThemeMode
 import leshy.mushrooms.map.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 private val LANGUAGE_KEY = stringPreferencesKey("language")
+private val THEME_MODE_KEY = stringPreferencesKey("theme_mode")
 private val MUSHROOM_MARKER_SIZE_SCALE_KEY = floatPreferencesKey("mushroom_marker_size_scale")
 private val RESET_MUSHROOM_ORDER_ON_WALK_FINISH_KEY = booleanPreferencesKey("reset_mushroom_order_on_walk_finish")
 private val FREEZE_MUSHROOM_ORDER_KEY = booleanPreferencesKey("freeze_mushroom_order")
@@ -28,6 +30,17 @@ class SettingsRepositoryImpl(
 
     override suspend fun setLanguage(language: AppLanguage) {
         dataStore.edit { prefs -> prefs[LANGUAGE_KEY] = language.code }
+    }
+
+    // Дефолт — SYSTEM, а не LIGHT: пока пользователь не выбрал явно, следуем оформлению
+    // устройства. Незнакомое имя в ключе (откат на версию с меньшим числом вариантов) тоже
+    // приводит сюда.
+    override fun observeThemeMode(): Flow<ThemeMode> = dataStore.data.map { prefs ->
+        prefs[THEME_MODE_KEY]?.let { name -> ThemeMode.entries.find { it.name == name } } ?: ThemeMode.SYSTEM
+    }
+
+    override suspend fun setThemeMode(mode: ThemeMode) {
+        dataStore.edit { prefs -> prefs[THEME_MODE_KEY] = mode.name }
     }
 
     override fun observeMushroomMarkerSizeScale(): Flow<Float> = dataStore.data.map { prefs ->

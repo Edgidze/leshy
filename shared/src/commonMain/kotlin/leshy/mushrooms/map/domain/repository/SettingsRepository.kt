@@ -1,11 +1,16 @@
 package leshy.mushrooms.map.domain.repository
 
 import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.domain.model.ThemeMode
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
     fun observeLanguage(): Flow<AppLanguage>
     suspend fun setLanguage(language: AppLanguage)
+
+    /** Оформление: явно светлое/тёмное, либо следовать системной настройке устройства. */
+    fun observeThemeMode(): Flow<ThemeMode>
+    suspend fun setThemeMode(mode: ThemeMode)
 
     /** Multiplier applied to the base mushroom marker icon size shown on maps. */
     fun observeMushroomMarkerSizeScale(): Flow<Float>

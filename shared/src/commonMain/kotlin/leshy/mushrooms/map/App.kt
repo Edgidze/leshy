@@ -42,6 +42,7 @@ import androidx.navigation.compose.rememberNavController
 import leshy.mushrooms.map.data.repository.MapStyleCacheRepository
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_DEFAULT
+import leshy.mushrooms.map.domain.model.ThemeMode
 import leshy.mushrooms.map.domain.repository.OnboardingRepository
 import leshy.mushrooms.map.domain.repository.SettingsRepository
 import leshy.mushrooms.map.domain.usecase.RepairPhotoPathsUseCase
@@ -56,7 +57,9 @@ import leshy.mushrooms.map.ui.navigation.Destination
 import leshy.mushrooms.map.ui.navigation.LeshyNavHost
 import leshy.mushrooms.map.ui.navigation.navigateToTopLevel
 import leshy.mushrooms.map.ui.screens.OnboardingScreen
+import leshy.mushrooms.map.ui.theme.ApplySystemBarsAppearance
 import leshy.mushrooms.map.ui.theme.LeshyTheme
+import leshy.mushrooms.map.ui.theme.isDark
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
@@ -103,6 +106,7 @@ fun App() {
     val language by settingsRepository.observeLanguage().collectAsState(initial = AppLanguage.EN)
     val mushroomMarkerSizeScale by settingsRepository.observeMushroomMarkerSizeScale()
         .collectAsState(initial = MUSHROOM_MARKER_SIZE_SCALE_DEFAULT)
+    val themeMode by settingsRepository.observeThemeMode().collectAsState(initial = ThemeMode.SYSTEM)
     // null while the persisted flag is still loading. Deliberately kept outside the nav graph
     // entirely (see OnboardingScreen's doc, .claude/plans/mushroom-collections.md Phase 3) rather
     // than made a NavHost destination — Record must stay the graph's only startDestination, or
@@ -116,7 +120,10 @@ fun App() {
         LocalAppLanguage provides language,
         LocalMushroomMarkerSizeScale provides mushroomMarkerSizeScale,
     ) {
-        LeshyTheme {
+        LeshyTheme(useDarkTheme = themeMode.isDark()) {
+            // Выше `when (onboardingCompleted)`, а не в его ветках: системные панели должны
+            // подхватывать тему и на онбординге, а не только после того, как он пройден.
+            ApplySystemBarsAppearance(themeMode)
             when (onboardingCompleted) {
                 null -> Unit
                 false -> OnboardingScreen()

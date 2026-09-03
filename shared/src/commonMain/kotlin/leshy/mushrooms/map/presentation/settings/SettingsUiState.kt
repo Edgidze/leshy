@@ -3,9 +3,11 @@ package leshy.mushrooms.map.presentation.settings
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_DEFAULT
+import leshy.mushrooms.map.domain.model.ThemeMode
 
 data class SettingsUiState(
     val language: AppLanguage = AppLanguage.EN,
+    val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val mushroomMarkerSizeScale: Float = MUSHROOM_MARKER_SIZE_SCALE_DEFAULT,
     val resetMushroomOrderOnWalkFinish: Boolean = false,
     val freezeMushroomOrder: Boolean = false,
