@@ -30,6 +30,12 @@ private val DATE_ONLY_FORMAT = kotlinx.datetime.LocalDateTime.Format {
     year()
 }
 
+private val TIME_ONLY_FORMAT = kotlinx.datetime.LocalDateTime.Format {
+    hour()
+    char(':')
+    minute()
+}
+
 @OptIn(ExperimentalTime::class)
 fun formatDateTime(epochMillis: Long): String =
     Instant.fromEpochMilliseconds(epochMillis)
@@ -41,6 +47,18 @@ fun formatDateOnly(epochMillis: Long): String =
     Instant.fromEpochMilliseconds(epochMillis)
         .toLocalDateTime(TimeZone.currentSystemDefault())
         .format(DATE_ONLY_FORMAT)
+
+/**
+ * Время без даты — для мест, где дата уже стоит рядом и повторять её незачем: экран детализации
+ * пишет дату прогулки заголовком, а старт и финиш под ним показывает одним временем. Звать только
+ * там, где дата видна из окружения; иначе [formatDateTime], потому что «07:14» само по себе не
+ * говорит, какого дня оно было.
+ */
+@OptIn(ExperimentalTime::class)
+fun formatTimeOnly(epochMillis: Long): String =
+    Instant.fromEpochMilliseconds(epochMillis)
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+        .format(TIME_ONLY_FORMAT)
 
 /** Localized month name, 1-12. Shared by the Map filter dialog and the export walks picker. */
 @Composable
