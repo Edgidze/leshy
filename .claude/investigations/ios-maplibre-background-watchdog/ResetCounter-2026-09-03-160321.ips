@@ -1,0 +1,9 @@
+{"bug_type":"115","timestamp":"2026-09-03 16:03:21.00 +0300","name":"Reset count","os_version":"iPhone OS 15.8.8 (19H422)","incident_id":"550D55AC-162E-4E4F-A09F-28963691C09C"}
+Incident Identifier: 550D55AC-162E-4E4F-A09F-28963691C09C
+CrashReporter Key:   488b3dc6941dd80999624eafdf9f048b5a0344e8
+Date: 2026-09-03 16:03:21.98 +0300
+Reset count: 1
+Boot failure count: 0
+Boot faults: 
+Boot stage: 0
+Boot app: 0
