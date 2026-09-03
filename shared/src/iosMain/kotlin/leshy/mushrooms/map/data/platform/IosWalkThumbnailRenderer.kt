@@ -51,6 +51,13 @@ private const val MIN_BOUNDS_SPAN_DEGREES = 0.0015
 private const val ROUTE_STROKE_FRACTION = 3.0 / 240.0
 private const val FIND_DOT_RADIUS_FRACTION = 4.0 / 240.0
 
+/**
+ * Обводка вокруг точки находки, долей её радиуса. Зачем она и почему белая — в
+ * `AndroidWalkThumbnailRenderer`, у одноимённой константы; здесь то же самое и теми же числами:
+ * это одна картинка, которая обязана выглядеть одинаково на обеих платформах.
+ */
+private const val FIND_DOT_OUTLINE_FRACTION = 0.4
+
 private const val ROUTE_RED = 0x1B / 255.0
 private const val ROUTE_GREEN = 0x43 / 255.0
 private const val ROUTE_BLUE = 0x32 / 255.0 // LeshyGreen, ui/theme/Theme.kt — not reachable from here.
@@ -171,6 +178,29 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
         val annotated = renderer.imageWithActions { _ ->
             baseImage.drawAtPoint(CGPointMake(0.0, 0.0))
 
+            fun drawDot(point: GeoPoint, fill: UIColor) {
+                val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(point.lat, point.lon))
+                cgPoint.useContents {
+                    val dotRect = CGRectMake(
+                        x - findDotRadius,
+                        y - findDotRadius,
+                        findDotRadius * 2,
+                        findDotRadius * 2,
+                    )
+                    val dotPath = UIBezierPath.bezierPathWithOvalInRect(dotRect)
+                    fill.setFill()
+                    dotPath.fill()
+                    // Обводка сразу за своей заливкой, а не отдельным проходом по всем точкам:
+                    // порядок и есть то, ради чего обводка добавлена, см. FIND_DOT_OUTLINE_FRACTION.
+                    dotPath.lineWidth = findDotRadius * FIND_DOT_OUTLINE_FRACTION
+                    UIColor.whiteColor.setStroke()
+                    dotPath.stroke()
+                }
+            }
+
+            fun drawFindDot(point: GeoPoint) =
+                drawDot(point, UIColor.colorWithRed(FIND_RED, FIND_GREEN, FIND_BLUE, 1.0))
+
             if (track.size >= 2) {
                 val routePath = UIBezierPath()
                 track.forEachIndexed { index, point ->
@@ -185,31 +215,7 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
                 // location instead of leaving the map background bare.
                 val locationDot = track.firstOrNull() ?: anchor
                 if (locationDot != null) {
-                    val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(locationDot.lat, locationDot.lon))
-                    cgPoint.useContents {
-                        val dotRect = CGRectMake(
-                            x - findDotRadius,
-                            y - findDotRadius,
-                            findDotRadius * 2,
-                            findDotRadius * 2,
-                        )
-                        UIColor.colorWithRed(ROUTE_RED, ROUTE_GREEN, ROUTE_BLUE, 1.0).setFill()
-                        UIBezierPath.bezierPathWithOvalInRect(dotRect).fill()
-                    }
-                }
-            }
-
-            fun drawFindDot(point: GeoPoint) {
-                val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(point.lat, point.lon))
-                cgPoint.useContents {
-                    val dotRect = CGRectMake(
-                        x - findDotRadius,
-                        y - findDotRadius,
-                        findDotRadius * 2,
-                        findDotRadius * 2,
-                    )
-                    UIColor.colorWithRed(FIND_RED, FIND_GREEN, FIND_BLUE, 1.0).setFill()
-                    UIBezierPath.bezierPathWithOvalInRect(dotRect).fill()
+                    drawDot(locationDot, UIColor.colorWithRed(ROUTE_RED, ROUTE_GREEN, ROUTE_BLUE, 1.0))
                 }
             }
 

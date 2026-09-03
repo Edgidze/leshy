@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
@@ -23,6 +24,9 @@ import kotlin.math.max
 // points) doesn't blow up the projection with a near-zero divisor.
 private const val MIN_SPAN_DEGREES = 0.0003
 private const val MIN_LON_SCALE = 0.15
+
+/** Доля радиуса точки, уходящая в обводку, — та же, что у снимков с тайлами. */
+private const val FIND_DOT_OUTLINE_FRACTION = 0.4f
 
 /**
  * A small, static, offline route silhouette for archive list cards — Strava-style thumbnail,
@@ -84,8 +88,20 @@ fun WalkRouteThumbnail(track: List<GeoPoint>, findLocations: List<GeoPoint>, mod
                 style = Stroke(width = 2.5.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round),
             )
 
+            // Заливка и обводка каждой точки — вместе и в этом порядке, как в снимках с настоящими
+            // тайлами (`AndroidWalkThumbnailRenderer`, константа FIND_DOT_OUTLINE_FRACTION — там же
+            // и о том, зачем обводка вообще). Здесь это тем более уместно: силуэт рисуется, когда
+            // снимка нет, и остаётся единственной картинкой прогулки.
+            val findRadius = 3.dp.toPx()
             findLocations.forEach { point ->
-                drawCircle(color = findColor, radius = 3.dp.toPx(), center = toOffset(point))
+                val center = toOffset(point)
+                drawCircle(color = findColor, radius = findRadius, center = center)
+                drawCircle(
+                    color = Color.White,
+                    radius = findRadius,
+                    center = center,
+                    style = Stroke(width = findRadius * FIND_DOT_OUTLINE_FRACTION),
+                )
             }
         }
     }

@@ -19,16 +19,18 @@ import okio.Path.Companion.toPath
  * instead of falling back to *some* location. Re-renders from each walk's already-persisted track
  * points/finds/start-or-end coordinates, so no walk is stuck without a map background forever.
  *
- * **Плюс снимки устаревшей геометрии** — те, чьё имя файла названо не [WALK_THUMBNAIL_VARIANT]:
- * у прогулок, записанных до перехода на 16:9, на диске лежит квадрат, и показать его в поле 16:9
- * можно только срезав маршруту верх и низ. Пропорция узнаётся по имени файла, без чтения самого
- * файла, — ради этого имя её и называет.
+ * **Плюс снимки прежних поколений отрисовки** — те, чьё имя файла названо не
+ * [WALK_THUMBNAIL_VARIANT]: у прогулок, записанных до перехода на 16:9, на диске лежит квадрат
+ * (в поле 16:9 его можно показать только срезав маршруту верх и низ), у чуть более поздних —
+ * полоса, но с точками находок без обводки, слипающимися в пятно там, где находок много.
+ * Поколение узнаётся по имени файла, без чтения самого файла, — ради этого имя его и называет.
  *
  * Called once per [leshy.mushrooms.map.presentation.archive.ArchiveViewModel] lifecycle (Archive
  * screen open) — cheap no-op once every walk has a thumbnail of the current geometry, since both
  * sets shrink to empty and stay there via the normal [WalkRepository.update] write.
  *
- * Первый заход после обновления — не no-op: он перерисовывает снимок КАЖДОЙ прогулки, а каждый
+ * Первый заход после обновления, сменившего поколение, — не no-op: он перерисовывает снимок
+ * КАЖДОЙ прогулки, а каждый
  * снимок это обращение к тайлам, то есть сеть. Идёт последовательно и в фоне, экран архива не
  * ждёт (см. `ArchiveViewModel`), неудача любой отдельной прогулки оставляет прежний файл на месте
  * и повторяется при следующем открытии архива — но у владельца большого архива первый заход

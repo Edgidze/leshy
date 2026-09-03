@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -47,16 +50,39 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
- * Ширина миниатюры маршрута; высота выводится из неё по [WALK_THUMBNAIL_ASPECT_RATIO] и здесь не
- * задаётся. Раньше это была сторона квадрата — снимок был квадратным, и карточка архива была
- * единственным местом, где он показывался, так что пропорция ничего не решала. Теперь снимок один
- * на два места (здесь и заставкой на экране детализации), пропорция у него 16:9, и миниатюра
- * обязана её повторять: показать 16:9 в квадрате можно только обрезав маршрут с боков.
- *
- * Шире прежних 120dp затем, чтобы отчасти возместить потерю высоты: у полосы 16:9 при равной
- * ширине площадь вдвое меньше квадратной.
+ * Ширина миниатюры маршрута. Постоянная — в отличие от высоты, которую миниатюра берёт по высоте
+ * карточки, см. ниже. Ширина обязана быть одной у всех карточек списка: разъехавшийся левый край
+ * текстовых колонок читался бы как поломка вёрстки, а не как разные прогулки.
  */
 private val THUMBNAIL_WIDTH = 140.dp
+
+/**
+ * Высота миниатюры, ниже которой она не опускается: та, при которой снимок виден целиком, без
+ * обрезки (см. [WALK_THUMBNAIL_ASPECT_RATIO]). Работает у карточек с самым коротким текстом —
+ * односрочное название, дата, показатели в одну строку.
+ *
+ * **Почему высота вообще переменная.** Снимок 16:9 при постоянной высоте оставлял справа от себя
+ * пустые поля: текстовая колонка у разных прогулок разной высоты — название переносится на вторую
+ * строку, показатели у прогулки с трёхзначным числом находок переходят на вторую строку, — и всё,
+ * чем колонка выше миниатюры, оказывалось пустотой по бокам от неё. Особенно заметно на узких
+ * экранах, где переносится почти каждая карточка.
+ *
+ * Три способа это убрать, и выбран третий:
+ * 1. одна высота карточки на весь список — пустота остаётся у карточек с коротким текстом, а
+ *    список удлиняется на величину этой пустоты в каждой;
+ * 2. миниатюра шире у карточек с высоким текстом — расходится левый край текстовых колонок;
+ * 3. **миниатюра во всю высоту карточки, какой бы та ни вышла**, а снимок подрезается по бокам
+ *    ([ContentScale.Crop]) ровно настолько, насколько высота карточки выше собственной высоты
+ *    снимка. Пустоты не остаётся никогда, ширина у всех одна, высота карточки по-прежнему
+ *    определяется её текстом.
+ *
+ * Цена третьего — переменная обрезка: у карточки с самым высоким текстом от снимка остаётся
+ * примерно 70% ширины, у карточки с самым низким — почти всё. Терпимо ровно потому, что маршрут в
+ * снимке лежит по центру и с полями (`SNAPSHOT_PADDING_PX` в рендерерах), а целиком снимок всё
+ * равно показывается на экране детализации — миниатюра в списке служит опознанию прогулки, а не
+ * разглядыванию маршрута.
+ */
+private val THUMBNAIL_MIN_HEIGHT = THUMBNAIL_WIDTH / WALK_THUMBNAIL_ASPECT_RATIO
 
 /**
  * Ориентир — не высота букв в строке, а размер эмодзи `🍄`, который здесь стоял раньше: эмодзи
@@ -115,14 +141,22 @@ fun WalkCard(
         border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
     ) {
         Row(
-            modifier = Modifier.padding(WALK_CARD_PADDING),
+            // IntrinsicSize.Min — то, чем миниатюре сообщается высота карточки. Без него у строки
+            // внутри карточки списка высота не ограничена сверху (`LazyColumn` меряет элемент при
+            // бесконечной доступной высоте), и `fillMaxHeight` у миниатюры оказался бы пустым
+            // словом. С ним высота строки считается как наибольшая из минимальных высот детей —
+            // то есть по текстовой колонке, если та выше, и по THUMBNAIL_MIN_HEIGHT, если нет.
+            modifier = Modifier.padding(WALK_CARD_PADDING).height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             WalkThumbnail(
                 thumbnailPath = walk.thumbnailPath,
                 track = track,
                 findLocations = findLocations,
-                modifier = Modifier.width(THUMBNAIL_WIDTH).aspectRatio(WALK_THUMBNAIL_ASPECT_RATIO),
+                modifier = Modifier
+                    .width(THUMBNAIL_WIDTH)
+                    .heightIn(min = THUMBNAIL_MIN_HEIGHT)
+                    .fillMaxHeight(),
             )
             Spacer(modifier = Modifier.width(WALK_CARD_PADDING))
             Column(modifier = Modifier.weight(1f)) {

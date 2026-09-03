@@ -45,6 +45,22 @@ private const val MIN_BOUNDS_SPAN_DEGREES = 0.0015
 private const val ROUTE_STROKE_FRACTION = 5f / 240f
 private const val FIND_DOT_RADIUS_FRACTION = 6f / 240f
 
+/**
+ * Обводка вокруг точки находки, долей её радиуса, и её цвет.
+ *
+ * Без обводки густые находки сливались в сплошное красное пятно: у прогулки на сотню грибов,
+ * собранных с одной поляны, точки перекрывают друг друга, и там, где их двадцать, картинка
+ * неотличима от той, где их пять. Обводка это чинит сама собой, без единой новой сущности: точки
+ * рисуются по очереди, каждая своей заливкой поверх обводки предыдущих, — и плотное место читается
+ * чешуёй перекрывающихся кружков, то есть ровно тем, чем оно и является.
+ *
+ * Белая, потому что снимок всегда светлый: тайлы берутся по [OPEN_FREE_MAP_STYLE_URL] — светлому
+ * стилю — независимо от темы приложения (снимок рисуется один раз, на «Финише», и переключение
+ * темы его не перерисовывает, см. `MapStyleCacheRepository`).
+ */
+private const val FIND_DOT_OUTLINE_FRACTION = 0.4f
+private const val FIND_DOT_OUTLINE_COLOR = "#FFFFFF"
+
 private const val ROUTE_COLOR = "#1B4332" // LeshyGreen, ui/theme/Theme.kt — not reachable from here.
 private const val FIND_COLOR = "#B3261E" // Material3 baseline light colorScheme.error.
 
@@ -168,14 +184,33 @@ class AndroidWalkThumbnailRenderer(
                     color = Color.parseColor(ROUTE_COLOR)
                     style = Paint.Style.FILL
                 }
+                val outlinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = Color.parseColor(FIND_DOT_OUTLINE_COLOR)
+                    style = Paint.Style.STROKE
+                    strokeWidth = findDotRadius * FIND_DOT_OUTLINE_FRACTION
+                }
                 val pixel = pixelOf(locationDot)
                 canvas.drawCircle(pixel.x, pixel.y, findDotRadius, fillPaint)
+                canvas.drawCircle(pixel.x, pixel.y, findDotRadius, outlinePaint)
             }
         }
 
         val findPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.parseColor(FIND_COLOR)
             style = Paint.Style.FILL
+        }
+        val findOutlinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.parseColor(FIND_DOT_OUTLINE_COLOR)
+            style = Paint.Style.STROKE
+            strokeWidth = findDotRadius * FIND_DOT_OUTLINE_FRACTION
+        }
+
+        // Заливка и обводка одной точки — вместе и в этом порядке, поэтому и вынесены: разнеси их
+        // по двум проходам (все заливки, потом все обводки), и обводки легли бы поверх соседних
+        // точек сплошной сеткой, а перекрытия перестали бы читаться.
+        fun drawFindDot(pixel: PointF) {
+            canvas.drawCircle(pixel.x, pixel.y, findDotRadius, findPaint)
+            canvas.drawCircle(pixel.x, pixel.y, findDotRadius, findOutlinePaint)
         }
 
         if (speciesMarkers.isNotEmpty()) {
@@ -186,14 +221,11 @@ class AndroidWalkThumbnailRenderer(
                 if (iconBitmap != null) {
                     canvas.drawIconAspectFit(iconBitmap, pixel, markerIconSizePx)
                 } else {
-                    canvas.drawCircle(pixel.x, pixel.y, findDotRadius, findPaint)
+                    drawFindDot(pixel)
                 }
             }
         } else {
-            findLocations.forEach { point ->
-                val pixel = pixelOf(point)
-                canvas.drawCircle(pixel.x, pixel.y, findDotRadius, findPaint)
-            }
+            findLocations.forEach { point -> drawFindDot(pixelOf(point)) }
         }
 
         val thumbnailsDir = File(context.filesDir, "thumbnails").apply { mkdirs() }
