@@ -134,16 +134,26 @@ fun formatSpeedKmh(metersPerSecond: Double): String {
  * «Карта» (`stats.totalDistanceMeters`). Для неё десятые доли тем более не значат ничего.
  */
 @Composable
-fun formatDistanceKm(meters: Double): String {
+fun formatDistanceKm(meters: Double): String =
+    "${formatDistanceKmValue(meters)} ${stringResource(StringKey.UnitKilometers)}"
+
+/**
+ * То же число, но без единицы — для мест, где подпись «км» не помещается и снимается, а само
+ * значение остаётся. Такое место одно: шапка «Записи» на узких экранах, см. `RecordScreen.kt`,
+ * `STAT_ROW_UNIT_LABEL_MIN_WIDTH`. Везде остальном звать [formatDistanceKm]: число без единицы
+ * само по себе не читается, «0.05» может быть чем угодно.
+ *
+ * Не `@Composable`, в отличие от [formatDistanceKm]: единственное, за чем та ходит в композицию, —
+ * это локализованная единица.
+ */
+fun formatDistanceKmValue(meters: Double): String {
     val km = meters / 1000.0
     val absKm = if (km < 0) -km else km
-    val unit = stringResource(StringKey.UnitKilometers)
-    val text = when {
+    return when {
         absKm < 10 -> truncatedToScale(km, scale = 100, decimals = 2)
         absKm < 100 -> truncatedToScale(km, scale = 10, decimals = 1)
         else -> km.toLong().toString()
     }
-    return "$text $unit"
 }
 
 /**

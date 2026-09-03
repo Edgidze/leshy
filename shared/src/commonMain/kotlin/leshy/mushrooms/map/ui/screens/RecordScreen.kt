@@ -65,6 +65,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -112,6 +114,7 @@ import leshy.shared.generated.resources.ic_route
 import leshy.shared.generated.resources.ic_stopwatch
 import org.jetbrains.compose.resources.painterResource
 import leshy.mushrooms.map.ui.util.formatDistanceKm
+import leshy.mushrooms.map.ui.util.formatDistanceKmValue
 import leshy.mushrooms.map.ui.util.formatDuration
 import leshy.mushrooms.map.ui.util.parseHexColor
 import org.koin.compose.viewmodel.koinViewModel
@@ -133,6 +136,22 @@ private val STAT_ICON_GAP = 6.dp
  * нужнее полей — сама строка ничем не отделена от карты под ней, поэтому воздух ей дают отступы
  * сверху и снизу, а не по бокам. */
 private val STAT_ROW_PADDING = 12.dp
+
+/**
+ * Ширина строки показателей, начиная с которой у километража остаётся видимая подпись «км».
+ * Записана как «экран 360dp минус собственные поля строки», потому что порог осмыслен именно в
+ * ширине устройства, а сравнивается с шириной содержимого: `padding` стоит снаружи
+ * `BoxWithConstraints` и из его `maxWidth` уже вычтен.
+ *
+ * Почему порог, а не замер по факту: чтобы узнать, помещается ли всё, надо померить самый широкий
+ * из трёх показателей — время, — а его чтение обязано оставаться внутри [ElapsedTimeText]
+ * (см. его док). Замер в родителе вернул бы посекундную инвалидацию шапки, ровно ту, ради
+ * устранения которой время и вынесено в отдельный `StateFlow`.
+ *
+ * Умножается на `fontScale`: перекрытие определяется шириной текста, а она растёт вместе с
+ * системным размером шрифта, тогда как ширина экрана — нет.
+ */
+private val STAT_ROW_UNIT_LABEL_MIN_WIDTH = 360.dp - STAT_ROW_PADDING * 2
 
 // Gap between tiles in the feed's LazyRow — also fed into the pixel-distance math for the
 // slow scroll-to-front below, so keep the two in sync if this ever changes.
@@ -374,9 +393,26 @@ private fun RecordScreenContent(
         // (проверено на 360dp при масштабе шрифта 1.3).
         //
         // Box снимает оба: середина выровнена по центру всей строки, а каждый показатель меряется
-        // по своему содержимому и ничего не теряет. Дети могут наложиться только если сумма их
-        // ширин превысит строку — а это уже за пределами тех размеров, при которых трети резали.
-        Box(modifier = Modifier.fillMaxWidth().padding(horizontal = STAT_ROW_PADDING, vertical = 12.dp)) {
+        // по своему содержимому и ничего не теряет. Взамен появляется своя цена: Box ничего не
+        // ужимает и не переносит, поэтому при нехватке ширины дети просто накладываются друг на
+        // друга. Здесь было написано, что до этого «уже за пределами» рабочих размеров, — неверно,
+        // 320dp iPhone SE перекрытие даёт (скриншот владельца, 3 сентября). Чем это лечится и чего
+        // это лечение не покрывает — в комментарии внутри и у STAT_ROW_UNIT_LABEL_MIN_WIDTH.
+        BoxWithConstraints(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = STAT_ROW_PADDING, vertical = 12.dp),
+        ) {
+            // Проверено на устройстве владельца (iPhone SE, 320dp): при трёхзначном счётчике
+            // находок правый показатель наезжает на середину ещё до двузначного километража —
+            // «122» и «0.05 km» смыкаются. Оценка сходится: содержимому остаётся 296dp, середина
+            // забирает ~73, на каждый край приходится ~112, а километраж с подписью просит ~111.
+            // Подпись снимается только на узких экранах: на широких она нужна, потому что «0.05»
+            // само по себе ни о чём не говорит — в отличие от тикающего времени слева, чей смысл
+            // виден из того, что оно тикает.
+            //
+            // Чего это НЕ чинит: левый край. «1:23:45» просит ~109dp, и при четырёхзначном
+            // счётчике находок (края получают по ~106) время наедет на середину так же. Дальше
+            // 320dp этим способом не спасти — там придётся снимать что-то ещё.
+            val showDistanceUnit = maxWidth >= STAT_ROW_UNIT_LABEL_MIN_WIDTH * LocalDensity.current.fontScale
             // Значок и значение — соседи внутри inline-Row, а не обёрнуты в общий композабл:
             // ElapsedTimeText обязан остаться собственной restart-scope (см. его док), а обёртка
             // втянула бы посекундное чтение в себя вместе со значком.
@@ -402,10 +438,18 @@ private fun RecordScreenContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 StatIcon(painterResource(Res.drawable.ic_route), stringResource(StringKey.WalkDetailDistance))
+                // Полное значение считается всегда: без подписи оно уходит в contentDescription,
+                // чтобы снятие «км» было чисто зрительным и не обедняло чтение вслух.
+                val withUnit = formatDistanceKm(uiState.distanceMeters)
                 Text(
-                    text = formatDistanceKm(uiState.distanceMeters),
+                    text = if (showDistanceUnit) withUnit else formatDistanceKmValue(uiState.distanceMeters),
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,
+                    modifier = if (showDistanceUnit) {
+                        Modifier
+                    } else {
+                        Modifier.semantics { contentDescription = withUnit }
+                    },
                 )
             }
         }
