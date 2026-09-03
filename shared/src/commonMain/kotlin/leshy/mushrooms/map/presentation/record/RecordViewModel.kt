@@ -514,8 +514,13 @@ class RecordViewModel(
     fun addMushroom(categoryId: Long) {
         val currentWalkId = walkId ?: return
         if ((_uiState.value.mushroomCounts[categoryId] ?: 0) >= MAX_MUSHROOM_FINDS_PER_WALK) return
+        // Барьер, а не проверка «на всякий случай»: без фикса находку не к чему привязать, и
+        // записать её всё равно куда — значит соврать (см. AddMushroomMarkUseCase). Экран
+        // «Записи» ту же проверку делает раньше и показывает сообщение; здесь она стоит второй,
+        // потому что ViewModel обязана быть верна сама по себе, а не по договорённости с UI.
+        val location = _uiState.value.currentLocation ?: return
         viewModelScope.launch {
-            val mark = addMushroomMark(currentWalkId, categoryId, _uiState.value.currentLocation, currentTimeMillis())
+            val mark = addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
             scheduleFrontBump(categoryId)
             _uiState.update { state ->
                 val counts = state.mushroomCounts.toMutableMap()
@@ -540,8 +545,9 @@ class RecordViewModel(
     fun addMushrooms(categoryId: Long, count: Int) {
         if (count <= 0) return
         val currentWalkId = walkId ?: return
+        // Тот же барьер, что в [addMushroom].
+        val location = _uiState.value.currentLocation ?: return
         viewModelScope.launch {
-            val location = _uiState.value.currentLocation
             repeat(count) {
                 val mark = addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
                 _uiState.update { state ->
@@ -633,10 +639,14 @@ class RecordViewModel(
 
     fun addPlace(name: String, description: String, photoPath: String?) {
         val currentWalkId = walkId ?: return
+        // Тот же барьер, что в [addMushroom]. До сюда дело дойти не должно: экран не открывает
+        // форму места, пока местоположения нет, — но форма заполняется долго, и фикс может
+        // потеряться, пока её заполняют.
+        val location = _uiState.value.currentLocation ?: return
         viewModelScope.launch {
             val mark = addPlaceMark(
                 currentWalkId,
-                _uiState.value.currentLocation,
+                location,
                 currentTimeMillis(),
                 name,
                 description,

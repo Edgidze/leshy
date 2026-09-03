@@ -6,13 +6,14 @@ import leshy.mushrooms.map.domain.model.MarkType
 import leshy.mushrooms.map.domain.repository.CategoryRepository
 import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 
+/** [location] не nullable по той же причине, что и в [AddMushroomMarkUseCase] — там же и почему. */
 class AddPlaceMarkUseCase(
     private val fieldMarkRepository: FieldMarkRepository,
     private val categoryRepository: CategoryRepository,
 ) {
     suspend operator fun invoke(
         walkId: Long,
-        location: GeoPoint?,
+        location: GeoPoint,
         timestamp: Long,
         name: String,
         description: String,
@@ -24,8 +25,8 @@ class AddPlaceMarkUseCase(
             id = 0,
             walkId = walkId,
             categoryId = miscCategory.id,
-            lat = location?.lat ?: 0.0,
-            lon = location?.lon ?: 0.0,
+            lat = location.lat,
+            lon = location.lon,
             timestamp = timestamp,
             type = MarkType.POI,
             photoPath = photoPath,
