@@ -62,6 +62,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
@@ -171,6 +172,24 @@ private val FIND_TILE_COUNT_FONT_SIZE = 28.sp
  * — верхние углы у плиток каталога свободны стабильно, в отличие от нижних и середины.
  */
 private val FIND_TILE_COUNT_PADDING = 6.dp
+
+/**
+ * Добавка к правому отступу счётчика, долей кегля. Нужна затем, чтобы зазор справа от цифры
+ * выглядел равным зазору сверху: при одинаковом [FIND_TILE_COUNT_PADDING] с обеих сторон он равным
+ * не выглядит, и виноват не отступ, а то, что текстовый блок не облегает цифры.
+ *
+ * Сверху над цифрами внутри блока лежит подъём шрифта: цифра доходит только до высоты прописной
+ * (у Roboto и SF Pro — обе гарнитуры, которыми это в самом деле рисуется, — 0.71 кегля), а блок
+ * простирается примерно до 0.90. Справа же от цифры лежит только узкий боковой зазор глифа, около
+ * 0.03 кегля. Разница этих двух и есть здешнее число: 0.90 − 0.71 − 0.03 ≈ 0.15.
+ *
+ * Чёрная обводка на разницу не влияет: она отступает от контура глифа одинаково во все стороны и
+ * уменьшает оба зазора на одно и то же.
+ *
+ * Долей кегля, а не числом в dp, — чтобы поправка росла вместе с системным размером шрифта, как
+ * растёт сама цифра и её обводка.
+ */
+private const val FIND_TILE_COUNT_INK_OVERHANG_EM = 0.15f
 
 private val PLACE_THUMBNAIL_SIZE = 64.dp
 private val SECTION_TOP_GAP = 24.dp
@@ -650,12 +669,22 @@ private fun FindTile(category: Category, count: Int, width: Dp) {
                 category = category,
                 modifier = Modifier.fillMaxWidth().aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO),
             )
+            val countInkOverhang = with(LocalDensity.current) {
+                (FIND_TILE_COUNT_FONT_SIZE.toPx() * FIND_TILE_COUNT_INK_OVERHANG_EM).toDp()
+            }
             MushroomOutlinedText(
                 text = count.toString(),
                 fontSize = FIND_TILE_COUNT_FONT_SIZE,
                 maxLines = 1,
                 contentAlignment = Alignment.TopEnd,
-                modifier = Modifier.align(Alignment.TopEnd).padding(FIND_TILE_COUNT_PADDING),
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    // Только верх и правый край: счётчик прижат к правому верхнему углу, и до
+                    // левого края с низом ему дела нет.
+                    .padding(
+                        top = FIND_TILE_COUNT_PADDING,
+                        end = FIND_TILE_COUNT_PADDING + countInkOverhang,
+                    ),
             )
         }
     }
