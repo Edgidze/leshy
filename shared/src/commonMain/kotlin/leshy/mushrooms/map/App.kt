@@ -120,7 +120,8 @@ fun App() {
         LocalAppLanguage provides language,
         LocalMushroomMarkerSizeScale provides mushroomMarkerSizeScale,
     ) {
-        LeshyTheme(useDarkTheme = themeMode.isDark()) {
+        val useDarkTheme = themeMode.isDark()
+        LeshyTheme(useDarkTheme = useDarkTheme) {
             // Выше `when (onboardingCompleted)`, а не в его ветках: системные панели должны
             // подхватывать тему и на онбординге, а не только после того, как он пройден.
             ApplySystemBarsAppearance(themeMode)
@@ -154,6 +155,10 @@ fun App() {
                     // re-localizes the pinned style in place. Never touches the network, the pinned
                     // file or offline packs — see MapStyleCacheRepository.setLabelLanguage.
                     LaunchedEffect(language) { mapStyleCacheRepository.setLabelLanguage(language) }
+                    // Same shape as the language effect above and equally free of network/disk:
+                    // the dark variant is a repaint of the pinned style that changes no URL, so it
+                    // never touches offline packs. See MapStyleCacheRepository.setDarkTheme.
+                    LaunchedEffect(useDarkTheme) { mapStyleCacheRepository.setDarkTheme(useDarkTheme) }
                     LaunchedEffect(Unit) { mapStyleCacheRepository.ensureLoaded() }
 
                     val backStackEntry by navController.currentBackStackEntryAsState()

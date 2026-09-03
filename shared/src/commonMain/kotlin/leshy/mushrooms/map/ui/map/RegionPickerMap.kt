@@ -31,9 +31,6 @@ import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.spatialk.geojson.Polygon
 import org.maplibre.spatialk.geojson.Position
 
-private val REGION_OUTLINE_COMPLETE = Color(0xFF1B4332)
-private val REGION_OUTLINE_IN_PROGRESS = Color(0xFF2196F3)
-private val REGION_OUTLINE_ERROR = Color(0xFFB3261E)
 
 /**
  * Lets the user pan/zoom to pick an area, with existing offline regions overlaid as outlined
@@ -53,6 +50,7 @@ fun RegionPickerMap(
     bannerAlignment: Alignment = Alignment.TopCenter,
     bannerPadding: PaddingValues = PaddingValues(16.dp),
 ) {
+    val overlayColors = rememberMapOverlayColors()
     val mapStyleCacheRepository = koinInject<MapStyleCacheRepository>()
     val baseStyle by mapStyleCacheRepository.baseStyle.collectAsState()
     var tilesLoadFailed by remember { mutableStateOf(false) }
@@ -93,7 +91,7 @@ fun RegionPickerMap(
                     LineLayer(
                         id = "offline-region-${region.name}",
                         source = outlineSource,
-                        color = const(region.status.outlineColor()),
+                        color = const(region.status.outlineColor(overlayColors)),
                         width = const(2.dp),
                     )
                 }
@@ -108,8 +106,8 @@ fun RegionPickerMap(
     }
 }
 
-private fun OfflineRegionStatus.outlineColor(): Color = when (this) {
-    OfflineRegionStatus.COMPLETE -> REGION_OUTLINE_COMPLETE
-    OfflineRegionStatus.DOWNLOADING, OfflineRegionStatus.PAUSED -> REGION_OUTLINE_IN_PROGRESS
-    OfflineRegionStatus.ERROR -> REGION_OUTLINE_ERROR
+private fun OfflineRegionStatus.outlineColor(colors: MapOverlayColors): Color = when (this) {
+    OfflineRegionStatus.COMPLETE -> colors.track
+    OfflineRegionStatus.DOWNLOADING, OfflineRegionStatus.PAUSED -> colors.currentLocation
+    OfflineRegionStatus.ERROR -> colors.error
 }

@@ -57,12 +57,9 @@ data class MapMarker(
     val icon: CategoryIconSource? = null,
 )
 
-private val TRACK_COLOR = Color(0xFF1B4332)
-private val CURRENT_LOCATION_COLOR = Color(0xFF2196F3)
 // Amber — the one hue not already claimed by the map: track is dark green, the location dot is
 // blue, OpenFreeMap's forest/terrain fill is green/tan, and mushroom marker colors vary by
 // category but skew toward browns/reds. Amber reads as a temporary guide, not a recorded feature.
-private val NAVIGATION_LINE_COLOR = Color(0xFFFF8F00)
 private val NAVIGATION_LINE_DASH = listOf(2f, 2f)
 private const val DEFAULT_ZOOM = 15.0
 
@@ -123,6 +120,8 @@ fun LiveTrackMap(
     bannerAlignment: Alignment = Alignment.TopCenter,
     bannerPadding: PaddingValues = PaddingValues(16.dp),
 ) {
+    val overlayColors = rememberMapOverlayColors()
+
     val historyPoints = remember(track, markers, places) {
         track.map { it.lat to it.lon } + markers.map { it.lat to it.lon } + places.map { it.lat to it.lon }
     }
@@ -237,7 +236,7 @@ fun LiveTrackMap(
                 LineLayer(
                     id = "historical-tracks",
                     source = historicalTracksSource,
-                    color = const(TRACK_COLOR),
+                    color = const(overlayColors.track),
                     width = const(2.dp),
                     opacity = const(0.45f),
                 )
@@ -253,7 +252,7 @@ fun LiveTrackMap(
                 val trackSource = rememberGeoJsonSource(
                     GeoJsonData.Features(LineString(track.map { Position(it.lon, it.lat) })),
                 )
-                LineLayer(id = "track-line", source = trackSource, color = const(TRACK_COLOR), width = const(4.dp))
+                LineLayer(id = "track-line", source = trackSource, color = const(overlayColors.track), width = const(4.dp))
             }
 
             if (currentLocation != null && navigationTargetLat != null && navigationTargetLon != null) {
@@ -270,7 +269,7 @@ fun LiveTrackMap(
                 LineLayer(
                     id = "navigation-line",
                     source = navigationLineSource,
-                    color = const(NAVIGATION_LINE_COLOR),
+                    color = const(overlayColors.navigationLine),
                     width = const(3.dp),
                     dasharray = const(NAVIGATION_LINE_DASH),
                 )
@@ -317,7 +316,7 @@ fun LiveTrackMap(
                 CircleLayer(
                     id = "current-location",
                     source = currentLocationSource,
-                    color = const(CURRENT_LOCATION_COLOR),
+                    color = const(overlayColors.currentLocation),
                     radius = const(7.dp),
                     strokeColor = const(Color.White),
                     strokeWidth = const(2.dp),

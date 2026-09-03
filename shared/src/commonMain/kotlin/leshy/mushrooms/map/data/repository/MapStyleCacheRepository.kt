@@ -3,6 +3,7 @@ package leshy.mushrooms.map.data.repository
 import leshy.mushrooms.map.data.platform.HttpTextFetcher
 import leshy.mushrooms.map.data.platform.MapStyleStorage
 import leshy.mushrooms.map.data.platform.PinnedStyleInterceptor
+import leshy.mushrooms.map.data.style.darkenMapStyle
 import leshy.mushrooms.map.data.style.freezeStyleTileSources
 import leshy.mushrooms.map.data.style.localizeMapStyle
 import leshy.mushrooms.map.data.style.styleHasUnfrozenTileSources
@@ -70,6 +71,7 @@ class MapStyleCacheRepository(
      * change, and the only thing a refresh ever compares against. */
     private val pinnedRawJson = MutableStateFlow<String?>(null)
     private val labelLanguage = MutableStateFlow(AppLanguage.EN)
+    private val darkTheme = MutableStateFlow(false)
 
     /** Loads any already-pinned copy from disk; on the very first ever launch (no pinned copy
      * yet), fetches once from the network so every subsequent screen visit uses the frozen local
@@ -128,12 +130,28 @@ class MapStyleCacheRepository(
      *
      * Also re-arms [PinnedStyleInterceptor], so the native SDK — the offline downloader and both
      * platforms' archive-thumbnail snapshotters, which can only take a style URL — resolves
-     * [OPEN_FREE_MAP_STYLE_URL] to the same localized bytes the live map is rendering.
+     * [OPEN_FREE_MAP_STYLE_URL] to bytes localized the same way. Those bytes are always the LIGHT
+     * ones, even in dark theme — see [publish] for why.
      */
     suspend fun setLabelLanguage(language: AppLanguage) {
         if (labelLanguage.value == language) return
         labelLanguage.value = language
         // Nothing pinned yet: ensureLoaded() will publish under this language on its own.
+        val raw = pinnedRawJson.value ?: return
+        withContext(Dispatchers.Default) { publish(raw) }
+    }
+
+    /**
+     * Switches the live map between the light pinned style and its dark repaint — called from
+     * `App()` whenever the resolved theme changes (and once at startup). Rides on top of the pin
+     * exactly like [setLabelLanguage] does, and for the same reason it is safe: [darkenMapStyle]
+     * rewrites `paint` colours only, so not one URL — tile template, sprite or glyphs — differs
+     * between the two themes. **Switching the theme therefore never invalidates a downloaded
+     * offline region**, and needs no second pinned style.
+     */
+    suspend fun setDarkTheme(dark: Boolean) {
+        if (darkTheme.value == dark) return
+        darkTheme.value = dark
         val raw = pinnedRawJson.value ?: return
         withContext(Dispatchers.Default) { publish(raw) }
     }
@@ -157,10 +175,21 @@ class MapStyleCacheRepository(
         runCatching { fileSystem.write(stylePath) { writeUtf8(frozen) } }.onSuccess { publish(frozen) }
     }
 
+    /**
+     * The interceptor is deliberately fed the LIGHT bytes even in dark theme, while only the live
+     * map gets the repaint. Two reasons, both load-bearing:
+     *
+     * - The interceptor is what the archive-thumbnail snapshotters resolve through, and walk
+     *   thumbnails are rendered once at finish and then cached as PNGs forever — a theme switch
+     *   cannot go back and repaint the ones already on disk. Pinning them to light keeps the
+     *   Archive uniform instead of striping it by whichever theme was on that day.
+     * - It is also what the offline downloader reads, and since [darkenMapStyle] changes no URL,
+     *   the resource set is identical either way — there is nothing for a dark variant to add.
+     */
     private fun publish(rawStyleJson: String) {
         pinnedRawJson.value = rawStyleJson
         val localized = localizeMapStyle(rawStyleJson, labelLanguage.value)
-        _baseStyle.value = BaseStyle.Json(localized)
+        _baseStyle.value = BaseStyle.Json(if (darkTheme.value) darkenMapStyle(localized) else localized)
         pinnedStyleInterceptor.setPinnedStyle(localized)
     }
 
