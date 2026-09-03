@@ -57,8 +57,13 @@ private const val FIND_DOT_RADIUS_FRACTION = 6f / 240f
  * Белая, потому что снимок всегда светлый: тайлы берутся по [OPEN_FREE_MAP_STYLE_URL] — светлому
  * стилю — независимо от темы приложения (снимок рисуется один раз, на «Финише», и переключение
  * темы его не перерисовывает, см. `MapStyleCacheRepository`).
+ *
+ * Доля радиуса, а не диаметра, и обводка идёт по самой окружности, а не снаружи неё, — то есть
+ * половина её толщины съедает край заливки. При первой попытке здесь стояло 0.4, и владелец на
+ * устройстве увидел ровно то, что из этих чисел и следует: обводка занимала больше места, чем сама
+ * точка. Нужна тонкая линия, только чтобы разделить соседние кружки, а не ореол вокруг каждого.
  */
-private const val FIND_DOT_OUTLINE_FRACTION = 0.4f
+private const val FIND_DOT_OUTLINE_FRACTION = 0.15f
 private const val FIND_DOT_OUTLINE_COLOR = "#FFFFFF"
 
 private const val ROUTE_COLOR = "#1B4332" // LeshyGreen, ui/theme/Theme.kt — not reachable from here.

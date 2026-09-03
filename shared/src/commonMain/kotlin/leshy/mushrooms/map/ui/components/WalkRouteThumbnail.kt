@@ -26,7 +26,7 @@ private const val MIN_SPAN_DEGREES = 0.0003
 private const val MIN_LON_SCALE = 0.15
 
 /** Доля радиуса точки, уходящая в обводку, — та же, что у снимков с тайлами. */
-private const val FIND_DOT_OUTLINE_FRACTION = 0.4f
+private const val FIND_DOT_OUTLINE_FRACTION = 0.15f
 
 /**
  * A small, static, offline route silhouette for archive list cards — Strava-style thumbnail,

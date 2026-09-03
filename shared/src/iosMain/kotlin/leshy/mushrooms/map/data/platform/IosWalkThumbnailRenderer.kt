@@ -56,7 +56,7 @@ private const val FIND_DOT_RADIUS_FRACTION = 4.0 / 240.0
  * `AndroidWalkThumbnailRenderer`, у одноимённой константы; здесь то же самое и теми же числами:
  * это одна картинка, которая обязана выглядеть одинаково на обеих платформах.
  */
-private const val FIND_DOT_OUTLINE_FRACTION = 0.4
+private const val FIND_DOT_OUTLINE_FRACTION = 0.15
 
 private const val ROUTE_RED = 0x1B / 255.0
 private const val ROUTE_GREEN = 0x43 / 255.0
