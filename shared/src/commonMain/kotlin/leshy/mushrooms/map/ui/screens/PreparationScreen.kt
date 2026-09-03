@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Delete
@@ -30,6 +31,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -79,6 +81,17 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     val coroutineScope = rememberCoroutineScope()
     val density = LocalDensity.current
     var isSelectingArea by remember { mutableStateOf(false) }
+    val regionStripState = rememberLazyListState()
+    // Имя самого нового участка — по нему и узнаётся, что появился ещё один. Не размер списка:
+    // он меняется и при удалении, а прокручивать ленту в ответ на удаление незачем.
+    val newestRegionName = uiState.regions.lastOrNull()?.name
+    // Новый участок встаёт САМОЙ ЛЕВОЙ плашкой (лента идёт от новых к старым), а `LazyRow` при
+    // вставке в начало держится за то, что видно сейчас, — то есть новая плашка оказывается за
+    // левым краем экрана, и человек, только что нажавший «Скачать эту область», не видит никакого
+    // ответа на своё нажатие. Прокрутка к началу и есть этот ответ.
+    LaunchedEffect(newestRegionName) {
+        if (newestRegionName != null) regionStripState.animateScrollToItem(0)
+    }
     // The usable area's measured size — everything above the bottom strip, whatever that strip's
     // current content happens to need. Tracked via onSizeChanged rather than BoxWithConstraints
     // because the bounds math below (the live estimate, the confirm button) needs it from sibling
@@ -171,6 +184,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                     }
                 } else if (uiState.regions.isNotEmpty()) {
                     LazyRow(
+                        state = regionStripState,
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(MaterialTheme.colorScheme.surface.copy(alpha = STRIP_BACKGROUND_ALPHA)),
