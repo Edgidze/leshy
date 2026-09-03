@@ -7,12 +7,18 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
 /**
- * Перекрашивает запиненный светлый стиль OpenFreeMap («liberty») в тёмный, НЕ трогая ничего,
- * кроме цветов: `sources`, `sprite`, `glyphs`, фильтры и `layout` остаются байт-в-байт. Это
- * ровно то же свойство, на котором держится [localizeMapStyle], и по той же причине оно здесь
+ * Перекрашивает запиненный светлый стиль OpenFreeMap («liberty») в тёмный. Правится только блок
+ * `paint` каждого слоя; `sources`, `sprite`, `glyphs`, фильтры и `layout` остаются байт-в-байт.
+ * Это ровно то же свойство, на котором держится [localizeMapStyle], и по той же причине оно здесь
  * критично: ни один URL не меняется, поэтому тайлы, спрайты и шрифты у светлой и тёмной темы
  * общие — **переключение темы не инвалидирует ни одного скачанного офлайн-участка** и не требует
- * второго запиненного стиля.
+ * второго запиненного стиля. (Снятый [DARK_PATTERN_FILLS] `fill-pattern` — это ИМЯ значка внутри
+ * спрайта, а не адрес: сам спрайт по-прежнему тот же и качается целиком, как и раньше.)
+ *
+ * Правок три вида, и цветом дело не ограничивается — см. [DARK_PAINT_COLORS] (123 цвета),
+ * [DARK_PATTERN_FILLS] (заливки картинкой из спрайта) и [DARK_NUMERIC_PAINT] (растровый рельеф и
+ * непрозрачность светлых значков). Первая версия умела только цвета, и всё, что рисуется не
+ * цветом, осталось тогда светлым — болота бросились в глаза первыми же.
  *
  * **Почему таблица, а не формула.** Палитра снята с готового тёмного стиля
  * `tiles.openfreemap.org/styles/dark` (форк openmaptiles/dark-matter) и наложена на структуру
@@ -38,10 +44,26 @@ fun darkenMapStyle(styleJson: String): String =
 
 private fun darkenLayer(layer: JsonElement): JsonElement {
     val obj = layer as? JsonObject ?: return layer
-    val paint = obj["paint"] as? JsonObject ?: return layer
-    val overrides = DARK_PAINT_COLORS[(obj["id"] as? JsonPrimitive)?.contentOrNullSafe()]
-    val repainted = paint.mapValues { (property, value) ->
+    val id = (obj["id"] as? JsonPrimitive)?.contentOrNullSafe()
+    val numeric = DARK_NUMERIC_PAINT[id]
+    // Слой без блока `paint` вовсе — так заданы три слоя дорожных щитов, они рисуются одним
+    // значком из спрайта и больше ничем. Пропустить их нельзя: гасить блеск значка всё равно надо,
+    // а `paint` для этого приходится завести с нуля.
+    val paint = obj["paint"] as? JsonObject ?: if (numeric == null) return layer else JsonObject(emptyMap())
+    val overrides = DARK_PAINT_COLORS[id]
+    var repainted = paint.mapValues { (property, value) ->
         if (!property.endsWith("-color")) value else recolor(value, overrides?.get(property))
+    }
+    // Заливка спрайтовой картинкой вместо цвета: `fill-pattern` приоритетнее `fill-color`, поэтому
+    // его именно УБИРАЮТ, а не дополняют — иначе подставленный цвет не будет виден вовсе.
+    DARK_PATTERN_FILLS[id]?.let { replacement ->
+        // Через тот же разбор, что и остальные цвета, — чтобы на выходе стиля цвет был ровно одной
+        // формы (`rgba(...)`), независимо от того, заменён он или подставлен.
+        val fill = parseCssColor(replacement)?.toCssRgba() ?: replacement
+        repainted = repainted - "fill-pattern" + ("fill-color" to JsonPrimitive(fill))
+    }
+    numeric?.forEach { (property, value) ->
+        repainted = repainted + (property to JsonPrimitive(value))
     }
     return JsonObject(obj + ("paint" to JsonObject(repainted)))
 }
@@ -149,6 +171,49 @@ private fun parseCssColor(raw: String): Rgba? {
     }
     return null
 }
+
+/**
+ * Слои, которые в светлой теме рисуются не цветом, а картинкой из спрайта (`fill-pattern`), и
+ * потому проходили мимо [DARK_PAINT_COLORS] целиком: болота (`wetland_bg_11`) и пешеходные зоны
+ * (`pedestrian_polygon`). Обе картинки светлые — средняя яркость 211 и 228 из 255 при почти
+ * сплошном заполнении, — так что на тёмной карте они оставались слепящими пятнами. Перекрасить
+ * картинку нечем: `icon-color`/`fill-color` действуют только на SDF-спрайты, а в спрайте
+ * OpenFreeMap SDF нет ни одного из 264 значков. Поэтому паттерн в тёмной теме снимается, а на его
+ * место встаёт обычная заливка.
+ *
+ * Болото — коричневатое и лишь немного светлее леса, как и просил владелец проекта: 1.43:1 к фону
+ * против 1.31:1 у леса (прежняя картинка тянула на 8:1).
+ */
+private val DARK_PATTERN_FILLS: Map<String, String> = mapOf(
+    "landcover_wetland" to "#3f3427",
+    "road_area_pattern" to "#242424",
+)
+
+/**
+ * Числовые правки для того, что не красится цветом вообще.
+ *
+ * `natural_earth` — растровый слой отмывки рельефа (Natural Earth), у него нет НИ ОДНОГО свойства
+ * цвета, только `raster-opacity`, поэтому он единственный оставался ровно таким же светлым, как в
+ * светлой теме. Виден он на мелком зуме (его `raster-opacity` падает с 0.6 на z0 до 0.1 к z6);
+ * `raster-brightness-max` прижимает самые светлые пиксели снимка к четверти яркости, `saturation`
+ * убирает бежевый оттенок — рельеф остаётся, свечение уходит.
+ *
+ * Остальное — светлые значки спрайта: POI рисуются белыми «таблетками» (у `restaurant_11` 99
+ * пикселей чистого белого из 289), щиты дорог — белые на 100% площади. Их тоже не перекрасить,
+ * поэтому им сбавляется непрозрачность: белое пятно шло к фону как 21:1, с 0.55 выходит ~6:1 —
+ * значок читается, но перестаёт быть самым ярким объектом на экране.
+ */
+private val DARK_NUMERIC_PAINT: Map<String, Map<String, Double>> = mapOf(
+    "natural_earth" to mapOf("raster-brightness-max" to 0.25, "raster-saturation" to -0.4),
+    "poi_r1" to mapOf("icon-opacity" to 0.55),
+    "poi_r7" to mapOf("icon-opacity" to 0.55),
+    "poi_r20" to mapOf("icon-opacity" to 0.55),
+    "poi_transit" to mapOf("icon-opacity" to 0.55),
+    "airport" to mapOf("icon-opacity" to 0.55),
+    "highway-shield-non-us" to mapOf("icon-opacity" to 0.55),
+    "highway-shield-us-interstate" to mapOf("icon-opacity" to 0.55),
+    "road_shield_us" to mapOf("icon-opacity" to 0.55),
+)
 
 /**
  * Тёмный цвет для каждого цветового свойства каждого слоя liberty — 123 значения на 103 слоя,

@@ -28,7 +28,15 @@ private val STYLE = """
     { "id": "label_city", "type": "symbol", "source-layer": "place",
       "paint": { "text-color": "#000", "text-halo-color": "#fff", "text-halo-width": 1 } },
     { "id": "some_future_layer", "type": "fill", "source-layer": "landuse",
-      "paint": { "fill-color": "#eeeeee" } }
+      "paint": { "fill-color": "#eeeeee" } },
+    { "id": "natural_earth", "type": "raster", "source": "ne2_shaded",
+      "paint": { "raster-opacity": ["interpolate", ["exponential", 1.5], ["zoom"], 0, 0.6, 6, 0.1] } },
+    { "id": "landcover_wetland", "type": "fill", "source-layer": "landcover", "minzoom": 12,
+      "paint": { "fill-antialias": true, "fill-opacity": 0.8, "fill-pattern": "wetland_bg_11", "fill-translate-anchor": "map" } },
+    { "id": "poi_r1", "type": "symbol", "source-layer": "poi",
+      "layout": { "icon-image": "restaurant_11" }, "paint": { "text-color": "#666", "text-halo-color": "#ffffff" } },
+    { "id": "road_shield_us", "type": "symbol", "source-layer": "transportation_name",
+      "layout": { "icon-image": ["concat", ["get", "network"], "_", ["get", "ref_length"]] } }
   ]
 }
 """.trimIndent()
@@ -121,6 +129,56 @@ class MapStyleDarkenerTest {
         val fill = paintOf(darkenMapStyle(STYLE), "some_future_layer")["fill-color"]!!.jsonPrimitive.content
 
         assertTrue(isDark(fill), fill)
+    }
+
+    /** Болота рисуются картинкой `wetland_bg_11` (средняя яркость 211 из 255) и не имеют ни одного
+     * свойства цвета — первая версия трансформера проходила мимо них, и на тёмной карте они
+     * остались слепящими пятнами. `fill-pattern` приоритетнее `fill-color`, поэтому проверяется
+     * именно то, что он СНЯТ, а не просто дополнен цветом. */
+    @Test
+    fun replacesTheSpritePatternOfWetlandsWithAPlainFill() {
+        val paint = paintOf(darkenMapStyle(STYLE), "landcover_wetland")
+
+        assertEquals(null, paint["fill-pattern"])
+        val fill = paint["fill-color"]!!.jsonPrimitive.content
+        assertTrue(isDark(fill), fill)
+        // Слегка светлее леса и с коричневым уклоном — красный канал выше синего.
+        val (r, _, b) = channels(fill)
+        assertTrue(r > b, fill)
+        // `fill-opacity` — часть замысла слоя, снятие паттерна не должно её задеть.
+        assertEquals("0.8", paint["fill-opacity"]!!.jsonPrimitive.content)
+    }
+
+    /** Растровая отмывка рельефа — единственный слой вообще без свойств цвета, гасится числами. */
+    @Test
+    fun dimsTheRasterReliefWhichHasNoColourPropertyAtAll() {
+        val paint = paintOf(darkenMapStyle(STYLE), "natural_earth")
+
+        assertEquals(0.25, paint["raster-brightness-max"]!!.jsonPrimitive.content.toDouble())
+        assertEquals(-0.4, paint["raster-saturation"]!!.jsonPrimitive.content.toDouble())
+        // Собственный ramp прозрачности слоя не трогается.
+        assertTrue((paint["raster-opacity"] as JsonArray).size > 1)
+    }
+
+    /** Значки POI — белые «таблетки», а перекрасить их нечем: в спрайте OpenFreeMap нет ни одного
+     * SDF-значка. Остаётся сбавить непрозрачность. */
+    @Test
+    fun dimsLightSpriteIconsInsteadOfRecolouringThemBecauseNoneAreSdf() {
+        val paint = paintOf(darkenMapStyle(STYLE), "poi_r1")
+
+        assertEquals(0.55, paint["icon-opacity"]!!.jsonPrimitive.content.toDouble())
+        // Сам значок остаётся тем же — меняется только его подача.
+        assertTrue(isDark(paint["text-halo-color"]!!.jsonPrimitive.content))
+    }
+
+    /** Три слоя дорожных щитов в liberty не имеют блока `paint` ВООБЩЕ — они рисуются одним
+     * значком из спрайта и больше ничем. Ранний выход «нет paint — нечего красить» молча оставлял
+     * их белые щиты (яркость 221–230 при сплошном заполнении) нетронутыми. */
+    @Test
+    fun addsPaintToALayerThatHadNoPaintBlockAtAll() {
+        val paint = paintOf(darkenMapStyle(STYLE), "road_shield_us")
+
+        assertEquals(0.55, paint["icon-opacity"]!!.jsonPrimitive.content.toDouble())
     }
 
     @Test
