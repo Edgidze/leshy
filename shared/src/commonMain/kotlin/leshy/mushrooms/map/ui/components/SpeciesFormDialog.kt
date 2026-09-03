@@ -23,7 +23,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -60,6 +59,7 @@ import leshy.mushrooms.map.domain.model.CategorySource
 import leshy.mushrooms.map.domain.repository.CategoryRepository
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.util.colorToHex
 import leshy.mushrooms.map.ui.util.hueOf
 import leshy.mushrooms.map.ui.util.parseHexColor
@@ -356,7 +356,7 @@ fun SpeciesFormDialog(
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
-                Button(
+                LeshyButton(
                     onClick = {
                         onSave(name.trim(), scientificName.trim().ifBlank { null }, colorHex, pendingIconBytes)
                         onDismissRequest()

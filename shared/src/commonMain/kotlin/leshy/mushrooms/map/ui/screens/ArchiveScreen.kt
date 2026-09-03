@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +33,7 @@ import androidx.compose.ui.window.DialogProperties
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.archive.ArchiveViewModel
+import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.WalkCard
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -78,7 +78,7 @@ fun ArchiveScreen(
         // Outside the LazyColumn so it stays pinned at the top of the screen while the list
         // beneath it scrolls.
         if (uiState.isSelectionMode) {
-            Button(
+            LeshyButton(
                 onClick = viewModel::onDeleteClick,
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),

@@ -13,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -47,6 +46,7 @@ import leshy.mushrooms.map.i18n.regionsUnitLabel
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.settings.SettingsViewModel
 import leshy.mushrooms.map.ui.components.CategoryIcon
+import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.map.MUSHROOM_MARKER_BASE_SIZE
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -112,7 +112,7 @@ fun SettingsScreen(
         )
 
         SettingsSectionTitle(stringResource(StringKey.SettingsMapDataTitle))
-        Button(
+        LeshyButton(
             onClick = viewModel::onUpdateMapDataClick,
             enabled = !uiState.isRefreshingMapData,
             modifier = Modifier.padding(top = 8.dp),
@@ -143,7 +143,7 @@ fun SettingsScreen(
             )
         }
 
-        Button(
+        LeshyButton(
             onClick = viewModel::onClearMapCacheClick,
             enabled = !uiState.isClearingMapCache,
             modifier = Modifier.padding(top = 16.dp),

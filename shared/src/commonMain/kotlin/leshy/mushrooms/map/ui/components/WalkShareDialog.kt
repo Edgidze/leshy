@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -63,6 +62,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.categoryDisplayName
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.archive.CategoryCount
+import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.map.LocalMushroomMarkerSizeScale
 import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDurationLabeled
@@ -322,7 +322,7 @@ fun WalkShareDialog(
                     OutlinedButton(onClick = onDismiss, enabled = !isPreparing) {
                         Text(stringResource(StringKey.WalkShareCancelButton))
                     }
-                    Button(
+                    LeshyButton(
                         modifier = Modifier.padding(start = 12.dp),
                         enabled = !isPreparing && !isMapLoading,
                         onClick = {

@@ -15,7 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +29,7 @@ import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.onboarding.OnboardingStep
 import leshy.mushrooms.map.presentation.onboarding.OnboardingViewModel
 import leshy.mushrooms.map.ui.components.CollectionPicker
+import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MushroomImageDisclaimerBanner
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -84,7 +84,7 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
             onToggleCategory = viewModel::setCategoryPicked,
             modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
         )
-        Button(onClick = viewModel::finish, modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
+        LeshyButton(onClick = viewModel::finish, modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
             Text(stringResource(StringKey.OnboardingContinueButton))
         }
     }

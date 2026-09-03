@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.FileOpen
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -37,6 +36,7 @@ import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.data.DataMode
 import leshy.mushrooms.map.presentation.data.DataUiState
 import leshy.mushrooms.map.presentation.data.DataViewModel
+import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.WalksPickerDialog
 import leshy.mushrooms.map.ui.components.walksSelectedButtonLabel
 import org.koin.compose.viewmodel.koinViewModel
@@ -105,7 +105,7 @@ fun DataScreen(
                 Text(stringResource(StringKey.DataCancelButton))
             }
             val importDone = uiState.mode == DataMode.IMPORT && uiState.importResult != null
-            Button(
+            LeshyButton(
                 onClick = {
                     when {
                         uiState.mode == DataMode.EXPORT -> startExport()

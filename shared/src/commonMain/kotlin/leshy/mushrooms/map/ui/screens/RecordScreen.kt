@@ -37,7 +37,6 @@ import androidx.compose.material.icons.filled.AddLocationAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -94,6 +93,7 @@ import leshy.mushrooms.map.presentation.record.NavigationOverlayState
 import leshy.mushrooms.map.ui.components.AddPlaceDialog
 import leshy.mushrooms.map.ui.components.AddSpeciesTile
 import leshy.mushrooms.map.ui.components.DeletePlaceConfirmDialog
+import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MapFilterButton
 import leshy.mushrooms.map.ui.components.MapFilterDialog
 import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
@@ -638,7 +638,7 @@ private fun RecordScreenContent(
                                     enabled = false,
                                     modifier = Modifier.weight(1f).fillMaxWidth(),
                                 )
-                                Button(
+                                LeshyButton(
                                     onClick = { showNameDialog = true },
                                     shape = ACTION_BUTTON_SHAPE,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(centerButtonWidth),
@@ -659,7 +659,7 @@ private fun RecordScreenContent(
                                     onClick = onMarkLocationClick,
                                     modifier = Modifier.weight(1f).fillMaxWidth(),
                                 )
-                                Button(
+                                LeshyButton(
                                     onClick = onPauseOrResumeClick,
                                     shape = ACTION_BUTTON_SHAPE,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(centerButtonWidth),
@@ -674,7 +674,7 @@ private fun RecordScreenContent(
                                 )
                             }
                             else -> {
-                                Button(
+                                LeshyButton(
                                     onClick = onPauseOrResumeClick,
                                     shape = ACTION_BUTTON_SHAPE,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
@@ -682,7 +682,7 @@ private fun RecordScreenContent(
                                     Text(stringResource(StringKey.RecordResume))
                                 }
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Button(
+                                LeshyButton(
                                     onClick = onFinishClick,
                                     shape = ACTION_BUTTON_SHAPE,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),

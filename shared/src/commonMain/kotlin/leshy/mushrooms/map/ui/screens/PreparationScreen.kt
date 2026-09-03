@@ -20,7 +20,6 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -54,6 +53,7 @@ import leshy.mushrooms.map.domain.util.estimateOfflineRegion
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.preparation.PreparationViewModel
+import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.map.RegionPickerMap
 import leshy.mushrooms.map.ui.util.formatKilometersExtent
 import leshy.mushrooms.map.ui.util.formatMegabytes
@@ -156,9 +156,9 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                             ) {
                                 Text(stringResource(StringKey.PreparationCancelButton))
                             }
-                            Button(
+                            LeshyButton(
                                 onClick = {
-                                    val currentProjection = cameraState.projection ?: return@Button
+                                    val currentProjection = cameraState.projection ?: return@LeshyButton
                                     val bounds = visibleBoundsFromScreen(currentProjection, usableWidth, usableHeight)
                                     viewModel.onAreaSelected(bounds.west, bounds.south, bounds.east, bounds.north)
                                     isSelectingArea = false

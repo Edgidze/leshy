@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,6 +38,7 @@ import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.species.SpeciesViewModel
 import leshy.mushrooms.map.ui.components.CategoryIcon
 import leshy.mushrooms.map.ui.components.CollectionPicker
+import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MushroomImageDisclaimerBanner
 import leshy.mushrooms.map.ui.components.SpeciesFormDialog
 import org.koin.compose.viewmodel.koinViewModel
@@ -82,7 +82,7 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
             }
         }
 
-        Button(
+        LeshyButton(
             onClick = { showCreateDialog = true },
             modifier = Modifier.padding(top = 8.dp),
         ) {
