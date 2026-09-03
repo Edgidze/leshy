@@ -48,6 +48,23 @@ private const val MIN_BOUNDS_SPAN_DEGREES = 0.0015
  * платформы к одному числу здесь значило бы заодно менять внешность iOS-снимка, ни разу её не
  * увидев. Сводить — отдельной задачей и с картинками обеих платформ перед глазами.
  */
+/**
+ * Поля вокруг маршрута, долей его собственного охвата по каждой оси.
+ *
+ * У `MLNMapSnapshotOptions` нет параметра полей — в отличие от андроидного `MapSnapshotter.Options
+ * .withPadding`, — поэтому поля здесь делаются единственным доступным способом: раздутием самих
+ * границ до передачи их снапшоттеру. Без этого их не было вовсе, и маршрут вписывался впритык к
+ * рамке: крайняя точка находки оказывалась ровно на краю и срезалась им пополам (снимок экрана
+ * владельца, iPhone SE, 3 сентября). На квадратной миниатюре 120dp это терялось, на заставке во
+ * всю ширину стало видно сразу.
+ *
+ * Число не совпадает с андроидной долей и не должно: там доля берётся от РАЗМЕРА КАДРА, здесь — от
+ * ОХВАТА МАРШРУТА, а маршрут после вписывания занимает кадр целиком. Чтобы на глаз вышло то же
+ * поле в десятую долю кадра, охват надо раздуть на m с каждой стороны так, что m/(1+2m) = 0.1,
+ * откуда m = 0.125.
+ */
+private const val BOUNDS_MARGIN_FRACTION = 0.125
+
 private const val ROUTE_STROKE_FRACTION = 3.0 / 240.0
 private const val FIND_DOT_RADIUS_FRACTION = 4.0 / 240.0
 
@@ -121,9 +138,11 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
                 maxLon = centerLon + MIN_BOUNDS_SPAN_DEGREES / 2
             }
 
+            val latMargin = (maxLat - minLat) * BOUNDS_MARGIN_FRACTION
+            val lonMargin = (maxLon - minLon) * BOUNDS_MARGIN_FRACTION
             val bounds = MLNCoordinateBoundsMake(
-                CLLocationCoordinate2DMake(minLat, minLon),
-                CLLocationCoordinate2DMake(maxLat, maxLon),
+                CLLocationCoordinate2DMake((minLat - latMargin).coerceAtLeast(-90.0), minLon - lonMargin),
+                CLLocationCoordinate2DMake((maxLat + latMargin).coerceAtMost(90.0), maxLon + lonMargin),
             )
 
             val options = MLNMapSnapshotOptions(

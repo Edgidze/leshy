@@ -12,6 +12,7 @@ import android.graphics.Rect
 import android.util.Log
 import leshy.mushrooms.map.domain.model.GeoPoint
 import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL
+import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -27,7 +28,16 @@ import kotlin.coroutines.resume
 
 private const val LOG_TAG = "WalkThumbnailRenderer"
 
-private const val SNAPSHOT_PADDING_PX = 24
+/**
+ * Поля вокруг маршрута — долей меньшей стороны снимка, не пикселями.
+ *
+ * Пикселями они и были (24) — при единственном тогда размере снимка 240×240, то есть десятой его
+ * доли. Когда снимок вырос до 960×540, те же 24 пикселя стали сороковой долей, и маршрут поехал
+ * впритык к рамке: крайняя точка находки (её радиус ровно 24 пикселя и есть) касалась края, а на
+ * заставке во всю ширину это читается как обрезанный маршрут. Доля взята прежняя, поэтому поля
+ * выглядят так же, как выглядели на снимке 240×240.
+ */
+private const val SNAPSHOT_PADDING_FRACTION = 24f / 240f
 
 // A degenerate (near-zero-span) region — e.g. a walk that barely moved from its start point —
 // would zoom the snapshot in absurdly far; pad it out to a reasonable minimum span instead.
@@ -121,10 +131,13 @@ class AndroidWalkThumbnailRenderer(
                 (track + findLocations + listOfNotNull(anchor)).forEach { boundsBuilder.include(LatLng(it.lat, it.lon)) }
                 val region = padIfDegenerate(boundsBuilder.build())
 
+                // По меньшей стороне: поле обязано быть заметным на той оси, которая и определяет
+                // вписывание, а это всегда более тесная из двух.
+                val padding = (minOf(widthPx, heightPx) * SNAPSHOT_PADDING_FRACTION).roundToInt()
                 val options = MapSnapshotter.Options(widthPx, heightPx)
                     .withStyleBuilder(Style.Builder().fromUri(OPEN_FREE_MAP_STYLE_URL))
                     .withRegion(region)
-                    .withPadding(SNAPSHOT_PADDING_PX, SNAPSHOT_PADDING_PX, SNAPSHOT_PADDING_PX, SNAPSHOT_PADDING_PX)
+                    .withPadding(padding, padding, padding, padding)
 
                 val snapshotter = MapSnapshotter(context, options)
                 snapshotter.start(
