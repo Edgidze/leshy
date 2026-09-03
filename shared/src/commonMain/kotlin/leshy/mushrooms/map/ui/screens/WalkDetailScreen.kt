@@ -143,6 +143,10 @@ private val METRIC_ICON_SIZE = 28.dp
  * текста меряется по бесконечной ширине, то есть по одной строке, и двухстрочному значению её не
  * хватило бы. Раз при `maxLines = 2` содержимое выше этого числа не бывает, минимум оказывается и
  * максимумом — карточки выходят равными без общей высоты у ряда.
+ *
+ * Снизу, а не жёстко, — чтобы при крупном системном шрифте карточка росла вслед за содержимым, а
+ * не обрезала его. Тогда ряд снова может выйти ступенькой, но ступенька из трёх целых значений
+ * лучше трёх подрезанных.
  */
 private val METRIC_CARD_MIN_HEIGHT = 116.dp
 
@@ -538,13 +542,22 @@ private fun WalkMetricsRow(walk: Walk, findCount: Int) {
 @Composable
 private fun MetricCard(icon: Painter, label: String, value: String, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.heightIn(min = METRIC_CARD_MIN_HEIGHT),
+        modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp, horizontal = 6.dp),
+            // Наименьшая высота стоит на самой колонке, а не на карточке, как стояла раньше, — и
+            // только поэтому содержимое вообще можно отцентрировать по высоте. На карточке она
+            // растягивала карточку, а колонка внутри оставалась по своему содержимому и прижималась
+            // к верху: значение из одной строки висело выше значения из двух, хотя карточки были
+            // одной высоты. Теперь лишняя высота достаётся самой колонке, и распределять её внутри
+            // есть чему.
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = METRIC_CARD_MIN_HEIGHT)
+                .padding(vertical = 12.dp, horizontal = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(6.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
         ) {
             Icon(painter = icon, contentDescription = label, modifier = Modifier.size(METRIC_ICON_SIZE))
             Text(
