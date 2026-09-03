@@ -90,6 +90,18 @@
 - **Compose Multiplatform Resources не декодирует SVG на Android**
   (`painterResource` — только Skia, т.е. iOS/Desktop). Любой drawable-ресурс
   для показа в приложении — растеризовать в PNG/WebP заранее.
+- **iOS-тесты сейчас не линкуются вообще** (проверено 2026-09-03):
+  `:shared:linkDebugTestIosSimulatorArm64` падает на `Failed to build cache
+  for okio-fakefilesystem-iosSimulatorArm64`, а настоящая причина глубже —
+  `IrTypeAliasSymbolImpl is already bound. Signature: kotlinx.datetime/Clock`:
+  typealias `kotlinx.datetime.Clock` схлопывается с появившимся в stdlib
+  `kotlin.time.Clock` под Kotlin 2.4.0. Обход, который предлагает сам
+  компилятор (отключить нативные кеши), через `-Pkotlin.native.cacheKind=none`
+  не подхватывается — не пробовали через `gradle.properties`. Следствие:
+  `CatalogSourceTest` и `MushroomNamesTest` не выполняются НИГДЕ — на
+  `:shared:testAndroidHostTest` они падают с `android.util.Log not mocked`
+  (они рассчитаны на нативную цель), а нативная цель не собирается. Остальные
+  наборы `commonTest` на Android-хосте проходят.
 - **Полный `./gradlew build` может упасть `OutOfMemoryError`** при
   параллельной линковке `iosArm64`+`iosSimulatorArm64` вместе с запущенным
   Android-эмулятором — останови эмулятор и/или собирай с `--max-workers=1`.
