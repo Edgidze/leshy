@@ -3,9 +3,13 @@ package leshy.mushrooms.map.ui.components
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -16,6 +20,9 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.domain.model.GeoPoint
+import leshy.shared.generated.resources.Res
+import leshy.shared.generated.resources.ic_mushrooms
+import org.jetbrains.compose.resources.painterResource
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.max
@@ -37,13 +44,18 @@ private const val FIND_DOT_OUTLINE_FRACTION = 0.15f
  */
 @Composable
 fun WalkRouteThumbnail(track: List<GeoPoint>, findLocations: List<GeoPoint>, modifier: Modifier = Modifier) {
+    // Ни трека, ни находок — рисовать нечего в принципе, и раньше на этом месте оставался пустой
+    // прямоугольник. См. [NoGeodataThumbnail].
+    if (track.isEmpty() && findLocations.isEmpty()) {
+        NoGeodataThumbnail(modifier = modifier)
+        return
+    }
+
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant),
     ) {
-        if (track.size < 2) return@Box
-
         val trackColor = MaterialTheme.colorScheme.primary
         val findColor = MaterialTheme.colorScheme.error
         Canvas(modifier = Modifier.matchParentSize()) {
@@ -76,17 +88,26 @@ fun WalkRouteThumbnail(track: List<GeoPoint>, findLocations: List<GeoPoint>, mod
                 )
             }
 
-            val path = Path().apply {
-                track.forEachIndexed { index, point ->
-                    val offset = toOffset(point)
-                    if (index == 0) moveTo(offset.x, offset.y) else lineTo(offset.x, offset.y)
+            if (track.size >= 2) {
+                val path = Path().apply {
+                    track.forEachIndexed { index, point ->
+                        val offset = toOffset(point)
+                        if (index == 0) moveTo(offset.x, offset.y) else lineTo(offset.x, offset.y)
+                    }
+                }
+                drawPath(
+                    path = path,
+                    color = trackColor,
+                    style = Stroke(width = 2.5.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round),
+                )
+            } else {
+                // Одной точки на линию не хватает — тогда она отмечается кружком, как и в снимке с
+                // настоящими тайлами. Раньше здесь стоял выход из функции целиком, и прогулка с
+                // одним фиксом теряла заодно и точки находок, которые нарисовать было можно.
+                track.firstOrNull()?.let { point ->
+                    drawCircle(color = trackColor, radius = 3.dp.toPx(), center = toOffset(point))
                 }
             }
-            drawPath(
-                path = path,
-                color = trackColor,
-                style = Stroke(width = 2.5.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round),
-            )
 
             // Заливка и обводка каждой точки — вместе и в этом порядке, как в снимках с настоящими
             // тайлами (`AndroidWalkThumbnailRenderer`, константа FIND_DOT_OUTLINE_FRACTION — там же
@@ -104,5 +125,41 @@ fun WalkRouteThumbnail(track: List<GeoPoint>, findLocations: List<GeoPoint>, mod
                 )
             }
         }
+    }
+}
+
+/** Какую долю меньшей стороны поля занимает гриб. */
+private const val NO_GEODATA_GLYPH_FRACTION = 0.5f
+
+/**
+ * Место снимка у прогулки, от которой не осталось ни трека, ни координат находок, — то есть
+ * записанной там, где GPS так и не дал фикса.
+ *
+ * До этого на её месте оставался пустой прямоугольник цвета `surfaceVariant`: карточка выглядела
+ * недогруженной, хотя грузить было нечего. Гриб на фоне честнее — он говорит «прогулка есть,
+ * карты у неё нет», а не «картинка не пришла».
+ *
+ * Фон — `background`, тот же, что у экрана: поле сознательно не спорит с картинками соседних
+ * карточек, где лежит настоящая карта. Гриб — `onSurfaceVariant`: в светлой теме это и есть
+ * «тёмный глиф», а в тёмной он светлеет вместе со всем остальным, иначе его не было бы видно.
+ *
+ * Размер задан явно и от меньшей стороны: композабл стоит и в миниатюре архива (квадрат 120dp), и
+ * заставкой во всю ширину экрана детализации (16:9), а растровому значку размер надо задавать
+ * всегда — своего он не имеет (см. корневой `CLAUDE.md`).
+ */
+@Composable
+private fun NoGeodataThumbnail(modifier: Modifier = Modifier) {
+    BoxWithConstraints(
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            painter = painterResource(Res.drawable.ic_mushrooms),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(minOf(maxWidth, maxHeight) * NO_GEODATA_GLYPH_FRACTION),
+        )
     }
 }

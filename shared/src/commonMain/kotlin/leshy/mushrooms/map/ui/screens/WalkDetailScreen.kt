@@ -442,11 +442,17 @@ private fun WalkHeading(walk: Walk, onEditClick: () -> Unit) {
  * Вся заставка — кнопка на полный экран карты. Прежняя `OutlinedButton` внизу экрана этим не
  * подменена молча: подпись с тем же текстом стоит на самой заставке, иначе нажимаемость картинки
  * ничем бы не выдавалась.
+ *
+ * **У прогулки без геоданных заставка не кнопка и подписи не несёт.** Прогулка, записанная там,
+ * где GPS так и не дал фикса, не имеет ни трека, ни координат находок — показывать на полном
+ * экране карты нечего, и «Смотреть карту» вело бы на пустую карту. Вместо снимка там стоит гриб
+ * на фоне (см. [WalkRouteThumbnail]), и нажимать на него не на что.
  */
 @Composable
 private fun WalkHero(walk: Walk, track: List<GeoPoint>, findLocations: List<GeoPoint>, onClick: () -> Unit) {
     var loadFailed by remember(walk.thumbnailPath) { mutableStateOf(false) }
     val thumbnailPath = walk.thumbnailPath
+    val hasGeodata = track.isNotEmpty() || findLocations.isNotEmpty()
 
     Box(
         modifier = Modifier
@@ -454,7 +460,7 @@ private fun WalkHero(walk: Walk, track: List<GeoPoint>, findLocations: List<GeoP
             .aspectRatio(WALK_THUMBNAIL_ASPECT_RATIO)
             .clip(RoundedCornerShape(HERO_CORNER_RADIUS))
             .background(MaterialTheme.colorScheme.surfaceVariant)
-            .clickable(onClick = onClick),
+            .then(if (hasGeodata) Modifier.clickable(onClick = onClick) else Modifier),
     ) {
         if (thumbnailPath == null || loadFailed) {
             WalkRouteThumbnail(
@@ -474,22 +480,24 @@ private fun WalkHero(walk: Walk, track: List<GeoPoint>, findLocations: List<GeoP
 
         // Подложка у подписи непрозрачная: она ложится на карту, где под ней может оказаться что
         // угодно — от светлого поля до тёмного леса.
-        Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.surface,
-            modifier = Modifier.align(Alignment.BottomEnd).padding(12.dp),
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
+        if (hasGeodata) {
+            Surface(
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.surface,
+                modifier = Modifier.align(Alignment.BottomEnd).padding(12.dp),
             ) {
-                Icon(Icons.Filled.Map, contentDescription = null, modifier = Modifier.size(18.dp))
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = stringResource(StringKey.WalkDetailViewMap),
-                    style = MaterialTheme.typography.labelLarge,
-                    maxLines = 1,
-                )
+                Row(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(Icons.Filled.Map, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = stringResource(StringKey.WalkDetailViewMap),
+                        style = MaterialTheme.typography.labelLarge,
+                        maxLines = 1,
+                    )
+                }
             }
         }
     }
