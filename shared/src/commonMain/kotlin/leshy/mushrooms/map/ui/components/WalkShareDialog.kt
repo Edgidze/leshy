@@ -79,9 +79,16 @@ private val COMPOSITE_WIDTH = 400.dp
 // Vertical gap above AND below the ring/cards (title→chart, chart→map) — kept equal on both sides.
 private val DIAGRAM_SECTION_GAP = 20.dp
 
-// Bigger than the 240px Archive-list thumbnail — this is the picture people actually look at once
-// shared, not a list icon. "_share" keeps it a separate cached file from Walk.thumbnailPath.
-private const val SHARE_MAP_SIZE_PX = 720
+// Квадрат, в отличие от снимка самой прогулки (тот 16:9, см. WALK_THUMBNAIL_ASPECT_RATIO): здесь
+// карта встаёт в общую картинку под кольцевую диаграмму, у которой своя квадратная площадка.
+// "_share" держит его отдельным файлом от Walk.thumbnailPath.
+//
+// 1080, а не прежние 720. Прежнее число означало пиксели только на Android; на iOS оно шло в точки
+// и множилось на масштаб экрана, то есть на телефоне с масштабом 3 сюда приезжала картинка
+// 2160×2160. Теперь пиксели значат пиксели на обеих платформах (IosWalkThumbnailRenderer,
+// options.scale), и, чтобы у iOS не отобрать резкость заодно с device-зависимостью, число поднято
+// до 1080 — картинка шириной 400dp на экране с масштабом 3 просит ровно столько.
+private const val SHARE_MAP_SIZE_PX = 1080
 private const val SHARE_MAP_VARIANT = "_share"
 
 // Baseline (LocalMushroomMarkerSizeScale == 1x) icon box for the share map, scaled by the same
@@ -142,7 +149,8 @@ fun WalkShareDialog(
             track = track,
             findLocations = findLocations,
             anchor = anchorOf(walk),
-            sizePx = SHARE_MAP_SIZE_PX,
+            widthPx = SHARE_MAP_SIZE_PX,
+            heightPx = SHARE_MAP_SIZE_PX,
             variant = SHARE_MAP_VARIANT,
             speciesMarkers = speciesMarkers,
             markerIconSizePx = (BASE_SHARE_MARKER_ICON_SIZE_PX * markerSizeScale).roundToInt(),

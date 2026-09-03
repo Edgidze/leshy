@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +31,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import leshy.mushrooms.map.data.platform.WALK_THUMBNAIL_ASPECT_RATIO
 import leshy.mushrooms.map.domain.model.GeoPoint
 import leshy.mushrooms.map.domain.model.Walk
 import leshy.mushrooms.map.i18n.mushroomsUnitLabel
@@ -44,7 +46,17 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private val THUMBNAIL_SIZE = 120.dp
+/**
+ * Ширина миниатюры маршрута; высота выводится из неё по [WALK_THUMBNAIL_ASPECT_RATIO] и здесь не
+ * задаётся. Раньше это была сторона квадрата — снимок был квадратным, и карточка архива была
+ * единственным местом, где он показывался, так что пропорция ничего не решала. Теперь снимок один
+ * на два места (здесь и заставкой на экране детализации), пропорция у него 16:9, и миниатюра
+ * обязана её повторять: показать 16:9 в квадрате можно только обрезав маршрут с боков.
+ *
+ * Шире прежних 120dp затем, чтобы отчасти возместить потерю высоты: у полосы 16:9 при равной
+ * ширине площадь вдвое меньше квадратной.
+ */
+private val THUMBNAIL_WIDTH = 140.dp
 
 /**
  * Ориентир — не высота букв в строке, а размер эмодзи `🍄`, который здесь стоял раньше: эмодзи
@@ -110,7 +122,7 @@ fun WalkCard(
                 thumbnailPath = walk.thumbnailPath,
                 track = track,
                 findLocations = findLocations,
-                modifier = Modifier.size(THUMBNAIL_SIZE),
+                modifier = Modifier.width(THUMBNAIL_WIDTH).aspectRatio(WALK_THUMBNAIL_ASPECT_RATIO),
             )
             Spacer(modifier = Modifier.width(WALK_CARD_PADDING))
             Column(modifier = Modifier.weight(1f)) {

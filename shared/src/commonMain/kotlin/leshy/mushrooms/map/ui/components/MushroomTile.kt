@@ -45,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import leshy.mushrooms.map.domain.model.Category
@@ -278,30 +279,54 @@ fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxSize().padding(MUSHROOM_PHOTO_INSET),
         )
 
-        MushroomLabel(
+        MushroomOutlinedText(
             text = categoryDisplayName(category),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .height(54.dp)
-                .padding(horizontal = 6.dp, vertical = 2.dp),
+                // Нижние 4dp — это прежние 2dp внешнего поля плюс 2dp, которые composable
+                // добавлял себе сам; сложены в одно число, геометрия подписи не менялась.
+                .padding(start = 6.dp, top = 2.dp, end = 6.dp, bottom = 4.dp),
         )
     }
 }
 
+/** Кегль подписи с названием вида на плитке. */
+val MUSHROOM_LABEL_FONT_SIZE = 18.sp
+
+/**
+ * Межстрочное расстояние долей кегля — прежде оба числа стояли рядом константами (18sp и 20sp), и
+ * связь между ними держалась на том, что их правят вместе. Теперь кегль у [MushroomOutlinedText]
+ * задаёт вызывающий, и связь обязана быть выражена.
+ */
+private const val LABEL_LINE_HEIGHT_RATIO = 20f / 18f
+
+/**
+ * Толщина обводки — тоже долей кегля, из тех же прежних чисел (3dp при 18sp). Не постоянные 3dp:
+ * обводка постоянной толщины вокруг более крупного текста читалась бы тоньше, а тот же приём
+ * применяется теперь и к счётчику находок на экране детализации, который заметно крупнее подписи.
+ *
+ * Побочное следствие, оно же исправление: доля берётся от кегля в sp, то есть обводка растёт
+ * вместе с системным размером шрифта. Прежние 3dp не росли — при крупном системном шрифте буквы
+ * увеличивались, а обводка вокруг них оставалась прежней и относительно бледнела.
+ */
+private const val LABEL_STROKE_TO_FONT_RATIO = 3f / 18f
+
 /**
  * [lineHeight]/[lineHeightStyle] are explicit (not left to the font's own metrics) so the two-line
- * block's rendered height is the same 2 * 20.sp regardless of script — fallback fonts for CJK
- * carry noticeably taller ascent/descent than Latin at the same [fontSize], and the surrounding
- * [Box] in [MushroomLabel] doesn't clip, so with font-derived line height the second line poked
- * out past the plate's fixed-height bottom edge for those languages. [MushroomPhoto]'s label
- * container is sized with a few dp of headroom above the exact 2 * 20.sp this implies — Georgian
- * glyphs (წ, ჯ, ყ, ...) carry deep descenders that still reach past an exactly-fitted box even
- * with [LineHeightStyle.Trim.Both], reproduced live on-device with "მერცხალასოკო"/"მყრალიხრაშუნა".
+ * block's rendered height is the same 2 * [LABEL_LINE_HEIGHT_RATIO] * fontSize regardless of
+ * script — fallback fonts for CJK carry noticeably taller ascent/descent than Latin at the same
+ * `fontSize`, and the surrounding [Box] in [MushroomOutlinedText] doesn't clip, so with
+ * font-derived line height the second line poked out past the plate's fixed-height bottom edge for
+ * those languages. [MushroomPhoto]'s label container is sized with a few dp of headroom above the
+ * exact 2 * 20.sp this implies — Georgian glyphs (წ, ჯ, ყ, ...) carry deep descenders that still
+ * reach past an exactly-fitted box even with [LineHeightStyle.Trim.Both], reproduced live
+ * on-device with "მერცხალასოკო"/"მყრალიხრაშუნა".
  */
-private val BASE_LABEL_STYLE = TextStyle(
-    fontSize = 18.sp,
-    lineHeight = 20.sp,
+private fun outlinedTextStyle(fontSize: TextUnit) = TextStyle(
+    fontSize = fontSize,
+    lineHeight = fontSize * LABEL_LINE_HEIGHT_RATIO,
     lineHeightStyle = LineHeightStyle(
         alignment = LineHeightStyle.Alignment.Center,
         trim = LineHeightStyle.Trim.Both,
@@ -316,22 +341,35 @@ private val BASE_LABEL_STYLE = TextStyle(
  * string twice via one [androidx.compose.ui.text.TextMeasurer] with only color/drawStyle
  * differing let the second draw corrupt the first (shared/cached paragraph paint state); plain
  * [Text] calls each own their layout independently and don't hit that.
+ *
+ * Публичный и с настраиваемым кеглем, потому что этим же приёмом набран счётчик находок на плитке
+ * экрана детализации прогулки: обе надписи лежат поверх одной и той же картинки гриба и обязаны
+ * читаться одинаково — иначе на одной плитке оказалось бы два разных способа написать текст
+ * поверх фотографии.
  */
 @Composable
-private fun MushroomLabel(text: String, modifier: Modifier = Modifier) {
-    val strokeWidthPx = with(LocalDensity.current) { 3.dp.toPx() }
-    Box(modifier = modifier.padding(bottom=2.dp), contentAlignment = Alignment.BottomCenter) {
+fun MushroomOutlinedText(
+    text: String,
+    modifier: Modifier = Modifier,
+    fontSize: TextUnit = MUSHROOM_LABEL_FONT_SIZE,
+    maxLines: Int = 2,
+    contentAlignment: Alignment = Alignment.BottomCenter,
+) {
+    val style = outlinedTextStyle(fontSize)
+    // Ширину надписи держит `textAlign = Center` внутри стиля, а не `fillMaxWidth` у самих `Text`,
+    // как было раньше: тому же композаблу теперь достаётся счётчик в углу плитки, которому ширина
+    // плитки не нужна — он обязан занимать ровно себя.
+    val strokeWidthPx = with(LocalDensity.current) { fontSize.toPx() * LABEL_STROKE_TO_FONT_RATIO }
+    Box(modifier = modifier, contentAlignment = contentAlignment) {
         Text(
             text = text,
-            style = BASE_LABEL_STYLE.copy(color = Color.Black, drawStyle = Stroke(width = strokeWidthPx)),
-            maxLines = 2,
-            modifier = Modifier.fillMaxWidth(),
+            style = style.copy(color = Color.Black, drawStyle = Stroke(width = strokeWidthPx)),
+            maxLines = maxLines,
         )
         Text(
             text = text,
-            style = BASE_LABEL_STYLE.copy(color = Color.White),
-            maxLines = 2,
-            modifier = Modifier.fillMaxWidth(),
+            style = style.copy(color = Color.White),
+            maxLines = maxLines,
         )
     }
 }

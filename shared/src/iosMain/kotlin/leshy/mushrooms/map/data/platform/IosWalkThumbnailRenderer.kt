@@ -27,6 +27,7 @@ import platform.Foundation.writeToFile
 import platform.UIKit.UIBezierPath
 import platform.UIKit.UIColor
 import platform.UIKit.UIGraphicsImageRenderer
+import platform.UIKit.UIGraphicsImageRendererFormat
 import platform.UIKit.UIImage
 import platform.UIKit.UIImagePNGRepresentation
 import kotlin.coroutines.resume
@@ -36,6 +37,19 @@ import kotlin.math.min
 // Same rationale as AndroidWalkThumbnailRenderer: a near-zero-span region (a walk that barely
 // moved from its start point) would otherwise zoom the snapshot in absurdly far.
 private const val MIN_BOUNDS_SPAN_DEGREES = 0.0015
+
+/**
+ * Толщина линии маршрута и радиус точки находки — долями ширины снимка, не пикселями; ровно та же
+ * правка и по той же причине, что в `AndroidWalkThumbnailRenderer`, см. её там.
+ *
+ * Числа взяты из прежних здешних (3.0 и 4.0 при снимке 240 точек шириной) и потому НЕ совпадают с
+ * андроидными: линия тут исторически тоньше — 1.25% ширины против 2.08%. Расхождение оставлено
+ * как есть намеренно: эта правка меняет разрешение снимка, а не его вид, и приводить две
+ * платформы к одному числу здесь значило бы заодно менять внешность iOS-снимка, ни разу её не
+ * увидев. Сводить — отдельной задачей и с картинками обеих платформ перед глазами.
+ */
+private const val ROUTE_STROKE_FRACTION = 3.0 / 240.0
+private const val FIND_DOT_RADIUS_FRACTION = 4.0 / 240.0
 
 private const val ROUTE_RED = 0x1B / 255.0
 private const val ROUTE_GREEN = 0x43 / 255.0
@@ -53,14 +67,16 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
-        sizePx: Int,
+        widthPx: Int,
+        heightPx: Int,
         variant: String,
         speciesMarkers: List<WalkFindMarker>,
         markerIconSizePx: Int,
     ): String? {
         if (track.isEmpty() && findLocations.isEmpty() && anchor == null) return null
         return try {
-            val snapshot = takeSnapshot(track, findLocations, anchor, sizePx.toDouble()) ?: return null
+            val snapshot = takeSnapshot(track, findLocations, anchor, widthPx.toDouble(), heightPx.toDouble())
+                ?: return null
             writeAnnotated(walkId, snapshot, track, findLocations, anchor, variant, speciesMarkers, markerIconSizePx.toDouble())
         } catch (_: Throwable) {
             null
@@ -72,7 +88,8 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
-        sizePoints: Double,
+        widthPoints: Double,
+        heightPoints: Double,
     ): MLNMapSnapshot? =
         suspendCancellableCoroutine { continuation ->
             val allPoints = track + findLocations + listOfNotNull(anchor)
@@ -105,8 +122,15 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
             val options = MLNMapSnapshotOptions(
                 styleURL = NSURL(string = OPEN_FREE_MAP_STYLE_URL),
                 camera = MLNMapCamera.camera(),
-                size = CGSizeMake(sizePoints, sizePoints),
+                size = CGSizeMake(widthPoints, heightPoints),
             )
+            // `size` у MLNMapSnapshotOptions — в ТОЧКАХ, и множителем по умолчанию берётся масштаб
+            // экрана устройства. То есть до этой строки запрошенные 240 превращались в файл 720×720
+            // на телефоне с масштабом 3 и 480×480 на телефоне с масштабом 2 — разрешение снимка
+            // зависело от того, на каком телефоне он снят, а параметр с именем `widthPx` означал
+            // пиксели только на Android. Явная единица делает точку пикселем: сколько запрошено,
+            // столько и получится, одинаково на обеих платформах и на любом устройстве.
+            options.scale = 1.0
             options.coordinateBounds = bounds
 
             val snapshotter = MLNMapSnapshotter(options = options)
@@ -128,6 +152,9 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
         markerIconSizePoints: Double,
     ): String? {
         val baseImage = snapshot.image
+        val imageWidth = baseImage.size.useContents { width }
+        val routeLineWidth = imageWidth * ROUTE_STROKE_FRACTION
+        val findDotRadius = imageWidth * FIND_DOT_RADIUS_FRACTION
 
         // Icon bytes are resolved up front (suspend, off the UIGraphicsImageRenderer closure —
         // imageWithActions's block isn't a suspend context) into plain UIImages the draw block
@@ -136,7 +163,11 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
             marker to resolveCategoryIconBytes(marker.category, photoStorage)?.let { bytes -> UIImage.imageWithData(bytes.toNSData()) }
         }
 
-        val renderer = UIGraphicsImageRenderer(size = baseImage.size)
+        // Тот же множитель, что и у самого снимка выше, и по той же причине: у формата по
+        // умолчанию он опять экранный, и слой с маршрутом и находками поверх снимка вернул бы
+        // зависимость размера файла от устройства — уже на выходе, после того как её убрали на входе.
+        val rendererFormat = UIGraphicsImageRendererFormat.defaultFormat().apply { scale = 1.0 }
+        val renderer = UIGraphicsImageRenderer(size = baseImage.size, format = rendererFormat)
         val annotated = renderer.imageWithActions { _ ->
             baseImage.drawAtPoint(CGPointMake(0.0, 0.0))
 
@@ -146,7 +177,7 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
                     val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(point.lat, point.lon))
                     if (index == 0) routePath.moveToPoint(cgPoint) else routePath.addLineToPoint(cgPoint)
                 }
-                routePath.lineWidth = 3.0
+                routePath.lineWidth = routeLineWidth
                 UIColor.colorWithRed(ROUTE_RED, ROUTE_GREEN, ROUTE_BLUE, 1.0).setStroke()
                 routePath.stroke()
             } else {
@@ -156,7 +187,12 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
                 if (locationDot != null) {
                     val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(locationDot.lat, locationDot.lon))
                     cgPoint.useContents {
-                        val dotRect = CGRectMake(x - 4.0, y - 4.0, 8.0, 8.0)
+                        val dotRect = CGRectMake(
+                            x - findDotRadius,
+                            y - findDotRadius,
+                            findDotRadius * 2,
+                            findDotRadius * 2,
+                        )
                         UIColor.colorWithRed(ROUTE_RED, ROUTE_GREEN, ROUTE_BLUE, 1.0).setFill()
                         UIBezierPath.bezierPathWithOvalInRect(dotRect).fill()
                     }
@@ -166,7 +202,12 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
             fun drawFindDot(point: GeoPoint) {
                 val cgPoint = snapshot.pointForCoordinate(CLLocationCoordinate2DMake(point.lat, point.lon))
                 cgPoint.useContents {
-                    val dotRect = CGRectMake(x - 4.0, y - 4.0, 8.0, 8.0)
+                    val dotRect = CGRectMake(
+                        x - findDotRadius,
+                        y - findDotRadius,
+                        findDotRadius * 2,
+                        findDotRadius * 2,
+                    )
                     UIColor.colorWithRed(FIND_RED, FIND_GREEN, FIND_BLUE, 1.0).setFill()
                     UIBezierPath.bezierPathWithOvalInRect(dotRect).fill()
                 }

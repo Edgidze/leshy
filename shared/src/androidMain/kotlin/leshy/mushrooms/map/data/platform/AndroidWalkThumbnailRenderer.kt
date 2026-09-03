@@ -33,6 +33,18 @@ private const val SNAPSHOT_PADDING_PX = 24
 // would zoom the snapshot in absurdly far; pad it out to a reasonable minimum span instead.
 private const val MIN_BOUNDS_SPAN_DEGREES = 0.0015
 
+/**
+ * Толщина линии маршрута и радиус точки находки — долями ширины снимка, не пикселями.
+ *
+ * Пикселями они и были заданы (5 и 6) — при единственном тогда размере снимка 240×240. Доли
+ * получены из тех самых чисел, поэтому на глаз ничего не изменилось: и на заставке, и на карточке
+ * архива снимок показывается растянутым или ужатым до нужной ширины, и линия постоянной доли
+ * приходит на экран одной и той же толщины независимо от разрешения файла. Останься они
+ * пикселями — на снимке 960 точек шириной маршрут превратился бы в волосок.
+ */
+private const val ROUTE_STROKE_FRACTION = 5f / 240f
+private const val FIND_DOT_RADIUS_FRACTION = 6f / 240f
+
 private const val ROUTE_COLOR = "#1B4332" // LeshyGreen, ui/theme/Theme.kt — not reachable from here.
 private const val FIND_COLOR = "#B3261E" // Material3 baseline light colorScheme.error.
 
@@ -46,14 +58,15 @@ class AndroidWalkThumbnailRenderer(
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
-        sizePx: Int,
+        widthPx: Int,
+        heightPx: Int,
         variant: String,
         speciesMarkers: List<WalkFindMarker>,
         markerIconSizePx: Int,
     ): String? {
         if (track.isEmpty() && findLocations.isEmpty() && anchor == null) return null
         return try {
-            val snapshot = takeSnapshot(track, findLocations, anchor, sizePx) ?: return null
+            val snapshot = takeSnapshot(track, findLocations, anchor, widthPx, heightPx) ?: return null
             withContext(Dispatchers.IO) {
                 writeAnnotated(walkId, snapshot, track, findLocations, anchor, variant, speciesMarkers, markerIconSizePx)
             }
@@ -68,7 +81,8 @@ class AndroidWalkThumbnailRenderer(
         track: List<GeoPoint>,
         findLocations: List<GeoPoint>,
         anchor: GeoPoint?,
-        sizePx: Int,
+        widthPx: Int,
+        heightPx: Int,
     ): MapSnapshot? =
         withContext(Dispatchers.Main) {
             suspendCancellableCoroutine { continuation ->
@@ -86,7 +100,7 @@ class AndroidWalkThumbnailRenderer(
                 (track + findLocations + listOfNotNull(anchor)).forEach { boundsBuilder.include(LatLng(it.lat, it.lon)) }
                 val region = padIfDegenerate(boundsBuilder.build())
 
-                val options = MapSnapshotter.Options(sizePx, sizePx)
+                val options = MapSnapshotter.Options(widthPx, heightPx)
                     .withStyleBuilder(Style.Builder().fromUri(OPEN_FREE_MAP_STYLE_URL))
                     .withRegion(region)
                     .withPadding(SNAPSHOT_PADDING_PX, SNAPSHOT_PADDING_PX, SNAPSHOT_PADDING_PX, SNAPSHOT_PADDING_PX)
@@ -126,13 +140,15 @@ class AndroidWalkThumbnailRenderer(
     ): String? {
         val mutableBitmap = snapshot.bitmap.copy(Bitmap.Config.ARGB_8888, true) ?: return null
         val canvas = Canvas(mutableBitmap)
+        val routeStrokeWidth = mutableBitmap.width * ROUTE_STROKE_FRACTION
+        val findDotRadius = mutableBitmap.width * FIND_DOT_RADIUS_FRACTION
 
         fun pixelOf(point: GeoPoint): PointF = snapshot.pixelForLatLng(LatLng(point.lat, point.lon))
 
         val routePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.parseColor(ROUTE_COLOR)
             style = Paint.Style.STROKE
-            strokeWidth = 5f
+            strokeWidth = routeStrokeWidth
             strokeCap = Paint.Cap.ROUND
             strokeJoin = Paint.Join.ROUND
         }
@@ -153,7 +169,7 @@ class AndroidWalkThumbnailRenderer(
                     style = Paint.Style.FILL
                 }
                 val pixel = pixelOf(locationDot)
-                canvas.drawCircle(pixel.x, pixel.y, 6f, fillPaint)
+                canvas.drawCircle(pixel.x, pixel.y, findDotRadius, fillPaint)
             }
         }
 
@@ -170,13 +186,13 @@ class AndroidWalkThumbnailRenderer(
                 if (iconBitmap != null) {
                     canvas.drawIconAspectFit(iconBitmap, pixel, markerIconSizePx)
                 } else {
-                    canvas.drawCircle(pixel.x, pixel.y, 6f, findPaint)
+                    canvas.drawCircle(pixel.x, pixel.y, findDotRadius, findPaint)
                 }
             }
         } else {
             findLocations.forEach { point ->
                 val pixel = pixelOf(point)
-                canvas.drawCircle(pixel.x, pixel.y, 6f, findPaint)
+                canvas.drawCircle(pixel.x, pixel.y, findDotRadius, findPaint)
             }
         }
 

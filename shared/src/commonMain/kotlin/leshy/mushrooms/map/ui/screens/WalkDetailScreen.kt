@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -71,8 +70,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import coil3.compose.AsyncImage
+import leshy.mushrooms.map.data.platform.WALK_THUMBNAIL_ASPECT_RATIO
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.FieldMark
 import leshy.mushrooms.map.domain.model.GeoPoint
@@ -86,7 +87,9 @@ import leshy.mushrooms.map.presentation.archive.WalkDetailViewModel
 import leshy.mushrooms.map.ui.components.AddPlaceDialog
 import leshy.mushrooms.map.ui.components.DeletePlaceConfirmDialog
 import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
+import leshy.mushrooms.map.ui.components.MUSHROOM_LABEL_FONT_SIZE
 import leshy.mushrooms.map.ui.components.MushroomDonutChart
+import leshy.mushrooms.map.ui.components.MushroomOutlinedText
 import leshy.mushrooms.map.ui.components.MushroomPhoto
 import leshy.mushrooms.map.ui.components.PlaceViewDialog
 import leshy.mushrooms.map.ui.components.WalkRouteThumbnail
@@ -119,12 +122,13 @@ private val ACTION_LABEL_MAX_WIDTH = 120.dp
 private val MUSHROOM_TOAST_DURATION = 3000.milliseconds
 
 /**
- * Высота карты-заставки. Не квадрат, хотя снимок квадратный: экран открывается сверху, и заставка
- * во весь квадрат съедала бы всё первое, что видно, не оставляя места ни названию, ни показателям.
- * Снимок вписывается по ширине и подрезается сверху и снизу ([ContentScale.Crop]) — маршрут в
- * снимке всегда с полями (`SNAPSHOT_PADDING_PX`), так что подрезка забирает поля, а не трек.
+ * Высота заставки задаётся пропорцией снимка, а не числом. Числом она и была задана (200dp) — при
+ * квадратном снимке, который в эту полосу вписывался по ширине и обрезался сверху и снизу. Обрезка
+ * и оказалась тем, из-за чего заставка выглядела плохо: снимок 240×240 растягивался до ширины
+ * экрана впятеро, а потом у растянутого срезалось 44% высоты вместе с куском маршрута. Теперь
+ * снимок снимается сразу в этой пропорции (см. [WALK_THUMBNAIL_ASPECT_RATIO]), и показывается
+ * целиком, ничего не теряя.
  */
-private val HERO_HEIGHT = 200.dp
 private val HERO_CORNER_RADIUS = 16.dp
 
 /** Значки показателей — те же три и того же размера, что в шапке «Записи» (`RecordScreen.kt`). */
@@ -152,7 +156,21 @@ private val METRIC_CARD_MIN_HEIGHT = 116.dp
  */
 private const val FIND_TILE_COLUMNS = 2
 private val FIND_TILE_SPACING = 8.dp
-private val FIND_TILE_COUNT_ROW_HEIGHT = 28.dp
+
+/**
+ * Кегль счётчика находок на плитке. Крупнее подписи с названием вида ([MUSHROOM_LABEL_FONT_SIZE],
+ * 18sp), и это главное про это число: обе надписи лежат на одной плитке, набраны одним приёмом —
+ * белым по чёрной обводке — и должны различаться по старшинству, а не спорить. Счётчик тут главнее
+ * названия: название вида видно по самой картинке, число по картинке не видно никак.
+ */
+private val FIND_TILE_COUNT_FONT_SIZE = 28.sp
+
+/**
+ * Отступ счётчика от угла плитки. Правый верхний угол выбран не случайно: подпись с названием
+ * прижата к нижнему краю, гриб на картинке стоит по центру и растёт снизу вверх, сужаясь к шляпке,
+ * — верхние углы у плиток каталога свободны стабильно, в отличие от нижних и середины.
+ */
+private val FIND_TILE_COUNT_PADDING = 6.dp
 
 private val PLACE_THUMBNAIL_SIZE = 64.dp
 private val SECTION_TOP_GAP = 24.dp
@@ -410,7 +428,7 @@ private fun WalkHero(walk: Walk, track: List<GeoPoint>, findLocations: List<GeoP
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(HERO_HEIGHT)
+            .aspectRatio(WALK_THUMBNAIL_ASPECT_RATIO)
             .clip(RoundedCornerShape(HERO_CORNER_RADIUS))
             .background(MaterialTheme.colorScheme.surfaceVariant)
             .clickable(onClick = onClick),
@@ -614,27 +632,30 @@ private fun FindTilesGrid(counts: List<CategoryCount>) {
     }
 }
 
+/**
+ * Счётчик стоит НА картинке, а не строкой над ней, как в ленте «Записи». В ленте строка над фото
+ * нужна: там между «−» и «+» живёт то самое число, которое меняют пальцем, и оно обязано иметь
+ * собственное место, куда не попадёт нажатие по соседней кнопке. Здесь ничего не нажимается,
+ * плитка только показывает — и отдельная строка ради одного числа отнимала бы у картинки высоту
+ * ни за чем.
+ */
 @Composable
 private fun FindTile(category: Category, count: Int, width: Dp) {
     Card(
         modifier = Modifier.width(width),
         border = BorderStroke(2.dp, parseHexColor(category.colorHex)),
     ) {
-        Column {
-            Box(
-                modifier = Modifier.fillMaxWidth().height(FIND_TILE_COUNT_ROW_HEIGHT),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = count.toString(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                )
-            }
+        Box(modifier = Modifier.fillMaxWidth()) {
             MushroomPhoto(
                 category = category,
                 modifier = Modifier.fillMaxWidth().aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO),
+            )
+            MushroomOutlinedText(
+                text = count.toString(),
+                fontSize = FIND_TILE_COUNT_FONT_SIZE,
+                maxLines = 1,
+                contentAlignment = Alignment.TopEnd,
+                modifier = Modifier.align(Alignment.TopEnd).padding(FIND_TILE_COUNT_PADDING),
             )
         }
     }
