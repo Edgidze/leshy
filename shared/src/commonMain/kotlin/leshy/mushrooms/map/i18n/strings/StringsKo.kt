@@ -96,6 +96,8 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "확인",
     StringKey.RecordMarkLocationContentDescription to "위치 표시",
     StringKey.RecordLocationUnavailable to "위치를 사용할 수 없어 경로가 기록되지 않습니다. 기기 설정에서 위치 서비스를 켜고 앱에 권한을 허용하세요.",
+    StringKey.RecordLocationUnknownMessage to
+        "현재 위치를 아직 알 수 없어 기록을 붙일 곳이 없습니다. 위치 서비스가 켜져 있는지 확인하고 신호를 기다려 주세요.",
     StringKey.RecordSearchContentDescription to "검색",
     StringKey.RecordSearchDialogTitle to "필요한 버섯을 선택하세요",
     StringKey.RecordBulkAddQuestion to "새로 발견한 버섯은 몇 개인가요?",
@@ -103,7 +105,7 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
 
     StringKey.RecordBulkAddConfirmContentDescription to "확인",
     StringKey.RecordBulkAddLimitMessage to "한 번의 산책에서 같은 종은 최대 999개까지 기록할 수 있습니다.",
-    StringKey.RecordBulkAddLimitConfirm to "확인",
+    StringKey.DialogAcknowledge to "확인",
 
     // Fixed prefix+value concatenation templates (`NavigationOverlayPanel.kt`) don't match Korean
     // word order (postpositions) as cleanly as SVO languages — phrased as label-style fragments
@@ -139,6 +141,8 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "아니요",
 
     StringKey.ArchiveEmpty to "아직 기록된 산책이 없습니다",
+    StringKey.ArchiveEmptyHint to "기록한 산책이 여기에 모입니다. 경로, 발견한 버섯, 표시한 장소.",
+    StringKey.EmptyStartWalkButton to "산책 시작하기",
     StringKey.ArchiveDeleteWalksButton to "산책 삭제",
     StringKey.ArchiveDeleteConfirmMessage to "선택한 산책을 영구적으로 삭제하시겠습니까?",
     StringKey.ArchiveDeleteConfirmYes to "예",
@@ -202,6 +206,7 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "통계",
     StringKey.MapStatsWalksCount to "산책 수",
     StringKey.MapStatsFindsCount to "발견한 버섯",
+    StringKey.MapStatsEmptyHint to "첫 산책을 기록하면 통계가 저절로 쌓입니다.",
 
     StringKey.MapFilterButtonLabel to "필터",
     StringKey.MapFilterDialogTitle to "지도의 버섯에 적용할 필터를 설정하세요:",

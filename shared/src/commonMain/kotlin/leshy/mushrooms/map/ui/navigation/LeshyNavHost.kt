@@ -76,6 +76,9 @@ fun LeshyNavHost(
             ) { padding ->
                 ArchiveScreen(
                     onWalkClick = { walkId -> navController.navigate(Destination.WalkDetail(walkId)) },
+                    // Кнопка пустого состояния ведёт на домашний экран — а он top-level раздел, то
+                    // есть только через navigateToTopLevel (см. CLAUDE.md и Destinations.kt).
+                    onStartWalkClick = { navController.navigateToTopLevel(Destination.Record) },
                     modifier = Modifier.padding(padding),
                 )
             }
@@ -130,7 +133,12 @@ fun LeshyNavHost(
                 title = StringKey.NavMap,
                 help = HelpTopic.MAP,
                 onMenuClick = onMenuClick,
-            ) { padding -> MapScreen(modifier = Modifier.padding(padding)) }
+            ) { padding ->
+                MapScreen(
+                    onStartWalkClick = { navController.navigateToTopLevel(Destination.Record) },
+                    modifier = Modifier.padding(padding),
+                )
+            }
         }
         composable<Destination.Preparation> {
             SectionScaffold(

@@ -35,7 +35,9 @@ import leshy.mushrooms.map.presentation.map.MapViewModel
 import leshy.mushrooms.map.ui.components.AddPlaceDialog
 import leshy.mushrooms.map.ui.components.DeletePlaceConfirmDialog
 import leshy.mushrooms.map.ui.components.MapFilterButton
+import leshy.mushrooms.map.ui.components.LoadingState
 import leshy.mushrooms.map.ui.components.MapFilterDialog
+import leshy.mushrooms.map.ui.components.NoWalksYetState
 import leshy.mushrooms.map.ui.components.PlaceViewDialog
 import leshy.mushrooms.map.ui.map.AggregatedFindsMap
 import leshy.mushrooms.map.ui.map.MapMarker
@@ -56,7 +58,11 @@ private val FILTER_BUTTON_OFFSET_MAP = 31.dp
 private val FILTER_BUTTON_OFFSET_STATS = (-6).dp
 
 @Composable
-fun MapScreen(modifier: Modifier = Modifier, viewModel: MapViewModel = koinViewModel()) {
+fun MapScreen(
+    onStartWalkClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: MapViewModel = koinViewModel(),
+) {
     val uiState by viewModel.uiState.collectAsState()
     var showFilterDialog by remember { mutableStateOf(false) }
     var selectedPlaceId by remember { mutableStateOf<Long?>(null) }
@@ -105,7 +111,12 @@ fun MapScreen(modifier: Modifier = Modifier, viewModel: MapViewModel = koinViewM
                         bannerAlignment = Alignment.BottomCenter,
                     )
                 }
-                MapMode.STATS -> MapStatsView(stats = uiState.stats, modifier = Modifier.fillMaxSize())
+                MapMode.STATS -> MapStatsView(
+                    stats = uiState.stats,
+                    isLoading = uiState.isLoading,
+                    onStartWalkClick = onStartWalkClick,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
 
             val filterButtonOffset by animateDpAsState(
@@ -163,11 +174,24 @@ fun MapScreen(modifier: Modifier = Modifier, viewModel: MapViewModel = koinViewM
 }
 
 @Composable
-private fun MapStatsView(stats: MapStats, modifier: Modifier = Modifier) {
+private fun MapStatsView(
+    stats: MapStats,
+    isLoading: Boolean,
+    onStartWalkClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    // Пока база не ответила, `walkCount == 0` означает «ещё не знаем», а не «прогулок нет» —
+    // см. [leshy.mushrooms.map.ui.components.LoadingState].
+    if (isLoading) {
+        LoadingState(modifier = modifier)
+        return
+    }
     if (stats.walkCount == 0) {
-        Box(modifier = modifier, contentAlignment = Alignment.Center) {
-            Text(stringResource(StringKey.ArchiveEmpty))
-        }
+        NoWalksYetState(
+            descriptionKey = StringKey.MapStatsEmptyHint,
+            onStartWalkClick = onStartWalkClick,
+            modifier = modifier,
+        )
         return
     }
 

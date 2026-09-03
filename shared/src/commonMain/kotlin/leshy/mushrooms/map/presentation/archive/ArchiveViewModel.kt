@@ -63,6 +63,9 @@ class ArchiveViewModel(
                     items = items,
                     selectedWalkIds = validSelected,
                     showDeleteConfirmation = showConfirm,
+                    // Сюда попадают только настоящие данные — сам факт эмиссии и означает, что
+                    // база ответила.
+                    isLoading = false,
                 )
             }.collect { state -> _uiState.value = state }
         }

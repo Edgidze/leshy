@@ -105,6 +105,8 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Apstiprināt",
     StringKey.RecordMarkLocationContentDescription to "Atzīmēt vietu",
     StringKey.RecordLocationUnavailable to "Atrašanās vieta nav pieejama — maršruts netiek ierakstīts. Ieslēdziet atrašanās vietas pakalpojumus un atļaujiet lietotnei piekļuvi ierīces iestatījumos.",
+    StringKey.RecordLocationUnknownMessage to
+        "Atrašanās vieta vēl nav zināma — atzīmi nav kam piesaistīt. Pārbaudiet, vai atrašanās vieta ir ieslēgta, un pagaidiet signālu.",
     StringKey.RecordSearchContentDescription to "Meklēšana",
     StringKey.RecordSearchDialogTitle to "Izvēlieties vajadzīgo sēni",
     StringKey.RecordBulkAddQuestion to "Cik jaunu sēņu atrasts?",
@@ -113,7 +115,7 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Apstiprināt",
     StringKey.RecordBulkAddLimitMessage to
         "Ne vairāk kā 999 vienas sugas atradumi vienā pastaigā.",
-    StringKey.RecordBulkAddLimitConfirm to "Sapratu",
+    StringKey.DialogAcknowledge to "Sapratu",
 
     StringKey.NavigationDirectionToPrefix to "Virziens uz",
     StringKey.NavigationDistanceToTargetPrefix to "līdz mērķim",
@@ -147,6 +149,8 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Nē",
 
     StringKey.ArchiveEmpty to "Pagaidām nav pastaigu",
+    StringKey.ArchiveEmptyHint to "Šeit būs ierakstītās pastaigas: maršruts, atradumi un atzīmētās vietas.",
+    StringKey.EmptyStartWalkButton to "Sākt pastaigu",
     StringKey.ArchiveDeleteWalksButton to "Dzēst pastaigas",
     StringKey.ArchiveDeleteConfirmMessage to
         "Vai tiešām vēlaties neatgriezeniski dzēst atlasītās pastaigas?",
@@ -211,6 +215,7 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistika",
     StringKey.MapStatsWalksCount to "Pastaigas",
     StringKey.MapStatsFindsCount to "Atrastas sēnes",
+    StringKey.MapStatsEmptyHint to "Statistika izveidosies pati, tiklīdz būs ierakstīta pirmā pastaiga.",
 
     StringKey.MapFilterButtonLabel to "Filtri",
     StringKey.MapFilterDialogTitle to

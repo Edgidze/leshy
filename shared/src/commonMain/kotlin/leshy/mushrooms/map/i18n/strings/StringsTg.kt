@@ -101,13 +101,15 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordLocationUnavailable to
         "Ҷойгиршавӣ дастрас нест — масир сабт намешавад. Дар танзимоти дастгоҳ хидматҳои " +
             "ҷойгиршавиро фаъол созед ва ба барнома иҷозат диҳед, ки аз онҳо истифода барад.",
+    StringKey.RecordLocationUnknownMessage to
+        "Ҷойгиршавӣ ҳанӯз муайян нашудааст — нишонаро ба чизе бастан мумкин нест. Тафтиш кунед, ки геолокатсия фаъол аст, ва сигналро интизор шавед.",
     StringKey.RecordSearchContentDescription to "Ҷустуҷӯ",
     StringKey.RecordSearchDialogTitle to "Занбӯруғи заруриро интихоб кунед",
     StringKey.RecordBulkAddQuestion to "Чанд занбӯруғи нав ёфт шуд?",
     StringKey.RecordBulkAddCancelContentDescription to "Бекор кардан",
     StringKey.RecordBulkAddConfirmContentDescription to "Тасдиқ",
     StringKey.RecordBulkAddLimitMessage to "Дар як сайругашт аз як навъ ҳадди аксар 999 ёфта.",
-    StringKey.RecordBulkAddLimitConfirm to "Фаҳмо",
+    StringKey.DialogAcknowledge to "Фаҳмо",
 
     StringKey.NavigationDirectionToPrefix to "Самт:",
     StringKey.NavigationDistanceToTargetPrefix to "то ҳадаф",
@@ -140,6 +142,9 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Не",
 
     StringKey.ArchiveEmpty to "Ҳанӯз ягон сайругашт сабт нашудааст",
+    StringKey.ArchiveEmptyHint to
+        "Дар ин ҷо сайругаштҳои сабтшуда хоҳанд буд: масир, ёфтаҳо ва ҷойҳои қайдшуда.",
+    StringKey.EmptyStartWalkButton to "Оғози сайругашт",
     StringKey.ArchiveDeleteWalksButton to "Нест кардани сайругаштҳо",
     StringKey.ArchiveDeleteConfirmMessage to
         "Мутмаин ҳастед, ки мехоҳед сайругаштҳои интихобшударо ба таври доимӣ нест кунед?",
@@ -205,6 +210,7 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Омор",
     StringKey.MapStatsWalksCount to "Сайругаштҳо",
     StringKey.MapStatsFindsCount to "Занбӯруғҳои ёфтшуда",
+    StringKey.MapStatsEmptyHint to "Ҳамин ки сайругашти аввал сабт шавад, омор худ ба худ ҷамъ мешавад.",
     StringKey.MapFilterButtonLabel to "Филтрҳо",
     StringKey.MapFilterDialogTitle to
         "Филтрҳоеро, ки ба занбӯруғҳои харита татбиқ мешаванд, танзим кунед:",

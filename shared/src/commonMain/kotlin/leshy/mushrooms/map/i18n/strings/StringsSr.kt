@@ -103,6 +103,8 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Потврди",
     StringKey.RecordMarkLocationContentDescription to "Обележи место",
     StringKey.RecordLocationUnavailable to "Локација није доступна — рута се не снима. Укључите услуге локације и дозволите приступ у подешавањима уређаја.",
+    StringKey.RecordLocationUnknownMessage to
+        "Локација још није позната — ознаку нема за шта да се веже. Проверите да ли је локација укључена и сачекајте сигнал.",
     StringKey.RecordSearchContentDescription to "Претрага",
     StringKey.RecordSearchDialogTitle to "Изаберите жељену гљиву",
     StringKey.RecordBulkAddQuestion to "Колико нових гљива је пронађено?",
@@ -111,7 +113,7 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Потврди",
     StringKey.RecordBulkAddLimitMessage to
         "Највише 999 истих гљива по једној шетњи.",
-    StringKey.RecordBulkAddLimitConfirm to "Разумем",
+    StringKey.DialogAcknowledge to "Разумем",
 
     StringKey.NavigationDirectionToPrefix to "Правац ка",
     StringKey.NavigationDistanceToTargetPrefix to "до циља",
@@ -145,6 +147,8 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Не",
 
     StringKey.ArchiveEmpty to "Још нема шетњи",
+    StringKey.ArchiveEmptyHint to "Овде ће бити забележене шетње: рута, налази и обележена места.",
+    StringKey.EmptyStartWalkButton to "Започни шетњу",
     StringKey.ArchiveDeleteWalksButton to "Обриши шетње",
     StringKey.ArchiveDeleteConfirmMessage to
         "Да ли сте сигурни да желите трајно да обришете изабране шетње?",
@@ -209,6 +213,7 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Статистика",
     StringKey.MapStatsWalksCount to "Шетњи",
     StringKey.MapStatsFindsCount to "Пронађених гљива",
+    StringKey.MapStatsEmptyHint to "Статистика ће се сама сложити чим буде забележена прва шетња.",
 
     StringKey.MapFilterButtonLabel to "Филтери",
     StringKey.MapFilterDialogTitle to

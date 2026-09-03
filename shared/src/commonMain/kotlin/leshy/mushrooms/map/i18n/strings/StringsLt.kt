@@ -105,6 +105,8 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Patvirtinti",
     StringKey.RecordMarkLocationContentDescription to "Pažymėti vietą",
     StringKey.RecordLocationUnavailable to "Vietovė nepasiekiama — maršrutas neįrašomas. Įjunkite vietos nustatymo paslaugas ir leiskite programai jomis naudotis įrenginio nustatymuose.",
+    StringKey.RecordLocationUnknownMessage to
+        "Vieta dar nežinoma — nėra prie ko pririšti žymos. Patikrinkite, ar įjungta vietos nustatymo paslauga, ir palaukite signalo.",
     StringKey.RecordSearchContentDescription to "Paieška",
     StringKey.RecordSearchDialogTitle to "Pasirinkite reikiamą grybą",
     StringKey.RecordBulkAddQuestion to "Kiek naujų grybų rasta?",
@@ -113,7 +115,7 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Patvirtinti",
     StringKey.RecordBulkAddLimitMessage to
         "Ne daugiau kaip 999 tos pačios rūšies radiniai per vieną žygį.",
-    StringKey.RecordBulkAddLimitConfirm to "Supratau",
+    StringKey.DialogAcknowledge to "Supratau",
 
     StringKey.NavigationDirectionToPrefix to "Kryptis į",
     StringKey.NavigationDistanceToTargetPrefix to "iki tikslo",
@@ -147,6 +149,8 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Ne",
 
     StringKey.ArchiveEmpty to "Žygių kol kas nėra",
+    StringKey.ArchiveEmptyHint to "Čia bus įrašyti žygiai: maršrutas, radiniai ir pažymėtos vietos.",
+    StringKey.EmptyStartWalkButton to "Pradėti žygį",
     StringKey.ArchiveDeleteWalksButton to "Ištrinti žygius",
     StringKey.ArchiveDeleteConfirmMessage to
         "Ar tikrai norite negrįžtamai ištrinti pasirinktus žygius?",
@@ -211,6 +215,7 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistika",
     StringKey.MapStatsWalksCount to "Žygių",
     StringKey.MapStatsFindsCount to "Rasta grybų",
+    StringKey.MapStatsEmptyHint to "Statistika susidarys pati, kai tik bus įrašytas pirmasis žygis.",
 
     StringKey.MapFilterButtonLabel to "Filtrai",
     StringKey.MapFilterDialogTitle to

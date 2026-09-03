@@ -98,6 +98,8 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Onayla",
     StringKey.RecordMarkLocationContentDescription to "Konumu işaretle",
     StringKey.RecordLocationUnavailable to "Konum kullanılamıyor — rota kaydedilmiyor. Cihaz ayarlarından konum servislerini açın ve uygulamaya izin verin.",
+    StringKey.RecordLocationUnknownMessage to
+        "Konumunuz henüz bilinmiyor — işareti bağlayacak bir yer yok. Konum servisinin açık olduğunu kontrol edin ve sinyali bekleyin.",
     StringKey.RecordSearchContentDescription to "Ara",
     StringKey.RecordSearchDialogTitle to "İhtiyacınız olan mantarı seçin",
     StringKey.RecordBulkAddQuestion to "Kaç yeni mantar bulundu?",
@@ -105,7 +107,7 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.RecordBulkAddConfirmContentDescription to "Onayla",
     StringKey.RecordBulkAddLimitMessage to "Bir yürüyüşte aynı türden en fazla 999 bulgu kaydedilebilir.",
-    StringKey.RecordBulkAddLimitConfirm to "Anladım",
+    StringKey.DialogAcknowledge to "Anladım",
 
     StringKey.NavigationDirectionToPrefix to "Yön:",
     StringKey.NavigationDistanceToTargetPrefix to "Hedefe kalan",
@@ -138,6 +140,8 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Hayır",
 
     StringKey.ArchiveEmpty to "Henüz kaydedilmiş yürüyüş yok",
+    StringKey.ArchiveEmptyHint to "Kaydedilen yürüyüşler burada olacak: rota, bulunanlar ve işaretli yerler.",
+    StringKey.EmptyStartWalkButton to "Yürüyüşe başla",
     StringKey.ArchiveDeleteWalksButton to "Yürüyüşleri sil",
     StringKey.ArchiveDeleteConfirmMessage to
         "Seçili yürüyüşleri kalıcı olarak silmek istediğinizden emin misiniz?",
@@ -202,6 +206,7 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "İstatistikler",
     StringKey.MapStatsWalksCount to "Yürüyüşler",
     StringKey.MapStatsFindsCount to "Bulunan mantarlar",
+    StringKey.MapStatsEmptyHint to "İlk yürüyüş kaydedilir kaydedilmez istatistikler kendiliğinden birikir.",
 
     StringKey.MapFilterButtonLabel to "Filtreler",
     StringKey.MapFilterDialogTitle to "Haritadaki mantarlara uygulanacak filtreleri ayarlayın:",

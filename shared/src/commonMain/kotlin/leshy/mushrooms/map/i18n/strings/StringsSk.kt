@@ -101,6 +101,8 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Potvrdiť",
     StringKey.RecordMarkLocationContentDescription to "Označiť miesto",
     StringKey.RecordLocationUnavailable to "Poloha nie je dostupná — trasa sa nezaznamenáva. Zapnite polohové služby a povoľte k nim prístup v nastaveniach zariadenia.",
+    StringKey.RecordLocationUnknownMessage to
+        "Poloha zatiaľ nie je známa — značku nie je k čomu pripojiť. Skontrolujte, či je poloha zapnutá, a počkajte na signál.",
     StringKey.RecordSearchContentDescription to "Hľadať",
     StringKey.RecordSearchDialogTitle to "Vyberte požadovanú hubu",
     StringKey.RecordBulkAddQuestion to "Koľko nových húb ste našli?",
@@ -109,7 +111,7 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Potvrdiť",
     StringKey.RecordBulkAddLimitMessage to
         "Maximálne 999 nálezov rovnakého druhu na jednu prechádzku.",
-    StringKey.RecordBulkAddLimitConfirm to "Rozumiem",
+    StringKey.DialogAcknowledge to "Rozumiem",
 
     StringKey.NavigationDirectionToPrefix to "Smer k",
     StringKey.NavigationDistanceToTargetPrefix to "do cieľa",
@@ -143,6 +145,8 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Nie",
 
     StringKey.ArchiveEmpty to "Zatiaľ žiadne prechádzky",
+    StringKey.ArchiveEmptyHint to "Zaznamenané prechádzky sa objavia tu: trasa, nálezy a označené miesta.",
+    StringKey.EmptyStartWalkButton to "Začať prechádzku",
     StringKey.ArchiveDeleteWalksButton to "Odstrániť prechádzky",
     StringKey.ArchiveDeleteConfirmMessage to
         "Naozaj chcete natrvalo odstrániť vybrané prechádzky?",
@@ -207,6 +211,7 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Štatistika",
     StringKey.MapStatsWalksCount to "Prechádzok",
     StringKey.MapStatsFindsCount to "Nájdených húb",
+    StringKey.MapStatsEmptyHint to "Štatistika sa poskladá sama, hneď ako bude zaznamenaná prvá prechádzka.",
 
     StringKey.MapFilterButtonLabel to "Filtre",
     StringKey.MapFilterDialogTitle to

@@ -103,6 +103,8 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "დადასტურება",
     StringKey.RecordMarkLocationContentDescription to "ადგილის მონიშვნა",
     StringKey.RecordLocationUnavailable to "მდებარეობა მიუწვდომელია — მარშრუტი არ იწერება. ჩართეთ გეოლოკაცია და მიეცით აპლიკაციას წვდომა მოწყობილობის პარამეტრებში.",
+    StringKey.RecordLocationUnknownMessage to
+        "მდებარეობა ჯერ არ არის ცნობილი — ნიშნულს მიბმის ადგილი არ აქვს. შეამოწმეთ, ჩართულია თუ არა გეოლოკაცია, და დაელოდეთ სიგნალს.",
     StringKey.RecordSearchContentDescription to "ძიება",
     StringKey.RecordSearchDialogTitle to "აირჩიეთ საჭირო სოკო",
     StringKey.RecordBulkAddQuestion to "რამდენი ახალი სოკო იპოვეთ?",
@@ -111,7 +113,7 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "დადასტურება",
     StringKey.RecordBulkAddLimitMessage to
         "ერთ გასეირნებაზე მაქსიმუმ 999 ერთი და იმავე სახეობის აღმოჩენა.",
-    StringKey.RecordBulkAddLimitConfirm to "გასაგებია",
+    StringKey.DialogAcknowledge to "გასაგებია",
 
     StringKey.NavigationDirectionToPrefix to "მიმართულება:",
     StringKey.NavigationDistanceToTargetPrefix to "მიზნამდე",
@@ -145,6 +147,9 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "არა",
 
     StringKey.ArchiveEmpty to "გასეირნებები ჯერ არ არის",
+    StringKey.ArchiveEmptyHint to
+        "აქ იქნება ჩაწერილი გასეირნებები: მარშრუტი, ნაპოვნი სოკოები და მონიშნული ადგილები.",
+    StringKey.EmptyStartWalkButton to "გასეირნების დაწყება",
     StringKey.ArchiveDeleteWalksButton to "გასეირნებების წაშლა",
     StringKey.ArchiveDeleteConfirmMessage to
         "ნამდვილად გსურთ არჩეული გასეირნებების სამუდამოდ წაშლა?",
@@ -209,6 +214,7 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "სტატისტიკა",
     StringKey.MapStatsWalksCount to "გასეირნებები",
     StringKey.MapStatsFindsCount to "ნაპოვნი სოკოები",
+    StringKey.MapStatsEmptyHint to "სტატისტიკა თავად შეგროვდება, როგორც კი პირველი გასეირნება ჩაიწერება.",
 
     StringKey.MapFilterButtonLabel to "ფილტრები",
     StringKey.MapFilterDialogTitle to

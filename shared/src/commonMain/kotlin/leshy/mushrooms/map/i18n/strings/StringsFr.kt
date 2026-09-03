@@ -102,6 +102,8 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Valider",
     StringKey.RecordMarkLocationContentDescription to "Marquer l'emplacement",
     StringKey.RecordLocationUnavailable to "La position n'est pas disponible — l'itinéraire n'est pas enregistré. Activez la localisation et autorisez-y l'accès dans les réglages de l'appareil.",
+    StringKey.RecordLocationUnknownMessage to
+        "Votre position n'est pas encore connue : il n'y a rien à quoi rattacher le repère. Vérifiez que la localisation est activée et attendez le signal.",
     StringKey.RecordSearchContentDescription to "Rechercher",
     StringKey.RecordSearchDialogTitle to "Choisissez le champignon recherché",
     StringKey.RecordBulkAddQuestion to "Combien de nouveaux champignons trouvés ?",
@@ -110,7 +112,7 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Valider",
     StringKey.RecordBulkAddLimitMessage to
         "Maximum de 999 trouvailles de la même espèce par promenade.",
-    StringKey.RecordBulkAddLimitConfirm to "Compris",
+    StringKey.DialogAcknowledge to "Compris",
 
     StringKey.NavigationDirectionToPrefix to "Direction vers",
     StringKey.NavigationDistanceToTargetPrefix to "jusqu'à la cible",
@@ -144,6 +146,9 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Non",
 
     StringKey.ArchiveEmpty to "Aucune promenade enregistrée pour le moment",
+    StringKey.ArchiveEmptyHint to
+        "Les promenades enregistrées apparaîtront ici : l'itinéraire, les trouvailles et les lieux marqués.",
+    StringKey.EmptyStartWalkButton to "Démarrer une promenade",
     StringKey.ArchiveDeleteWalksButton to "Supprimer les promenades",
     StringKey.ArchiveDeleteConfirmMessage to
         "Voulez-vous vraiment supprimer définitivement les promenades sélectionnées ?",
@@ -210,6 +215,8 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistiques",
     StringKey.MapStatsWalksCount to "Promenades",
     StringKey.MapStatsFindsCount to "Champignons trouvés",
+    StringKey.MapStatsEmptyHint to
+        "Les statistiques se constitueront d'elles-mêmes dès la première promenade enregistrée.",
 
     StringKey.MapFilterButtonLabel to "Filtres",
     StringKey.MapFilterDialogTitle to

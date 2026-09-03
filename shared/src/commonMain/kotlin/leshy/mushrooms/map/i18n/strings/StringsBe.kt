@@ -100,6 +100,8 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Прыняць",
     StringKey.RecordMarkLocationContentDescription to "Пазначыць месца",
     StringKey.RecordLocationUnavailable to "Месцазнаходжанне недаступнае — маршрут не запісваецца. Уключыце геалакацыю і дазвольце да яе доступ у наладах прылады.",
+    StringKey.RecordLocationUnknownMessage to
+        "Месцазнаходжанне пакуль не вызначана — пазнаку няма да чаго прывязаць. Праверце, ці ўключана геалакацыя, і пачакайце сігналу.",
     StringKey.RecordSearchContentDescription to "Пошук",
     StringKey.RecordSearchDialogTitle to "Выберыце патрэбны грыб",
     StringKey.RecordBulkAddQuestion to "Колькі новых грыбоў знойдзена?",
@@ -108,7 +110,7 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Прыняць",
     StringKey.RecordBulkAddLimitMessage to
         "Максімум аднолькавых грыбоў за адну прагулку — 999.",
-    StringKey.RecordBulkAddLimitConfirm to "Зразумела",
+    StringKey.DialogAcknowledge to "Зразумела",
 
     StringKey.NavigationDirectionToPrefix to "Напрамак да",
     StringKey.NavigationDistanceToTargetPrefix to "да мэты",
@@ -142,6 +144,8 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Не",
 
     StringKey.ArchiveEmpty to "Прагулак пакуль няма",
+    StringKey.ArchiveEmptyHint to "Тут будуць запісаныя прагулкі: маршрут, знаходкі і пазначаныя месцы.",
+    StringKey.EmptyStartWalkButton to "Пачаць прагулку",
     StringKey.ArchiveDeleteWalksButton to "Выдаліць прагулкі",
     StringKey.ArchiveDeleteConfirmMessage to
         "Вы ўпэўнены, што хочаце беззваротна выдаліць вылучаныя прагулкі?",
@@ -206,6 +210,7 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Статыстыка",
     StringKey.MapStatsWalksCount to "Прагулак",
     StringKey.MapStatsFindsCount to "Знойдзена грыбоў",
+    StringKey.MapStatsEmptyHint to "Статыстыка збярэцца сама, як толькі будзе запісана першая прагулка.",
 
     StringKey.MapFilterButtonLabel to "Фільтры",
     StringKey.MapFilterDialogTitle to "Наладзьце фільтры, якія прымяняюцца да грыбоў на карце:",

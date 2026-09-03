@@ -102,6 +102,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Kinnita",
     StringKey.RecordMarkLocationContentDescription to "Märgi koht",
     StringKey.RecordLocationUnavailable to "Asukoht ei ole saadaval — marsruuti ei salvestata. Lülita asukohateenused sisse ja luba rakendusele juurdepääs seadme seadetes.",
+    StringKey.RecordLocationUnknownMessage to
+        "Asukoht pole veel teada — märget pole millegi külge siduda. Kontrolli, kas asukoht on sisse lülitatud, ja oota signaali.",
     StringKey.RecordSearchContentDescription to "Otsing",
     StringKey.RecordSearchDialogTitle to "Valige soovitud seen",
     StringKey.RecordBulkAddQuestion to "Mitu uut seent leidsite?",
@@ -110,7 +112,7 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Kinnita",
     StringKey.RecordBulkAddLimitMessage to
         "Ühe matka kohta kuni 999 sama liigi leidu.",
-    StringKey.RecordBulkAddLimitConfirm to "Selge",
+    StringKey.DialogAcknowledge to "Selge",
 
     StringKey.NavigationDirectionToPrefix to "Suund sihtkohta",
     StringKey.NavigationDistanceToTargetPrefix to "sihtkohani",
@@ -144,6 +146,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Ei",
 
     StringKey.ArchiveEmpty to "Matku veel pole",
+    StringKey.ArchiveEmptyHint to "Salvestatud matkad ilmuvad siia: marsruut, leiud ja märgitud kohad.",
+    StringKey.EmptyStartWalkButton to "Alusta matka",
     StringKey.ArchiveDeleteWalksButton to "Kustuta matkad",
     StringKey.ArchiveDeleteConfirmMessage to
         "Kas soovite kindlasti valitud matkad jäädavalt kustutada?",
@@ -208,6 +212,7 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistika",
     StringKey.MapStatsWalksCount to "Matku",
     StringKey.MapStatsFindsCount to "Leitud seeni",
+    StringKey.MapStatsEmptyHint to "Statistika koguneb ise, niipea kui esimene matk on salvestatud.",
 
     StringKey.MapFilterButtonLabel to "Filtrid",
     StringKey.MapFilterDialogTitle to

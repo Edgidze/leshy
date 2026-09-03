@@ -99,13 +99,15 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordLocationUnavailable to
         "Տեղորոշումն անհասանելի է — երթուղին չի գրանցվում։ Միացրեք տեղորոշման ծառայությունները " +
             "և սարքի կարգավորումներում թույլ տվեք հավելվածին օգտվել դրանցից։",
+    StringKey.RecordLocationUnknownMessage to
+        "Տեղորոշումը դեռ հայտնի չէ՝ նշումը կապելու տեղ չկա։ Ստուգեք՝ միացված է արդյոք տեղորոշումը, և սպասեք ազդանշանին։",
     StringKey.RecordSearchContentDescription to "Որոնում",
     StringKey.RecordSearchDialogTitle to "Ընտրեք ձեզ անհրաժեշտ սունկը",
     StringKey.RecordBulkAddQuestion to "Քանի՞ նոր սունկ է գտնվել",
     StringKey.RecordBulkAddCancelContentDescription to "Չեղարկել",
     StringKey.RecordBulkAddConfirmContentDescription to "Հաստատել",
     StringKey.RecordBulkAddLimitMessage to "Մեկ զբոսանքում նույն տեսակի առավելագույնը 999 գտածո։",
-    StringKey.RecordBulkAddLimitConfirm to "Հասկացա",
+    StringKey.DialogAcknowledge to "Հասկացա",
 
     StringKey.NavigationDirectionToPrefix to "Ուղղություն՝",
     StringKey.NavigationDistanceToTargetPrefix to "մինչև նպատակակետ",
@@ -138,6 +140,8 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Ոչ",
 
     StringKey.ArchiveEmpty to "Դեռ ոչ մի զբոսանք գրանցված չէ",
+    StringKey.ArchiveEmptyHint to "Այստեղ կլինեն գրանցված զբոսանքները՝ երթուղին, գտածոները և նշված վայրերը։",
+    StringKey.EmptyStartWalkButton to "Սկսել զբոսանք",
     StringKey.ArchiveDeleteWalksButton to "Ջնջել զբոսանքները",
     StringKey.ArchiveDeleteConfirmMessage to
         "Վստա՞հ եք, որ ուզում եք ընդմիշտ ջնջել ընտրված զբոսանքները",
@@ -203,6 +207,7 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Վիճակագրություն",
     StringKey.MapStatsWalksCount to "Զբոսանքներ",
     StringKey.MapStatsFindsCount to "Գտնված սնկեր",
+    StringKey.MapStatsEmptyHint to "Վիճակագրությունը կհավաքվի ինքնաբերաբար, հենց որ գրանցվի առաջին զբոսանքը։",
     StringKey.MapFilterButtonLabel to "Զտիչներ",
     StringKey.MapFilterDialogTitle to "Կարգավորեք քարտեզի սնկերի վրա կիրառվող զտիչները՝",
     StringKey.MapFilterBackContentDescription to "Հետ",

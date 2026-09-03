@@ -96,6 +96,8 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "確定",
     StringKey.RecordMarkLocationContentDescription to "場所を記録",
     StringKey.RecordLocationUnavailable to "現在地を取得できません — ルートは記録されていません。端末の設定で位置情報をオンにし、アプリに許可してください。",
+    StringKey.RecordLocationUnknownMessage to
+        "現在地がまだ分かりません。記録を結び付ける場所がないため、位置情報がオンか確認し、信号を待ってください。",
     StringKey.RecordSearchContentDescription to "検索",
     StringKey.RecordSearchDialogTitle to "必要なキノコを選択してください",
     StringKey.RecordBulkAddQuestion to "新しく見つけたキノコの数は?",
@@ -103,7 +105,7 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
 
     StringKey.RecordBulkAddConfirmContentDescription to "確定",
     StringKey.RecordBulkAddLimitMessage to "1回の散策で記録できる同じ種類のキノコは最大999個までです。",
-    StringKey.RecordBulkAddLimitConfirm to "了解",
+    StringKey.DialogAcknowledge to "了解",
 
     // Fixed prefix+value concatenation templates (`NavigationOverlayPanel.kt`) don't match
     // Japanese word order (postpositions, no case-marking prefixes) — phrased as label-style
@@ -139,6 +141,8 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "いいえ",
 
     StringKey.ArchiveEmpty to "まだ散策の記録がありません",
+    StringKey.ArchiveEmptyHint to "記録した散策がここに並びます。ルート、見つけたキノコ、記録した場所。",
+    StringKey.EmptyStartWalkButton to "散策を始める",
     StringKey.ArchiveDeleteWalksButton to "散策を削除",
     StringKey.ArchiveDeleteConfirmMessage to "選択した散策を完全に削除してもよろしいですか?",
     StringKey.ArchiveDeleteConfirmYes to "はい",
@@ -202,6 +206,7 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "統計",
     StringKey.MapStatsWalksCount to "散策回数",
     StringKey.MapStatsFindsCount to "発見したキノコ",
+    StringKey.MapStatsEmptyHint to "最初の散策を記録すると、統計は自動的にたまっていきます。",
 
     StringKey.MapFilterButtonLabel to "フィルター",
     StringKey.MapFilterDialogTitle to "地図上のキノコに適用するフィルターを設定してください:",

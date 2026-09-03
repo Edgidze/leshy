@@ -155,6 +155,9 @@ class MapViewModel(
                 categoryCounts = categoryCounts,
             ),
             filterCount = computeFilterCount(filter, raw.walks, raw.categories),
+            // Сюда попадают только настоящие данные — сам факт вызова и означает, что база
+            // ответила.
+            isLoading = false,
         )
     }
 }

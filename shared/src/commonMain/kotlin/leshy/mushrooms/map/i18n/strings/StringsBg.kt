@@ -100,6 +100,8 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Потвърди",
     StringKey.RecordMarkLocationContentDescription to "Отбележи място",
     StringKey.RecordLocationUnavailable to "Местоположението не е налично — маршрутът не се записва. Включете услугите за местоположение и разрешете достъпа в настройките на устройството.",
+    StringKey.RecordLocationUnknownMessage to
+        "Местоположението още не е определено — няма към какво да се привърже маркерът. Проверете дали местоположението е включено и изчакайте сигнал.",
     StringKey.RecordSearchContentDescription to "Търсене",
     StringKey.RecordSearchDialogTitle to "Изберете нужната гъба",
     StringKey.RecordBulkAddQuestion to "Колко нови гъби са намерени?",
@@ -108,7 +110,7 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Потвърди",
     StringKey.RecordBulkAddLimitMessage to
         "Максимум еднакви гъби за една разходка — 999.",
-    StringKey.RecordBulkAddLimitConfirm to "Разбрах",
+    StringKey.DialogAcknowledge to "Разбрах",
 
     StringKey.NavigationDirectionToPrefix to "Посока към",
     StringKey.NavigationDistanceToTargetPrefix to "до целта",
@@ -142,6 +144,8 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Не",
 
     StringKey.ArchiveEmpty to "Все още няма разходки",
+    StringKey.ArchiveEmptyHint to "Тук ще бъдат записаните разходки: маршрут, находки и отбелязани места.",
+    StringKey.EmptyStartWalkButton to "Започни разходка",
     StringKey.ArchiveDeleteWalksButton to "Изтриване на разходки",
     StringKey.ArchiveDeleteConfirmMessage to
         "Сигурни ли сте, че искате безвъзвратно да изтриете избраните разходки?",
@@ -207,6 +211,7 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Статистика",
     StringKey.MapStatsWalksCount to "Разходки",
     StringKey.MapStatsFindsCount to "Намерени гъби",
+    StringKey.MapStatsEmptyHint to "Статистиката ще се събере сама, щом бъде записана първата разходка.",
 
     StringKey.MapFilterButtonLabel to "Филтри",
     StringKey.MapFilterDialogTitle to

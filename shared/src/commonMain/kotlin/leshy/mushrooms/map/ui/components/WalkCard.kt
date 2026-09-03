@@ -1,8 +1,6 @@
 package leshy.mushrooms.map.ui.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -20,13 +18,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -40,9 +38,6 @@ import leshy.mushrooms.map.ui.util.formatDateOnly
 import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDurationShort
 import kotlin.time.Duration.Companion.seconds
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 /**
  * Сторона квадратной миниатюры маршрута. Постоянная и одинаковая у всех карточек списка: и
@@ -98,32 +93,26 @@ fun WalkCard(
     onLongPress: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // Пять секунд — время, которое пользователь не выдержит по догадке, а удержание карточки
+    // остаётся единственным способом удалить прогулку (§3.2 дизайн-аудита). Заливка, доходящая до
+    // правого края ровно к порогу, объясняет жест с первого случайного касания. Цвет — `primary`,
+    // тот же, каким обводится выбранная карточка: то, к чему удержание ведёт.
+    var holdProgress by remember { mutableFloatStateOf(0f) }
+
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .pointerInput(walk.id) {
-                // Custom gesture instead of combinedClickable: the built-in long-press threshold
-                // isn't configurable, and this needs a much longer, fixed 5s hold. A delay() timer
-                // races the actual release — whichever resolves first wins. Each primitive
-                // (awaitFirstDown/waitForUpOrCancellation) needs its own awaitPointerEventScope
-                // call, made from this unrestricted outer scope: awaitPointerEventScope's own block
-                // is a @RestrictsSuspension scope that can't itself call launch/delay/coroutineScope.
-                while (true) {
-                    awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
-                    var longPressFired = false
-                    val up = coroutineScope {
-                        val longPressJob = launch {
-                            delay(SELECTION_LONG_PRESS_DURATION)
-                            longPressFired = true
-                            onLongPress()
-                        }
-                        val result = awaitPointerEventScope { waitForUpOrCancellation() }
-                        longPressJob.cancel()
-                        result
-                    }
-                    if (up != null && !longPressFired) onClick()
-                }
-            },
+            .holdProgressWipe(
+                shape = CardDefaults.shape,
+                color = MaterialTheme.colorScheme.primary,
+                progress = { holdProgress },
+            )
+            .tapOrHold(
+                holdDuration = SELECTION_LONG_PRESS_DURATION,
+                onTap = onClick,
+                onHold = onLongPress,
+                onHoldProgress = { holdProgress = it },
+            ),
         colors = if (isSelected) {
             CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
         } else {

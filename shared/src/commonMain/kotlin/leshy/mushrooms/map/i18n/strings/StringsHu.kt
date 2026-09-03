@@ -104,6 +104,8 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Elfogadás",
     StringKey.RecordMarkLocationContentDescription to "Hely megjelölése",
     StringKey.RecordLocationUnavailable to "A helyadatok nem érhetők el — az útvonal nem kerül rögzítésre. Kapcsold be a helymeghatározást, és engedélyezd a hozzáférést a készülék beállításaiban.",
+    StringKey.RecordLocationUnknownMessage to
+        "A helyzeted még nem ismert — nincs mihez kötni a jelölést. Ellenőrizd, hogy a helymeghatározás be van-e kapcsolva, és várj a jelre.",
     StringKey.RecordSearchContentDescription to "Keresés",
     StringKey.RecordSearchDialogTitle to "Válassza ki a keresett gombát",
     StringKey.RecordBulkAddQuestion to "Hány új gombát talált?",
@@ -112,7 +114,7 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Elfogadás",
     StringKey.RecordBulkAddLimitMessage to
         "Sétánként legfeljebb 999 azonos fajú lelet.",
-    StringKey.RecordBulkAddLimitConfirm to "Értem",
+    StringKey.DialogAcknowledge to "Értem",
 
     StringKey.NavigationDirectionToPrefix to "Irány:",
     StringKey.NavigationDistanceToTargetPrefix to "a célig",
@@ -146,6 +148,9 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Nem",
 
     StringKey.ArchiveEmpty to "Még nincsenek séták",
+    StringKey.ArchiveEmptyHint to
+        "A rögzített séták itt jelennek meg: az útvonal, a talált gombák és a megjelölt helyek.",
+    StringKey.EmptyStartWalkButton to "Séta indítása",
     StringKey.ArchiveDeleteWalksButton to "Séták törlése",
     StringKey.ArchiveDeleteConfirmMessage to
         "Biztosan véglegesen törli a kijelölt sétákat?",
@@ -210,6 +215,7 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statisztika",
     StringKey.MapStatsWalksCount to "Séták",
     StringKey.MapStatsFindsCount to "Talált gombák",
+    StringKey.MapStatsEmptyHint to "A statisztika magától összeáll, amint elkészül az első rögzített séta.",
 
     StringKey.MapFilterButtonLabel to "Szűrők",
     StringKey.MapFilterDialogTitle to

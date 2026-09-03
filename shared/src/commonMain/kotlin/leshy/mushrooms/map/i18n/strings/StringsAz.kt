@@ -99,13 +99,15 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordLocationUnavailable to
         "Məkan əlçatan deyil — marşrut yazılmır. Cihazın parametrlərində məkan xidmətlərini " +
             "yandırın və tətbiqə onlardan istifadəyə icazə verin.",
+    StringKey.RecordLocationUnknownMessage to
+        "Məkan hələ təyin edilməyib — nişanı bağlamağa yer yoxdur. Məkan xidmətlərinin açıq olduğunu yoxlayın və siqnalı gözləyin.",
     StringKey.RecordSearchContentDescription to "Axtarış",
     StringKey.RecordSearchDialogTitle to "Lazım olan göbələyi seçin",
     StringKey.RecordBulkAddQuestion to "Neçə yeni göbələk tapıldı?",
     StringKey.RecordBulkAddCancelContentDescription to "Ləğv et",
     StringKey.RecordBulkAddConfirmContentDescription to "Təsdiqlə",
     StringKey.RecordBulkAddLimitMessage to "Bir gəzintidə eyni növdən ən çoxu 999 tapıntı.",
-    StringKey.RecordBulkAddLimitConfirm to "Aydındır",
+    StringKey.DialogAcknowledge to "Aydındır",
 
     StringKey.NavigationDirectionToPrefix to "İstiqamət:",
     StringKey.NavigationDistanceToTargetPrefix to "hədəfə qədər",
@@ -138,6 +140,9 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Xeyr",
 
     StringKey.ArchiveEmpty to "Hələ heç bir gəzinti yazılmayıb",
+    StringKey.ArchiveEmptyHint to
+        "Yazılan gəzintilər burada olacaq: marşrut, tapıntılar və qeyd edilmiş yerlər.",
+    StringKey.EmptyStartWalkButton to "Gəzintiyə başla",
     StringKey.ArchiveDeleteWalksButton to "Gəzintiləri sil",
     StringKey.ArchiveDeleteConfirmMessage to
         "Seçilmiş gəzintiləri həmişəlik silmək istədiyinizə əminsiniz?",
@@ -203,6 +208,7 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistika",
     StringKey.MapStatsWalksCount to "Gəzintilər",
     StringKey.MapStatsFindsCount to "Tapılan göbələklər",
+    StringKey.MapStatsEmptyHint to "İlk gəzinti yazılan kimi statistika özü yığılacaq.",
     StringKey.MapFilterButtonLabel to "Filtrlər",
     StringKey.MapFilterDialogTitle to "Xəritədəki göbələklərə tətbiq olunan filtrləri tənzimləyin:",
     StringKey.MapFilterBackContentDescription to "Geri",

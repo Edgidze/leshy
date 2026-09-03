@@ -104,13 +104,15 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordLocationUnavailable to
         "Joylashuv mavjud emas — marshrut yozilmayapti. Qurilma sozlamalarida joylashuv " +
             "xizmatlarini yoqing va ilovaga ulardan foydalanishga ruxsat bering.",
+    StringKey.RecordLocationUnknownMessage to
+        "Joylashuv hali aniqlanmadi — belgini bogʻlash uchun hech narsa yoʻq. Geolokatsiya yoqilganini tekshiring va signalni kuting.",
     StringKey.RecordSearchContentDescription to "Qidirish",
     StringKey.RecordSearchDialogTitle to "Kerakli qoʻziqorinni tanlang",
     StringKey.RecordBulkAddQuestion to "Nechta yangi qoʻziqorin topildi?",
     StringKey.RecordBulkAddCancelContentDescription to "Bekor qilish",
     StringKey.RecordBulkAddConfirmContentDescription to "Tasdiqlash",
     StringKey.RecordBulkAddLimitMessage to "Bitta sayrda bir turdan koʻpi bilan 999 ta topilma.",
-    StringKey.RecordBulkAddLimitConfirm to "Tushunarli",
+    StringKey.DialogAcknowledge to "Tushunarli",
 
     StringKey.NavigationDirectionToPrefix to "Yoʻnalish:",
     StringKey.NavigationDistanceToTargetPrefix to "nishongacha",
@@ -144,6 +146,9 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Yoʻq",
 
     StringKey.ArchiveEmpty to "Hali birorta sayr yozilmagan",
+    StringKey.ArchiveEmptyHint to
+        "Yozib olingan sayrlar shu yerda boʻladi: marshrut, topilmalar va belgilangan joylar.",
+    StringKey.EmptyStartWalkButton to "Sayrni boshlash",
     StringKey.ArchiveDeleteWalksButton to "Sayrlarni oʻchirish",
     StringKey.ArchiveDeleteConfirmMessage to
         "Tanlangan sayrlarni butunlay oʻchirmoqchi ekaningizga ishonchingiz komilmi?",
@@ -210,6 +215,7 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistika",
     StringKey.MapStatsWalksCount to "Sayrlar",
     StringKey.MapStatsFindsCount to "Topilgan qoʻziqorinlar",
+    StringKey.MapStatsEmptyHint to "Birinchi sayr yozib olinishi bilan statistika oʻzi yigʻiladi.",
     StringKey.MapFilterButtonLabel to "Filtrlar",
     StringKey.MapFilterDialogTitle to
         "Xaritadagi qoʻziqorinlarga qoʻllanadigan filtrlarni sozlang:",

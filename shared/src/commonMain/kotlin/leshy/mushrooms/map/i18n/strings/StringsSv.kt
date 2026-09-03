@@ -98,6 +98,8 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Bekräfta",
     StringKey.RecordMarkLocationContentDescription to "Markera plats",
     StringKey.RecordLocationUnavailable to "Platsen är inte tillgänglig — rutten spelas inte in. Slå på platstjänster och tillåt åtkomst i enhetens inställningar.",
+    StringKey.RecordLocationUnknownMessage to
+        "Din position är inte känd ännu — det finns inget att fästa markeringen vid. Kontrollera att platstjänster är på och vänta på signal.",
     StringKey.RecordSearchContentDescription to "Sök",
     StringKey.RecordSearchDialogTitle to "Välj den svamp du behöver",
     StringKey.RecordBulkAddQuestion to "Hur många nya svampar hittades?",
@@ -106,7 +108,7 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Bekräfta",
     StringKey.RecordBulkAddLimitMessage to
         "Högst 999 fynd av samma art per promenad.",
-    StringKey.RecordBulkAddLimitConfirm to "Förstått",
+    StringKey.DialogAcknowledge to "Förstått",
 
     StringKey.NavigationDirectionToPrefix to "Riktning till",
     StringKey.NavigationDistanceToTargetPrefix to "till målet",
@@ -140,6 +142,9 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Nej",
 
     StringKey.ArchiveEmpty to "Inga promenader ännu",
+    StringKey.ArchiveEmptyHint to
+        "Här samlas dina inspelade promenader: rutten, fynden och de markerade platserna.",
+    StringKey.EmptyStartWalkButton to "Starta en promenad",
     StringKey.ArchiveDeleteWalksButton to "Ta bort promenader",
     StringKey.ArchiveDeleteConfirmMessage to
         "Är du säker på att du vill ta bort de valda promenaderna permanent?",
@@ -204,6 +209,8 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistik",
     StringKey.MapStatsWalksCount to "Promenader",
     StringKey.MapStatsFindsCount to "Hittade svampar",
+    StringKey.MapStatsEmptyHint to
+        "Statistiken byggs upp av sig själv så snart den första promenaden är inspelad.",
 
     StringKey.MapFilterButtonLabel to "Filter",
     StringKey.MapFilterDialogTitle to "Ställ in filtren som tillämpas på svampar på kartan:",

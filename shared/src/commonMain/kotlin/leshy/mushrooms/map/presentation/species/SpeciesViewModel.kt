@@ -69,7 +69,9 @@ class SpeciesViewModel(
         viewModelScope.launch {
             categoryRepository.observeNonCatalog().collect { species ->
                 val ordered = species.sortedWith(compareBy({ it.source != CategorySource.USER }, { it.order }))
-                _uiState.update { it.copy(userSpecies = ordered) }
+                // isLoading снимается именно этим сборщиком: он единственный кормит список
+                // «моих грибов», у которого есть пустое состояние.
+                _uiState.update { it.copy(userSpecies = ordered, isLoading = false) }
             }
         }
         viewModelScope.launch {

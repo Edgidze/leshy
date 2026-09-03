@@ -103,13 +103,15 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordLocationUnavailable to
         "Жайгашуу жеткиликсиз — маршрут жазылбай жатат. Түзмөктүн жөндөөлөрүнөн жайгашуу " +
             "кызматтарын күйгүзүп, колдонмого аларды пайдаланууга уруксат бериңиз.",
+    StringKey.RecordLocationUnknownMessage to
+        "Жайгашкан жер азырынча белгисиз — белгини байлаганга эч нерсе жок. Геолокация күйгүзүлгөнүн текшериңиз жана сигналды күтүңүз.",
     StringKey.RecordSearchContentDescription to "Издөө",
     StringKey.RecordSearchDialogTitle to "Керектүү козу карынды тандаңыз",
     StringKey.RecordBulkAddQuestion to "Канча жаңы козу карын табылды?",
     StringKey.RecordBulkAddCancelContentDescription to "Жокко чыгаруу",
     StringKey.RecordBulkAddConfirmContentDescription to "Ырастоо",
     StringKey.RecordBulkAddLimitMessage to "Бир сейилдөөдө бир түрдөн эң көп дегенде 999 табылга.",
-    StringKey.RecordBulkAddLimitConfirm to "Түшүнүктүү",
+    StringKey.DialogAcknowledge to "Түшүнүктүү",
 
     StringKey.NavigationDirectionToPrefix to "Багыты:",
     StringKey.NavigationDistanceToTargetPrefix to "бутага чейин",
@@ -143,6 +145,9 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Жок",
 
     StringKey.ArchiveEmpty to "Азырынча бир да сейилдөө жазылган эмес",
+    StringKey.ArchiveEmptyHint to
+        "Бул жерде жазылган сейилдөөлөр болот: маршрут, табылган козу карындар жана белгиленген жерлер.",
+    StringKey.EmptyStartWalkButton to "Сейилдөөнү баштоо",
     StringKey.ArchiveDeleteWalksButton to "Сейилдөөлөрдү өчүрүү",
     StringKey.ArchiveDeleteConfirmMessage to
         "Тандалган сейилдөөлөрдү биротоло өчүрүүнү каалаганыңыз анык бекен?",
@@ -209,6 +214,7 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Статистика",
     StringKey.MapStatsWalksCount to "Сейилдөөлөр",
     StringKey.MapStatsFindsCount to "Табылган козу карындар",
+    StringKey.MapStatsEmptyHint to "Биринчи сейилдөө жазылганда эле, статистика өзү чогулат.",
     StringKey.MapFilterButtonLabel to "Чыпкалар",
     StringKey.MapFilterDialogTitle to
         "Картадагы козу карындарга колдонулуучу чыпкаларды жөндөңүз:",

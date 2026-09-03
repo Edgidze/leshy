@@ -100,6 +100,8 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Zatwierdź",
     StringKey.RecordMarkLocationContentDescription to "Zaznacz miejsce",
     StringKey.RecordLocationUnavailable to "Lokalizacja jest niedostępna — trasa nie jest zapisywana. Włącz lokalizację i zezwól aplikacji na dostęp w ustawieniach urządzenia.",
+    StringKey.RecordLocationUnknownMessage to
+        "Twoja lokalizacja nie jest jeszcze znana — nie ma do czego przypiąć znacznika. Sprawdź, czy lokalizacja jest włączona, i poczekaj na sygnał.",
     StringKey.RecordSearchContentDescription to "Szukaj",
     StringKey.RecordSearchDialogTitle to "Wybierz potrzebny grzyb",
     StringKey.RecordBulkAddQuestion to "Ile nowych grzybów znaleziono?",
@@ -108,7 +110,7 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Zatwierdź",
     StringKey.RecordBulkAddLimitMessage to
         "Maksymalnie 999 znalezisk tego samego gatunku na jeden spacer.",
-    StringKey.RecordBulkAddLimitConfirm to "Rozumiem",
+    StringKey.DialogAcknowledge to "Rozumiem",
 
     StringKey.NavigationDirectionToPrefix to "Kierunek do",
     StringKey.NavigationDistanceToTargetPrefix to "do celu",
@@ -142,6 +144,9 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Nie",
 
     StringKey.ArchiveEmpty to "Brak zarejestrowanych spacerów",
+    StringKey.ArchiveEmptyHint to
+        "Tu pojawią się zarejestrowane spacery: trasa, znaleziska i zaznaczone miejsca.",
+    StringKey.EmptyStartWalkButton to "Rozpocznij spacer",
     StringKey.ArchiveDeleteWalksButton to "Usuń spacery",
     StringKey.ArchiveDeleteConfirmMessage to
         "Czy na pewno chcesz trwale usunąć zaznaczone spacery?",
@@ -206,6 +211,8 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statystyki",
     StringKey.MapStatsWalksCount to "Spacery",
     StringKey.MapStatsFindsCount to "Znalezione grzyby",
+    StringKey.MapStatsEmptyHint to
+        "Statystyki zbiorą się same, gdy tylko zostanie zarejestrowany pierwszy spacer.",
 
     StringKey.MapFilterButtonLabel to "Filtry",
     StringKey.MapFilterDialogTitle to "Skonfiguruj filtry stosowane do grzybów na mapie:",

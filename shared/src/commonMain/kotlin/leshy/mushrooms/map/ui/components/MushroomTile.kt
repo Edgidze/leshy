@@ -4,11 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,20 +22,22 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -56,9 +55,6 @@ import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.mushrooms.map.ui.util.parseHexColor
 import kotlin.time.Duration.Companion.seconds
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 private val MUSHROOM_COUNT_BUTTON_SIZE = 40.dp
 
@@ -99,6 +95,12 @@ private val MUSHROOM_PHOTO_INSET = 4.dp
  */
 val RECORD_TILE_HEIGHT = MUSHROOM_COUNT_BUTTON_SIZE + RECORD_MUSHROOM_TILE_WIDTH / MUSHROOM_PHOTO_ASPECT_RATIO
 
+/**
+ * @param onBulkAdd действие двухсекундного удержания «+». `null` — удержание не считается вовсе:
+ *   ни таймера, ни заливки-индикатора, ни отклика. Так и передаётся, пока прогулка не начата —
+ *   массовому добавлению до старта не на чем сработать, а индикатор, за которым ничего не
+ *   происходит, хуже отсутствующего.
+ */
 @Composable
 fun MushroomTile(
     category: Category,
@@ -106,12 +108,22 @@ fun MushroomTile(
     onAdd: () -> Unit,
     onRemove: () -> Unit,
     modifier: Modifier = Modifier,
-    onBulkAdd: () -> Unit = {},
+    onBulkAdd: (() -> Unit)? = null,
 ) {
     val outlineColor = parseHexColor(category.colorHex)
+    // Заливка идёт по всей плитке, хотя удерживают одну лишь кнопку «+»: под пальцем самой кнопки
+    // не видно, а плитка из-под него торчит. Читается как «эта плитка набирает заряд» — то есть
+    // ровно то, чем массовое добавление и является.
+    var holdProgress by remember { mutableFloatStateOf(0f) }
 
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .holdProgressWipe(
+                shape = CardDefaults.shape,
+                color = MaterialTheme.colorScheme.primary,
+                progress = { holdProgress },
+            ),
         border = BorderStroke(2.dp, outlineColor),
     ) {
         Column {
@@ -140,6 +152,7 @@ fun MushroomTile(
                     onClick = onAdd,
                     onLongHold = onBulkAdd,
                     enabled = count < MAX_MUSHROOM_FINDS_PER_WALK,
+                    onHoldProgress = { holdProgress = it },
                 )
             }
             MushroomPhoto(
@@ -188,68 +201,37 @@ fun AddSpeciesTile(onClick: () -> Unit, modifier: Modifier = Modifier) {
 
 /**
  * The + button — a plain tap logs one find ([onClick]), holding it for
- * [MUSHROOM_BULK_ADD_HOLD_DURATION] opens the bulk-add dialog instead ([onLongHold]). Built from
- * raw [pointerInput] rather than `combinedClickable` because the latter's long-press timeout isn't
- * configurable and defaults to far under a second — same [awaitFirstDown]/
- * [waitForUpOrCancellation] race already used for the map's marker long-press
- * (`MarkerLongPressOverlay.kt`), with the press state fed into [LocalIndication] by hand so the
- * button still shows the normal ripple while held.
+ * [MUSHROOM_BULK_ADD_HOLD_DURATION] opens the bulk-add dialog instead ([onLongHold]). Сам жест и
+ * все его тонкости — в [tapOrHold]; здесь остаётся ровно то, что относится к кнопке: рябь во
+ * время удержания (`indication` + собственный `interactionSource`, чтобы нажатие выглядело
+ * обычным нажатием) и гашение значка по достижении [MAX_MUSHROOM_FINDS_PER_WALK].
  *
- * [onClick]/[onLongHold]/[enabled] are all read through [rememberUpdatedState] and [pointerInput]
- * is keyed on `Unit`, NOT on any of them — while a walk is actively recording, every GPS fix
- * updates `trackPoints`/`distanceMeters` on the record screen, which recreates these closures on
- * each recomposition of the tile feed. Keying `pointerInput` on the lambdas (the first version of
- * this button did) restarted the gesture-detection coroutine on every one of those fixes, wiping
- * out the in-flight 2s hold before it could ever complete — reproduced live: the long-press only
- * "worked" while paused, when nothing was recomposing the tiles fast enough to interrupt it. Once
- * [MAX_MUSHROOM_FINDS_PER_WALK] is reached, [enabled] goes `false` — the gesture is still detected
- * (so the loop doesn't need restarting once the count drops back below the cap) but fires neither
- * callback nor any ripple, and the icon is shown dimmed.
+ * [onLongHold] `null` — удержание не считается: [tapOrHold] не заводит таймер и не зовёт
+ * [onHoldProgress], значит и заливки плитки не будет.
  */
 @Composable
 private fun MushroomAddButton(
     onClick: () -> Unit,
-    onLongHold: () -> Unit,
+    onLongHold: (() -> Unit)?,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    onHoldProgress: (Float) -> Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val currentOnClick = rememberUpdatedState(onClick)
-    val currentOnLongHold = rememberUpdatedState(onLongHold)
-    val currentEnabled = rememberUpdatedState(enabled)
     Box(
         modifier = modifier
             .size(MUSHROOM_COUNT_BUTTON_SIZE)
             .clip(CircleShape)
             .indication(interactionSource, LocalIndication.current)
-            .pointerInput(Unit) {
-                while (true) {
-                    val down = awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
-                    if (!currentEnabled.value) {
-                        awaitPointerEventScope { waitForUpOrCancellation() }
-                        continue
-                    }
-                    val press = PressInteraction.Press(down.position)
-                    interactionSource.tryEmit(press)
-                    var longHoldFired = false
-                    val up = coroutineScope {
-                        val longHoldJob = launch {
-                            delay(MUSHROOM_BULK_ADD_HOLD_DURATION)
-                            longHoldFired = true
-                            currentOnLongHold.value()
-                        }
-                        val result = awaitPointerEventScope { waitForUpOrCancellation() }
-                        longHoldJob.cancel()
-                        result
-                    }
-                    if (up != null) {
-                        interactionSource.tryEmit(PressInteraction.Release(press))
-                        if (!longHoldFired) currentOnClick.value()
-                    } else {
-                        interactionSource.tryEmit(PressInteraction.Cancel(press))
-                    }
-                }
-            },
+            .tapOrHold(
+                holdDuration = MUSHROOM_BULK_ADD_HOLD_DURATION,
+                onTap = onClick,
+                onHold = { onLongHold?.invoke() },
+                enabled = enabled,
+                holdEnabled = onLongHold != null,
+                interactionSource = interactionSource,
+                onHoldProgress = onHoldProgress,
+            ),
         contentAlignment = Alignment.Center,
     ) {
         Icon(

@@ -100,6 +100,8 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Confirmar",
     StringKey.RecordMarkLocationContentDescription to "Marcar ubicación",
     StringKey.RecordLocationUnavailable to "La ubicación no está disponible: la ruta no se está grabando. Activa la ubicación y permite el acceso en los ajustes del dispositivo.",
+    StringKey.RecordLocationUnknownMessage to
+        "Aún no se conoce tu ubicación: no hay dónde anclar la marca. Comprueba que la ubicación esté activada y espera a que haya señal.",
     StringKey.RecordSearchContentDescription to "Buscar",
     StringKey.RecordSearchDialogTitle to "Elija la seta que busca",
     StringKey.RecordBulkAddQuestion to "¿Cuántas setas nuevas ha encontrado?",
@@ -108,7 +110,7 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Confirmar",
     StringKey.RecordBulkAddLimitMessage to
         "Máximo de 999 hallazgos de la misma especie por paseo.",
-    StringKey.RecordBulkAddLimitConfirm to "Entendido",
+    StringKey.DialogAcknowledge to "Entendido",
 
     StringKey.NavigationDirectionToPrefix to "Dirección a",
     StringKey.NavigationDistanceToTargetPrefix to "hasta el destino",
@@ -142,6 +144,9 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "No",
 
     StringKey.ArchiveEmpty to "Aún no hay paseos registrados",
+    StringKey.ArchiveEmptyHint to
+        "Aquí aparecerán los paseos registrados: la ruta, los hallazgos y los lugares marcados.",
+    StringKey.EmptyStartWalkButton to "Empezar un paseo",
     StringKey.ArchiveDeleteWalksButton to "Eliminar paseos",
     StringKey.ArchiveDeleteConfirmMessage to
         "¿Seguro que quiere eliminar de forma permanente los paseos seleccionados?",
@@ -207,6 +212,8 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Estadísticas",
     StringKey.MapStatsWalksCount to "Paseos",
     StringKey.MapStatsFindsCount to "Setas encontradas",
+    StringKey.MapStatsEmptyHint to
+        "Las estadísticas se generarán solas en cuanto se registre el primer paseo.",
 
     StringKey.MapFilterButtonLabel to "Filtros",
     StringKey.MapFilterDialogTitle to "Configure los filtros aplicados a las setas en el mapa:",

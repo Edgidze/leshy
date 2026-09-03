@@ -99,6 +99,8 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Bestätigen",
     StringKey.RecordMarkLocationContentDescription to "Standort markieren",
     StringKey.RecordLocationUnavailable to "Der Standort ist nicht verfügbar — die Route wird nicht aufgezeichnet. Aktiviere die Ortungsdienste und erlaube der App den Zugriff in den Geräteeinstellungen.",
+    StringKey.RecordLocationUnknownMessage to
+        "Der Standort ist noch nicht bekannt — es gibt nichts, woran die Markierung hängen könnte. Prüfe, ob die Ortung eingeschaltet ist, und warte auf ein Signal.",
     StringKey.RecordSearchContentDescription to "Suche",
     StringKey.RecordSearchDialogTitle to "Wählen Sie den gesuchten Pilz aus",
     StringKey.RecordBulkAddQuestion to "Wie viele neue Pilze gefunden?",
@@ -107,7 +109,7 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Bestätigen",
     StringKey.RecordBulkAddLimitMessage to
         "Maximal 999 Funde derselben Art pro Spaziergang.",
-    StringKey.RecordBulkAddLimitConfirm to "Verstanden",
+    StringKey.DialogAcknowledge to "Verstanden",
 
     StringKey.NavigationDirectionToPrefix to "Richtung zu",
     StringKey.NavigationDistanceToTargetPrefix to "bis zum Ziel",
@@ -141,6 +143,9 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Nein",
 
     StringKey.ArchiveEmpty to "Noch keine Spaziergänge aufgezeichnet",
+    StringKey.ArchiveEmptyHint to
+        "Aufgezeichnete Spaziergänge erscheinen hier: Route, Funde und markierte Orte.",
+    StringKey.EmptyStartWalkButton to "Spaziergang starten",
     StringKey.ArchiveDeleteWalksButton to "Spaziergänge löschen",
     StringKey.ArchiveDeleteConfirmMessage to
         "Möchten Sie die ausgewählten Spaziergänge wirklich endgültig löschen?",
@@ -206,6 +211,8 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistik",
     StringKey.MapStatsWalksCount to "Spaziergänge",
     StringKey.MapStatsFindsCount to "Gefundene Pilze",
+    StringKey.MapStatsEmptyHint to
+        "Die Statistik entsteht von selbst, sobald der erste Spaziergang aufgezeichnet ist.",
 
     StringKey.MapFilterButtonLabel to "Filter",
     StringKey.MapFilterDialogTitle to "Legen Sie die Filter für die Pilze auf der Karte fest:",

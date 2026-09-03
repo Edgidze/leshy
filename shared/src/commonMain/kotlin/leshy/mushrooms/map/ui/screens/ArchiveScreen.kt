@@ -3,7 +3,6 @@ package leshy.mushrooms.map.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
@@ -34,6 +32,8 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.archive.ArchiveViewModel
 import leshy.mushrooms.map.ui.components.LeshyButton
+import leshy.mushrooms.map.ui.components.LoadingState
+import leshy.mushrooms.map.ui.components.NoWalksYetState
 import leshy.mushrooms.map.ui.components.WalkCard
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -41,6 +41,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ArchiveScreen(
     onWalkClick: (Long) -> Unit,
+    onStartWalkClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ArchiveViewModel = koinViewModel(),
 ) {
@@ -91,10 +92,16 @@ fun ArchiveScreen(
             }
         }
 
-        if (uiState.items.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(stringResource(StringKey.ArchiveEmpty))
-            }
+        // Три состояния, а не два: пока база не ответила, показывать «прогулок пока нет» нельзя —
+        // у архива с прогулками пустое состояние мелькало перед собственным списком. См.
+        // [LoadingState].
+        if (uiState.isLoading) {
+            LoadingState()
+        } else if (uiState.items.isEmpty()) {
+            NoWalksYetState(
+                descriptionKey = StringKey.ArchiveEmptyHint,
+                onStartWalkClick = onStartWalkClick,
+            )
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),

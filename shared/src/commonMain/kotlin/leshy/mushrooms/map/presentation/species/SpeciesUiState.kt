@@ -15,4 +15,6 @@ data class SpeciesUiState(
     /** Species pending the delete confirmation dialog (`SpeciesScreen`'s "✕" button) — non-null
      * while the dialog is showing. */
     val pendingDelete: Category? = null,
+    /** `true` до первой выдачи из базы — см. `ArchiveUiState.isLoading`, там же и зачем. */
+    val isLoading: Boolean = true,
 )

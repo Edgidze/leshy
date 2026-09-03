@@ -99,13 +99,15 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordLocationUnavailable to
         "Геолокация қолжетімсіз — маршрут жазылмайды. Құрылғы параметрлерінде геолокация " +
             "қызметтерін қосып, қолданбаға оларды пайдалануға рұқсат беріңіз.",
+    StringKey.RecordLocationUnknownMessage to
+        "Орналасқан жер әзірге белгісіз — белгіні байлайтын нәрсе жоқ. Геолокация қосулы ма, тексеріп, сигналды күтіңіз.",
     StringKey.RecordSearchContentDescription to "Іздеу",
     StringKey.RecordSearchDialogTitle to "Қажет саңырауқұлақты таңдаңыз",
     StringKey.RecordBulkAddQuestion to "Қанша жаңа саңырауқұлақ табылды?",
     StringKey.RecordBulkAddCancelContentDescription to "Бас тарту",
     StringKey.RecordBulkAddConfirmContentDescription to "Растау",
     StringKey.RecordBulkAddLimitMessage to "Бір серуенде бір түрден ең көбі 999 олжа.",
-    StringKey.RecordBulkAddLimitConfirm to "Түсінікті",
+    StringKey.DialogAcknowledge to "Түсінікті",
 
     StringKey.NavigationDirectionToPrefix to "Бағыты:",
     StringKey.NavigationDistanceToTargetPrefix to "нысанаға дейін",
@@ -139,6 +141,9 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Жоқ",
 
     StringKey.ArchiveEmpty to "Әзірге бірде-бір серуен жазылмаған",
+    StringKey.ArchiveEmptyHint to
+        "Мұнда жазылған серуендер болады: маршрут, табылған саңырауқұлақтар және белгіленген орындар.",
+    StringKey.EmptyStartWalkButton to "Серуенді бастау",
     StringKey.ArchiveDeleteWalksButton to "Серуендерді жою",
     StringKey.ArchiveDeleteConfirmMessage to
         "Таңдалған серуендерді біржола жойғыңыз келетініне сенімдісіз бе?",
@@ -204,6 +209,7 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Статистика",
     StringKey.MapStatsWalksCount to "Серуендер",
     StringKey.MapStatsFindsCount to "Табылған саңырауқұлақтар",
+    StringKey.MapStatsEmptyHint to "Бірінші серуен жазылған бойда статистика өзі жиналады.",
     StringKey.MapFilterButtonLabel to "Сүзгілер",
     StringKey.MapFilterDialogTitle to "Картадағы саңырауқұлақтарға қолданылатын сүзгілерді реттеңіз:",
     StringKey.MapFilterBackContentDescription to "Артқа",

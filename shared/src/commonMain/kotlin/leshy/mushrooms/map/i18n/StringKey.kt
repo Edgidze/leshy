@@ -86,13 +86,18 @@ enum class StringKey {
     RecordConfirmWalkNameContentDescription,
     RecordMarkLocationContentDescription,
     RecordLocationUnavailable,
+    RecordLocationUnknownMessage,
     RecordSearchContentDescription,
     RecordSearchDialogTitle,
     RecordBulkAddQuestion,
     RecordBulkAddCancelContentDescription,
     RecordBulkAddConfirmContentDescription,
     RecordBulkAddLimitMessage,
-    RecordBulkAddLimitConfirm,
+    /** Общая кнопка «Понятно» — стоит в диалогах, которым нечего предложить, кроме
+     * подтверждения прочтения (предел находок за прогулку, отсутствие координат). Ключ
+     * назван не по экрану намеренно: как только такую кнопку получил второй диалог,
+     * имя вида `RecordBulkAddLimitConfirm` стало враньём в одном из двух мест. */
+    DialogAcknowledge,
 
     NavigationDirectionToPrefix,
     NavigationDistanceToTargetPrefix,
@@ -125,6 +130,8 @@ enum class StringKey {
     PlaceDeleteConfirmNo,
 
     ArchiveEmpty,
+    ArchiveEmptyHint,
+    EmptyStartWalkButton,
     ArchiveDeleteWalksButton,
     ArchiveDeleteConfirmMessage,
     ArchiveDeleteConfirmYes,
@@ -187,6 +194,7 @@ enum class StringKey {
     MapToggleStats,
     MapStatsWalksCount,
     MapStatsFindsCount,
+    MapStatsEmptyHint,
 
     MapFilterButtonLabel,
     MapFilterDialogTitle,

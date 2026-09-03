@@ -64,6 +64,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.LocalFocusManager
@@ -116,7 +117,13 @@ import org.jetbrains.compose.resources.painterResource
 import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDistanceKmValue
 import leshy.mushrooms.map.ui.util.formatDuration
+import leshy.mushrooms.map.ui.util.findAdded
+import leshy.mushrooms.map.ui.util.findRemoved
 import leshy.mushrooms.map.ui.util.parseHexColor
+import leshy.mushrooms.map.ui.util.walkFinished
+import leshy.mushrooms.map.ui.util.walkPaused
+import leshy.mushrooms.map.ui.util.walkResumed
+import leshy.mushrooms.map.ui.util.walkStarted
 import org.koin.compose.viewmodel.koinViewModel
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
@@ -364,6 +371,26 @@ private fun RecordScreenContent(
     onTileFeedInteraction: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
+    // Тактильная отдача даётся здесь, а не внутри плитки и не внутри кнопки: только на этом
+    // уровне известно, случится ли вообще что-нибудь от нажатия. `addMushroom` молча ничего не
+    // делает, пока прогулка не начата (`RecordViewModel`: `walkId ?: return`), и вибрация в ответ
+    // на такое нажатие была бы прямой ложью — счётчик-то не двинулся. Словарь откликов и то, во
+    // что каждый превращается на каждой из платформ, — `ui/util/Haptics.kt`.
+    val haptics = LocalHapticFeedback.current
+    // Ставится вместо добавления отметки, когда координат ещё нет — см. [NoLocationDialog].
+    var showNoLocationDialog by remember { mutableStateOf(false) }
+    // Есть ли к чему привязывать отметку ПРЯМО СЕЙЧАС. Именно `currentLocation`, а не
+    // `locationUnavailable`: полоса-предупреждение говорит про разрешение и службы геолокации, а
+    // здесь вопрос другой и более узкий — «фикс уже пришёл или ещё нет». Последний известный фикс
+    // этой проверке не мешает: он тоже настоящий, просто немного старый, и привязка к нему
+    // законна. Незаконна привязка к нулевой точке, которой в природе не соответствует ничего.
+    val hasLocation = uiState.currentLocation != null
+    // Отметка места проверяется на ПЕРВОМ нажатии кнопки, а не при сохранении: форму места
+    // заполняют долго (название, описание, фото), и узнать в конце, что записывать было некуда, —
+    // значит выбросить всю эту работу.
+    val onMarkLocationClickChecked: () -> Unit = {
+        if (hasLocation) onMarkLocationClick() else showNoLocationDialog = true
+    }
     var showNameDialog by remember { mutableStateOf(false) }
     var bulkAddCategoryId by remember { mutableStateOf<Long?>(null) }
     var showAddSpeciesDialog by remember { mutableStateOf(false) }
@@ -634,7 +661,7 @@ private fun RecordScreenContent(
                                 RecordSideButton(
                                     icon = Icons.Filled.AddLocationAlt,
                                     contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
-                                    onClick = onMarkLocationClick,
+                                    onClick = onMarkLocationClickChecked,
                                     enabled = false,
                                     modifier = Modifier.weight(1f).fillMaxWidth(),
                                 )
@@ -656,11 +683,14 @@ private fun RecordScreenContent(
                                 RecordSideButton(
                                     icon = Icons.Filled.AddLocationAlt,
                                     contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
-                                    onClick = onMarkLocationClick,
+                                    onClick = onMarkLocationClickChecked,
                                     modifier = Modifier.weight(1f).fillMaxWidth(),
                                 )
                                 LeshyButton(
-                                    onClick = onPauseOrResumeClick,
+                                    onClick = {
+                                        haptics.walkPaused()
+                                        onPauseOrResumeClick()
+                                    },
                                     shape = ACTION_BUTTON_SHAPE,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(centerButtonWidth),
                                 ) {
@@ -675,7 +705,10 @@ private fun RecordScreenContent(
                             }
                             else -> {
                                 LeshyButton(
-                                    onClick = onPauseOrResumeClick,
+                                    onClick = {
+                                        haptics.walkResumed()
+                                        onPauseOrResumeClick()
+                                    },
                                     shape = ACTION_BUTTON_SHAPE,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
                                 ) {
@@ -683,7 +716,10 @@ private fun RecordScreenContent(
                                 }
                                 Spacer(modifier = Modifier.width(8.dp))
                                 LeshyButton(
-                                    onClick = onFinishClick,
+                                    onClick = {
+                                        haptics.walkFinished()
+                                        onFinishClick()
+                                    },
                                     shape = ACTION_BUTTON_SHAPE,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
                                 ) {
@@ -706,9 +742,29 @@ private fun RecordScreenContent(
                         MushroomTile(
                             category = category,
                             count = uiState.mushroomCounts[category.id] ?: 0,
-                            onAdd = { onAddMushroom(category.id) },
-                            onRemove = { onRemoveMushroom(category.id) },
-                            onBulkAdd = { if (uiState.isRecording) bulkAddCategoryId = category.id },
+                            onAdd = {
+                                if (!hasLocation) {
+                                    showNoLocationDialog = true
+                                } else {
+                                    if (uiState.isRecording) haptics.findAdded()
+                                    onAddMushroom(category.id)
+                                }
+                            },
+                            onRemove = {
+                                haptics.findRemoved()
+                                onRemoveMushroom(category.id)
+                            },
+                            // null до старта прогулки и без координат — тогда у плитки нет ни
+                            // таймера удержания, ни заливки-индикатора, ни отклика на взятый
+                            // порог. Для случая «нет фикса» это не только уместно, но и
+                            // необходимо: удержание с null разрешается коротким нажатием, то есть
+                            // сообщение показывается сразу на отпускании пальца, а не через две
+                            // секунды заливки, за которой всё равно ничего не последует.
+                            onBulkAdd = if (uiState.isRecording && hasLocation) {
+                                { bulkAddCategoryId = category.id }
+                            } else {
+                                null
+                            },
                             // Only animates when a settled +/- reorder set a slow duration (see
                             // the scrollToStartSignal LaunchedEffect above) — null placementSpec
                             // means no placement animation, preserving the instant reorder that's
@@ -728,9 +784,14 @@ private fun RecordScreenContent(
         }
     }
 
+    if (showNoLocationDialog) {
+        NoLocationDialog(onDismissRequest = { showNoLocationDialog = false })
+    }
+
     if (showNameDialog) {
         WalkNameDialog(
             onConfirm = { name ->
+                haptics.walkStarted()
                 onStartWalk(name)
                 showNameDialog = false
             },
@@ -987,6 +1048,29 @@ private fun MushroomBulkAddDialog(
     }
 }
 
+/**
+ * Ответ на нажатие «+» или «отметить место», когда координат ещё нет.
+ *
+ * Раньше на этом месте не было ничего: отметка записывалась в точку (0, 0) — Гвинейский залив, —
+ * и узнать об этом можно было только потом, увидев находку посреди Атлантики на карте. Молчаливая
+ * запись неверных данных хуже отказа, поэтому здесь именно отказ, и он назван вслух.
+ *
+ * Кнопки «повторить» нет намеренно: ждать фикса всё равно придётся, и единственное осмысленное
+ * действие — закрыть и нажать «+» ещё раз, когда сигнал появится.
+ */
+@Composable
+private fun NoLocationDialog(onDismissRequest: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        modifier = Modifier.fillMaxWidth(0.9f),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        text = { Text(stringResource(StringKey.RecordLocationUnknownMessage)) },
+        confirmButton = {
+            TextButton(onClick = onDismissRequest) { Text(stringResource(StringKey.DialogAcknowledge)) }
+        },
+    )
+}
+
 /** Shown by [MushroomBulkAddDialog] when the entered count would push a species' total past
  * [MAX_MUSHROOM_FINDS_PER_WALK] for the walk — single acknowledgment button, no title, matching
  * the bulk-add dialog it sits on top of, which also has no title. */
@@ -998,7 +1082,7 @@ private fun MushroomBulkAddLimitDialog(onDismissRequest: () -> Unit) {
         properties = DialogProperties(usePlatformDefaultWidth = false),
         text = { Text(stringResource(StringKey.RecordBulkAddLimitMessage)) },
         confirmButton = {
-            TextButton(onClick = onDismissRequest) { Text(stringResource(StringKey.RecordBulkAddLimitConfirm)) }
+            TextButton(onClick = onDismissRequest) { Text(stringResource(StringKey.DialogAcknowledge)) }
         },
     )
 }

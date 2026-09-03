@@ -104,6 +104,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Hyväksy",
     StringKey.RecordMarkLocationContentDescription to "Merkitse paikka",
     StringKey.RecordLocationUnavailable to "Sijainti ei ole käytettävissä — reittiä ei tallenneta. Ota sijaintipalvelut käyttöön ja salli sovellukselle pääsy laitteen asetuksissa.",
+    StringKey.RecordLocationUnknownMessage to
+        "Sijaintia ei vielä tiedetä — merkintää ei ole mihin kiinnittää. Tarkista, että sijainti on päällä, ja odota signaalia.",
     StringKey.RecordSearchContentDescription to "Haku",
     StringKey.RecordSearchDialogTitle to "Valitse haluamasi sieni",
     StringKey.RecordBulkAddQuestion to "Montako uutta sientä löytyi?",
@@ -112,7 +114,7 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Hyväksy",
     StringKey.RecordBulkAddLimitMessage to
         "Enintään 999 saman lajin löytöä yhdellä retkellä.",
-    StringKey.RecordBulkAddLimitConfirm to "Selvä",
+    StringKey.DialogAcknowledge to "Selvä",
 
     StringKey.NavigationDirectionToPrefix to "Suunta kohteeseen",
     StringKey.NavigationDistanceToTargetPrefix to "kohteeseen",
@@ -146,6 +148,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Ei",
 
     StringKey.ArchiveEmpty to "Ei vielä retkiä",
+    StringKey.ArchiveEmptyHint to "Tallennetut retket näkyvät täällä: reitti, löydöt ja merkityt paikat.",
+    StringKey.EmptyStartWalkButton to "Aloita retki",
     StringKey.ArchiveDeleteWalksButton to "Poista retket",
     StringKey.ArchiveDeleteConfirmMessage to
         "Haluatko varmasti poistaa valitut retket pysyvästi?",
@@ -210,6 +214,7 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Tilastot",
     StringKey.MapStatsWalksCount to "Retkiä",
     StringKey.MapStatsFindsCount to "Löydettyjä sieniä",
+    StringKey.MapStatsEmptyHint to "Tilastot kertyvät itsestään heti, kun ensimmäinen retki on tallennettu.",
 
     StringKey.MapFilterButtonLabel to "Suodattimet",
     StringKey.MapFilterDialogTitle to

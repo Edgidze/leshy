@@ -107,6 +107,8 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Potrdi",
     StringKey.RecordMarkLocationContentDescription to "Označi mesto",
     StringKey.RecordLocationUnavailable to "Lokacija ni na voljo — pot se ne snema. Vklopite lokacijske storitve in dovolite dostop v nastavitvah naprave.",
+    StringKey.RecordLocationUnknownMessage to
+        "Lokacija še ni znana — oznake ni na kaj pripeti. Preverite, ali je lokacija vklopljena, in počakajte na signal.",
     StringKey.RecordSearchContentDescription to "Iskanje",
     StringKey.RecordSearchDialogTitle to "Izberite želeno gobo",
     StringKey.RecordBulkAddQuestion to "Koliko novih gob ste našli?",
@@ -115,7 +117,7 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Potrdi",
     StringKey.RecordBulkAddLimitMessage to
         "Največ 999 najdb iste vrste na en sprehod.",
-    StringKey.RecordBulkAddLimitConfirm to "Razumem",
+    StringKey.DialogAcknowledge to "Razumem",
 
     StringKey.NavigationDirectionToPrefix to "Smer proti",
     StringKey.NavigationDistanceToTargetPrefix to "do cilja",
@@ -149,6 +151,8 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Ne",
 
     StringKey.ArchiveEmpty to "Sprehodov še ni",
+    StringKey.ArchiveEmptyHint to "Tu bodo zabeleženi sprehodi: pot, najdbe in označena mesta.",
+    StringKey.EmptyStartWalkButton to "Začni sprehod",
     StringKey.ArchiveDeleteWalksButton to "Izbriši sprehode",
     StringKey.ArchiveDeleteConfirmMessage to
         "Ali ste prepričani, da želite trajno izbrisati izbrane sprehode?",
@@ -213,6 +217,7 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistika",
     StringKey.MapStatsWalksCount to "Sprehodov",
     StringKey.MapStatsFindsCount to "Najdenih gob",
+    StringKey.MapStatsEmptyHint to "Statistika se bo sestavila sama, takoj ko bo zabeležen prvi sprehod.",
 
     StringKey.MapFilterButtonLabel to "Filtri",
     StringKey.MapFilterDialogTitle to

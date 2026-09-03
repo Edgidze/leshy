@@ -104,6 +104,8 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Potvrdi",
     StringKey.RecordMarkLocationContentDescription to "Označi mjesto",
     StringKey.RecordLocationUnavailable to "Lokacija nije dostupna — ruta se ne snima. Uključite usluge lokacije i dopustite pristup u postavkama uređaja.",
+    StringKey.RecordLocationUnknownMessage to
+        "Lokacija još nije poznata — oznaku nema za što vezati. Provjerite je li lokacija uključena i pričekajte signal.",
     StringKey.RecordSearchContentDescription to "Pretraživanje",
     StringKey.RecordSearchDialogTitle to "Odaberite željenu gljivu",
     StringKey.RecordBulkAddQuestion to "Koliko je novih gljiva pronađeno?",
@@ -112,7 +114,7 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Potvrdi",
     StringKey.RecordBulkAddLimitMessage to
         "Najviše 999 istih gljiva po jednoj šetnji.",
-    StringKey.RecordBulkAddLimitConfirm to "Razumijem",
+    StringKey.DialogAcknowledge to "Razumijem",
 
     StringKey.NavigationDirectionToPrefix to "Smjer prema",
     StringKey.NavigationDistanceToTargetPrefix to "do cilja",
@@ -146,6 +148,8 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Ne",
 
     StringKey.ArchiveEmpty to "Još nema šetnji",
+    StringKey.ArchiveEmptyHint to "Ovdje će biti snimljene šetnje: ruta, nalazi i označena mjesta.",
+    StringKey.EmptyStartWalkButton to "Započni šetnju",
     StringKey.ArchiveDeleteWalksButton to "Izbriši šetnje",
     StringKey.ArchiveDeleteConfirmMessage to
         "Jeste li sigurni da želite trajno izbrisati odabrane šetnje?",
@@ -210,6 +214,7 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistika",
     StringKey.MapStatsWalksCount to "Šetnji",
     StringKey.MapStatsFindsCount to "Pronađenih gljiva",
+    StringKey.MapStatsEmptyHint to "Statistika će se sastaviti sama čim bude snimljena prva šetnja.",
 
     StringKey.MapFilterButtonLabel to "Filtri",
     StringKey.MapFilterDialogTitle to

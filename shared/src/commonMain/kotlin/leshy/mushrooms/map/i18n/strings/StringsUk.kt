@@ -101,6 +101,8 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Прийняти",
     StringKey.RecordMarkLocationContentDescription to "Позначити місце",
     StringKey.RecordLocationUnavailable to "Місцезнаходження недоступне — маршрут не записується. Увімкніть геолокацію та дозвольте застосунку доступ до неї в налаштуваннях пристрою.",
+    StringKey.RecordLocationUnknownMessage to
+        "Місцеперебування ще не визначено — позначку немає до чого прив'язати. Перевірте, чи ввімкнено геолокацію, і зачекайте на сигнал.",
     StringKey.RecordSearchContentDescription to "Пошук",
     StringKey.RecordSearchDialogTitle to "Виберіть потрібний гриб",
     StringKey.RecordBulkAddQuestion to "Скільки нових грибів знайдено?",
@@ -109,7 +111,7 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Прийняти",
     StringKey.RecordBulkAddLimitMessage to
         "Максимум однакових грибів за одну прогулянку — 999.",
-    StringKey.RecordBulkAddLimitConfirm to "Зрозуміло",
+    StringKey.DialogAcknowledge to "Зрозуміло",
 
     StringKey.NavigationDirectionToPrefix to "Напрямок до",
     StringKey.NavigationDistanceToTargetPrefix to "до цілі",
@@ -143,6 +145,8 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Ні",
 
     StringKey.ArchiveEmpty to "Прогулянок поки немає",
+    StringKey.ArchiveEmptyHint to "Тут будуть записані прогулянки: маршрут, знахідки й позначені місця.",
+    StringKey.EmptyStartWalkButton to "Почати прогулянку",
     StringKey.ArchiveDeleteWalksButton to "Видалити прогулянки",
     StringKey.ArchiveDeleteConfirmMessage to
         "Ви впевнені, що хочете безповоротно видалити виділені прогулянки?",
@@ -207,6 +211,7 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Статистика",
     StringKey.MapStatsWalksCount to "Прогулянок",
     StringKey.MapStatsFindsCount to "Знайдено грибів",
+    StringKey.MapStatsEmptyHint to "Статистика збереться сама, щойно буде записана перша прогулянка.",
 
     StringKey.MapFilterButtonLabel to "Фільтри",
     StringKey.MapFilterDialogTitle to "Налаштуйте фільтри, що застосовуються до грибів на карті:",

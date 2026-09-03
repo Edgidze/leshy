@@ -25,4 +25,6 @@ data class MapUiState(
     val categories: List<Category> = emptyList(),
     val stats: MapStats = MapStats(),
     val filterCount: Int = 0,
+    /** `true` до первой выдачи из базы — см. `ArchiveUiState.isLoading`, там же и зачем. */
+    val isLoading: Boolean = true,
 )

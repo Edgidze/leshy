@@ -99,13 +99,15 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordLocationUnavailable to
         "Ýerleşiş elýeterli däl — ýol ýazylmaýar. Enjamyň sazlamalarynda ýerleşiş hyzmatlaryny " +
             "açyň we programma olary ulanmaga rugsat beriň.",
+    StringKey.RecordLocationUnknownMessage to
+        "Ýerleşýän ýeriňiz heniz belli däl — bellik daňara zat ýok. Geolokasiýanyň açykdygyny barlaň we signala garaşyň.",
     StringKey.RecordSearchContentDescription to "Gözleg",
     StringKey.RecordSearchDialogTitle to "Gerekli kömelegi saýlaň",
     StringKey.RecordBulkAddQuestion to "Näçe täze kömelek tapyldy?",
     StringKey.RecordBulkAddCancelContentDescription to "Ýatyrmak",
     StringKey.RecordBulkAddConfirmContentDescription to "Tassyklamak",
     StringKey.RecordBulkAddLimitMessage to "Bir gezelençde bir görnüşden köpi bilen 999 tapyndy.",
-    StringKey.RecordBulkAddLimitConfirm to "Düşnükli",
+    StringKey.DialogAcknowledge to "Düşnükli",
 
     StringKey.NavigationDirectionToPrefix to "Ugry:",
     StringKey.NavigationDistanceToTargetPrefix to "nyşana çenli",
@@ -139,6 +141,8 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Ýok",
 
     StringKey.ArchiveEmpty to "Entek hiç hili gezelenç ýazylmadyk",
+    StringKey.ArchiveEmptyHint to "Ýazylan gezelençler şu ýerde bolar: ýol, tapyndylar we bellenen ýerler.",
+    StringKey.EmptyStartWalkButton to "Gezelenje başlamak",
     StringKey.ArchiveDeleteWalksButton to "Gezelençleri pozmak",
     StringKey.ArchiveDeleteConfirmMessage to
         "Saýlanan gezelençleri hemişelik pozmak isleýändigiňize ynamyňyz barmy?",
@@ -204,6 +208,7 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistika",
     StringKey.MapStatsWalksCount to "Gezelençler",
     StringKey.MapStatsFindsCount to "Tapylan kömelekler",
+    StringKey.MapStatsEmptyHint to "Ilkinji gezelenç ýazylan badyna statistika özi ýygnalar.",
     StringKey.MapFilterButtonLabel to "Filtrler",
     StringKey.MapFilterDialogTitle to "Kartadaky kömeleklere ulanylýan filtrleri sazlaň:",
     StringKey.MapFilterBackContentDescription to "Yza",

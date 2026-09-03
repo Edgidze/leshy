@@ -101,6 +101,8 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Conferma",
     StringKey.RecordMarkLocationContentDescription to "Segna posizione",
     StringKey.RecordLocationUnavailable to "La posizione non è disponibile: il percorso non viene registrato. Attiva la localizzazione e consenti l'accesso nelle impostazioni del dispositivo.",
+    StringKey.RecordLocationUnknownMessage to
+        "La posizione non è ancora nota: non c'è niente a cui agganciare il segnaposto. Controlla che la localizzazione sia attiva e attendi il segnale.",
     StringKey.RecordSearchContentDescription to "Cerca",
     StringKey.RecordSearchDialogTitle to "Scegli il fungo che cerchi",
     StringKey.RecordBulkAddQuestion to "Quanti nuovi funghi hai trovato?",
@@ -109,7 +111,7 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Conferma",
     StringKey.RecordBulkAddLimitMessage to
         "Massimo 999 ritrovamenti della stessa specie per uscita.",
-    StringKey.RecordBulkAddLimitConfirm to "Capito",
+    StringKey.DialogAcknowledge to "Capito",
 
     StringKey.NavigationDirectionToPrefix to "Direzione verso",
     StringKey.NavigationDistanceToTargetPrefix to "alla destinazione",
@@ -143,6 +145,9 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "No",
 
     StringKey.ArchiveEmpty to "Nessuna uscita registrata finora",
+    StringKey.ArchiveEmptyHint to
+        "Qui compariranno le uscite registrate: il percorso, i ritrovamenti e i luoghi segnati.",
+    StringKey.EmptyStartWalkButton to "Inizia un'uscita",
     StringKey.ArchiveDeleteWalksButton to "Elimina uscite",
     StringKey.ArchiveDeleteConfirmMessage to
         "Vuoi davvero eliminare definitivamente le uscite selezionate?",
@@ -208,6 +213,8 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistiche",
     StringKey.MapStatsWalksCount to "Uscite",
     StringKey.MapStatsFindsCount to "Funghi trovati",
+    StringKey.MapStatsEmptyHint to
+        "Le statistiche si formeranno da sole appena verrà registrata la prima uscita.",
 
     StringKey.MapFilterButtonLabel to "Filtri",
     StringKey.MapFilterDialogTitle to "Configura i filtri applicati ai funghi sulla mappa:",

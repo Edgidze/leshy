@@ -101,6 +101,8 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Potvrdit",
     StringKey.RecordMarkLocationContentDescription to "Označit místo",
     StringKey.RecordLocationUnavailable to "Poloha není dostupná — trasa se nezaznamenává. Zapněte polohové služby a povolte k nim přístup v nastavení zařízení.",
+    StringKey.RecordLocationUnknownMessage to
+        "Poloha zatím není známá — značku není k čemu připojit. Zkontrolujte, zda je poloha zapnutá, a počkejte na signál.",
     StringKey.RecordSearchContentDescription to "Hledat",
     StringKey.RecordSearchDialogTitle to "Vyberte potřebnou houbu",
     StringKey.RecordBulkAddQuestion to "Kolik nových hub bylo nalezeno?",
@@ -109,7 +111,7 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordBulkAddConfirmContentDescription to "Potvrdit",
     StringKey.RecordBulkAddLimitMessage to
         "Maximálně 999 nálezů stejného druhu na jednu procházku.",
-    StringKey.RecordBulkAddLimitConfirm to "Rozumím",
+    StringKey.DialogAcknowledge to "Rozumím",
 
     StringKey.NavigationDirectionToPrefix to "Směr k",
     StringKey.NavigationDistanceToTargetPrefix to "do cíle",
@@ -143,6 +145,8 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Ne",
 
     StringKey.ArchiveEmpty to "Zatím žádné zaznamenané procházky",
+    StringKey.ArchiveEmptyHint to "Zaznamenané procházky se objeví tady: trasa, nálezy a označená místa.",
+    StringKey.EmptyStartWalkButton to "Začít procházku",
     StringKey.ArchiveDeleteWalksButton to "Odstranit procházky",
     StringKey.ArchiveDeleteConfirmMessage to
         "Opravdu chcete vybrané procházky trvale odstranit?",
@@ -207,6 +211,7 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistika",
     StringKey.MapStatsWalksCount to "Procházky",
     StringKey.MapStatsFindsCount to "Nalezené houby",
+    StringKey.MapStatsEmptyHint to "Statistika se sestaví sama, jakmile bude zaznamenána první procházka.",
 
     StringKey.MapFilterButtonLabel to "Filtry",
     StringKey.MapFilterDialogTitle to "Nastavte filtry použité na houby na mapě:",

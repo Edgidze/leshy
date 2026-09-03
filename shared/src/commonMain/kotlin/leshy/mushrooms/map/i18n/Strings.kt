@@ -242,13 +242,14 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.RecordConfirmWalkNameContentDescription -> "Принять"
     StringKey.RecordMarkLocationContentDescription -> "Отметить место"
     StringKey.RecordLocationUnavailable -> "Местоположение недоступно — трек не записывается. Включите геолокацию и разрешите приложению доступ к ней в настройках устройства."
+    StringKey.RecordLocationUnknownMessage -> "Местоположение пока не определено — отметку не к чему привязать. Проверьте, включена ли геолокация, и подождите, пока появится сигнал."
     StringKey.RecordSearchContentDescription -> "Поиск"
     StringKey.RecordSearchDialogTitle -> "Выберите необходимый гриб"
     StringKey.RecordBulkAddQuestion -> "Сколько новых грибов найдено?"
     StringKey.RecordBulkAddCancelContentDescription -> "Отмена"
     StringKey.RecordBulkAddConfirmContentDescription -> "Принять"
     StringKey.RecordBulkAddLimitMessage -> "Максимум одинаковых грибов за одну прогулку — 999."
-    StringKey.RecordBulkAddLimitConfirm -> "Понятно"
+    StringKey.DialogAcknowledge -> "Понятно"
 
     StringKey.NavigationDirectionToPrefix -> "Направление к"
     StringKey.NavigationDistanceToTargetPrefix -> "до цели"
@@ -281,6 +282,8 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.PlaceDeleteConfirmNo -> "Нет"
 
     StringKey.ArchiveEmpty -> "Прогулок пока нет"
+    StringKey.ArchiveEmptyHint -> "Здесь будут записанные прогулки: маршрут, находки и отмеченные места."
+    StringKey.EmptyStartWalkButton -> "Начать прогулку"
     StringKey.ArchiveDeleteWalksButton -> "Удалить прогулки"
     StringKey.ArchiveDeleteConfirmMessage ->
         "Вы уверены, что хотели бы безвозвратно удалить выделенные прогулки?"
@@ -347,6 +350,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.MapToggleStats -> "Статистика"
     StringKey.MapStatsWalksCount -> "Прогулок"
     StringKey.MapStatsFindsCount -> "Найдено грибов"
+    StringKey.MapStatsEmptyHint -> "Статистика соберётся сама, как только будет записана первая прогулка."
 
     StringKey.MapFilterButtonLabel -> "Фильтры"
     StringKey.MapFilterDialogTitle -> "Настройте фильтры, применяемые к грибам на карте:"
@@ -546,13 +550,14 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.RecordConfirmWalkNameContentDescription -> "Confirm"
     StringKey.RecordMarkLocationContentDescription -> "Mark location"
     StringKey.RecordLocationUnavailable -> "Location is unavailable — the route is not being recorded. Turn location services on and allow the app to use them in the device settings."
+    StringKey.RecordLocationUnknownMessage -> "Your location is not known yet — there is nothing to pin the mark to. Check that location is turned on and wait for a signal."
     StringKey.RecordSearchContentDescription -> "Search"
     StringKey.RecordSearchDialogTitle -> "Choose the mushroom you need"
     StringKey.RecordBulkAddQuestion -> "How many new mushrooms found?"
     StringKey.RecordBulkAddCancelContentDescription -> "Cancel"
     StringKey.RecordBulkAddConfirmContentDescription -> "Confirm"
     StringKey.RecordBulkAddLimitMessage -> "Maximum of 999 finds of the same species per walk."
-    StringKey.RecordBulkAddLimitConfirm -> "Got it"
+    StringKey.DialogAcknowledge -> "Got it"
 
     StringKey.NavigationDirectionToPrefix -> "Direction to"
     StringKey.NavigationDistanceToTargetPrefix -> "to target"
@@ -585,6 +590,8 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.PlaceDeleteConfirmNo -> "No"
 
     StringKey.ArchiveEmpty -> "No walks recorded yet"
+    StringKey.ArchiveEmptyHint -> "Walks you record show up here: the route, the finds and the places you marked."
+    StringKey.EmptyStartWalkButton -> "Start a walk"
     StringKey.ArchiveDeleteWalksButton -> "Delete walks"
     StringKey.ArchiveDeleteConfirmMessage -> "Are you sure you want to permanently delete the selected walks?"
     StringKey.ArchiveDeleteConfirmYes -> "Yes"
@@ -650,6 +657,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.MapToggleStats -> "Statistics"
     StringKey.MapStatsWalksCount -> "Walks"
     StringKey.MapStatsFindsCount -> "Mushrooms found"
+    StringKey.MapStatsEmptyHint -> "Statistics build up on their own once the first walk is recorded."
 
     StringKey.MapFilterButtonLabel -> "Filters"
     StringKey.MapFilterDialogTitle -> "Configure the filters applied to mushrooms on the map:"

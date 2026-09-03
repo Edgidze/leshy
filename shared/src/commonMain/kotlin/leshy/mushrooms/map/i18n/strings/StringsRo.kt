@@ -100,6 +100,8 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.RecordConfirmWalkNameContentDescription to "Confirmă",
     StringKey.RecordMarkLocationContentDescription to "Marchează locul",
     StringKey.RecordLocationUnavailable to "Locația nu este disponibilă — traseul nu este înregistrat. Activează serviciile de localizare și permite accesul în setările dispozitivului.",
+    StringKey.RecordLocationUnknownMessage to
+        "Locația nu este încă cunoscută — nu există la ce să fie legat marcajul. Verifică dacă locația este pornită și așteaptă semnalul.",
     StringKey.RecordSearchContentDescription to "Caută",
     StringKey.RecordSearchDialogTitle to "Alegeți ciuperca de care aveți nevoie",
     StringKey.RecordBulkAddQuestion to "Câte ciuperci noi ați găsit?",
@@ -107,7 +109,7 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.RecordBulkAddConfirmContentDescription to "Confirmă",
     StringKey.RecordBulkAddLimitMessage to "Maximum 999 descoperiri din aceeași specie pe plimbare.",
-    StringKey.RecordBulkAddLimitConfirm to "Am înțeles",
+    StringKey.DialogAcknowledge to "Am înțeles",
 
     StringKey.NavigationDirectionToPrefix to "Direcție spre",
     StringKey.NavigationDistanceToTargetPrefix to "până la destinație",
@@ -140,6 +142,9 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.PlaceDeleteConfirmNo to "Nu",
 
     StringKey.ArchiveEmpty to "Nicio plimbare înregistrată încă",
+    StringKey.ArchiveEmptyHint to
+        "Aici vor apărea plimbările înregistrate: traseul, ciupercile găsite și locurile marcate.",
+    StringKey.EmptyStartWalkButton to "Începe o plimbare",
     StringKey.ArchiveDeleteWalksButton to "Șterge plimbările",
     StringKey.ArchiveDeleteConfirmMessage to "Sigur doriți să ștergeți definitiv plimbările selectate?",
     StringKey.ArchiveDeleteConfirmYes to "Da",
@@ -203,6 +208,8 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.MapToggleStats to "Statistici",
     StringKey.MapStatsWalksCount to "Plimbări",
     StringKey.MapStatsFindsCount to "Ciuperci găsite",
+    StringKey.MapStatsEmptyHint to
+        "Statisticile se vor aduna singure de îndată ce este înregistrată prima plimbare.",
 
     StringKey.MapFilterButtonLabel to "Filtre",
     StringKey.MapFilterDialogTitle to "Configurați filtrele aplicate ciupercilor de pe hartă:",
