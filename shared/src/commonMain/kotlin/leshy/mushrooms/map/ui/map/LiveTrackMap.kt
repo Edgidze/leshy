@@ -43,6 +43,7 @@ import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.spatialk.geojson.BoundingBox
 import org.maplibre.spatialk.geojson.LineString
+import org.maplibre.spatialk.geojson.MultiLineString
 import org.maplibre.spatialk.geojson.MultiPoint
 import org.maplibre.spatialk.geojson.Point
 import org.maplibre.spatialk.geojson.Position
@@ -218,21 +219,28 @@ fun LiveTrackMap(
         ) {
             // First in the layer list — past routes are background context and must never draw over
             // the current walk's own track, its markers, or the location dot.
-            historicalTracks.forEach { (walkId, points) ->
-                if (points.size >= 2) {
-                    key(walkId) {
-                        val historicalTrackSource = rememberGeoJsonSource(
-                            GeoJsonData.Features(LineString(points.map { Position(it.lon, it.lat) })),
-                        )
-                        LineLayer(
-                            id = "historical-track-$walkId",
-                            source = historicalTrackSource,
-                            color = const(TRACK_COLOR),
-                            width = const(2.dp),
-                            opacity = const(0.45f),
-                        )
-                    }
-                }
+            //
+            // ONE layer for all past routes, not one per walk. Every layer and every source is a
+            // separate synchronous native style mutation, so the per-walk version made entering
+            // this screen cost O(число прошлых прогулок) of them — see ui/map/CLAUDE.md,
+            // «Стоимость слоя». Nothing distinguishes the routes visually and none of them is
+            // clickable, so there is nothing to keep apart.
+            val historicalTrackLines = remember(historicalTracks) {
+                historicalTracks.values
+                    .filter { it.size >= 2 }
+                    .map { points -> points.map { Position(it.lon, it.lat) } }
+            }
+            if (historicalTrackLines.isNotEmpty()) {
+                val historicalTracksSource = rememberGeoJsonSource(
+                    GeoJsonData.Features(MultiLineString(historicalTrackLines)),
+                )
+                LineLayer(
+                    id = "historical-tracks",
+                    source = historicalTracksSource,
+                    color = const(TRACK_COLOR),
+                    width = const(2.dp),
+                    opacity = const(0.45f),
+                )
             }
 
             ClusteredFindsLayers(historicalMarkers, idPrefix = "historical")

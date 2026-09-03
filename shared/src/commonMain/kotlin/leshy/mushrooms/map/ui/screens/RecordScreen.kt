@@ -61,9 +61,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -83,6 +86,7 @@ import leshy.mushrooms.map.domain.util.TurnDirection
 import leshy.mushrooms.map.i18n.LocalAppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.i18n.mushroomsUnitLabel
 import leshy.mushrooms.map.presentation.record.RecordUiState
 import leshy.mushrooms.map.presentation.record.RecordViewModel
 import leshy.mushrooms.map.presentation.searchOrderedCategories
@@ -104,7 +108,13 @@ import leshy.mushrooms.map.ui.map.MapMarker
 import leshy.mushrooms.map.ui.map.PlaceMarker
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.mushrooms.map.ui.util.formatDateOnly
+import leshy.shared.generated.resources.Res
+import leshy.shared.generated.resources.ic_mushrooms
+import leshy.shared.generated.resources.ic_route
+import leshy.shared.generated.resources.ic_stopwatch
+import org.jetbrains.compose.resources.painterResource
 import leshy.mushrooms.map.ui.util.formatDistanceKm
+import leshy.mushrooms.map.ui.util.formatDistanceKmValue
 import leshy.mushrooms.map.ui.util.formatDuration
 import leshy.mushrooms.map.ui.util.parseHexColor
 import org.koin.compose.viewmodel.koinViewModel
@@ -112,6 +122,46 @@ import org.koin.compose.viewmodel.koinViewModel
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
 private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
+
+/**
+ * Значки шапки. Крупнее строчных букв рядом намеренно: значения набраны `titleLarge` (22sp), у
+ * которого высота прописной около 16dp, и значок вровень с ними читался мелким довеском к цифрам,
+ * а не парой к ним. Картинки заполняют своё поле целиком (`tools/prepare_icon_assets.py`), поэтому
+ * это число и есть видимая высота значка, без скрытых полей внутри файла.
+ */
+private val STAT_ICON_SIZE = 30.dp
+private val STAT_ICON_GAP = 6.dp
+
+/** Поля строки показателей. Уже прежних 20.dp: три показателя вместо двух, и запас по ширине
+ * нужнее полей — сама строка ничем не отделена от карты под ней, поэтому воздух ей дают отступы
+ * сверху и снизу, а не по бокам. */
+private val STAT_ROW_PADDING = 12.dp
+
+/**
+ * Ширина строки показателей, начиная с которой она показывается целиком. Ниже — строка переходит
+ * в тесный режим и снимает с себя лишнее: подпись «км» у километража всегда, значок секундомера —
+ * когда время переваливает за час и разрастается с «01:27» до «1:23:45».
+ *
+ * Снимается именно это, а не что-то другое: смысл обоих показателей виден и без снятого. Время
+ * читается как время потому, что тикает, а «0.05» без единицы не читается никак — поэтому подпись
+ * и держится до последнего, а значок уходит первым.
+ *
+ * Записана как «экран 360dp минус собственные поля строки», потому что порог осмыслен в ширине
+ * устройства, а сравнивается с шириной содержимого: `padding` стоит снаружи `BoxWithConstraints`
+ * и из его `maxWidth` уже вычтен.
+ *
+ * Почему порог, а не замер по факту: чтобы узнать, помещается ли всё, надо померить самый широкий
+ * из трёх показателей — время, — а его чтение обязано оставаться внутри [ElapsedTimeStat]
+ * (см. его док). Замер в родителе вернул бы посекундную инвалидацию шапки, ровно ту, ради
+ * устранения которой время и вынесено в отдельный `StateFlow`.
+ *
+ * Умножается на `fontScale`: перекрытие определяется шириной текста, а она растёт вместе с
+ * системным размером шрифта, тогда как ширина экрана — нет.
+ */
+private val STAT_ROW_FULL_MIN_WIDTH = 360.dp - STAT_ROW_PADDING * 2
+
+/** Час в миллисекундах: рубеж, на котором [formatDuration] добавляет к «мм:сс» часы. */
+private const val HOUR_MILLIS = 3_600_000L
 
 // Gap between tiles in the feed's LazyRow — also fed into the pixel-distance math for the
 // slow scroll-to-front below, so keep the two in sync if this ever changes.
@@ -131,6 +181,10 @@ fun RecordScreen(
     viewModel: RecordViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    // Collected without `by` on purpose: the snapshot read has to happen inside the callee's own
+    // restart scope, not here — reading it in this composable would put the once-a-second
+    // invalidation straight back onto the whole screen. See RecordViewModel.elapsedMillis.
+    val elapsedMillisState = viewModel.elapsedMillis.collectAsState()
     var showFilterDialog by remember { mutableStateOf(false) }
     var showAddPlaceDialog by remember { mutableStateOf(false) }
     var showSearchDialog by remember { mutableStateOf(false) }
@@ -159,6 +213,7 @@ fun RecordScreen(
 
     RecordScreenContent(
         uiState = uiState,
+        elapsedMillis = { elapsedMillisState.value },
         onStartWalk = { name ->
             viewModel.setWalkName(name)
             viewModel.onStartOrPauseClick()
@@ -237,6 +292,52 @@ fun RecordScreen(
     }
 }
 
+/** Значок показателя вместе с отбивкой до значения — три места в строке, одинаковые до знака. */
+@Composable
+private fun StatIcon(icon: Painter, contentDescription: String) {
+    Icon(painter = icon, contentDescription = contentDescription, modifier = Modifier.size(STAT_ICON_SIZE))
+    Spacer(modifier = Modifier.width(STAT_ICON_GAP))
+}
+
+/**
+ * Its own composable — and therefore its own restart scope — reading [elapsedMillis] through a
+ * lambda so that the snapshot read lands in *this* scope. `Row`/`Column` are inline, so calling it
+ * directly in [RecordScreenContent]'s body would hoist the read back up and invalidate the whole
+ * screen once a second, which is exactly what the split exists to prevent. See
+ * [RecordViewModel.elapsedMillis].
+ *
+ * Значок живёт здесь же, а не рядом в родительском `Row`, — и это сознательный пересмотр прежнего
+ * решения. Раньше он стоял снаружи ровно затем, чтобы не перерисовываться каждую секунду; теперь
+ * от времени зависит само его присутствие ([compact]), значит решение принимается там, где время
+ * читается, — иначе чтение уедет в родителя. Главное свойство при этом цело: чтение по-прежнему не
+ * выходит за пределы этого композабла.
+ *
+ * Цена пересмотра — ровно один вызов `Icon` в секунду, и он **не пропускается**: `Painter` в
+ * Compose выведен нестабильным (`$stable = 8` в `ui-graphics`), поэтому одинаковый аргумент от
+ * повторного выполнения тела не спасает. Тело `Icon` — это `colorFilter`, модификатор семантики и
+ * `Box` с `paint`, то есть несколько аллокаций. Секунда, в которую это происходит, и без того
+ * содержит перезапуск всего [RecordScreenContent] от GPS-фикса (на iOS они идут примерно раз в
+ * секунду, см. `IosLocationTracker`), так что на этом фоне вклад не измеряется. Картинку и подпись
+ * всё же передаём готовыми: `painterResource`/`stringResource` — это уже поиск ресурса, и вот его
+ * в посекундную область тянуть незачем.
+ */
+@Composable
+private fun ElapsedTimeStat(icon: Painter, label: String, compact: Boolean, elapsedMillis: () -> Long) {
+    val millis = elapsedMillis()
+    // Рубеж по значению, а не по длине готовой строки: длина зависит от формата, а причина здесь
+    // одна — за часом «01:27» превращается в «1:23:45» и забирает ширину, которой на узком экране
+    // нет. Проверка идёт по millis, чтобы не переезжать вслед за [formatDuration].
+    val showIcon = !compact || millis < HOUR_MILLIS
+    if (showIcon) StatIcon(icon, label)
+    Text(
+        text = formatDuration(millis),
+        style = MaterialTheme.typography.titleLarge,
+        maxLines = 1,
+        // Без значка подпись «Длительность» терялась бы и для чтения вслух — переносим её сюда.
+        modifier = if (showIcon) Modifier else Modifier.semantics { contentDescription = label },
+    )
+}
+
 /**
  * Pure presentation layer, no [RecordViewModel]/DI dependency — kept separate so it can be driven
  * by hand-built [RecordUiState] samples in [@Preview][Preview] functions below without a Koin
@@ -245,6 +346,8 @@ fun RecordScreen(
 @Composable
 private fun RecordScreenContent(
     uiState: RecordUiState,
+    /** Deferred read — see [ElapsedTimeStat]; never a plain `Long` parameter. */
+    elapsedMillis: () -> Long,
     onStartWalk: (String) -> Unit,
     onPauseOrResumeClick: () -> Unit,
     onFinishClick: () -> Unit,
@@ -264,7 +367,7 @@ private fun RecordScreenContent(
     var showNameDialog by remember { mutableStateOf(false) }
     var bulkAddCategoryId by remember { mutableStateOf<Long?>(null) }
     var showAddSpeciesDialog by remember { mutableStateOf(false) }
-    val categoryById = uiState.categories.associateBy { it.id }
+    val categoryById = remember(uiState.categories) { uiState.categories.associateBy { it.id } }
     val tileListState = rememberLazyListState()
 
     // Measured (not hardcoded) so the tile-load-failed banner clears the Start/Pause pill + tile
@@ -303,13 +406,90 @@ private fun RecordScreenContent(
         }
     }
 
+    // Суммируется здесь, а не в RecordViewModel: mushroomCounts уже лежит в состоянии и читается
+    // на этом же экране лентой плиток, так что новое поле в UiState только дублировало бы источник
+    // истины. remember на самой карте — пересчёт нужен при отметке находки, а не при каждом
+    // GPS-фиксе, которых за прогулку на порядки больше.
+    val totalMushroomCount = remember(uiState.mushroomCounts) { uiState.mushroomCounts.values.sum() }
+
     Column(modifier = modifier.fillMaxSize()) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+        // Три показателя, находки — посередине. Раньше их тут не было вовсе: шапка показывала
+        // время и километраж, то есть ровно метрики бегового трекера, тогда как VISION.md первым
+        // же абзацем говорит, что трек и километраж — контекст, а ценность — история находок.
+        // Середина строки — сильнейшая позиция из трёх, туда счётчик и встал.
+        // Три показателя: время слева, находки по центру, километраж справа.
+        //
+        // Box с тремя независимо выровненными детьми, а не Row. Row перепробован в двух видах, и
+        // оба проигрывают. `Arrangement.SpaceBetween` раздаёт промежутки между элементами
+        // натуральной ширины — середина при этом попадает в центр ЭКРАНА только если крайние
+        // показатели равной ширины, а они не равны почти никогда: слева «1:23:45», справа
+        // «12.34 км». Счётчик находок, ради позиции которого всё и затевалось, уезжал бы то влево,
+        // то вправо и подрагивал на каждой смене разрядности времени. Равные трети чинят центр, но
+        // режут ширину: каждому показателю достаётся треть строки независимо от того, сколько ему
+        // нужно, и на узком экране с крупным системным шрифтом у километража отрезало «км»
+        // (проверено на 360dp при масштабе шрифта 1.3).
+        //
+        // Box снимает оба: середина выровнена по центру всей строки, а каждый показатель меряется
+        // по своему содержимому и ничего не теряет. Взамен появляется своя цена: Box ничего не
+        // ужимает и не переносит, поэтому при нехватке ширины дети просто накладываются друг на
+        // друга. Здесь было написано, что до этого «уже за пределами» рабочих размеров, — неверно,
+        // 320dp iPhone SE перекрытие даёт (скриншот владельца, 3 сентября). Чем это лечится и чего
+        // это лечение не покрывает — в комментарии внутри и у STAT_ROW_UNIT_LABEL_MIN_WIDTH.
+        BoxWithConstraints(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = STAT_ROW_PADDING, vertical = 12.dp),
         ) {
-            Text(formatDuration(uiState.elapsedMillis), style = MaterialTheme.typography.titleLarge)
-            Text(formatDistanceKm(uiState.distanceMeters), style = MaterialTheme.typography.titleLarge)
+            // Проверено на устройстве владельца (iPhone SE, 320dp): при трёхзначном счётчике
+            // находок правый показатель наезжает на середину ещё до двузначного километража —
+            // «122» и «0.05 km» смыкаются. Оценка сходится: содержимому остаётся 296dp, середина
+            // забирает ~73, на каждый край приходится ~112, а километраж с подписью просит ~111.
+            //
+            // Левый край выходит за те же ~112 не сразу, а с первым часом: «1:23:45» просит ~109
+            // против ~91 у «01:27», и при четырёхзначном счётчике находок (края получают уже по
+            // ~106) наезжает на середину так же. Поэтому в тесном режиме время сдаёт свой значок —
+            // те самые 36dp значка с отбивкой, — но только перевалив за час; до часа значок стоит.
+            val compactRow = maxWidth < STAT_ROW_FULL_MIN_WIDTH * LocalDensity.current.fontScale
+            // Значок передаётся внутрь готовым, а не рисуется здесь рядом: от времени зависит
+            // само его присутствие, а время читается только внутри ElapsedTimeStat (см. его док).
+            Row(
+                modifier = Modifier.align(Alignment.CenterStart),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElapsedTimeStat(
+                    icon = painterResource(Res.drawable.ic_stopwatch),
+                    label = stringResource(StringKey.WalkDetailDuration),
+                    compact = compactRow,
+                    elapsedMillis = elapsedMillis,
+                )
+            }
+            Row(
+                modifier = Modifier.align(Alignment.Center),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                StatIcon(
+                    icon = painterResource(Res.drawable.ic_mushrooms),
+                    contentDescription = "$totalMushroomCount ${mushroomsUnitLabel(totalMushroomCount)}",
+                )
+                Text(totalMushroomCount.toString(), style = MaterialTheme.typography.titleLarge)
+            }
+            Row(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                StatIcon(painterResource(Res.drawable.ic_route), stringResource(StringKey.WalkDetailDistance))
+                // Полное значение считается всегда: без подписи оно уходит в contentDescription,
+                // чтобы снятие «км» было чисто зрительным и не обедняло чтение вслух.
+                val withUnit = formatDistanceKm(uiState.distanceMeters)
+                Text(
+                    text = if (compactRow) formatDistanceKmValue(uiState.distanceMeters) else withUnit,
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    modifier = if (compactRow) {
+                        Modifier.semantics { contentDescription = withUnit }
+                    } else {
+                        Modifier
+                    },
+                )
+            }
         }
 
         // A full-width strip rather than an overlay on the map: it must not fight the filter
@@ -330,9 +510,50 @@ private fun RecordScreenContent(
 
         // Current walk's own POI marks plus past walks' ones, deduped — see LiveTrackMap's
         // historicalPlaces param doc for why the dedup matters.
-        val currentPlaceMarks = uiState.marks.filter { it.type == MarkType.POI }
-        val dedupedHistoricalPlaces = uiState.historicalPlaces
-            .filterNot { historical -> uiState.marks.any { it.id == historical.id } }
+        val currentPlaceMarks = remember(uiState.marks) { uiState.marks.filter { it.type == MarkType.POI } }
+        val dedupedHistoricalPlaces = remember(uiState.historicalPlaces, uiState.marks) {
+            // Set rather than the nested `any` this used to do: with both lists growing over a
+            // long walk that was quadratic, and it ran on every single recomposition.
+            val currentIds = uiState.marks.mapTo(mutableSetOf()) { it.id }
+            uiState.historicalPlaces.filterNot { it.id in currentIds }
+        }
+
+        // Every list below is remembered on its inputs. LiveTrackMap compares its parameters by
+        // instance, so rebuilding them each recomposition handed MapLibre fresh-but-equal lists and
+        // made it re-diff its layers for unchanged data. Cheap to keep: when nothing changed the
+        // keys are the very same instances, so the comparison short-circuits on identity.
+        val findMarkers = remember(uiState.marks, categoryById) {
+            uiState.marks.filter { it.type != MarkType.POI }.map { mark ->
+                val category = categoryById[mark.categoryId]
+                MapMarker(
+                    lat = mark.lat,
+                    lon = mark.lon,
+                    colorHex = category?.colorHex ?: "#808080",
+                    icon = category?.iconSource(),
+                )
+            }
+        }
+        val historicalFindMarkers = remember(uiState.historicalFinds, categoryById) {
+            uiState.historicalFinds.map { mark ->
+                val category = categoryById[mark.categoryId]
+                MapMarker(
+                    lat = mark.lat,
+                    lon = mark.lon,
+                    colorHex = category?.colorHex ?: "#808080",
+                    icon = category?.iconSource(),
+                )
+            }
+        }
+        val placeMarkers = remember(currentPlaceMarks) {
+            currentPlaceMarks.map { mark ->
+                PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
+            }
+        }
+        val historicalPlaceMarkers = remember(dedupedHistoricalPlaces) {
+            dedupedHistoricalPlaces.map { mark ->
+                PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
+            }
+        }
 
         Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
             if (LocalInspectionMode.current) {
@@ -345,35 +566,16 @@ private fun RecordScreenContent(
             } else {
                 LiveTrackMap(
                     track = uiState.trackPoints,
-                    markers = uiState.marks.filter { it.type != MarkType.POI }.map { mark ->
-                        val category = categoryById[mark.categoryId]
-                        MapMarker(
-                            lat = mark.lat,
-                            lon = mark.lon,
-                            colorHex = category?.colorHex ?: "#808080",
-                            icon = category?.iconSource(),
-                        )
-                    },
-                    historicalMarkers = uiState.historicalFinds.map { mark ->
-                        val category = categoryById[mark.categoryId]
-                        MapMarker(
-                            lat = mark.lat,
-                            lon = mark.lon,
-                            colorHex = category?.colorHex ?: "#808080",
-                            icon = category?.iconSource(),
-                        )
-                    },
+                    markers = findMarkers,
+                    historicalMarkers = historicalFindMarkers,
                     historicalTracks = uiState.historicalTracks,
-                    places = currentPlaceMarks.map { mark ->
-                        PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
-                    },
+                    places = placeMarkers,
                     onPlaceClick = onPlaceClick,
                     // Excludes the current walk's own places (already shown above, interactive) —
                     // unlike historicalMarkers/historicalFinds, a duplicate here would mean two
                     // literal SymbolLayers stacked on the exact same pin, and whichever one MapLibre
                     // hit-tests first would silently swallow taps meant for the interactive layer.
-                    historicalPlaces = dedupedHistoricalPlaces
-                        .map { mark -> PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath) },
+                    historicalPlaces = historicalPlaceMarkers,
                     // Place markers can't yet be long-pressed on an unstarted walk — same gating as
                     // the "mark location" button.
                     onPlaceLongPress = { id -> if (uiState.isRecording) onMarkerLongPressed(id) },
@@ -899,6 +1101,7 @@ private fun RecordScreenStartPreview() {
     LeshyTheme {
         RecordScreenContent(
             uiState = RecordUiState(categories = PREVIEW_CATEGORIES),
+            elapsedMillis = { 0L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,
@@ -917,10 +1120,10 @@ private fun RecordScreenRecordingPreview() {
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,
                 isRecording = true,
-                elapsedMillis = 125_000L,
                 distanceMeters = 1240.0,
                 mushroomCounts = mapOf(1L to 2, 3L to 1),
             ),
+            elapsedMillis = { 125_000L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,
@@ -939,7 +1142,6 @@ private fun RecordScreenNavigatingPreview() {
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,
                 isRecording = true,
-                elapsedMillis = 125_000L,
                 distanceMeters = 1240.0,
                 mushroomCounts = mapOf(1L to 2, 3L to 1),
                 navigationTarget = NavigationOverlayState(
@@ -953,6 +1155,7 @@ private fun RecordScreenNavigatingPreview() {
                     turnDegrees = 42.0,
                 ),
             ),
+            elapsedMillis = { 125_000L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,
@@ -971,7 +1174,6 @@ private fun RecordScreenArrivedPreview() {
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,
                 isRecording = true,
-                elapsedMillis = 125_000L,
                 distanceMeters = 1240.0,
                 mushroomCounts = mapOf(1L to 2, 3L to 1),
                 navigationTarget = NavigationOverlayState(
@@ -985,6 +1187,7 @@ private fun RecordScreenArrivedPreview() {
                     turnDegrees = null,
                 ),
             ),
+            elapsedMillis = { 125_000L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,
@@ -1004,10 +1207,10 @@ private fun RecordScreenPausedPreview() {
                 categories = PREVIEW_CATEGORIES,
                 isRecording = true,
                 isPaused = true,
-                elapsedMillis = 754_000L,
                 distanceMeters = 3120.0,
                 mushroomCounts = mapOf(1L to 4),
             ),
+            elapsedMillis = { 754_000L },
             onStartWalk = PREVIEW_NOOP_STRING,
             onPauseOrResumeClick = PREVIEW_NOOP,
             onFinishClick = PREVIEW_NOOP,

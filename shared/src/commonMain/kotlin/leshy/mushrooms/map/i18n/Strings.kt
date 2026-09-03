@@ -3,6 +3,8 @@ package leshy.mushrooms.map.i18n
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.i18n.strings.armenianStrings
+import leshy.mushrooms.map.i18n.strings.azerbaijaniStrings
 import leshy.mushrooms.map.i18n.strings.belarusianStrings
 import leshy.mushrooms.map.i18n.strings.bulgarianStrings
 import leshy.mushrooms.map.i18n.strings.croatianStrings
@@ -15,7 +17,9 @@ import leshy.mushrooms.map.i18n.strings.germanStrings
 import leshy.mushrooms.map.i18n.strings.hungarianStrings
 import leshy.mushrooms.map.i18n.strings.italianStrings
 import leshy.mushrooms.map.i18n.strings.japaneseStrings
+import leshy.mushrooms.map.i18n.strings.kazakhStrings
 import leshy.mushrooms.map.i18n.strings.koreanStrings
+import leshy.mushrooms.map.i18n.strings.kyrgyzStrings
 import leshy.mushrooms.map.i18n.strings.latvianStrings
 import leshy.mushrooms.map.i18n.strings.lithuanianStrings
 import leshy.mushrooms.map.i18n.strings.polishStrings
@@ -25,8 +29,11 @@ import leshy.mushrooms.map.i18n.strings.slovakStrings
 import leshy.mushrooms.map.i18n.strings.slovenianStrings
 import leshy.mushrooms.map.i18n.strings.spanishStrings
 import leshy.mushrooms.map.i18n.strings.swedishStrings
+import leshy.mushrooms.map.i18n.strings.tajikStrings
 import leshy.mushrooms.map.i18n.strings.turkishStrings
+import leshy.mushrooms.map.i18n.strings.turkmenStrings
 import leshy.mushrooms.map.i18n.strings.ukrainianStrings
+import leshy.mushrooms.map.i18n.strings.uzbekStrings
 
 val LocalAppLanguage = compositionLocalOf { AppLanguage.EN }
 
@@ -59,6 +66,13 @@ fun string(key: StringKey, language: AppLanguage): String = when (language) {
  * non-ru/en [AppLanguage] values have a table; a 27th language would land here without one and
  * degrade to English until its own file is written. */
 internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = mapOf(
+    AppLanguage.AZ to azerbaijaniStrings,
+    AppLanguage.HY to armenianStrings,
+    AppLanguage.KK to kazakhStrings,
+    AppLanguage.KY to kyrgyzStrings,
+    AppLanguage.TG to tajikStrings,
+    AppLanguage.TK to turkmenStrings,
+    AppLanguage.UZ to uzbekStrings,
     AppLanguage.DE to germanStrings,
     AppLanguage.FR to frenchStrings,
     AppLanguage.ES to spanishStrings,
@@ -405,7 +419,6 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.PreparationStatusComplete -> "Скачано"
     StringKey.PreparationStatusError -> "Ошибка"
     StringKey.PreparationSubtitle -> "Скачайте видимую область карты, чтобы пользоваться ей без интернета"
-    StringKey.PreparationEstimatedSizeLabel -> "Место на диске"
     StringKey.PreparationRetryContentDescription -> "Повторить скачивание"
 
     StringKey.MapTilesLoadFailed -> "Карта не полностью загрузилась с сайта"
@@ -705,7 +718,6 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.PreparationStatusComplete -> "Downloaded"
     StringKey.PreparationStatusError -> "Error"
     StringKey.PreparationSubtitle -> "Download the visible map area to use it offline"
-    StringKey.PreparationEstimatedSizeLabel -> "Storage"
     StringKey.PreparationRetryContentDescription -> "Retry download"
 
     StringKey.MapTilesLoadFailed -> "The map didn't fully load from"

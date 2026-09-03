@@ -1,0 +1,21 @@
+# Символизация leshy.wakeups_resource-2026-09-03-071535.ips
+# сборка 20260903-064236-Release-9636D7F2, коммит 4f22241
+# atos -o $A/binaries/leshy -arch arm64 -l 0x10468c000 <адреса>
+
+## Главный поток (14 сэмплов из 27)
+main (in leshy) (iOSApp.swift:0)
+  ... libswiftUIKit → UIKitCore → GraphicsServices → CoreFoundation (рунлуп)
+  из них в QuartzCore только 3 сэмпла — против 11 из 32 в репорте 2026-09-01
+
+## Тяжелейший стек: корутинный воркер (13 сэмплов из 27)
+(anonymous namespace)::workerRoutine(void*) (in leshy) + 128
+Worker::processQueueElement(bool) (in leshy) + 1388
+kfun:kotlinx.coroutines.MultiWorkerDispatcher.MultiWorkerDispatcher$1.MultiWorkerDispatcher$1$invoke$$inlined$apply$1.$<bridge-DN>invoke(){}#internal (in leshy) + 228
+kfun:kotlinx.coroutines#runBlocking(kotlin.coroutines.CoroutineContext;kotlin.coroutines.SuspendFunction1<kotlinx.coroutines.CoroutineScope,0:0>){0§<kotlin.Any?>}0:0 (in leshy) + 1920
+(anonymous namespace)::waitInNativeState(_opaque_pthread_cond_t*, _opaque_pthread_mutex_t*, unsigned long long, unsigned long long*) (in leshy) + 176
+
+## Прочие ветки того же воркера
+kfun:kotlinx.coroutines#runBlocking(kotlin.coroutines.CoroutineContext;kotlin.coroutines.SuspendFunction1<kotlinx.coroutines.CoroutineScope,0:0>){0§<kotlin.Any?>}0:0 (in leshy) + 1844
+Worker::checkDelayedLocked() (in leshy) + 44
+kfun:kotlinx.coroutines#runBlocking(kotlin.coroutines.CoroutineContext;kotlin.coroutines.SuspendFunction1<kotlinx.coroutines.CoroutineScope,0:0>){0§<kotlin.Any?>}0:0 (in leshy) + 1536
+kfun:kotlinx.coroutines.EventLoopImplBase#processNextEvent(){}kotlin.Long (in leshy) + 0

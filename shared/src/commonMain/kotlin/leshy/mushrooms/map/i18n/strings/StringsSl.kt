@@ -289,7 +289,6 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Napaka",
     StringKey.PreparationSubtitle to
         "Prenesite vidno območje zemljevida za uporabo brez povezave",
-    StringKey.PreparationEstimatedSizeLabel to "Prostor na disku",
     StringKey.PreparationRetryContentDescription to "Ponovi prenos",
 
     StringKey.MapTilesLoadFailed to "Zemljevid se ni v celoti naložil z",

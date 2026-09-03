@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 private const val MIN_INTERVAL_MILLIS = 3000L
-private const val MIN_DISTANCE_METERS = 5f
+private val MIN_DISTANCE_METERS = LOCATION_MIN_DISTANCE_METERS.toFloat()
 
 class AndroidLocationTracker(private val context: Context) : LocationTracker {
 

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +32,10 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import leshy.mushrooms.map.domain.model.GeoPoint
 import leshy.mushrooms.map.domain.model.Walk
+import leshy.mushrooms.map.i18n.mushroomsUnitLabel
+import leshy.shared.generated.resources.Res
+import leshy.shared.generated.resources.ic_mushrooms
+import org.jetbrains.compose.resources.painterResource
 import leshy.mushrooms.map.ui.util.formatDateOnly
 import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDurationShort
@@ -40,6 +45,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private val THUMBNAIL_SIZE = 120.dp
+
+/**
+ * Ориентир — не высота букв в строке, а размер эмодзи `🍄`, который здесь стоял раньше: эмодзи
+ * рисуется заметно крупнее строчной буквы того же кегля, и замена на значок вровень с буквами
+ * читалась как потеря, а не как замена. Картинка заполняет своё поле целиком
+ * (`tools/prepare_icon_assets.py`), а грибы шире, чем выше, поэтому видимая высота выходит
+ * примерно на десятую меньше этого числа.
+ */
+private val MUSHROOM_ICON_SIZE = 22.dp
 private val WALK_CARD_PADDING = 8.dp
 
 /** Hold duration that opens Archive's multi-select mode — see CLAUDE.md for the feature spec. */
@@ -113,7 +127,20 @@ fun WalkCard(
                 ) {
                     Text(formatDistanceKm(walk.distanceMeters))
                     Text(walk.endTime?.let { formatDurationShort(it - walk.startTime) } ?: "—")
-                    Text("🍄 ${walk.mushroomCount}")
+                    // Был эмодзи "🍄 N" — единственное место в интерфейсе, где смысл нёс символ
+                    // из шрифта. Эмодзи рисуется системным цветным шрифтом: он не подчиняется
+                    // теме, выглядит по-разному на Android и iOS и не встаёт в один ряд с
+                    // остальной служебной графикой. Тот же гриб теперь берётся из общего набора
+                    // (ic_mushrooms.webp) и красится текущим цветом контента, как любая иконка.
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_mushrooms),
+                            contentDescription = "${walk.mushroomCount} ${mushroomsUnitLabel(walk.mushroomCount)}",
+                            modifier = Modifier.size(MUSHROOM_ICON_SIZE),
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(walk.mushroomCount.toString())
+                    }
                 }
             }
         }

@@ -1,12 +1,12 @@
 package leshy.mushrooms.map
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.Eco
 import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Place
@@ -31,7 +31,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -47,6 +48,9 @@ import leshy.mushrooms.map.domain.usecase.RepairPhotoPathsUseCase
 import leshy.mushrooms.map.i18n.LocalAppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.shared.generated.resources.Res
+import leshy.shared.generated.resources.ic_mushrooms_inset
+import org.jetbrains.compose.resources.painterResource
 import leshy.mushrooms.map.ui.map.LocalMushroomMarkerSizeScale
 import leshy.mushrooms.map.ui.navigation.Destination
 import leshy.mushrooms.map.ui.navigation.LeshyNavHost
@@ -56,20 +60,38 @@ import leshy.mushrooms.map.ui.theme.LeshyTheme
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
+/**
+ * [icon] — не `ImageVector`, а поставщик `Painter`: шесть пунктов берут значок из Material
+ * (вектор), седьмой — из `composeResources` (растр, см. `ic_mushrooms.webp`), и общий тип нужен,
+ * чтобы список оставался одним списком. `rememberVectorPainter` приводит вектор к `Painter`
+ * без потерь.
+ */
 private data class DrawerNavEntry(
     val destination: Destination,
     val labelKey: StringKey,
-    val icon: ImageVector,
+    val icon: @Composable () -> Painter,
 )
 
+/** Размер значка пункта меню — тот же, что Material подставляет своим иконкам по умолчанию. */
+private val DRAWER_ICON_SIZE = 24.dp
+
 private val drawerNavEntries = listOf(
-    DrawerNavEntry(Destination.Record, StringKey.NavRecord, Icons.Filled.Hiking),
-    DrawerNavEntry(Destination.Archive, StringKey.NavArchive, Icons.AutoMirrored.Filled.List),
-    DrawerNavEntry(Destination.Map, StringKey.NavMap, Icons.Filled.Place),
-    DrawerNavEntry(Destination.Preparation, StringKey.NavPreparation, Icons.Filled.Download),
-    DrawerNavEntry(Destination.Settings, StringKey.SettingsTitle, Icons.Filled.Settings),
-    DrawerNavEntry(Destination.Species, StringKey.NavSpecies, Icons.Filled.Eco),
-    DrawerNavEntry(Destination.Data, StringKey.NavData, Icons.Filled.ImportExport),
+    DrawerNavEntry(Destination.Record, StringKey.NavRecord) { rememberVectorPainter(Icons.Filled.Hiking) },
+    DrawerNavEntry(Destination.Archive, StringKey.NavArchive) {
+        rememberVectorPainter(Icons.AutoMirrored.Filled.List)
+    },
+    DrawerNavEntry(Destination.Map, StringKey.NavMap) { rememberVectorPainter(Icons.Filled.Place) },
+    DrawerNavEntry(Destination.Preparation, StringKey.NavPreparation) {
+        rememberVectorPainter(Icons.Filled.Download)
+    },
+    DrawerNavEntry(Destination.Settings, StringKey.SettingsTitle) { rememberVectorPainter(Icons.Filled.Settings) },
+    // Единственный не-стоковый пункт: гриба в Material нет. Ресурс здесь отдельный, с внутренним
+    // отступом: у иконок Material содержимое занимает около 20 единиц из 24, и значок, заполняющий
+    // своё поле целиком, при одинаковом размере выглядел бы в этом столбце крупнее всех соседей.
+    DrawerNavEntry(Destination.Species, StringKey.NavSpecies) {
+        painterResource(Res.drawable.ic_mushrooms_inset)
+    },
+    DrawerNavEntry(Destination.Data, StringKey.NavData) { rememberVectorPainter(Icons.Filled.ImportExport) },
 )
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -119,6 +141,12 @@ fun App() {
                     // Two independent effects, not one sequential block — neither should wait on the
                     // other to start.
                     LaunchedEffect(Unit) { repairPhotoPaths() }
+                    // Keyed on `language`, before ensureLoaded()'s effect: on a cold start this
+                    // just records the language (nothing is pinned yet, so ensureLoaded() then
+                    // publishes already-localized bytes), and on a later switch in Settings it
+                    // re-localizes the pinned style in place. Never touches the network, the pinned
+                    // file or offline packs — see MapStyleCacheRepository.setLabelLanguage.
+                    LaunchedEffect(language) { mapStyleCacheRepository.setLabelLanguage(language) }
                     LaunchedEffect(Unit) { mapStyleCacheRepository.ensureLoaded() }
 
                     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -156,7 +184,18 @@ fun App() {
                                     NavigationDrawerItem(
                                         selected = selected,
                                         label = { Text(stringResource(entry.labelKey)) },
-                                        icon = { Icon(entry.icon, contentDescription = null) },
+                                        icon = {
+                                            // Размер обязателен именно здесь. Material подставляет
+                                            // свои 24.dp только тем значкам, у которых нет
+                                            // собственного размера; у растрового Painter он есть —
+                                            // 192px, то есть около 73dp, — и гриб растекался на всю
+                                            // высоту строки, вчетверо крупнее соседей.
+                                            Icon(
+                                                painter = entry.icon(),
+                                                contentDescription = null,
+                                                modifier = Modifier.size(DRAWER_ICON_SIZE),
+                                            )
+                                        },
                                         onClick = {
                                             scope.launch { drawerState.close() }
                                             navController.navigateToTopLevel(entry.destination)

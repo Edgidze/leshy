@@ -285,7 +285,6 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Грешка",
     StringKey.PreparationSubtitle to
         "Преузмите видљиви део мапе да бисте га користили ван мреже",
-    StringKey.PreparationEstimatedSizeLabel to "Простор на диску",
     StringKey.PreparationRetryContentDescription to "Понови преузимање",
 
     StringKey.MapTilesLoadFailed to "Мапа се није у потпуности учитала са",

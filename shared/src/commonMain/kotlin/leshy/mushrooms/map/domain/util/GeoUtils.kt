@@ -21,6 +21,15 @@ fun haversineMeters(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Dou
     return EARTH_RADIUS_METERS * c
 }
 
+/**
+ * Width x height of a lat/lon rectangle in metres, measured across its middle (width at the
+ * mid-latitude, height along a meridian) — how big the thing on screen actually is on the ground.
+ */
+fun boundsExtentMeters(west: Double, south: Double, east: Double, north: Double): Pair<Double, Double> {
+    val midLat = (south + north) / 2
+    return haversineMeters(midLat, west, midLat, east) to haversineMeters(south, west, north, west)
+}
+
 /** Initial bearing (forward azimuth) from (lat1,lon1) to (lat2,lon2), in degrees, normalized to [0, 360). */
 fun bearingDegrees(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
     val phi1 = degToRad(lat1)

@@ -131,6 +131,20 @@ class RecordViewModel(
     private val _uiState = MutableStateFlow(RecordUiState())
     val uiState: StateFlow<RecordUiState> = _uiState.asStateFlow()
 
+    /**
+     * Elapsed walk time — its own flow rather than a [RecordUiState] field, and that is load-bearing.
+     * It changes once a second, while [RecordUiState] travels into `RecordScreenContent` as a single
+     * parameter that Compose compares by instance (the class is inferred unstable — it holds
+     * `List`/`Map` properties). Folding the tick into it therefore recomposed the entire Record
+     * screen every second, rebuilt all four derived marker lists, and made MapLibre re-diff its
+     * layers for data that had not changed. Kept separate so the tick can only reach the one `Text`
+     * that displays it — see `RecordScreen.kt`'s `ElapsedTimeStat` and the 2026-09-02 section of
+     * `.claude/investigations/ios-maplibre-background-watchdog/README.md` for the field measurements
+     * (two `wakeups_resource` reports, 159 and 165 thread wakeups/s against a 150/s limit).
+     */
+    private val _elapsedMillis = MutableStateFlow(0L)
+    val elapsedMillis: StateFlow<Long> = _elapsedMillis.asStateFlow()
+
     private var walkId: Long? = null
     private var lastPersistedPoint: GeoPoint? = null
     private var trackSequence = 0
@@ -420,11 +434,11 @@ class RecordViewModel(
             trackSequence = 0
             lastPersistedPoint = null
             backgroundRecordingController.start(currentLanguage)
+            _elapsedMillis.value = 0L
             _uiState.update {
                 it.copy(
                     isRecording = true,
                     isPaused = false,
-                    elapsedMillis = 0L,
                     distanceMeters = 0.0,
                     mushroomCounts = emptyMap(),
                     trackPoints = emptyList(),
@@ -469,6 +483,10 @@ class RecordViewModel(
             walkId = null
             navigationTargetId.value = null
             if (resetOrderOnWalkFinish) categoryOrder.value = emptyList()
+            // Explicit now that elapsed time lives outside RecordUiState: the rebuild below used
+            // to zero it implicitly, by virtue of not carrying it over. Without this the header
+            // keeps showing the finished walk's time until the next start().
+            _elapsedMillis.value = 0L
             _uiState.update { state ->
                 RecordUiState(
                     categories = state.categories,
@@ -675,7 +693,7 @@ class RecordViewModel(
         tickerJob = viewModelScope.launch {
             while (true) {
                 delay(TICK_INTERVAL_MILLIS.milliseconds)
-                _uiState.update { it.copy(elapsedMillis = it.elapsedMillis + TICK_INTERVAL_MILLIS) }
+                _elapsedMillis.update { it + TICK_INTERVAL_MILLIS }
             }
         }
     }

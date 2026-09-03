@@ -286,7 +286,6 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Virhe",
     StringKey.PreparationSubtitle to
         "Lataa kartan näkyvä alue käyttääksesi sitä ilman verkkoyhteyttä",
-    StringKey.PreparationEstimatedSizeLabel to "Levytila",
     StringKey.PreparationRetryContentDescription to "Yritä latausta uudelleen",
 
     StringKey.MapTilesLoadFailed to "Kartta ei latautunut kokonaan osoitteesta",

@@ -287,7 +287,6 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Kļūda",
     StringKey.PreparationSubtitle to
         "Lejupielādējiet redzamo kartes apgabalu, lai to izmantotu bezsaistē",
-    StringKey.PreparationEstimatedSizeLabel to "Vieta diskā",
     StringKey.PreparationRetryContentDescription to "Atkārtot lejupielādi",
 
     StringKey.MapTilesLoadFailed to "Karte pilnībā neielādējās no",

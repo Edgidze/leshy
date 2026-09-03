@@ -43,6 +43,10 @@ class IosLocationTracker : LocationTracker {
     override fun track(): Flow<GeoPoint> = callbackFlow {
         val manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyBest
+        // Без этого действует умолчание kCLDistanceFilterNone — «присылать каждый фикс», примерно
+        // раз в секунду и на неподвижном телефоне тоже. См. LOCATION_MIN_DISTANCE_METERS: там
+        // записано, чем это оборачивалось и как проверено.
+        manager.distanceFilter = LOCATION_MIN_DISTANCE_METERS
         applyBackgroundUpdates(manager, backgroundUpdatesEnabled)
 
         val delegate = object : NSObject(), CLLocationManagerDelegateProtocol {

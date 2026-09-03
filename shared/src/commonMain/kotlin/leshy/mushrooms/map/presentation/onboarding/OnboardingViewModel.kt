@@ -77,8 +77,17 @@ class OnboardingViewModel(
     /**
      * Countries that speak the language picked on the previous step float to the top; everything
      * else keeps the ordinary [leshy.mushrooms.map.domain.model.Collection.order] below them. This
-     * is a default ORDER, not a filter — every one of the 33 countries is still in the list, and
+     * is a default ORDER, not a filter — every one of the 40 countries is still in the list, and
      * the search field still finds any of them.
+     *
+     * Inside the floated group, the countries the language is *titular* in come first — those whose
+     * [leshy.mushrooms.map.data.catalog.CountryEntry.langs] starts with it. Without that split the
+     * group is ordered by country code, and picking Russian would put `RU` ninth, below `AM`, `AZ`,
+     * `BY`, `EE`, `KG`, `KZ`, `LV`, `MD` — every country where Russian is merely widely spoken.
+     * That was already slightly wrong at 6 such countries and became clearly wrong at 13, when
+     * `.claude/plans/post-soviet-countries.md` added Russian to all seven Central-Asian and
+     * Caucasian presets. The same split does the right thing for every other language too: `uk`
+     * puts `UA` first, `kk` puts `KZ` first.
      *
      * Only the onboarding step reorders like this. The same picker on the "Грибы" screen keeps the
      * plain alphabetical/catalog order: there, the user is looking for a specific country they
@@ -89,16 +98,22 @@ class OnboardingViewModel(
         items: List<CollectionPickerItem>,
         language: AppLanguage,
     ): List<CollectionPickerItem> {
-        val countryCodesForLanguage = countriesSource.entries
-            .filter { language.code in it.langs }
+        val speaking = countriesSource.entries.filter { language.code in it.langs }
+        if (speaking.isEmpty()) return items
+        val titularCodes = speaking.filter { it.langs.firstOrNull() == language.code }
             .map { it.code }
             .toSet()
-        if (countryCodesForLanguage.isEmpty()) return items
-        // partition preserves the relative order inside each half, so the tail is untouched.
-        val (matching, rest) = items.partition { item ->
-            countryCodeForCollectionNameKey(item.collection.nameKey) in countryCodesForLanguage
+        val otherCodes = speaking.map { it.code }.toSet() - titularCodes
+
+        // partition preserves the relative order inside each half, so each group stays in the
+        // collections' own order and the untouched tail keeps it too.
+        val (titular, rest) = items.partition { item ->
+            countryCodeForCollectionNameKey(item.collection.nameKey) in titularCodes
         }
-        return matching + rest
+        val (alsoSpoken, others) = rest.partition { item ->
+            countryCodeForCollectionNameKey(item.collection.nameKey) in otherCodes
+        }
+        return titular + alsoSpoken + others
     }
 
     /** Step 1's confirm: applies the language app-wide (Settings' own picker writes the same key)

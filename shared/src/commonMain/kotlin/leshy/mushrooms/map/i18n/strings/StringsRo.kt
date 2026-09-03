@@ -276,7 +276,6 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusComplete to "Descărcat",
     StringKey.PreparationStatusError to "Eroare",
     StringKey.PreparationSubtitle to "Descărcați zona de hartă vizibilă pentru a o folosi offline",
-    StringKey.PreparationEstimatedSizeLabel to "Spațiu de stocare",
     StringKey.PreparationRetryContentDescription to "Reia încercarea de descărcare",
 
     StringKey.MapTilesLoadFailed to "Harta nu s-a încărcat complet de pe",

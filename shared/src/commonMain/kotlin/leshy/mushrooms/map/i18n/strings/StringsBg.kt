@@ -283,7 +283,6 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Грешка",
     StringKey.PreparationSubtitle to
         "Изтеглете видимата област от картата, за да я използвате офлайн",
-    StringKey.PreparationEstimatedSizeLabel to "Място на диска",
     StringKey.PreparationRetryContentDescription to "Повторно изтегляне",
 
     StringKey.MapTilesLoadFailed to "Картата не се зареди напълно от",

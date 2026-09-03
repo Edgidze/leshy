@@ -13,7 +13,7 @@ import kotlin.test.assertTrue
 
 /**
  * The one guard on [pluralCategory]. A wrong rule here is invisible — the app runs, one language
- * out of twenty-six just says "5 гриб" — so the expectations below are transcribed from CLDR's own
+ * out of thirty-three just says "5 гриб" — so the expectations below are transcribed from CLDR's own
  * sample values rather than derived from the implementation: every count that CLDR names as a
  * boundary for a language (the teens, the multiples of ten, the second and third hundred) is
  * listed explicitly, including the ones where two languages of the same family diverge (Polish 21
@@ -22,11 +22,14 @@ import kotlin.test.assertTrue
 class PluralsTest {
     /** count → expected category, per language. Counts not listed are not asserted. */
     private val expectations: Map<AppLanguage, Map<Int, PluralCategory>> = mapOf(
-        // No grammatical number.
+        // No grammatical number. Tajik has no CLDR plural categories at all — a noun after a
+        // numeral doesn't inflect — so it lands here despite being Indo-European.
         AppLanguage.JA to mapOf(0 to Other, 1 to Other, 2 to Other, 5 to Other, 21 to Other),
         AppLanguage.KO to mapOf(0 to Other, 1 to Other, 2 to Other, 5 to Other, 21 to Other),
+        AppLanguage.TG to mapOf(0 to Other, 1 to Other, 2 to Other, 5 to Other, 21 to Other),
 
         // Two-way split on n = 1.
+        AppLanguage.AZ to twoWay(),
         AppLanguage.BG to twoWay(),
         AppLanguage.DE to twoWay(),
         AppLanguage.EN to twoWay(),
@@ -34,8 +37,20 @@ class PluralsTest {
         AppLanguage.FI to twoWay(),
         AppLanguage.HU to twoWay(),
         AppLanguage.KA to twoWay(),
+        AppLanguage.KK to twoWay(),
+        AppLanguage.KY to twoWay(),
         AppLanguage.SV to twoWay(),
+        AppLanguage.TK to twoWay(),
         AppLanguage.TR to twoWay(),
+        AppLanguage.UZ to twoWay(),
+
+        // Armenian: like `twoWay`, except 0 joins 1 in the singular. That single differing count
+        // is the whole reason it can't reuse the helper — and exactly the sort of thing that
+        // would otherwise go unnoticed.
+        AppLanguage.HY to mapOf(
+            0 to One, 1 to One,
+            2 to Other, 5 to Other, 11 to Other, 21 to Other, 101 to Other,
+        ),
 
         // French: 0 is singular; `many` is the million form.
         AppLanguage.FR to mapOf(
@@ -85,7 +100,7 @@ class PluralsTest {
             110 to Other, 111 to Other, 119 to Other,
         ),
 
-        // Latvian: the only `zero` of the 26.
+        // Latvian: the only `zero` of the 33.
         AppLanguage.LV to mapOf(
             0 to Zero, 10 to Zero, 11 to Zero, 15 to Zero, 19 to Zero, 20 to Zero, 30 to Zero,
             110 to Zero, 111 to Zero, 115 to Zero,

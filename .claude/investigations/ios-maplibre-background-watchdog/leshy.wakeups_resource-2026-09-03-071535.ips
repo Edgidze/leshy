@@ -1,0 +1,157 @@
+{"app_name":"leshy","timestamp":"2026-09-03 07:15:35.00 +0300","app_version":"1.0","slice_uuid":"9636D7F2-2597-3A5C-96AA-8AE53266BF69","adam_id":0,"build_version":"1","bundleID":"leshy.mushrooms.map","share_with_app_devs":0,"is_first_party":0,"bug_type":"142","os_version":"iPhone OS 15.8.8 (19H422)","incident_id":"F24FD7F2-93B0-40A1-80DC-94189025DB7F","name":"leshy"}
+Date/Time:        2026-09-03 07:11:18.793 +0300
+End time:         2026-09-03 07:15:33.015 +0300
+OS Version:       iPhone OS 15.8.8 (Build 19H422)
+Architecture:     arm64
+Report Version:   35.1
+Incident Identifier: F24FD7F2-93B0-40A1-80DC-94189025DB7F
+
+Data Source:      Microstackshots
+Shared Cache:     30CEA1B5-A0E8-3046-83B5-4B7285736D98 slid base address 0x181574000, slide 0x1574000
+
+Command:          leshy
+Path:             /private/var/containers/Bundle/Application/49286158-056A-451C-8413-B9AA0FF2B402/leshy.app/leshy
+Identifier:       leshy.mushrooms.map
+Version:          1.0 (1)
+Beta Identifier:  81FC6313-D448-4B77-AB83-3DC3C0765EA7
+Architecture:     arm64
+Parent:           UNKNOWN [1]
+PID:              302
+
+Event:            wakeups
+Action taken:     none
+Wakeups:          45001 wakeups over the last 254 seconds (177 wakeups per second average), exceeding limit of 150 wakeups per second over 300 seconds
+Wakeups limit:    45000
+Limit duration:   300s
+Wakeups caused:   45001
+Wakeups duration: 254s
+Duration:         254.22s
+Duration Sampled: 69.71s
+Steps:            27
+
+Hardware model:   iPhone8,4
+Active cpus:      2
+HW page size:     16384
+VM page size:     16384
+
+Advisory levels:  Battery -> 3, User -> 3, ThermalPressure -> 0, Combined -> 3
+Free disk space:  2713.12 MB/29.77 GB, low space threshold 150 MB
+
+Heaviest stack for the target process:
+  14  ??? (<16C8EA1A-1C77-3F4F-97A6-6AE7FB25EB29> + 99536) [0x1084844d0]
+  14  ??? (leshy + 37164) [0x10469512c]
+  14  ??? (libswiftUIKit.dylib + 163556) [0x19827fee4]
+  14  ??? (UIKitCore + 2617208) [0x183e8ef78]
+  14  ??? (UIKitCore + 5134984) [0x1840f5a88]
+  14  ??? (GraphicsServices + 6536) [0x1a2412988]
+  14  ??? (CoreFoundation + 123252) [0x1818f3174]
+  4   ??? (CoreFoundation + 46176) [0x1818e0460]
+  4   ??? (CoreFoundation + 320112) [0x181923270]
+  4   ??? (CoreFoundation + 306284) [0x18191fc6c]
+  4   ??? (CoreFoundation + 43516) [0x1818df9fc]
+  3   ??? (QuartzCore + 92288) [0x1853e5880]
+  1   ??? (libsystem_platform.dylib + 28680) [0x1dcd82008]
+
+
+Powerstats for:   leshy [302]
+UUID:             9636D7F2-2597-3A5C-96AA-8AE53266BF69
+Path:             /private/var/containers/Bundle/Application/49286158-056A-451C-8413-B9AA0FF2B402/leshy.app/leshy
+Identifier:       leshy.mushrooms.map
+Version:          1.0 (1)
+Beta Identifier:  81FC6313-D448-4B77-AB83-3DC3C0765EA7
+Architecture:     arm64
+Parent:           UNKNOWN [1]
+UID:              501
+Footprint:        174.88 MB
+Start time:       2026-09-03 07:14:22.494 +0300
+End time:         2026-09-03 07:15:32.200 +0300
+Num samples:      27 (100%)
+Primary state:    11 samples Frontmost App, Non-Suppressed, User mode, Effective Thread QoS User Interactive, Requested Thread QoS User Interactive, Override Thread QoS Unspecified
+User Activity:    0 samples Idle, 27 samples Active
+Power Source:     0 samples on Battery, 27 samples on AC
+  14  ??? (<16C8EA1A-1C77-3F4F-97A6-6AE7FB25EB29> + 99536) [0x1084844d0]
+    14  ??? (leshy + 37164) [0x10469512c]
+      14  ??? (libswiftUIKit.dylib + 163556) [0x19827fee4]
+        14  ??? (UIKitCore + 2617208) [0x183e8ef78]
+          14  ??? (UIKitCore + 5134984) [0x1840f5a88]
+            14  ??? (GraphicsServices + 6536) [0x1a2412988]
+              14  ??? (CoreFoundation + 123252) [0x1818f3174]
+                4   ??? (CoreFoundation + 46176) [0x1818e0460]
+                  4   ??? (CoreFoundation + 320112) [0x181923270]
+                    4   ??? (CoreFoundation + 306284) [0x18191fc6c]
+                      4   ??? (CoreFoundation + 43516) [0x1818df9fc]
+                        3   ??? (QuartzCore + 92288) [0x1853e5880]
+                          1   ??? (libsystem_platform.dylib + 28680) [0x1dcd82008]
+                          1   ??? (QuartzCore + 64748) [0x1853decec]
+                            1   ??? (<16C638E1-97E9-34D0-86BA-C5DA22941CE4> + 694344) [0x108f2d848]
+                              1   ??? (UIKitCore + 1627000) [0x183d9d378]
+                                1   ??? (UIKitCore + 5007200) [0x1840d6760]
+                                  1   ??? (UIKitCore + 1525344) [0x183d84660]
+                                    1   ??? (UIKitCore + 4000308) [0x183fe0a34]
+                                      1   ??? (UIKitCore + 1890544) [0x183ddd8f0]
+                                        1   ??? (UIKitCore + 1583268) [0x183d928a4]
+                                          1   ??? (UIKitCore + 1933436) [0x183de807c]
+                                            1   ??? (BaseBoard + 17452) [0x186acb42c]
+                                              1   ??? (libobjc.A.dylib + 11604) [0x199185d54]
+                          1   ??? (QuartzCore + 64308) [0x1853deb34]
+                            1   ??? (CoreFoundation + 114336) [0x1818f0ea0]
+                        1   ??? (libsystem_kernel.dylib + 3164) [0x1bc224c5c]
+                4   ??? (CoreFoundation + 44944) [0x1818dff90]
+                  3   ??? (CoreFoundation + 27784) [0x1818dbc88]
+                    3   ??? (libsystem_kernel.dylib + 2732) [0x1bc224aac]
+                      2   <Kernel mode>
+                  1   ??? (libsystem_kernel.dylib + 2388) [0x1bc224954]
+                1   ??? (libsystem_pthread.dylib + 44560) [0x1dcd92e10]
+                1   ??? (CoreFoundation + 45328) [0x1818e0110]
+                  1   ??? (CoreFoundation + 63572) [0x1818e4854]
+                    1   ??? (CoreFoundation + 56076) [0x1818e2b0c]
+                1   ??? (CoreFoundation + 45232) [0x1818e00b0]
+                  1   ??? (libsystem_kernel.dylib + 2648) [0x1bc224a58]
+                    1   <Kernel mode>
+                1   ??? (CoreFoundation + 44552) [0x1818dfe08]
+                  1   ??? (CoreFoundation + 22264) [0x1818da6f8]
+                    1   ??? (CoreFoundation + 162896) [0x1818fcc50]
+                1   ??? (CoreFoundation + 44524) [0x1818dfdec]
+                  1   ??? (CoreFoundation + 63700) [0x1818e48d4]
+                1   ??? (CoreFoundation + 44500) [0x1818dfdd4]
+                  1   ??? (CoreFoundation + 63860) [0x1818e4974]
+                    1   ??? (CoreFoundation + 255852) [0x18191376c]
+                      1   ??? (HangTracer + 15636) [0x1bf05cd14]
+                        1   ??? (libsystem_kernel.dylib + 3612) [0x1bc224e1c]
+  13  ??? (libsystem_pthread.dylib + 6456) [0x1dcd89938]
+    13  ??? (libsystem_pthread.dylib + 13112) [0x1dcd8b338]
+      13  ??? (leshy + 23272348) [0x105cbdb9c]
+        13  ??? (leshy + 23273920) [0x105cbe1c0]
+          13  ??? (leshy + 1349664) [0x1047d5820]
+            10  ??? (leshy + 1322848) [0x1047cef60]
+              10  ??? (leshy + 23277292) [0x105cbeeec]
+                9   ??? (libsystem_kernel.dylib + 5252) [0x1bc225484]
+                  7   <Kernel mode, Effective Thread QoS Default, Requested Thread QoS Default>
+                  2   <Effective Thread QoS Default, Requested Thread QoS Default>
+                1   ??? (libsystem_kernel.dylib + 8456) [0x1bc226108]
+                  1   <Kernel mode, Effective Thread QoS Default, Requested Thread QoS Default>
+            1   ??? (leshy + 1322772) [0x1047cef14]
+              1   ??? (leshy + 23275892) [0x105cbe974]
+                1   ??? (libc++.1.dylib + 334380) [0x199274a2c]
+                  1   <Effective Thread QoS Default, Requested Thread QoS Default>
+            1   ??? (leshy + 1322464) [0x1047cede0]
+              1   <Effective Thread QoS Default, Requested Thread QoS Default>
+            1   ??? (leshy + 1003088) [0x104780e50]
+              1   <Effective Thread QoS Default, Requested Thread QoS Default>
+
+  Binary Images:
+           0x10468c000 -                ???  leshy.mushrooms.map 1.0 (1) <9636D7F2-2597-3A5C-96AA-8AE53266BF69>  /private/var/containers/Bundle/Application/49286158-056A-451C-8413-B9AA0FF2B402/leshy.app/leshy
+           0x10846c000 -                ???  ???                         <16C8EA1A-1C77-3F4F-97A6-6AE7FB25EB29>
+           0x108e84000 -                ???  ???                         <16C638E1-97E9-34D0-86BA-C5DA22941CE4>
+           0x1818d5000 -        0x181d12fff  CoreFoundation              <EEC1287D-059B-38C8-9BC1-58A0C8B1E6C2>  /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
+           0x183c10000 -        0x1853abfff  UIKitCore                   <9D301877-2593-385C-8F72-F075AA0B48FA>  /System/Library/PrivateFrameworks/UIKitCore.framework/UIKitCore
+           0x1853cf000 -        0x1856b6fff  QuartzCore                  <BFB37348-30C8-3723-84E1-7B04ACACC5BE>  /System/Library/Frameworks/QuartzCore.framework/QuartzCore
+           0x186ac7000 -        0x186b7afff  BaseBoard                   <54602700-3B41-3EAA-9EE2-88F025D09D5F>  /System/Library/PrivateFrameworks/BaseBoard.framework/BaseBoard
+           0x198258000 -        0x1982b7fff  libswiftUIKit.dylib         <883D1A20-D060-3440-ADF2-7C37B7EFB6BD>  /usr/lib/swift/libswiftUIKit.dylib
+           0x199183000 -        0x1991bafff  libobjc.A.dylib             <F1B36686-ED48-35EF-8896-0CEA8E9DA1C0>  /usr/lib/libobjc.A.dylib
+           0x199223000 -        0x19927efff  libc++.1.dylib              <16BE14F2-A677-3DF1-984D-BBAB893EE3B9>  /usr/lib/libc++.1.dylib
+           0x1a2411000 -        0x1a2419fff  GraphicsServices            <BB434D86-0991-365F-BED3-C3923CF3073C>  /System/Library/PrivateFrameworks/GraphicsServices.framework/GraphicsServices
+           0x1bc224000 -        0x1bc257fff  libsystem_kernel.dylib      <A0B29FD9-54CF-3871-A8E2-2B30FFCEB58B>  /usr/lib/system/libsystem_kernel.dylib
+           0x1bf059000 -        0x1bf069fff  HangTracer                  <9D8745ED-498F-3BDB-B94E-EABE422F6F80>  /System/Library/PrivateFrameworks/HangTracer.framework/HangTracer
+           0x1dcd7b000 -        0x1dcd86fff  libsystem_platform.dylib    <1AA30630-2BF1-3C4F-AB26-9B574843C821>  /usr/lib/system/libsystem_platform.dylib
+           0x1dcd88000 -        0x1dcd98fff  libsystem_pthread.dylib     <A150C45A-FA09-3593-8E64-337BC555C085>  /usr/lib/system/libsystem_pthread.dylib

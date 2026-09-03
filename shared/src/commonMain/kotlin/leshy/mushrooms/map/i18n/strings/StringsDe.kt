@@ -281,7 +281,6 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Fehler",
     StringKey.PreparationSubtitle to
         "Laden Sie den sichtbaren Kartenbereich herunter, um ihn offline zu nutzen",
-    StringKey.PreparationEstimatedSizeLabel to "Speicherplatz",
     StringKey.PreparationRetryContentDescription to "Download wiederholen",
 
     StringKey.MapTilesLoadFailed to "Die Karte wurde nicht vollständig geladen von",

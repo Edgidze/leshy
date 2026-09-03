@@ -3,6 +3,10 @@ package leshy.mushrooms.map.data.repository
 import leshy.mushrooms.map.data.platform.HttpTextFetcher
 import leshy.mushrooms.map.data.platform.MapStyleStorage
 import leshy.mushrooms.map.data.platform.PinnedStyleInterceptor
+import leshy.mushrooms.map.data.style.freezeStyleTileSources
+import leshy.mushrooms.map.data.style.localizeMapStyle
+import leshy.mushrooms.map.data.style.styleHasUnfrozenTileSources
+import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
@@ -30,10 +34,23 @@ private val TILE_HOST_PROBE_TIMEOUT = 8.seconds
  * which otherwise orphans every previously cached/downloaded tile out from under the live map with
  * no warning. See `ui/map/CLAUDE.md` for the full incident writeup.
  *
+ * What gets pinned is the style with its tile URL TEMPLATES already resolved into it
+ * ([freezeStyleTileSources]) — pinning the style alone was never enough, since OpenFreeMap's
+ * `style.json` carries no tile URL at all, only a pointer to a TileJSON document that MapLibre
+ * re-fetches daily and that is where the rotating snapshot timestamp actually lives.
+ *
  * The pinned copy only ever changes via an explicit [refreshFromNetwork] call (wired to a user
  * action in Settings) — never automatically beyond the very first launch — so a region downloaded
  * once keeps rendering under the same template forever, until the user deliberately opts into
  * fresher map data (and is warned that offline regions may then need re-downloading).
+ *
+ * Orthogonal to all of that, the label language rides on top: what's pinned on disk and compared
+ * across refreshes is always the RAW upstream JSON, while what the live map and the native SDK
+ * actually get is that JSON run through [localizeMapStyle] for the current interface language (see
+ * [setLabelLanguage]). Keeping the two apart is what stops a language switch from looking like a
+ * style change to [leshy.mushrooms.map.domain.usecase.RefreshMapDataUseCase] and needlessly
+ * re-downloading every offline region — which it must not, since the language of a label is decided
+ * at render time from tile data that already carries every language at once.
  */
 class MapStyleCacheRepository(
     private val storage: MapStyleStorage,
@@ -49,6 +66,11 @@ class MapStyleCacheRepository(
     private val loadMutex = Mutex()
     private var loaded = false
 
+    /** The pinned bytes exactly as fetched — the input [publish] re-localizes on every language
+     * change, and the only thing a refresh ever compares against. */
+    private val pinnedRawJson = MutableStateFlow<String?>(null)
+    private val labelLanguage = MutableStateFlow(AppLanguage.EN)
+
     /** Loads any already-pinned copy from disk; on the very first ever launch (no pinned copy
      * yet), fetches once from the network so every subsequent screen visit uses the frozen local
      * copy. Safe to call from every map screen — only does real work once per app session. */
@@ -59,8 +81,10 @@ class MapStyleCacheRepository(
             withContext(Dispatchers.Default) {
                 val cached = runCatching { fileSystem.read(stylePath) { readUtf8() } }.getOrNull()
                 loaded = if (cached != null) {
-                    _baseStyle.value = BaseStyle.Json(cached)
-                    pinnedStyleInterceptor.setPinnedStyle(cached)
+                    // Publish first, migrate second: the map must come up instantly and offline,
+                    // and the migration below needs the network.
+                    publish(cached)
+                    freezeCachedStyleOnce(cached)
                     true
                 } else {
                     // No pinned copy yet (very first launch) and no network — leave `loaded` false
@@ -85,12 +109,59 @@ class MapStyleCacheRepository(
 
     private suspend fun refreshFromNetworkLocked(): Result<Boolean> = runCatching {
         val previous = runCatching { fileSystem.read(stylePath) { readUtf8() } }.getOrNull()
-        val json = httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL)
+        val json = freezeStyleTileSources(httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL)) { url ->
+            httpTextFetcher.fetchText(url)
+        }
         fileSystem.createDirectories(stylePath.parent!!)
         fileSystem.write(stylePath) { writeUtf8(json) }
-        _baseStyle.value = BaseStyle.Json(json)
-        pinnedStyleInterceptor.setPinnedStyle(json)
+        publish(json)
+        // Raw vs raw, never the localized derivatives — otherwise every interface language would
+        // read as "the style changed" and re-queue every downloaded region for nothing.
         previous != null && previous != json
+    }
+
+    /**
+     * Switches map labels to [language] — called from `App()` whenever the interface language
+     * changes (and once at startup). Costs a JSON re-parse of the ~43 KB style and nothing else: no
+     * network, no disk write, and explicitly no effect on offline packs, whose tiles carry all
+     * languages at once and are keyed by URLs this never touches.
+     *
+     * Also re-arms [PinnedStyleInterceptor], so the native SDK — the offline downloader and both
+     * platforms' archive-thumbnail snapshotters, which can only take a style URL — resolves
+     * [OPEN_FREE_MAP_STYLE_URL] to the same localized bytes the live map is rendering.
+     */
+    suspend fun setLabelLanguage(language: AppLanguage) {
+        if (labelLanguage.value == language) return
+        labelLanguage.value = language
+        // Nothing pinned yet: ensureLoaded() will publish under this language on its own.
+        val raw = pinnedRawJson.value ?: return
+        withContext(Dispatchers.Default) { publish(raw) }
+    }
+
+    /**
+     * One-off migration for a style pinned before tile URLs were frozen into it (see
+     * [freezeStyleTileSources]): resolves the TileJSON once and rewrites the pinned file in place.
+     * Deliberately NOT treated as a style refresh — it re-queues nothing, because the whole point is
+     * to stop the tile template from moving under downloaded regions, not to start big downloads
+     * behind the user's back. Regions downloaded under an older template were already orphaned
+     * before this ran; they stay that way until the user deletes and re-downloads them.
+     *
+     * Silent no-op without network — [ensureLoaded] retries on the next launch, and until then the
+     * app behaves exactly as it did before.
+     */
+    private suspend fun freezeCachedStyleOnce(cached: String) {
+        if (!styleHasUnfrozenTileSources(cached)) return
+        val frozen = runCatching { freezeStyleTileSources(cached) { url -> httpTextFetcher.fetchText(url) } }
+            .getOrNull() ?: return
+        if (frozen == cached) return
+        runCatching { fileSystem.write(stylePath) { writeUtf8(frozen) } }.onSuccess { publish(frozen) }
+    }
+
+    private fun publish(rawStyleJson: String) {
+        pinnedRawJson.value = rawStyleJson
+        val localized = localizeMapStyle(rawStyleJson, labelLanguage.value)
+        _baseStyle.value = BaseStyle.Json(localized)
+        pinnedStyleInterceptor.setPinnedStyle(localized)
     }
 
     /** Independent connectivity probe for the tile host — needed because once the style is
