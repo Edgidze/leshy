@@ -138,7 +138,7 @@ class RecordViewModel(
      * `List`/`Map` properties). Folding the tick into it therefore recomposed the entire Record
      * screen every second, rebuilt all four derived marker lists, and made MapLibre re-diff its
      * layers for data that had not changed. Kept separate so the tick can only reach the one `Text`
-     * that displays it — see `RecordScreen.kt`'s `ElapsedTimeText` and the 2026-09-02 section of
+     * that displays it — see `RecordScreen.kt`'s `ElapsedTimeStat` and the 2026-09-02 section of
      * `.claude/investigations/ios-maplibre-background-watchdog/README.md` for the field measurements
      * (two `wakeups_resource` reports, 159 and 165 thread wakeups/s against a 150/s limit).
      */

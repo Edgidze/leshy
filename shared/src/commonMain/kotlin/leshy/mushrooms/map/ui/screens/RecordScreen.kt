@@ -138,20 +138,30 @@ private val STAT_ICON_GAP = 6.dp
 private val STAT_ROW_PADDING = 12.dp
 
 /**
- * Ширина строки показателей, начиная с которой у километража остаётся видимая подпись «км».
- * Записана как «экран 360dp минус собственные поля строки», потому что порог осмыслен именно в
- * ширине устройства, а сравнивается с шириной содержимого: `padding` стоит снаружи
- * `BoxWithConstraints` и из его `maxWidth` уже вычтен.
+ * Ширина строки показателей, начиная с которой она показывается целиком. Ниже — строка переходит
+ * в тесный режим и снимает с себя лишнее: подпись «км» у километража всегда, значок секундомера —
+ * когда время переваливает за час и разрастается с «01:27» до «1:23:45».
+ *
+ * Снимается именно это, а не что-то другое: смысл обоих показателей виден и без снятого. Время
+ * читается как время потому, что тикает, а «0.05» без единицы не читается никак — поэтому подпись
+ * и держится до последнего, а значок уходит первым.
+ *
+ * Записана как «экран 360dp минус собственные поля строки», потому что порог осмыслен в ширине
+ * устройства, а сравнивается с шириной содержимого: `padding` стоит снаружи `BoxWithConstraints`
+ * и из его `maxWidth` уже вычтен.
  *
  * Почему порог, а не замер по факту: чтобы узнать, помещается ли всё, надо померить самый широкий
- * из трёх показателей — время, — а его чтение обязано оставаться внутри [ElapsedTimeText]
+ * из трёх показателей — время, — а его чтение обязано оставаться внутри [ElapsedTimeStat]
  * (см. его док). Замер в родителе вернул бы посекундную инвалидацию шапки, ровно ту, ради
  * устранения которой время и вынесено в отдельный `StateFlow`.
  *
  * Умножается на `fontScale`: перекрытие определяется шириной текста, а она растёт вместе с
  * системным размером шрифта, тогда как ширина экрана — нет.
  */
-private val STAT_ROW_UNIT_LABEL_MIN_WIDTH = 360.dp - STAT_ROW_PADDING * 2
+private val STAT_ROW_FULL_MIN_WIDTH = 360.dp - STAT_ROW_PADDING * 2
+
+/** Час в миллисекундах: рубеж, на котором [formatDuration] добавляет к «мм:сс» часы. */
+private const val HOUR_MILLIS = 3_600_000L
 
 // Gap between tiles in the feed's LazyRow — also fed into the pixel-distance math for the
 // slow scroll-to-front below, so keep the two in sync if this ever changes.
@@ -295,10 +305,30 @@ private fun StatIcon(icon: Painter, contentDescription: String) {
  * directly in [RecordScreenContent]'s body would hoist the read back up and invalidate the whole
  * screen once a second, which is exactly what the split exists to prevent. See
  * [RecordViewModel.elapsedMillis].
+ *
+ * Значок живёт здесь же, а не рядом в родительском `Row`, — и это сознательный пересмотр прежнего
+ * решения. Раньше он стоял снаружи ровно затем, чтобы не перерисовываться каждую секунду; теперь
+ * от времени зависит само его присутствие ([compact]), значит решение принимается там, где время
+ * читается, — иначе чтение уедет в родителя. Цена пересмотра ограничена: и картинка, и подпись
+ * приходят готовыми параметрами, поэтому раз в секунду здесь заново выполняются только `if` и
+ * пропускаемый `Icon` с теми же аргументами. Главное свойство при этом цело — чтение по-прежнему
+ * не выходит за пределы этого композабла.
  */
 @Composable
-private fun ElapsedTimeText(elapsedMillis: () -> Long) {
-    Text(formatDuration(elapsedMillis()), style = MaterialTheme.typography.titleLarge)
+private fun ElapsedTimeStat(icon: Painter, label: String, compact: Boolean, elapsedMillis: () -> Long) {
+    val millis = elapsedMillis()
+    // Рубеж по значению, а не по длине готовой строки: длина зависит от формата, а причина здесь
+    // одна — за часом «01:27» превращается в «1:23:45» и забирает ширину, которой на узком экране
+    // нет. Проверка идёт по millis, чтобы не переезжать вслед за [formatDuration].
+    val showIcon = !compact || millis < HOUR_MILLIS
+    if (showIcon) StatIcon(icon, label)
+    Text(
+        text = formatDuration(millis),
+        style = MaterialTheme.typography.titleLarge,
+        maxLines = 1,
+        // Без значка подпись «Длительность» терялась бы и для чтения вслух — переносим её сюда.
+        modifier = if (showIcon) Modifier else Modifier.semantics { contentDescription = label },
+    )
 }
 
 /**
@@ -309,7 +339,7 @@ private fun ElapsedTimeText(elapsedMillis: () -> Long) {
 @Composable
 private fun RecordScreenContent(
     uiState: RecordUiState,
-    /** Deferred read — see [ElapsedTimeText]; never a plain `Long` parameter. */
+    /** Deferred read — see [ElapsedTimeStat]; never a plain `Long` parameter. */
     elapsedMillis: () -> Long,
     onStartWalk: (String) -> Unit,
     onPauseOrResumeClick: () -> Unit,
@@ -405,23 +435,24 @@ private fun RecordScreenContent(
             // находок правый показатель наезжает на середину ещё до двузначного километража —
             // «122» и «0.05 km» смыкаются. Оценка сходится: содержимому остаётся 296dp, середина
             // забирает ~73, на каждый край приходится ~112, а километраж с подписью просит ~111.
-            // Подпись снимается только на узких экранах: на широких она нужна, потому что «0.05»
-            // само по себе ни о чём не говорит — в отличие от тикающего времени слева, чей смысл
-            // виден из того, что оно тикает.
             //
-            // Чего это НЕ чинит: левый край. «1:23:45» просит ~109dp, и при четырёхзначном
-            // счётчике находок (края получают по ~106) время наедет на середину так же. Дальше
-            // 320dp этим способом не спасти — там придётся снимать что-то ещё.
-            val showDistanceUnit = maxWidth >= STAT_ROW_UNIT_LABEL_MIN_WIDTH * LocalDensity.current.fontScale
-            // Значок и значение — соседи внутри inline-Row, а не обёрнуты в общий композабл:
-            // ElapsedTimeText обязан остаться собственной restart-scope (см. его док), а обёртка
-            // втянула бы посекундное чтение в себя вместе со значком.
+            // Левый край выходит за те же ~112 не сразу, а с первым часом: «1:23:45» просит ~109
+            // против ~91 у «01:27», и при четырёхзначном счётчике находок (края получают уже по
+            // ~106) наезжает на середину так же. Поэтому в тесном режиме время сдаёт свой значок —
+            // те самые 36dp значка с отбивкой, — но только перевалив за час; до часа значок стоит.
+            val compactRow = maxWidth < STAT_ROW_FULL_MIN_WIDTH * LocalDensity.current.fontScale
+            // Значок передаётся внутрь готовым, а не рисуется здесь рядом: от времени зависит
+            // само его присутствие, а время читается только внутри ElapsedTimeStat (см. его док).
             Row(
                 modifier = Modifier.align(Alignment.CenterStart),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                StatIcon(painterResource(Res.drawable.ic_stopwatch), stringResource(StringKey.WalkDetailDuration))
-                ElapsedTimeText(elapsedMillis)
+                ElapsedTimeStat(
+                    icon = painterResource(Res.drawable.ic_stopwatch),
+                    label = stringResource(StringKey.WalkDetailDuration),
+                    compact = compactRow,
+                    elapsedMillis = elapsedMillis,
+                )
             }
             Row(
                 modifier = Modifier.align(Alignment.Center),
@@ -442,13 +473,13 @@ private fun RecordScreenContent(
                 // чтобы снятие «км» было чисто зрительным и не обедняло чтение вслух.
                 val withUnit = formatDistanceKm(uiState.distanceMeters)
                 Text(
-                    text = if (showDistanceUnit) withUnit else formatDistanceKmValue(uiState.distanceMeters),
+                    text = if (compactRow) formatDistanceKmValue(uiState.distanceMeters) else withUnit,
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,
-                    modifier = if (showDistanceUnit) {
-                        Modifier
-                    } else {
+                    modifier = if (compactRow) {
                         Modifier.semantics { contentDescription = withUnit }
+                    } else {
+                        Modifier
                     },
                 )
             }
