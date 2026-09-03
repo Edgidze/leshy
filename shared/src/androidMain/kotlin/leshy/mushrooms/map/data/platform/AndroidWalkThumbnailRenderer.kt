@@ -43,6 +43,12 @@ private const val SNAPSHOT_PADDING_FRACTION = 24f / 240f
 // would zoom the snapshot in absurdly far; pad it out to a reasonable minimum span instead.
 private const val MIN_BOUNDS_SPAN_DEGREES = 0.0015
 
+// Пределы координат — раздутая рамка не должна выходить за края мира у полюсов и антимеридиана.
+private const val MIN_LATITUDE = -90.0
+private const val MAX_LATITUDE = 90.0
+private const val MIN_LONGITUDE = -180.0
+private const val MAX_LONGITUDE = 180.0
+
 /**
  * Толщина линии маршрута и радиус точки находки — долями ширины снимка, не пикселями.
  *
@@ -127,9 +133,7 @@ class AndroidWalkThumbnailRenderer(
                 // calling it unconditionally here is safe and closes that gap for good.
                 MapLibre.getInstance(context)
 
-                val boundsBuilder = LatLngBounds.Builder()
-                (track + findLocations + listOfNotNull(anchor)).forEach { boundsBuilder.include(LatLng(it.lat, it.lon)) }
-                val region = padIfDegenerate(boundsBuilder.build())
+                val region = regionOf(track + findLocations + listOfNotNull(anchor))
 
                 // По меньшей стороне: поле обязано быть заметным на той оси, которая и определяет
                 // вписывание, а это всегда более тесная из двух.
@@ -151,14 +155,32 @@ class AndroidWalkThumbnailRenderer(
             }
         }
 
-    private fun padIfDegenerate(bounds: LatLngBounds): LatLngBounds {
-        if (bounds.latitudeSpan >= MIN_BOUNDS_SPAN_DEGREES && bounds.longitudeSpan >= MIN_BOUNDS_SPAN_DEGREES) {
-            return bounds
-        }
-        val center = bounds.center
+    /**
+     * Рамка снимка по всем известным точкам, сразу с минимальным размахом [MIN_BOUNDS_SPAN_DEGREES].
+     *
+     * **Считается по краям вручную, а не скармливанием точек в `LatLngBounds.Builder`, и это не
+     * стилистика.** `Builder.build()` бросает `InvalidLatLngBoundsException`, если ему дали МЕНЬШЕ
+     * ДВУХ точек, — а ровно одна точка бывает сплошь и рядом: прогулка с единственной находкой, у
+     * которой ещё не успело набраться ни одной точки трека. Исключение ловил `catch` в [render],
+     * снимок молча не рисовался, и `BackfillWalkThumbnailsUseCase` при каждом следующем заходе в
+     * архив честно повторял то же самое с тем же результатом — миниатюра не появлялась уже
+     * никогда. Владелец нашёл это по симптому, который сам по себе выглядит бессмыслицей: с одним
+     * грибом миниатюры нет, с двумя — есть. Две одинаковые точки для `Builder` — уже «два
+     * элемента», и он не возражает.
+     *
+     * Здесь же и прежний [padIfDegenerate]: раздувать вырожденную рамку всё равно приходится
+     * (одна точка или несколько совпавших дают нулевой размах, а снимок нулевой области — ничто),
+     * и делать это одним действием с построением честнее, чем чинить уже построенное.
+     */
+    private fun regionOf(points: List<GeoPoint>): LatLngBounds {
+        val halfSpan = MIN_BOUNDS_SPAN_DEGREES / 2
+        val south = (points.minOf { it.lat } - halfSpan).coerceAtLeast(MIN_LATITUDE)
+        val north = (points.maxOf { it.lat } + halfSpan).coerceAtMost(MAX_LATITUDE)
+        val west = (points.minOf { it.lon } - halfSpan).coerceAtLeast(MIN_LONGITUDE)
+        val east = (points.maxOf { it.lon } + halfSpan).coerceAtMost(MAX_LONGITUDE)
         return LatLngBounds.Builder()
-            .include(LatLng(center.latitude - MIN_BOUNDS_SPAN_DEGREES, center.longitude - MIN_BOUNDS_SPAN_DEGREES))
-            .include(LatLng(center.latitude + MIN_BOUNDS_SPAN_DEGREES, center.longitude + MIN_BOUNDS_SPAN_DEGREES))
+            .include(LatLng(south, west))
+            .include(LatLng(north, east))
             .build()
     }
 
