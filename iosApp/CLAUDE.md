@@ -114,6 +114,61 @@ iPhone 17 и iPhone SE (2-го поколения), обе — iOS 26.5, до ф
 симуляторах регрессии нет (шапка тоже пиксельно совпадает до и после
 поворота), но подтвердить само исправление можно только на устройстве.
 
+## Имя продукта живёт только в `Configuration/Config.xcconfig`
+
+`PRODUCT_NAME=leshy`, `PRODUCT_BUNDLE_IDENTIFIER=leshy.mushrooms.map` и обе
+версии заданы в xcconfig, подключённом base configuration **на уровне
+проекта**; у таргета своих значений нет. Отсюда неочевидное следствие: если
+Xcode перечитает проект в момент, когда xcconfig не отдал значение,
+`PRODUCT_NAME` схлопывается в пустую строку — и это не остаётся вычислением
+на лету, Xcode записывает результат в файлы проекта:
+
+- `project.pbxproj` — `path = .app` в трёх местах (PBXFileReference, группа
+  Products, `productReference` таргета);
+- `xcuserdata/…/xcschemes/iosApp.xcscheme` — `BuildableName = ".app"` в
+  BuildAction и в LaunchAction.
+
+Дальше эти два файла заражают друг друга, направление зависит от того, что
+Xcode в этот раз считает источником правды: пока схема говорила `.app`,
+первый же вызов `xcodebuild` переписал под неё `pbxproj`; после отката
+`pbxproj` из git следующий вызов вылечил схему обратно.
+
+Как это выглядит снаружи: сборка идёт успешно и **подписывается** (`codesign
+-dv` на `leshy.app` показывает метку времени той же секунды), а установка на
+устройство падает мгновенно —
+
+```
+NSPOSIXErrorDomain / Code 2 / No such file or directory
+IDERunOperationFailingWorker = IDEInstalliPhoneLauncher
+operation_duration_ms = 3
+```
+
+потому что собран `leshy.app`, а установщик идёт за `<Products>/.app`. Три
+миллисекунды и «нет файла» — это про путь, а не про устройство, сертификат
+или версию iOS: на тех уходит время, здесь оно не потрачено вовсе.
+
+**Диагностировать по `pbxproj`, а не по настройкам сборки.**
+`xcodebuild -showBuildSettings` в этот момент показывает правильные
+`PRODUCT_NAME = leshy` и `FULL_PRODUCT_NAME = leshy.app` — вычисление
+настроек здорово, испорчена ссылка на продукт:
+
+```bash
+grep -n "productReference\|path = .*\.app" iosApp/iosApp.xcodeproj/project.pbxproj
+```
+
+Лечение: `git checkout -- iosApp/iosApp.xcodeproj/project.pbxproj`, затем
+**полностью выйти из Xcode** (⌘Q, не закрыть окно) — запущенный Xcode держит
+испорченную модель в памяти и перезапишет файл при первом же сохранении.
+Схема лежит в `xcuserdata`, под git не хранится и чинится сама при следующем
+чтении проекта.
+
+Прецедент — 2026-09-04. Что именно обнулило имя, по логам не восстановилось;
+совпало по времени с правкой xcconfig (удаление мусорной точки, 27f9cd2), но
+точка ни при чём — проверено прогоном `-showBuildSettings` с ней и без,
+значения побайтово совпадают. Если повторится — лечится по-настоящему тем,
+что `PRODUCT_NAME` прибивается ещё и в build settings таргета: обнуляться
+станет нечему.
+
 ## `OTHER_LDFLAGS` — порядок фреймворков имеет значение
 
 Build settings (Debug+Release): `OTHER_LDFLAGS = (-framework Shared,
