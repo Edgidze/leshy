@@ -211,8 +211,7 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Izveidots ar lietotni „Leša sēņu karte“",
     StringKey.WalkShareImageFooter to "Izveidots lietotnē Leša sēņu karte",
 
-    StringKey.MapToggleMap to "Karte",
-    StringKey.MapToggleStats to "Statistika",
+    StringKey.MapStatsTitle to "Statistika",
     StringKey.MapStatsWalksCount to "Pastaigas",
     StringKey.MapStatsFindsCount to "Atrastas sēnes",
     StringKey.MapStatsEmptyHint to "Statistika izveidosies pati, tiklīdz būs ierakstīta pirmā pastaiga.",

@@ -1,20 +1,16 @@
 package leshy.mushrooms.map.ui.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -59,23 +55,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import coil3.compose.AsyncImage
 import leshy.mushrooms.map.data.platform.WALK_THUMBNAIL_ASPECT_RATIO
-import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.FieldMark
 import leshy.mushrooms.map.domain.model.GeoPoint
 import leshy.mushrooms.map.domain.model.MarkType
@@ -83,16 +73,13 @@ import leshy.mushrooms.map.domain.model.Walk
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.mushroomsUnitLabel
 import leshy.mushrooms.map.i18n.stringResource
-import leshy.mushrooms.map.presentation.archive.CategoryCount
 import leshy.mushrooms.map.presentation.archive.WalkDetailViewModel
-import leshy.mushrooms.map.ui.components.AddPlaceDialog
-import leshy.mushrooms.map.ui.components.DeletePlaceConfirmDialog
-import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
-import leshy.mushrooms.map.ui.components.MUSHROOM_LABEL_FONT_SIZE
+import leshy.mushrooms.map.ui.components.FindTilesGrid
+import leshy.mushrooms.map.ui.components.FindsEmptyBlock
+import leshy.mushrooms.map.ui.components.MetricCard
 import leshy.mushrooms.map.ui.components.MushroomDonutChart
-import leshy.mushrooms.map.ui.components.MushroomOutlinedText
-import leshy.mushrooms.map.ui.components.MushroomPhoto
-import leshy.mushrooms.map.ui.components.PlaceViewDialog
+import leshy.mushrooms.map.ui.components.PlaceMarkDialogs
+import leshy.mushrooms.map.ui.components.SectionHeader
 import leshy.mushrooms.map.ui.components.WalkRouteThumbnail
 import leshy.mushrooms.map.ui.components.WalkShareDialog
 import leshy.mushrooms.map.ui.util.formatDateOnly
@@ -101,7 +88,6 @@ import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDurationLabeled
 import leshy.mushrooms.map.ui.util.formatSpeedKmh
 import leshy.mushrooms.map.ui.util.formatTimeOnly
-import leshy.mushrooms.map.ui.util.parseHexColor
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import leshy.shared.generated.resources.ic_route
@@ -132,71 +118,7 @@ private val MUSHROOM_TOAST_DURATION = 3000.milliseconds
  */
 private val HERO_CORNER_RADIUS = 16.dp
 
-/** Значки показателей — те же три и того же размера, что в шапке «Записи» (`RecordScreen.kt`). */
-private val METRIC_ICON_SIZE = 28.dp
-
-/**
- * Высота карточки показателя при системном масштабе шрифта — значок, отбивка, две строки
- * `titleLarge` и собственные поля. Задана снизу, а не выведена из содержимого: значения переносятся
- * каждое по своей нужде («24» — одна строка, «12.34 км» — две), и три карточки натуральной высоты
- * встали бы в ряд ступенькой. `IntrinsicSize` эту работу не делает: минимальная внутренняя высота
- * текста меряется по бесконечной ширине, то есть по одной строке, и двухстрочному значению её не
- * хватило бы. Раз при `maxLines = 2` содержимое выше этого числа не бывает, минимум оказывается и
- * максимумом — карточки выходят равными без общей высоты у ряда.
- *
- * Снизу, а не жёстко, — чтобы при крупном системном шрифте карточка росла вслед за содержимым, а
- * не обрезала его. Тогда ряд снова может выйти ступенькой, но ступенька из трёх целых значений
- * лучше трёх подрезанных.
- */
-private val METRIC_CARD_MIN_HEIGHT = 116.dp
-
-/**
- * Сколько плиток находок встаёт в ряд. Ширина плитки считается от этого числа, не наоборот.
- *
- * Две, а не три. Плитка собрана из [MushroomPhoto], а у той подпись с названием вида лежит поверх
- * картинки блоком постоянной высоты (54dp, две строки по 20sp — размер выбран под ленту «Записи»,
- * где плитка шириной 120dp). При трёх колонках плитке достаётся 90–104dp, картинка становится
- * 72–83dp высотой, и подпись съедает три четверти её высоты. При двух колонках плитка выходит
- * 140–160dp, то есть не уже той, под которую подпись и рисовалась.
- */
-private const val FIND_TILE_COLUMNS = 2
-private val FIND_TILE_SPACING = 8.dp
-
-/**
- * Кегль счётчика находок на плитке. Крупнее подписи с названием вида ([MUSHROOM_LABEL_FONT_SIZE],
- * 18sp), и это главное про это число: обе надписи лежат на одной плитке, набраны одним приёмом —
- * белым по чёрной обводке — и должны различаться по старшинству, а не спорить. Счётчик тут главнее
- * названия: название вида видно по самой картинке, число по картинке не видно никак.
- */
-private val FIND_TILE_COUNT_FONT_SIZE = 28.sp
-
-/**
- * Отступ счётчика от угла плитки. Правый верхний угол выбран не случайно: подпись с названием
- * прижата к нижнему краю, гриб на картинке стоит по центру и растёт снизу вверх, сужаясь к шляпке,
- * — верхние углы у плиток каталога свободны стабильно, в отличие от нижних и середины.
- */
-private val FIND_TILE_COUNT_PADDING = 6.dp
-
-/**
- * Добавка к правому отступу счётчика, долей кегля. Нужна затем, чтобы зазор справа от цифры
- * выглядел равным зазору сверху: при одинаковом [FIND_TILE_COUNT_PADDING] с обеих сторон он равным
- * не выглядит, и виноват не отступ, а то, что текстовый блок не облегает цифры.
- *
- * Сверху над цифрами внутри блока лежит подъём шрифта: цифра доходит только до высоты прописной
- * (у Roboto и SF Pro — обе гарнитуры, которыми это в самом деле рисуется, — 0.71 кегля), а блок
- * простирается примерно до 0.90. Справа же от цифры лежит только узкий боковой зазор глифа, около
- * 0.03 кегля. Разница этих двух и есть здешнее число: 0.90 − 0.71 − 0.03 ≈ 0.15.
- *
- * Чёрная обводка на разницу не влияет: она отступает от контура глифа одинаково во все стороны и
- * уменьшает оба зазора на одно и то же.
- *
- * Долей кегля, а не числом в dp, — чтобы поправка росла вместе с системным размером шрифта, как
- * растёт сама цифра и её обводка.
- */
-private const val FIND_TILE_COUNT_INK_OVERHANG_EM = 0.15f
-
 private val PLACE_THUMBNAIL_SIZE = 64.dp
-private val SECTION_TOP_GAP = 24.dp
 
 @Composable
 fun WalkDetailScreen(
@@ -211,8 +133,6 @@ fun WalkDetailScreen(
     val coroutineScope = rememberCoroutineScope()
     val places = uiState.marks.filter { it.type == MarkType.POI }
     var selectedPlaceId by remember { mutableStateOf<Long?>(null) }
-    var isEditingPlace by remember { mutableStateOf(false) }
-    var confirmDeletePlace by remember { mutableStateOf(false) }
     var showShareDialog by remember { mutableStateOf(false) }
     val selectedPlace = places.find { it.id == selectedPlaceId }
     val findLocations = remember(uiState.marks) {
@@ -352,39 +272,12 @@ fun WalkDetailScreen(
         }
     }
 
-    if (selectedPlace != null) {
-        if (isEditingPlace) {
-            AddPlaceDialog(
-                location = GeoPoint(selectedPlace.lat, selectedPlace.lon, null, selectedPlace.timestamp),
-                initialName = selectedPlace.name,
-                initialDescription = selectedPlace.description.orEmpty(),
-                initialPhotoPath = selectedPlace.photoPath,
-                onSave = { name, description, photoPath ->
-                    viewModel.updatePlace(selectedPlace, name, description, photoPath)
-                    isEditingPlace = false
-                },
-                onDismissRequest = { isEditingPlace = false },
-            )
-        } else {
-            PlaceViewDialog(
-                mark = selectedPlace,
-                onEditClick = { isEditingPlace = true },
-                onDeleteClick = { confirmDeletePlace = true },
-                onDismissRequest = { selectedPlaceId = null },
-            )
-        }
-    }
-
-    if (confirmDeletePlace && selectedPlace != null) {
-        DeletePlaceConfirmDialog(
-            onConfirm = {
-                viewModel.deletePlace(selectedPlace)
-                confirmDeletePlace = false
-                selectedPlaceId = null
-            },
-            onDismissRequest = { confirmDeletePlace = false },
-        )
-    }
+    PlaceMarkDialogs(
+        place = selectedPlace,
+        onUpdate = viewModel::updatePlace,
+        onDelete = viewModel::deletePlace,
+        onDismissRequest = { selectedPlaceId = null },
+    )
 
     if (showShareDialog && walk != null) {
         WalkShareDialog(
@@ -543,43 +436,6 @@ private fun WalkMetricsRow(walk: Walk, findCount: Int) {
 }
 
 /**
- * [value] переносится на вторую строку, а не ужимается и не обрезается: «4 ч 18 мин» и «12.34 км»
- * в блок шириной около 100dp одной строкой не помещаются ни при каком кегле, который ещё читается
- * с вытянутой руки, — а этот экран смотрят в том числе в лесу.
- */
-@Composable
-private fun MetricCard(icon: Painter, label: String, value: String, modifier: Modifier = Modifier) {
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-    ) {
-        Column(
-            // Наименьшая высота стоит на самой колонке, а не на карточке, как стояла раньше, — и
-            // только поэтому содержимое вообще можно отцентрировать по высоте. На карточке она
-            // растягивала карточку, а колонка внутри оставалась по своему содержимому и прижималась
-            // к верху: значение из одной строки висело выше значения из двух, хотя карточки были
-            // одной высоты. Теперь лишняя высота достаётся самой колонке, и распределять её внутри
-            // есть чему.
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = METRIC_CARD_MIN_HEIGHT)
-                .padding(vertical = 12.dp, horizontal = 6.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
-        ) {
-            Icon(painter = icon, contentDescription = label, modifier = Modifier.size(METRIC_ICON_SIZE))
-            Text(
-                text = value,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                maxLines = 2,
-            )
-        }
-    }
-}
-
-/**
  * Старт, финиш и средняя скорость — приглушённым мелким набором под показателями. Это не отмена
  * прежних строк «ключ: значение», а понижение их в правах: цифры, которые смотрят раз в жизни,
  * не должны стоять тем же кеглем, что и те, ради которых экран открывают.
@@ -625,118 +481,6 @@ private fun DetailRow(label: String, value: String) {
         Text(text = value, style = MaterialTheme.typography.bodyMedium)
     }
 }
-
-/**
- * Заголовок раздела типографикой, а не подчёркиванием. Подчёркнутый текст в мобильном интерфейсе
- * читается как ссылка — прежние заголовки этого экрана были подчёркнуты и обещали нажатие,
- * которого не было.
- */
-@Composable
-private fun SectionHeader(title: String, action: (@Composable () -> Unit)? = null) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(top = SECTION_TOP_GAP, bottom = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.weight(1f),
-        )
-        action?.invoke()
-    }
-}
-
-/**
- * Находки плитками с иллюстрацией, названием и числом — вместо прежнего списка строк
- * «название — число». Плитка построена из тех же частей, что плитка ленты «Записи»
- * ([MushroomPhoto] под строкой счётчика, обводка цветом вида), чтобы вид, отмеченный в лесу,
- * выглядел в архиве так же, как выглядел в момент отметки.
- *
- * Ширина плитки считается от ширины экрана, а не задана числом: [FIND_TILE_COLUMNS] плиток обязаны
- * ровно закрывать ряд, иначе на узких экранах в ряд встаёт две и треть ширины уходит в пустоту.
- */
-@Composable
-private fun FindTilesGrid(counts: List<CategoryCount>) {
-    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-        val tileWidth = (maxWidth - FIND_TILE_SPACING * (FIND_TILE_COLUMNS - 1)) / FIND_TILE_COLUMNS
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(FIND_TILE_SPACING),
-            verticalArrangement = Arrangement.spacedBy(FIND_TILE_SPACING),
-        ) {
-            counts.forEach { entry ->
-                FindTile(category = entry.category, count = entry.count, width = tileWidth)
-            }
-        }
-    }
-}
-
-/**
- * Счётчик стоит НА картинке, а не строкой над ней, как в ленте «Записи». В ленте строка над фото
- * нужна: там между «−» и «+» живёт то самое число, которое меняют пальцем, и оно обязано иметь
- * собственное место, куда не попадёт нажатие по соседней кнопке. Здесь ничего не нажимается,
- * плитка только показывает — и отдельная строка ради одного числа отнимала бы у картинки высоту
- * ни за чем.
- */
-@Composable
-private fun FindTile(category: Category, count: Int, width: Dp) {
-    Card(
-        modifier = Modifier.width(width),
-        border = BorderStroke(2.dp, parseHexColor(category.colorHex)),
-    ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            MushroomPhoto(
-                category = category,
-                modifier = Modifier.fillMaxWidth().aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO),
-            )
-            val countInkOverhang = with(LocalDensity.current) {
-                (FIND_TILE_COUNT_FONT_SIZE.toPx() * FIND_TILE_COUNT_INK_OVERHANG_EM).toDp()
-            }
-            MushroomOutlinedText(
-                text = count.toString(),
-                fontSize = FIND_TILE_COUNT_FONT_SIZE,
-                maxLines = 1,
-                contentAlignment = Alignment.TopEnd,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    // Только верх и правый край: счётчик прижат к правому верхнему углу, и до
-                    // левого края с низом ему дела нет.
-                    .padding(
-                        top = FIND_TILE_COUNT_PADDING,
-                        end = FIND_TILE_COUNT_PADDING + countInkOverhang,
-                    ),
-            )
-        }
-    }
-}
-
-/**
- * Пустых находок у прогулки быть не запрещено — вышел, походил, не нашёл. Раньше про это говорил
- * подчёркнутый заголовок «Находок не зафиксировано» на месте списка; теперь это отдельный
- * приглушённый блок, который не притворяется разделом с содержимым.
- */
-@Composable
-private fun FindsEmptyBlock() {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(top = SECTION_TOP_GAP),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            painter = painterResource(Res.drawable.ic_mushrooms),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(METRIC_ICON_SIZE),
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        Text(
-            text = stringResource(StringKey.WalkDetailFindsEmpty),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-    }
-}
-
 @Composable
 private fun DescriptionCard(description: String?, onClick: () -> Unit) {
     val text = description?.ifBlank { null }

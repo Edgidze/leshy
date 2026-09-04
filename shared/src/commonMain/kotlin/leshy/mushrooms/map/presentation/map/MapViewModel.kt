@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -32,6 +33,13 @@ private data class RawMapData(
     val walks: List<Walk>,
     val marks: List<FieldMark>,
     val categories: List<Category>,
+)
+
+/** Вход пересчёта свода — всё, от чего зависит содержимое экрана, одним значением. */
+private data class StatsInput(
+    val raw: RawMapData,
+    val filter: MapFilter,
+    val tracks: Map<Long, List<GeoPoint>>,
 )
 
 /** Ключ перезагрузки треков — см. комментарий у его collect в [MapViewModel.init]. */
@@ -47,11 +55,15 @@ class MapViewModel(
     private val deletePlaceMark: DeletePlaceMarkUseCase,
 ) : ViewModel() {
 
-    private val _mode = MutableStateFlow(MapMode.MAP)
-
     /** Заполняется отдельным сборщиком ниже и входит в общий combine готовым значением — см.
      * комментарий у этого сборщика. */
     private val tracks = MutableStateFlow<Map<Long, List<GeoPoint>>>(emptyMap())
+
+    // Два признака занятости вместо одного поля в состоянии: пересчёт свода и перечитывание
+    // треков идут разными корутинами и запускаются одним и тем же сдвигом ползунка, поэтому
+    // «занят» — это ИЛИ по ним обоим, а не то, что записал последний закончивший.
+    private val statsComputing = MutableStateFlow(false)
+    private val tracksLoading = MutableStateFlow(false)
 
     private val _uiState = MutableStateFlow(MapUiState())
     val uiState: StateFlow<MapUiState> = _uiState.asStateFlow()
@@ -66,8 +78,22 @@ class MapViewModel(
                 categoryRepository.observeAll(),
             ) { walks, marks, categories -> RawMapData(walks, marks, categories) }
 
-            combine(rawData, _mode, mapFilterRepository.observeFilter(), tracks) { raw, mode, filter, tracks ->
-                buildUiState(raw, mode, filter, tracks)
+            val builtState = combine(rawData, mapFilterRepository.observeFilter(), tracks) { raw, filter, tracks ->
+                StatsInput(raw, filter, tracks)
+            }.transform { input ->
+                // Сам пересчёт уходит с главного потока: он перебирает ВСЕ отметки всех прогулок
+                // сразу (в отличие от экрана детализации, где их десятки), и на большом архиве это
+                // уже заметная работа, которой не место в кадре анимации ползунка.
+                statsComputing.value = true
+                val state = withContext(Dispatchers.Default) {
+                    buildUiState(input.raw, input.filter, input.tracks)
+                }
+                statsComputing.value = false
+                emit(state)
+            }
+
+            combine(builtState, statsComputing, tracksLoading) { state, computing, loadingTracks ->
+                state.copy(isRecalculating = computing || loadingTracks)
             }.collect { state -> _uiState.value = state }
         }
         viewModelScope.launch {
@@ -91,19 +117,20 @@ class MapViewModel(
                 tracks.value = if (!key.visible || key.walkIds.isEmpty()) {
                     emptyMap()
                 } else {
-                    withContext(Dispatchers.Default) {
-                        trackPointRepository.getPoints(key.walkIds)
-                            .groupBy(TrackPoint::walkId) {
-                                GeoPoint(it.lat, it.lon, it.elevation, it.timestamp)
-                            }
+                    tracksLoading.value = true
+                    try {
+                        withContext(Dispatchers.Default) {
+                            trackPointRepository.getPoints(key.walkIds)
+                                .groupBy(TrackPoint::walkId) {
+                                    GeoPoint(it.lat, it.lon, it.elevation, it.timestamp)
+                                }
+                        }
+                    } finally {
+                        tracksLoading.value = false
                     }
                 }
             }
         }
-    }
-
-    fun selectMode(mode: MapMode) {
-        _mode.value = mode
     }
 
     fun updatePlace(mark: FieldMark, name: String, description: String, photoPath: String?) {
@@ -118,17 +145,14 @@ class MapViewModel(
 
     private fun buildUiState(
         raw: RawMapData,
-        mode: MapMode,
         filter: MapFilter,
         // Пустая карта, когда показ прошлых маршрутов выключен (так решает сборщик выше) — это
         // не просто скрытие слоя: подгонка камеры в AggregatedFindsMap иначе продолжала бы
         // кадрировать невидимые треки.
         tracks: Map<Long, List<GeoPoint>>,
     ): MapUiState {
-        val filteredWalkIds = raw.walks
-            .filter { it.matchesDateAndSeason(filter) }
-            .map { it.id }
-            .toSet()
+        val filteredWalks = raw.walks.filter { it.matchesDateAndSeason(filter) }
+        val filteredWalkIds = filteredWalks.map { it.id }.toSet()
 
         val categoryById = raw.categories.associateBy { it.id }
         val mushroomMarks = raw.marks.filter {
@@ -136,21 +160,28 @@ class MapViewModel(
         }
         val placeMarks = raw.marks.filter { it.walkId in filteredWalkIds && it.type == MarkType.POI }
 
+        // Порядок тот же, что у находок одной прогулки (WalkDetailViewModel): сперва по числу
+        // находок, и только при равенстве — по порядку вида в каталоге. Плитки и кольцевая
+        // диаграмма под ними читаются сверху вниз как «чего больше всего», а не как оглавление
+        // каталога.
         val categoryCounts = mushroomMarks
             .groupingBy { it.categoryId }
             .eachCount()
             .mapNotNull { (categoryId, count) -> categoryById[categoryId]?.let { CategoryCount(it, count) } }
-            .sortedBy { it.category.order }
+            .sortedWith(compareByDescending<CategoryCount> { it.count }.thenBy { it.category.order })
 
         return MapUiState(
-            mode = mode,
             tracks = tracks,
             findMarks = mushroomMarks,
             placeMarks = placeMarks,
             categories = raw.categories,
+            hasAnyWalks = raw.walks.isNotEmpty(),
             stats = MapStats(
                 walkCount = filteredWalkIds.size,
-                totalDistanceMeters = raw.walks.filter { it.id in filteredWalkIds }.sumOf { it.distanceMeters },
+                totalDistanceMeters = filteredWalks.sumOf { it.distanceMeters },
+                totalDurationMillis = filteredWalks.sumOf { walk ->
+                    walk.endTime?.let { it - walk.startTime }?.coerceAtLeast(0L) ?: 0L
+                },
                 totalMushroomCount = mushroomMarks.size,
                 categoryCounts = categoryCounts,
             ),

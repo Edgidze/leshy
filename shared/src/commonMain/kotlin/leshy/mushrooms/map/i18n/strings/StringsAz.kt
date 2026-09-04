@@ -204,8 +204,7 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "\"Leşidən Göbələk Xəritəsi\" tətbiqi ilə hazırlanıb",
     StringKey.WalkShareImageFooter to "Leşidən Göbələk Xəritəsi tətbiqində yaradılıb",
 
-    StringKey.MapToggleMap to "Xəritə",
-    StringKey.MapToggleStats to "Statistika",
+    StringKey.MapStatsTitle to "Statistika",
     StringKey.MapStatsWalksCount to "Gəzintilər",
     StringKey.MapStatsFindsCount to "Tapılan göbələklər",
     StringKey.MapStatsEmptyHint to "İlk gəzinti yazılan kimi statistika özü yığılacaq.",

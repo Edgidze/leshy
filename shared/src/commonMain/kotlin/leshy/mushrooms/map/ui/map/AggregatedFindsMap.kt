@@ -22,7 +22,9 @@ import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.expressions.dsl.const
 import org.maplibre.compose.layers.LineLayer
+import org.maplibre.compose.map.GestureOptions
 import org.maplibre.compose.map.MapOptions
+import org.maplibre.compose.map.OrnamentOptions
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
@@ -43,10 +45,19 @@ fun AggregatedFindsMap(
     modifier: Modifier,
     places: List<PlaceMarker> = emptyList(),
     onPlaceClick: (Long) -> Unit = {},
+    // Переопределяемы ради заставки на самом экране «Карта находок»: там карта не управляется
+    // пальцем (её перекрывает кнопка перехода на полный экран), и обещающие управление компас с
+    // линейкой масштаба с неё сняты.
+    gestureOptions: GestureOptions = GestureOptions.Standard,
+    ornamentOptions: OrnamentOptions = mapOrnamentOptions,
     // Overridable so a caller with its own bottom-anchored controls can keep the tile-load-failed
     // banner clear of them instead of it defaulting to the top.
     bannerAlignment: Alignment = Alignment.TopCenter,
     bannerPadding: PaddingValues = PaddingValues(16.dp),
+    // Гасится на заставке «Карты находок»: её перекрывает прозрачная кнопка перехода на полный
+    // экран, то есть до крестика на плашке всё равно не дотянуться — а на полноэкранной карте,
+    // куда эта кнопка и ведёт, та же плашка покажется как обычно.
+    showLoadFailedBanner: Boolean = true,
 ) {
     val cameraState = rememberCameraState(firstPosition = CameraPosition(target = Position(0.0, 0.0), zoom = 1.0))
     val overlayColors = rememberMapOverlayColors()
@@ -86,7 +97,11 @@ fun AggregatedFindsMap(
             modifier = Modifier.fillMaxSize(),
             baseStyle = baseStyle,
             cameraState = cameraState,
-            options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
+            options = MapOptions(
+                renderOptions = mapRenderOptions,
+                gestureOptions = gestureOptions,
+                ornamentOptions = ornamentOptions,
+            ),
             onMapLoadFailed = { tilesLoadFailed = true },
             onMapLoadFinished = { tilesLoadFailed = false },
         ) {
@@ -112,7 +127,7 @@ fun AggregatedFindsMap(
             ClusteredFindsLayers(markers)
             PlaceMarkersLayer(places, onPlaceClick)
         }
-        if (tilesLoadFailed) {
+        if (tilesLoadFailed && showLoadFailedBanner) {
             MapLoadFailedBanner(
                 onDismiss = { tilesLoadFailed = false },
                 modifier = Modifier.align(bannerAlignment).padding(bannerPadding),

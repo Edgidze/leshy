@@ -207,8 +207,7 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Створено за допомогою застосунку «Грибна карта від Лешого»",
     StringKey.WalkShareImageFooter to "Створено в застосунку Грибна карта від Лешого",
 
-    StringKey.MapToggleMap to "Карта",
-    StringKey.MapToggleStats to "Статистика",
+    StringKey.MapStatsTitle to "Статистика",
     StringKey.MapStatsWalksCount to "Прогулянок",
     StringKey.MapStatsFindsCount to "Знайдено грибів",
     StringKey.MapStatsEmptyHint to "Статистика збереться сама, щойно буде записана перша прогулянка.",

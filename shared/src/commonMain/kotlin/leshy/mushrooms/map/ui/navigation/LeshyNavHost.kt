@@ -20,6 +20,7 @@ import leshy.mushrooms.map.presentation.record.RecordViewModel
 import leshy.mushrooms.map.ui.components.SectionScaffold
 import leshy.mushrooms.map.ui.screens.ArchiveScreen
 import leshy.mushrooms.map.ui.screens.DataScreen
+import leshy.mushrooms.map.ui.screens.FindsMapScreen
 import leshy.mushrooms.map.ui.screens.LanguagePickerScreen
 import leshy.mushrooms.map.ui.screens.MapScreen
 import leshy.mushrooms.map.ui.screens.PreparationScreen
@@ -128,7 +129,7 @@ fun LeshyNavHost(
                 WalkDescriptionEditScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
             }
         }
-        composable<Destination.Map> {
+        composable<Destination.Map> { backStackEntry ->
             SectionScaffold(
                 title = StringKey.NavMap,
                 help = HelpTopic.MAP,
@@ -136,7 +137,25 @@ fun LeshyNavHost(
             ) { padding ->
                 MapScreen(
                     onStartWalkClick = { navController.navigateToTopLevel(Destination.Record) },
+                    onOpenFullMap = { navController.navigate(Destination.FindsMap) },
+                    viewModel = koinViewModel(viewModelStoreOwner = backStackEntry),
                     modifier = Modifier.padding(padding),
+                )
+            }
+        }
+        composable<Destination.FindsMap> {
+            // ViewModel берётся у записи раздела «Карта» в бэкстеке, а не заводится своя, — тем же
+            // приёмом и по той же причине, что WalkMap берёт её у WalkDetail: это тот же экран,
+            // открытый во весь рост, и второй инстанс означал бы вторую подписку на всю базу и
+            // повторное чтение всех треков ради тех же данных. Гвард — оттуда же: запись раздела
+            // может уже уйти из бэкстека, пока этот композабл дорисовывает переход выхода.
+            val mapEntry = runCatching {
+                navController.getBackStackEntry(Destination.Map)
+            }.getOrNull()
+            if (mapEntry != null) {
+                FindsMapScreen(
+                    viewModel = koinViewModel(viewModelStoreOwner = mapEntry),
+                    onBack = { navController.popBackStack() },
                 )
             }
         }

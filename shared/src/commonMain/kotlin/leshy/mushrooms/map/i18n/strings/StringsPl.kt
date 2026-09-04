@@ -207,8 +207,7 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Utworzono w aplikacji „Mapa grzybów od Leszego”",
     StringKey.WalkShareImageFooter to "Utworzono w aplikacji Mapa grzybów od Leszego",
 
-    StringKey.MapToggleMap to "Mapa",
-    StringKey.MapToggleStats to "Statystyki",
+    StringKey.MapStatsTitle to "Statystyki",
     StringKey.MapStatsWalksCount to "Spacery",
     StringKey.MapStatsFindsCount to "Znalezione grzyby",
     StringKey.MapStatsEmptyHint to

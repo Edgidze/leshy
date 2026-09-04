@@ -346,8 +346,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.WalkShareFooter -> "Создано с помощью приложения «Грибная карта от Лешего»"
     StringKey.WalkShareImageFooter -> "Создано в приложении Грибная карта от Лешего"
 
-    StringKey.MapToggleMap -> "Карта"
-    StringKey.MapToggleStats -> "Статистика"
+    StringKey.MapStatsTitle -> "Статистика"
     StringKey.MapStatsWalksCount -> "Прогулок"
     StringKey.MapStatsFindsCount -> "Найдено грибов"
     StringKey.MapStatsEmptyHint -> "Статистика соберётся сама, как только будет записана первая прогулка."
@@ -653,8 +652,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.WalkShareFooter -> "Made with the \"Mushroom Map from Leshy\" app"
     StringKey.WalkShareImageFooter -> "Created in the Mushroom Map from Leshy app"
 
-    StringKey.MapToggleMap -> "Map"
-    StringKey.MapToggleStats -> "Statistics"
+    StringKey.MapStatsTitle -> "Statistics"
     StringKey.MapStatsWalksCount -> "Walks"
     StringKey.MapStatsFindsCount -> "Mushrooms found"
     StringKey.MapStatsEmptyHint -> "Statistics build up on their own once the first walk is recorded."

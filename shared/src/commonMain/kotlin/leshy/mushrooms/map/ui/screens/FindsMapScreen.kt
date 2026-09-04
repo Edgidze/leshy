@@ -9,25 +9,42 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import leshy.mushrooms.map.domain.model.MarkType
 import leshy.mushrooms.map.domain.model.iconSource
-import leshy.mushrooms.map.presentation.archive.WalkDetailViewModel
+import leshy.mushrooms.map.presentation.map.MapViewModel
+import leshy.mushrooms.map.ui.components.MapFilterButton
+import leshy.mushrooms.map.ui.components.MapFilterDialog
 import leshy.mushrooms.map.ui.components.PlaceMarkDialogs
-import leshy.mushrooms.map.ui.map.LiveTrackMap
+import leshy.mushrooms.map.ui.map.AggregatedFindsMap
 import leshy.mushrooms.map.ui.map.MapMarker
 import leshy.mushrooms.map.ui.map.PlaceMarker
 
+/**
+ * Сводная карта во весь экран — то, куда ведёт заставка «Карты находок» ([MapScreen]).
+ *
+ * Оправа общая с картой одной прогулки ([FullScreenMapScaffold]), содержимое — та же
+ * [AggregatedFindsMap], что стоит на заставке, только с жестами, отмеченными местами и кнопкой
+ * фильтра: полный фильтр (виды грибов) на страницу свода не влезал и живёт здесь.
+ */
 @Composable
-fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
+fun FindsMapScreen(viewModel: MapViewModel, onBack: () -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
     val categoryById = uiState.categories.associateBy { it.id }
+    var showFilterDialog by remember { mutableStateOf(false) }
     var selectedPlaceId by remember { mutableStateOf<Long?>(null) }
-    val selectedPlace = uiState.marks.find { it.id == selectedPlaceId }
+    val selectedPlace = uiState.placeMarks.find { it.id == selectedPlaceId }
 
-    FullScreenMapScaffold(onBack = onBack) { ornamentOptions, bannerPadding ->
-        LiveTrackMap(
-            track = uiState.track,
-            markers = uiState.marks.filter { it.type != MarkType.POI }.map { mark ->
+    FullScreenMapScaffold(
+        onBack = onBack,
+        action = {
+            MapFilterButton(
+                filterCount = uiState.filterCount,
+                onClick = { showFilterDialog = true },
+            )
+        },
+    ) { ornamentOptions, bannerPadding ->
+        AggregatedFindsMap(
+            tracks = uiState.tracks,
+            markers = uiState.findMarks.map { mark ->
                 val category = categoryById[mark.categoryId]
                 MapMarker(
                     lat = mark.lat,
@@ -36,16 +53,19 @@ fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
                     icon = category?.iconSource(),
                 )
             },
-            places = uiState.marks.filter { it.type == MarkType.POI }.map { mark ->
+            modifier = Modifier.fillMaxSize(),
+            places = uiState.placeMarks.map { mark ->
                 PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
             },
             onPlaceClick = { id -> selectedPlaceId = id },
-            currentLocation = null,
-            modifier = Modifier.fillMaxSize(),
             ornamentOptions = ornamentOptions,
             bannerAlignment = Alignment.BottomCenter,
             bannerPadding = bannerPadding,
         )
+    }
+
+    if (showFilterDialog) {
+        MapFilterDialog(onDismissRequest = { showFilterDialog = false })
     }
 
     PlaceMarkDialogs(

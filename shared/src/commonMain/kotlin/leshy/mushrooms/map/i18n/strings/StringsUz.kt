@@ -211,8 +211,7 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "\"Leshiydan Qoʻziqorin Xaritasi\" ilovasida tayyorlandi",
     StringKey.WalkShareImageFooter to "Leshiydan Qoʻziqorin Xaritasi ilovasida yaratildi",
 
-    StringKey.MapToggleMap to "Xarita",
-    StringKey.MapToggleStats to "Statistika",
+    StringKey.MapStatsTitle to "Statistika",
     StringKey.MapStatsWalksCount to "Sayrlar",
     StringKey.MapStatsFindsCount to "Topilgan qoʻziqorinlar",
     StringKey.MapStatsEmptyHint to "Birinchi sayr yozib olinishi bilan statistika oʻzi yigʻiladi.",

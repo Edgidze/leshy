@@ -210,8 +210,7 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Tehty ”Leshyn sienikartta” -sovelluksella",
     StringKey.WalkShareImageFooter to "Tehty Leshyn sienikartta -sovelluksessa",
 
-    StringKey.MapToggleMap to "Kartta",
-    StringKey.MapToggleStats to "Tilastot",
+    StringKey.MapStatsTitle to "Tilastot",
     StringKey.MapStatsWalksCount to "Retkiä",
     StringKey.MapStatsFindsCount to "Löydettyjä sieniä",
     StringKey.MapStatsEmptyHint to "Tilastot kertyvät itsestään heti, kun ensimmäinen retki on tallennettu.",

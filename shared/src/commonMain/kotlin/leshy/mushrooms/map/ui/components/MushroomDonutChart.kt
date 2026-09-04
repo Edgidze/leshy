@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -82,11 +83,47 @@ private data class RingSlice(
 )
 
 /**
- * Donut chart of mushroom species found on a walk: one ring segment per [CategoryCount], sized by
- * count and colored by [Category.colorHex], with the walk's total find count in the hole. The ring
- * is drawn smaller than the chart's outer bounds, freeing an annular band around it (sized to fit
- * the card band exactly, so cards never draw outside the chart's own measured bounds) where every
- * species gets a bordered photo card next to its own sector — no
+ * Кольцо с числом в середине — доли видов, найденных за ОДНУ прогулку (экран детализации и
+ * картинка «Поделиться»). В дырке — сколько всего грибов у этой прогулки.
+ *
+ * Устройство самой диаграммы — [MushroomShareChart].
+ */
+@Composable
+fun MushroomDonutChart(
+    counts: List<CategoryCount>,
+    modifier: Modifier = Modifier,
+    onMushroomClick: (String) -> Unit = {},
+) {
+    MushroomShareChart(counts = counts, modifier = modifier, filled = false, onMushroomClick = onMushroomClick)
+}
+
+/**
+ * Сплошной круг без числа в середине — доли видов по ВСЕМ прогулкам сразу («Карта находок»).
+ *
+ * Почему не то же кольцо, что у прогулки: число в дырке отвечает на вопрос «сколько всего», а на
+ * сводном экране этот ответ уже стоит плашкой-показателем выше — повторять его в середине
+ * диаграммы значило бы сказать одно и то же дважды. А дырка без числа — просто дырка, и тогда
+ * честнее сплошной круг.
+ *
+ * Устройство самой диаграммы — [MushroomShareChart].
+ */
+@Composable
+fun MushroomPieChart(
+    counts: List<CategoryCount>,
+    modifier: Modifier = Modifier,
+    onMushroomClick: (String) -> Unit = {},
+) {
+    MushroomShareChart(counts = counts, modifier = modifier, filled = true, onMushroomClick = onMushroomClick)
+}
+
+/**
+ * Общее устройство обеих диаграмм — [MushroomDonutChart] (кольцо с числом в дырке) и
+ * [MushroomPieChart] (сплошной круг, [filled]): один сектор на [CategoryCount], размером по числу
+ * находок и цветом по [Category.colorHex].
+ *
+ * The figure itself is drawn smaller than the chart's outer bounds, freeing an annular band around
+ * it (sized to fit the card band exactly, so cards never draw outside the chart's own measured
+ * bounds) where every species gets a bordered photo card next to its own sector — no
  * count/buttons/name on the card (too little room at this size, and the finds list
  * above this chart already has name+count per species); tapping a card reports the species'
  * localized display name via [onMushroomClick] so the caller can surface it (walk detail shows it
@@ -101,7 +138,12 @@ private data class RingSlice(
  * Renders nothing for zero species.
  */
 @Composable
-fun MushroomDonutChart(counts: List<CategoryCount>, modifier: Modifier = Modifier, onMushroomClick: (String) -> Unit = {}) {
+private fun MushroomShareChart(
+    counts: List<CategoryCount>,
+    modifier: Modifier,
+    filled: Boolean,
+    onMushroomClick: (String) -> Unit,
+) {
     val ordered = counts.filter { it.count > 0 }.sortedByDescending { it.count }
     val total = ordered.sumOf { it.count }
     if (total <= 0) return
@@ -123,15 +165,18 @@ fun MushroomDonutChart(counts: List<CategoryCount>, modifier: Modifier = Modifie
         val containerDiameter = (maxWidth - OUTER_HORIZONTAL_MARGIN).coerceAtMost(MAX_OUTER_DIAMETER)
         val cardBand = CARD_GAP + CARD_SIZE
         val ringDiameter = (containerDiameter - cardBand * 2f).coerceAtLeast(0.dp)
-        val holeDiameter = (ringDiameter - RING_WIDTH * 2f).coerceAtLeast(0.dp)
+        // У сплошного круга дырки нет вовсе — см. [SliceDisc].
+        val holeDiameter = if (filled) 0.dp else (ringDiameter - RING_WIDTH * 2f).coerceAtLeast(0.dp)
         val cardCenterRadius = containerDiameter / 2f - CARD_SIZE / 2f
         val cardAngles = resolveCardAngles(slices, cardCenterRadius)
 
         Box(modifier = Modifier.size(containerDiameter), contentAlignment = Alignment.Center) {
-            DonutRing(slices = slices, diameter = ringDiameter)
+            SliceDisc(slices = slices, diameter = ringDiameter, filled = filled)
 
-            val countFontSize = centerCountFontSize(total, holeDiameter)
-            Text(total.toString(), fontSize = countFontSize, fontWeight = FontWeight.Bold)
+            if (!filled) {
+                val countFontSize = centerCountFontSize(total, holeDiameter)
+                Text(total.toString(), fontSize = countFontSize, fontWeight = FontWeight.Bold)
+            }
 
             // zIndex alone decides stacking order here (ties are only ever broken by composition
             // order, and there are none left to break — see ORDER_TIE_BREAK_Z_INDEX), so the loop
@@ -227,31 +272,46 @@ private fun centerCountFontSize(total: Int, holeDiameter: Dp): TextUnit {
     }
 }
 
+/**
+ * Кольцо ([filled] == false) или сплошной круг ([filled] == true) секторами по [slices].
+ *
+ * Две ветки, а не одна с разной толщиной штриха: у кольца сектор — это дуга, обведённая по своей
+ * окружности (`useCenter = false`), и белый разделитель у неё идёт таким же штрихом поверх;
+ * сплошной круг же складывается из клиньев с заливкой (`useCenter = true`), и разделителем ему
+ * служит белая ОБВОДКА каждого клина — то есть два радиуса плюс внешняя дуга. Если бы круг тоже
+ * рисовался толстым штрихом по дуге, тот же белый штрих лёг бы белой окружностью посреди круга, а
+ * не по границам секторов.
+ *
+ * Обе фигуры вписаны с отступом в полразделителя: обводка клина иначе наполовину выходила бы за
+ * измеренные границы Canvas.
+ */
 @Composable
-private fun DonutRing(slices: List<RingSlice>, diameter: Dp) {
-    val ringWidthPx = with(LocalDensity.current) { RING_WIDTH.toPx() }
-    val dividerWidthPx = with(LocalDensity.current) { RING_DIVIDER_WIDTH.toPx() }
+private fun SliceDisc(slices: List<RingSlice>, diameter: Dp, filled: Boolean) {
+    val density = LocalDensity.current
+    val ringWidthPx = with(density) { RING_WIDTH.toPx() }
+    val dividerWidthPx = with(density) { RING_DIVIDER_WIDTH.toPx() }
+    val showDividers = slices.size > 1
 
     Canvas(modifier = Modifier.size(diameter)) {
-        val inset = ringWidthPx / 2
-        val arcSize = Size(size.width - ringWidthPx, size.height - ringWidthPx)
+        val inset = if (filled) dividerWidthPx / 2 else ringWidthPx / 2
+        val arcSize = Size(size.width - inset * 2, size.height - inset * 2)
         val topLeft = Offset(inset, inset)
         slices.forEach { slice ->
             drawArc(
                 color = parseHexColor(slice.categoryCount.category.colorHex),
                 startAngle = slice.startAngle,
                 sweepAngle = slice.sweepAngle,
-                useCenter = false,
+                useCenter = filled,
                 topLeft = topLeft,
                 size = arcSize,
-                style = Stroke(width = ringWidthPx),
+                style = if (filled) Fill else Stroke(width = ringWidthPx),
             )
-            if (slices.size > 1) {
+            if (showDividers) {
                 drawArc(
                     color = Color.White,
                     startAngle = slice.startAngle,
                     sweepAngle = slice.sweepAngle,
-                    useCenter = false,
+                    useCenter = filled,
                     topLeft = topLeft,
                     size = arcSize,
                     style = Stroke(width = dividerWidthPx),

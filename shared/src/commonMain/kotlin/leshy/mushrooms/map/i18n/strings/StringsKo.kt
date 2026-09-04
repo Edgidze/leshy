@@ -202,8 +202,7 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "\"레시의 버섯 지도\" 앱으로 제작",
     StringKey.WalkShareImageFooter to "레시의 버섯 지도 앱에서 제작",
 
-    StringKey.MapToggleMap to "지도",
-    StringKey.MapToggleStats to "통계",
+    StringKey.MapStatsTitle to "통계",
     StringKey.MapStatsWalksCount to "산책 수",
     StringKey.MapStatsFindsCount to "발견한 버섯",
     StringKey.MapStatsEmptyHint to "첫 산책을 기록하면 통계가 저절로 쌓입니다.",

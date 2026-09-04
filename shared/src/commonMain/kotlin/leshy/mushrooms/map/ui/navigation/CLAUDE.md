@@ -83,7 +83,9 @@ fun NavHostController.navigateToTopLevel(destination: Destination) {
 `navController.getBackStackEntry(Destination.WalkDetail(...))`), чтобы не
 плодить второй ViewModel и не терять состояние. `Destination.
 WalkDescriptionEdit` (экран редактирования описания прогулки) — тот же
-паттерн: своего ViewModel нет, берёт `WalkDetailViewModel` родителя. Умышленно
+паттерн: своего ViewModel нет, берёт `WalkDetailViewModel` родителя. Тем же приёмом живёт и
+`Destination.FindsMap` (сводная карта во весь экран) — берёт `MapViewModel` у
+записи раздела `Destination.Map`, с которой на неё и переходят. Умышленно
 NavHost-экран, не `Dialog` — многострочный `OutlinedTextField` внутри
 Compose `Dialog` был источником IME-бага, см. doc-комментарий
 `WalkDescriptionEditScreen`/`AddPlaceDialog.kt`.

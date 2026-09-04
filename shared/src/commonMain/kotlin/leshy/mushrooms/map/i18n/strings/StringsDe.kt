@@ -207,8 +207,7 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Erstellt mit der App „Pilzkarte von Leshy“",
     StringKey.WalkShareImageFooter to "Erstellt in der App Pilzkarte von Leshy",
 
-    StringKey.MapToggleMap to "Karte",
-    StringKey.MapToggleStats to "Statistik",
+    StringKey.MapStatsTitle to "Statistik",
     StringKey.MapStatsWalksCount to "Spaziergänge",
     StringKey.MapStatsFindsCount to "Gefundene Pilze",
     StringKey.MapStatsEmptyHint to

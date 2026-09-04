@@ -204,8 +204,7 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Creat cu aplicația „Harta ciupercilor de la Leshy”",
     StringKey.WalkShareImageFooter to "Creat în aplicația Harta ciupercilor de la Leshy",
 
-    StringKey.MapToggleMap to "Hartă",
-    StringKey.MapToggleStats to "Statistici",
+    StringKey.MapStatsTitle to "Statistici",
     StringKey.MapStatsWalksCount to "Plimbări",
     StringKey.MapStatsFindsCount to "Ciuperci găsite",
     StringKey.MapStatsEmptyHint to

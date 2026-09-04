@@ -206,8 +206,7 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Створана з дапамогай праграмы «Грыбная карта ад Лешага»",
     StringKey.WalkShareImageFooter to "Створана ў праграме Грыбная карта ад Лешага",
 
-    StringKey.MapToggleMap to "Карта",
-    StringKey.MapToggleStats to "Статыстыка",
+    StringKey.MapStatsTitle to "Статыстыка",
     StringKey.MapStatsWalksCount to "Прагулак",
     StringKey.MapStatsFindsCount to "Знойдзена грыбоў",
     StringKey.MapStatsEmptyHint to "Статыстыка збярэцца сама, як толькі будзе запісана першая прагулка.",

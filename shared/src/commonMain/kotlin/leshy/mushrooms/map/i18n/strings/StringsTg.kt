@@ -206,8 +206,7 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Бо барномаи «Харитаи занбӯруғ аз Леший» сохта шудааст",
     StringKey.WalkShareImageFooter to "Дар барномаи «Харитаи занбӯруғ аз Леший» эҷод шудааст",
 
-    StringKey.MapToggleMap to "Харита",
-    StringKey.MapToggleStats to "Омор",
+    StringKey.MapStatsTitle to "Омор",
     StringKey.MapStatsWalksCount to "Сайругаштҳо",
     StringKey.MapStatsFindsCount to "Занбӯруғҳои ёфтшуда",
     StringKey.MapStatsEmptyHint to "Ҳамин ки сайругашти аввал сабт шавад, омор худ ба худ ҷамъ мешавад.",

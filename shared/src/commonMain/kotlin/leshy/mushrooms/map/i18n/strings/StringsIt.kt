@@ -209,8 +209,7 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Creato con l'app «Mappa dei funghi di Leshy»",
     StringKey.WalkShareImageFooter to "Creato nell'app Mappa dei funghi di Leshy",
 
-    StringKey.MapToggleMap to "Mappa",
-    StringKey.MapToggleStats to "Statistiche",
+    StringKey.MapStatsTitle to "Statistiche",
     StringKey.MapStatsWalksCount to "Uscite",
     StringKey.MapStatsFindsCount to "Funghi trovati",
     StringKey.MapStatsEmptyHint to

@@ -208,8 +208,7 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Loodud rakendusega „Leshy seenekaart“",
     StringKey.WalkShareImageFooter to "Loodud rakenduses Leshy seenekaart",
 
-    StringKey.MapToggleMap to "Kaart",
-    StringKey.MapToggleStats to "Statistika",
+    StringKey.MapStatsTitle to "Statistika",
     StringKey.MapStatsWalksCount to "Matku",
     StringKey.MapStatsFindsCount to "Leitud seeni",
     StringKey.MapStatsEmptyHint to "Statistika koguneb ise, niipea kui esimene matk on salvestatud.",

@@ -202,8 +202,7 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "\"Leshy'den Mantar Haritası\" uygulamasıyla oluşturuldu",
     StringKey.WalkShareImageFooter to "Leshy'den Mantar Haritası uygulamasında oluşturuldu",
 
-    StringKey.MapToggleMap to "Harita",
-    StringKey.MapToggleStats to "İstatistikler",
+    StringKey.MapStatsTitle to "İstatistikler",
     StringKey.MapStatsWalksCount to "Yürüyüşler",
     StringKey.MapStatsFindsCount to "Bulunan mantarlar",
     StringKey.MapStatsEmptyHint to "İlk yürüyüş kaydedilir kaydedilmez istatistikler kendiliğinden birikir.",

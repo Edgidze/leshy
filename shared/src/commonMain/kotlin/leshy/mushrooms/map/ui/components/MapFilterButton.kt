@@ -17,10 +17,13 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 
 /**
- * Floating "Filters: N" button, styled with the same tonal-button language as the Карта/
- * Статистика [androidx.compose.material3.SegmentedButton]s above it on the Map screen — reused
- * identically on the Record screen's live map. Border matches the record screen's round side
- * buttons so the two button families read as one visual language there.
+ * Плавающая кнопка «Фильтры: N» — на живой карте «Записи» и на полноэкранной сводной карте
+ * находок ([leshy.mushrooms.map.ui.screens.FindsMapScreen], там она стоит в одну линию с кнопкой
+ * «назад»). Обводка та же, что у круглых боковых кнопок «Записи», чтобы два семейства кнопок
+ * читались там как одно.
+ *
+ * На самой странице «Карта находок» этой кнопки нет: две её оси (даты и сезон) вынесены на
+ * страницу ползунками, см. `MapScreen`.
  */
 @Composable
 fun MapFilterButton(filterCount: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {

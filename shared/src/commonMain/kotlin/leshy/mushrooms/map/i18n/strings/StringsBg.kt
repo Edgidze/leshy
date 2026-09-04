@@ -207,8 +207,7 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Създадено с приложението „Карта на гъбите от Леший“",
     StringKey.WalkShareImageFooter to "Създадено в приложението Карта на гъбите от Леший",
 
-    StringKey.MapToggleMap to "Карта",
-    StringKey.MapToggleStats to "Статистика",
+    StringKey.MapStatsTitle to "Статистика",
     StringKey.MapStatsWalksCount to "Разходки",
     StringKey.MapStatsFindsCount to "Намерени гъби",
     StringKey.MapStatsEmptyHint to "Статистиката ще се събере сама, щом бъде записана първата разходка.",

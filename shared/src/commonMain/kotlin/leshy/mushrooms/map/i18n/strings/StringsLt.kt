@@ -211,8 +211,7 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Sukurta naudojant programėlę „Lešio grybų žemėlapis“",
     StringKey.WalkShareImageFooter to "Sukurta programėlėje Lešio grybų žemėlapis",
 
-    StringKey.MapToggleMap to "Žemėlapis",
-    StringKey.MapToggleStats to "Statistika",
+    StringKey.MapStatsTitle to "Statistika",
     StringKey.MapStatsWalksCount to "Žygių",
     StringKey.MapStatsFindsCount to "Rasta grybų",
     StringKey.MapStatsEmptyHint to "Statistika susidarys pati, kai tik bus įrašytas pirmasis žygis.",

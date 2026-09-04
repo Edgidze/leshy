@@ -211,8 +211,7 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Créé avec l'application « Carte des champignons de Leshy »",
     StringKey.WalkShareImageFooter to "Créé avec l'application Carte des champignons de Leshy",
 
-    StringKey.MapToggleMap to "Carte",
-    StringKey.MapToggleStats to "Statistiques",
+    StringKey.MapStatsTitle to "Statistiques",
     StringKey.MapStatsWalksCount to "Promenades",
     StringKey.MapStatsFindsCount to "Champignons trouvés",
     StringKey.MapStatsEmptyHint to

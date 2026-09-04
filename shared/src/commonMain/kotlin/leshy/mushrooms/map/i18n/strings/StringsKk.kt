@@ -205,8 +205,7 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "«Лешийден саңырауқұлақ картасы» қолданбасымен жасалған",
     StringKey.WalkShareImageFooter to "«Лешийден саңырауқұлақ картасы» қолданбасында жасалған",
 
-    StringKey.MapToggleMap to "Карта",
-    StringKey.MapToggleStats to "Статистика",
+    StringKey.MapStatsTitle to "Статистика",
     StringKey.MapStatsWalksCount to "Серуендер",
     StringKey.MapStatsFindsCount to "Табылған саңырауқұлақтар",
     StringKey.MapStatsEmptyHint to "Бірінші серуен жазылған бойда статистика өзі жиналады.",

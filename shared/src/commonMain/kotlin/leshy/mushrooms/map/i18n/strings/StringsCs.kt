@@ -207,8 +207,7 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Vytvořeno aplikací „Mapa hub od Lešeho“",
     StringKey.WalkShareImageFooter to "Vytvořeno v aplikaci Mapa hub od Lešeho",
 
-    StringKey.MapToggleMap to "Mapa",
-    StringKey.MapToggleStats to "Statistika",
+    StringKey.MapStatsTitle to "Statistika",
     StringKey.MapStatsWalksCount to "Procházky",
     StringKey.MapStatsFindsCount to "Nalezené houby",
     StringKey.MapStatsEmptyHint to "Statistika se sestaví sama, jakmile bude zaznamenána první procházka.",

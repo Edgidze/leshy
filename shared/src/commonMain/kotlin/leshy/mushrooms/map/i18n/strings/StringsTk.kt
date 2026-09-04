@@ -204,8 +204,7 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "\"Leşiden Kömelek Kartasy\" programmasy bilen döredildi",
     StringKey.WalkShareImageFooter to "Leşiden Kömelek Kartasy programmasynda döredildi",
 
-    StringKey.MapToggleMap to "Karta",
-    StringKey.MapToggleStats to "Statistika",
+    StringKey.MapStatsTitle to "Statistika",
     StringKey.MapStatsWalksCount to "Gezelençler",
     StringKey.MapStatsFindsCount to "Tapylan kömelekler",
     StringKey.MapStatsEmptyHint to "Ilkinji gezelenç ýazylan badyna statistika özi ýygnalar.",

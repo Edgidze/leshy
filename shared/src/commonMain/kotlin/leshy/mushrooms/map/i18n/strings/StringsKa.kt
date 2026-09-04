@@ -210,8 +210,7 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "შექმნილია აპლიკაციით „ლეშის სოკოს რუკა“",
     StringKey.WalkShareImageFooter to "შექმნილია აპლიკაციაში ლეშის სოკოს რუკა",
 
-    StringKey.MapToggleMap to "რუკა",
-    StringKey.MapToggleStats to "სტატისტიკა",
+    StringKey.MapStatsTitle to "სტატისტიკა",
     StringKey.MapStatsWalksCount to "გასეირნებები",
     StringKey.MapStatsFindsCount to "ნაპოვნი სოკოები",
     StringKey.MapStatsEmptyHint to "სტატისტიკა თავად შეგროვდება, როგორც კი პირველი გასეირნება ჩაიწერება.",

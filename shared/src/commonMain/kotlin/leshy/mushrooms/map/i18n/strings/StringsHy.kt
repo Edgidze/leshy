@@ -203,8 +203,7 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Ստեղծված է «Սնկերի քարտեզ Լեշիից» հավելվածով",
     StringKey.WalkShareImageFooter to "Ստեղծված է «Սնկերի քարտեզ Լեշիից» հավելվածում",
 
-    StringKey.MapToggleMap to "Քարտեզ",
-    StringKey.MapToggleStats to "Վիճակագրություն",
+    StringKey.MapStatsTitle to "Վիճակագրություն",
     StringKey.MapStatsWalksCount to "Զբոսանքներ",
     StringKey.MapStatsFindsCount to "Գտնված սնկեր",
     StringKey.MapStatsEmptyHint to "Վիճակագրությունը կհավաքվի ինքնաբերաբար, հենց որ գրանցվի առաջին զբոսանքը։",

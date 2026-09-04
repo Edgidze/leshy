@@ -211,8 +211,7 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "A „Leshy gombatérképe“ alkalmazással készült",
     StringKey.WalkShareImageFooter to "A Leshy gombatérképe alkalmazásban készült",
 
-    StringKey.MapToggleMap to "Térkép",
-    StringKey.MapToggleStats to "Statisztika",
+    StringKey.MapStatsTitle to "Statisztika",
     StringKey.MapStatsWalksCount to "Séták",
     StringKey.MapStatsFindsCount to "Talált gombák",
     StringKey.MapStatsEmptyHint to "A statisztika magától összeáll, amint elkészül az első rögzített séta.",

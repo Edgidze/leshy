@@ -207,8 +207,7 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Vytvorené pomocou aplikácie „Mapa húb od Lešieho“",
     StringKey.WalkShareImageFooter to "Vytvorené v aplikácii Mapa húb od Lešieho",
 
-    StringKey.MapToggleMap to "Mapa",
-    StringKey.MapToggleStats to "Štatistika",
+    StringKey.MapStatsTitle to "Štatistika",
     StringKey.MapStatsWalksCount to "Prechádzok",
     StringKey.MapStatsFindsCount to "Nájdených húb",
     StringKey.MapStatsEmptyHint to "Štatistika sa poskladá sama, hneď ako bude zaznamenaná prvá prechádzka.",

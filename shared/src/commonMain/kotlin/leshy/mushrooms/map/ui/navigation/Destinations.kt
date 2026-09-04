@@ -23,6 +23,13 @@ sealed interface Destination {
     @Serializable
     data object Map : Destination
 
+    /**
+     * Сводная карта во весь экран. НЕ пункт бокового меню — вложенный экран раздела [Map],
+     * открывается с его заставки обычным `navigate()`, как [WalkMap] у [WalkDetail].
+     */
+    @Serializable
+    data object FindsMap : Destination
+
     @Serializable
     data object Preparation : Destination
 

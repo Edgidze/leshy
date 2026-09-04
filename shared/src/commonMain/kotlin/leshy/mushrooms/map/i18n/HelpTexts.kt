@@ -85,18 +85,21 @@ private fun russianHelpTexts(key: HelpKey): String = when (key) {
             "меняются от года к году."
 
     HelpKey.MapActions ->
-        "Переключатель сверху выбирает вид: «Карта» — сами отметки, «Статистика» — числа: сколько " +
-            "было прогулок, километров, находок и сколько чего найдено по видам. Кнопка «Фильтры» " +
-            "слева сверху ограничивает показ диапазоном дат, сезоном (диапазоном месяцев) и списком " +
-            "видов; число на кнопке показывает, сколько фильтров сейчас включено. Нажатие на метку " +
-            "места открывает его карточку с фотографией и описанием, оттуда же его можно изменить " +
-            "или удалить."
+        "Сверху — карта со всеми находками сразу; нажатие на неё открывает карту во весь экран. " +
+            "Под картой два ползунка — диапазон дат и сезон (диапазон месяцев), и всё, что ниже " +
+            "них, считается по выбранному: сколько было прогулок, километров, времени и находок, " +
+            "плитки по видам и круговая диаграмма. Кнопка «Фильтры» живёт на полноэкранной карте, " +
+            "слева сверху: там те же две оси плюс список видов, а число на кнопке показывает, " +
+            "сколько фильтров сейчас включено. Нажатие на метку места открывает его карточку с " +
+            "фотографией и описанием, оттуда же его можно изменить или удалить."
 
     HelpKey.MapDetails ->
         "Фильтр общий с экраном записи: то, что вы включите здесь, будет действовать и там. " +
-            "Диапазон дат появляется, только когда прогулки есть больше чем за один день. Когда " +
-            "находок много, близкие отметки собираются в кружок с числом — приблизьте карту, чтобы " +
-            "он рассыпался на отдельные грибы. Размер значков грибов настраивается в «Настройках»."
+            "Ползунки появляются, только когда прогулки есть больше чем за один день. Общее время " +
+            "складывается из завершённых прогулок — у незавершённой продолжительности ещё нет. " +
+            "Когда находок много, близкие отметки собираются в кружок с числом — приблизьте карту, " +
+            "чтобы он рассыпался на отдельные грибы. Размер значков грибов настраивается в " +
+            "«Настройках»."
 
     HelpKey.SpeciesPurpose ->
         "Здесь вы решаете, какие грибы будут плитками на экране записи. Каталог разбит на подборки " +
@@ -227,18 +230,21 @@ private fun englishHelpTexts(key: HelpKey): String = when (key) {
             "how they change from year to year."
 
     HelpKey.MapActions ->
-        "The switch at the top picks the view: Map for the markers themselves, Stats for the " +
-            "numbers — how many walks, kilometres and finds there were, and how many of each " +
-            "species. The Filters button in the top left narrows what is shown by date range, by " +
-            "season (a from–to range of months) and by species; the number on the button says how " +
-            "many filters are currently on. Tapping a place marker opens its card with the photo " +
-            "and description, from where it can also be edited or deleted."
+        "At the top is a map of every find at once; tapping it opens the map full screen. Below " +
+            "the map are two sliders — a date range and a season (a from–to range of months) — and " +
+            "everything under them is counted for what you pick: how many walks, kilometres, hours " +
+            "and finds there were, the per-species tiles and the pie chart. The Filters button " +
+            "lives on the full-screen map, in its top left: the same two axes there, plus the list " +
+            "of species, and the number on the button says how many filters are currently on. " +
+            "Tapping a place marker opens its card with the photo and description, from where it " +
+            "can also be edited or deleted."
 
     HelpKey.MapDetails ->
         "The filter is shared with the recording screen: whatever you switch on here applies " +
-            "there as well. The date range only appears once you have walks from more than a " +
-            "single day. When there are many finds, nearby markers collapse into a circle with a " +
-            "count — zoom in and it breaks apart into individual mushrooms. The size of the " +
+            "there as well. The sliders only appear once you have walks from more than a single " +
+            "day. The total time adds up finished walks only — a walk still in progress has no " +
+            "duration yet. When there are many finds, nearby markers collapse into a circle with " +
+            "a count — zoom in and it breaks apart into individual mushrooms. The size of the " +
             "mushroom markers is adjusted in Settings."
 
     HelpKey.SpeciesPurpose ->

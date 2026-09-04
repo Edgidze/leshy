@@ -209,8 +209,7 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Направљено помоћу апликације „Мапа гљива од Лешија“",
     StringKey.WalkShareImageFooter to "Направљено у апликацији Мапа гљива од Лешија",
 
-    StringKey.MapToggleMap to "Мапа",
-    StringKey.MapToggleStats to "Статистика",
+    StringKey.MapStatsTitle to "Статистика",
     StringKey.MapStatsWalksCount to "Шетњи",
     StringKey.MapStatsFindsCount to "Пронађених гљива",
     StringKey.MapStatsEmptyHint to "Статистика ће се сама сложити чим буде забележена прва шетња.",

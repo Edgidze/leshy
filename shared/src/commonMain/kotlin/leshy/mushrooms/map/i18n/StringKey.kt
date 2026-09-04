@@ -190,8 +190,7 @@ enum class StringKey {
     WalkShareFooter,
     WalkShareImageFooter,
 
-    MapToggleMap,
-    MapToggleStats,
+    MapStatsTitle,
     MapStatsWalksCount,
     MapStatsFindsCount,
     MapStatsEmptyHint,

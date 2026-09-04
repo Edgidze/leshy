@@ -210,8 +210,7 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Izrađeno pomoću aplikacije „Karta gljiva od Lešija“",
     StringKey.WalkShareImageFooter to "Izrađeno u aplikaciji Karta gljiva od Lešija",
 
-    StringKey.MapToggleMap to "Karta",
-    StringKey.MapToggleStats to "Statistika",
+    StringKey.MapStatsTitle to "Statistika",
     StringKey.MapStatsWalksCount to "Šetnji",
     StringKey.MapStatsFindsCount to "Pronađenih gljiva",
     StringKey.MapStatsEmptyHint to "Statistika će se sastaviti sama čim bude snimljena prva šetnja.",

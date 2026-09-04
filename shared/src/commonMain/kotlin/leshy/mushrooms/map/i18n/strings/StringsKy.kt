@@ -210,8 +210,7 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "«Лешийден козу карын картасы» колдонмосу менен жасалган",
     StringKey.WalkShareImageFooter to "«Лешийден козу карын картасы» колдонмосунда түзүлгөн",
 
-    StringKey.MapToggleMap to "Карта",
-    StringKey.MapToggleStats to "Статистика",
+    StringKey.MapStatsTitle to "Статистика",
     StringKey.MapStatsWalksCount to "Сейилдөөлөр",
     StringKey.MapStatsFindsCount to "Табылган козу карындар",
     StringKey.MapStatsEmptyHint to "Биринчи сейилдөө жазылганда эле, статистика өзү чогулат.",

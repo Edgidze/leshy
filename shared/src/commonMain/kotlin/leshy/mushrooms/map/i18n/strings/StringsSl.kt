@@ -213,8 +213,7 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Ustvarjeno z aplikacijo „Zemljevid gob od Lešija“",
     StringKey.WalkShareImageFooter to "Ustvarjeno v aplikaciji Zemljevid gob od Lešija",
 
-    StringKey.MapToggleMap to "Zemljevid",
-    StringKey.MapToggleStats to "Statistika",
+    StringKey.MapStatsTitle to "Statistika",
     StringKey.MapStatsWalksCount to "Sprehodov",
     StringKey.MapStatsFindsCount to "Najdenih gob",
     StringKey.MapStatsEmptyHint to "Statistika se bo sestavila sama, takoj ko bo zabeležen prvi sprehod.",

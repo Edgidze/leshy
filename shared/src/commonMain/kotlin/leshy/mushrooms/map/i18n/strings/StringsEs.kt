@@ -208,8 +208,7 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Creado con la aplicación «Mapa de setas de Leshy»",
     StringKey.WalkShareImageFooter to "Creado con la aplicación Mapa de setas de Leshy",
 
-    StringKey.MapToggleMap to "Mapa",
-    StringKey.MapToggleStats to "Estadísticas",
+    StringKey.MapStatsTitle to "Estadísticas",
     StringKey.MapStatsWalksCount to "Paseos",
     StringKey.MapStatsFindsCount to "Setas encontradas",
     StringKey.MapStatsEmptyHint to

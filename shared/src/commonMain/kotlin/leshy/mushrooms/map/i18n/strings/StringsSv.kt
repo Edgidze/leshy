@@ -205,8 +205,7 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "Skapad med appen ”Svampkarta från Leshy”",
     StringKey.WalkShareImageFooter to "Skapad i appen Svampkarta från Leshy",
 
-    StringKey.MapToggleMap to "Karta",
-    StringKey.MapToggleStats to "Statistik",
+    StringKey.MapStatsTitle to "Statistik",
     StringKey.MapStatsWalksCount to "Promenader",
     StringKey.MapStatsFindsCount to "Hittade svampar",
     StringKey.MapStatsEmptyHint to

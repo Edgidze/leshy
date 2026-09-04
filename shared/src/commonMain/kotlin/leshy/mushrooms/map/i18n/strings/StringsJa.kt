@@ -202,8 +202,7 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.WalkShareFooter to "「レシーのキノコ地図」アプリで作成",
     StringKey.WalkShareImageFooter to "レシーのキノコ地図アプリで作成",
 
-    StringKey.MapToggleMap to "地図",
-    StringKey.MapToggleStats to "統計",
+    StringKey.MapStatsTitle to "統計",
     StringKey.MapStatsWalksCount to "散策回数",
     StringKey.MapStatsFindsCount to "発見したキノコ",
     StringKey.MapStatsEmptyHint to "最初の散策を記録すると、統計は自動的にたまっていきます。",
