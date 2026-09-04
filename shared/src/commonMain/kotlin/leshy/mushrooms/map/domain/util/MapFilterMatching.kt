@@ -31,9 +31,16 @@ fun yearMonthOf(epochMillis: Long): Pair<Int, Int> {
 fun Walk.matchesDateAndSeason(filter: MapFilter): Boolean {
     if (filter.startMillis != null && startTime.toDayBucket() < filter.startMillis.toDayBucket()) return false
     if (filter.endMillis != null && startTime.toDayBucket() > filter.endMillis.toDayBucket()) return false
-    val monthFrom = filter.monthFrom
-    val monthTo = filter.monthTo
-    if (monthFrom != null && monthTo != null) {
+    // `null` у любой из границ месяца означает «эта сторона не ограничена», а НЕ «сезон не
+    // задан»: слайдер сезона хранит крайние значения как `null` (`MapFilterViewModel.
+    // setMonthRange`, там же и зачем — чтобы полный диапазон не считался фильтром). Пока здесь
+    // стояло `monthFrom != null && monthTo != null`, любой диапазон, задевший край — «с января
+    // по август», «с мая по декабрь», — не фильтровал ВООБЩЕ ничего, хотя счётчик «Фильтры: N»
+    // его считал (`computeFilterCount` ниже подставляет 1/12 и всегда делал это правильно).
+    // Отсюда правило: обе стороны раскрываются в 1/12 ровно так же, как в счётчике.
+    val monthFrom = filter.monthFrom ?: 1
+    val monthTo = filter.monthTo ?: 12
+    if (monthFrom > 1 || monthTo < 12) {
         val month = Instant.fromEpochMilliseconds(startTime)
             .toLocalDateTime(TimeZone.currentSystemDefault()).month.number
         if (month !in monthFrom..monthTo) return false
