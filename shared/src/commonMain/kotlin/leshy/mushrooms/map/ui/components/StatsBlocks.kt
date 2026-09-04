@@ -215,6 +215,11 @@ fun SectionHeader(title: String, action: (@Composable () -> Unit)? = null) {
  * Ширина плитки считается от ширины экрана, а не задана числом: плитки обязаны ровно закрывать
  * ряд, иначе на узких экранах в ряд встаёт две и треть ширины уходит в пустоту. Число колонок при
  * этом выводится из потолка ширины плитки ([FIND_TILE_MAX_WIDTH]), а не наоборот — там же и зачем.
+ *
+ * **Неполный ряд стоит по центру, а не прижат влево.** Заполненные ряды закрывают ширину ровно,
+ * так что центрирование их не касается вовсе; а вот последнему ряду (и единственному, когда видов
+ * меньше, чем колонок) достаётся пустое место, и прижатый влево остаток читался как сбитая
+ * вёрстка — особенно на широком экране, где колонок пять, а видов в хвосте одна-две.
  */
 @Composable
 fun FindTilesGrid(counts: List<CategoryCount>) {
@@ -227,7 +232,7 @@ fun FindTilesGrid(counts: List<CategoryCount>) {
         val tileWidth = (maxWidth - FIND_TILE_SPACING * (columns - 1)) / columns
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(FIND_TILE_SPACING),
+            horizontalArrangement = Arrangement.spacedBy(FIND_TILE_SPACING, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(FIND_TILE_SPACING),
         ) {
             counts.forEach { entry ->
