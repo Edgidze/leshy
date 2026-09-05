@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import leshy.mushrooms.map.data.platform.currentDeviceLanguage
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_DEFAULT
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
@@ -24,8 +25,13 @@ private val FREEZE_MUSHROOM_ORDER_KEY = booleanPreferencesKey("freeze_mushroom_o
 class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
 ) : SettingsRepository {
+    // Пока пользователь не выбрал язык сам (первый запуск — приветственный экран открывается ДО
+    // экрана выбора языка, так что ключа в DataStore ещё нет), интерфейс идёт на языке системы —
+    // см. [currentDeviceLanguage]. Незнакомый код в ключе (откат на версию с меньшим числом
+    // языков) приводит сюда же.
     override fun observeLanguage(): Flow<AppLanguage> = dataStore.data.map { prefs ->
-        prefs[LANGUAGE_KEY]?.let { code -> AppLanguage.entries.find { it.code == code } } ?: AppLanguage.EN
+        prefs[LANGUAGE_KEY]?.let { code -> AppLanguage.entries.find { it.code == code } }
+            ?: currentDeviceLanguage()
     }
 
     override suspend fun setLanguage(language: AppLanguage) {

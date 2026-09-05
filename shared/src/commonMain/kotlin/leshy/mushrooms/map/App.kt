@@ -39,8 +39,8 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import leshy.mushrooms.map.data.platform.currentDeviceLanguage
 import leshy.mushrooms.map.data.repository.MapStyleCacheRepository
-import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_DEFAULT
 import leshy.mushrooms.map.domain.model.ThemeMode
 import leshy.mushrooms.map.domain.repository.OnboardingRepository
@@ -103,7 +103,10 @@ private val drawerNavEntries = listOf(
 fun App() {
     val settingsRepository = koinInject<SettingsRepository>()
     val onboardingRepository = koinInject<OnboardingRepository>()
-    val language by settingsRepository.observeLanguage().collectAsState(initial = AppLanguage.EN)
+    // Начальное значение — язык системы, а не EN: `initial` показывается ровно до первой эмиссии
+    // DataStore, и на холодном старте это те кадры, в которых уже нарисован приветственный экран.
+    // Тот же дефолт, что отдаёт сам репозиторий, когда язык ещё не выбран (SettingsRepositoryImpl).
+    val language by settingsRepository.observeLanguage().collectAsState(initial = currentDeviceLanguage())
     val mushroomMarkerSizeScale by settingsRepository.observeMushroomMarkerSizeScale()
         .collectAsState(initial = MUSHROOM_MARKER_SIZE_SCALE_DEFAULT)
     val themeMode by settingsRepository.observeThemeMode().collectAsState(initial = ThemeMode.SYSTEM)

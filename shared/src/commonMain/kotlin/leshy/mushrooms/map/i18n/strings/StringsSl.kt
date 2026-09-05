@@ -82,6 +82,38 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
         "Izberite zbirke gob, ki vas zanimajo. To lahko pozneje spremenite v Nastavitvah.",
     StringKey.OnboardingContinueButton to "Začni",
 
+    StringKey.WelcomeIntro to
+        "Aplikacija si zapomni, kod ste hodili in kaj ste našli — in pri nabiranju resnično pomaga: na " +
+            "dobra mesta se zlahka vrnete, vse najdbe pa vidite na enem zemljevidu.",
+    StringKey.WelcomeRecordTitle to "Snemajte sprehod",
+    StringKey.WelcomeRecordText to
+        "Sled, čas in kilometre aplikacija beleži sama. Ste našli gobo — tapnite njeno ploščico; izvir, " +
+            "podrto drevo ali avto označite kar na zemljevidu.",
+    StringKey.WelcomeArchiveTitle to "Vračajte se k svojim najdbam",
+    StringKey.WelcomeArchiveText to
+        "V arhivu je vsak sprehod zase — s svojo sledjo in najdbami. Skupni zemljevid jih pokaže vse " +
+            "skupaj: kaj, kje in koliko se je nabralo skozi vse sezone.",
+    StringKey.WelcomeHelpTitle to "Niste prepričani — tapnite »?«",
+    StringKey.WelcomeHelpText to
+        "Gumb »?« zgoraj desno je v vsakem razdelku in pojasni, kako je ta razdelek urejen.",
+    StringKey.WelcomeMenuTitle to "Ostalo je v meniju",
+    StringKey.WelcomeMenuText to
+        "Gumb menija zgoraj levo odpre seznam vseh razdelkov in možnosti aplikacije.",
+    StringKey.WelcomeNextButton to "Naprej",
+
+    StringKey.LegalTitle to "Pogoji in zasebnost",
+    StringKey.LegalTermsHeading to "Pogoji uporabe",
+    StringKey.LegalTermsText to
+        "Celotno besedilo se bo tu pojavilo pred objavo aplikacije. Na kratko: aplikacija je pomočnik, ne " +
+            "določevalni ključ za gobe. Odločitev, ali je najdba užitna, je vedno vaša — in odgovornost zanjo " +
+            "tudi.",
+    StringKey.LegalPrivacyHeading to "Zasebnost",
+    StringKey.LegalPrivacyText to
+        "Celotno besedilo se bo tu pojavilo pred objavo aplikacije. Na kratko: vaši sprehodi, oznake in " +
+            "fotografije ostanejo v vaši napravi. Aplikacija ne ustvarja računov in vaših podatkov nikamor ne " +
+            "pošilja — v splet gredo le zahteve za ploščice zemljevida na openfreemap.org.",
+    StringKey.LegalAcceptButton to "Strinjam se",
+
     StringKey.NavMenuContentDescription to "Meni",
     StringKey.HelpContentDescription to "Pomoč",
     StringKey.HelpDialogTitle to "Pomoč",

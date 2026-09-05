@@ -217,6 +217,38 @@ private fun russianStrings(key: StringKey): String = when (key) {
         "Выберите подборки грибов, которые вам интересны. Это можно изменить позже в Настройках."
     StringKey.OnboardingContinueButton -> "Начать"
 
+    StringKey.WelcomeIntro ->
+        "Приложение запоминает, где вы прошли и что нашли, — и заметно помогает в сборе грибов: к хорошим " +
+            "местам легко вернуться, а все находки видны на одной карте."
+    StringKey.WelcomeRecordTitle -> "Записывайте прогулку"
+    StringKey.WelcomeRecordText ->
+        "Трек, время и километраж приложение ведёт само. Нашли гриб — отметьте его касанием по плашке; " +
+            "родник, поваленное дерево или машину можно отметить прямо на карте."
+    StringKey.WelcomeArchiveTitle -> "Возвращайтесь к находкам"
+    StringKey.WelcomeArchiveText ->
+        "В архиве каждая прогулка лежит отдельно — со своим треком и находками. А общая карта показывает " +
+            "все прогулки вместе: где, чего и сколько нашлось за все сезоны."
+    StringKey.WelcomeHelpTitle -> "Не уверены — нажмите «?»"
+    StringKey.WelcomeHelpText ->
+        "Кнопка «?» справа сверху есть в каждом разделе и объясняет, как этот раздел устроен."
+    StringKey.WelcomeMenuTitle -> "Остальное — в меню"
+    StringKey.WelcomeMenuText ->
+        "Кнопка меню слева сверху открывает список всех разделов и возможностей приложения."
+    StringKey.WelcomeNextButton -> "Дальше"
+
+    StringKey.LegalTitle -> "Соглашение и конфиденциальность"
+    StringKey.LegalTermsHeading -> "Пользовательское соглашение"
+    StringKey.LegalTermsText ->
+        "Полный текст появится здесь до публикации приложения. Коротко: приложение — помощник, а не " +
+            "определитель грибов. Решение о съедобности находки всегда за вами, и ответственность за это " +
+            "решение тоже."
+    StringKey.LegalPrivacyHeading -> "Конфиденциальность"
+    StringKey.LegalPrivacyText ->
+        "Полный текст появится здесь до публикации приложения. Коротко: прогулки, отметки и фотографии " +
+            "остаются на вашем устройстве. Приложение не заводит аккаунтов и никуда не передаёт ваши данные — в " +
+            "интернет уходят только запросы участков карты с openfreemap.org."
+    StringKey.LegalAcceptButton -> "Принимаю"
+
     StringKey.NavMenuContentDescription -> "Меню"
     StringKey.HelpContentDescription -> "Помощь"
     StringKey.HelpDialogTitle -> "Помощь"
@@ -523,6 +555,38 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.OnboardingDescription ->
         "Pick the mushroom collections you're interested in. You can change this later in Settings."
     StringKey.OnboardingContinueButton -> "Get started"
+
+    StringKey.WelcomeIntro ->
+        "The app remembers where you walked and what you found — and it really helps you pick more " +
+            "mushrooms: good spots are easy to come back to, and every find is there on one map."
+    StringKey.WelcomeRecordTitle -> "Record your walk"
+    StringKey.WelcomeRecordText ->
+        "The app keeps the track, the time and the distance by itself. Found a mushroom — tap its tile to " +
+            "log it; a spring, a fallen tree or your car can be marked right on the map."
+    StringKey.WelcomeArchiveTitle -> "Come back to your finds"
+    StringKey.WelcomeArchiveText ->
+        "The archive keeps every walk separately, with its own track and finds. The shared map shows them " +
+            "all together: what was found where, and how much of it, across all your seasons."
+    StringKey.WelcomeHelpTitle -> "Not sure? Tap the “?”"
+    StringKey.WelcomeHelpText ->
+        "Every section has a “?” button in the top right corner that explains how that section works."
+    StringKey.WelcomeMenuTitle -> "The rest is in the menu"
+    StringKey.WelcomeMenuText ->
+        "The menu button in the top left corner opens the list of all sections and features of the app."
+    StringKey.WelcomeNextButton -> "Next"
+
+    StringKey.LegalTitle -> "Terms and privacy"
+    StringKey.LegalTermsHeading -> "Terms of use"
+    StringKey.LegalTermsText ->
+        "The full text will appear here before the app is published. In short: the app is an assistant, not " +
+            "a mushroom identification guide. Deciding whether a find is edible is always yours, and so is the " +
+            "responsibility for that decision."
+    StringKey.LegalPrivacyHeading -> "Privacy"
+    StringKey.LegalPrivacyText ->
+        "The full text will appear here before the app is published. In short: your walks, marks and photos " +
+            "stay on your device. The app has no accounts and sends none of your data anywhere — the only thing " +
+            "that goes online is a request for map tiles from openfreemap.org."
+    StringKey.LegalAcceptButton -> "I agree"
 
     StringKey.NavMenuContentDescription -> "Menu"
     StringKey.HelpContentDescription -> "Help"

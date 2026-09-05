@@ -75,6 +75,40 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
         "Alegeți colecțiile de ciuperci care vă interesează. Puteți schimba asta mai târziu din Setări.",
     StringKey.OnboardingContinueButton to "Începeți",
 
+    StringKey.WelcomeIntro to
+        "Aplicația ține minte pe unde ați umblat și ce ați găsit — și chiar ajută la cules: la locurile " +
+            "bune vă întoarceți ușor, iar toate găsirile se văd pe o singură hartă.",
+    StringKey.WelcomeRecordTitle to "Înregistrați plimbarea",
+    StringKey.WelcomeRecordText to
+        "Traseul, timpul și kilometrii îi ține aplicația singură. Ați găsit o ciupercă — atingeți plăcuța " +
+            "ei; un izvor, un copac căzut sau mașina le marcați direct pe hartă.",
+    StringKey.WelcomeArchiveTitle to "Reveniți la ce ați găsit",
+    StringKey.WelcomeArchiveText to
+        "În arhivă fiecare plimbare stă separat — cu traseul și găsirile ei. Iar harta comună le arată pe " +
+            "toate laolaltă: ce, unde și cât s-a găsit de-a lungul tuturor sezoanelor.",
+    StringKey.WelcomeHelpTitle to "Nu sunteți sigur — apăsați „?”",
+    StringKey.WelcomeHelpText to
+        "Butonul „?” din dreapta sus există în fiecare secțiune și explică cum este alcătuită acea " +
+            "secțiune.",
+    StringKey.WelcomeMenuTitle to "Restul este în meniu",
+    StringKey.WelcomeMenuText to
+        "Butonul de meniu din stânga sus deschide lista tuturor secțiunilor și posibilităților aplicației.",
+    StringKey.WelcomeNextButton to "Mai departe",
+
+    StringKey.LegalTitle to "Termeni și confidențialitate",
+    StringKey.LegalTermsHeading to "Termeni de utilizare",
+    StringKey.LegalTermsText to
+        "Textul complet va apărea aici înainte de publicarea aplicației. Pe scurt: aplicația este un " +
+            "ajutor, nu un determinator de ciuperci. Decizia dacă o ciupercă găsită este comestibilă vă " +
+            "aparține întotdeauna — și răspunderea pentru ea la fel.",
+    StringKey.LegalPrivacyHeading to "Confidențialitate",
+    StringKey.LegalPrivacyText to
+        "Textul complet va apărea aici înainte de publicarea aplicației. Pe scurt: plimbările, marcajele și " +
+            "fotografiile rămân pe dispozitivul dumneavoastră. Aplicația nu creează conturi și nu trimite " +
+            "nicăieri datele dumneavoastră — pe internet pleacă doar cererile pentru porțiuni de hartă către " +
+            "openfreemap.org.",
+    StringKey.LegalAcceptButton to "Accept",
+
     StringKey.NavMenuContentDescription to "Meniu",
     StringKey.HelpContentDescription to "Ajutor",
     StringKey.HelpDialogTitle to "Ajutor",

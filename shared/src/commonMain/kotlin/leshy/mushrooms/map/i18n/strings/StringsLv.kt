@@ -80,6 +80,37 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
         "Izvēlieties sēņu kolekcijas, kas jūs interesē. To vēlāk varēsiet mainīt Iestatījumos.",
     StringKey.OnboardingContinueButton to "Sākt",
 
+    StringKey.WelcomeIntro to
+        "Lietotne atceras, kur esat gājis un ko esat atradis, — un sēņošanā palīdz manāmi: uz labām vietām " +
+            "ir viegli atgriezties, un visi atradumi redzami vienā kartē.",
+    StringKey.WelcomeRecordTitle to "Ierakstiet savu gājienu",
+    StringKey.WelcomeRecordText to
+        "Nospiedumu, laiku un kilometrus lietotne uztur pati. Atradāt sēni — atzīmējiet to, pieskaroties " +
+            "tās elementam; avotu, nogāzušos koku vai automašīnu atzīmējat tieši kartē.",
+    StringKey.WelcomeArchiveTitle to "Atgriezieties pie saviem atradumiem",
+    StringKey.WelcomeArchiveText to
+        "Arhīvā katrs gājiens ir atsevišķi — ar savu maršrutu un atradumiem. Bet kopīgā karte rāda tos " +
+            "visus kopā: kas, kur un cik atrasts visu sezonu laikā.",
+    StringKey.WelcomeHelpTitle to "Neesat pārliecināts — nospiediet „?“",
+    StringKey.WelcomeHelpText to
+        "Poga „?“ augšā pa labi ir katrā sadaļā un paskaidro, kā šī sadaļa ir iekārtota.",
+    StringKey.WelcomeMenuTitle to "Pārējais ir izvēlnē",
+    StringKey.WelcomeMenuText to
+        "Izvēlnes poga augšā pa kreisi atver visu lietotnes sadaļu un iespēju sarakstu.",
+    StringKey.WelcomeNextButton to "Tālāk",
+
+    StringKey.LegalTitle to "Noteikumi un privātums",
+    StringKey.LegalTermsHeading to "Lietošanas noteikumi",
+    StringKey.LegalTermsText to
+        "Pilns teksts parādīsies šeit pirms lietotnes publicēšanas. Īsumā: lietotne ir palīgs, nevis sēņu " +
+            "noteicējs. Lēmums par to, vai atradums ir ēdams, vienmēr ir jūsu — tāpat kā atbildība par to.",
+    StringKey.LegalPrivacyHeading to "Privātums",
+    StringKey.LegalPrivacyText to
+        "Pilns teksts parādīsies šeit pirms lietotnes publicēšanas. Īsumā: jūsu gājieni, atzīmes un " +
+            "fotoattēli paliek jūsu ierīcē. Lietotne neveido kontus un nekur nesūta jūsu datus — internetā " +
+            "aiziet tikai kartes fragmentu pieprasījumi uz openfreemap.org.",
+    StringKey.LegalAcceptButton to "Piekrītu",
+
     StringKey.NavMenuContentDescription to "Izvēlne",
     StringKey.HelpContentDescription to "Palīdzība",
     StringKey.HelpDialogTitle to "Palīdzība",

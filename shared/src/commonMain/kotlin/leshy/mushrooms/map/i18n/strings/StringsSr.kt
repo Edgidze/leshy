@@ -78,6 +78,37 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
         "Изаберите збирке гљива које вас занимају. Ово можете променити касније у Подешавањима.",
     StringKey.OnboardingContinueButton to "Почни",
 
+    StringKey.WelcomeIntro to
+        "Апликација памти куда сте прошли и шта сте нашли — и заиста помаже у брању гљива: до добрих места " +
+            "се лако вратите, а све налазе видите на једној мапи.",
+    StringKey.WelcomeRecordTitle to "Снимајте шетњу",
+    StringKey.WelcomeRecordText to
+        "Трасу, време и километре апликација води сама. Нашли сте гљиву — означите је додиром на њену " +
+            "плочицу; извор, оборено дрво или аутомобил означавате право на мапи.",
+    StringKey.WelcomeArchiveTitle to "Вратите се својим налазима",
+    StringKey.WelcomeArchiveText to
+        "У архиви свака шетња стоји засебно — са својом трасом и налазима. А заједничка мапа их приказује " +
+            "све заједно: шта је, где и колико нађено кроз све сезоне.",
+    StringKey.WelcomeHelpTitle to "Нисте сигурни — притисните „?“",
+    StringKey.WelcomeHelpText to
+        "Дугме „?“ горе десно постоји у сваком одељку и објашњава како је тај одељак уређен.",
+    StringKey.WelcomeMenuTitle to "Остало је у менију",
+    StringKey.WelcomeMenuText to "Дугме менија горе лево отвара списак свих одељака и могућности апликације.",
+    StringKey.WelcomeNextButton to "Даље",
+
+    StringKey.LegalTitle to "Услови и приватност",
+    StringKey.LegalTermsHeading to "Услови коришћења",
+    StringKey.LegalTermsText to
+        "Пун текст ће се појавити овде пре објављивања апликације. Укратко: апликација је помоћник, а не " +
+            "кључ за одређивање гљива. Одлука о томе да ли је налаз јестив увек је ваша — као и одговорност за " +
+            "њу.",
+    StringKey.LegalPrivacyHeading to "Приватност",
+    StringKey.LegalPrivacyText to
+        "Пун текст ће се појавити овде пре објављивања апликације. Укратко: ваше шетње, ознаке и " +
+            "фотографије остају на вашем уређају. Апликација не отвара налоге и никуда не шаље ваше податке — " +
+            "на интернет одлазе само захтеви за делове мапе ка openfreemap.org.",
+    StringKey.LegalAcceptButton to "Прихватам",
+
     StringKey.NavMenuContentDescription to "Мени",
     StringKey.HelpContentDescription to "Помоћ",
     StringKey.HelpDialogTitle to "Помоћ",

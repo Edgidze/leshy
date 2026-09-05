@@ -78,6 +78,41 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
             "oʻzgartirish mumkin.",
     StringKey.OnboardingContinueButton to "Boshlaymiz",
 
+    StringKey.WelcomeIntro to
+        "Ilova qayerdan oʻtganingizni va nima topganingizni eslab qoladi — va qoʻziqorin terishga chinakam " +
+            "yordam beradi: yaxshi joylarga oson qaytasiz, barcha topilmalar esa bitta xaritada koʻrinadi.",
+    StringKey.WelcomeRecordTitle to "Sayringizni yozib boring",
+    StringKey.WelcomeRecordText to
+        "Trek, vaqt va kilometrni ilova oʻzi yuritadi. Qoʻziqorin topdingizmi — uning kartochkasiga tegib " +
+            "belgilang; buloq, agʻdarilgan daraxt yoki mashinangizni toʻgʻridan-toʻgʻri xaritada belgilash " +
+            "mumkin.",
+    StringKey.WelcomeArchiveTitle to "Topilmalaringizga qayting",
+    StringKey.WelcomeArchiveText to
+        "Arxivda har bir sayr alohida turadi — oʻz treki va topilmalari bilan. Umumiy xarita esa ularning " +
+            "barchasini birga koʻrsatadi: barcha mavsumlar davomida qayerda, nima va qancha topilganini.",
+    StringKey.WelcomeHelpTitle to "Ishonchingiz komil boʻlmasa «?» tugmasini bosing",
+    StringKey.WelcomeHelpText to
+        "Yuqori oʻng burchakdagi «?» tugmasi har bir boʻlimda bor va oʻsha boʻlim qanday tuzilganini " +
+            "tushuntiradi.",
+    StringKey.WelcomeMenuTitle to "Qolgani — menyuda",
+    StringKey.WelcomeMenuText to
+        "Yuqori chap burchakdagi menyu tugmasi ilovaning barcha boʻlimlari va imkoniyatlari roʻyxatini " +
+            "ochadi.",
+    StringKey.WelcomeNextButton to "Keyingisi",
+
+    StringKey.LegalTitle to "Shartlar va maxfiylik",
+    StringKey.LegalTermsHeading to "Foydalanish shartlari",
+    StringKey.LegalTermsText to
+        "Toʻliq matn ilova chop etilishidan oldin shu yerda paydo boʻladi. Qisqacha: ilova — yordamchi, " +
+            "qoʻziqorin aniqlagich emas. Topilma yeyishga yaroqlimi degan qaror doim sizniki — bu qaror uchun " +
+            "javobgarlik ham.",
+    StringKey.LegalPrivacyHeading to "Maxfiylik",
+    StringKey.LegalPrivacyText to
+        "Toʻliq matn ilova chop etilishidan oldin shu yerda paydo boʻladi. Qisqacha: sayrlaringiz, " +
+            "belgilaringiz va suratlaringiz qurilmangizda qoladi. Ilova hisob yaratmaydi va maʼlumotlaringizni " +
+            "hech qayerga yubormaydi — internetga faqat openfreemap.org dan xarita boʻlaklari soʻrovi ketadi.",
+    StringKey.LegalAcceptButton to "Qabul qilaman",
+
     StringKey.NavMenuContentDescription to "Menyu",
     StringKey.HelpContentDescription to "Yordam",
     StringKey.HelpDialogTitle to "Yordam",

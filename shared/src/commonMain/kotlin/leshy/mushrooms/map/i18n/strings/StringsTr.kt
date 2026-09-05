@@ -73,6 +73,38 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
         "İlgilendiğiniz mantar koleksiyonlarını seçin. Bunu daha sonra Ayarlar'dan değiştirebilirsiniz.",
     StringKey.OnboardingContinueButton to "Başla",
 
+    StringKey.WelcomeIntro to
+        "Uygulama nereden geçtiğinizi ve ne bulduğunuzu hatırlar — ve mantar toplamaya gerçekten yardım " +
+            "eder: iyi yerlere kolayca dönersiniz, bütün buluntular tek bir haritada görünür.",
+    StringKey.WelcomeRecordTitle to "Yürüyüşünüzü kaydedin",
+    StringKey.WelcomeRecordText to
+        "Rotayı, süreyi ve kilometreyi uygulama kendisi tutar. Mantar buldunuz — kartına dokunup " +
+            "işaretleyin; pınarı, devrilmiş ağacı ya da arabanızı doğrudan haritada işaretleyebilirsiniz.",
+    StringKey.WelcomeArchiveTitle to "Buluntularınıza geri dönün",
+    StringKey.WelcomeArchiveText to
+        "Arşivde her yürüyüş ayrı durur — kendi rotası ve buluntularıyla. Ortak harita ise hepsini bir " +
+            "arada gösterir: bütün mevsimler boyunca nerede, neyin, ne kadar bulunduğunu.",
+    StringKey.WelcomeHelpTitle to "Emin değilseniz «?» düğmesine dokunun",
+    StringKey.WelcomeHelpText to
+        "Sağ üstteki «?» düğmesi her bölümde vardır ve o bölümün nasıl çalıştığını anlatır.",
+    StringKey.WelcomeMenuTitle to "Gerisi menüde",
+    StringKey.WelcomeMenuText to
+        "Sol üstteki menü düğmesi uygulamanın bütün bölümlerinin ve olanaklarının listesini açar.",
+    StringKey.WelcomeNextButton to "İleri",
+
+    StringKey.LegalTitle to "Koşullar ve gizlilik",
+    StringKey.LegalTermsHeading to "Kullanım koşulları",
+    StringKey.LegalTermsText to
+        "Tam metin, uygulama yayımlanmadan önce burada yer alacak. Kısaca: uygulama bir yardımcıdır, mantar " +
+            "teşhis kılavuzu değildir. Bir buluntunun yenilebilir olup olmadığına karar vermek her zaman size " +
+            "aittir — sorumluluğu da öyle.",
+    StringKey.LegalPrivacyHeading to "Gizlilik",
+    StringKey.LegalPrivacyText to
+        "Tam metin, uygulama yayımlanmadan önce burada yer alacak. Kısaca: yürüyüşleriniz, işaretleriniz ve " +
+            "fotoğraflarınız cihazınızda kalır. Uygulama hesap açmaz ve verilerinizi hiçbir yere göndermez — " +
+            "internete yalnızca openfreemap.org adresinden harita parçası istekleri gider.",
+    StringKey.LegalAcceptButton to "Kabul ediyorum",
+
     StringKey.NavMenuContentDescription to "Menü",
     StringKey.HelpContentDescription to "Yardım",
     StringKey.HelpDialogTitle to "Yardım",

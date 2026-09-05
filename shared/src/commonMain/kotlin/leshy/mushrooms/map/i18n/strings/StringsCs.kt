@@ -76,6 +76,37 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
         "Vyberte sbírky hub, které vás zajímají. Později to můžete změnit v Nastavení.",
     StringKey.OnboardingContinueButton to "Začít",
 
+    StringKey.WelcomeIntro to
+        "Aplikace si pamatuje, kudy jste šli a co jste našli — a se sběrem opravdu pomůže: k dobrým místům " +
+            "se snadno vrátíte a všechny nálezy vidíte na jedné mapě.",
+    StringKey.WelcomeRecordTitle to "Zaznamenávejte procházku",
+    StringKey.WelcomeRecordText to
+        "Trasu, čas i kilometry vede aplikace sama. Našli jste houbu — klepněte na její dlaždici; pramen, " +
+            "padlý strom nebo auto označíte přímo v mapě.",
+    StringKey.WelcomeArchiveTitle to "Vracejte se ke svým nálezům",
+    StringKey.WelcomeArchiveText to
+        "V archivu leží každá procházka zvlášť — s vlastní trasou a nálezy. Společná mapa je ukazuje " +
+            "všechny dohromady: co, kde a kolik se našlo za všechny sezony.",
+    StringKey.WelcomeHelpTitle to "Nejste si jistí — klepněte na „?“",
+    StringKey.WelcomeHelpText to
+        "Tlačítko „?“ vpravo nahoře je v každé sekci a vysvětluje, jak je daná sekce uspořádaná.",
+    StringKey.WelcomeMenuTitle to "Ostatní je v nabídce",
+    StringKey.WelcomeMenuText to
+        "Tlačítko nabídky vlevo nahoře otevře seznam všech sekcí a možností aplikace.",
+    StringKey.WelcomeNextButton to "Dále",
+
+    StringKey.LegalTitle to "Podmínky a soukromí",
+    StringKey.LegalTermsHeading to "Podmínky používání",
+    StringKey.LegalTermsText to
+        "Úplné znění se zde objeví před vydáním aplikace. Stručně: aplikace je pomocník, nikoli atlas k " +
+            "určování hub. Rozhodnutí, zda je nález jedlý, je vždy na vás — a odpovědnost za ně také.",
+    StringKey.LegalPrivacyHeading to "Soukromí",
+    StringKey.LegalPrivacyText to
+        "Úplné znění se zde objeví před vydáním aplikace. Stručně: vaše procházky, značky a fotografie " +
+            "zůstávají ve vašem zařízení. Aplikace nezakládá účty a vaše data nikam neposílá — do sítě jdou jen " +
+            "dotazy na dlaždice mapy na openfreemap.org.",
+    StringKey.LegalAcceptButton to "Souhlasím",
+
     StringKey.NavMenuContentDescription to "Nabídka",
     StringKey.HelpContentDescription to "Nápověda",
     StringKey.HelpDialogTitle to "Nápověda",

@@ -80,6 +80,37 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
         "Pasirinkite jus dominančius grybų rinkinius. Tai galėsite pakeisti vėliau Nustatymuose.",
     StringKey.OnboardingContinueButton to "Pradėti",
 
+    StringKey.WelcomeIntro to
+        "Programėlė įsimena, kur ėjote ir ką radote, — ir grybaujant padeda išties pastebimai: į gerus " +
+            "plotus lengva sugrįžti, o visi radiniai matyti viename žemėlapyje.",
+    StringKey.WelcomeRecordTitle to "Įrašykite savo išvyką",
+    StringKey.WelcomeRecordText to
+        "Pėdsaką, laiką ir kilometrus programėlė veda pati. Radote grybą — pažymėkite jį bakstelėdami jo " +
+            "kortelę; šaltinį, nuvirtusį medį ar automobilį pažymėsite tiesiai žemėlapyje.",
+    StringKey.WelcomeArchiveTitle to "Grįžkite prie savo radinių",
+    StringKey.WelcomeArchiveText to
+        "Archyve kiekviena išvyka guli atskirai — su savo pėdsaku ir radiniais. O bendras žemėlapis rodo " +
+            "jas visas kartu: kas, kur ir kiek rasta per visus sezonus.",
+    StringKey.WelcomeHelpTitle to "Nesate tikri — spauskite „?“",
+    StringKey.WelcomeHelpText to
+        "Mygtukas „?“ viršuje dešinėje yra kiekviename skyriuje ir paaiškina, kaip tas skyrius sutvarkytas.",
+    StringKey.WelcomeMenuTitle to "Visa kita — meniu",
+    StringKey.WelcomeMenuText to
+        "Meniu mygtukas viršuje kairėje atveria visų programėlės skyrių ir galimybių sąrašą.",
+    StringKey.WelcomeNextButton to "Toliau",
+
+    StringKey.LegalTitle to "Sąlygos ir privatumas",
+    StringKey.LegalTermsHeading to "Naudojimo sąlygos",
+    StringKey.LegalTermsText to
+        "Visas tekstas čia atsiras prieš programėlės paskelbimą. Trumpai: programėlė yra pagalbininkė, o ne " +
+            "grybų nustatymo vadovas. Sprendimas, ar radinys valgomas, visada jūsų — kaip ir atsakomybė už jį.",
+    StringKey.LegalPrivacyHeading to "Privatumas",
+    StringKey.LegalPrivacyText to
+        "Visas tekstas čia atsiras prieš programėlės paskelbimą. Trumpai: jūsų išvykos, žymos ir nuotraukos " +
+            "lieka jūsų įrenginyje. Programėlė nekuria paskyrų ir niekur nesiunčia jūsų duomenų — į internetą " +
+            "keliauja tik žemėlapio fragmentų užklausos į openfreemap.org.",
+    StringKey.LegalAcceptButton to "Sutinku",
+
     StringKey.NavMenuContentDescription to "Meniu",
     StringKey.HelpContentDescription to "Pagalba",
     StringKey.HelpDialogTitle to "Pagalba",

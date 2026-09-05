@@ -73,6 +73,38 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
         "Välj de svampsamlingar du är intresserad av. Du kan ändra detta senare i Inställningar.",
     StringKey.OnboardingContinueButton to "Kom igång",
 
+    StringKey.WelcomeIntro to
+        "Appen minns var du gått och vad du hittat — och hjälper verkligen vid svampplockningen: till bra " +
+            "ställen hittar du lätt tillbaka, och alla fynd syns på en och samma karta.",
+    StringKey.WelcomeRecordTitle to "Spela in din tur",
+    StringKey.WelcomeRecordText to
+        "Spåret, tiden och kilometrarna sköter appen själv. Hittat en svamp — tryck på dess ruta; en källa, " +
+            "ett fallet träd eller bilen markerar du direkt på kartan.",
+    StringKey.WelcomeArchiveTitle to "Återvänd till dina fynd",
+    StringKey.WelcomeArchiveText to
+        "I arkivet ligger varje tur för sig — med eget spår och egna fynd. Den gemensamma kartan visar dem " +
+            "alla tillsammans: vad som hittats, var och hur mycket, under alla dina säsonger.",
+    StringKey.WelcomeHelpTitle to "Osäker? Tryck på ”?”",
+    StringKey.WelcomeHelpText to
+        "Knappen ”?” uppe till höger finns i varje avsnitt och förklarar hur avsnittet fungerar.",
+    StringKey.WelcomeMenuTitle to "Resten finns i menyn",
+    StringKey.WelcomeMenuText to
+        "Menyknappen uppe till vänster öppnar listan över appens alla avsnitt och möjligheter.",
+    StringKey.WelcomeNextButton to "Vidare",
+
+    StringKey.LegalTitle to "Villkor och integritet",
+    StringKey.LegalTermsHeading to "Användarvillkor",
+    StringKey.LegalTermsText to
+        "Den fullständiga texten visas här innan appen publiceras. Kort sagt: appen är en hjälpreda, inte " +
+            "en svampbok för artbestämning. Beslutet om ett fynd är ätligt är alltid ditt — och ansvaret för " +
+            "det likaså.",
+    StringKey.LegalPrivacyHeading to "Integritet",
+    StringKey.LegalPrivacyText to
+        "Den fullständiga texten visas här innan appen publiceras. Kort sagt: dina turer, markeringar och " +
+            "foton stannar på din enhet. Appen skapar inga konton och skickar inga av dina data någonstans — ut " +
+            "på nätet går bara förfrågningar om kartrutor till openfreemap.org.",
+    StringKey.LegalAcceptButton to "Jag godkänner",
+
     StringKey.NavMenuContentDescription to "Meny",
     StringKey.HelpContentDescription to "Hjälp",
     StringKey.HelpDialogTitle to "Hjälp",

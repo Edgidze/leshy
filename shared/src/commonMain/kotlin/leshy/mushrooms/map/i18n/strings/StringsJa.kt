@@ -71,6 +71,30 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
         "興味のあるキノコのコレクションを選択してください。これは後で設定からいつでも変更できます。",
     StringKey.OnboardingContinueButton to "始める",
 
+    StringKey.WelcomeIntro to "アプリは歩いた場所と見つけたものを覚えています。良い場所へは簡単に戻れ、すべての収穫が一枚の地図に集まるので、キノコ狩りが目に見えてはかどります。",
+    StringKey.WelcomeRecordTitle to "散策を記録する",
+    StringKey.WelcomeRecordText to
+        "ルート・時間・距離はアプリが自動で記録します。キノコを見つけたら、その種類のタイルをタップするだけ。湧き水や倒木、駐車した車は地図上に直接記録できます。",
+    StringKey.WelcomeArchiveTitle to "収穫を見返す",
+    StringKey.WelcomeArchiveText to
+        "アーカイブには一回ごとの散策が、そのルートと収穫とともに残ります。全体の地図はそれらをまとめて表示します。すべてのシーズンを通じて、どこで何がどれだけ採れたのかが一目で分かります。",
+    StringKey.WelcomeHelpTitle to "迷ったら「?」をタップ",
+    StringKey.WelcomeHelpText to "右上の「?」ボタンはどの画面にもあり、その画面の仕組みを説明します。",
+    StringKey.WelcomeMenuTitle to "残りはメニューの中に",
+    StringKey.WelcomeMenuText to "左上のメニューボタンから、アプリのすべての画面と機能の一覧を開けます。",
+    StringKey.WelcomeNextButton to "次へ",
+
+    StringKey.LegalTitle to "利用規約とプライバシー",
+    StringKey.LegalTermsHeading to "利用規約",
+    StringKey.LegalTermsText to
+        "全文はアプリの公開前にここに掲載されます。要点: " +
+            "このアプリは補助のための道具であり、キノコの鑑定図鑑ではありません。見つけたキノコが食べられるかどうかの判断は常に利用者ご自身にあり、その責任も同様です。",
+    StringKey.LegalPrivacyHeading to "プライバシー",
+    StringKey.LegalPrivacyText to
+        "全文はアプリの公開前にここに掲載されます。要点: 散策・記録・写真はお使いの端末内にとどまります。アカウントは作成せず、データをどこにも送信しません。ネットワークに出るのは " +
+            "openfreemap.org への地図タイルの要求だけです。",
+    StringKey.LegalAcceptButton to "同意する",
+
     StringKey.NavMenuContentDescription to "メニュー",
     StringKey.HelpContentDescription to "ヘルプ",
     StringKey.HelpDialogTitle to "ヘルプ",

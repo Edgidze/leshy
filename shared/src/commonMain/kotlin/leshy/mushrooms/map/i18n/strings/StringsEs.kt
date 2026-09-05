@@ -75,6 +75,39 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
             "ajustes.",
     StringKey.OnboardingContinueButton to "Empezar",
 
+    StringKey.WelcomeIntro to
+        "La aplicación recuerda por dónde anduvo y qué encontró, y ayuda de verdad a recoger setas: es " +
+            "fácil volver a los buenos sitios y todos los hallazgos caben en un solo mapa.",
+    StringKey.WelcomeRecordTitle to "Grabe su paseo",
+    StringKey.WelcomeRecordText to
+        "La aplicación registra sola el recorrido, el tiempo y los kilómetros. ¿Encontró una seta? Tóquela " +
+            "en su ficha; un manantial, un árbol caído o su coche se marcan directamente en el mapa.",
+    StringKey.WelcomeArchiveTitle to "Vuelva a sus hallazgos",
+    StringKey.WelcomeArchiveText to
+        "En el archivo cada paseo se guarda aparte, con su recorrido y sus hallazgos. El mapa común los " +
+            "reúne todos: qué se encontró, dónde y cuánto, a lo largo de todas sus temporadas.",
+    StringKey.WelcomeHelpTitle to "¿Dudas? Toque «?»",
+    StringKey.WelcomeHelpText to
+        "Cada sección tiene arriba a la derecha un botón «?» que explica cómo funciona esa sección.",
+    StringKey.WelcomeMenuTitle to "Lo demás está en el menú",
+    StringKey.WelcomeMenuText to
+        "El botón de menú de arriba a la izquierda abre la lista de todas las secciones y posibilidades de " +
+            "la aplicación.",
+    StringKey.WelcomeNextButton to "Siguiente",
+
+    StringKey.LegalTitle to "Condiciones y privacidad",
+    StringKey.LegalTermsHeading to "Condiciones de uso",
+    StringKey.LegalTermsText to
+        "El texto completo aparecerá aquí antes de publicar la aplicación. En resumen: la aplicación es una " +
+            "ayuda, no una guía de identificación de setas. Decidir si un hallazgo es comestible es siempre " +
+            "cosa suya, y la responsabilidad de esa decisión también.",
+    StringKey.LegalPrivacyHeading to "Privacidad",
+    StringKey.LegalPrivacyText to
+        "El texto completo aparecerá aquí antes de publicar la aplicación. En resumen: sus paseos, marcas y " +
+            "fotos se quedan en su dispositivo. La aplicación no crea cuentas ni envía sus datos a ninguna " +
+            "parte: a internet solo salen las peticiones de fragmentos del mapa a openfreemap.org.",
+    StringKey.LegalAcceptButton to "Acepto",
+
     StringKey.NavMenuContentDescription to "Menú",
     StringKey.HelpContentDescription to "Ayuda",
     StringKey.HelpDialogTitle to "Ayuda",

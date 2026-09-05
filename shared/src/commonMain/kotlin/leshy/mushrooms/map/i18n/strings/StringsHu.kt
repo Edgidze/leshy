@@ -79,6 +79,41 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
             "módosíthatja.",
     StringKey.OnboardingContinueButton to "Kezdés",
 
+    StringKey.WelcomeIntro to
+        "Az alkalmazás megjegyzi, merre járt és mit talált — és érezhetően segít a gombászásban: a jó " +
+            "helyekre könnyű visszatérni, minden lelet pedig egyetlen térképen látszik.",
+    StringKey.WelcomeRecordTitle to "Rögzítse a sétát",
+    StringKey.WelcomeRecordText to
+        "A nyomvonalat, az időt és a kilométereket az alkalmazás magától vezeti. Talált egy gombát — " +
+            "érintse meg a hozzá tartozó kártyát; forrást, kidőlt fát vagy az autóját közvetlenül a térképen " +
+            "jelölheti.",
+    StringKey.WelcomeArchiveTitle to "Térjen vissza a leleteihez",
+    StringKey.WelcomeArchiveText to
+        "Az archívumban minden séta külön áll — saját nyomvonallal és leletekkel. A közös térkép pedig " +
+            "együtt mutatja mindet: mit, hol és mennyit talált az összes szezonban.",
+    StringKey.WelcomeHelpTitle to "Nem biztos benne? Érintse meg a „?” gombot",
+    StringKey.WelcomeHelpText to
+        "A „?” gomb a jobb felső sarokban minden szakaszban ott van, és elmagyarázza, hogyan épül fel az " +
+            "adott szakasz.",
+    StringKey.WelcomeMenuTitle to "A többi a menüben van",
+    StringKey.WelcomeMenuText to
+        "A bal felső sarokban lévő menügomb megnyitja az alkalmazás összes szakaszának és lehetőségének " +
+            "listáját.",
+    StringKey.WelcomeNextButton to "Tovább",
+
+    StringKey.LegalTitle to "Feltételek és adatvédelem",
+    StringKey.LegalTermsHeading to "Felhasználási feltételek",
+    StringKey.LegalTermsText to
+        "A teljes szöveg az alkalmazás közzététele előtt jelenik meg itt. Röviden: az alkalmazás " +
+            "segítőtárs, nem gombahatározó. Annak eldöntése, hogy egy lelet ehető-e, mindig Öné — és a " +
+            "felelősség is ezért.",
+    StringKey.LegalPrivacyHeading to "Adatvédelem",
+    StringKey.LegalPrivacyText to
+        "A teljes szöveg az alkalmazás közzététele előtt jelenik meg itt. Röviden: a séták, a jelölések és " +
+            "a fényképek az Ön készülékén maradnak. Az alkalmazás nem hoz létre fiókot, és sehová nem küldi el " +
+            "az adatait — az internetre csak a térképszelvények kérése megy ki az openfreemap.org felé.",
+    StringKey.LegalAcceptButton to "Elfogadom",
+
     StringKey.NavMenuContentDescription to "Menü",
     StringKey.HelpContentDescription to "Súgó",
     StringKey.HelpDialogTitle to "Súgó",

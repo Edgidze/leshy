@@ -79,6 +79,37 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
         "Odaberite zbirke gljiva koje vas zanimaju. To možete promijeniti kasnije u Postavkama.",
     StringKey.OnboardingContinueButton to "Počni",
 
+    StringKey.WelcomeIntro to
+        "Aplikacija pamti kuda ste prošli i što ste našli — i uistinu pomaže u branju gljiva: do dobrih se " +
+            "mjesta lako vratite, a sve nalaze vidite na jednoj karti.",
+    StringKey.WelcomeRecordTitle to "Snimajte šetnju",
+    StringKey.WelcomeRecordText to
+        "Trasu, vrijeme i kilometre aplikacija vodi sama. Našli ste gljivu — označite je dodirom na njezinu " +
+            "pločicu; izvor, oboreno stablo ili automobil označavate ravno na karti.",
+    StringKey.WelcomeArchiveTitle to "Vraćajte se svojim nalazima",
+    StringKey.WelcomeArchiveText to
+        "U arhivi svaka šetnja stoji zasebno — sa svojom trasom i nalazima. A zajednička karta prikazuje ih " +
+            "sve skupa: što je, gdje i koliko nađeno kroz sve sezone.",
+    StringKey.WelcomeHelpTitle to "Niste sigurni — pritisnite „?“",
+    StringKey.WelcomeHelpText to
+        "Gumb „?“ gore desno postoji u svakom odjeljku i objašnjava kako je taj odjeljak uređen.",
+    StringKey.WelcomeMenuTitle to "Ostalo je u izborniku",
+    StringKey.WelcomeMenuText to
+        "Gumb izbornika gore lijevo otvara popis svih odjeljaka i mogućnosti aplikacije.",
+    StringKey.WelcomeNextButton to "Dalje",
+
+    StringKey.LegalTitle to "Uvjeti i privatnost",
+    StringKey.LegalTermsHeading to "Uvjeti korištenja",
+    StringKey.LegalTermsText to
+        "Puni tekst pojavit će se ovdje prije objave aplikacije. Ukratko: aplikacija je pomoćnik, a ne " +
+            "ključ za određivanje gljiva. Odluka je li nalaz jestiv uvijek je vaša — kao i odgovornost za nju.",
+    StringKey.LegalPrivacyHeading to "Privatnost",
+    StringKey.LegalPrivacyText to
+        "Puni tekst pojavit će se ovdje prije objave aplikacije. Ukratko: vaše šetnje, oznake i fotografije " +
+            "ostaju na vašem uređaju. Aplikacija ne otvara račune i nikamo ne šalje vaše podatke — na internet " +
+            "odlaze samo zahtjevi za dijelove karte prema openfreemap.org.",
+    StringKey.LegalAcceptButton to "Prihvaćam",
+
     StringKey.NavMenuContentDescription to "Izbornik",
     StringKey.HelpContentDescription to "Pomoć",
     StringKey.HelpDialogTitle to "Pomoć",

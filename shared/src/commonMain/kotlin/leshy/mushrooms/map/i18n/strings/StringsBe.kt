@@ -75,6 +75,37 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
         "Выберыце падборкі грыбоў, якія вам цікавыя. Гэта можна змяніць пазней у Наладах.",
     StringKey.OnboardingContinueButton to "Пачаць",
 
+    StringKey.WelcomeIntro to
+        "Праграма запамінае, дзе вы прайшлі і што знайшлі, — і прыкметна дапамагае ў зборы грыбоў: да " +
+            "добрых месцаў лёгка вярнуцца, а ўсе знаходкі відаць на адной карце.",
+    StringKey.WelcomeRecordTitle to "Запісвайце прагулку",
+    StringKey.WelcomeRecordText to
+        "Трэк, час і кіламетраж праграма вядзе сама. Знайшлі грыб — адзначце яго дотыкам да плашкі; " +
+            "крыніцу, паваленае дрэва ці машыну можна адзначыць проста на карце.",
+    StringKey.WelcomeArchiveTitle to "Вяртайцеся да знаходак",
+    StringKey.WelcomeArchiveText to
+        "У архіве кожная прагулка ляжыць асобна — са сваім трэкам і знаходкамі. А агульная карта паказвае " +
+            "ўсе прагулкі разам: дзе, чаго і колькі знайшлося за ўсе сезоны.",
+    StringKey.WelcomeHelpTitle to "Не ўпэўнены — націсніце «?»",
+    StringKey.WelcomeHelpText to
+        "Кнопка «?» справа ўверсе ёсць у кожным раздзеле і тлумачыць, як гэты раздзел уладкаваны.",
+    StringKey.WelcomeMenuTitle to "Астатняе — у меню",
+    StringKey.WelcomeMenuText to
+        "Кнопка меню злева ўверсе адкрывае спіс усіх раздзелаў і магчымасцей праграмы.",
+    StringKey.WelcomeNextButton to "Далей",
+
+    StringKey.LegalTitle to "Пагадненне і прыватнасць",
+    StringKey.LegalTermsHeading to "Карыстальніцкае пагадненне",
+    StringKey.LegalTermsText to
+        "Поўны тэкст з’явіцца тут да публікацыі праграмы. Коратка: праграма — памочнік, а не вызначальнік " +
+            "грыбоў. Рашэнне пра ядомасць знаходкі заўсёды за вамі, і адказнасць за гэтае рашэнне таксама.",
+    StringKey.LegalPrivacyHeading to "Прыватнасць",
+    StringKey.LegalPrivacyText to
+        "Поўны тэкст з’явіцца тут да публікацыі праграмы. Коратка: прагулкі, адзнакі і фатаграфіі застаюцца " +
+            "на вашай прыладзе. Праграма не заводзіць уліковых запісаў і нікуды не перадае вашы даныя — у " +
+            "інтэрнэт ідуць толькі запыты ўчасткаў карты з openfreemap.org.",
+    StringKey.LegalAcceptButton to "Прымаю",
+
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Даведка",
     StringKey.HelpDialogTitle to "Даведка",

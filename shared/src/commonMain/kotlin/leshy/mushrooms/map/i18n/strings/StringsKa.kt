@@ -78,6 +78,38 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
             "პარამეტრებში შეგიძლიათ.",
     StringKey.OnboardingContinueButton to "დაწყება",
 
+    StringKey.WelcomeIntro to
+        "აპლიკაცია იმახსოვრებს, სად გაიარეთ და რა იპოვეთ — და სოკოს კრეფაში ნამდვილად გეხმარებათ: კარგ " +
+            "ადგილებზე ადვილად დაბრუნდებით, ყველა ნაპოვნი კი ერთ რუკაზე ჩანს.",
+    StringKey.WelcomeRecordTitle to "ჩაიწერეთ თქვენი გასეირნება",
+    StringKey.WelcomeRecordText to
+        "მარშრუტს, დროსა და კილომეტრებს აპლიკაცია თავად აწარმოებს. იპოვეთ სოკო — მონიშნეთ მისი ფილაკის " +
+            "შეხებით; წყარო, წაქცეული ხე ან მანქანა პირდაპირ რუკაზე მოინიშნება.",
+    StringKey.WelcomeArchiveTitle to "დაუბრუნდით თქვენს ნაპოვნებს",
+    StringKey.WelcomeArchiveText to
+        "არქივში ყოველი გასეირნება ცალკე დევს — თავისი მარშრუტითა და ნაპოვნებით. საერთო რუკა კი ყველას " +
+            "ერთად აჩვენებს: სად, რა და რამდენი მოიძებნა ყველა სეზონის განმავლობაში.",
+    StringKey.WelcomeHelpTitle to "დარწმუნებული არ ხართ — დააჭირეთ „?“-ს",
+    StringKey.WelcomeHelpText to
+        "ღილაკი „?“ ზემოთ მარჯვნივ ყველა განყოფილებაშია და განმარტავს, როგორ არის ეს განყოფილება მოწყობილი.",
+    StringKey.WelcomeMenuTitle to "დანარჩენი — მენიუშია",
+    StringKey.WelcomeMenuText to
+        "ზემოთ მარცხნივ მენიუს ღილაკი ხსნის აპლიკაციის ყველა განყოფილებისა და შესაძლებლობის სიას.",
+    StringKey.WelcomeNextButton to "შემდეგ",
+
+    StringKey.LegalTitle to "პირობები და კონფიდენციალურობა",
+    StringKey.LegalTermsHeading to "მოხმარების პირობები",
+    StringKey.LegalTermsText to
+        "სრული ტექსტი აქ აპლიკაციის გამოქვეყნებამდე გამოჩნდება. მოკლედ: აპლიკაცია დამხმარეა და არა სოკოს " +
+            "განმსაზღვრელი. გადაწყვეტილება, საკვებია თუ არა ნაპოვნი, ყოველთვის თქვენია — და პასუხისმგებლობაც " +
+            "მასზე.",
+    StringKey.LegalPrivacyHeading to "კონფიდენციალურობა",
+    StringKey.LegalPrivacyText to
+        "სრული ტექსტი აქ აპლიკაციის გამოქვეყნებამდე გამოჩნდება. მოკლედ: თქვენი გასეირნებები, აღნიშვნები და " +
+            "ფოტოები რჩება თქვენს მოწყობილობაზე. აპლიკაცია ანგარიშებს არ ქმნის და თქვენს მონაცემებს არსად " +
+            "აგზავნის — ინტერნეტში მიდის მხოლოდ რუკის ფრაგმენტების მოთხოვნები openfreemap.org-ისკენ.",
+    StringKey.LegalAcceptButton to "ვეთანხმები",
+
     StringKey.NavMenuContentDescription to "მენიუ",
     StringKey.HelpContentDescription to "დახმარება",
     StringKey.HelpDialogTitle to "დახმარება",

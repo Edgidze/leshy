@@ -75,6 +75,38 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
         "Wybierz zestawy grzybów, które Cię interesują. Możesz to później zmienić w Ustawieniach.",
     StringKey.OnboardingContinueButton to "Rozpocznij",
 
+    StringKey.WelcomeIntro to
+        "Aplikacja pamięta twoje trasy i twoje znaleziska — i naprawdę pomaga w zbieraniu grzybów: do " +
+            "dobrych miejsc łatwo wrócić, a wszystkie znaleziska widać na jednej mapie.",
+    StringKey.WelcomeRecordTitle to "Zapisuj swój spacer",
+    StringKey.WelcomeRecordText to
+        "Trasę, czas i kilometry aplikacja prowadzi sama. Po znalezieniu grzyba dotknij jego kafelka; " +
+            "źródło, powalone drzewo czy samochód zaznaczysz wprost na mapie.",
+    StringKey.WelcomeArchiveTitle to "Wracaj do swoich znalezisk",
+    StringKey.WelcomeArchiveText to
+        "W archiwum każdy spacer leży osobno — z własną trasą i znaleziskami. Wspólna mapa pokazuje je " +
+            "razem: co, gdzie i ile udało się znaleźć przez wszystkie sezony.",
+    StringKey.WelcomeHelpTitle to "Nie masz pewności — dotknij „?”",
+    StringKey.WelcomeHelpText to
+        "Przycisk „?” w prawym górnym rogu jest w każdej sekcji i wyjaśnia, jak ta sekcja działa.",
+    StringKey.WelcomeMenuTitle to "Reszta jest w menu",
+    StringKey.WelcomeMenuText to
+        "Przycisk menu w lewym górnym rogu otwiera listę wszystkich sekcji i możliwości aplikacji.",
+    StringKey.WelcomeNextButton to "Dalej",
+
+    StringKey.LegalTitle to "Regulamin i prywatność",
+    StringKey.LegalTermsHeading to "Regulamin",
+    StringKey.LegalTermsText to
+        "Pełny tekst pojawi się tutaj przed publikacją aplikacji. W skrócie: aplikacja jest pomocnikiem, a " +
+            "nie atlasem do rozpoznawania grzybów. Decyzja, czy znalezisko jest jadalne, zawsze należy do " +
+            "Ciebie — i odpowiedzialność za nią również.",
+    StringKey.LegalPrivacyHeading to "Prywatność",
+    StringKey.LegalPrivacyText to
+        "Pełny tekst pojawi się tutaj przed publikacją aplikacji. W skrócie: spacery, znaczniki i zdjęcia " +
+            "zostają na Twoim urządzeniu. Aplikacja nie zakłada kont i nigdzie nie wysyła Twoich danych — do " +
+            "sieci trafiają tylko zapytania o fragmenty mapy do openfreemap.org.",
+    StringKey.LegalAcceptButton to "Akceptuję",
+
     StringKey.NavMenuContentDescription to "Menu",
     StringKey.HelpContentDescription to "Pomoc",
     StringKey.HelpDialogTitle to "Pomoc",

@@ -75,6 +75,38 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
             "по-късно в Настройки.",
     StringKey.OnboardingContinueButton to "Начало",
 
+    StringKey.WelcomeIntro to
+        "Приложението помни къде сте минали и какво сте намерили — и наистина помага при бране на гъби: до " +
+            "добрите места се връщате лесно, а всички находки се виждат на една карта.",
+    StringKey.WelcomeRecordTitle to "Записвайте разходката",
+    StringKey.WelcomeRecordText to
+        "Маршрута, времето и километрите приложението води само. Намерихте гъба — отбележете я с докосване " +
+            "на плочката ѝ; извор, паднало дърво или колата си отбелязвате направо на картата.",
+    StringKey.WelcomeArchiveTitle to "Връщайте се към находките си",
+    StringKey.WelcomeArchiveText to
+        "В архива всяка разходка стои отделно — със свой маршрут и свои находки. А общата карта ги показва " +
+            "заедно: какво, къде и колко е намерено през всички сезони.",
+    StringKey.WelcomeHelpTitle to "Не сте сигурни — натиснете «?»",
+    StringKey.WelcomeHelpText to
+        "Бутонът «?» горе вдясно го има във всеки раздел и обяснява как е устроен този раздел.",
+    StringKey.WelcomeMenuTitle to "Останалото е в менюто",
+    StringKey.WelcomeMenuText to
+        "Бутонът за меню горе вляво отваря списъка с всички раздели и възможности на приложението.",
+    StringKey.WelcomeNextButton to "Напред",
+
+    StringKey.LegalTitle to "Условия и поверителност",
+    StringKey.LegalTermsHeading to "Условия за ползване",
+    StringKey.LegalTermsText to
+        "Пълният текст ще се появи тук преди публикуването на приложението. Накратко: приложението е " +
+            "помощник, а не определител на гъби. Решението дали една находка е ядивна, е винаги ваше — както и " +
+            "отговорността за него.",
+    StringKey.LegalPrivacyHeading to "Поверителност",
+    StringKey.LegalPrivacyText to
+        "Пълният текст ще се появи тук преди публикуването на приложението. Накратко: разходките, отметките " +
+            "и снимките остават на вашето устройство. Приложението не създава акаунти и не изпраща никъде " +
+            "вашите данни — в интернет отиват само заявките за участъци от картата към openfreemap.org.",
+    StringKey.LegalAcceptButton to "Приемам",
+
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Помощ",
     StringKey.HelpDialogTitle to "Помощ",

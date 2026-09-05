@@ -77,6 +77,37 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
         "Valige seenekogud, mis teid huvitavad. Seda saab hiljem Seadetes muuta.",
     StringKey.OnboardingContinueButton to "Alusta",
 
+    StringKey.WelcomeIntro to
+        "Rakendus jätab meelde, kus te käisite ja mida leidsite — ja aitab seenelkäigul tuntavalt: headesse " +
+            "kohtadesse on lihtne tagasi minna ning kõik leiud on ühel kaardil.",
+    StringKey.WelcomeRecordTitle to "Salvestage oma seenelkäik",
+    StringKey.WelcomeRecordText to
+        "Raja, aja ja kilomeetrid peab rakendus ise. Leidsite seene — märkige see tema paani puudutades; " +
+            "allika, langenud puu või auto märgite otse kaardile.",
+    StringKey.WelcomeArchiveTitle to "Tulge oma leidude juurde tagasi",
+    StringKey.WelcomeArchiveText to
+        "Arhiivis on iga käik omaette — oma raja ja leidudega. Ühiskaart näitab neid kõiki koos: mida, kus " +
+            "ja kui palju on kõigi hooaegade jooksul leitud.",
+    StringKey.WelcomeHelpTitle to "Pole kindel? Puudutage „?“",
+    StringKey.WelcomeHelpText to
+        "Nupp „?“ üleval paremal on igas jaotises ja selgitab, kuidas see jaotis toimib.",
+    StringKey.WelcomeMenuTitle to "Ülejäänu on menüüs",
+    StringKey.WelcomeMenuText to
+        "Menüünupp üleval vasakul avab kõigi rakenduse jaotiste ja võimaluste loendi.",
+    StringKey.WelcomeNextButton to "Edasi",
+
+    StringKey.LegalTitle to "Tingimused ja privaatsus",
+    StringKey.LegalTermsHeading to "Kasutustingimused",
+    StringKey.LegalTermsText to
+        "Täistekst ilmub siia enne rakenduse avaldamist. Lühidalt: rakendus on abiline, mitte " +
+            "seentemääraja. Otsus, kas leid on söödav, on alati teie oma — ja vastutus selle eest samuti.",
+    StringKey.LegalPrivacyHeading to "Privaatsus",
+    StringKey.LegalPrivacyText to
+        "Täistekst ilmub siia enne rakenduse avaldamist. Lühidalt: teie käigud, märked ja fotod jäävad teie " +
+            "seadmesse. Rakendus ei loo kontosid ega saada teie andmeid kuhugi — internetti lähevad vaid " +
+            "kaardiruutude päringud aadressile openfreemap.org.",
+    StringKey.LegalAcceptButton to "Nõustun",
+
     StringKey.NavMenuContentDescription to "Menüü",
     StringKey.HelpContentDescription to "Abi",
     StringKey.HelpDialogTitle to "Abi",

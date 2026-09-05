@@ -74,6 +74,40 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
             "Einstellungen ändern.",
     StringKey.OnboardingContinueButton to "Los geht's",
 
+    StringKey.WelcomeIntro to
+        "Die App merkt sich, wo Sie gelaufen sind und was Sie gefunden haben – und hilft beim Sammeln " +
+            "spürbar: zu guten Stellen finden Sie leicht zurück, und alle Funde liegen auf einer Karte.",
+    StringKey.WelcomeRecordTitle to "Zeichnen Sie den Spaziergang auf",
+    StringKey.WelcomeRecordText to
+        "Strecke, Zeit und Kilometer zeichnet die App von selbst auf. Pilz gefunden – tippen Sie auf seine " +
+            "Kachel; eine Quelle, einen umgestürzten Baum oder Ihr Auto markieren Sie direkt auf der Karte.",
+    StringKey.WelcomeArchiveTitle to "Kehren Sie zu Ihren Funden zurück",
+    StringKey.WelcomeArchiveText to
+        "Im Archiv liegt jeder Spaziergang für sich – mit eigener Strecke und eigenen Funden. Die " +
+            "gemeinsame Karte zeigt alle zusammen: was wo und wie viel über alle Saisons hinweg gefunden wurde.",
+    StringKey.WelcomeHelpTitle to "Unsicher? Tippen Sie auf „?“",
+    StringKey.WelcomeHelpText to
+        "In jedem Bereich gibt es oben rechts die Schaltfläche „?“, die erklärt, wie dieser Bereich " +
+            "aufgebaut ist.",
+    StringKey.WelcomeMenuTitle to "Alles Weitere steht im Menü",
+    StringKey.WelcomeMenuText to
+        "Die Menü-Schaltfläche oben links öffnet die Liste aller Bereiche und Möglichkeiten der App.",
+    StringKey.WelcomeNextButton to "Weiter",
+
+    StringKey.LegalTitle to "Nutzungsbedingungen und Datenschutz",
+    StringKey.LegalTermsHeading to "Nutzungsbedingungen",
+    StringKey.LegalTermsText to
+        "Der vollständige Text erscheint hier vor der Veröffentlichung der App. Kurz gesagt: Die App ist " +
+            "ein Helfer, kein Pilzbestimmungsbuch. Die Entscheidung, ob ein Fund essbar ist, treffen immer Sie " +
+            "– und die Verantwortung dafür ebenfalls.",
+    StringKey.LegalPrivacyHeading to "Datenschutz",
+    StringKey.LegalPrivacyText to
+        "Der vollständige Text erscheint hier vor der Veröffentlichung der App. Kurz gesagt: Ihre " +
+            "Spaziergänge, Markierungen und Fotos bleiben auf Ihrem Gerät. Die App legt keine Konten an und " +
+            "sendet keine Ihrer Daten irgendwohin – ins Netz gehen nur Anfragen nach Kartenausschnitten von " +
+            "openfreemap.org.",
+    StringKey.LegalAcceptButton to "Ich stimme zu",
+
     StringKey.NavMenuContentDescription to "Menü",
     StringKey.HelpContentDescription to "Hilfe",
     StringKey.HelpDialogTitle to "Hilfe",

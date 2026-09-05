@@ -59,13 +59,12 @@ import leshy.mushrooms.map.presentation.searchOrdered
 fun LanguagePickerScreen(
     currentLanguage: AppLanguage,
     onConfirm: (AppLanguage) -> Unit,
-    // Null on the onboarding screen's first step: there is nowhere to go back TO from the very
-    // first screen of a fresh install, and a dead arrow reads as a broken control.
-    onBack: (() -> Unit)? = null,
+    onBack: () -> Unit,
 ) {
     // Keyed on [currentLanguage]: the onboarding step feeds this from a DataStore-backed flow that
-    // starts at the EN default and only then emits the stored language, so an unkeyed remember
-    // would leave the radio stuck on English while the rest of the screen is already translated.
+    // starts at the device-language default and only then emits the stored language, so an unkeyed
+    // remember would leave the radio on the wrong row while the rest of the screen is already
+    // translated.
     var selected by remember(currentLanguage) { mutableStateOf(currentLanguage) }
     var query by remember { mutableStateOf("") }
     val filtered = searchOrdered(AppLanguage.entries, query) { "${it.endonym} ${it.englishName}" }
@@ -77,13 +76,11 @@ fun LanguagePickerScreen(
             TopAppBar(
                 title = { Text(stringResource(StringKey.SettingsLanguageTitle)) },
                 navigationIcon = {
-                    if (onBack != null) {
-                        IconButton(onClick = onBack) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(StringKey.LanguagePickerBackContentDescription),
-                            )
-                        }
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(StringKey.LanguagePickerBackContentDescription),
+                        )
                     }
                 },
                 actions = {

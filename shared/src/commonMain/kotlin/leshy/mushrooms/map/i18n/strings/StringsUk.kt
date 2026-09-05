@@ -76,6 +76,38 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
         "Виберіть підбірки грибів, які вас цікавлять. Це можна змінити пізніше в Налаштуваннях.",
     StringKey.OnboardingContinueButton to "Почати",
 
+    StringKey.WelcomeIntro to
+        "Застосунок запам’ятовує, де ви пройшли і що знайшли, — і помітно допомагає в зборі грибів: до " +
+            "хороших місць легко повернутися, а всі знахідки видно на одній карті.",
+    StringKey.WelcomeRecordTitle to "Записуйте прогулянку",
+    StringKey.WelcomeRecordText to
+        "Трек, час і кілометраж застосунок веде сам. Знайшли гриб — позначте його дотиком до плашки; " +
+            "джерело, повалене дерево чи автівку можна позначити просто на карті.",
+    StringKey.WelcomeArchiveTitle to "Повертайтеся до знахідок",
+    StringKey.WelcomeArchiveText to
+        "В архіві кожна прогулянка лежить окремо — зі своїм треком і знахідками. А спільна карта показує " +
+            "всі прогулянки разом: де, чого і скільки знайшлося за всі сезони.",
+    StringKey.WelcomeHelpTitle to "Не впевнені — натисніть «?»",
+    StringKey.WelcomeHelpText to
+        "Кнопка «?» праворуч угорі є в кожному розділі й пояснює, як цей розділ влаштований.",
+    StringKey.WelcomeMenuTitle to "Решта — у меню",
+    StringKey.WelcomeMenuText to
+        "Кнопка меню ліворуч угорі відкриває список усіх розділів і можливостей застосунку.",
+    StringKey.WelcomeNextButton to "Далі",
+
+    StringKey.LegalTitle to "Угода та конфіденційність",
+    StringKey.LegalTermsHeading to "Угода користувача",
+    StringKey.LegalTermsText to
+        "Повний текст з’явиться тут до публікації застосунку. Коротко: застосунок — помічник, а не " +
+            "визначник грибів. Рішення про їстівність знахідки завжди за вами, і відповідальність за це рішення " +
+            "теж.",
+    StringKey.LegalPrivacyHeading to "Конфіденційність",
+    StringKey.LegalPrivacyText to
+        "Повний текст з’явиться тут до публікації застосунку. Коротко: прогулянки, позначки й фотографії " +
+            "залишаються на вашому пристрої. Застосунок не заводить облікових записів і нікуди не передає ваші " +
+            "дані — в інтернет ідуть лише запити ділянок карти з openfreemap.org.",
+    StringKey.LegalAcceptButton to "Приймаю",
+
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Допомога",
     StringKey.HelpDialogTitle to "Допомога",

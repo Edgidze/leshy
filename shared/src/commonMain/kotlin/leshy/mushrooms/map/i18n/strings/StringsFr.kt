@@ -77,6 +77,39 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
             "cela plus tard dans les paramètres.",
     StringKey.OnboardingContinueButton to "Commencer",
 
+    StringKey.WelcomeIntro to
+        "L’application retient vos parcours et vos trouvailles — et aide vraiment à la cueillette : les " +
+            "bons coins sont faciles à retrouver, et tout ce que vous avez trouvé tient sur une seule carte.",
+    StringKey.WelcomeRecordTitle to "Enregistrez votre sortie",
+    StringKey.WelcomeRecordText to
+        "L’application suit le tracé, la durée et la distance toute seule. Un champignon trouvé — touchez " +
+            "sa vignette ; une source, un arbre tombé ou votre voiture se marquent directement sur la carte.",
+    StringKey.WelcomeArchiveTitle to "Revenez à vos trouvailles",
+    StringKey.WelcomeArchiveText to
+        "L’archive garde chaque sortie à part, avec son tracé et ses trouvailles. La carte commune les " +
+            "réunit toutes : ce qui a été trouvé, où et en quelle quantité, sur toutes vos saisons.",
+    StringKey.WelcomeHelpTitle to "Un doute ? Touchez « ? »",
+    StringKey.WelcomeHelpText to
+        "Chaque section possède en haut à droite un bouton « ? » qui explique comment elle fonctionne.",
+    StringKey.WelcomeMenuTitle to "Le reste est dans le menu",
+    StringKey.WelcomeMenuText to
+        "Le bouton de menu en haut à gauche ouvre la liste de toutes les sections et possibilités de " +
+            "l’application.",
+    StringKey.WelcomeNextButton to "Suivant",
+
+    StringKey.LegalTitle to "Conditions et confidentialité",
+    StringKey.LegalTermsHeading to "Conditions d’utilisation",
+    StringKey.LegalTermsText to
+        "Le texte complet apparaîtra ici avant la publication de l’application. En bref : l’application est " +
+            "une aide, pas un guide d’identification des champignons. Décider si une trouvaille est comestible " +
+            "vous revient toujours, ainsi que la responsabilité de cette décision.",
+    StringKey.LegalPrivacyHeading to "Confidentialité",
+    StringKey.LegalPrivacyText to
+        "Le texte complet apparaîtra ici avant la publication de l’application. En bref : vos sorties, vos " +
+            "marques et vos photos restent sur votre appareil. L’application ne crée aucun compte et n’envoie " +
+            "aucune de vos données — seules des requêtes de tuiles de carte partent vers openfreemap.org.",
+    StringKey.LegalAcceptButton to "J’accepte",
+
     StringKey.NavMenuContentDescription to "Menu",
     StringKey.HelpContentDescription to "Aide",
     StringKey.HelpDialogTitle to "Aide",

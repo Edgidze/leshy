@@ -75,6 +75,39 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
             "тағйир додан мумкин аст.",
     StringKey.OnboardingContinueButton to "Оғоз мекунем",
 
+    StringKey.WelcomeIntro to
+        "Барнома дар хотир мегирад, ки шумо аз куҷо гузаштед ва чӣ ёфтед — ва дар ҷамъоварии занбӯруғ " +
+            "воқеан кӯмак мекунад: ба ҷойҳои хуб бозгаштан осон аст ва ҳамаи ёфтаҳо дар як харита дида " +
+            "мешаванд.",
+    StringKey.WelcomeRecordTitle to "Сайри худро сабт кунед",
+    StringKey.WelcomeRecordText to
+        "Роҳ, вақт ва километрро барнома худаш мебарад. Занбӯруғ ёфтед — онро бо ламс кардани лавҳачааш " +
+            "қайд кунед; чашма, дарахти афтода ё мошинро бевосита дар харита қайд кардан мумкин аст.",
+    StringKey.WelcomeArchiveTitle to "Ба ёфтаҳои худ баргардед",
+    StringKey.WelcomeArchiveText to
+        "Дар бойгонӣ ҳар сайр алоҳида меистад — бо роҳ ва ёфтаҳои худ. Харитаи умумӣ бошад, ҳамаро якҷоя " +
+            "нишон медиҳад: дар тӯли ҳамаи мавсимҳо дар куҷо, чӣ ва чанд ёфт шудааст.",
+    StringKey.WelcomeHelpTitle to "Мутмаин нестед — тугмаи «?»-ро пахш кунед",
+    StringKey.WelcomeHelpText to
+        "Тугмаи «?» дар боло аз тарафи рост дар ҳар бахш ҳаст ва тарзи сохти ҳамон бахшро мефаҳмонад.",
+    StringKey.WelcomeMenuTitle to "Боқимонда — дар меню",
+    StringKey.WelcomeMenuText to
+        "Тугмаи меню дар боло аз тарафи чап рӯйхати ҳамаи бахшҳо ва имкониятҳои барномаро мекушояд.",
+    StringKey.WelcomeNextButton to "Минбаъд",
+
+    StringKey.LegalTitle to "Созишнома ва махфият",
+    StringKey.LegalTermsHeading to "Созишномаи корбар",
+    StringKey.LegalTermsText to
+        "Матни пурра то нашри барнома дар ин ҷо пайдо мешавад. Мухтасар: барнома — ёрирасон аст, на " +
+            "муайянкунандаи занбӯруғ. Қарор дар бораи хӯрданбоб будани ёфта ҳамеша аз они шумост — ва масъулият " +
+            "барои он низ.",
+    StringKey.LegalPrivacyHeading to "Махфият",
+    StringKey.LegalPrivacyText to
+        "Матни пурра то нашри барнома дар ин ҷо пайдо мешавад. Мухтасар: сайрҳо, қайдҳо ва аксҳо дар " +
+            "дастгоҳи шумо мемонанд. Барнома ҳисоб намекушояд ва маълумоти шуморо ба ҳеҷ ҷо намефиристад — ба " +
+            "интернет танҳо дархостҳои қитъаҳои харита ба openfreemap.org мераванд.",
+    StringKey.LegalAcceptButton to "Қабул мекунам",
+
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Кӯмак",
     StringKey.HelpDialogTitle to "Кӯмак",

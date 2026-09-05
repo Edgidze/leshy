@@ -79,6 +79,38 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
         "Valitse sinua kiinnostavat sienikokoelmat. Voit muuttaa tätä myöhemmin Asetuksissa.",
     StringKey.OnboardingContinueButton to "Aloita",
 
+    StringKey.WelcomeIntro to
+        "Sovellus muistaa, missä olet kulkenut ja mitä olet löytänyt — ja auttaa sienestyksessä tuntuvasti: " +
+            "hyville paikoille on helppo palata, ja kaikki löydöt näkyvät yhdellä kartalla.",
+    StringKey.WelcomeRecordTitle to "Tallenna retkesi",
+    StringKey.WelcomeRecordText to
+        "Reitin, ajan ja kilometrit sovellus pitää itse. Löysit sienen — merkitse se koskettamalla sen " +
+            "ruutua; lähteen, kaatuneen puun tai auton merkitset suoraan kartalle.",
+    StringKey.WelcomeArchiveTitle to "Palaa löytöjesi äärelle",
+    StringKey.WelcomeArchiveText to
+        "Arkistossa jokainen retki on omanaan — omine reitteineen ja löytöineen. Yhteinen kartta näyttää ne " +
+            "kaikki kerralla: mitä, missä ja kuinka paljon on löytynyt kaikkien kausien aikana.",
+    StringKey.WelcomeHelpTitle to "Etkö ole varma? Kosketa ”?”",
+    StringKey.WelcomeHelpText to
+        "Painike ”?” oikeassa yläkulmassa on joka osiossa ja kertoo, miten kyseinen osio toimii.",
+    StringKey.WelcomeMenuTitle to "Loput löytyvät valikosta",
+    StringKey.WelcomeMenuText to
+        "Vasemman yläkulman valikkopainike avaa luettelon sovelluksen kaikista osioista ja " +
+            "mahdollisuuksista.",
+    StringKey.WelcomeNextButton to "Eteenpäin",
+
+    StringKey.LegalTitle to "Ehdot ja tietosuoja",
+    StringKey.LegalTermsHeading to "Käyttöehdot",
+    StringKey.LegalTermsText to
+        "Koko teksti ilmestyy tähän ennen sovelluksen julkaisua. Lyhyesti: sovellus on apuri, ei sienten " +
+            "määrityskirja. Päätös siitä, onko löytö syötävä, on aina sinun — ja vastuu siitä samoin.",
+    StringKey.LegalPrivacyHeading to "Tietosuoja",
+    StringKey.LegalPrivacyText to
+        "Koko teksti ilmestyy tähän ennen sovelluksen julkaisua. Lyhyesti: retkesi, merkintäsi ja kuvasi " +
+            "pysyvät laitteessasi. Sovellus ei luo tilejä eikä lähetä tietojasi minnekään — verkkoon lähtevät " +
+            "vain karttaruutujen pyynnöt osoitteeseen openfreemap.org.",
+    StringKey.LegalAcceptButton to "Hyväksyn",
+
     StringKey.NavMenuContentDescription to "Valikko",
     StringKey.HelpContentDescription to "Ohje",
     StringKey.HelpDialogTitle to "Ohje",

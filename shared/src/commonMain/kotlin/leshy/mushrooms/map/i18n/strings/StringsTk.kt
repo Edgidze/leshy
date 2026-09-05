@@ -73,6 +73,39 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
         "Size gyzykly kömelek ýygyndylaryny saýlaň. Muny soňra Sazlamalarda üýtgedip bolýar.",
     StringKey.OnboardingContinueButton to "Başlalyň",
 
+    StringKey.WelcomeIntro to
+        "Programma nireden geçeniňizi we näme tapanyňyzy ýatda saklaýar — we kömelek ýygnamaga " +
+            "hakykatdan-da kömek edýär: gowy ýerlere aňsat dolanyp bararsyňyz, ähli tapyndylar bolsa bir " +
+            "kartada görünýär.",
+    StringKey.WelcomeRecordTitle to "Gezelenjiňizi ýazyň",
+    StringKey.WelcomeRecordText to
+        "Ugry, wagty we kilometri programma özi ýöredýär. Kömelek tapdyňyzmy — onuň kartoçkasyna degip " +
+            "belläň; çeşmäni, ýykylan agajy ýa-da awtoulagyňyzy göni kartada bellemek bolýar.",
+    StringKey.WelcomeArchiveTitle to "Tapyndylaryňyza dolanyň",
+    StringKey.WelcomeArchiveText to
+        "Arhiwde her gezelenç aýratyn durýar — öz ugry we tapyndylary bilen. Umumy karta bolsa olaryň " +
+            "hemmesini bilelikde görkezýär: ähli möwsümlerde nirede, nämäniň, näçe tapylandygyny.",
+    StringKey.WelcomeHelpTitle to "Ynamyňyz ýok bolsa «?» düwmesine basyň",
+    StringKey.WelcomeHelpText to
+        "Sag ýokardaky «?» düwmesi her bölümde bar we şol bölümiň nähili gurnalandygyny düşündirýär.",
+    StringKey.WelcomeMenuTitle to "Galany — menýuda",
+    StringKey.WelcomeMenuText to
+        "Çep ýokardaky menýu düwmesi programmanyň ähli bölümleriniň we mümkinçilikleriniň sanawyny açýar.",
+    StringKey.WelcomeNextButton to "Öňe",
+
+    StringKey.LegalTitle to "Şertler we gizlinlik",
+    StringKey.LegalTermsHeading to "Ulanyş şertleri",
+    StringKey.LegalTermsText to
+        "Doly tekst programma neşir edilmezinden öň şu ýerde peýda bolar. Gysgaça: programma kömekçidir, " +
+            "kömelek kesgitleýji däl. Tapyndynyň iýilýändigi baradaky karar hemişe siziňki — onuň " +
+            "jogapkärçiligi hem.",
+    StringKey.LegalPrivacyHeading to "Gizlinlik",
+    StringKey.LegalPrivacyText to
+        "Doly tekst programma neşir edilmezinden öň şu ýerde peýda bolar. Gysgaça: gezelençleriňiz, " +
+            "bellikleriňiz we suratlaryňyz enjamyňyzda galýar. Programma hasap açmaýar we maglumatlaryňyzy hiç " +
+            "ýere ibermeýär — internete diňe openfreemap.org salgysyndan karta bölekleri üçin soraglar gidýär.",
+    StringKey.LegalAcceptButton to "Kabul edýärin",
+
     StringKey.NavMenuContentDescription to "Menýu",
     StringKey.HelpContentDescription to "Kömek",
     StringKey.HelpDialogTitle to "Kömek",

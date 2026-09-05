@@ -76,6 +76,38 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
             "nelle impostazioni.",
     StringKey.OnboardingContinueButton to "Inizia",
 
+    StringKey.WelcomeIntro to
+        "L’app ricorda i tuoi percorsi e i tuoi ritrovamenti, e aiuta davvero nella raccolta: ai posti " +
+            "buoni è facile tornare e tutto ciò che hai trovato sta su un’unica mappa.",
+    StringKey.WelcomeRecordTitle to "Registra la passeggiata",
+    StringKey.WelcomeRecordText to
+        "Il percorso, il tempo e i chilometri l’app li segue da sola. Hai trovato un fungo? Tocca la sua " +
+            "scheda; una sorgente, un albero caduto o la tua auto si segnano direttamente sulla mappa.",
+    StringKey.WelcomeArchiveTitle to "Torna ai tuoi ritrovamenti",
+    StringKey.WelcomeArchiveText to
+        "Nell’archivio ogni passeggiata resta a sé, con il suo percorso e i suoi ritrovamenti. La mappa " +
+            "comune le mette insieme: che cosa è stato trovato, dove e quanto, in tutte le tue stagioni.",
+    StringKey.WelcomeHelpTitle to "In dubbio? Tocca «?»",
+    StringKey.WelcomeHelpText to
+        "Ogni sezione ha in alto a destra un pulsante «?» che spiega come funziona quella sezione.",
+    StringKey.WelcomeMenuTitle to "Il resto è nel menu",
+    StringKey.WelcomeMenuText to
+        "Il pulsante del menu in alto a sinistra apre l’elenco di tutte le sezioni e possibilità dell’app.",
+    StringKey.WelcomeNextButton to "Avanti",
+
+    StringKey.LegalTitle to "Condizioni e privacy",
+    StringKey.LegalTermsHeading to "Condizioni d’uso",
+    StringKey.LegalTermsText to
+        "Il testo completo comparirà qui prima della pubblicazione dell’app. In breve: l’app è un aiuto, " +
+            "non un manuale per riconoscere i funghi. Decidere se un ritrovamento è commestibile spetta sempre " +
+            "a te, e con esso la responsabilità di quella decisione.",
+    StringKey.LegalPrivacyHeading to "Privacy",
+    StringKey.LegalPrivacyText to
+        "Il testo completo comparirà qui prima della pubblicazione dell’app. In breve: le tue passeggiate, " +
+            "i segni e le foto restano sul tuo dispositivo. L’app non crea account e non invia da nessuna parte " +
+            "i tuoi dati: in rete vanno solo le richieste dei riquadri di mappa a openfreemap.org.",
+    StringKey.LegalAcceptButton to "Accetto",
+
     StringKey.NavMenuContentDescription to "Menu",
     StringKey.HelpContentDescription to "Aiuto",
     StringKey.HelpDialogTitle to "Aiuto",

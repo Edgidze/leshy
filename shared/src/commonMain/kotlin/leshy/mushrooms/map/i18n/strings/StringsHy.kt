@@ -73,6 +73,41 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
         "Ընտրեք ձեզ հետաքրքրող սնկերի հավաքածուները։ Սա հետո կարող եք փոխել Կարգավորումներում։",
     StringKey.OnboardingContinueButton to "Սկսենք",
 
+    StringKey.WelcomeIntro to
+        "Հավելվածը հիշում է, թե որտեղով եք անցել և ինչ եք գտել, և իսկապես օգնում է սունկ հավաքելիս․ լավ " +
+            "վայրեր հեշտ է վերադառնալ, իսկ բոլոր գտածոները երևում են մեկ քարտեզի վրա։",
+    StringKey.WelcomeRecordTitle to "Գրանցեք ձեր զբոսանքը",
+    StringKey.WelcomeRecordText to
+        "Երթուղին, ժամանակը և կիլոմետրերը հավելվածն ինքն է վարում։ Սունկ գտա՞ք — նշեք այն՝ հպվելով նրա " +
+            "սալիկին. աղբյուրը, ընկած ծառը կամ մեքենան կարող եք նշել հենց քարտեզի վրա։",
+    StringKey.WelcomeArchiveTitle to "Վերադարձեք ձեր գտածոներին",
+    StringKey.WelcomeArchiveText to
+        "Արխիվում յուրաքանչյուր զբոսանք առանձին է՝ իր երթուղով և գտածոներով։ Իսկ ընդհանուր քարտեզը ցույց է " +
+            "տալիս բոլորը միասին՝ որտեղ, ինչ և որքան է գտնվել բոլոր եղանակների ընթացքում։",
+    StringKey.WelcomeHelpTitle to "Վստահ չե՞ք — սեղմեք «?»",
+    StringKey.WelcomeHelpText to
+        "«?» կոճակը վերևի աջ անկյունում կա բոլոր բաժիններում և բացատրում է, թե ինչպես է կառուցված տվյալ " +
+            "բաժինը։",
+    StringKey.WelcomeMenuTitle to "Մնացածը՝ ընտրացանկում",
+    StringKey.WelcomeMenuText to
+        "Վերևի ձախ անկյունի ընտրացանկի կոճակը բացում է հավելվածի բոլոր բաժինների և հնարավորությունների " +
+            "ցանկը։",
+    StringKey.WelcomeNextButton to "Առաջ",
+
+    StringKey.LegalTitle to "Պայմաններ և գաղտնիություն",
+    StringKey.LegalTermsHeading to "Օգտագործման պայմաններ",
+    StringKey.LegalTermsText to
+        "Ամբողջական տեքստը կհայտնվի այստեղ հավելվածի հրապարակումից առաջ։ Համառոտ․ հավելվածը օգնական է, ոչ " +
+            "թե սնկերի որոշիչ։ Որոշումը, թե գտածոն ուտելի է, միշտ ձերն է, ինչպես և պատասխանատվությունը դրա " +
+            "համար։",
+    StringKey.LegalPrivacyHeading to "Գաղտնիություն",
+    StringKey.LegalPrivacyText to
+        "Ամբողջական տեքստը կհայտնվի այստեղ հավելվածի հրապարակումից առաջ։ Համառոտ․ ձեր զբոսանքները, " +
+            "նշումները և լուսանկարները մնում են ձեր սարքում։ Հավելվածը հաշիվներ չի ստեղծում և ձեր տվյալները ոչ " +
+            "մի տեղ չի ուղարկում — համացանց են գնում միայն քարտեզի հատվածների հարցումները openfreemap.org " +
+            "հասցեին։",
+    StringKey.LegalAcceptButton to "Ընդունում եմ",
+
     StringKey.NavMenuContentDescription to "Ցանկ",
     StringKey.HelpContentDescription to "Օգնություն",
     StringKey.HelpDialogTitle to "Օգնություն",

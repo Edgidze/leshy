@@ -28,10 +28,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
- * First-run screen shown once before Home (see `.claude/plans/mushroom-collections.md`, Phase 3).
- * Reuses the same [leshy.mushrooms.map.ui.components.CollectionPicker] composable and picker
- * use cases as Settings — this screen owns no picker logic of its own beyond the one-time
- * "completed" flag.
+ * First-run flow shown once before Home (see `.claude/plans/mushroom-collections.md`, Phase 3) —
+ * four steps in one ViewModel and one composable, see [OnboardingStep]. Reuses the same
+ * [leshy.mushrooms.map.ui.components.CollectionPicker] composable and picker use cases as
+ * Settings — this screen owns no picker logic of its own beyond the one-time "completed" flag.
  */
 class OnboardingViewModel(
     private val categoryRepository: CategoryRepository,
@@ -75,7 +75,7 @@ class OnboardingViewModel(
     }
 
     /**
-     * Countries that speak the language picked on the previous step float to the top; everything
+     * Countries that speak the current interface language float to the top; everything
      * else keeps the ordinary [leshy.mushrooms.map.domain.model.Collection.order] below them. This
      * is a default ORDER, not a filter — every one of the 40 countries is still in the list, and
      * the search field still finds any of them.
@@ -116,17 +116,52 @@ class OnboardingViewModel(
         return titular + alsoSpoken + others
     }
 
-    /** Step 1's confirm: applies the language app-wide (Settings' own picker writes the same key)
-     * and moves on to the countries. */
+    /** «Дальше» с обзорной страницы — к соглашению. */
+    fun onWelcomeNext() {
+        _uiState.update { it.copy(step = OnboardingStep.LEGAL) }
+    }
+
+    /** Кнопка языка (есть и на обзорной странице, и над списком стран) — запоминает, куда
+     * возвращаться, см. [OnboardingUiState.languageReturnStep]. */
+    fun onOpenLanguagePicker() {
+        _uiState.update { it.copy(languageReturnStep = it.step, step = OnboardingStep.LANGUAGE) }
+    }
+
+    /** Галочка на языковом экране: применяет язык на всё приложение (Настройки пишут тот же ключ)
+     * и возвращает на шаг, с которого его открыли. */
     fun onLanguageConfirmed(language: AppLanguage) {
         viewModelScope.launch { settingsRepository.setLanguage(language) }
+        _uiState.update { it.copy(step = it.languageReturnStep) }
+    }
+
+    /** Стрелка «назад» на языковом экране — уйти, ничего не меняя. */
+    fun onLanguageDismissed() {
+        _uiState.update { it.copy(step = it.languageReturnStep) }
+    }
+
+    /** «Принимаю» на экране соглашения — к выбору подборок. Отдельного флага «согласие получено» в
+     * DataStore нет: до конца онбординга дойти можно только через этот экран, а флаг завершения
+     * онбординга и так один (см. [finish]). Появится настоящий текст соглашения с версией —
+     * появится и повод хранить, какую именно версию принимали. */
+    fun onLegalAccepted() {
         _uiState.update { it.copy(step = OnboardingStep.COLLECTIONS) }
     }
 
-    /** Step 2's back arrow — the language choice is already applied, so this is a real "let me
-     * change it", not a cancel. */
-    fun onBackToLanguage() {
-        _uiState.update { it.copy(step = OnboardingStep.LANGUAGE) }
+    /**
+     * Системная «назад» внутри онбординга. Возвращает `false` на первом шаге — там перехватывать
+     * нечего, и жест обязан уйти системе (то есть закрыть приложение), а не упереться в экран,
+     * с которого не выйти.
+     */
+    fun onBack(): Boolean {
+        val state = _uiState.value
+        val previous = when (state.step) {
+            OnboardingStep.WELCOME -> return false
+            OnboardingStep.LANGUAGE -> state.languageReturnStep
+            OnboardingStep.LEGAL -> OnboardingStep.WELCOME
+            OnboardingStep.COLLECTIONS -> OnboardingStep.LEGAL
+        }
+        _uiState.update { it.copy(step = previous) }
+        return true
     }
 
     /** Tri-state click convention: anything short of fully picked selects every member, only a

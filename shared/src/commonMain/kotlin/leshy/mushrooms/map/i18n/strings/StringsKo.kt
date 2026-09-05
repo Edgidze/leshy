@@ -71,6 +71,32 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
         "관심 있는 버섯 컬렉션을 선택하세요. 나중에 설정에서 언제든지 변경할 수 있습니다.",
     StringKey.OnboardingContinueButton to "시작하기",
 
+    StringKey.WelcomeIntro to
+        "앱은 어디를 걸었고 무엇을 찾았는지 기억합니다. 좋은 자리로 쉽게 돌아갈 수 있고 모든 수확이 지도 한 장에 모이므로 버섯 채집에 실제로 도움이 됩니다.",
+    StringKey.WelcomeRecordTitle to "산책을 기록하세요",
+    StringKey.WelcomeRecordText to
+        "경로와 시간, 거리는 앱이 알아서 기록합니다. 버섯을 찾으면 해당 타일을 누르기만 하면 됩니다. 샘이나 쓰러진 나무, 세워 둔 차는 지도에 바로 표시할 수 있습니다.",
+    StringKey.WelcomeArchiveTitle to "찾은 것들로 돌아가세요",
+    StringKey.WelcomeArchiveText to
+        "보관함에는 산책이 하나씩 따로, 각자의 경로와 수확과 함께 남습니다. 전체 지도는 그것들을 한데 모아 보여 줍니다. 모든 시즌에 걸쳐 어디서 무엇을 얼마나 찾았는지 한눈에 볼 " +
+            "수 있습니다.",
+    StringKey.WelcomeHelpTitle to "확실하지 않다면 ‘?’를 누르세요",
+    StringKey.WelcomeHelpText to "오른쪽 위의 ‘?’ 버튼은 모든 섹션에 있으며 해당 섹션이 어떻게 구성되어 있는지 설명합니다.",
+    StringKey.WelcomeMenuTitle to "나머지는 메뉴에 있습니다",
+    StringKey.WelcomeMenuText to "왼쪽 위의 메뉴 버튼을 누르면 앱의 모든 섹션과 기능 목록이 열립니다.",
+    StringKey.WelcomeNextButton to "다음",
+
+    StringKey.LegalTitle to "약관 및 개인정보",
+    StringKey.LegalTermsHeading to "이용 약관",
+    StringKey.LegalTermsText to
+        "전체 내용은 앱 공개 전에 여기에 실립니다. 요약하면: 이 앱은 보조 도구이지 버섯 감별 도감이 아닙니다. 찾은 버섯을 먹을 수 있는지 판단하는 일은 언제나 사용자에게 있으며, " +
+            "그에 대한 책임도 마찬가지입니다.",
+    StringKey.LegalPrivacyHeading to "개인정보",
+    StringKey.LegalPrivacyText to
+        "전체 내용은 앱 공개 전에 여기에 실립니다. 요약하면: 산책과 표시, 사진은 사용자의 기기에 남습니다. 앱은 계정을 만들지 않고 데이터를 어디에도 보내지 않습니다. 네트워크로 " +
+            "나가는 것은 openfreemap.org에 보내는 지도 타일 요청뿐입니다.",
+    StringKey.LegalAcceptButton to "동의합니다",
+
     StringKey.NavMenuContentDescription to "메뉴",
     StringKey.HelpContentDescription to "도움말",
     StringKey.HelpDialogTitle to "도움말",

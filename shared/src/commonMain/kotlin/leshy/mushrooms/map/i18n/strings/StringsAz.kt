@@ -73,6 +73,37 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
         "Maraqlandığınız göbələk kolleksiyalarını seçin. Bunu sonra Parametrlərdə dəyişə bilərsiniz.",
     StringKey.OnboardingContinueButton to "Başlayaq",
 
+    StringKey.WelcomeIntro to
+        "Tətbiq haradan keçdiyinizi və nə tapdığınızı yadda saxlayır — və göbələk yığmağa həqiqətən kömək " +
+            "edir: yaxşı yerlərə asanlıqla qayıdırsınız, bütün tapıntılar isə bir xəritədə görünür.",
+    StringKey.WelcomeRecordTitle to "Gəzintinizi yazın",
+    StringKey.WelcomeRecordText to
+        "Marşrutu, vaxtı və məsafəni tətbiq özü aparır. Göbələk tapdınız — onun lövhəciyinə toxunub qeyd " +
+            "edin; bulağı, aşmış ağacı və ya avtomobilinizi birbaşa xəritədə işarələyə bilərsiniz.",
+    StringKey.WelcomeArchiveTitle to "Tapıntılarınıza qayıdın",
+    StringKey.WelcomeArchiveText to
+        "Arxivdə hər gəzinti ayrıca durur — öz marşrutu və tapıntıları ilə. Ümumi xəritə isə hamısını bir " +
+            "yerdə göstərir: bütün mövsümlər boyu harada, nəyin, nə qədər tapıldığını.",
+    StringKey.WelcomeHelpTitle to "Əmin deyilsinizsə «?» düyməsinə toxunun",
+    StringKey.WelcomeHelpText to
+        "Sağ yuxarıdakı «?» düyməsi hər bölmədə var və həmin bölmənin necə qurulduğunu izah edir.",
+    StringKey.WelcomeMenuTitle to "Qalanı menyudadır",
+    StringKey.WelcomeMenuText to
+        "Sol yuxarıdakı menyu düyməsi tətbiqin bütün bölmələrinin və imkanlarının siyahısını açır.",
+    StringKey.WelcomeNextButton to "İrəli",
+
+    StringKey.LegalTitle to "Şərtlər və məxfilik",
+    StringKey.LegalTermsHeading to "İstifadə şərtləri",
+    StringKey.LegalTermsText to
+        "Tam mətn tətbiq dərc olunmadan əvvəl burada yerləşdiriləcək. Qısaca: tətbiq köməkçidir, göbələk " +
+            "təyinedicisi deyil. Tapıntının yeməli olub-olmaması barədə qərar həmişə sizindir — məsuliyyət də.",
+    StringKey.LegalPrivacyHeading to "Məxfilik",
+    StringKey.LegalPrivacyText to
+        "Tam mətn tətbiq dərc olunmadan əvvəl burada yerləşdiriləcək. Qısaca: gəzintiləriniz, qeydləriniz " +
+            "və fotolarınız cihazınızda qalır. Tətbiq hesab açmır və məlumatlarınızı heç yerə göndərmir — " +
+            "internetə yalnız openfreemap.org ünvanından xəritə hissələri üçün sorğular gedir.",
+    StringKey.LegalAcceptButton to "Qəbul edirəm",
+
     StringKey.NavMenuContentDescription to "Menyu",
     StringKey.HelpContentDescription to "Kömək",
     StringKey.HelpDialogTitle to "Kömək",
