@@ -1,0 +1,210 @@
+{
+  "country": "AL",
+  "languages": [
+    "sq"
+  ],
+  "keys": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "amanita_caesarea",
+    "morchella_esculenta",
+    "craterellus_cornucopioides",
+    "tuber_magnatum",
+    "tuber_aestivum",
+    "tuber_melanosporum",
+    "boletus_aereus",
+    "macrolepiota_procera",
+    "lactarius_deliciosus",
+    "pleurotus_ostreatus",
+    "armillaria_mellea",
+    "amanita_phalloides",
+    "boletus_reticulatus",
+    "hydnum_repandum",
+    "agaricus_campestris__2",
+    "pleurotus_eryngii",
+    "calocybe_gambosa",
+    "coprinus_comatus",
+    "marasmius_oreades",
+    "omphalotus_olearius",
+    "amanita_rubescens",
+    "russula_cyanoxantha",
+    "russula_virescens",
+    "suillus_granulatus",
+    "tricholoma_terreum",
+    "lactarius_sanguifluus",
+    "fistulina_hepatica",
+    "laetiporus_sulphureus",
+    "amanita_muscaria",
+    "amanita_pantherina",
+    "infundibulicybe_geotropa",
+    "lepista_nuda",
+    "cyclocybe_cylindracea",
+    "lycoperdon_perlatum",
+    "craterellus_lutescens",
+    "hydnum_rufescens",
+    "boletus_pinophilus",
+    "russula_delica",
+    "lactifluus_piperatus",
+    "amanita_verna",
+    "amanita_ovoidea",
+    "entoloma_sinuatum",
+    "rubroboletus_satanas",
+    "lepiota_brunneoincarnata",
+    "cortinarius_orellanus",
+    "galerina_marginata",
+    "hypholoma_fasciculare",
+    "agaricus_xanthodermus",
+    "hygrophoropsis_aurantiaca",
+    "gyromitra_esculenta"
+  ],
+  "names": {
+    "sq": {
+      "boletus_edulis": "Porcini",
+      "cantharellus_cibarius": "Kantareli",
+      "amanita_caesarea": "Kërpudha e Cezarit",
+      "tuber_magnatum": "Tartufi i bardhë",
+      "tuber_aestivum": "Tartufi i zi i verës",
+      "tuber_melanosporum": "Tartufi i zi",
+      "macrolepiota_procera": "Kërpudha e çadrës",
+      "armillaria_mellea": "Kërpudha e mjaltit",
+      "agaricus_campestris__2": "Kërpudha e livadhit",
+      "coprinus_comatus": "Kërpudha e bojës",
+      "lycoperdon_perlatum": "Pufka",
+      "amanita_phalloides": "Kësula e vdekjes",
+      "amanita_muscaria": "Kërpudha e mizave",
+      "amanita_pantherina": "Kërpudha panterë"
+    }
+  },
+  "coined": [
+    "macrolepiota_procera",
+    "armillaria_mellea",
+    "agaricus_campestris__2",
+    "coprinus_comatus",
+    "amanita_muscaria",
+    "amanita_pantherina"
+  ],
+  "notes": {
+    "boletus_edulis": "Товарный вид №1. Прямо назван в отраслевом исследовании Минсельхоза Албании как основной скупаемый дикорос («Boletus (Boletus edulis)»); сбор — Пука, холмы Лезхи, Преспа, горы Корчи и Либражда, вывоз 21 т в 2019 г. по 7,3 €/кг, в основном сушёным. Каштанники Тропои и Реча — классическая стация B. edulis s.l. Источники: исслед. Мин. сельского хозяйства AL (Monitor, 02.2022); Rufford («huge quantities of mushrooms are exported»). Имя «Porcini» — торговое, итальянского происхождения, ровно то, под которым гриб идёт через откупные пункты; собственно албанского народного слова в доступных источниках нет.",
+    "cantharellus_cibarius": "Второй по значимости скупаемый вид в исследовании Минсельхоза («Chanterelle (Cantharellus cibarius)»). В дубравах албаноязычной зоны подтверждён чек-листом Косова (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова). Источник: исслед. Мин. сельского хозяйства AL (Monitor, 02.2022).",
+    "amanita_caesarea": "Назван в исследовании Минсельхоза («kërpudha Caesars (Amanita Cezarea)») среди пяти основных товарных видов. В дубравах региона обычен (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова). Этномикологически показателен: в косовской работе Mustafa et al. 2015 именно A. caesarea записана под родовым словом «Kërpurdha» — то есть «гриб» без уточнения, гриб по умолчанию. Каштановые рощи Тропои/Дибры и дубравы — его стация.",
+    "morchella_esculenta": "Весенний товарный вид, назван в исследовании Минсельхоза («Morel (Morchella conica)») — концепт «сморчок» в каталоге покрыт ключом morchella_esculenta (взят вариант без __2, как у GR/IT/HR). Источник: исслед. Мин. сельского хозяйства AL (Monitor, 02.2022).",
+    "craterellus_cornucopioides": "Назван в исследовании Минсельхоза среди пяти основных товарных видов (там ошибочно подписан «agarikë mbretërorë», латынь «Craterellus cornucopoides» однозначна). Подтверждён в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова). Источник: исслед. Мин. сельского хозяйства AL (Monitor, 02.2022).",
+    "tuber_magnatum": "Белый трюфель — отдельная отрасль последних 15 лет: собаки Lagotto, вывоз в Италию, цены 300–1000 €/кг и выше; албанская пресса пишет о нём как о «tartufi i bardhë». Источники: reporter.al 27.08.2022, panorama.com.al, agronews.al.",
+    "tuber_aestivum": "Самый массовый из албанских трюфелей — «tartufi i zi i verës», дешёвый и добываемый в наибольших объёмах; сезон и высоты 100–1000 м описаны в албанской прессе. Взят ключ без __2 (как у GR/IT/RS). Источники: reporter.al, panorama.com.al.",
+    "tuber_melanosporum": "«Tartufi i zi», «чёрное золото», декабрь–март, 1600–4000 €/кг — второй по значимости объект албанской трюфельной охоты по прессе. Источники: reporter.al 27.08.2022, panorama.com.al, voal.ch.",
+    "boletus_aereus": "Термофильный белый дубрав и каштанников — именно та часть «белых», которая в Албании даёт нижний, средиземноморский пояс. Подтверждён в дубравах албаноязычной зоны (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова); есть в подборках RS, GR, ES, FR, PT.",
+    "macrolepiota_procera": "Зонтик — общебалканский массовый съедобный, подтверждён в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова), есть во всех соседних подборках (GR, RS, HR, BG, IT). Прямого албанского свидетельства сбора не нашлось — взят по соседям и по подтверждённому произрастанию.",
+    "lactarius_deliciosus": "Рыжик сосняков — ключевой вид средиземноморского низа (Pinus halepensis/brutia побережья, Ллогара, Карабурун) и одновременно горных сосняков. Есть в GR, IT, RS, HR, BG. Прямого албанского источника по сбору нет; решение по аналогии с GR и по стации.",
+    "pleurotus_ostreatus": "Вёшенка на тополе, буке, платане — общебалканский вид, подтверждён в лесах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова, там же P. pulmonarius). Албанского народного имени не нашлось: калька «kërpudha ostër» встречается только на машинно-переведённых сайтах, поэтому имя не дано.",
+    "armillaria_mellea": "Опёнок — подтверждён в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова), есть в GR, RS, HR, BG, IT. Прямого албанского свидетельства сбора нет.",
+    "amanita_phalloides": "Главный смертельный вид страны. Албанская пресса разбирает его под именем «Kësula e Vdekjes» («шляпка смерти»): syri.net — интервью Э. Панарити («растёт повсюду, отличить очень трудно»); shqiptarja.com — гибель трёх членов семьи из Гнилане в Гьири-и-Лальзит, комментарий биолога А. Требички. Источники: https://www.syri.net/politike/421913/, https://shqiptarja.com/lajm/vdekja-e-3-familjareve-ne-lalz-nga-kerpudhat...",
+    "boletus_reticulatus": "Летний белый дубрав и каштанников, ранний слой — подтверждён в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова); есть в GR, RS, ES, PT. Для каштановой стации Восточной Албании — базовый вид вместе с B. aereus.",
+    "hydnum_repandum": "Ежовик — общеевропейский сборный вид, есть в GR, RS, HR, BG, IT. Прямого албанского свидетельства нет, взят по соседям и по широкому ареалу в буковых лесах.",
+    "agaricus_campestris__2": "Луговой шампиньон пастбищ и оливковых посадок; взят ключ __2 — тот же концепт, что в GR, HR, IT, ES, PT (не восточнославянский agaricus_campestris). Подтверждён в регионе (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова).",
+    "pleurotus_eryngii": "Вёшенка степная на ферулах и синеголовнике — вид средиземноморского низа (Мюзеке, побережье, юг), которого нет ни в одной северобалканской подборке. Есть в GR, IT, ES, TR. Прямого албанского свидетельства сбора не нашлось; взят по стации и по GR — это ровно тот случай, который промпт требует не потерять.",
+    "calocybe_gambosa": "Майский гриб — весенний сбор по всем Балканам (GR, RS, HR, BG, IT). Прямого албанского источника нет.",
+    "coprinus_comatus": "Навозник белый — массовый, узнаваемый, есть во всех соседних подборках. Прямого албанского свидетельства сбора нет.",
+    "marasmius_oreades": "Луговой опёнок пастбищ — GR, RS, HR, BG; подтверждён в регионе (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова).",
+    "omphalotus_olearius": "Ключевой ядовитый двойник лисички именно для средиземноморской Албании: растёт на пнях и корнях оливы и дуба — а оливковые посадки здесь повсюду. Подтверждён в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова), есть в GR, IT, HR, RS, ES, PT. Албанского имени не даю: единственная встреченная форма («kërpudha e llambës së kungullit») — машинный перевод английского jack-o'-lantern, не албанское слово.",
+    "amanita_rubescens": "Краснеющий мухомор — съедобный после отваривания у соседей (GR, RS, HR, BG), подтверждён в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова). Держится в подборке ещё и как узнаваемый «двойник» пантерного.",
+    "russula_cyanoxantha": "Сыроежка — самый собираемый концепт рода на Балканах (GR, RS, BG). Взят широкий ключ без __2, как у GR и RS.",
+    "russula_virescens": "Зеленоватая сыроежка дубрав — GR, RS, BG, IT, ES. Прямого албанского свидетельства нет.",
+    "suillus_granulatus": "Маслёнок сосняков средиземноморского низа. В албаноязычной зоне подтверждены и S. granulatus, и близкий S. collinitus (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова); народный концепт один. Есть в GR, RS, HU, RO.",
+    "tricholoma_terreum": "Рядовка серая под соснами — вид средиземноморского пояса, подтверждён в регионе (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова), есть в GR, IT, ES, PT, TR.",
+    "lactarius_sanguifluus": "Второй «рыжик» средиземноморских сосняков, кровяной; отличается от L. deliciosus и собирается наравне. Есть в GR, ES, FR, PT. Прямого албанского свидетельства нет — взят по стации приморских и низкогорных сосняков.",
+    "fistulina_hepatica": "Печёночница на дубе и каштане — прямой маркер каштановой стации Восточной и Северо-Восточной Албании (Тропоя, Реч, Либражд). Подтверждена в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова), есть в GR, HR, BG, PT.",
+    "laetiporus_sulphureus": "Серно-жёлтый трутовик на дубе, иве, каштане — есть в GR, RS, HR, BG. Прямого албанского свидетельства нет.",
+    "amanita_muscaria": "Красный мухомор — базовый ядовитый вид узнавания, есть во всех соседних подборках. Албанское «Kërpudha e mizave» — калька «мушиного» имени, встречена только на polikum.al, поэтому в coined.",
+    "amanita_pantherina": "Пантерный мухомор — подтверждён в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова), есть в GR, RS, HR, BG, IT. Имя «Kërpudha panterë» взято с polikum.al и помечено как сконструированное.",
+    "infundibulicybe_geotropa": "Говорушка гигантская — массовый осенне-зимний сбор средиземноморского пояса, подтверждена в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова), есть в GR, IT, HR, ES, TR.",
+    "lepista_nuda": "Рядовка фиолетовая — поздний осенний сбор, GR, HR. Прямого албанского свидетельства нет.",
+    "cyclocybe_cylindracea": "Тополёвый опёнок пойм и придорожных тополей/ив — средиземноморский концепт (HR, IT, ES, PT, AM). Взят один ключ пары cylindracea/aegerita — тот, чей already_in ближе географически.",
+    "lycoperdon_perlatum": "Дождевик. Единственная позиция с бесспорно народным албанским именем: «Pufka» записано у албанцев юга Косова для Lycoperdon sp. (Mustafa, Hajdari, Pieroni et al., J. Ethnobiol. Ethnomed. 2015, PMC4449527) — причём как кровоостанавливающее средство на рану, а не как еда. Есть в HR.",
+    "craterellus_lutescens": "Жёлтая вороночница — сопутствует C. cornucopioides в сборе; GR, IT, ES, FR, NO. Прямого албанского свидетельства нет.",
+    "hydnum_rufescens": "Рыжеющий ежовик — второй концепт ежовика у соседей (GR, BG, PT, NO). Взят как дополнение к H. repandum.",
+    "boletus_pinophilus": "Сосновый белый — форма «белого» горных сосняков (чёрная сосна, сосна румелийская) Албанских Альп и Кораба. Есть в GR, RS, ES, PT, SE. Прямого албанского свидетельства нет.",
+    "russula_delica": "Подгруздок белый — собирается на Балканах и в Малой Азии (GR, TR, AM, AZ); подтверждён родственный комплекс Lactifluus/Russula delica в дубравах региона.",
+    "lactifluus_piperatus": "Груздь перечный — собирается на Балканах после вымачивания/засолки (RS, BG, RO, TR); подтверждён в дубравах албаноязычной зоны (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова, там же L. vellereus и L. glaucescens).",
+    "amanita_verna": "Весенняя белая смертельная поганка — средиземноморский концепт «белой смертельной» (GR, HR, BG, ES, PT), взята вместо северной A. virosa.",
+    "amanita_ovoidea": "Крупный белый средиземноморский мухомор, съедобный по традиции юга — и одновременно опасный: неотличим в поле от ядовитой A. proxima, на которой в Средиземноморье регулярно травятся (нефротоксикоз). Есть в GR, IT, PT. Для албанского низа — обязательная позиция.",
+    "entoloma_sinuatum": "Розовопластинник ядовитый — классический двойник майского гриба и шампиньона, подтверждён в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова), есть в GR, RS, BG, IT.",
+    "rubroboletus_satanas": "Сатанинский гриб термофильных дубрав — есть в GR, RS, HR, BG, IT; в албаноязычной зоне подтверждены родственные краснопористые (R. rhodoxanthus, Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова). Karadelev в албанском проекте отдельно показывает Boletus lupinus из термофильных дубрав — тот же круг.",
+    "lepiota_brunneoincarnata": "Смертельная лепиота газонов, парков и олив — средиземноморский вид, которым травятся именно на юге (GR, TR, ES, PT, AM, AZ). Для албанского низа — важнее северных смертельных.",
+    "cortinarius_orellanus": "Паутинник горный — смертельный, дубравы и буковины; есть в GR, IT, CH, ES, FR, HU. Подтверждён род Cortinarius в дубравах региона (Ramshaj et al., Czech Mycology 73(1) 2021, чек-лист дубрав Косова).",
+    "galerina_marginata": "Смертельная галерина на древесине — двойник опят, есть в GR, RS, BG, HR-соседях. Прямого албанского свидетельства нет.",
+    "hypholoma_fasciculare": "Ложноопёнок серно-жёлтый — массовый двойник опёнка, есть в GR, RS, HR, BG, IT.",
+    "agaricus_xanthodermus": "Шампиньон желтеющий — двойник луговых шампиньонов, есть в GR, RS, HR, BG, IT, ES, PT.",
+    "hygrophoropsis_aurantiaca": "Ложная лисичка — двойник главного экспортного вида страны, поэтому в подборке. Есть в GR, BG, PT, ES.",
+    "gyromitra_esculenta": "Строчок обыкновенный — двойник сморчка в весенний, товарно значимый для Албании сезон; хвойные леса северного пояса. Есть в GR, RS, IT, TR. Взят ключ без __2."
+  },
+  "gaps": [
+    {
+      "sci": "Amanita proxima",
+      "names": {
+        "sq": ""
+      },
+      "why": "Средиземноморский белый мухомор, в поле неотличимый от съедобной A. ovoidea; даёт нефротоксические отравления с острой почечной недостаточностью — в Средиземноморье это регулярный сюжет. Для албанского низа (сосняки, каменный и пробковый дуб, маквис) — реальный риск, а не теоретический.",
+      "nearest_key": "amanita_ovoidea",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "CY",
+        "GR",
+        "PT"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Amanita_ovoidea (раздел о смешении с A. proxima)",
+        "docs/research/europe-15/results/research_GR.json — та же позиция названа сессией Греции"
+      ]
+    },
+    {
+      "sci": "Suillus collinitus (частый синоним по употреблению — Suillus bellinii)",
+      "names": {
+        "sq": ""
+      },
+      "why": "Маслёнок средиземноморских сосняков; в албаноязычной зоне подтверждён сбором (S. collinitus в чек-листе дубово-сосновых лесов Косова). Для нижнего пояса Албании это тот же промысловый концепт, что S. granulatus на севере.",
+      "nearest_key": "suillus_granulatus",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "CY",
+        "GR",
+        "PT"
+      ],
+      "priority": "low",
+      "sources": [
+        "Ramshaj Q. et al., Checklist of macrofungi from oak forests in the Republic of Kosovo, Czech Mycology 73(1): 2021 — https://czechmycology.org/_cmo/CM73102.pdf"
+      ]
+    },
+    {
+      "sci": "Rubroboletus lupinus (= Boletus lupinus)",
+      "names": {
+        "sq": ""
+      },
+      "why": "Термофильный краснопористый болет дубрав; именно его Karadelev вынес иллюстрацией албанского проекта Fungi Albanici как характерный вид термофильных дубрав страны. Ядовит, попадает в корзину вместе с белыми. Для грибника, впрочем, это тот же концепт «красный болет — не бери», что и сатанинский.",
+      "nearest_key": "rubroboletus_satanas",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "GR",
+        "ME",
+        "MK"
+      ],
+      "priority": "low",
+      "sources": [
+        "https://www.rufford.org/projects/mitko-karadelev/fungi-albanici-establishing-fungi-checklist-and-preliminary-red-list-and-proposing-important-fungal-areas-in-albania/"
+      ]
+    }
+  ],
+  "sources": [
+    "Отраслевое исследование Министерства сельского хозяйства Албании по диверсификации (объёмы сбора 20–40 т, экспорт 21 т в 2019 г. по 7,3 €/кг, зоны сбора Пука/Лезха/Преспа/Корча/Либражд, пять основных товарных видов) — изложение: Revista Monitor, 02.02.2022, https://www.monitor.al/kerpudhat-grumbullojme-mes-20-40-tone-studimi-investimi-ne-perpunim-do-rriste-dukshem-vleren-e-shtuar/",
+    "Mitko Karadelev, «Fungi Albanici: Establishing Fungi Checklist and Preliminary Red List, and Proposing Important Fungal Areas in Albania», The Rufford Foundation (2013–2018) — единственная попытка национального чек-листа; фиксирует, что законодательства об охране грибов нет, а вывоз массовый: https://www.rufford.org/projects/mitko-karadelev/fungi-albanici-establishing-fungi-checklist-and-preliminary-red-list-and-proposing-important-fungal-areas-in-albania/",
+    "Ramshaj Q., Rusevska K., Karadelev M. et al., «Checklist of macrofungi from oak forests in the Republic of Kosovo», Czech Mycology 73(1): 25–46, 2021 — ближайший к Албании полноценный чек-лист дубрав албаноязычной зоны, использован для проверки ареала: https://czechmycology.org/_cmo/CM73102.pdf",
+    "Mustafa B., Hajdari A., Pieroni A. et al., «A cross-cultural comparison of folk plant uses among Albanians, Bosniaks, Gorani and Turks living in south Kosovo», J. Ethnobiol. Ethnomed. 11:39, 2015 — единственный найденный источник с записанными в поле албанскими народными именами грибов («Pufka» для Lycoperdon sp., «Kërpurdha» для Amanita caesarea): https://pmc.ncbi.nlm.nih.gov/articles/PMC4449527/",
+    "syri.net, «Panariti: Kërpudha helmuese ‘Kësula e Vdekjes’ rritet kudo, shumë e vështirë të dallohet» — https://www.syri.net/politike/421913/panariti-kerpudha-helmuese-kesula-e-vdekjes-rritet-kudo-shume-e-veshtire-te-dallohet/",
+    "shqiptarja.com, гибель трёх членов семьи от грибов в Гьири-и-Лальзит, комментарий биолога Артана Требички — https://shqiptarja.com/lajm/vdekja-e-3-familjareve-ne-lalz-nga-kerpudhat-biologu-trebicka-helmueset-dallohen-nga-pamja-disa-e-japin-efektin-pas-disa-ditesh-shkaterrojne-organet-e-te-cojne-drejt-vdekjes",
+    "reporter.al, «Njihej vetëm nga botanistët: Shqipëria i kthen sytë nga kultivimi i tartufit», 27.08.2022 (типы трюфелей, цены, высоты, собаки Lagotto) — https://www.reporter.al/2022/08/27/njihej-vetem-nga-botanistet-shqiperia-i-kthen-syte-nga-kultivimi-i-tartufit/",
+    "panorama.com.al, «Tartufi shqiptar/ Biznesi fitimprurës që sjell miliona për gjuetarët e huaj» — https://www.panorama.com.al/tartufi-shqiptar-biznesi-fitimprures-qe-sjell-miliona-per-gjuetaret-e-huaj/",
+    "polikum.al, «Kërpudhat: të ngrënshme dhe helmuese» — албаноязычная энциклопедия, собранная переводом из Википедии; источник низкого доверия, из него взяты только имена, помеченные в coined, плюс «Kantareli» и «Kërpudha e Cezarit»: https://polikum.al/enciklopedia/kerpudhat",
+    "Fjalor i gjuhës shqipe (fjale.al / fjalorthi.com), статья «kërpudhë» — показывает, что литературный албанский фиксирует народные названия грибов НЕ по видам (kërpudhë dashe, kërpudhë derri, kërpudhë gjarpri, kërpudhë qeni, kërpudhë eshke), и ни одно из них не отображается на латинский биномен: https://fjale.al/kërpudhë",
+    "Wikidata: у всех 30 проверенных видов метка на sq равна латинскому имени, албанских алиасов нет — прямое подтверждение, что албанская народная номенклатура грибов в сети почти не кодифицирована (проверено SPARQL, query.wikidata.org, 08.09.2026)"
+  ]
+}
