@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -217,7 +218,7 @@ fun SpeciesFormDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(0.92f),
+            modifier = Modifier.fillMaxWidth(0.92f).imePadding(),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 4.dp,
         ) {

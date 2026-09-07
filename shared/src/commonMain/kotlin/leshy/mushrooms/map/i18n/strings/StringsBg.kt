@@ -135,7 +135,8 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Разни",
     StringKey.CategoryUnknownMushroom to "Непозната гъба",
 
-    StringKey.CollectionPickerSearchHint to "Търсене на държава",
+    StringKey.CollectionPickerSearchHint to "Търсене на държава или гъба",
+    StringKey.CollectionPickerMoreMatches to "Показани са не всички съвпадения — уточнете заявката",
 
     StringKey.LanguagePickerSearchHint to "Търсене на език",
     StringKey.LanguagePickerBackContentDescription to "Назад",

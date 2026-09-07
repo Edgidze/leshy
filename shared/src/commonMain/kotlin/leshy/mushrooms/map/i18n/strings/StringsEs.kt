@@ -136,7 +136,8 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Varios",
     StringKey.CategoryUnknownMushroom to "Seta desconocida",
 
-    StringKey.CollectionPickerSearchHint to "Buscar país",
+    StringKey.CollectionPickerSearchHint to "Buscar país o seta",
+    StringKey.CollectionPickerMoreMatches to "No se muestran todas las coincidencias: precisa la búsqueda",
 
     StringKey.LanguagePickerSearchHint to "Buscar idioma",
     StringKey.LanguagePickerBackContentDescription to "Atrás",

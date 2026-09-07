@@ -134,7 +134,8 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Inne",
     StringKey.CategoryUnknownMushroom to "Nieznany grzyb",
 
-    StringKey.CollectionPickerSearchHint to "Szukaj kraju",
+    StringKey.CollectionPickerSearchHint to "Szukaj kraju lub grzyba",
+    StringKey.CollectionPickerMoreMatches to "Nie pokazano wszystkich wyników — doprecyzuj zapytanie",
 
     StringKey.LanguagePickerSearchHint to "Szukaj języka",
     StringKey.LanguagePickerBackContentDescription to "Wstecz",

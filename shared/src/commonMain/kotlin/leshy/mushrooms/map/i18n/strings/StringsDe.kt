@@ -136,7 +136,8 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Sonstiges",
     StringKey.CategoryUnknownMushroom to "Unbekannter Pilz",
 
-    StringKey.CollectionPickerSearchHint to "Land suchen",
+    StringKey.CollectionPickerSearchHint to "Land oder Pilz suchen",
+    StringKey.CollectionPickerMoreMatches to "Es werden nicht alle Treffer angezeigt — Suche eingrenzen",
 
     StringKey.LanguagePickerSearchHint to "Sprache suchen",
     StringKey.LanguagePickerBackContentDescription to "Zurück",

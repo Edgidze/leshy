@@ -136,7 +136,8 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "სხვადასხვა",
     StringKey.CategoryUnknownMushroom to "უცნობი სოკო",
 
-    StringKey.CollectionPickerSearchHint to "ქვეყნის ძიება",
+    StringKey.CollectionPickerSearchHint to "ქვეყნის ან სოკოს ძიება",
+    StringKey.CollectionPickerMoreMatches to "ყველა შედეგი არ არის ნაჩვენები — დააზუსტეთ ძიება",
 
     StringKey.LanguagePickerSearchHint to "ენის ძიება",
     StringKey.LanguagePickerBackContentDescription to "უკან",

@@ -135,7 +135,8 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Rôzne",
     StringKey.CategoryUnknownMushroom to "Neznáma huba",
 
-    StringKey.CollectionPickerSearchHint to "Hľadať krajinu",
+    StringKey.CollectionPickerSearchHint to "Hľadať krajinu alebo hubu",
+    StringKey.CollectionPickerMoreMatches to "Nezobrazujú sa všetky zhody — spresnite dopyt",
 
     StringKey.LanguagePickerSearchHint to "Hľadať jazyk",
     StringKey.LanguagePickerBackContentDescription to "Späť",

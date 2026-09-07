@@ -135,7 +135,8 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Рознае",
     StringKey.CategoryUnknownMushroom to "Невядомы грыб",
 
-    StringKey.CollectionPickerSearchHint to "Пошук краіны",
+    StringKey.CollectionPickerSearchHint to "Пошук краіны ці грыба",
+    StringKey.CollectionPickerMoreMatches to "Паказаны не ўсе супадзенні — удакладніце запыт",
 
     StringKey.LanguagePickerSearchHint to "Пошук мовы",
     StringKey.LanguagePickerBackContentDescription to "Назад",

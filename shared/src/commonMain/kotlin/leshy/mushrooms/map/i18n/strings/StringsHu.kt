@@ -141,7 +141,8 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Egyéb",
     StringKey.CategoryUnknownMushroom to "Ismeretlen gomba",
 
-    StringKey.CollectionPickerSearchHint to "Ország keresése",
+    StringKey.CollectionPickerSearchHint to "Ország vagy gomba keresése",
+    StringKey.CollectionPickerMoreMatches to "Nem látható minden találat — pontosítsa a keresést",
 
     StringKey.LanguagePickerSearchHint to "Nyelv keresése",
     StringKey.LanguagePickerBackContentDescription to "Vissza",

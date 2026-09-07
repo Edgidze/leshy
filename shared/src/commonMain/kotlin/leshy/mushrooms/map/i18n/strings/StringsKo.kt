@@ -118,7 +118,8 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "기타",
     StringKey.CategoryUnknownMushroom to "알 수 없는 버섯",
 
-    StringKey.CollectionPickerSearchHint to "국가 검색",
+    StringKey.CollectionPickerSearchHint to "국가 또는 버섯 검색",
+    StringKey.CollectionPickerMoreMatches to "모든 결과가 표시되지는 않습니다 — 검색어를 좁혀 주세요",
 
     StringKey.LanguagePickerSearchHint to "언어 검색",
     StringKey.LanguagePickerBackContentDescription to "뒤로",

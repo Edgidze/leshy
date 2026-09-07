@@ -141,7 +141,8 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Razno",
     StringKey.CategoryUnknownMushroom to "Neznana goba",
 
-    StringKey.CollectionPickerSearchHint to "Iskanje države",
+    StringKey.CollectionPickerSearchHint to "Iskanje države ali gobe",
+    StringKey.CollectionPickerMoreMatches to "Niso prikazani vsi zadetki — natančneje določite iskanje",
 
     StringKey.LanguagePickerSearchHint to "Iskanje jezika",
     StringKey.LanguagePickerBackContentDescription to "Nazaj",

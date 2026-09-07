@@ -136,7 +136,8 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Башка",
     StringKey.CategoryUnknownMushroom to "Белгисиз козу карын",
 
-    StringKey.CollectionPickerSearchHint to "Өлкө издөө",
+    StringKey.CollectionPickerSearchHint to "Өлкө же козу карын издөө",
+    StringKey.CollectionPickerMoreMatches to "Бардык дал келүүлөр көрсөтүлгөн жок — сурамды тактаңыз",
     StringKey.LanguagePickerSearchHint to "Тил издөө",
     StringKey.LanguagePickerBackContentDescription to "Артка",
     StringKey.LanguagePickerConfirmContentDescription to "Ырастоо",

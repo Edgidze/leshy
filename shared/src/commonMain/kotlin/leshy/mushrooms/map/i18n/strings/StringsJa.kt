@@ -113,7 +113,8 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "その他",
     StringKey.CategoryUnknownMushroom to "不明なキノコ",
 
-    StringKey.CollectionPickerSearchHint to "国を検索",
+    StringKey.CollectionPickerSearchHint to "国またはキノコを検索",
+    StringKey.CollectionPickerMoreMatches to "すべての一致は表示されていません — 検索条件を絞り込んでください",
 
     StringKey.LanguagePickerSearchHint to "言語を検索",
     StringKey.LanguagePickerBackContentDescription to "戻る",

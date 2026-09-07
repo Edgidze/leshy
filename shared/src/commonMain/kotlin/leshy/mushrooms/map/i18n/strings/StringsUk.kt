@@ -136,7 +136,8 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Різне",
     StringKey.CategoryUnknownMushroom to "Невідомий гриб",
 
-    StringKey.CollectionPickerSearchHint to "Пошук країни",
+    StringKey.CollectionPickerSearchHint to "Пошук країни або гриба",
+    StringKey.CollectionPickerMoreMatches to "Показано не всі збіги — уточніть запит",
 
     StringKey.LanguagePickerSearchHint to "Пошук мови",
     StringKey.LanguagePickerBackContentDescription to "Назад",

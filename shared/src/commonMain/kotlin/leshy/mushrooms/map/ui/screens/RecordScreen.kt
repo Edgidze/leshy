@@ -870,7 +870,7 @@ private fun WalkNameDialog(onConfirm: (String) -> Unit, onDismissRequest: () -> 
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth(0.9f),
+        modifier = Modifier.fillMaxWidth(0.9f).imePadding(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.RecordSetWalkNameTitle)) },
         text = {
@@ -1115,7 +1115,7 @@ private fun MushroomSearchDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(0.92f),
+            modifier = Modifier.fillMaxWidth(0.92f).imePadding(),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 4.dp,
         ) {

@@ -139,7 +139,8 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Įvairūs",
     StringKey.CategoryUnknownMushroom to "Nežinomas grybas",
 
-    StringKey.CollectionPickerSearchHint to "Ieškoti šalies",
+    StringKey.CollectionPickerSearchHint to "Ieškoti šalies arba grybo",
+    StringKey.CollectionPickerMoreMatches to "Rodomi ne visi atitikmenys — patikslinkite užklausą",
 
     StringKey.LanguagePickerSearchHint to "Ieškoti kalbos",
     StringKey.LanguagePickerBackContentDescription to "Atgal",

@@ -138,7 +138,8 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Dažādi",
     StringKey.CategoryUnknownMushroom to "Nezināma sēne",
 
-    StringKey.CollectionPickerSearchHint to "Meklēt valsti",
+    StringKey.CollectionPickerSearchHint to "Meklēt valsti vai sēni",
+    StringKey.CollectionPickerMoreMatches to "Netiek rādītas visas atbilstības — precizējiet vaicājumu",
 
     StringKey.LanguagePickerSearchHint to "Meklēt valodu",
     StringKey.LanguagePickerBackContentDescription to "Atpakaļ",

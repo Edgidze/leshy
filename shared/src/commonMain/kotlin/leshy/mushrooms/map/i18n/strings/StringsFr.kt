@@ -140,7 +140,8 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Divers",
     StringKey.CategoryUnknownMushroom to "Champignon inconnu",
 
-    StringKey.CollectionPickerSearchHint to "Rechercher un pays",
+    StringKey.CollectionPickerSearchHint to "Rechercher un pays ou un champignon",
+    StringKey.CollectionPickerMoreMatches to "Tous les résultats ne sont pas affichés — affinez la recherche",
 
     StringKey.LanguagePickerSearchHint to "Rechercher une langue",
     StringKey.LanguagePickerBackContentDescription to "Retour",

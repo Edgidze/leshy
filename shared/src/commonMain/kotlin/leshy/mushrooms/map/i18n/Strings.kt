@@ -298,7 +298,8 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.CategoryMisc -> "Разное"
     StringKey.CategoryUnknownMushroom -> "Неизвестный гриб"
 
-    StringKey.CollectionPickerSearchHint -> "Поиск страны"
+    StringKey.CollectionPickerSearchHint -> "Поиск страны или гриба"
+    StringKey.CollectionPickerMoreMatches -> "Показаны не все совпадения — уточните запрос"
 
     StringKey.LanguagePickerSearchHint -> "Поиск языка"
     StringKey.LanguagePickerBackContentDescription -> "Назад"
@@ -656,7 +657,8 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.CategoryMisc -> "Misc"
     StringKey.CategoryUnknownMushroom -> "Unknown mushroom"
 
-    StringKey.CollectionPickerSearchHint -> "Search country"
+    StringKey.CollectionPickerSearchHint -> "Search country or mushroom"
+    StringKey.CollectionPickerMoreMatches -> "Not all matches are shown — refine your search"
 
     StringKey.LanguagePickerSearchHint -> "Search language"
     StringKey.LanguagePickerBackContentDescription -> "Back"

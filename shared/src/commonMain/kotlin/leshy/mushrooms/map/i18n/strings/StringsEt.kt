@@ -133,7 +133,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Muu",
     StringKey.CategoryUnknownMushroom to "Tundmatu seen",
 
-    StringKey.CollectionPickerSearchHint to "Otsi riiki",
+    StringKey.CollectionPickerSearchHint to "Otsi riiki või seent",
+    StringKey.CollectionPickerMoreMatches to "Kõiki vasteid ei kuvata — täpsusta otsingut",
 
     StringKey.LanguagePickerSearchHint to "Otsi keelt",
     StringKey.LanguagePickerBackContentDescription to "Tagasi",

@@ -136,7 +136,8 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Razno",
     StringKey.CategoryUnknownMushroom to "Nepoznata gljiva",
 
-    StringKey.CollectionPickerSearchHint to "Pretraživanje država",
+    StringKey.CollectionPickerSearchHint to "Pretraživanje država ili gljiva",
+    StringKey.CollectionPickerMoreMatches to "Nisu prikazana sva podudaranja — precizirajte upit",
 
     StringKey.LanguagePickerSearchHint to "Pretraživanje jezika",
     StringKey.LanguagePickerBackContentDescription to "Natrag",

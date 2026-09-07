@@ -132,7 +132,8 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Beýleki",
     StringKey.CategoryUnknownMushroom to "Näbelli kömelek",
 
-    StringKey.CollectionPickerSearchHint to "Ýurt gözlemek",
+    StringKey.CollectionPickerSearchHint to "Ýurt ýa-da kömelek gözlemek",
+    StringKey.CollectionPickerMoreMatches to "Ähli gabat gelmeler görkezilmeýär — soragy takyklaň",
     StringKey.LanguagePickerSearchHint to "Dil gözlemek",
     StringKey.LanguagePickerBackContentDescription to "Yza",
     StringKey.LanguagePickerConfirmContentDescription to "Tassyklamak",

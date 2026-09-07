@@ -97,6 +97,7 @@ enum class StringKey {
     CategoryUnknownMushroom,
 
     CollectionPickerSearchHint,
+    CollectionPickerMoreMatches,
 
     LanguagePickerSearchHint,
     LanguagePickerBackContentDescription,

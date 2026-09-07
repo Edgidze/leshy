@@ -134,7 +134,8 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Разно",
     StringKey.CategoryUnknownMushroom to "Непозната гљива",
 
-    StringKey.CollectionPickerSearchHint to "Претрага држава",
+    StringKey.CollectionPickerSearchHint to "Претрага држава или гљива",
+    StringKey.CollectionPickerMoreMatches to "Нису приказана сва подударања — прецизирајте упит",
 
     StringKey.LanguagePickerSearchHint to "Претрага језика",
     StringKey.LanguagePickerBackContentDescription to "Назад",

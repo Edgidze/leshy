@@ -136,7 +136,8 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Diverse",
     StringKey.CategoryUnknownMushroom to "Ciupercă necunoscută",
 
-    StringKey.CollectionPickerSearchHint to "Caută țara",
+    StringKey.CollectionPickerSearchHint to "Caută țara sau ciuperca",
+    StringKey.CollectionPickerMoreMatches to "Nu sunt afișate toate rezultatele — precizează căutarea",
 
     StringKey.LanguagePickerSearchHint to "Caută limba",
     StringKey.LanguagePickerBackContentDescription to "Înapoi",

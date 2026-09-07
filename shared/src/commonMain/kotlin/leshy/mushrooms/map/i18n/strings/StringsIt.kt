@@ -136,7 +136,8 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Varie",
     StringKey.CategoryUnknownMushroom to "Fungo sconosciuto",
 
-    StringKey.CollectionPickerSearchHint to "Cerca paese",
+    StringKey.CollectionPickerSearchHint to "Cerca paese o fungo",
+    StringKey.CollectionPickerMoreMatches to "Non tutti i risultati sono mostrati — affina la ricerca",
 
     StringKey.LanguagePickerSearchHint to "Cerca lingua",
     StringKey.LanguagePickerBackContentDescription to "Indietro",

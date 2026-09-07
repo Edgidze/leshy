@@ -139,7 +139,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Sekalaiset",
     StringKey.CategoryUnknownMushroom to "Tuntematon sieni",
 
-    StringKey.CollectionPickerSearchHint to "Hae maata",
+    StringKey.CollectionPickerSearchHint to "Hae maata tai sientä",
+    StringKey.CollectionPickerMoreMatches to "Kaikkia osumia ei näytetä — tarkenna hakua",
 
     StringKey.LanguagePickerSearchHint to "Hae kieltä",
     StringKey.LanguagePickerBackContentDescription to "Takaisin",

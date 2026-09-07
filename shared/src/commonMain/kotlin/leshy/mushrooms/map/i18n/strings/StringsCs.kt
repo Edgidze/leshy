@@ -134,7 +134,8 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Ostatní",
     StringKey.CategoryUnknownMushroom to "Neznámá houba",
 
-    StringKey.CollectionPickerSearchHint to "Hledat zemi",
+    StringKey.CollectionPickerSearchHint to "Hledat zemi nebo houbu",
+    StringKey.CollectionPickerMoreMatches to "Nezobrazují se všechny shody — upřesněte dotaz",
 
     StringKey.LanguagePickerSearchHint to "Hledat jazyk",
     StringKey.LanguagePickerBackContentDescription to "Zpět",

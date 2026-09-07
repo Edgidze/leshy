@@ -132,7 +132,8 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Басқа",
     StringKey.CategoryUnknownMushroom to "Белгісіз саңырауқұлақ",
 
-    StringKey.CollectionPickerSearchHint to "Елді іздеу",
+    StringKey.CollectionPickerSearchHint to "Елді немесе саңырауқұлақты іздеу",
+    StringKey.CollectionPickerMoreMatches to "Барлық сәйкестік көрсетілмеген — сұранысты нақтылаңыз",
     StringKey.LanguagePickerSearchHint to "Тілді іздеу",
     StringKey.LanguagePickerBackContentDescription to "Артқа",
     StringKey.LanguagePickerConfirmContentDescription to "Растау",
