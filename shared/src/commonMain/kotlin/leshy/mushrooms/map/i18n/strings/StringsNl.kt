@@ -104,6 +104,10 @@ internal val dutchStrings: Map<StringKey, String> = mapOf(
         "Je zult in geen geval paddenstoelen eten die je niet kent. Paddenstoelen kunnen " +
             "oneetbaar zijn en ze kunnen giftig zijn. Het beste is om iemand die de paddenstoelen van " +
             "jouw streek kent te vragen welke je mag plukken en hoe ze daarna bereid moeten worden.",
+    StringKey.WelcomeConsentBattery to
+        "Tijdens je wandelingen houd je je aan de nodige veiligheidsregels en houd je er rekening mee dat de " +
+            "telefoon sneller leegloopt terwijl de app draait. Bij een lage accu kun je de opname van de wandeling " +
+            "beter stoppen en de app afsluiten.",
     StringKey.WelcomeConsentWarning to
         "Om verder te gaan moet je met de bovenstaande punten akkoord gaan door de vakjes aan te " +
             "vinken bij de punten waarmee je akkoord gaat",

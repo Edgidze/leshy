@@ -109,6 +109,10 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
         "Za žiadnych okolností nebudete jesť huby, ktoré nepoznáte. Huby môžu byť nejedlé a môžu byť aj jedovaté. " +
             "Najlepšie — zavolajte niekoho, kto sa vyzná v hubách vo vašom okolí, aby ste zistili, ktoré huby sa " +
             "smú zbierať a ako ich treba potom pripraviť.",
+    StringKey.WelcomeConsentBattery to
+        "Počas prechádzok budete dodržiavať potrebné bezpečnostné pravidlá a rátať s tým, že pri zapnutej " +
+            "aplikácii sa telefón vybíja rýchlejšie. Pri nízkom stave batérie je lepšie záznam prechádzky zastaviť " +
+            "a aplikáciu zavrieť.",
     StringKey.WelcomeConsentWarning to
         "Ak chcete pokračovať, musíte súhlasiť s tvrdeniami vyššie a začiarknuť políčka pred tými tvrdeniami, s " +
             "ktorými súhlasíte",

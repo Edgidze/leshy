@@ -108,6 +108,10 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
         "W żadnym wypadku nie zjesz grzybów, których nie znasz. Grzyby mogą być niejadalne, a mogą być i trujące. " +
             "Najlepiej — poproś kogoś, kto zna się na grzybach w twojej okolicy, żeby dowiedzieć się, które grzyby " +
             "wolno zbierać i jak trzeba je potem przyrządzić.",
+    StringKey.WelcomeConsentBattery to
+        "Podczas spacerów będziesz przestrzegać niezbędnych zasad bezpieczeństwa i pamiętać, że przy działającej " +
+            "aplikacji telefon rozładowuje się szybciej. Przy niskim poziomie baterii lepiej zatrzymać zapis " +
+            "spaceru i zamknąć aplikację.",
     StringKey.WelcomeConsentWarning to
         "Aby kontynuować, trzeba zgodzić się z powyższymi stwierdzeniami, zaznaczając pola przy tych " +
             "stwierdzeniach, z którymi się zgadzasz",

@@ -96,6 +96,8 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeConsentEating to
         "어떤 경우에도 모르는 버섯은 먹지 않겠습니다. 버섯은 먹을 수 없을 수도 있고 독이 있을 수도 있습니다. 가장 좋은 방법은 사는 지역의 버섯을 잘 아는 사람을 불러, 어떤 버섯을 채취해도 " +
             "되는지와 채취한 뒤 어떻게 조리해야 하는지를 알아보는 것입니다.",
+    StringKey.WelcomeConsentBattery to
+        "산책 중에는 필요한 안전 수칙을 지키고, 앱을 사용하는 동안 휴대전화 배터리가 더 빨리 닳는다는 점을 유념하겠습니다. 배터리가 얼마 남지 않았을 때는 산책 기록을 멈추고 앱을 종료하는 편이 좋습니다.",
     StringKey.WelcomeConsentWarning to "계속하려면 위 내용에 동의해야 합니다. 동의하는 항목 앞의 체크박스에 표시해 주세요",
 
     StringKey.WelcomeNextButton to "다음",

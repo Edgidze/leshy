@@ -113,6 +113,10 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
         "Et syö missään tapauksessa sieniä, joita et tunne. Sienet voivat olla syötäväksi kelpaamattomia ja ne " +
             "voivat olla myös myrkyllisiä. Parasta — pyydä mukaan joku, joka tuntee oman seutusi sienet, jotta saat " +
             "tietää, mitä sieniä saa kerätä ja miten ne on sen jälkeen valmistettava.",
+    StringKey.WelcomeConsentBattery to
+        "Retkillä noudatat tarvittavaa varovaisuutta ja otat huomioon, että puhelimen akku kuluu nopeammin " +
+            "sovelluksen ollessa käynnissä. Kun akkua on vähän, retken tallennus kannattaa pysäyttää ja sovellus " +
+            "sulkea.",
     StringKey.WelcomeConsentWarning to
         "Jatkaaksesi sinun on hyväksyttävä yllä olevat väittämät rastittamalla ruudut niiden väittämien edestä, " +
             "jotka hyväksyt",

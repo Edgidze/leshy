@@ -105,6 +105,10 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
         "Du kommer under inga omständigheter att äta svampar som du inte känner till. Svampar kan vara oätliga, och " +
             "de kan också vara giftiga. Bäst av allt — ta hjälp av någon som kan svamparna i din trakt, så att du " +
             "får veta vilka svampar som får plockas och hur de sedan måste tillagas.",
+    StringKey.WelcomeConsentBattery to
+        "Under promenaderna kommer du att följa nödvändiga säkerhetsregler och tänka på att telefonens batteri tar " +
+            "slut snabbare medan appen är igång. Vid lågt batteri är det bäst att stoppa inspelningen av " +
+            "promenaden och stänga appen.",
     StringKey.WelcomeConsentWarning to
         "För att fortsätta måste du godkänna påståendena ovan genom att kryssa i rutorna framför de påståenden du " +
             "godkänner",

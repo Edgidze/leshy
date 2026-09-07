@@ -105,6 +105,10 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
         "Heç bir halda tanımadığınız göbələkləri yeməyəcəksiniz. Göbələklər yeməli olmaya bilər, hətta zəhərli də " +
             "ola bilər. Ən yaxşısı — bölgənizin göbələklərini bilən birinə müraciət edin ki, hansı göbələkləri " +
             "yığmağın mümkün olduğunu və onları sonra necə hazırlamaq lazım gəldiyini öyrənəsiniz.",
+    StringKey.WelcomeConsentBattery to
+        "Gəzintilər zamanı lazımi təhlükəsizlik qaydalarına əməl edəcək və tətbiq işləyərkən telefonun daha tez " +
+            "boşaldığını nəzərə alacaqsınız. Enerji az qalanda gəzintinin qeydini dayandırmaq, tətbiqi isə " +
+            "bağlamaq daha yaxşıdır.",
     StringKey.WelcomeConsentWarning to
         "Davam etmək üçün yuxarıdakı müddəalarla razılaşmaq, razı olduğunuz müddəaların qarşısına işarə qoymaq " +
             "lazımdır",

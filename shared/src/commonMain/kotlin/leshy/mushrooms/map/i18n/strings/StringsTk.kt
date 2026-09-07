@@ -106,6 +106,10 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
         "Hiç bir ýagdaýda özüňiziň bilmeýän kömelekleriňizi iýmersiňiz. Kömelekler iýip bolmaýan bolup biler, hatda " +
             "zäherli hem bolup biler. Iň gowusy — öz ýeriňiziň kömeleklerine düşünýän birini çagyryň, şonda haýsy " +
             "kömelekleri ýygnamagyň bolýandygyny we olary soň nähili taýýarlamalydygyny bilersiňiz.",
+    StringKey.WelcomeConsentBattery to
+        "Gezelenç wagtynda zerur howpsuzlyk düzgünlerini berjaý edersiňiz we programma işläp durka telefonyň " +
+            "zarýadynyň has çalt gutarýandygyny göz öňünde tutarsyňyz. Zarýad az galanda gezelenjiň ýazgysyny " +
+            "togtatmak, programmany bolsa ýapmak has gowudyr.",
     StringKey.WelcomeConsentWarning to
         "Dowam etmek üçin ýokardaky düzgünler bilen ylalaşyp, ylalaşýan düzgünleriňiziň öňünde bellik goýmaly",
 

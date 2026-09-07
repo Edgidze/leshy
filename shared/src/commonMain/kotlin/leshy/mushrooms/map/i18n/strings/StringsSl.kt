@@ -114,6 +114,10 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
         "V nobenem primeru ne boste jedli gob, ki jih ne poznate. Gobe so lahko neužitne, lahko pa so tudi " +
             "strupene. Najbolje — povabite nekoga, ki se spozna na gobe vašega kraja, da izveste, katere gobe se " +
             "sme nabirati in kako jih je treba nato pripraviti.",
+    StringKey.WelcomeConsentBattery to
+        "Med sprehodi boste upoštevali potrebna varnostna pravila in imeli v mislih, da se telefon ob delujoči " +
+            "aplikaciji hitreje izprazni. Pri nizki bateriji je bolje ustaviti snemanje sprehoda in zapreti " +
+            "aplikacijo.",
     StringKey.WelcomeConsentWarning to
         "Za nadaljevanje se morate strinjati z zgornjimi trditvami in označiti polja pred trditvami, s katerimi se " +
             "strinjate",

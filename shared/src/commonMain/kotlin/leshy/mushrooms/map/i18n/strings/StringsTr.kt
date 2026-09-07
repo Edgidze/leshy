@@ -105,6 +105,10 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
         "Hiçbir koşulda bilmediğiniz mantarları yemeyeceksiniz. Mantarlar yenmez olabilir, hatta zehirli de " +
             "olabilir. En iyisi — yörenizdeki mantarları bilen birini çağırın, böylece hangi mantarların " +
             "toplanabileceğini ve toplandıktan sonra nasıl pişirilmesi gerektiğini öğrenirsiniz.",
+    StringKey.WelcomeConsentBattery to
+        "Yürüyüşler sırasında gerekli güvenlik kurallarına uyacak ve uygulama çalışırken telefonun daha hızlı " +
+            "boşaldığını göz önünde bulunduracaksınız. Şarj azaldığında yürüyüş kaydını durdurup uygulamayı " +
+            "kapatmak daha iyidir.",
     StringKey.WelcomeConsentWarning to
         "Devam etmek için yukarıdaki ifadeleri kabul etmeniz, katıldığınız ifadelerin önündeki kutuları " +
             "işaretlemeniz gerekir",

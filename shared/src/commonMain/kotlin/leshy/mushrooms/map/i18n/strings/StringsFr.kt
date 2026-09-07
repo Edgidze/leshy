@@ -112,6 +112,10 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
             "comestibles, et ils peuvent aussi être vénéneux. Le mieux — faites appel à quelqu’un qui connaît les " +
             "champignons de votre région pour savoir lesquels peuvent être ramassés et comment il faut les préparer " +
             "ensuite.",
+    StringKey.WelcomeConsentBattery to
+        "Pendant vos promenades, vous respecterez les consignes de sécurité nécessaires et garderez à l’esprit que " +
+            "la batterie du téléphone se décharge plus vite lorsque l’application fonctionne. Quand la charge est " +
+            "faible, mieux vaut arrêter l’enregistrement de la promenade et fermer l’application.",
     StringKey.WelcomeConsentWarning to
         "Pour continuer, vous devez accepter les affirmations ci-dessus en cochant les cases devant celles avec " +
             "lesquelles vous êtes d’accord",

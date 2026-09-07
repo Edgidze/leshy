@@ -104,6 +104,10 @@ internal val portugueseStrings: Map<StringKey, String> = mapOf(
             "ser não comestíveis e podem ser venenosos. O melhor de tudo — pergunte a alguém que " +
             "conheça os cogumelos da sua região quais podem ser apanhados e como têm de ser " +
             "cozinhados depois.",
+    StringKey.WelcomeConsentBattery to
+        "Durante as caminhadas vai cumprir as regras de segurança necessárias e ter em conta que, com a aplicação " +
+            "a funcionar, o telemóvel descarrega mais depressa. Com pouca bateria é melhor parar a gravação da " +
+            "caminhada e fechar a aplicação.",
     StringKey.WelcomeConsentWarning to
         "Para continuar tem de concordar com as afirmações acima, assinalando as caixas à frente " +
             "das afirmações com que concorda",

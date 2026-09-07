@@ -271,6 +271,10 @@ private fun russianStrings(key: StringKey): String = when (key) {
         "Вы ни при каких условиях не станете есть те грибы, которые не знаете. Грибы могут быть несъедобны, а могут " +
             "быть и ядовиты. Лучше всего — позовите кого-то, кто разбирается в грибах вашей местности, чтобы " +
             "узнать, какие грибы собирать можно и как их после этого необходимо приготовить."
+    StringKey.WelcomeConsentBattery ->
+        "Во время прогулок вы будете соблюдать необходимую технику безопасности и учитывать, что с работающим " +
+            "приложением телефон разряжается быстрее. При малом заряде запись прогулки лучше остановить, а " +
+            "приложение — закрыть."
     StringKey.WelcomeConsentWarning ->
         "Для продолжения необходимо согласиться с утверждениями выше, поставив галочки перед утверждениями, с " +
             "которыми вы согласны"
@@ -636,6 +640,10 @@ private fun englishStrings(key: StringKey): String = when (key) {
         "You will under no circumstances eat mushrooms you do not know. Mushrooms can be inedible, and they can be " +
             "poisonous. Best of all — ask someone who knows the mushrooms of your area which ones may be picked and " +
             "how they have to be cooked afterwards."
+    StringKey.WelcomeConsentBattery ->
+        "During your walks you will follow the necessary safety precautions and keep in mind that the phone's " +
+            "battery runs down faster while the app is working. When the charge is low, it is better to stop " +
+            "recording the walk and close the app."
     StringKey.WelcomeConsentWarning ->
         "To continue, you have to agree with the statements above by ticking the boxes in front of the statements " +
             "you agree with"

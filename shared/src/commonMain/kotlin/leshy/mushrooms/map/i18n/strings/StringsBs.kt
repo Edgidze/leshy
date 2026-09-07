@@ -102,6 +102,10 @@ internal val bosnianStrings: Map<StringKey, String> = mapOf(
         "Ni u kojem slučaju nećete jesti gljive koje ne poznajete. Gljive mogu biti nejestive i " +
             "mogu biti otrovne. Najbolje od svega — pitajte nekoga ko poznaje gljive vašeg kraja koje " +
             "se smiju brati i kako ih poslije treba pripremiti.",
+    StringKey.WelcomeConsentBattery to
+        "Tokom šetnji pridržavat ćete se potrebnih mjera sigurnosti i imati na umu da se baterija telefona brže " +
+            "prazni dok aplikacija radi. Kad je baterija pri kraju, bolje je zaustaviti snimanje šetnje i " +
+            "zatvoriti aplikaciju.",
     StringKey.WelcomeConsentWarning to
         "Da biste nastavili, morate se složiti s gornjim tvrdnjama tako što ćete označiti polja " +
             "ispred tvrdnji s kojima se slažete",

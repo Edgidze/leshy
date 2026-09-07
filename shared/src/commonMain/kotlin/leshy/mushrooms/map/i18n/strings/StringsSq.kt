@@ -105,6 +105,10 @@ internal val albanianStrings: Map<StringKey, String> = mapOf(
         "Në asnjë rrethanë nuk do të hani kërpudha që nuk i njihni. Kërpudhat mund të jenë të " +
             "pangrënshme dhe mund të jenë helmuese. Më e mira — pyesni dikë që i njeh kërpudhat e " +
             "zonës suaj se cilat mund të mblidhen dhe si duhen gatuar më pas.",
+    StringKey.WelcomeConsentBattery to
+        "Gjatë shëtitjeve do të respektoni rregullat e nevojshme të sigurisë dhe do të keni parasysh se me " +
+            "aplikacionin në punë bateria e telefonit shkarkohet më shpejt. Kur bateria është e ulët, është më " +
+            "mirë të ndaloni regjistrimin e shëtitjes dhe të mbyllni aplikacionin.",
     StringKey.WelcomeConsentWarning to
         "Për të vazhduar duhet të pajtoheni me pohimet e mësipërme, duke shënuar kutitë përpara " +
             "pohimeve me të cilat pajtoheni",

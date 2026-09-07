@@ -99,6 +99,9 @@ internal val norwegianStrings: Map<StringKey, String> = mapOf(
         "Du vil ikke under noen omstendighet spise sopp du ikke kjenner. Sopp kan være uspiselig, " +
             "og den kan være giftig. Aller best — spør noen som kjenner soppen i ditt område, om " +
             "hvilke som kan plukkes og hvordan de må tilberedes etterpå.",
+    StringKey.WelcomeConsentBattery to
+        "På turene vil du følge nødvendige sikkerhetsregler og huske på at telefonen tappes raskere for strøm mens " +
+            "appen er i gang. Ved lavt batterinivå er det best å stoppe opptaket av turen og lukke appen.",
     StringKey.WelcomeConsentWarning to
         "For å gå videre må du si deg enig i punktene over ved å krysse av i rutene foran " +
             "punktene du er enig i",

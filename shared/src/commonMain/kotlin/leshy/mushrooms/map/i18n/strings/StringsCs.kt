@@ -108,6 +108,10 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
         "Za žádných okolností nebudete jíst houby, které neznáte. Houby mohou být nejedlé a mohou být i jedovaté. " +
             "Nejlépe — zavolejte někoho, kdo se vyzná v houbách ve vašem okolí, abyste zjistili, které houby se " +
             "smějí sbírat a jak je poté třeba připravit.",
+    StringKey.WelcomeConsentBattery to
+        "Během procházek budete dodržovat potřebná bezpečnostní pravidla a počítat s tím, že se telefon při " +
+            "zapnuté aplikaci vybíjí rychleji. Při nízkém stavu baterie je lepší záznam procházky zastavit a " +
+            "aplikaci zavřít.",
     StringKey.WelcomeConsentWarning to
         "Chcete-li pokračovat, musíte souhlasit s tvrzeními výše a zaškrtnout políčka před těmi tvrzeními, se " +
             "kterými souhlasíte",

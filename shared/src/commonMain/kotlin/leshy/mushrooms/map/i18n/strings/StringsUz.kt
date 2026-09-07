@@ -114,6 +114,10 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
             "mumkin, hatto zaharli ham boʻlishi mumkin. Eng yaxshisi — oʻz hududingiz qoʻziqorinlarini yaxshi " +
             "biladigan odamni chaqiring, shunda qaysi qoʻziqorinlarni terish mumkinligini va ularni keyin qanday " +
             "tayyorlash kerakligini bilib olasiz.",
+    StringKey.WelcomeConsentBattery to
+        "Sayr paytida zarur xavfsizlik qoidalariga rioya qilasiz va ilova ishlab turganda telefon tezroq " +
+            "quvvatsizlanishini hisobga olasiz. Quvvat kam qolganda sayr yozuvini toʻxtatib, ilovani yopgan " +
+            "maʼqul.",
     StringKey.WelcomeConsentWarning to
         "Davom etish uchun yuqoridagi fikrlarga rozilik bildirish va oʻzingiz rozi boʻlgan fikrlar oldiga belgi " +
             "qoʻyish kerak",

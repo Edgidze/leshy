@@ -109,6 +109,10 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
         "In nessun caso mangerai funghi che non conosci. I funghi possono essere non commestibili e possono anche " +
             "essere velenosi. La cosa migliore — chiedi a qualcuno che se ne intende dei funghi della tua zona, per " +
             "sapere quali funghi si possono raccogliere e come vanno poi cucinati.",
+    StringKey.WelcomeConsentBattery to
+        "Durante le uscite rispetterai le necessarie norme di sicurezza e terrai presente che, con l’app in " +
+            "funzione, la batteria del telefono si scarica più in fretta. Con la batteria quasi scarica è meglio " +
+            "fermare la registrazione dell’uscita e chiudere l’app.",
     StringKey.WelcomeConsentWarning to
         "Per continuare devi accettare le affermazioni qui sopra, spuntando le caselle davanti alle affermazioni " +
             "con cui sei d’accordo",

@@ -108,6 +108,9 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
         "Te ei söö mitte mingil juhul seeni, mida te ei tunne. Seened võivad olla mittesöödavad ja võivad olla ka " +
             "mürgised. Kõige parem — kutsuge appi keegi, kes tunneb teie kandi seeni, et teada saada, milliseid " +
             "seeni tohib korjata ja kuidas neid pärast valmistada tuleb.",
+    StringKey.WelcomeConsentBattery to
+        "Matkade ajal järgite vajalikke ohutusnõudeid ja arvestate, et töötava rakendusega tühjeneb telefoni aku " +
+            "kiiremini. Vähese aku korral on parem matka salvestamine peatada ja rakendus sulgeda.",
     StringKey.WelcomeConsentWarning to
         "Jätkamiseks tuleb ülalolevate väidetega nõustuda, tehes linnukese nende väidete ette, millega olete nõus",
 

@@ -112,6 +112,10 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
         "Jūs nekādā gadījumā neēdīsiet sēnes, kuras nepazīstat. Sēnes var būt neēdamas, un tās var būt arī indīgas. " +
             "Vislabāk — pieaiciniet kādu, kas pārzina jūsu apkārtnes sēnes, lai uzzinātu, kuras sēnes drīkst lasīt " +
             "un kā tās pēc tam jāpagatavo.",
+    StringKey.WelcomeConsentBattery to
+        "Pastaigu laikā jūs ievērosiet nepieciešamos drošības noteikumus un ņemsiet vērā, ka, lietotnei " +
+            "darbojoties, tālruņa akumulators izlādējas ātrāk. Pie zema uzlādes līmeņa pastaigas ierakstīšanu " +
+            "labāk apturēt, bet lietotni aizvērt.",
     StringKey.WelcomeConsentWarning to
         "Lai turpinātu, jāpiekrīt iepriekš minētajiem apgalvojumiem, atzīmējot izvēles rūtiņas pie tiem " +
             "apgalvojumiem, kuriem piekrītat",
