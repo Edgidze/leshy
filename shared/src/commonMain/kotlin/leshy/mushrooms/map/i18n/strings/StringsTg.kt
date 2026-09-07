@@ -74,6 +74,8 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
         "Маҷмӯаҳои занбӯруғи ба шумо шавқоварро интихоб кунед. Инро баъдтар дар Танзимот " +
             "тағйир додан мумкин аст.",
     StringKey.OnboardingContinueButton to "Оғоз мекунем",
+    StringKey.OnboardingNothingPickedWarning to
+        "Барои идома додан ҳадди ақал як маҷмӯа ё як занбӯруғро интихоб кунед",
 
     StringKey.WelcomeIntro to
         "Барнома дар хотир мегирад, ки шумо аз куҷо гузаштед ва чӣ ёфтед — ва дар ҷамъоварии занбӯруғ " +

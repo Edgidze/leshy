@@ -67,6 +67,8 @@ internal val macedonianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Изберете ги збирките печурки што ве интересираат. Ова можете да го смените подоцна во поставките.",
     StringKey.OnboardingContinueButton to "Да почнеме",
+    StringKey.OnboardingNothingPickedWarning to
+        "Изберете барем една збирка или една печурка за да продолжите",
     StringKey.WelcomeIntro to
         "Апликацијата памти каде сте оделе и што сте нашле — и тоа навистина помага да берете " +
             "повеќе: до добрите места лесно се враќате, а секој наод е на една карта.",

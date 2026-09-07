@@ -76,6 +76,8 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
         "Choisissez les collections de champignons qui vous intéressent. Vous pourrez modifier " +
             "cela plus tard dans les paramètres.",
     StringKey.OnboardingContinueButton to "Commencer",
+    StringKey.OnboardingNothingPickedWarning to
+        "Choisissez au moins une collection ou un champignon pour continuer",
 
     StringKey.WelcomeIntro to
         "L’application retient vos parcours et vos trouvailles — et aide vraiment à la cueillette : les " +

@@ -72,6 +72,8 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Сізді қызықтыратын саңырауқұлақ жинақтарын таңдаңыз. Мұны кейін Параметрлерде өзгертуге болады.",
     StringKey.OnboardingContinueButton to "Бастайық",
+    StringKey.OnboardingNothingPickedWarning to
+        "Жалғастыру үшін кемінде бір жинақты немесе бір саңырауқұлақты таңдаңыз",
 
     StringKey.WelcomeIntro to
         "Қолданба қайдан өткеніңізді және не тапқаныңызды есте сақтайды — әрі саңырауқұлақ теруге шынымен " +

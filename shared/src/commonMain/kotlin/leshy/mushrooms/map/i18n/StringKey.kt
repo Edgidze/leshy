@@ -60,6 +60,7 @@ enum class StringKey {
     OnboardingTitle,
     OnboardingDescription,
     OnboardingContinueButton,
+    OnboardingNothingPickedWarning,
 
     WelcomeIntro,
     WelcomeRecordTitle,

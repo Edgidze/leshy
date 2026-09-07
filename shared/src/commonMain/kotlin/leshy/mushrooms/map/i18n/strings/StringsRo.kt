@@ -74,6 +74,8 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Alegeți colecțiile de ciuperci care vă interesează. Puteți schimba asta mai târziu din Setări.",
     StringKey.OnboardingContinueButton to "Începeți",
+    StringKey.OnboardingNothingPickedWarning to
+        "Alegeți cel puțin o colecție sau o ciupercă pentru a continua",
 
     StringKey.WelcomeIntro to
         "Aplicația ține minte pe unde ați umblat și ce ați găsit — și chiar ajută la cules: la locurile " +

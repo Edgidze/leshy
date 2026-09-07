@@ -81,6 +81,8 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Izberite zbirke gob, ki vas zanimajo. To lahko pozneje spremenite v Nastavitvah.",
     StringKey.OnboardingContinueButton to "Začni",
+    StringKey.OnboardingNothingPickedWarning to
+        "Izberite vsaj eno zbirko ali eno gobo za nadaljevanje",
 
     StringKey.WelcomeIntro to
         "Aplikacija si zapomni, kod ste hodili in kaj ste našli — in pri nabiranju resnično pomaga: na " +

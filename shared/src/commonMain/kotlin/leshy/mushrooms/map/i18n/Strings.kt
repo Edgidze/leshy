@@ -237,6 +237,8 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.OnboardingDescription ->
         "Выберите подборки грибов, которые вам интересны. Это можно изменить позже в Настройках."
     StringKey.OnboardingContinueButton -> "Начать"
+    StringKey.OnboardingNothingPickedWarning ->
+        "Выберите хотя бы одну подборку или один гриб, чтобы продолжить"
 
     StringKey.WelcomeIntro ->
         "Приложение запоминает, где вы прошли и что нашли, — и заметно помогает в сборе грибов: к хорошим " +
@@ -594,6 +596,8 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.OnboardingDescription ->
         "Pick the mushroom collections you're interested in. You can change this later in Settings."
     StringKey.OnboardingContinueButton -> "Get started"
+    StringKey.OnboardingNothingPickedWarning ->
+        "Pick at least one collection or one mushroom to continue"
 
     StringKey.WelcomeIntro ->
         "The app remembers where you walked and what you found — and it really helps you pick more " +

@@ -74,6 +74,8 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Выберыце падборкі грыбоў, якія вам цікавыя. Гэта можна змяніць пазней у Наладах.",
     StringKey.OnboardingContinueButton to "Пачаць",
+    StringKey.OnboardingNothingPickedWarning to
+        "Выберыце хаця б адну падборку ці адзін грыб, каб працягнуць",
 
     StringKey.WelcomeIntro to
         "Праграма запамінае, дзе вы прайшлі і што знайшлі, — і прыкметна дапамагае ў зборы грыбоў: да " +

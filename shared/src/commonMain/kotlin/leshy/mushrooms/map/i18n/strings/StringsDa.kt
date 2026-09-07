@@ -65,6 +65,8 @@ internal val danishStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Vælg de svampesamlinger, du er interesseret i. Du kan ændre det senere i indstillingerne.",
     StringKey.OnboardingContinueButton to "Kom i gang",
+    StringKey.OnboardingNothingPickedWarning to
+        "Vælg mindst én samling eller én svamp for at fortsætte",
     StringKey.WelcomeIntro to
         "Appen husker, hvor du har gået, og hvad du har fundet — og det hjælper virkelig til at " +
             "finde flere svampe: gode steder er nemme at vende tilbage til, og hvert fund ligger på " +

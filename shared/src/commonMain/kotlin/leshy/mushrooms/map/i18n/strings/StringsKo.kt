@@ -70,6 +70,8 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "관심 있는 버섯 컬렉션을 선택하세요. 나중에 설정에서 언제든지 변경할 수 있습니다.",
     StringKey.OnboardingContinueButton to "시작하기",
+    StringKey.OnboardingNothingPickedWarning to
+        "계속하려면 컬렉션이나 버섯을 하나 이상 선택하세요",
 
     StringKey.WelcomeIntro to
         "앱은 어디를 걸었고 무엇을 찾았는지 기억합니다. 좋은 자리로 쉽게 돌아갈 수 있고 모든 수확이 지도 한 장에 모이므로 버섯 채집에 실제로 도움이 됩니다.",

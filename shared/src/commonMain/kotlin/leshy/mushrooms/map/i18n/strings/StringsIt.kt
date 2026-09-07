@@ -75,6 +75,8 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
         "Scegli le collezioni di funghi che ti interessano. Potrai modificarle in seguito " +
             "nelle impostazioni.",
     StringKey.OnboardingContinueButton to "Inizia",
+    StringKey.OnboardingNothingPickedWarning to
+        "Scegli almeno una collezione o un fungo per continuare",
 
     StringKey.WelcomeIntro to
         "L’app ricorda i tuoi percorsi e i tuoi ritrovamenti, e aiuta davvero nella raccolta: ai posti " +

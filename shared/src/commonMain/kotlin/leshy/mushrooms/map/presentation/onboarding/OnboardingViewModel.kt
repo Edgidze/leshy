@@ -69,6 +69,7 @@ class OnboardingViewModel(
             }.collect { (language, items) ->
                 _uiState.update {
                     it.copy(language = language, collectionPickerItems = sortByLanguage(items, language))
+                        .withCollectionsReminderClearedIfPicked()
                 }
             }
         }
@@ -224,12 +225,39 @@ class OnboardingViewModel(
     }
 
     /**
+     * «Дальше» с последнего шага онбординга — но только если отмечен хоть один гриб
+     * ([OnboardingUiState.hasPickedSpecies]). Иначе шаг не меняется, а растёт
+     * [OnboardingUiState.collectionsReminderCount], по которому экран показывает предупреждение
+     * над кнопкой — ровно тот же приём, что и с галочками согласия в [onWelcomeNext].
+     *
+     * Экран при этом гасит кнопку, но нажатие оставляет живым (см.
+     * [leshy.mushrooms.map.ui.screens.OnboardingScreen]) — иначе объяснить, чего от человека ждут,
+     * было бы нечем: погашенная кнопка на нажатие не отвечает вовсе.
+     *
+     * Предвыбор по региону устройства ([preselectByDeviceRegion]) обычно приводит сюда с уже
+     * отмеченной подборкой, так что предупреждение видит тот, кто её снял, или тот, чьего региона
+     * нет среди подборок.
+     */
+    fun onCollectionsNext() {
+        if (!_uiState.value.hasPickedSpecies) {
+            _uiState.update { it.copy(collectionsReminderCount = it.collectionsReminderCount + 1) }
+            return
+        }
+        finish()
+    }
+
+    /** Предупреждение гаснет в тот момент, когда встала первая галочка, — держать его до повторного
+     * нажатия «Дальше» значило бы ругаться на уже исправленное (ср. [withReminderClearedIfComplete]). */
+    private fun OnboardingUiState.withCollectionsReminderClearedIfPicked(): OnboardingUiState =
+        if (collectionsReminderCount > 0 && hasPickedSpecies) copy(collectionsReminderCount = 0) else this
+
+    /**
      * Fire-and-forget is safe here: nothing tears this ViewModel down in direct response to this
      * call. [leshy.mushrooms.map.App] observes the same [OnboardingRepository] flag independently
      * and only swaps away from the onboarding screen once the write has actually landed and the
      * flow re-emits — see `.claude/plans/mushroom-collections.md`, Phase 3.
      */
-    fun finish() {
+    private fun finish() {
         viewModelScope.launch { onboardingRepository.setCollectionPickerCompleted() }
     }
 }

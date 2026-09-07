@@ -78,6 +78,8 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
         "Válassza ki az Önt érdeklő gombagyűjteményeket. Ezt később a Beállításokban " +
             "módosíthatja.",
     StringKey.OnboardingContinueButton to "Kezdés",
+    StringKey.OnboardingNothingPickedWarning to
+        "A folytatáshoz válasszon ki legalább egy gyűjteményt vagy egy gombát",
 
     StringKey.WelcomeIntro to
         "Az alkalmazás megjegyzi, merre járt és mit talált — és érezhetően segít a gombászásban: a jó " +

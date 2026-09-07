@@ -72,6 +72,8 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Välj de svampsamlingar du är intresserad av. Du kan ändra detta senare i Inställningar.",
     StringKey.OnboardingContinueButton to "Kom igång",
+    StringKey.OnboardingNothingPickedWarning to
+        "Välj minst en samling eller en svamp för att fortsätta",
 
     StringKey.WelcomeIntro to
         "Appen minns var du gått och vad du hittat — och hjälper verkligen vid svampplockningen: till bra " +

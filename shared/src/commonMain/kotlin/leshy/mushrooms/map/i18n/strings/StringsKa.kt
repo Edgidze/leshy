@@ -77,6 +77,8 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
         "აირჩიეთ სოკოების კრებულები, რომლებიც გაინტერესებთ. ამის შეცვლა მოგვიანებით " +
             "პარამეტრებში შეგიძლიათ.",
     StringKey.OnboardingContinueButton to "დაწყება",
+    StringKey.OnboardingNothingPickedWarning to
+        "გასაგრძელებლად აირჩიეთ სულ მცირე ერთი კრებული ან ერთი სოკო",
 
     StringKey.WelcomeIntro to
         "აპლიკაცია იმახსოვრებს, სად გაიარეთ და რა იპოვეთ — და სოკოს კრეფაში ნამდვილად გეხმარებათ: კარგ " +

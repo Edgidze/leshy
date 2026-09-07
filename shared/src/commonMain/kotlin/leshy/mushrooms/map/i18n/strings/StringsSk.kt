@@ -75,6 +75,8 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Vyberte zbierky húb, ktoré vás zaujímajú. Neskôr to môžete zmeniť v Nastaveniach.",
     StringKey.OnboardingContinueButton to "Začať",
+    StringKey.OnboardingNothingPickedWarning to
+        "Vyberte aspoň jednu zbierku alebo jednu hubu, aby ste mohli pokračovať",
 
     StringKey.WelcomeIntro to
         "Aplikácia si pamätá, kade ste šli a čo ste našli — a so zberom naozaj pomôže: k dobrým miestam sa " +

@@ -72,6 +72,8 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Maraqlandığınız göbələk kolleksiyalarını seçin. Bunu sonra Parametrlərdə dəyişə bilərsiniz.",
     StringKey.OnboardingContinueButton to "Başlayaq",
+    StringKey.OnboardingNothingPickedWarning to
+        "Davam etmək üçün ən azı bir kolleksiya və ya bir göbələk seçin",
 
     StringKey.WelcomeIntro to
         "Tətbiq haradan keçdiyinizi və nə tapdığınızı yadda saxlayır — və göbələk yığmağa həqiqətən kömək " +

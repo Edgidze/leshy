@@ -119,7 +119,24 @@ private fun CollectionsStep(viewModel: OnboardingViewModel, modifier: Modifier =
             onToggleCategory = viewModel::setCategoryPicked,
             modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
         )
-        LeshyButton(onClick = viewModel::finish, modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
+        // Предупреждение — над кнопкой, а не под списком: список прокручиваемый и к моменту
+        // нажатия может стоять на любом своём месте, а нажал человек ровно сюда.
+        if (uiState.collectionsReminderCount > 0) {
+            Text(
+                text = stringResource(StringKey.OnboardingNothingPickedWarning),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+            )
+        }
+        // Пока не выбран ни один гриб, кнопка нарисована выключенной, но нажатие принимает —
+        // иначе на тап она бы просто молчала, и объяснить, чего от человека ждут, было бы нечем
+        // (`dimmed`, см. LeshyButton; проверка — OnboardingViewModel.onCollectionsNext).
+        LeshyButton(
+            onClick = viewModel::onCollectionsNext,
+            dimmed = !uiState.hasPickedSpecies,
+            modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+        ) {
             Text(stringResource(StringKey.OnboardingContinueButton))
         }
     }

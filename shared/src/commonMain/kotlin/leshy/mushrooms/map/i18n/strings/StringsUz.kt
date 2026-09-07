@@ -77,6 +77,8 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
         "Sizni qiziqtirgan qoʻziqorin toʻplamlarini tanlang. Buni keyinroq Sozlamalarda " +
             "oʻzgartirish mumkin.",
     StringKey.OnboardingContinueButton to "Boshlaymiz",
+    StringKey.OnboardingNothingPickedWarning to
+        "Davom etish uchun kamida bitta toʻplam yoki bitta qoʻziqorin tanlang",
 
     StringKey.WelcomeIntro to
         "Ilova qayerdan oʻtganingizni va nima topganingizni eslab qoladi — va qoʻziqorin terishga chinakam " +

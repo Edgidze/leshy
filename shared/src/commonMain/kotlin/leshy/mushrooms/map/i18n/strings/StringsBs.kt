@@ -68,6 +68,8 @@ internal val bosnianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Odaberite zbirke gljiva koje vas zanimaju. Ovo možete promijeniti kasnije u postavkama.",
     StringKey.OnboardingContinueButton to "Krenimo",
+    StringKey.OnboardingNothingPickedWarning to
+        "Odaberite barem jednu zbirku ili jednu gljivu da nastavite",
     StringKey.WelcomeIntro to
         "Aplikacija pamti gdje ste hodali i šta ste našli — i to zaista pomaže da nabere više: " +
             "dobrim mjestima se lako vraćate, a svaki nalaz je na jednoj karti.",

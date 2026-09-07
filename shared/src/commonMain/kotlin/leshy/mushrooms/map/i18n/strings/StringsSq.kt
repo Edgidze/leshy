@@ -69,6 +69,8 @@ internal val albanianStrings: Map<StringKey, String> = mapOf(
         "Zgjidhni përmbledhjet e kërpudhave që ju interesojnë. Këtë mund ta ndryshoni më vonë te " +
             "cilësimet.",
     StringKey.OnboardingContinueButton to "Fillojmë",
+    StringKey.OnboardingNothingPickedWarning to
+        "Zgjidhni të paktën një përmbledhje ose një kërpudhë për të vazhduar",
     StringKey.WelcomeIntro to
         "Aplikacioni mban mend ku keni ecur dhe çfarë keni gjetur — dhe kjo ndihmon vërtet të " +
             "mblidhni më shumë: te vendet e mira kthehesh lehtë dhe çdo gjetje ndodhet në një hartë " +

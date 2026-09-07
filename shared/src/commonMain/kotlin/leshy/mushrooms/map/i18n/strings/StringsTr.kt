@@ -72,6 +72,8 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "İlgilendiğiniz mantar koleksiyonlarını seçin. Bunu daha sonra Ayarlar'dan değiştirebilirsiniz.",
     StringKey.OnboardingContinueButton to "Başla",
+    StringKey.OnboardingNothingPickedWarning to
+        "Devam etmek için en az bir koleksiyon ya da bir mantar seçin",
 
     StringKey.WelcomeIntro to
         "Uygulama nereden geçtiğinizi ve ne bulduğunuzu hatırlar — ve mantar toplamaya gerçekten yardım " +

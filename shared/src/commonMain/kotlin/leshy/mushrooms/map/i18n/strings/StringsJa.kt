@@ -70,6 +70,8 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "興味のあるキノコのコレクションを選択してください。これは後で設定からいつでも変更できます。",
     StringKey.OnboardingContinueButton to "始める",
+    StringKey.OnboardingNothingPickedWarning to
+        "続けるには、コレクションかキノコを少なくとも1つ選んでください",
 
     StringKey.WelcomeIntro to "アプリは歩いた場所と見つけたものを覚えています。良い場所へは簡単に戻れ、すべての収穫が一枚の地図に集まるので、キノコ狩りが目に見えてはかどります。",
     StringKey.WelcomeRecordTitle to "散策を記録する",

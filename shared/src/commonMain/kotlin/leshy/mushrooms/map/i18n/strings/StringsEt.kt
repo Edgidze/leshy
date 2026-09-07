@@ -76,6 +76,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Valige seenekogud, mis teid huvitavad. Seda saab hiljem Seadetes muuta.",
     StringKey.OnboardingContinueButton to "Alusta",
+    StringKey.OnboardingNothingPickedWarning to
+        "Jätkamiseks valige vähemalt üks kogu või üks seen",
 
     StringKey.WelcomeIntro to
         "Rakendus jätab meelde, kus te käisite ja mida leidsite — ja aitab seenelkäigul tuntavalt: headesse " +

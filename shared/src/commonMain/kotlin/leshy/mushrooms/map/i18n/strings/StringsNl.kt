@@ -68,6 +68,8 @@ internal val dutchStrings: Map<StringKey, String> = mapOf(
         "Kies de collecties paddenstoelen die je interesseren. Je kunt dit later aanpassen in de " +
             "instellingen.",
     StringKey.OnboardingContinueButton to "Aan de slag",
+    StringKey.OnboardingNothingPickedWarning to
+        "Kies minstens één collectie of één paddenstoel om verder te gaan",
     StringKey.WelcomeIntro to
         "De app onthoudt waar je hebt gelopen en wat je hebt gevonden — en dat helpt echt om meer " +
             "te vinden: goede plekken zijn makkelijk terug te vinden en elke vondst staat op één " +

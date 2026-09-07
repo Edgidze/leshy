@@ -78,6 +78,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Valitse sinua kiinnostavat sienikokoelmat. Voit muuttaa tätä myöhemmin Asetuksissa.",
     StringKey.OnboardingContinueButton to "Aloita",
+    StringKey.OnboardingNothingPickedWarning to
+        "Valitse vähintään yksi kokoelma tai yksi sieni jatkaaksesi",
 
     StringKey.WelcomeIntro to
         "Sovellus muistaa, missä olet kulkenut ja mitä olet löytänyt — ja auttaa sienestyksessä tuntuvasti: " +

@@ -72,6 +72,8 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Size gyzykly kömelek ýygyndylaryny saýlaň. Muny soňra Sazlamalarda üýtgedip bolýar.",
     StringKey.OnboardingContinueButton to "Başlalyň",
+    StringKey.OnboardingNothingPickedWarning to
+        "Dowam etmek üçin iň bolmanda bir ýygyndyny ýa-da bir kömelegi saýlaň",
 
     StringKey.WelcomeIntro to
         "Programma nireden geçeniňizi we näme tapanyňyzy ýatda saklaýar — we kömelek ýygnamaga " +

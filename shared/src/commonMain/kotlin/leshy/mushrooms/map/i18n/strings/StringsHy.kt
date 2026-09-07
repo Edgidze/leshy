@@ -72,6 +72,8 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Ընտրեք ձեզ հետաքրքրող սնկերի հավաքածուները։ Սա հետո կարող եք փոխել Կարգավորումներում։",
     StringKey.OnboardingContinueButton to "Սկսենք",
+    StringKey.OnboardingNothingPickedWarning to
+        "Շարունակելու համար ընտրեք առնվազն մեկ հավաքածու կամ մեկ սունկ",
 
     StringKey.WelcomeIntro to
         "Հավելվածը հիշում է, թե որտեղով եք անցել և ինչ եք գտել, և իսկապես օգնում է սունկ հավաքելիս․ լավ " +

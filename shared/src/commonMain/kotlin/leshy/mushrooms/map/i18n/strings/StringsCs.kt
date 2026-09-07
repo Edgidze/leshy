@@ -75,6 +75,8 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Vyberte sbírky hub, které vás zajímají. Později to můžete změnit v Nastavení.",
     StringKey.OnboardingContinueButton to "Začít",
+    StringKey.OnboardingNothingPickedWarning to
+        "Vyberte alespoň jednu sbírku nebo jednu houbu, abyste mohli pokračovat",
 
     StringKey.WelcomeIntro to
         "Aplikace si pamatuje, kudy jste šli a co jste našli — a se sběrem opravdu pomůže: k dobrým místům " +
