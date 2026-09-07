@@ -1,6 +1,8 @@
 {
   "country": "GR",
-  "languages": ["el"],
+  "languages": [
+    "el"
+  ],
   "keys": [
     "boletus_edulis",
     "lactarius_deliciosus",
@@ -106,7 +108,6 @@
       "cortinarius_orellanus": "Κορτινάριος ο ορελλάνιος",
       "rubroboletus_satanas": "Βωλίτης ο σατανάς",
       "agaricus_xanthodermus": "Αγαρικό το ξανθόδερμο",
-      "gyromitra_esculenta": "Γυρομίτρα η εδώδιμη",
       "paxillus_involutus": "Πάξιλλος"
     }
   },
@@ -161,7 +162,7 @@
     "rubroboletus_satanas": "Опасный: главный ядовитый болет тёплых известняковых дубрав Греции, прямой двойник товарных боровиков. Источники: agriamanitaria.gr/rubroboletus-satanas",
     "agaricus_xanthodermus": "Опасный: желтеющий шампиньон на тех же лугах и в тех же оливковых рощах, где берут A. campestris и A. arvensis, — самая частая «бытовая» интоксикация. Источники: agriamanitaria.gr/agaricus-xanthodermus",
     "hygrophoropsis_aurantiaca": "Опасный/несъедобный: ложная лисичка, названа двойником Cantharellus cibarius прямо на греческой странице вида. Устойчивого греческого народного имени в источниках не нашлось — оставлен без записи в `names`, сработает латинский фолбэк. Источники: agriamanitaria.gr/hygrophoropsis-aurantiaca, agriamanitaria.gr/cantharellus-cibarius",
-    "gyromitra_esculenta": "Опасный: в Навпактии выходит в апреле практически вместе со сморчками, и местные раньше ели его без страха вместе с ними — это и есть греческий сценарий отравления. Греческое книжное имя буквально значит «съедобная», что само по себе стоит вынести в интерфейс. Взят ключ без `__2` (европейский already_in). Источники: aitoliki.gr, agriamanitaria.gr/gyromitra-esculenta",
+    "gyromitra_esculenta": "Опасный: в Навпактии выходит в апреле практически вместе со сморчками, и местные раньше ели его без страха вместе с ними — это и есть греческий сценарий отравления. Греческое книжное имя буквально значит «съедобная», что само по себе стоит вынести в интерфейс. Взят ключ без `__2` (европейский already_in). Источники: aitoliki.gr, agriamanitaria.gr/gyromitra-esculenta | Решение владельца проекта (2026-09-07): греческое название намеренно НЕ записывается — засвидетельствованная форма «Γυρομίτρα η εδώδιμη» буквально значит «съедобная» у ядовитого вида, и на плитке это опаснее латыни. Сработает штатный фолбэк на Gyromitra esculenta.",
     "clitocybe_rivulosa": "Опасный: мускариновая клитоцибе тех же лугов и «ведьминых кругов», где берут Marasmius oreades; в греческом каталоге видов идёт с синонимом C. dealbata. Греческого народного имени в источниках нет — оставлен без записи в `names`. Источники: agriamanitaria.gr/clitocybe-rivulosa",
     "lepiota_brunneoincarnata": "Опасный: мелкая аматоксиновая лепиота парков, газонов и опушек средиземноморской зоны; входит в греческие списки смертельно ядовитых. Отдельной греческой страницы вида и устойчивого греческого имени найти не удалось — оставлен без записи в `names`; решение по аналогии с TR/ES, где вид даёт реальные отравления в той же климатической зоне. Источники: cantina.protothema.gr",
     "paxillus_involutus": "Опасный: в экспертном отчёте по Навпактии ему отведён отдельный раздел («Παξιλλικό σύνδρομο») — значит, его здесь действительно ели и едят. Имя «Πάξιλλος» взято из этого текста. Источники: aitoliki.gr, agriamanitaria.gr/paxillus-involutus"
@@ -169,11 +170,19 @@
   "gaps": [
     {
       "sci": "Amanita proxima",
-      "names": { "el": "" },
+      "names": {
+        "el": ""
+      },
       "why": "Средиземноморский белый мухомор, макроскопически неотличимый от съедобного Amanita ovoidea, который в Греции собирают и едят. Даёт отсроченную нефротоксическую картину; в Средиземноморье это основной сценарий тяжёлого отравления «съедобным белым мухомором». Отдельная плитка нужна не для сбора, а для предупреждения.",
       "nearest_key": "amanita_ovoidea",
       "same_concept_as_nearest": true,
-      "also_in": ["AL", "CY", "ME", "MK", "PT"],
+      "also_in": [
+        "AL",
+        "CY",
+        "ME",
+        "MK",
+        "PT"
+      ],
       "priority": "medium",
       "sources": [
         "https://www.agriamanitaria.gr/amanita-ovoidea-%ce%ac%ce%b3%cf%81%ce%b9%ce%b1-%ce%bc%ce%b1%ce%bd%ce%b9%cf%84%ce%ac%cf%81%ce%b9%ce%b1/",
@@ -182,11 +191,19 @@
     },
     {
       "sci": "Albatrellus pes-caprae (= Scutiger pes-caprae)",
-      "names": { "el": "Τραγοπόδαρο" },
+      "names": {
+        "el": "Τραγοπόδαρο"
+      },
       "why": "В экспертном отчёте по Навпактии ему отведён отдельный раздел: «одно из самых вкусных грибов, что я пробовал», собирается в пихтарниках 1100–1700 м, известен под собственным народным именем «τραγοπόδαρο» (козья нога). Собственное народное имя — прямое свидетельство сбора. В каталоге из рода есть только Albatrellus ovinus, белый и другой по виду.",
       "nearest_key": "albatrellus_ovinus",
       "same_concept_as_nearest": false,
-      "also_in": ["AL", "BA", "ME", "MK", "PT"],
+      "also_in": [
+        "AL",
+        "BA",
+        "ME",
+        "MK",
+        "PT"
+      ],
       "priority": "medium",
       "sources": [
         "https://www.aitoliki.gr/wp-content/uploads/%CE%95%CE%9C%CE%A0%CE%95%CE%99%CE%A1%CE%9F%CE%93%CE%9D%CE%A9%CE%9C%CE%9F%CE%A3%CE%A5%CE%9D%CE%97-%CE%93%CE%99%CE%91-%CE%A4%CE%91-%CE%95%CE%99%CE%94%CE%97-%CE%9C%CE%91%CE%9D%CE%99%CE%A4%CE%91%CE%A1%CE%99%CE%A9%CE%9D-%CE%A3%CE%A4%CE%97%CE%9D-%CE%9D%CE%91%CE%A5%CE%A0%CE%91%CE%9A%CE%A4%CE%99%CE%91.pdf"
@@ -194,11 +211,19 @@
     },
     {
       "sci": "Suillus bellinii / Suillus collinitus",
-      "names": { "el": "" },
+      "names": {
+        "el": ""
+      },
       "why": "Именно эти два маслёнка, а не S. granulatus, доминируют в сосняках Pinus halepensis/pinea южной и островной Греции и попадают в корзину под общим «сосновым» именем. Для грибника это тот же концепт, что и granulatus, поэтому отдельная плитка не обязательна — достаточно того, что granulatus уже в каталоге.",
       "nearest_key": "suillus_granulatus",
       "same_concept_as_nearest": true,
-      "also_in": ["AL", "CY", "ME", "MK", "PT"],
+      "also_in": [
+        "AL",
+        "CY",
+        "ME",
+        "MK",
+        "PT"
+      ],
       "priority": "low",
       "sources": [
         "https://www.agriamanitaria.gr/suillus-collinitus-%ce%ac%ce%b3%cf%81%ce%b9%ce%b1-%ce%bc%ce%b1%ce%bd%ce%b9%cf%84%ce%ac%cf%81%ce%b9%ce%b1/",
