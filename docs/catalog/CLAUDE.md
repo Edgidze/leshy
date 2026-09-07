@@ -374,3 +374,38 @@ python3 tools/build_catalog_reference.py docs/research/<партия>/catalog_re
 Колонки с уже имеющимися названиями задаются под партию: они нужны сессии,
 чтобы понять, о каком народном концепте речь, и увидеть, что название уже есть;
 переводить из них промпты запрещают явно.
+
+## Фаза 2 партии `europe-15` (2026-09-07) — пять стран
+
+`python3 tools/build_catalog.py` (полный прогон, из venv) после того, как
+в ручные слои легли `CH`, `GR`, `IS`, `NO`, `PT`:
+
+```
+408 categories (+0 extra), 45 countries (+12 extra), 47 languages
+colors: 408 reused from catalog.json, 0 computed from images
+catalog.json: 408 entries, 366 distinct colors
+countries.json: 45 countries
+countries/: 42 files written (45 countries each, 17 manual overrides applied)
+names/: 47 files written (15 of them fed by extra_names/)
+images: 408 verified, 0 copied, 0 orphaned group images removed
+```
+
+Инкрементная секция цветов отработала как задумано: **`catalog.json` не
+изменился ни на байт**, все 408 цветов прочитаны из него же, к `drawable/`
+скрипт не притронулся. Диффом задеты ровно данные подборок и названий:
+`countries.json` (+5 записей), 42 файла `countries/<lang>.json` (+5 строк
+каждый, ни одно из 40 существующих названий не поехало — версия `babel` 2.18
+даёт тот же CLDR, что и прошлые прогоны), `names/de|fr|it.json` (+9/+6/+16) и
+четыре новых `names/el|is|nb|pt.json`.
+
+**Семь новых файлов `extra_names/`** (`de`, `fr`, `it`, `el`, `is`, `nb`, `pt`).
+Слой `extra_names/` перекрывает всё, включая `name_overrides.json`, поэтому
+разложено только то, у чего имени на этом языке ещё не было: сверка перед
+записью показала 0 конфликтов и 0 совпадений с существующими
+`names/<lang>.json`, то есть ни одно имя из подборок `DE`, `AT`, `FR`, `BE`,
+`IT`, `CA` не переписано.
+
+Зависимости в системном python по-прежнему нет: `Pillow` стоит в
+`~/Library/Python/3.9`, `Babel` — нет. Достаточно поставить `babel` в
+отдельную директорию и подать её через `PYTHONPATH`, полноценный venv не
+обязателен.

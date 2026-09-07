@@ -10,13 +10,13 @@ import leshy.mushrooms.map.domain.repository.CategoryRepository
 import leshy.mushrooms.map.domain.repository.CollectionRepository
 
 /**
- * Reconciles the `collections` table with the bundled per-country presets (`countries.json`, 33
+ * Reconciles the `collections` table with the bundled per-country presets (`countries.json`, 45
  * countries — `.claude/plans/countries-and-languages.md`, Phase 3). Replaces the old hardcoded
  * 3-bucket demo seeding; same batch/gate shape as `EnsureDefaultCategoriesUseCase`.
  *
  * Membership is always re-inserted in full rather than diffed against what's already there —
  * `CollectionDao.insertMembers` uses `OnConflictStrategy.IGNORE`, so handing it the complete desired
- * list every time this runs is idempotent by construction and cheap (~1650 rows, one transaction),
+ * list every time this runs is idempotent by construction and cheap (~2240 rows, one transaction),
  * without needing to compute a per-row diff. A country losing a species between catalog
  * regenerations does *not* remove the stale membership row — same additive-only philosophy as
  * `EnsureDefaultCategoriesUseCase`, which never deletes rows either.

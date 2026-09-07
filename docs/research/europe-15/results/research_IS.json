@@ -113,15 +113,15 @@
   },
   "gaps": [
     {
-      "sci": "Leccinum niveum (syn. Leccinum holopus var. niveum); Leccinum variicolor",
-      "names": { "is": "Dökklubbi (L. variicolor)" },
-      "why": "Smátegundirnar í kringum kúalubba eru það sem raunverulega fyllir körfuna í íslensku birkikjarri: L. niveum er mest skráða Leccinum-tegund landsins (GBIF IS=282, á móti 199 hjá L. scabrum) og dökklubbi er beinlínis kallaður «smátegund frá kúalubba og eins og hann, eftirsóttur matsveppur» (is.wikipedia/Dökklubbi, GBIF IS=22). Þær vaxa með birki og fjalldrapa, ekki með ösp eða eik, og eru því ekki dekkaðar af meginlandslyklunum.",
+      "sci": "Leccinum variicolor",
+      "names": { "is": "Dökklubbi" },
+      "why": "Smátegundirnar í kringum kúalubba fylla körfuna í íslensku birkikjarri: dökklubbi er «smátegund frá kúalubba og eins og hann, eftirsóttur matsveppur» (is.wikipedia/Dökklubbi). Hann vex með birki og fjalldrapa, ekki með ösp eða eik, og er því ekki dekkaður af meginlandslyklunum. ATH: upphaflega færslan sagði Leccinum niveum vera mest skráðu Leccinum-tegund landsins með 282 skráningar — það var rangt. GBIF (country=IS, 2026-09-07) gefur L. niveum 0; 282 er heildartala ættkvíslarinnar og skiptist í L. scabrum 199, L. variicolor 22, L. versipelle 12, L. melaneum 1. Niðurstaðan sjálf stendur óbreytt: sérstakur flokkur er ekki nauðsyn, nafn á núverandi kúalubba-lykli dugar.",
       "nearest_key": "leccinum_scabrum",
       "same_concept_as_nearest": true,
       "also_in": ["NO", "DK", "IE"],
       "sources": [
         "https://is.wikipedia.org/wiki/D%C3%B6kklubbi",
-        "https://api.gbif.org/v1/occurrence/search?country=IS (Leccinum niveum 282, L. variicolor 22, L. scabrum 199)"
+        "https://api.gbif.org/v1/occurrence/search?country=IS&scientificName=Leccinum%20variicolor (22; L. niveum 0, L. scabrum 199, ættkvíslin 282 — endurskoðað 2026-09-07)"
       ],
       "priority": "medium"
     },
