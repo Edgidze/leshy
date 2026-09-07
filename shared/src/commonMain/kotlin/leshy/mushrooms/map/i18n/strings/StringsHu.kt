@@ -115,6 +115,10 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
         "Semmilyen körülmények között nem eszik meg olyan gombát, amelyet nem ismer. A gombák lehetnek ehetetlenek, " +
             "sőt mérgezőek is. A legjobb — hívjon valakit, aki ért a környék gombáihoz, hogy megtudja, mely gombák " +
             "szedhetők, és hogyan kell azokat utána elkészíteni.",
+    StringKey.WelcomeConsentBattery to
+        "A séták során be fogja tartani a szükséges biztonsági szabályokat, és számol azzal, hogy futó alkalmazás " +
+            "mellett a telefon gyorsabban lemerül. Alacsony töltöttségnél jobb leállítani a séta rögzítését és " +
+            "bezárni az alkalmazást.",
     StringKey.WelcomeConsentWarning to
         "A folytatáshoz el kell fogadnia a fenti állításokat: tegyen pipát azon állítások elé, amelyekkel egyetért",
 

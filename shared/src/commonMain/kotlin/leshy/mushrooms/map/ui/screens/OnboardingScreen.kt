@@ -65,9 +65,11 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
             language = uiState.language,
             consentImagesAccepted = uiState.consentImagesAccepted,
             consentEatingAccepted = uiState.consentEatingAccepted,
+            consentBatteryAccepted = uiState.consentBatteryAccepted,
             consentReminderCount = uiState.consentReminderCount,
             onConsentImagesChange = viewModel::setConsentImagesAccepted,
             onConsentEatingChange = viewModel::setConsentEatingAccepted,
+            onConsentBatteryChange = viewModel::setConsentBatteryAccepted,
             onLanguageClick = viewModel::onOpenLanguagePicker,
             onNext = viewModel::onWelcomeNext,
             modifier = modifier,
@@ -93,38 +95,53 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
 private fun CollectionsStep(viewModel: OnboardingViewModel, modifier: Modifier = Modifier) {
     val uiState by viewModel.uiState.collectAsState()
 
+    var collectionQuery by remember { mutableStateOf("") }
+
     Column(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing).padding(16.dp)) {
+        // Заголовок — единственное, что на этом шаге стоит на месте: всё остальное содержимое, а не
+        // один только список подборок, уезжает под него при прокрутке (см. колонку ниже).
         Text(text = stringResource(StringKey.SpeciesCollectionsTitle), style = MaterialTheme.typography.headlineSmall)
-        Text(
-            text = stringResource(StringKey.OnboardingDescription),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
-        )
-        MushroomImageDisclaimerBanner(modifier = Modifier.padding(bottom = 8.dp))
-        // Та же кнопка языка, что и на обзорной странице, и с тем же смыслом: названия стран
-        // читаются только на понятном языке, а вернуться она обязана сюда же (languageReturnStep).
-        TextButton(
-            onClick = viewModel::onOpenLanguagePicker,
-            contentPadding = PaddingValues(horizontal = 4.dp, vertical = 0.dp),
-            modifier = Modifier.padding(bottom = 4.dp),
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Language,
-                contentDescription = null,
-                modifier = Modifier.size(18.dp),
+
+        Column(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {
+            // Та же кнопка языка, что и на обзорной странице, и с тем же смыслом: названия стран
+            // читаются только на понятном языке, а вернуться она обязана сюда же (languageReturnStep).
+            // Стоит первой под шапкой, а не под описанием с баннером: на обзорной странице она была в
+            // шапке, то есть на виду сразу, и человек, который пришёл сюда именно за сменой языка
+            // (названия стран в списке ему не читаются), обязан находить её там же, не вычитывая
+            // сначала два абзаца.
+            TextButton(
+                onClick = viewModel::onOpenLanguagePicker,
+                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 0.dp),
+                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Language,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(uiState.language.endonym, style = MaterialTheme.typography.labelLarge)
+            }
+            Text(
+                text = stringResource(StringKey.OnboardingDescription),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(bottom = 16.dp),
             )
-            Spacer(modifier = Modifier.width(6.dp))
-            Text(uiState.language.endonym, style = MaterialTheme.typography.labelLarge)
+            MushroomImageDisclaimerBanner(modifier = Modifier.padding(bottom = 8.dp))
+            // Прокрутка охватывает описание, баннер и кнопку языка, а не начинается с поля поиска:
+            // это же и есть то, ради чего поле само подтягивается к верхней кромке окна прокрутки в
+            // фокусе (`BringIntoViewRequester` внутри `CollectionPicker`). Раз человек нажал на
+            // поиск, вводную часть он уже прочитал — и она уходит вверх, освобождая под список весь
+            // экран между шапкой и клавиатурой. Пока пикер владел прокруткой сам, поле стояло в её
+            // начале и подтягивать его было некуда.
+            CollectionPicker(
+                items = uiState.collectionPickerItems,
+                query = collectionQuery,
+                onQueryChange = { collectionQuery = it },
+                onToggleCollection = viewModel::toggleCollection,
+                onToggleCategory = viewModel::setCategoryPicked,
+            )
         }
-        var collectionQuery by remember { mutableStateOf("") }
-        CollectionPicker(
-            items = uiState.collectionPickerItems,
-            query = collectionQuery,
-            onQueryChange = { collectionQuery = it },
-            onToggleCollection = viewModel::toggleCollection,
-            onToggleCategory = viewModel::setCategoryPicked,
-            modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
-        )
         // Предупреждение — над кнопкой, а не под списком: список прокручиваемый и к моменту
         // нажатия может стоять на любом своём месте, а нажал человек ровно сюда.
         if (uiState.collectionsReminderCount > 0) {

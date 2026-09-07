@@ -108,6 +108,10 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
         "Sie werden unter keinen Umständen Pilze essen, die Sie nicht kennen. Pilze können ungenießbar und auch " +
             "giftig sein. Am besten — holen Sie jemanden dazu, der sich mit den Pilzen Ihrer Gegend auskennt, um zu " +
             "erfahren, welche Pilze gesammelt werden dürfen und wie sie danach zubereitet werden müssen.",
+    StringKey.WelcomeConsentBattery to
+        "Sie werden bei Ihren Spaziergängen die nötigen Sicherheitsregeln beachten und daran denken, dass sich der " +
+            "Akku des Telefons bei laufender App schneller entlädt. Bei niedrigem Ladestand halten Sie die " +
+            "Aufzeichnung des Spaziergangs besser an und schließen die App.",
     StringKey.WelcomeConsentWarning to
         "Um fortzufahren, müssen Sie den Aussagen oben zustimmen und die Kästchen vor den Aussagen ankreuzen, denen " +
             "Sie zustimmen",

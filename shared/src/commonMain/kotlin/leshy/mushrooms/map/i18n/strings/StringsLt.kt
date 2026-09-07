@@ -112,6 +112,9 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
         "Jokiomis aplinkybėmis nevalgysite grybų, kurių nepažįstate. Grybai gali būti nevalgomi, o gali būti ir " +
             "nuodingi. Geriausia — pasikvieskite ką nors, kas išmano jūsų krašto grybus, kad sužinotumėte, kuriuos " +
             "grybus galima rinkti ir kaip juos paskui reikia paruošti.",
+    StringKey.WelcomeConsentBattery to
+        "Per žygius laikysitės būtinų saugumo taisyklių ir atsižvelgsite į tai, kad veikianti programėlė greičiau " +
+            "iškrauna telefoną. Kai įkrovos lieka mažai, žygio įrašymą geriau sustabdyti, o programėlę užverti.",
     StringKey.WelcomeConsentWarning to
         "Norint tęsti, reikia sutikti su pirmiau pateiktais teiginiais pažymint langelius prie tų teiginių, su " +
             "kuriais sutinkate",

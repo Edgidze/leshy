@@ -101,6 +101,10 @@ internal val icelandicStrings: Map<StringKey, String> = mapOf(
         "Þú munt undir engum kringumstæðum borða sveppi sem þú þekkir ekki. Sveppir geta verið " +
             "óætir og þeir geta verið eitraðir. Allra best er að spyrja einhvern sem þekkir sveppina " +
             "í þínu nágrenni hverja megi tína og hvernig eigi að matreiða þá.",
+    StringKey.WelcomeConsentBattery to
+        "Í ferðunum munt þú fylgja nauðsynlegum öryggisreglum og hafa í huga að rafhlaða símans tæmist hraðar á " +
+            "meðan forritið er í gangi. Þegar hleðslan er lítil er betra að stöðva upptöku ferðarinnar og loka " +
+            "forritinu.",
     StringKey.WelcomeConsentWarning to
         "Til að halda áfram þarftu að samþykkja atriðin hér að ofan með því að haka við reitina " +
             "fyrir framan þau atriði sem þú samþykkir",

@@ -123,11 +123,11 @@ class OnboardingViewModel(
     }
 
     /**
-     * «Дальше» с обзорной страницы — к соглашению, но только с обеими галочками блока «Перед
+     * «Дальше» с обзорной страницы — к соглашению, но только со всеми галочками блока «Перед
      * использованием» ([OnboardingUiState.consentImagesAccepted]/
-     * [OnboardingUiState.consentEatingAccepted]). Иначе шаг не меняется, а растёт
-     * [OnboardingUiState.consentReminderCount] — по нему экран и прокручивает страницу к блоку
-     * с галочками, и показывает красное предупреждение над кнопкой.
+     * [OnboardingUiState.consentEatingAccepted]/[OnboardingUiState.consentBatteryAccepted]). Иначе
+     * шаг не меняется, а растёт [OnboardingUiState.consentReminderCount] — по нему экран и
+     * прокручивает страницу к блоку с галочками, и показывает красное предупреждение над кнопкой.
      *
      * Кнопка при этом остаётся живой, а не гаснет до простановки галочек: выключенная «Дальше» на
      * первом же экране свежей установки не объясняет, чего от человека хотят, — нажатие с
@@ -135,7 +135,7 @@ class OnboardingViewModel(
      */
     fun onWelcomeNext() {
         val state = _uiState.value
-        if (!state.consentImagesAccepted || !state.consentEatingAccepted) {
+        if (!state.consentImagesAccepted || !state.consentEatingAccepted || !state.consentBatteryAccepted) {
             _uiState.update { it.copy(consentReminderCount = it.consentReminderCount + 1) }
             return
         }
@@ -150,10 +150,18 @@ class OnboardingViewModel(
         _uiState.update { it.copy(consentEatingAccepted = accepted).withReminderClearedIfComplete() }
     }
 
+    fun setConsentBatteryAccepted(accepted: Boolean) {
+        _uiState.update { it.copy(consentBatteryAccepted = accepted).withReminderClearedIfComplete() }
+    }
+
     /** Предупреждение гаснет в тот момент, когда встала последняя галочка, — держать его до
      * повторного нажатия «Дальше» значило бы ругаться на уже исправленное. */
     private fun OnboardingUiState.withReminderClearedIfComplete(): OnboardingUiState =
-        if (consentImagesAccepted && consentEatingAccepted) copy(consentReminderCount = 0) else this
+        if (consentImagesAccepted && consentEatingAccepted && consentBatteryAccepted) {
+            copy(consentReminderCount = 0)
+        } else {
+            this
+        }
 
     /** Кнопка языка (есть и на обзорной странице, и над списком стран) — запоминает, куда
      * возвращаться, см. [OnboardingUiState.languageReturnStep]. */
@@ -177,7 +185,7 @@ class OnboardingViewModel(
      * получено» в DataStore нет и не нужно: экран сообщает, куда деваются данные, и даёт ссылку на
      * публичную политику — соглашаться там не с чем (почему нет и EULA — см.
      * [leshy.mushrooms.map.ui.screens.LegalScreen]). Дисклеймер о съедобности, единственное, под
-     * чем действительно нужна подпись, стоит шагом раньше — двумя обязательными галочками
+     * чем действительно нужна подпись, стоит шагом раньше — тремя обязательными галочками
      * [onWelcomeNext]. */
     fun onLegalNext() {
         _uiState.update { it.copy(step = OnboardingStep.COLLECTIONS) }

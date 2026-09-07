@@ -79,6 +79,7 @@ enum class StringKey {
     WelcomeConsentIntro,
     WelcomeConsentImages,
     WelcomeConsentEating,
+    WelcomeConsentBattery,
     WelcomeConsentWarning,
     WelcomeNextButton,
 

@@ -109,6 +109,10 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
         "Bajo ninguna circunstancia comerá setas que no conozca. Las setas pueden ser no comestibles e incluso " +
             "venenosas. Lo mejor — pida ayuda a alguien que conozca las setas de su zona para saber cuáles se " +
             "pueden recoger y cómo hay que cocinarlas después.",
+    StringKey.WelcomeConsentBattery to
+        "Durante los paseos seguirá las medidas de seguridad necesarias y tendrá en cuenta que, con la aplicación " +
+            "en marcha, el teléfono se descarga más rápido. Con poca batería es mejor detener la grabación del " +
+            "paseo y cerrar la aplicación.",
     StringKey.WelcomeConsentWarning to
         "Para continuar hay que aceptar las afirmaciones de arriba marcando las casillas delante de las " +
             "afirmaciones con las que está de acuerdo",

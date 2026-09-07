@@ -109,6 +109,10 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
         "În niciun caz nu veți mânca ciuperci pe care nu le cunoașteți. Ciupercile pot fi necomestibile și pot fi " +
             "chiar otrăvitoare. Cel mai bine — chemați pe cineva care se pricepe la ciupercile din zona " +
             "dumneavoastră, ca să aflați ce ciuperci se pot culege și cum trebuie gătite după aceea.",
+    StringKey.WelcomeConsentBattery to
+        "În timpul plimbărilor veți respecta regulile de siguranță necesare și veți ține cont că, atunci când " +
+            "aplicația funcționează, telefonul se descarcă mai repede. La baterie scăzută este mai bine să opriți " +
+            "înregistrarea plimbării și să închideți aplicația.",
     StringKey.WelcomeConsentWarning to
         "Pentru a continua trebuie să fiți de acord cu afirmațiile de mai sus, bifând căsuțele din dreptul " +
             "afirmațiilor cu care sunteți de acord",

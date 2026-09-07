@@ -101,6 +101,10 @@ internal val danishStrings: Map<StringKey, String> = mapOf(
         "Du vil under ingen omstændigheder spise svampe, du ikke kender. Svampe kan være " +
             "uspiselige, og de kan være giftige. Allerbedst — spørg en, der kender svampene i dit " +
             "område, hvilke der må plukkes, og hvordan de skal tilberedes bagefter.",
+    StringKey.WelcomeConsentBattery to
+        "Under turene vil du følge de nødvendige sikkerhedsregler og huske på, at telefonens batteri bliver brugt " +
+            "hurtigere op, mens appen kører. Ved lavt batteri er det bedst at stoppe optagelsen af turen og lukke " +
+            "appen.",
     StringKey.WelcomeConsentWarning to
         "For at fortsætte skal du erklære dig enig i punkterne ovenfor ved at sætte flueben ud " +
             "for de punkter, du er enig i",

@@ -67,9 +67,11 @@ fun WelcomeScreen(
     language: AppLanguage,
     consentImagesAccepted: Boolean,
     consentEatingAccepted: Boolean,
+    consentBatteryAccepted: Boolean,
     consentReminderCount: Int,
     onConsentImagesChange: (Boolean) -> Unit,
     onConsentEatingChange: (Boolean) -> Unit,
+    onConsentBatteryChange: (Boolean) -> Unit,
     onLanguageClick: () -> Unit,
     onNext: () -> Unit,
     modifier: Modifier = Modifier,
@@ -161,8 +163,10 @@ fun WelcomeScreen(
             ConsentCard(
                 imagesAccepted = consentImagesAccepted,
                 eatingAccepted = consentEatingAccepted,
+                batteryAccepted = consentBatteryAccepted,
                 onImagesChange = onConsentImagesChange,
                 onEatingChange = onConsentEatingChange,
+                onBatteryChange = onConsentBatteryChange,
                 modifier = Modifier.bringIntoViewRequester(consentRequester),
             )
             Spacer(modifier = Modifier.size(4.dp))
@@ -210,7 +214,7 @@ private fun Hero() {
 private val APP_ICON_CORNER = 25.dp
 
 /**
- * «Перед использованием» — два утверждения, с каждым из которых нужно согласиться галочкой, чтобы
+ * «Перед использованием» — три утверждения, с каждым из которых нужно согласиться галочкой, чтобы
  * «Дальше» сработала (проверка — в [leshy.mushrooms.map.presentation.onboarding.OnboardingViewModel.onWelcomeNext]).
  *
  * Карточка выделена цветом ошибки в приглушённом варианте (`errorContainer`), а не обычным
@@ -221,8 +225,10 @@ private val APP_ICON_CORNER = 25.dp
 private fun ConsentCard(
     imagesAccepted: Boolean,
     eatingAccepted: Boolean,
+    batteryAccepted: Boolean,
     onImagesChange: (Boolean) -> Unit,
     onEatingChange: (Boolean) -> Unit,
+    onBatteryChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -249,6 +255,11 @@ private fun ConsentCard(
                 checked = eatingAccepted,
                 onCheckedChange = onEatingChange,
                 text = stringResource(StringKey.WelcomeConsentEating),
+            )
+            ConsentRow(
+                checked = batteryAccepted,
+                onCheckedChange = onBatteryChange,
+                text = stringResource(StringKey.WelcomeConsentBattery),
             )
         }
     }

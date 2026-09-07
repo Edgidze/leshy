@@ -111,6 +111,10 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
         "Ni pod kojim uvjetima nećete jesti gljive koje ne poznajete. Gljive mogu biti nejestive, a mogu biti i " +
             "otrovne. Najbolje — pozovite nekoga tko se razumije u gljive vašeg kraja kako biste saznali koje se " +
             "gljive smiju brati i kako ih nakon toga treba pripremiti.",
+    StringKey.WelcomeConsentBattery to
+        "Tijekom šetnji pridržavat ćete se potrebnih sigurnosnih mjera i imati na umu da se baterija telefona brže " +
+            "prazni dok aplikacija radi. Kad je baterija pri kraju, bolje je zaustaviti snimanje šetnje i " +
+            "zatvoriti aplikaciju.",
     StringKey.WelcomeConsentWarning to
         "Za nastavak se morate složiti s gornjim tvrdnjama i označiti kućice ispred tvrdnji s kojima se slažete",
 

@@ -92,6 +92,8 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeConsentIntro to "アプリそのものに進む前に、次の内容に同意していただく必要があります。",
     StringKey.WelcomeConsentImages to "アプリの画像でキノコを見分けようとはしないこと。画像はイラストとしての役割であり、検証済みの図鑑ではありません。",
     StringKey.WelcomeConsentEating to "知らないキノコは、どんな場合でも口にしないこと。キノコは食べられないこともあれば、毒を持つこともあります。いちばんよいのは、お住まいの地域のキノコに詳しい人に来てもらい、採ってよいキノコと、採ったあとの調理のしかたを教えてもらうことです。",
+    StringKey.WelcomeConsentBattery to
+        "散策中は必要な安全対策を守り、アプリを使っているあいだは電池の減りが早くなることを念頭に置くこと。残量が少ないときは、散策の記録を止めてアプリを終了したほうが安全です。",
     StringKey.WelcomeConsentWarning to "続けるには上の内容に同意する必要があります。同意する内容の前のチェックボックスにチェックを入れてください",
 
     StringKey.WelcomeNextButton to "次へ",
