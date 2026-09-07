@@ -88,7 +88,11 @@ def main() -> None:
     output.write_text("\n".join("\t".join(row) for row in rows) + "\n", encoding="utf-8")
 
     named = {code: sum(1 for r in rows[1:] if r[2 + name_codes.index(code)]) for code in name_codes}
-    print(f"{output.relative_to(REPO_ROOT)}: {len(rows) - 1} видов, {len(presets)} подборок")
+    try:
+        shown = output.relative_to(REPO_ROOT)
+    except ValueError:  # TSV попросили положить вне репозитория — печатаем как есть
+        shown = output
+    print(f"{shown}: {len(rows) - 1} видов, {len(presets)} подборок")
     print("названий по колонкам: " + ", ".join(f"{c} {n}" for c, n in named.items()))
 
 
