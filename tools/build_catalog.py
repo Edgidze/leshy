@@ -9,8 +9,10 @@ for the `extra_*` layers and the incremental colour pass. Idempotent —
 re-running rewrites every output, and a run that adds no new data must not
 change a single byte (that is the acceptance test for the repair).
 
-Requires `Pillow` (dominant colors) and `Babel` (CLDR country names); neither
-ships in the system python, so run from a venv.
+Requires `Pillow` (dominant colors) and `Babel` (CLDR country names). `Babel`
+is not in the system python and no longer needs a venv: it lives in the project
+(`tools/.pydeps/`, gitignored) and `tools/pydeps.py` puts it on the path here.
+Once, on a fresh checkout: `python3 tools/pydeps.py --fetch`.
 
 Usage: python3 tools/build_catalog.py
        python3 tools/build_catalog.py --only-country-names
@@ -38,8 +40,12 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Optional
 
-from babel import Locale
-from PIL import Image
+import pydeps
+
+pydeps.ensure_on_path()  # `tools/.pydeps` on sys.path — must precede `babel`
+
+from babel import Locale  # noqa: E402
+from PIL import Image  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SOURCE_JSON = REPO_ROOT / "docs" / "catalog" / "leshy_core_app.json"

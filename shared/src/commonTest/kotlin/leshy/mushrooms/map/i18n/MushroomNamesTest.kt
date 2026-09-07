@@ -12,17 +12,17 @@ import kotlin.test.assertTrue
 
 private val TestNamesJson = Json { ignoreUnknownKeys = true }
 
-/** Every file under `composeResources/files/catalog/names/` (47 as of the `europe-15` batch).
+/** Every file under `composeResources/files/catalog/names/` (49 after `DK` and `NL`).
  * Hardcoded because the `files/` typed folder has no generated listing API, unlike `drawable/`'s
  * `allDrawableResources` — and the list is wider than [AppLanguage] anyway (`ca`, `eu`, `gl`,
  * `hch`, `maa`, `mi`, `nah`, `tsz`, `tzo` have name files but no interface language), so
- * [MushroomNames] alone can't be asked for all of them. `sq`, `bs`, `da`, `mk` and `nl` are
- * deliberately absent: those interface languages exist, their name files do not yet. */
+ * [MushroomNames] alone can't be asked for all of them. `sq`, `bs` and `mk` are deliberately
+ * absent: those interface languages exist, their name files do not yet. */
 private val ALL_NAME_LANGUAGE_CODES = listOf(
-    "az", "be", "bg", "ca", "cs", "de", "el", "en", "es", "et", "eu", "fi", "fr", "gl", "hch",
-    "hr", "hu", "hy", "is", "it", "ja", "ka", "kk", "ko", "ky", "lt", "lv", "maa", "mi", "nah",
-    "nb", "pl", "pt", "ro", "ru", "sk", "sl", "sr-Cyrl", "sr", "sv", "tg", "tk", "tr", "tsz",
-    "tzo", "uk", "uz",
+    "az", "be", "bg", "ca", "cs", "da", "de", "el", "en", "es", "et", "eu", "fi", "fr", "gl",
+    "hch", "hr", "hu", "hy", "is", "it", "ja", "ka", "kk", "ko", "ky", "lt", "lv", "maa", "mi",
+    "nah", "nb", "nl", "pl", "pt", "ro", "ru", "sk", "sl", "sr-Cyrl", "sr", "sv", "tg", "tk",
+    "tr", "tsz", "tzo", "uk", "uz",
 )
 
 class MushroomNamesTest {
