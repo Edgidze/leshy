@@ -1,0 +1,207 @@
+{
+  "country": "BE",
+  "languages": [
+    "nl",
+    "fr",
+    "de"
+  ],
+  "keys": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "macrolepiota_procera",
+    "imleria_badia",
+    "craterellus_cornucopioides",
+    "amanita_phalloides",
+    "hydnum_repandum",
+    "lactarius_deliciosus",
+    "agaricus_campestris__2",
+    "lepista_nuda",
+    "morchella_esculenta",
+    "coprinus_comatus",
+    "pleurotus_ostreatus",
+    "craterellus_tubaeformis",
+    "neoboletus_erythropus",
+    "amanita_muscaria",
+    "leccinum_scabrum",
+    "armillaria_mellea",
+    "laetiporus_sulphureus",
+    "auricularia_auricula_judae",
+    "suillus_luteus",
+    "tylopilus_felleus",
+    "amanita_rubescens",
+    "russula_cyanoxantha__2",
+    "marasmius_oreades",
+    "calocybe_gambosa",
+    "agaricus_arvensis",
+    "hygrophoropsis_aurantiaca",
+    "chlorophyllum_rhacodes",
+    "amanita_pantherina",
+    "amanita_citrina",
+    "amanita_virosa",
+    "galerina_marginata",
+    "hypholoma_fasciculare",
+    "agaricus_xanthodermus",
+    "paxillus_involutus",
+    "clitocybe_rivulosa",
+    "entoloma_sinuatum",
+    "clitocybe_nebularis",
+    "inosperma_erubescens",
+    "rubroboletus_satanas",
+    "coprinopsis_atramentaria",
+    "scleroderma_citrinum",
+    "kuehneromyces_mutabilis",
+    "fistulina_hepatica",
+    "grifola_frondosa",
+    "sparassis_crispa",
+    "calvatia_gigantea",
+    "leccinum_aurantiacum",
+    "clitopilus_prunulus"
+  ],
+  "names": {
+    "nl": {
+      "craterellus_cornucopioides": "Hoorn des overvloeds",
+      "lactarius_deliciosus": "Smakelijke melkzwam",
+      "tylopilus_felleus": "Bittere boleet",
+      "calocybe_gambosa": "Voorjaarspronkridder",
+      "amanita_virosa": "Kleverige knolamaniet",
+      "entoloma_sinuatum": "Giftige satijnzwam",
+      "inosperma_erubescens": "Giftige vezelkop",
+      "rubroboletus_satanas": "Satansboleet",
+      "clitopilus_prunulus": "Grote molenaar"
+    },
+    "fr": {
+      "coprinopsis_atramentaria": "Coprin noir d’encre"
+    }
+  },
+  "coined": [],
+  "notes": {
+    "boletus_edulis": "Гриб №1 обеих традиций: «cèpe» у валлонов, «eekhoorntjesbrood» у фламандцев. Валлонские сборные материалы ставят его первым («Les cèpes… considérés comme les meilleurs champignons», gastronomie-wallonne.be), Natuurpunt отдельно отмечает, что из трёх фламандских видов боровика обычен именно Boletus edulis. Массовый и в буково-дубовых Арденнах, и в сосновых посадках Кампины.",
+    "cantharellus_cibarius": "Второй символ сбора в обеих частях страны: валлонские источники называют «girolle/chanterelle» сразу за цепом, фламандские (Natuurpunt, onzenatuur.be) — «hanenkam/cantharel» как самый ценимый дикий гриб. В Арденнах связана с елью и буком, в Кампине — с сосной и берёзой.",
+    "macrolepiota_procera": "«Coulemelle» / «grote parasolzwam» — классика опушек, пастбищ и вырубок; в списках для новичков и по-французски, и по-нидерландски. Обязательный якорь для отличия от Chlorophyllum.",
+    "imleria_badia": "Массовый болет кислых песков Кампины и еловых посадок Арденн; в Бельгии, как и в Нидерландах, реальная основа корзины чаще он, а не белый. Латынь Imleria badia, народно «bolet bai» / «kastanjeboleet».",
+    "craterellus_cornucopioides": "Первая по-настоящему бельгийская позиция, которой нет в подборке NL: «trompette-des-morts» / «hoorn des overvloeds» назван и валлонским кулинарным источником (gastronomie-wallonne.be), и фламандским onzenatuur.be в числе пяти съедобных «нашей природы». Стация — буковые леса на сланцах и известняке Арденн, Фаменна и Кальстрии, которых в Нидерландах нет вовсе; в NL вид редок и в тамошнюю подборку не вошёл.",
+    "amanita_phalloides": "Смертельный гриб №1 страны: Centre Antipoisons / Antigifcentrum отводит ему первую видовую страницу брошюры «Champignons» и прямо описывает путаницу молодого плодового тела с шампиньоном; в брошюре же — путаница белой формы с «psalliote des bois» и зелёной формы с русулами и зелёными трихоломами.",
+    "hydnum_repandum": "«Pied-de-mouton» — в валлонских списках сбора стоит рядом с трубчатыми и трубачами; безопасен для определения, что важно в стране, где обучение идёт через кружки, а не через семью.",
+    "lactarius_deliciosus": "Позиция Арденн и Кампины, которой нет в NL: рыжик привязан к посадкам ели и сосны, а еловые культуры — доминирующая лесная порода Арденн (в Нидерландах ели почти нет, и в подборку NL рыжик не попал). Валлонские источники называют его прямо: «Le lactaire délicieux… poussent au pied des arbres qui produisent de la résine: pins, épicéas ou simplement, sapins». Взят широкий концепт (mid), покрывающий и Lactarius deterrimus еловых посадок.",
+    "agaricus_campestris__2": "«Rosé-des-prés» — то, с чего валлонские источники советуют начинать новичку («se cantonner aux champignons… facilement reconnaissables, comme le rosé-des-prés, le cèpe, la morille»). Из пары `agaricus_campestris`/`__2` взят узкий луговой концепт, как у соседей FR, NL, DE.",
+    "lepista_nuda": "«Pied-bleu» назван в валлонском перечне того, что стоит собирать; поздняя осень, подстилка буковых лесов, парков и живых изгородей. Из группы `lepista_nuda`/`collybia_nuda`/`clitocybe_nuda` взят один ключ.",
+    "morchella_esculenta": "Весна: сморчок входит в тройку «для новичка» валлонских источников вместе с цепом и розовым шампиньоном. Находят в тополёвых посадках, на щепе, на известняковых опушках Фамена. Из пары взят широкий концепт — народно это «morille» вообще. Существующее fr-название в каталоге стоит во множественном числе («Morilles»); для Бельгии естественнее «Morille», но правило дозаполнения запрещает переписывать — оставлено как есть.",
+    "coprinus_comatus": "«Coprin chevelu» — в валлонском списке съедобного; газоны, обочины, насыпи, отвалы. Городская находка, доступная и во Фландрии, где лесной сбор запрещён.",
+    "pleurotus_ostreatus": "«Pleurotes» назван валлонским источником; тополь, бук, ива в парках, вдоль каналов и в польдерных посадках. Один из немногих видов, которые фламандец может собрать легально — вне публичного леса.",
+    "craterellus_tubaeformis": "Поздне-осенний массовый вид кислых еловых и сосновых посадок Арденн и Кампины; вторая «кантарель» для тех, кто собирает всерьёз. В Бельгии за счёт арденнских ельников заметно обычнее, чем в Нидерландах.",
+    "neoboletus_erythropus": "Обычнейший болет буково-дубовых лесов Арденн и Фаменна, съедобен после термообработки. Из трёх каталожных ключей на этот вид взят один — `neoboletus_erythropus` (у него же есть и fr, и nl названия).",
+    "amanita_muscaria": "Отдельная видовая страница брошюры Centre Antipoisons; берёзово-сосновые пески Кампины и дюны дают его массово. Опознавательный вид номер один: во Фландрии, где сбор запрещён, культура смещена в сторону узнавания и фотографии.",
+    "leccinum_scabrum": "Берёза — обычнейшая порода фламандских песков и польдерных посадок; Natuurpunt ведёт по «gewone berkenboleet» отдельную видовую страницу. Взят широкий концепт `leccinum_scabrum` (mid).",
+    "armillaria_mellea": "Осенний массовый вид на пнях лиственных пород в парках и лесах обеих частей страны; съедобен только после отваривания и даёт постоянные обращения по расстройствам ЖКТ.",
+    "laetiporus_sulphureus": "Дуб, каштан, тополь в парках и аллеях; вид, который в обеих традициях рекомендуют новичку как практически безошибочный.",
+    "auricularia_auricula_judae": "«Oreilles de Judas» в валлонском списке сбора и «echt judasoor» в фламандском; круглогодичный вид на бузине, находимый в городской зелени — то есть там, где фламандцу собирать не запрещено.",
+    "suillus_luteus": "Сосновые посадки Кампины и приморских дюн — крупнейшая хвойная площадь Фландрии; маслёнок в них массовый. Из пары `suillus_luteus`/`__2` взят узкий ключ, как у DE, FR, NL.",
+    "tylopilus_felleus": "Нет в подборке NL, но для бельгийского сборщика обязателен: горчак — главный порчатель корзины цепов в кислых дубово-буковых лесах Арденн и на песках Кампины, и единственный «болет», о котором в валлонских руководствах предупреждают отдельно наравне с сатанинским. Не ядовит, но одна шляпка портит всё блюдо — ровно то, что человек хочет отметить на карте.",
+    "amanita_rubescens": "Брошюра Centre Antipoisons называет «amanite rougissante» в числе видов, съедобных только после термообработки, и как двойника пантерного мухомора. Существующее fr-название в каталоге — «Golmotte»; в бельгийских источниках вид почти всегда зовут «amanite rougissante», но правило дозаполнения запрещает переписывать имя, стоящее в общем файле.",
+    "russula_cyanoxantha__2": "Самая обычная и самая безопасная сыроежка бельгийских буковых и дубовых лесов. Из пары `russula_cyanoxantha`/`__2` взят узкий ключ — тот, что у соседей FR, DE, NL.",
+    "marasmius_oreades": "«Faux mousseron» назван в брошюре Centre Antipoisons; газоны, дамбы, дюнные луга — самая доступная съедобная находка для фламандца, которому лесной сбор запрещён. Прямой двойник — Clitocybe rivulosa, взятый в подборку отдельно.",
+    "calocybe_gambosa": "Нет в подборке NL и не может там быть: «vrai mousseron» / «tricholome de la Saint-Georges» растёт ведьмиными кругами на известняковых почвах, а известняк в Бельгии есть только в Валлонии (Кальстрия, Фамен) — «pour cultiver la truffe il faut du calcaire… en Flandre il n’y a pas de terrain calcaire», RTBF. Валлонский кулинарный список называет «le mousseron» прямо. Апрель–июнь — единственная весенняя позиция подборки помимо сморчка.",
+    "agaricus_arvensis": "«Agaric des jachères» / «anijschampignon»; валлонские источники называют «l’agaric des forêts» в числе очень хороших съедобных наравне с рыжиком. Взят как народный концепт анисового шампиньона лугов и опушек; он же — вторая половина главной шампиньонной ошибки страны (см. `agaricus_xanthodermus`).",
+    "hygrophoropsis_aurantiaca": "«Fausse girolle» — двойник кантарели ровно в тех же сосновых посадках; L’Avenir в бельгийском руководстве по сбору объясняет отличие пластинок ложной лисички от складок настоящей. Обязателен в стране, где большинство сборщиков — новички.",
+    "chlorophyllum_rhacodes": "«Lépiote déguenillée» / «knolparasolzwam» — постоянный спутник зонтика в садах, парках и посадках туи и главный источник путаницы при сборе coulemelle. Взят массовый народный концепт, а не редкая Chlorophyllum brunneum.",
+    "amanita_pantherina": "Отдельная страница брошюры Centre Antipoisons с прямым указанием: «L’amanite panthère peut être confondue avec deux amanites comestibles». Обычен на песках Кампины и в дюнных сосняках.",
+    "amanita_citrina": "Массовейший гриб бельгийских кислых дубово-берёзовых лесов и первое, что новичок принимает за зелёную бледную поганку (или наоборот).",
+    "amanita_virosa": "Нет в подборке NL. Брошюра Centre Antipoisons ставит Amanita virosa рядом с phalloides как смертельный вид, а в Бельгии у него есть настоящая стация — кислые сырые леса и торфяные опушки Высоких Фанн и Арденн, которых в Нидерландах практически нет. Брошюра прямо указывает на путаницу белых форм с «psalliote des bois» — то есть с `agaricus_arvensis` этой же подборки.",
+    "galerina_marginata": "Отдельная страница брошюры Centre Antipoisons; аматоксины на мёртвой древесине и прямой двойник `kuehneromyces_mutabilis`, который в Бельгии собирают.",
+    "hypholoma_fasciculare": "Самый обычный ядовитый гриб на пнях; двойник опёнка и летнего опёнка, оба в подборке.",
+    "agaricus_xanthodermus": "Отдельная страница брошюры Centre Antipoisons: «confondu avec le rosé des prés et provoque des troubles» — то есть виновник самой частой бельгийской ошибки при сборе шампиньонов, в парках и на газонах. Из двух каталожных ключей с этой латынью взят один.",
+    "paxillus_involutus": "Отдельная страница брошюры Centre Antipoisons с описанием гемолитического механизма и упоминанием смертельных исходов («Des décès ont été rapportés»). Обычен на песках под берёзой.",
+    "clitocybe_rivulosa": "Брошюра Centre Antipoisons даёт коллективную страницу «clitocybes blancs» и называет поимённо Clitocybe candicans, C. phyllophila и C. rivulosa; из них rivulosa — тот, что растёт на газонах и дюнных лугах вместе с `marasmius_oreades` и с ним же путается. Устойчивого французского народного имени у вида нет (брошюра пользуется только латынью и собирательным «clitocybes blancs»), поэтому в `names.fr` он не внесён — в приложении сработает фолбэк на латынь.",
+    "entoloma_sinuatum": "Нет в подборке NL. Отдельная страница брошюры Centre Antipoisons; в Бельгии энтолома ядовитая — вид известняковых буковых лесов Кальстрии и Фамена, то есть валлонский, и брошюра прямо описывает путаницу с `clitocybe_nebularis`, который взят в подборку отдельно. В Нидерландах вид редок и в тамошнюю подборку не вошёл.",
+    "clitocybe_nebularis": "Взят вместо `cortinarius_rubellus` после проверки по GBIF (Cortinarius rubellus: 4 находки в Бельгии против 453 в Нидерландах; Cortinarius orellanus: 6 против 7 — оба вида в стране практически отсутствуют, и «арденнский еловый» довод был перенесён из Скандинавии, а не взят из бельгийского источника). Страница «CORTINARIUS / CORTINAIRES» в брошюре Centre Antipoisons родовая и опирается на польскую эпидемию 1950-х, поимённо в тексте назван только C. orellanus; ни один бельгийский популярный или микологический источник кортинариев не называет — в отличие от `rubroboletus_satanas`, за которым стоят три независимых бельгийских свидетельства. Nevelzwam же назван брошюрой прямо и именно в бельгийской связке: «Il existe un risque de confusion entre l’entolome livide et le clitocybe nébuleux (Clitocybe nebularis)» — то есть это названный двойник `entoloma_sinuatum`, который в подборке уже есть, и без него предупреждение неполное. Вид при этом массовый: осенние ведьмины круги в подстилке буковых и дубовых лесов и парков по всей стране, в Восточной Европе его едят, а в Бельгии он даёт расстройства ЖКТ.",
+    "inosperma_erubescens": "Нет в подборке NL. «Inocybe de Patouillard» — отдельная страница брошюры Centre Antipoisons, мускариновое отравление; растёт на известняке под буком весной, то есть в тех же валлонских местах и в тот же сезон, что `calocybe_gambosa`, с которым его и путают. Из пары синонимичных ключей `inosperma_erubescens`/`inocybe_erubescens` взят один.",
+    "rubroboletus_satanas": "Нет в подборке NL, и это самый показательный случай: сатанинский гриб — известняковый вид, в Бельгии он есть только в Валлонии, но при этом именно его называют «ядовитым болетом» и валлонские кулинарные источники («Fuyez le rouge… le bolet satan»), и фламандские популярные («satansboleet» у onzenatuur.be и tuinonderhoud.vlaanderen), и брошюра Centre Antipoisons отдельной страницей. Гриб редкий, но культурно обязательный к узнаванию.",
+    "coprinopsis_atramentaria": "Отдельная страница брошюры Centre Antipoisons («COPRIN NOIR D’ENCRE», коприновый синдром, воздержание от алкоголя 72 часа). Растёт на газонах и обочинах вместе с `coprinus_comatus`, который собирают.",
+    "scleroderma_citrinum": "Массовейший вид кислых песчаных почв Кампины и арденнских опушек; рвотные отравления, путаница со стуифзваммами и «трюфелем». В брошюре Centre Antipoisons отдельной страницы нет, но 60% бельгийских обращений — дети до четырёх лет, пробующие гриб в саду или на прогулке, и склеродерма для этого сценария типична.",
+    "kuehneromyces_mutabilis": "Собираемый вид на пнях и вторая половина самой опасной древесной пары: путается с `galerina_marginata`, растущей там же.",
+    "fistulina_hepatica": "«Langue de bœuf» — дуб и каштан старых поместий и парков; известный и валлонцам, и фламандцам вид, безошибочный по виду и на срезе.",
+    "grifola_frondosa": "«Poule des bois» — дубовый вид парков и старых лесов, кулинарно ценимый в обеих традициях. Существующее fr-название в каталоге — японское «Maitaké»; в Бельгии вид зовут «poule des bois» или «polypore en touffe», но по правилу дозаполнения имя не переписано.",
+    "sparassis_crispa": "Ценный съедобный вид у основания сосен; прямое следствие того, что и Кампина, и дюны, и часть Арденн — сосновые культуры.",
+    "calvatia_gigantea": "Луга, польдеры, опушки и парки; безошибочная находка для новичка, входит в популярные списки съедобного обеих языковых групп.",
+    "leccinum_aurantiacum": "Тополь — порода польдерных аллей, ветрозащитных рядов и фламандских посадок; красноголовик привязан в Бельгии к нему и к осине, а не к северным лесам. Из пары `leccinum_aurantiacum`/`__2` взят широкий концепт. Существующее fr-название «Bolets rugueux» — собирательное, для Бельгии точнее «bolet orangé», но переписывать нельзя.",
+    "clitopilus_prunulus": "Нет в подборке NL. Брошюра Centre Antipoisons вводит «meunier» именно как ориентир: «Les clitocybes blancs sont parfois confondus avec Clitopilus prunulus». В Валлонии это ещё и самостоятельный съедобный вид французской традиции (fr-название в каталоге уже стоит). Взят как пара к `clitocybe_rivulosa`: два вида, которые надо различать на одном лугу."
+  },
+  "gaps": [
+    {
+      "sci": "Meripilus giganteus (Pers.) P. Karst.",
+      "names": {
+        "nl": "Reuzenzwam",
+        "fr": "Polypore géant"
+      },
+      "why": "Один из самых заметных грибов бельгийских парков и буковых аллей — и Фландрии, и Валлонии. Народно это отдельный концепт: «poule des bois» (Grifola) ищут и едят, гигантский трутовик узнают и обходят, а у основания старого бука их легко перепутать.",
+      "nearest_key": "grifola_frondosa",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "DK",
+        "IE",
+        "LU",
+        "NL"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://www.onzenatuur.be/artikel/eetbare-paddenstoelen-in-onze-natuur",
+        "https://www.natuurpunt.be/soorten/paddenstoelen"
+      ]
+    },
+    {
+      "sci": "Amanita excelsa (Fr.) Bertill. var. spissa (= Amanita spissa)",
+      "names": {
+        "nl": "Grauwe amaniet",
+        "fr": "Amanite épaisse"
+      },
+      "why": "Обычнейший серый мухомор бельгийских буковых и еловых лесов и третий участник треугольника, о котором предупреждает брошюра Centre Antipoisons («L’amanite panthère peut être confondue avec deux amanites comestibles»): двое съедобных — это A. rubescens и A. excelsa. В каталоге есть только rubescens, и половина предупреждения остаётся без плитки.",
+      "nearest_key": "amanita_rubescens",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "DK",
+        "LU",
+        "NL"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://www.poisoncentre.be/app/uploads/2026/02/Brochure-champignons-FR.pdf"
+      ]
+    },
+    {
+      "sci": "Mucidula mucida (Schrad.) Pat. (= Oudemansiella mucida)",
+      "names": {
+        "nl": "Porseleinzwam",
+        "fr": "Collybie visqueuse"
+      },
+      "why": "Массовый и ни с чем не смешиваемый вид на буке — визитная карточка осенней прогулки по буковым лесам Арденн и Фаменна, то есть по главному грибному региону страны. Аналога в каталоге нет вовсе.",
+      "nearest_key": null,
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "DK",
+        "IE",
+        "LU",
+        "NL"
+      ],
+      "priority": "low",
+      "sources": [
+        "https://www.natuurpunt.be/soorten/paddenstoelen"
+      ]
+    }
+  ],
+  "sources": [
+    "Centre Antipoisons belge / Antigifcentrum — брошюра «Champignons» (PDF, национальный перечень видов, которыми в Бельгии травятся: Amanita phalloides, A. virosa, A. muscaria, A. pantherina, A. rubescens как условно съедобный, Agaricus xanthoderma, Boletus satanas, «clitocybes blancs» (C. candicans, C. phyllophila, C. rivulosa) с Clitopilus prunulus как ориентиром, Coprinus atramentarius, Cortinarius orellanus и C. rubellus, Entoloma sinuatum и E. rhodopolium, Galerina marginata, Gyromitra esculenta, Inocybe patouillardii и I. rimosa, Lepiota brunneoincarnata, Omphalotus illudens, Paxillus involutus, Psilocybe spp., Tricholoma equestre, T. pardinum; ~400 обращений в год, 60% — дети до 4 лет) — https://www.poisoncentre.be/app/uploads/2026/02/Brochure-champignons-FR.pdf",
+    "Centre Antipoisons — «Les champignons, redoutables toxiques naturels» (300–500 обращений в год по грибам) — https://www.centreantipoisons.be/nouveautes/actualit-les-champignons-redoutables-toxiques-naturels",
+    "Antigifcentrum — «Tips voor paddenstoelenplukkers» (нидерландская версия предупреждений: groene knolamaniet, trechterzwammen, morielje, parelamaniet, grote parasolzwam, weidekringzwam) — https://www.antigifcentrum.be/Toxinfos/tips-voor-paddenstoelenplukkers/",
+    "SPW / L’Environnement en Wallonie — «Règles de cueillette» и «La cueillette des champignons autorisée, c’est vrai ça ?» (в лесу — только с согласия собственника, для личного потребления, между восходом и заходом солнца, не более 10 литров на человека в день; в домениальных лесах то же; штраф 50–150 €) — https://environnement.wallonie.be/home/loisirs/circulation-en-foret/regles-de-cueillette.html",
+    "Ecopedia (Agentschap Natuur en Bos / Natuurpunt) — «Plukken van paddenstoelen» (Bosdecreet квалифицирует сбор как roofbouw; во фламандских публичных лесах сбор запрещён, отступление — только по плану управления или разрешению ANB) — https://www.ecopedia.be/soortbeheer/paddenstoelen/plukken-van-paddenstoelen",
+    "VRT NWS — «Agentschap Natuur en Bos waarschuwt wandelaars: paddenstoelenpluk nog altijd verboden en gevaarlijk» (практика применения: предупреждение за горсть, GAS-штраф за 3–8 кг) — https://www.vrt.be/vrtnws/nl/2020/10/08/agentschap-natuur-en-bos-paddenstoelen-nog-altijd-verboden-en/",
+    "Onze Natuur (Natuurpunt) — «Eetbare paddenstoelen in Onze Natuur» (фламандская пятёрка съедобного: hanenkam/cantharel, gewoon eekhoorntjesbrood, hoorn des overvloeds, gewone weidechampignon, echt judasoor; опасные: groene knolamaniet, satansboleet) — https://www.onzenatuur.be/artikel/eetbare-paddenstoelen-in-onze-natuur",
+    "Gastronomie wallonne — «Cueillir des champignons» (валлонский перечень того, что кладут в корзину: cèpes, girolles/chanterelles/crêtes-de-coq, coprins chevelus, trompettes de la mort, morilles, pieds-de-mouton, rosé des prés, pleurotes, mousseron, pied-bleu, oreilles de Judas; из опасных названы bolet Satan и satyre puant) — https://www.gastronomie-wallonne.be/gastro/champignons/cueillir_champignons.html",
+    "L’Avenir — «Champignons : le guide pratique d’une bonne cueillette en Belgique» (2023; сопровождение бельгийского сборщика: girolles, bolet bai, morilles, отличие fausses girolles по пластинкам, техника среза, сроки конца августа — середины ноября) — https://www.lavenir.net/lifestyle/2023/10/28/champignons-le-guide-pratique-dune-bonne-cueillette-en-belgique-3LITSFADG5CXBECL5O4FBJGMGU/",
+    "Ardenne belge (VisitWallonia) — «La saison des champignons en Ardenne belge» (более 500 видов в Арденнах, около десятка смертельных, около шестидесяти с гастрономическим интересом; lactaire délicieux и agaric des forêts под соснами, елями и пихтами; норма 10 литров) — https://www.ardennebelge.be/fr/outils/champignons.php (на момент проверки сайт на техобслуживании, цитируется по индексу поиска)",
+    "Natuurpunt — видовые страницы паддестулов и обзор «Paddenstoelenfamilie Boleten» (во Фландрии известен 61 вид болетов, обычны только 11; berkenboleet у берёз; cantharel в сырых хвойниках) — https://www.natuurpunt.be/soorten/paddenstoelen",
+    "RTBF — «Connaissez-vous la truffe wallonne ?» (геологическое основание валлоно-фламандского различия: «pour cultiver la truffe il faut du calcaire… en Flandre il n’y a pas de terrain calcaire») — https://www.rtbf.be/article/connaissez-vous-la-truffe-wallonne-10496334",
+    "AMFB (Association des Mycologues Francophones de Belgique) — http://www.amfb.eu/ и Cercle de Mycologie de Bruxelles — https://cercle-myco-bruxelles.be/ : обе организации живы и ведут выходы и определительные сессии, но публичного списка «допущенных к сбору» видов не публикуют — национального аналога VAPKO/Normlisten в Бельгии нет, и подборка собрана по брошюре Центра отравлений плюс свидетельства сбора",
+    "Nederlandstalige Wikipedia / стандартные нидерландские названия NMV — использованы только для сверки написания уже засвидетельствованных народных имён (Hoorn des overvloeds, Satansboleet, Smakelijke melkzwam, Voorjaarspronkridder, Grote molenaar, Giftige satijnzwam, Giftige vezelkop, Kleverige knolamaniet, Fraaie gifgordijnzwam, Bittere boleet)"
+  ]
+}

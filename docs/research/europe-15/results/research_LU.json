@@ -1,0 +1,247 @@
+{
+  "country": "LU",
+  "languages": [
+    "fr",
+    "de"
+  ],
+  "keys": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "craterellus_cornucopioides",
+    "hydnum_repandum",
+    "imleria_badia",
+    "macrolepiota_procera",
+    "amanita_phalloides",
+    "armillaria_mellea",
+    "craterellus_tubaeformis",
+    "sparassis_crispa",
+    "morchella_esculenta",
+    "leccinum_scabrum",
+    "amanita_muscaria",
+    "boletus_reticulatus",
+    "neoboletus_erythropus",
+    "amanita_rubescens",
+    "kuehneromyces_mutabilis",
+    "coprinus_comatus",
+    "agaricus_campestris__2",
+    "marasmius_oreades",
+    "lepista_nuda",
+    "xerocomellus_chrysenteron",
+    "leccinum_aurantiacum",
+    "leccinellum_pseudoscabrum",
+    "russula_cyanoxantha__2",
+    "lactarius_deterrimus",
+    "calocybe_gambosa",
+    "galerina_marginata",
+    "hypholoma_fasciculare",
+    "amanita_pantherina",
+    "pleurotus_ostreatus",
+    "suillus_grevillei",
+    "laetiporus_sulphureus",
+    "hypholoma_capnoides",
+    "lycoperdon_perlatum__2",
+    "chlorophyllum_rhacodes",
+    "boletus_aereus",
+    "russula_virescens",
+    "agaricus_arvensis",
+    "paxillus_involutus",
+    "hygrophoropsis_aurantiaca",
+    "amanita_virosa",
+    "cortinarius_orellanus",
+    "gyromitra_esculenta",
+    "entoloma_sinuatum",
+    "rubroboletus_satanas",
+    "agaricus_xanthodermus",
+    "inosperma_erubescens",
+    "clitocybe_rivulosa",
+    "scleroderma_citrinum"
+  ],
+  "names": {
+    "fr": {
+      "boletus_reticulatus": "Cèpe d’été",
+      "leccinellum_pseudoscabrum": "Bolet des charmes",
+      "xerocomellus_chrysenteron": "Bolet à chair jaune",
+      "hypholoma_capnoides": "Hypholome doux",
+      "lactarius_deterrimus": "Lactaire de l’épicéa",
+      "clitocybe_rivulosa": "Clitocybe du bord des routes"
+    },
+    "de": {
+      "agaricus_arvensis": "Schafchampignon",
+      "laetiporus_sulphureus": "Schwefelporling",
+      "chlorophyllum_rhacodes": "Gemeiner Safranschirmling",
+      "clitocybe_rivulosa": "Rinnigbereifter Trichterling"
+    }
+  },
+  "coined": [],
+  "notes": {
+    "boletus_edulis": "Гриб №1 страны: «cèpe de Bordeaux» открывает люксембургский список разрешённых, стоит первым в подборке Paperjam «что собирать в Люксембурге» и входит в брошюру natur&ëmwelt. Растёт и в еловых посадках Эслинга, и в буковых Гутланда. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/ Расхождение имён: люксембургский перечень пишет «Fichtensteinpilz», в каталоге стоит общее «Steinpilz» — не переписывал.",
+    "cantharellus_cibarius": "Второй по массовости; в Люксембурге и вокруг первые лисички идут с июня, массово июль–сентябрь. На разрешённом списке, в брошюре natur&ëmwelt («Pfifferling, Eierschwamm») и в подборке Paperjam. Paperjam.lu, «6 bons champignons de saison à cueillir au Luxembourg»: https://paperjam.lu/article/6-bons-champignons-saison-a-cu",
+    "craterellus_cornucopioides": "«Trompette-des-morts» — один из трёх грибов, которые эксперт GRM называет как «часто встречающиеся в наших лесах»; на разрешённом списке и в брошюре natur&ëmwelt («Totentrompete, Füllhorn»). L'essentiel (LU), «Les forêts luxembourgeoises sont riches en champignons» — выход с экспертом GRM: https://www.lessentiel.lu/fr/story/cueillette-avec-des-experts-les-forets-luxembourgeoises-sont-riches-en-champignons-103178921",
+    "hydnum_repandum": "Pied-de-mouton: на разрешённом списке, в брошюре natur&ëmwelt и в списке Paperjam; названо экспертом среди типичных находок люксембургского леса. L'essentiel (LU), «Les forêts luxembourgeoises sont riches en champignons» — выход с экспертом GRM: https://www.lessentiel.lu/fr/story/cueillette-avec-des-experts-les-forets-luxembourgeoises-sont-riches-en-champignons-103178921",
+    "imleria_badia": "Маслёнок-моховик еловых посадок, массовый по всей стране; на разрешённом списке. GRM приводит Maronenröhrling как пример симбионта в разделе о грибах Люксембурга. GRM (SNL), «DE-Sammeln» — тот же люксембургский перечень с немецкими названиями: https://www.grm.lu/de-sammeln/ Расхождение имён: в перечне «Maronenröhrling», в каталоге «Marone» — не переписывал.",
+    "macrolepiota_procera": "Coulemelle/Parasolpilz — на разрешённом списке, в брошюре natur&ëmwelt и в примерах GRM про сапротрофов; классика лугов и опушек Гутланда. natur&ëmwelt / GRM, брошюра «Pilze Luxemburgs», 30 видов: https://www.grm.lu/sitepad-data/uploads/2021/07/Pilze-Luxemburgs.pdf Расхождение имён: в перечне «Parasolpilz», в каталоге «Parasol» — не переписывал.",
+    "amanita_phalloides": "Главный убийца: «Ein einziger Fruchtkörper des Grünen Knollenblätterpilz ist für eine erwachsene Person absolut tödlich» — первый синдром национального обзора отравлений; в брошюре natur&ëmwelt. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "armillaria_mellea": "Опёнок на разрешённом списке (вместе с A. ostoyae) и в брошюре natur&ëmwelt; GRM отдельно предупреждает, что съедобен только после отваривания, иначе даёт «Pilzindigestion». Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf Расхождение имён: в перечне «Honiggelber Hallimasch», в каталоге «Hallimasch» — не переписывал.",
+    "craterellus_tubaeformis": "«Cantharellus tubaeformis – Chanterelle en tube» на разрешённом списке; поздний массовый гриб еловых посадок Эслинга. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/ Расхождение имён: перечень пишет «Trompetenpfifferling», в каталоге «Trompeten-Pfifferling» — орфографическое, не трогал.",
+    "sparassis_crispa": "Разрешён к сбору; Paperjam включает «sparassis crépu» в шестёрку сезонных грибов Люксембурга (хвойный гумус), при этом местные источники называют его редким — тем ценнее отметка находки. Paperjam.lu, «6 bons champignons de saison à cueillir au Luxembourg»: https://paperjam.lu/article/6-bons-champignons-saison-a-cu",
+    "morchella_esculenta": "Взят широкий концепт: люксембургский список разрешает и Morchella esculenta, и M. elata, а «Speisemorchel» — вид №2 брошюры natur&ëmwelt. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/ Расхождение имён: перечень и брошюра дают «Speisemorchel», в каталоге у этого широкого ключа стоит «Morchel» — не переписывал (узкий парный ключ не брал).",
+    "leccinum_scabrum": "«Bolet rude / Gemeiner Birkenpilz» на разрешённом списке; берёза на зарастающих отвалах юго-запада и по опушкам — массовое местообитание. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "amanita_muscaria": "Pantherina-синдром национального обзора («Fliegen- und Pantherpilz sind Drogenpilze»), вид №21 брошюры natur&ëmwelt. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "boletus_reticulatus": "Летний белый: в люксембургском списке он проходит именно как Boletus reticulatus – Cèpe d'été / Sommer-Steinpilz, а не как B. aestivalis; поэтому взят этот ключ, а парный boletus_aestivalis оставлен французской подборке. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "neoboletus_erythropus": "Флокки — самый собираемый «синеющий» болет региона, люксембургские материалы называют его как условно съедобный после проварки. Заметьте расхождение: в официальный перечень разрешённых он НЕ входит (то есть формально ограничен 3 экземплярами), а собирают его широко. Luxtoday.lu, «Champignons au Luxembourg: sûrs et toxiques»: https://luxtoday.lu/en/knowledge/mushrooms-of-luxembourg",
+    "amanita_rubescens": "Единственная мухоморовая на разрешённом списке Люксембурга («Amanita rubescens – Amanite rougissante»), при этом соседствует с A. pantherina — пара, которую здесь обязаны различать. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/ Расхождение имён: в перечне «Amanite rougissante», в каталоге французское «Golmotte» — не переписывал.",
+    "kuehneromyces_mutabilis": "Опёнок летний на разрешённом списке и в брошюре natur&ëmwelt; в паре с Galerina marginata — классическая смертельная путаница на пнях. natur&ëmwelt / GRM, брошюра «Pilze Luxemburgs», 30 видов: https://www.grm.lu/sitepad-data/uploads/2021/07/Pilze-Luxemburgs.pdf",
+    "coprinus_comatus": "Разрешён к сбору, вид №25 брошюры natur&ëmwelt; массовый на газонах и обочинах Гутланда. natur&ëmwelt / GRM, брошюра «Pilze Luxemburgs», 30 видов: https://www.grm.lu/sitepad-data/uploads/2021/07/Pilze-Luxemburgs.pdf",
+    "agaricus_campestris__2": "Луговой шампиньон: «Agaricus campestris – Rosé des prés / Wiesenchampignon» на разрешённом списке и вид №23 брошюры. Взят узкий концепт (не broad-ключ), как и во всех западноевропейских подборках. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "marasmius_oreades": "Разрешён к сбору; в Люксембурге он называется «faux mousseron», а не «marasme des Oréades» (в каталоге стоит второе — не переписывал). Луговой гриб, из-за чего рядом обязателен белый говорушка. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "lepista_nuda": "«Lepista nuda – Pied bleu» на разрешённом списке; поздний осенний гриб буковой подстилки. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "xerocomellus_chrysenteron": "Разрешён к сбору как «Bolet à chair jaune / Gemeiner Rotfußröhrling» — в подборках FR/DE/NL его нет, а в люксембургской он легально собираемый и очень массовый. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "leccinum_aurantiacum": "Разрешён к сбору; в Люксембурге понимается как осиновая красноголовка («Espen-Rotkappe») — пойменные тополёво-осиновые леса Зауэра, Ура и Альзета. GRM (SNL), «DE-Sammeln» — тот же люксембургский перечень с немецкими названиями: https://www.grm.lu/de-sammeln/",
+    "leccinellum_pseudoscabrum": "Грабовик — люксембургская специфика: дубово-грабовые леса Гутланда на известняке, вид прямо назван в разрешённом списке («Leccinellum pseudoscabrum – Bolet des charmes»). Парный ключ leccinum_pseudoscabrum не брал. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "russula_cyanoxantha__2": "Одна из трёх сыроежек разрешённого списка и вид №29 брошюры natur&ëmwelt («Frauentäubling»). Взят узкий концепт, так как список перечисляет сыроежки поимённо. natur&ëmwelt / GRM, брошюра «Pilze Luxemburgs», 30 видов: https://www.grm.lu/sitepad-data/uploads/2021/07/Pilze-Luxemburgs.pdf",
+    "lactarius_deterrimus": "Ключевое отличие от Франции и Германии: люксембургский список разрешает ТОЛЬКО еловый рыжик (Lactarius deterrimus), а L. deliciosus в нём отсутствует. Вид №28 брошюры natur&ëmwelt. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "calocybe_gambosa": "Майский гриб на разрешённом списке; в Гутланде на известняке — главный весенний сбор, и там же с ним путают Entoloma sinuatum и Inosperma erubescens. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/ Расхождение имён: люксембургский перечень зовёт его «Maipilz», в каталоге стоит «Mairitterling» — не переписывал.",
+    "galerina_marginata": "Phalloides-синдром национального обзора («Amanita, Lepiota, Galerina»); прямой смертельный двойник разрешённого к сбору Stockschwämmchen. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "hypholoma_fasciculare": "Вид №26 брошюры natur&ëmwelt; в национальном обзоре Schwefelköpfe названы среди родов с гастроинтестинальной токсичностью — двойник опёнка и разрешённого H. capnoides. natur&ëmwelt / GRM, брошюра «Pilze Luxemburgs», 30 видов: https://www.grm.lu/sitepad-data/uploads/2021/07/Pilze-Luxemburgs.pdf",
+    "amanita_pantherina": "Pantherina-синдром национального обзора; двойник разрешённого к сбору Amanita rubescens. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "pleurotus_ostreatus": "Разрешён к сбору; тополь, ива и бук пойменных лесов и парков — зимний сбор. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "suillus_grevillei": "«Suillus grevillei – Bolet élégant» на разрешённом списке; лиственничные посадки. Показательно, что из маслят в Люксембурге легален только он: S. luteus в списке нет и он же фигурирует в Paxillus-синдроме национального обзора. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "laetiporus_sulphureus": "Разрешён к сбору и вид №7 брошюры natur&ëmwelt; на дубах Гутланда и старых ивах поймы. natur&ëmwelt / GRM, брошюра «Pilze Luxemburgs», 30 видов: https://www.grm.lu/sitepad-data/uploads/2021/07/Pilze-Luxemburgs.pdf",
+    "hypholoma_capnoides": "«Hypholoma capnoides – Hypholome doux» на разрешённом списке — еловые пни Эслинга; в подборках соседей встречается только у DE, DK и NO. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "lycoperdon_perlatum__2": "«Lycoperdon perlatum – Vesse-de-loup perlée» на разрешённом списке и вид №14 брошюры; взят узкий концепт, парный broad-ключ не брал. natur&ëmwelt / GRM, брошюра «Pilze Luxemburgs», 30 видов: https://www.grm.lu/sitepad-data/uploads/2021/07/Pilze-Luxemburgs.pdf",
+    "chlorophyllum_rhacodes": "Показательный люксембургский случай: C. rhacodes разрешён к сбору как «Lépiote déguenillée», а его двойник Chlorophyllum brunneum стоит в национальном списке ядовитых (Giftschirmling). Каталог помечает вид как dangerous — это ровно та осторожность, которая тут нужна. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "boletus_aereus": "Бронзовый белый на разрешённом списке — тёплые дубовые склоны долины Мозеля и юга Гутланда, северная граница ареала вида. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "russula_virescens": "Разрешена к сбору; дубово-буковые леса на известняке Гутланда. GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "agaricus_arvensis": "На разрешённом списке; в Люксембурге зовётся «boule de neige» (в каталоге стоит французское «Agaric des jachères» — не переписывал). GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "paxillus_involutus": "Двойной приговор в национальном обзоре: и гастроинтестинальный синдром, и отдельный Paxillus-синдром с гемолизом и известными смертями. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "hygrophoropsis_aurantiaca": "«Falscher Pfifferling» — первый в списке гастроинтестинально ядовитых национального обзора; двойник главного массового гриба страны. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "amanita_virosa": "Phalloides-синдром; белый смертельный мухомор кислых почв Эслинга, где сланцы и ель. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "cortinarius_orellanus": "Отдельный Orellanus-синдром национального обзора с описанием польской вспышки 1952 года: поражение почек через дни и недели, выжившие остаются на диализе. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf Расхождение имён: национальный обзор пишет «Orangefuchsiger Hautkopf», в каталоге стоит «Orangefuchsiger Raukopf» — не переписывал.",
+    "gyromitra_esculenta": "Отдельный Gyromitrin-синдром национального обзора: раньше продавалась на рынках, сегодня в Люксембурге классифицирована как ядовитая. Весна, хвойные посадки. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "entoloma_sinuatum": "«Riesen-Rötling» в списке гастроинтестинально ядовитых национального обзора; в Гутланде на известняке путается с Meunier и майским грибом. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "rubroboletus_satanas": "«Satans-Röhrling» в национальном списке ядовитых; в Люксембурге — вид тёплых известняковых буковых лесов Гутланда, редкий, но именно поэтому неузнаваемый. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "agaricus_xanthodermus": "«Karbol-Egerling» в национальном списке ядовитых — двойник сразу четырёх шампиньонов разрешённого списка. Парный ключ agaricus_xanthoderma не брал. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "inosperma_erubescens": "Muscarin-синдром: «alle Risspilze sind giftig». Весенний вид известняковых буковых лесов Гутланда, растёт бок о бок с майским грибом. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "clitocybe_rivulosa": "Muscarin-синдром национального обзора: «alle weißen Trichterlinge giftig»; луговой белый говорушка рядом с faux mousseron и шампиньонами. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "scleroderma_citrinum": "«Kartoffelbovisten (Scleroderma) alle Arten» — в национальном списке гастроинтестинально ядовитых; двойник разрешённых к сбору дождевиков. Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf"
+  },
+  "gaps": [
+    {
+      "sci": "Armillaria ostoyae (Dunkler Hallimasch)",
+      "names": {
+        "fr": "Armillaire d’Ostoya",
+        "de": "Dunkler Hallimasch"
+      },
+      "why": "Люксембургский перечень разрешённых к сбору называет два опёнка отдельными строками — A. mellea и A. ostoyae; на еловых посадках Эслинга собирают в основном второй.",
+      "nearest_key": "armillaria_mellea",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "BE",
+        "CH",
+        "DK",
+        "NL",
+        "NO"
+      ],
+      "priority": "low",
+      "sources": [
+        "GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+        "GRM (SNL), «DE-Sammeln» — тот же люксембургский перечень с немецкими названиями: https://www.grm.lu/de-sammeln/"
+      ]
+    },
+    {
+      "sci": "Tuber mesentericum (син. Tuber aestivum var. mesentericum)",
+      "names": {
+        "fr": "Truffe mésentérique",
+        "de": "Schwarzer Herbsttrüffel"
+      },
+      "why": "Один из двух трюфелей люксембургского перечня разрешённых (вместе с T. aestivum) — известняки Гутланда и долины Мозеля; в стране есть трюфельный поиск с собаками. Для грибника это отдельный концепт: битумный запах, другая кухня.",
+      "nearest_key": "tuber_aestivum",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "BE",
+        "CH"
+      ],
+      "priority": "medium",
+      "sources": [
+        "GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+        "Symbiosis Lagotto (LU), «Trüffeln in Luxemburg» — поиск трюфелей с собакой в люксембургских известняковых лесах: https://www.symbiosis-lagotto.com/tr%C3%BCffeln/tr%C3%BCffeln-in-luxemburg/"
+      ]
+    },
+    {
+      "sci": "Hygrophorus pustulatus",
+      "names": {
+        "fr": "Hygrophore pustuleux",
+        "de": "Schwarzpunktierter Schneckling"
+      },
+      "why": "Единственный слизняк-гигрофор в люксембургском перечне разрешённых; еловые посадки Эслинга, поздняя осень. В каталоге ни одного близкого концепта нет.",
+      "nearest_key": "hygrophorus_camarophyllus",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "BE",
+        "CH",
+        "NO"
+      ],
+      "priority": "low",
+      "sources": [
+        "GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+        "GRM (SNL), «DE-Sammeln» — тот же люксембургский перечень с немецкими названиями: https://www.grm.lu/de-sammeln/"
+      ]
+    },
+    {
+      "sci": "Strobilurus esculentus",
+      "names": {
+        "fr": "Collybie comestible",
+        "de": "Fichtenzapfenrübling"
+      },
+      "why": "Тоже из перечня разрешённых: крошечный гриб на еловых шишках, зимне-весенний сбор в Эслинге. Народного аналога в каталоге нет вовсе.",
+      "nearest_key": null,
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "BE",
+        "DK",
+        "NL",
+        "NO"
+      ],
+      "priority": "low",
+      "sources": [
+        "GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+        "GRM (SNL), «DE-Sammeln» — тот же люксембургский перечень с немецкими названиями: https://www.grm.lu/de-sammeln/"
+      ]
+    },
+    {
+      "sci": "Ampulloclitocybe clavipes (Clitocybe clavipes)",
+      "names": {
+        "fr": "Clitocybe à pied en massue",
+        "de": "Keulenfüßiger Trichterling"
+      },
+      "why": "Национальный обзор отравлений ставит его в Coprinus-синдром вместе с Coprinopsis atramentaria и Suillellus luridus: реакция с алкоголем в течение суток до и после еды. Массовый вид хвойных посадок, который путают со съедобными говорушками.",
+      "nearest_key": "clitocybe_nebularis",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "BE",
+        "DK",
+        "NL",
+        "NO"
+      ],
+      "priority": "low",
+      "sources": [
+        "Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf"
+      ]
+    }
+  ],
+  "sources": [
+    "GRM (Groupe de Recherche Mycologique, SNL), «FR-Récolte» — официальный перечень 55 съедобных видов, изъятых из-под общей защиты règlement grand-ducal du 8.01.2010: https://www.grm.lu/fr-recolte/",
+    "GRM (SNL), «DE-Sammeln» — тот же люксембургский перечень с немецкими названиями: https://www.grm.lu/de-sammeln/",
+    "Schultheis B. (GRM), «Giftpilze, Pilzgifte», 18.9.2021 — национальный обзор синдромов отравления с поимённым списком видов: https://www.grm.lu/sitepad-data/uploads/2021/09/Giftpilze-Pilzgifte.pdf",
+    "Pailhès M., Garnier-Delcourt M., Reckinger Ch., «Sur les traces des champignons comestibles et toxiques du Luxembourg», 3e éd. 2015, Administration de la nature et des forêts, 182 pp. — национальная книга ~100 видов, раздаётся ANF бесплатно: https://gouvernement.lu/fr/actualites/toutes_actualites/communiques/2012/10-octobre/17-champignons.html",
+    "natur&ëmwelt / GRM, брошюра «Pilze Luxemburgs», 30 видов: https://www.grm.lu/sitepad-data/uploads/2021/07/Pilze-Luxemburgs.pdf",
+    "Paperjam.lu, «6 bons champignons de saison à cueillir au Luxembourg»: https://paperjam.lu/article/6-bons-champignons-saison-a-cu",
+    "L'essentiel (LU), «Les forêts luxembourgeoises sont riches en champignons» — выход с экспертом GRM: https://www.lessentiel.lu/fr/story/cueillette-avec-des-experts-les-forets-luxembourgeoises-sont-riches-en-champignons-103178921",
+    "LLuCS (LU), «Cueillette de champignons au Luxembourg»: https://www.llucs.lu/actualites/cueillette-de-champignons-au-luxembourg/",
+    "Luxtoday.lu, «Champignons au Luxembourg: sûrs et toxiques»: https://luxtoday.lu/en/knowledge/mushrooms-of-luxembourg",
+    "Tageblatt.lu, «Am Sommerende beginnt die Pilzsaison» (интервью с Ben Schultheis, GRM): https://www.tageblatt.lu/Luxemburg/Am-Sommerende-beginnt-die-Pilzsaison-52944.html",
+    "Symbiosis Lagotto (LU), «Trüffeln in Luxemburg» — поиск трюфелей с собакой в люксембургских известняковых лесах: https://www.symbiosis-lagotto.com/tr%C3%BCffeln/tr%C3%BCffeln-in-luxemburg/",
+    "Названия fr: все шесть взяты из франкоязычного перечня GRM (https://www.grm.lu/fr-recolte/), кроме Clitocybe rivulosa — MycoDB, база, на которую GRM ссылается сам: https://mycodb.fr/fiche.php?genre=Clitocybe&espece=rivulosa",
+    "Названия de: из немецкоязычного перечня GRM (https://www.grm.lu/de-sammeln/), кроме Clitocybe rivulosa — 123pilzsuche.de / naturemobile.org — немецкое имя Clitocybe rivulosa (Rinnigbereifter Trichterling): https://123pilzsuche.de/daten/details/Rinnigertrichterling.htm"
+  ]
+}
