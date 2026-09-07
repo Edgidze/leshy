@@ -39,7 +39,7 @@ import org.koin.compose.viewmodel.koinViewModel
  * First-run flow shown once before Home — see `.claude/plans/mushroom-collections.md`, Phase 3.
  * Четыре шага в одном composable, а не четыре маршрута навигации, по той же причине, по какой
  * весь онбординг вообще не является destination (ниже): обзор приложения ([WelcomeScreen]),
- * соглашение ([LegalScreen]), выбор стран, чьи грибы отслеживать. Выбор языка
+ * конфиденциальность ([LegalScreen]), выбор стран, чьи грибы отслеживать. Выбор языка
  * ([LanguagePickerScreen], тот же, что в Настройках) — не шаг в этом ряду, а отступление в
  * сторону с любого из них; порядок и причины — [OnboardingStep].
  *
@@ -78,7 +78,7 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
 
         OnboardingStep.LEGAL -> LegalScreen(
             onBack = viewModel::onBack,
-            onAccept = viewModel::onLegalAccepted,
+            onNext = viewModel::onLegalNext,
             modifier = modifier,
         )
 

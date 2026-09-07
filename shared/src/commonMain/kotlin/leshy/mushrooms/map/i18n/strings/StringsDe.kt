@@ -108,19 +108,23 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Weiter",
 
-    StringKey.LegalTitle to "Nutzungsbedingungen und Datenschutz",
-    StringKey.LegalTermsHeading to "Nutzungsbedingungen",
-    StringKey.LegalTermsText to
-        "Der vollständige Text erscheint hier vor der Veröffentlichung der App. Kurz gesagt: Die App ist " +
-            "ein Helfer, kein Pilzbestimmungsbuch. Die Entscheidung, ob ein Fund essbar ist, treffen immer Sie " +
-            "– und die Verantwortung dafür ebenfalls.",
-    StringKey.LegalPrivacyHeading to "Datenschutz",
+    StringKey.LegalTitle to "Datenschutz",
     StringKey.LegalPrivacyText to
-        "Der vollständige Text erscheint hier vor der Veröffentlichung der App. Kurz gesagt: Ihre " +
-            "Spaziergänge, Markierungen und Fotos bleiben auf Ihrem Gerät. Die App legt keine Konten an und " +
-            "sendet keine Ihrer Daten irgendwohin – ins Netz gehen nur Anfragen nach Kartenausschnitten von " +
-            "openfreemap.org.",
-    StringKey.LegalAcceptButton to "Ich stimme zu",
+        "Ihre Spaziergänge, Markierungen und Fotos bleiben auf Ihrem Gerät. Die App legt keine Konten an " +
+            "und sendet keine Ihrer Daten irgendwohin – ins Netz gehen nur Anfragen nach Kartenausschnitten " +
+            "von openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Datenschutzerklärung",
+
+    StringKey.AboutTitle to "Über die App",
+    StringKey.AboutMapDataTitle to "Kartendaten",
+    StringKey.AboutMapDataText to
+        "Die Karte beruht auf OpenStreetMap-Daten, die unter der ODbL-Lizenz verbreitet werden. " +
+            "Vektorkacheln und Stil stammen von OpenMapTiles, ausgeliefert werden sie vom Dienst " +
+            "OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Open Source",
+    StringKey.AboutOpenSourceText to
+        "Die App ist aus Open-Source-Bibliotheken zusammengesetzt. Ein Tippen auf eine Zeile der Liste " +
+            "öffnet den vollständigen Text ihrer Lizenz.",
 
     StringKey.NavMenuContentDescription to "Menü",
     StringKey.HelpContentDescription to "Hilfe",

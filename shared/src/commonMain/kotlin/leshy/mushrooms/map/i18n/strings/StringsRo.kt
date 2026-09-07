@@ -109,19 +109,22 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Mai departe",
 
-    StringKey.LegalTitle to "Termeni și confidențialitate",
-    StringKey.LegalTermsHeading to "Termeni de utilizare",
-    StringKey.LegalTermsText to
-        "Textul complet va apărea aici înainte de publicarea aplicației. Pe scurt: aplicația este un " +
-            "ajutor, nu un determinator de ciuperci. Decizia dacă o ciupercă găsită este comestibilă vă " +
-            "aparține întotdeauna — și răspunderea pentru ea la fel.",
-    StringKey.LegalPrivacyHeading to "Confidențialitate",
+    StringKey.LegalTitle to "Confidențialitate",
     StringKey.LegalPrivacyText to
-        "Textul complet va apărea aici înainte de publicarea aplicației. Pe scurt: plimbările, marcajele și " +
-            "fotografiile rămân pe dispozitivul dumneavoastră. Aplicația nu creează conturi și nu trimite " +
-            "nicăieri datele dumneavoastră — pe internet pleacă doar cererile pentru porțiuni de hartă către " +
-            "openfreemap.org.",
-    StringKey.LegalAcceptButton to "Accept",
+        "Plimbările, marcajele și fotografiile rămân pe dispozitivul dumneavoastră. Aplicația nu creează " +
+            "conturi și nu trimite nicăieri datele dumneavoastră — pe internet pleacă doar cererile pentru " +
+            "porțiuni de hartă către openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Politica de confidențialitate",
+
+    StringKey.AboutTitle to "Despre aplicație",
+    StringKey.AboutMapDataTitle to "Datele hărții",
+    StringKey.AboutMapDataText to
+        "Harta se bazează pe datele OpenStreetMap, distribuite sub licența ODbL. Dalele vectoriale și " +
+            "stilul provin de la OpenMapTiles, livrarea este asigurată de serviciul OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Cod deschis",
+    StringKey.AboutOpenSourceText to
+        "Aplicația este alcătuită din biblioteci cu sursă deschisă. Atingerea unui rând din listă deschide " +
+            "textul integral al licenței sale.",
 
     StringKey.NavMenuContentDescription to "Meniu",
     StringKey.HelpContentDescription to "Ajutor",

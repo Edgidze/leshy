@@ -78,11 +78,14 @@ enum class StringKey {
     WelcomeNextButton,
 
     LegalTitle,
-    LegalTermsHeading,
-    LegalTermsText,
-    LegalPrivacyHeading,
     LegalPrivacyText,
-    LegalAcceptButton,
+    LegalPrivacyLink,
+
+    AboutTitle,
+    AboutMapDataTitle,
+    AboutMapDataText,
+    AboutOpenSourceTitle,
+    AboutOpenSourceText,
 
     NavMenuContentDescription,
     HelpContentDescription,

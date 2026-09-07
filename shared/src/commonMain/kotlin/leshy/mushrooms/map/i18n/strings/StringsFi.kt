@@ -113,17 +113,21 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Eteenpäin",
 
-    StringKey.LegalTitle to "Ehdot ja tietosuoja",
-    StringKey.LegalTermsHeading to "Käyttöehdot",
-    StringKey.LegalTermsText to
-        "Koko teksti ilmestyy tähän ennen sovelluksen julkaisua. Lyhyesti: sovellus on apuri, ei sienten " +
-            "määrityskirja. Päätös siitä, onko löytö syötävä, on aina sinun — ja vastuu siitä samoin.",
-    StringKey.LegalPrivacyHeading to "Tietosuoja",
+    StringKey.LegalTitle to "Tietosuoja",
     StringKey.LegalPrivacyText to
-        "Koko teksti ilmestyy tähän ennen sovelluksen julkaisua. Lyhyesti: retkesi, merkintäsi ja kuvasi " +
-            "pysyvät laitteessasi. Sovellus ei luo tilejä eikä lähetä tietojasi minnekään — verkkoon lähtevät " +
-            "vain karttaruutujen pyynnöt osoitteeseen openfreemap.org.",
-    StringKey.LegalAcceptButton to "Hyväksyn",
+        "Retkesi, merkintäsi ja kuvasi pysyvät laitteessasi. Sovellus ei luo tilejä eikä lähetä tietojasi " +
+            "minnekään — verkkoon lähtevät vain karttaruutujen pyynnöt osoitteeseen openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Tietosuojakäytäntö",
+
+    StringKey.AboutTitle to "Tietoja sovelluksesta",
+    StringKey.AboutMapDataTitle to "Karttatiedot",
+    StringKey.AboutMapDataText to
+        "Kartta perustuu OpenStreetMapin aineistoon, jota levitetään ODbL-lisenssillä. Vektorilaatat ja " +
+            "tyyli ovat OpenMapTilesilta, ja ne toimittaa palvelu OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Avoin lähdekoodi",
+    StringKey.AboutOpenSourceText to
+        "Sovellus on koottu avoimen lähdekoodin kirjastoista. Luettelon rivin napauttaminen avaa sen " +
+            "lisenssin koko tekstin.",
 
     StringKey.NavMenuContentDescription to "Valikko",
     StringKey.HelpContentDescription to "Ohje",

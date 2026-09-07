@@ -108,18 +108,22 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Напред",
 
-    StringKey.LegalTitle to "Условия и поверителност",
-    StringKey.LegalTermsHeading to "Условия за ползване",
-    StringKey.LegalTermsText to
-        "Пълният текст ще се появи тук преди публикуването на приложението. Накратко: приложението е " +
-            "помощник, а не определител на гъби. Решението дали една находка е ядивна, е винаги ваше — както и " +
-            "отговорността за него.",
-    StringKey.LegalPrivacyHeading to "Поверителност",
+    StringKey.LegalTitle to "Поверителност",
     StringKey.LegalPrivacyText to
-        "Пълният текст ще се появи тук преди публикуването на приложението. Накратко: разходките, отметките " +
-            "и снимките остават на вашето устройство. Приложението не създава акаунти и не изпраща никъде " +
-            "вашите данни — в интернет отиват само заявките за участъци от картата към openfreemap.org.",
-    StringKey.LegalAcceptButton to "Приемам",
+        "Разходките, отметките и снимките остават на вашето устройство. Приложението не създава акаунти и " +
+            "не изпраща никъде вашите данни — в интернет отиват само заявките за участъци от картата към " +
+            "openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Политика за поверителност",
+
+    StringKey.AboutTitle to "За приложението",
+    StringKey.AboutMapDataTitle to "Данни на картата",
+    StringKey.AboutMapDataText to
+        "Картата е изградена върху данни на OpenStreetMap, разпространявани по лиценз ODbL. Векторните " +
+            "плочки и стилът са от OpenMapTiles, доставката — от услугата OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Отворен код",
+    StringKey.AboutOpenSourceText to
+        "Приложението е съставено от библиотеки с отворен код. Докосването на ред от списъка отваря пълния " +
+            "текст на неговия лиценз.",
 
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Помощ",

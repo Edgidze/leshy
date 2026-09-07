@@ -105,18 +105,22 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Әрі қарай",
 
-    StringKey.LegalTitle to "Келісім және құпиялық",
-    StringKey.LegalTermsHeading to "Пайдаланушы келісімі",
-    StringKey.LegalTermsText to
-        "Толық мәтін қолданба жарияланғанға дейін осында пайда болады. Қысқаша: қолданба — көмекші, " +
-            "саңырауқұлақ анықтағыш емес. Олжаның жеуге жарамдылығы туралы шешім әрқашан сізде — ол шешім үшін " +
-            "жауапкершілік те.",
-    StringKey.LegalPrivacyHeading to "Құпиялық",
+    StringKey.LegalTitle to "Құпиялық",
     StringKey.LegalPrivacyText to
-        "Толық мәтін қолданба жарияланғанға дейін осында пайда болады. Қысқаша: серуендер, белгілер және " +
-            "фотосуреттер құрылғыңызда қалады. Қолданба тіркелгі ашпайды және деректеріңізді ешқайда жібермейді " +
-            "— интернетке openfreemap.org сайтынан карта бөліктерін сұрау ғана кетеді.",
-    StringKey.LegalAcceptButton to "Қабылдаймын",
+        "Серуендер, белгілер және фотосуреттер құрылғыңызда қалады. Қолданба тіркелгі ашпайды және " +
+            "деректеріңізді ешқайда жібермейді — интернетке openfreemap.org сайтынан карта бөліктерін сұрау " +
+            "ғана кетеді.",
+    StringKey.LegalPrivacyLink to "Құпиялық саясаты",
+
+    StringKey.AboutTitle to "Қолданба туралы",
+    StringKey.AboutMapDataTitle to "Карта деректері",
+    StringKey.AboutMapDataText to
+        "Карта ODbL лицензиясымен таратылатын OpenStreetMap деректеріне негізделген. Векторлық бөліктер мен " +
+            "стиль — OpenMapTiles-тен, жеткізу — OpenFreeMap қызметінен.",
+    StringKey.AboutOpenSourceTitle to "Ашық код",
+    StringKey.AboutOpenSourceText to
+        "Қолданба ашық бастапқы коды бар кітапханалардан құрастырылған. Тізім жолын түртсеңіз, оның " +
+            "лицензиясының толық мәтіні ашылады.",
 
     StringKey.NavMenuContentDescription to "Мәзір",
     StringKey.HelpContentDescription to "Анықтама",

@@ -250,18 +250,22 @@ private fun russianStrings(key: StringKey): String = when (key) {
 
     StringKey.WelcomeNextButton -> "Дальше"
 
-    StringKey.LegalTitle -> "Соглашение и конфиденциальность"
-    StringKey.LegalTermsHeading -> "Пользовательское соглашение"
-    StringKey.LegalTermsText ->
-        "Полный текст появится здесь до публикации приложения. Коротко: приложение — помощник, а не " +
-            "определитель грибов. Решение о съедобности находки всегда за вами, и ответственность за это " +
-            "решение тоже."
-    StringKey.LegalPrivacyHeading -> "Конфиденциальность"
+    StringKey.LegalTitle -> "Конфиденциальность"
     StringKey.LegalPrivacyText ->
-        "Полный текст появится здесь до публикации приложения. Коротко: прогулки, отметки и фотографии " +
-            "остаются на вашем устройстве. Приложение не заводит аккаунтов и никуда не передаёт ваши данные — в " +
-            "интернет уходят только запросы участков карты с openfreemap.org."
-    StringKey.LegalAcceptButton -> "Принимаю"
+        "Прогулки, отметки и фотографии остаются на вашем устройстве. Приложение не заводит аккаунтов и " +
+            "никуда не передаёт ваши данные — в интернет уходят только запросы участков карты с " +
+            "openfreemap.org."
+    StringKey.LegalPrivacyLink -> "Политика конфиденциальности"
+
+    StringKey.AboutTitle -> "О приложении"
+    StringKey.AboutMapDataTitle -> "Данные карты"
+    StringKey.AboutMapDataText ->
+        "Карта построена на данных OpenStreetMap, распространяемых по лицензии ODbL. Векторные тайлы и " +
+            "стиль — OpenMapTiles, доставка — сервис OpenFreeMap."
+    StringKey.AboutOpenSourceTitle -> "Открытый код"
+    StringKey.AboutOpenSourceText ->
+        "Приложение собрано из библиотек с открытым исходным кодом. Нажатие на строку списка открывает " +
+            "полный текст её лицензии."
 
     StringKey.NavMenuContentDescription -> "Меню"
     StringKey.HelpContentDescription -> "Помощь"
@@ -603,18 +607,21 @@ private fun englishStrings(key: StringKey): String = when (key) {
 
     StringKey.WelcomeNextButton -> "Next"
 
-    StringKey.LegalTitle -> "Terms and privacy"
-    StringKey.LegalTermsHeading -> "Terms of use"
-    StringKey.LegalTermsText ->
-        "The full text will appear here before the app is published. In short: the app is an assistant, not " +
-            "a mushroom identification guide. Deciding whether a find is edible is always yours, and so is the " +
-            "responsibility for that decision."
-    StringKey.LegalPrivacyHeading -> "Privacy"
+    StringKey.LegalTitle -> "Privacy"
     StringKey.LegalPrivacyText ->
-        "The full text will appear here before the app is published. In short: your walks, marks and photos " +
-            "stay on your device. The app has no accounts and sends none of your data anywhere — the only thing " +
-            "that goes online is a request for map tiles from openfreemap.org."
-    StringKey.LegalAcceptButton -> "I agree"
+        "Your walks, marks and photos stay on your device. The app has no accounts and sends none of your " +
+            "data anywhere — the only thing that goes online is a request for map tiles from openfreemap.org."
+    StringKey.LegalPrivacyLink -> "Privacy policy"
+
+    StringKey.AboutTitle -> "About"
+    StringKey.AboutMapDataTitle -> "Map data"
+    StringKey.AboutMapDataText ->
+        "The map is built on OpenStreetMap data, distributed under the ODbL licence. Vector tiles and style " +
+            "come from OpenMapTiles, delivered by the OpenFreeMap service."
+    StringKey.AboutOpenSourceTitle -> "Open source"
+    StringKey.AboutOpenSourceText ->
+        "The app is assembled from open-source libraries. Tapping a row of the list opens the full text of " +
+            "its licence."
 
     StringKey.NavMenuContentDescription -> "Menu"
     StringKey.HelpContentDescription -> "Help"

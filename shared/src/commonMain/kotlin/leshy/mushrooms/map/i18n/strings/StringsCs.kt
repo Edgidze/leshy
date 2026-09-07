@@ -108,17 +108,21 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Dále",
 
-    StringKey.LegalTitle to "Podmínky a soukromí",
-    StringKey.LegalTermsHeading to "Podmínky používání",
-    StringKey.LegalTermsText to
-        "Úplné znění se zde objeví před vydáním aplikace. Stručně: aplikace je pomocník, nikoli atlas k " +
-            "určování hub. Rozhodnutí, zda je nález jedlý, je vždy na vás — a odpovědnost za ně také.",
-    StringKey.LegalPrivacyHeading to "Soukromí",
+    StringKey.LegalTitle to "Soukromí",
     StringKey.LegalPrivacyText to
-        "Úplné znění se zde objeví před vydáním aplikace. Stručně: vaše procházky, značky a fotografie " +
-            "zůstávají ve vašem zařízení. Aplikace nezakládá účty a vaše data nikam neposílá — do sítě jdou jen " +
-            "dotazy na dlaždice mapy na openfreemap.org.",
-    StringKey.LegalAcceptButton to "Souhlasím",
+        "Vaše procházky, značky a fotografie zůstávají ve vašem zařízení. Aplikace nezakládá účty a vaše " +
+            "data nikam neposílá — do sítě jdou jen dotazy na dlaždice mapy na openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Zásady ochrany osobních údajů",
+
+    StringKey.AboutTitle to "O aplikaci",
+    StringKey.AboutMapDataTitle to "Mapová data",
+    StringKey.AboutMapDataText to
+        "Mapa je postavena na datech OpenStreetMap šířených pod licencí ODbL. Vektorové dlaždice a styl " +
+            "pocházejí z OpenMapTiles, doručuje je služba OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Otevřený kód",
+    StringKey.AboutOpenSourceText to
+        "Aplikace je složena z knihoven s otevřeným zdrojovým kódem. Klepnutí na řádek seznamu otevře úplný " +
+            "text jeho licence.",
 
     StringKey.NavMenuContentDescription to "Nabídka",
     StringKey.HelpContentDescription to "Nápověda",

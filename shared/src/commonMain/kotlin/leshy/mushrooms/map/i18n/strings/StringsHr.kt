@@ -110,17 +110,21 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Dalje",
 
-    StringKey.LegalTitle to "Uvjeti i privatnost",
-    StringKey.LegalTermsHeading to "Uvjeti korištenja",
-    StringKey.LegalTermsText to
-        "Puni tekst pojavit će se ovdje prije objave aplikacije. Ukratko: aplikacija je pomoćnik, a ne " +
-            "ključ za određivanje gljiva. Odluka je li nalaz jestiv uvijek je vaša — kao i odgovornost za nju.",
-    StringKey.LegalPrivacyHeading to "Privatnost",
+    StringKey.LegalTitle to "Privatnost",
     StringKey.LegalPrivacyText to
-        "Puni tekst pojavit će se ovdje prije objave aplikacije. Ukratko: vaše šetnje, oznake i fotografije " +
-            "ostaju na vašem uređaju. Aplikacija ne otvara račune i nikamo ne šalje vaše podatke — na internet " +
-            "odlaze samo zahtjevi za dijelove karte prema openfreemap.org.",
-    StringKey.LegalAcceptButton to "Prihvaćam",
+        "Vaše šetnje, oznake i fotografije ostaju na vašem uređaju. Aplikacija ne otvara račune i nikamo ne " +
+            "šalje vaše podatke — na internet odlaze samo zahtjevi za dijelove karte prema openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Pravila o privatnosti",
+
+    StringKey.AboutTitle to "O aplikaciji",
+    StringKey.AboutMapDataTitle to "Podaci karte",
+    StringKey.AboutMapDataText to
+        "Karta je izgrađena na podacima OpenStreetMapa koji se distribuiraju pod licencom ODbL. Vektorske " +
+            "pločice i stil dolaze iz OpenMapTilesa, a isporučuje ih usluga OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Otvoreni kod",
+    StringKey.AboutOpenSourceText to
+        "Aplikacija je sastavljena od biblioteka otvorenog koda. Dodir na redak popisa otvara cijeli tekst " +
+            "njegove licence.",
 
     StringKey.NavMenuContentDescription to "Izbornik",
     StringKey.HelpContentDescription to "Pomoć",

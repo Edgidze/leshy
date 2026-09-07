@@ -5,7 +5,7 @@ import leshy.mushrooms.map.presentation.CollectionPickerItem
 
 /**
  * Первый запуск — четыре шага в этом порядке: обзорная страница о приложении ([WELCOME]),
- * соглашение и конфиденциальность ([LEGAL]), выбор подборок грибов по странам ([COLLECTIONS]).
+ * конфиденциальность ([LEGAL]), выбор подборок грибов по странам ([COLLECTIONS]).
  * [LANGUAGE] в этот ряд не входит — это отступление в сторону с любого из трёх (см.
  * [OnboardingUiState.languageReturnStep]).
  *

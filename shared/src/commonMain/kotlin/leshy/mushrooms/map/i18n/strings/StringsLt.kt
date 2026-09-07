@@ -112,17 +112,22 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Toliau",
 
-    StringKey.LegalTitle to "Sąlygos ir privatumas",
-    StringKey.LegalTermsHeading to "Naudojimo sąlygos",
-    StringKey.LegalTermsText to
-        "Visas tekstas čia atsiras prieš programėlės paskelbimą. Trumpai: programėlė yra pagalbininkė, o ne " +
-            "grybų nustatymo vadovas. Sprendimas, ar radinys valgomas, visada jūsų — kaip ir atsakomybė už jį.",
-    StringKey.LegalPrivacyHeading to "Privatumas",
+    StringKey.LegalTitle to "Privatumas",
     StringKey.LegalPrivacyText to
-        "Visas tekstas čia atsiras prieš programėlės paskelbimą. Trumpai: jūsų išvykos, žymos ir nuotraukos " +
-            "lieka jūsų įrenginyje. Programėlė nekuria paskyrų ir niekur nesiunčia jūsų duomenų — į internetą " +
-            "keliauja tik žemėlapio fragmentų užklausos į openfreemap.org.",
-    StringKey.LegalAcceptButton to "Sutinku",
+        "Jūsų išvykos, žymos ir nuotraukos lieka jūsų įrenginyje. Programėlė nekuria paskyrų ir niekur " +
+            "nesiunčia jūsų duomenų — į internetą keliauja tik žemėlapio fragmentų užklausos į " +
+            "openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Privatumo politika",
+
+    StringKey.AboutTitle to "Apie programėlę",
+    StringKey.AboutMapDataTitle to "Žemėlapio duomenys",
+    StringKey.AboutMapDataText to
+        "Žemėlapis paremtas OpenStreetMap duomenimis, platinamais pagal ODbL licenciją. Vektorines plyteles " +
+            "ir stilių teikia OpenMapTiles, pristatymą — paslauga OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Atvirasis kodas",
+    StringKey.AboutOpenSourceText to
+        "Programėlė sudėta iš atvirojo kodo bibliotekų. Palietus sąrašo eilutę atsiveria visas jos " +
+            "licencijos tekstas.",
 
     StringKey.NavMenuContentDescription to "Meniu",
     StringKey.HelpContentDescription to "Pagalba",

@@ -105,17 +105,22 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "İrəli",
 
-    StringKey.LegalTitle to "Şərtlər və məxfilik",
-    StringKey.LegalTermsHeading to "İstifadə şərtləri",
-    StringKey.LegalTermsText to
-        "Tam mətn tətbiq dərc olunmadan əvvəl burada yerləşdiriləcək. Qısaca: tətbiq köməkçidir, göbələk " +
-            "təyinedicisi deyil. Tapıntının yeməli olub-olmaması barədə qərar həmişə sizindir — məsuliyyət də.",
-    StringKey.LegalPrivacyHeading to "Məxfilik",
+    StringKey.LegalTitle to "Məxfilik",
     StringKey.LegalPrivacyText to
-        "Tam mətn tətbiq dərc olunmadan əvvəl burada yerləşdiriləcək. Qısaca: gəzintiləriniz, qeydləriniz " +
-            "və fotolarınız cihazınızda qalır. Tətbiq hesab açmır və məlumatlarınızı heç yerə göndərmir — " +
-            "internetə yalnız openfreemap.org ünvanından xəritə hissələri üçün sorğular gedir.",
-    StringKey.LegalAcceptButton to "Qəbul edirəm",
+        "Gəzintiləriniz, qeydləriniz və fotolarınız cihazınızda qalır. Tətbiq hesab açmır və " +
+            "məlumatlarınızı heç yerə göndərmir — internetə yalnız openfreemap.org ünvanından xəritə " +
+            "hissələri üçün sorğular gedir.",
+    StringKey.LegalPrivacyLink to "Məxfilik siyasəti",
+
+    StringKey.AboutTitle to "Tətbiq haqqında",
+    StringKey.AboutMapDataTitle to "Xəritə məlumatları",
+    StringKey.AboutMapDataText to
+        "Xəritə ODbL lisenziyası ilə yayılan OpenStreetMap məlumatları üzərində qurulub. Vektor plitələri " +
+            "və üslub — OpenMapTiles-dən, çatdırılma — OpenFreeMap xidmətindən.",
+    StringKey.AboutOpenSourceTitle to "Açıq kod",
+    StringKey.AboutOpenSourceText to
+        "Tətbiq açıq kodlu kitabxanalardan yığılıb. Siyahıdakı sətrə toxunmaqla onun lisenziyasının tam " +
+            "mətni açılır.",
 
     StringKey.NavMenuContentDescription to "Menyu",
     StringKey.HelpContentDescription to "Kömək",

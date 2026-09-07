@@ -105,18 +105,22 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Vidare",
 
-    StringKey.LegalTitle to "Villkor och integritet",
-    StringKey.LegalTermsHeading to "Användarvillkor",
-    StringKey.LegalTermsText to
-        "Den fullständiga texten visas här innan appen publiceras. Kort sagt: appen är en hjälpreda, inte " +
-            "en svampbok för artbestämning. Beslutet om ett fynd är ätligt är alltid ditt — och ansvaret för " +
-            "det likaså.",
-    StringKey.LegalPrivacyHeading to "Integritet",
+    StringKey.LegalTitle to "Integritet",
     StringKey.LegalPrivacyText to
-        "Den fullständiga texten visas här innan appen publiceras. Kort sagt: dina turer, markeringar och " +
-            "foton stannar på din enhet. Appen skapar inga konton och skickar inga av dina data någonstans — ut " +
-            "på nätet går bara förfrågningar om kartrutor till openfreemap.org.",
-    StringKey.LegalAcceptButton to "Jag godkänner",
+        "Dina turer, markeringar och foton stannar på din enhet. Appen skapar inga konton och skickar inga " +
+            "av dina data någonstans — ut på nätet går bara förfrågningar om kartrutor till " +
+            "openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Integritetspolicy",
+
+    StringKey.AboutTitle to "Om appen",
+    StringKey.AboutMapDataTitle to "Kartdata",
+    StringKey.AboutMapDataText to
+        "Kartan bygger på OpenStreetMap-data som sprids under ODbL-licensen. Vektorrutorna och stilen " +
+            "kommer från OpenMapTiles och levereras av tjänsten OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Öppen källkod",
+    StringKey.AboutOpenSourceText to
+        "Appen är byggd av bibliotek med öppen källkod. Ett tryck på en rad i listan öppnar hela texten " +
+            "till dess licens.",
 
     StringKey.NavMenuContentDescription to "Meny",
     StringKey.HelpContentDescription to "Hjälp",

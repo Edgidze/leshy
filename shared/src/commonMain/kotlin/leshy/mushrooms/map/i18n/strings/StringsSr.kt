@@ -108,18 +108,21 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Даље",
 
-    StringKey.LegalTitle to "Услови и приватност",
-    StringKey.LegalTermsHeading to "Услови коришћења",
-    StringKey.LegalTermsText to
-        "Пун текст ће се појавити овде пре објављивања апликације. Укратко: апликација је помоћник, а не " +
-            "кључ за одређивање гљива. Одлука о томе да ли је налаз јестив увек је ваша — као и одговорност за " +
-            "њу.",
-    StringKey.LegalPrivacyHeading to "Приватност",
+    StringKey.LegalTitle to "Приватност",
     StringKey.LegalPrivacyText to
-        "Пун текст ће се појавити овде пре објављивања апликације. Укратко: ваше шетње, ознаке и " +
-            "фотографије остају на вашем уређају. Апликација не отвара налоге и никуда не шаље ваше податке — " +
-            "на интернет одлазе само захтеви за делове мапе ка openfreemap.org.",
-    StringKey.LegalAcceptButton to "Прихватам",
+        "Ваше шетње, ознаке и фотографије остају на вашем уређају. Апликација не отвара налоге и никуда не " +
+            "шаље ваше податке — на интернет одлазе само захтеви за делове мапе ка openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Политика приватности",
+
+    StringKey.AboutTitle to "О апликацији",
+    StringKey.AboutMapDataTitle to "Подаци мапе",
+    StringKey.AboutMapDataText to
+        "Мапа је изграђена на подацима OpenStreetMap-а који се дистрибуирају под лиценцом ODbL. Векторске " +
+            "плочице и стил долазе из OpenMapTiles-а, а испоручује их услуга OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Отворени код",
+    StringKey.AboutOpenSourceText to
+        "Апликација је састављена од библиотека отвореног кода. Додир на ред списка отвара цео текст његове " +
+            "лиценце.",
 
     StringKey.NavMenuContentDescription to "Мени",
     StringKey.HelpContentDescription to "Помоћ",

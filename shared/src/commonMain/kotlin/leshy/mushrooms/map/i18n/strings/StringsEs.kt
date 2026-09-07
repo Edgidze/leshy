@@ -109,18 +109,22 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Siguiente",
 
-    StringKey.LegalTitle to "Condiciones y privacidad",
-    StringKey.LegalTermsHeading to "Condiciones de uso",
-    StringKey.LegalTermsText to
-        "El texto completo aparecerá aquí antes de publicar la aplicación. En resumen: la aplicación es una " +
-            "ayuda, no una guía de identificación de setas. Decidir si un hallazgo es comestible es siempre " +
-            "cosa suya, y la responsabilidad de esa decisión también.",
-    StringKey.LegalPrivacyHeading to "Privacidad",
+    StringKey.LegalTitle to "Privacidad",
     StringKey.LegalPrivacyText to
-        "El texto completo aparecerá aquí antes de publicar la aplicación. En resumen: sus paseos, marcas y " +
-            "fotos se quedan en su dispositivo. La aplicación no crea cuentas ni envía sus datos a ninguna " +
-            "parte: a internet solo salen las peticiones de fragmentos del mapa a openfreemap.org.",
-    StringKey.LegalAcceptButton to "Acepto",
+        "Sus paseos, marcas y fotos se quedan en su dispositivo. La aplicación no crea cuentas ni envía sus " +
+            "datos a ninguna parte: a internet solo salen las peticiones de fragmentos del mapa a " +
+            "openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Política de privacidad",
+
+    StringKey.AboutTitle to "Acerca de la aplicación",
+    StringKey.AboutMapDataTitle to "Datos del mapa",
+    StringKey.AboutMapDataText to
+        "El mapa se basa en datos de OpenStreetMap, distribuidos bajo la licencia ODbL. Las teselas " +
+            "vectoriales y el estilo son de OpenMapTiles, y las entrega el servicio OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Código abierto",
+    StringKey.AboutOpenSourceText to
+        "La aplicación está compuesta por bibliotecas de código abierto. Al tocar una fila de la lista se " +
+            "abre el texto completo de su licencia.",
 
     StringKey.NavMenuContentDescription to "Menú",
     StringKey.HelpContentDescription to "Ayuda",

@@ -108,17 +108,22 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Далей",
 
-    StringKey.LegalTitle to "Пагадненне і прыватнасць",
-    StringKey.LegalTermsHeading to "Карыстальніцкае пагадненне",
-    StringKey.LegalTermsText to
-        "Поўны тэкст з’явіцца тут да публікацыі праграмы. Коратка: праграма — памочнік, а не вызначальнік " +
-            "грыбоў. Рашэнне пра ядомасць знаходкі заўсёды за вамі, і адказнасць за гэтае рашэнне таксама.",
-    StringKey.LegalPrivacyHeading to "Прыватнасць",
+    StringKey.LegalTitle to "Прыватнасць",
     StringKey.LegalPrivacyText to
-        "Поўны тэкст з’явіцца тут да публікацыі праграмы. Коратка: прагулкі, адзнакі і фатаграфіі застаюцца " +
-            "на вашай прыладзе. Праграма не заводзіць уліковых запісаў і нікуды не перадае вашы даныя — у " +
-            "інтэрнэт ідуць толькі запыты ўчасткаў карты з openfreemap.org.",
-    StringKey.LegalAcceptButton to "Прымаю",
+        "Прагулкі, адзнакі і фатаграфіі застаюцца на вашай прыладзе. Праграма не заводзіць уліковых запісаў " +
+            "і нікуды не перадае вашы даныя — у інтэрнэт ідуць толькі запыты ўчасткаў карты з " +
+            "openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Палітыка прыватнасці",
+
+    StringKey.AboutTitle to "Пра праграму",
+    StringKey.AboutMapDataTitle to "Даныя карты",
+    StringKey.AboutMapDataText to
+        "Карта пабудавана на даных OpenStreetMap, якія распаўсюджваюцца паводле ліцэнзіі ODbL. Вектарныя " +
+            "плiткi і стыль — OpenMapTiles, дастаўка — сэрвіс OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Адкрыты код",
+    StringKey.AboutOpenSourceText to
+        "Праграма сабрана з бібліятэк з адкрытым зыходным кодам. Націск на радок спіса адкрывае поўны тэкст " +
+            "яе ліцэнзіі.",
 
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Даведка",

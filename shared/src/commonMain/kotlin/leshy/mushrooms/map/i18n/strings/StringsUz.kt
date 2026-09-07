@@ -114,18 +114,22 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Keyingisi",
 
-    StringKey.LegalTitle to "Shartlar va maxfiylik",
-    StringKey.LegalTermsHeading to "Foydalanish shartlari",
-    StringKey.LegalTermsText to
-        "Toʻliq matn ilova chop etilishidan oldin shu yerda paydo boʻladi. Qisqacha: ilova — yordamchi, " +
-            "qoʻziqorin aniqlagich emas. Topilma yeyishga yaroqlimi degan qaror doim sizniki — bu qaror uchun " +
-            "javobgarlik ham.",
-    StringKey.LegalPrivacyHeading to "Maxfiylik",
+    StringKey.LegalTitle to "Maxfiylik",
     StringKey.LegalPrivacyText to
-        "Toʻliq matn ilova chop etilishidan oldin shu yerda paydo boʻladi. Qisqacha: sayrlaringiz, " +
-            "belgilaringiz va suratlaringiz qurilmangizda qoladi. Ilova hisob yaratmaydi va maʼlumotlaringizni " +
-            "hech qayerga yubormaydi — internetga faqat openfreemap.org dan xarita boʻlaklari soʻrovi ketadi.",
-    StringKey.LegalAcceptButton to "Qabul qilaman",
+        "Sayrlaringiz, belgilaringiz va suratlaringiz qurilmangizda qoladi. Ilova hisob yaratmaydi va " +
+            "maʼlumotlaringizni hech qayerga yubormaydi — internetga faqat openfreemap.org dan xarita " +
+            "boʻlaklari soʻrovi ketadi.",
+    StringKey.LegalPrivacyLink to "Maxfiylik siyosati",
+
+    StringKey.AboutTitle to "Ilova haqida",
+    StringKey.AboutMapDataTitle to "Xarita ma’lumotlari",
+    StringKey.AboutMapDataText to
+        "Xarita ODbL litsenziyasi bilan tarqatiladigan OpenStreetMap ma’lumotlariga asoslangan. Vektor " +
+            "bo‘laklari va uslub — OpenMapTiles’dan, yetkazib berish — OpenFreeMap xizmati.",
+    StringKey.AboutOpenSourceTitle to "Ochiq kod",
+    StringKey.AboutOpenSourceText to
+        "Ilova ochiq kodli kutubxonalardan yig‘ilgan. Ro‘yxat qatoriga tegilsa, uning litsenziyasining " +
+            "to‘liq matni ochiladi.",
 
     StringKey.NavMenuContentDescription to "Menyu",
     StringKey.HelpContentDescription to "Yordam",

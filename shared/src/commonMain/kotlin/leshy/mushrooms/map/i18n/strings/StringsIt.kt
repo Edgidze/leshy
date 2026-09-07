@@ -109,18 +109,22 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Avanti",
 
-    StringKey.LegalTitle to "Condizioni e privacy",
-    StringKey.LegalTermsHeading to "Condizioni d’uso",
-    StringKey.LegalTermsText to
-        "Il testo completo comparirà qui prima della pubblicazione dell’app. In breve: l’app è un aiuto, " +
-            "non un manuale per riconoscere i funghi. Decidere se un ritrovamento è commestibile spetta sempre " +
-            "a te, e con esso la responsabilità di quella decisione.",
-    StringKey.LegalPrivacyHeading to "Privacy",
+    StringKey.LegalTitle to "Privacy",
     StringKey.LegalPrivacyText to
-        "Il testo completo comparirà qui prima della pubblicazione dell’app. In breve: le tue passeggiate, " +
-            "i segni e le foto restano sul tuo dispositivo. L’app non crea account e non invia da nessuna parte " +
-            "i tuoi dati: in rete vanno solo le richieste dei riquadri di mappa a openfreemap.org.",
-    StringKey.LegalAcceptButton to "Accetto",
+        "Le tue passeggiate, i segni e le foto restano sul tuo dispositivo. L’app non crea account e non " +
+            "invia da nessuna parte i tuoi dati: in rete vanno solo le richieste dei riquadri di mappa a " +
+            "openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Informativa sulla privacy",
+
+    StringKey.AboutTitle to "Informazioni sull’app",
+    StringKey.AboutMapDataTitle to "Dati della mappa",
+    StringKey.AboutMapDataText to
+        "La mappa si basa sui dati di OpenStreetMap, distribuiti con licenza ODbL. I riquadri vettoriali e " +
+            "lo stile provengono da OpenMapTiles, la consegna è del servizio OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Codice aperto",
+    StringKey.AboutOpenSourceText to
+        "L’app è composta da librerie open source. Toccando una riga dell’elenco si apre il testo completo " +
+            "della sua licenza.",
 
     StringKey.NavMenuContentDescription to "Menu",
     StringKey.HelpContentDescription to "Aiuto",

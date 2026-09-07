@@ -112,18 +112,23 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Suivant",
 
-    StringKey.LegalTitle to "Conditions et confidentialité",
-    StringKey.LegalTermsHeading to "Conditions d’utilisation",
-    StringKey.LegalTermsText to
-        "Le texte complet apparaîtra ici avant la publication de l’application. En bref : l’application est " +
-            "une aide, pas un guide d’identification des champignons. Décider si une trouvaille est comestible " +
-            "vous revient toujours, ainsi que la responsabilité de cette décision.",
-    StringKey.LegalPrivacyHeading to "Confidentialité",
+    StringKey.LegalTitle to "Confidentialité",
     StringKey.LegalPrivacyText to
-        "Le texte complet apparaîtra ici avant la publication de l’application. En bref : vos sorties, vos " +
-            "marques et vos photos restent sur votre appareil. L’application ne crée aucun compte et n’envoie " +
-            "aucune de vos données — seules des requêtes de tuiles de carte partent vers openfreemap.org.",
-    StringKey.LegalAcceptButton to "J’accepte",
+        "Vos sorties, vos marques et vos photos restent sur votre appareil. L’application ne crée aucun " +
+            "compte et n’envoie aucune de vos données — seules des requêtes de tuiles de carte partent vers " +
+            "openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Politique de confidentialité",
+
+    StringKey.AboutTitle to "À propos",
+    StringKey.AboutMapDataTitle to "Données cartographiques",
+    StringKey.AboutMapDataText to
+        "La carte repose sur les données d’OpenStreetMap, diffusées sous licence ODbL. Les tuiles " +
+            "vectorielles et le style viennent d’OpenMapTiles, la diffusion est assurée par le service " +
+            "OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Code ouvert",
+    StringKey.AboutOpenSourceText to
+        "L’application est assemblée à partir de bibliothèques open source. Appuyer sur une ligne de la " +
+            "liste ouvre le texte complet de sa licence.",
 
     StringKey.NavMenuContentDescription to "Menu",
     StringKey.HelpContentDescription to "Aide",

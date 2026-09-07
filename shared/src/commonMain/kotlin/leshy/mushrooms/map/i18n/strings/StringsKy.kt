@@ -109,18 +109,22 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Андан ары",
 
-    StringKey.LegalTitle to "Келишим жана купуялык",
-    StringKey.LegalTermsHeading to "Колдонуучу келишими",
-    StringKey.LegalTermsText to
-        "Толук текст колдонмо жарыяланганга чейин ушул жерде пайда болот. Кыскача: колдонмо — жардамчы, " +
-            "козу карын аныктагыч эмес. Табылганын жегенге жарактуулугу жөнүндөгү чечим ар дайым сизде — ал " +
-            "чечим үчүн жоопкерчилик да.",
-    StringKey.LegalPrivacyHeading to "Купуялык",
+    StringKey.LegalTitle to "Купуялык",
     StringKey.LegalPrivacyText to
-        "Толук текст колдонмо жарыяланганга чейин ушул жерде пайда болот. Кыскача: сейилдер, белгилер жана " +
-            "сүрөттөр түзмөгүңүздө калат. Колдонмо каттоо эсебин ачпайт жана маалыматыңызды эч жакка жөнөтпөйт " +
-            "— интернетке openfreemap.org сайтынан карта бөлүктөрүн суроо гана кетет.",
-    StringKey.LegalAcceptButton to "Кабыл алам",
+        "Сейилдер, белгилер жана сүрөттөр түзмөгүңүздө калат. Колдонмо каттоо эсебин ачпайт жана " +
+            "маалыматыңызды эч жакка жөнөтпөйт — интернетке openfreemap.org сайтынан карта бөлүктөрүн суроо " +
+            "гана кетет.",
+    StringKey.LegalPrivacyLink to "Купуялык саясаты",
+
+    StringKey.AboutTitle to "Колдонмо жөнүндө",
+    StringKey.AboutMapDataTitle to "Карта маалыматтары",
+    StringKey.AboutMapDataText to
+        "Карта ODbL лицензиясы менен таратылган OpenStreetMap маалыматтарына негизделген. Вектордук " +
+            "бөлүктөр жана стиль — OpenMapTiles'тен, жеткирүү — OpenFreeMap кызматынан.",
+    StringKey.AboutOpenSourceTitle to "Ачык код",
+    StringKey.AboutOpenSourceText to
+        "Колдонмо ачык булактуу китепканалардан чогултулган. Тизменин сабын бассаңыз, анын лицензиясынын " +
+            "толук тексти ачылат.",
 
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Жардам",

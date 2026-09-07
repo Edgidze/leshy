@@ -109,18 +109,22 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "შემდეგ",
 
-    StringKey.LegalTitle to "პირობები და კონფიდენციალურობა",
-    StringKey.LegalTermsHeading to "მოხმარების პირობები",
-    StringKey.LegalTermsText to
-        "სრული ტექსტი აქ აპლიკაციის გამოქვეყნებამდე გამოჩნდება. მოკლედ: აპლიკაცია დამხმარეა და არა სოკოს " +
-            "განმსაზღვრელი. გადაწყვეტილება, საკვებია თუ არა ნაპოვნი, ყოველთვის თქვენია — და პასუხისმგებლობაც " +
-            "მასზე.",
-    StringKey.LegalPrivacyHeading to "კონფიდენციალურობა",
+    StringKey.LegalTitle to "კონფიდენციალურობა",
     StringKey.LegalPrivacyText to
-        "სრული ტექსტი აქ აპლიკაციის გამოქვეყნებამდე გამოჩნდება. მოკლედ: თქვენი გასეირნებები, აღნიშვნები და " +
-            "ფოტოები რჩება თქვენს მოწყობილობაზე. აპლიკაცია ანგარიშებს არ ქმნის და თქვენს მონაცემებს არსად " +
-            "აგზავნის — ინტერნეტში მიდის მხოლოდ რუკის ფრაგმენტების მოთხოვნები openfreemap.org-ისკენ.",
-    StringKey.LegalAcceptButton to "ვეთანხმები",
+        "თქვენი გასეირნებები, აღნიშვნები და ფოტოები რჩება თქვენს მოწყობილობაზე. აპლიკაცია ანგარიშებს არ " +
+            "ქმნის და თქვენს მონაცემებს არსად აგზავნის — ინტერნეტში მიდის მხოლოდ რუკის ფრაგმენტების " +
+            "მოთხოვნები openfreemap.org-ისკენ.",
+    StringKey.LegalPrivacyLink to "კონფიდენციალურობის პოლიტიკა",
+
+    StringKey.AboutTitle to "აპლიკაციის შესახებ",
+    StringKey.AboutMapDataTitle to "რუკის მონაცემები",
+    StringKey.AboutMapDataText to
+        "რუკა აგებულია OpenStreetMap-ის მონაცემებზე, რომლებიც ვრცელდება ODbL ლიცენზიით. ვექტორული " +
+            "ფრაგმენტები და სტილი — OpenMapTiles-ისგან, მიწოდება — სერვისი OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "ღია კოდი",
+    StringKey.AboutOpenSourceText to
+        "აპლიკაცია აწყობილია ღია კოდის ბიბლიოთეკებისგან. სიის სტრიქონზე შეხება ხსნის მისი ლიცენზიის სრულ " +
+            "ტექსტს.",
 
     StringKey.NavMenuContentDescription to "მენიუ",
     StringKey.HelpContentDescription to "დახმარება",

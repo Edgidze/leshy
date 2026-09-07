@@ -108,18 +108,21 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Dalej",
 
-    StringKey.LegalTitle to "Regulamin i prywatność",
-    StringKey.LegalTermsHeading to "Regulamin",
-    StringKey.LegalTermsText to
-        "Pełny tekst pojawi się tutaj przed publikacją aplikacji. W skrócie: aplikacja jest pomocnikiem, a " +
-            "nie atlasem do rozpoznawania grzybów. Decyzja, czy znalezisko jest jadalne, zawsze należy do " +
-            "Ciebie — i odpowiedzialność za nią również.",
-    StringKey.LegalPrivacyHeading to "Prywatność",
+    StringKey.LegalTitle to "Prywatność",
     StringKey.LegalPrivacyText to
-        "Pełny tekst pojawi się tutaj przed publikacją aplikacji. W skrócie: spacery, znaczniki i zdjęcia " +
-            "zostają na Twoim urządzeniu. Aplikacja nie zakłada kont i nigdzie nie wysyła Twoich danych — do " +
-            "sieci trafiają tylko zapytania o fragmenty mapy do openfreemap.org.",
-    StringKey.LegalAcceptButton to "Akceptuję",
+        "Spacery, znaczniki i zdjęcia zostają na Twoim urządzeniu. Aplikacja nie zakłada kont i nigdzie nie " +
+            "wysyła Twoich danych — do sieci trafiają tylko zapytania o fragmenty mapy do openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Polityka prywatności",
+
+    StringKey.AboutTitle to "O aplikacji",
+    StringKey.AboutMapDataTitle to "Dane mapy",
+    StringKey.AboutMapDataText to
+        "Mapa opiera się na danych OpenStreetMap rozpowszechnianych na licencji ODbL. Kafelki wektorowe i " +
+            "styl pochodzą z OpenMapTiles, a dostarcza je usługa OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Otwarty kod",
+    StringKey.AboutOpenSourceText to
+        "Aplikacja jest złożona z bibliotek o otwartym kodzie źródłowym. Dotknięcie wiersza listy otwiera " +
+            "pełny tekst jego licencji.",
 
     StringKey.NavMenuContentDescription to "Menu",
     StringKey.HelpContentDescription to "Pomoc",

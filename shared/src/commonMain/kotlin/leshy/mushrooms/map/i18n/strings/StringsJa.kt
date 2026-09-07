@@ -90,16 +90,18 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "次へ",
 
-    StringKey.LegalTitle to "利用規約とプライバシー",
-    StringKey.LegalTermsHeading to "利用規約",
-    StringKey.LegalTermsText to
-        "全文はアプリの公開前にここに掲載されます。要点: " +
-            "このアプリは補助のための道具であり、キノコの鑑定図鑑ではありません。見つけたキノコが食べられるかどうかの判断は常に利用者ご自身にあり、その責任も同様です。",
-    StringKey.LegalPrivacyHeading to "プライバシー",
+    StringKey.LegalTitle to "プライバシー",
     StringKey.LegalPrivacyText to
-        "全文はアプリの公開前にここに掲載されます。要点: 散策・記録・写真はお使いの端末内にとどまります。アカウントは作成せず、データをどこにも送信しません。ネットワークに出るのは " +
-            "openfreemap.org への地図タイルの要求だけです。",
-    StringKey.LegalAcceptButton to "同意する",
+        "散策・記録・写真はお使いの端末内にとどまります。アカウントは作成せず、データをどこにも送信しません。ネットワークに出るのは openfreemap.org への地図タイルの要求だけです。",
+    StringKey.LegalPrivacyLink to "プライバシーポリシー",
+
+    StringKey.AboutTitle to "このアプリについて",
+    StringKey.AboutMapDataTitle to "地図データ",
+    StringKey.AboutMapDataText to
+        "地図は ODbL ライセンスで配布される OpenStreetMap のデータに基づいています。ベクタータイルとスタイルは OpenMapTiles、配信は OpenFreeMap " +
+            "サービスによるものです。",
+    StringKey.AboutOpenSourceTitle to "オープンソース",
+    StringKey.AboutOpenSourceText to "このアプリはオープンソースのライブラリで構成されています。一覧の行をタップすると、そのライセンスの全文が開きます。",
 
     StringKey.NavMenuContentDescription to "メニュー",
     StringKey.HelpContentDescription to "ヘルプ",

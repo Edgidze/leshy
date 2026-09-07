@@ -108,18 +108,22 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Минбаъд",
 
-    StringKey.LegalTitle to "Созишнома ва махфият",
-    StringKey.LegalTermsHeading to "Созишномаи корбар",
-    StringKey.LegalTermsText to
-        "Матни пурра то нашри барнома дар ин ҷо пайдо мешавад. Мухтасар: барнома — ёрирасон аст, на " +
-            "муайянкунандаи занбӯруғ. Қарор дар бораи хӯрданбоб будани ёфта ҳамеша аз они шумост — ва масъулият " +
-            "барои он низ.",
-    StringKey.LegalPrivacyHeading to "Махфият",
+    StringKey.LegalTitle to "Махфият",
     StringKey.LegalPrivacyText to
-        "Матни пурра то нашри барнома дар ин ҷо пайдо мешавад. Мухтасар: сайрҳо, қайдҳо ва аксҳо дар " +
-            "дастгоҳи шумо мемонанд. Барнома ҳисоб намекушояд ва маълумоти шуморо ба ҳеҷ ҷо намефиристад — ба " +
-            "интернет танҳо дархостҳои қитъаҳои харита ба openfreemap.org мераванд.",
-    StringKey.LegalAcceptButton to "Қабул мекунам",
+        "Сайрҳо, қайдҳо ва аксҳо дар дастгоҳи шумо мемонанд. Барнома ҳисоб намекушояд ва маълумоти шуморо " +
+            "ба ҳеҷ ҷо намефиристад — ба интернет танҳо дархостҳои қитъаҳои харита ба openfreemap.org " +
+            "мераванд.",
+    StringKey.LegalPrivacyLink to "Сиёсати махфият",
+
+    StringKey.AboutTitle to "Дар бораи барнома",
+    StringKey.AboutMapDataTitle to "Маълумоти харита",
+    StringKey.AboutMapDataText to
+        "Харита дар асоси маълумоти OpenStreetMap сохта шудааст, ки бо иҷозатномаи ODbL паҳн мешаванд. " +
+            "Қитъаҳои векторӣ ва сабк — аз OpenMapTiles, расонидан — хидмати OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Рамзи кушода",
+    StringKey.AboutOpenSourceText to
+        "Барнома аз китобхонаҳои рамзи кушода сохта шудааст. Пахши сатри рӯйхат матни пурраи иҷозатномаи " +
+            "онро мекушояд.",
 
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Кӯмак",

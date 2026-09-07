@@ -114,18 +114,22 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Tovább",
 
-    StringKey.LegalTitle to "Feltételek és adatvédelem",
-    StringKey.LegalTermsHeading to "Felhasználási feltételek",
-    StringKey.LegalTermsText to
-        "A teljes szöveg az alkalmazás közzététele előtt jelenik meg itt. Röviden: az alkalmazás " +
-            "segítőtárs, nem gombahatározó. Annak eldöntése, hogy egy lelet ehető-e, mindig Öné — és a " +
-            "felelősség is ezért.",
-    StringKey.LegalPrivacyHeading to "Adatvédelem",
+    StringKey.LegalTitle to "Adatvédelem",
     StringKey.LegalPrivacyText to
-        "A teljes szöveg az alkalmazás közzététele előtt jelenik meg itt. Röviden: a séták, a jelölések és " +
-            "a fényképek az Ön készülékén maradnak. Az alkalmazás nem hoz létre fiókot, és sehová nem küldi el " +
-            "az adatait — az internetre csak a térképszelvények kérése megy ki az openfreemap.org felé.",
-    StringKey.LegalAcceptButton to "Elfogadom",
+        "A séták, a jelölések és a fényképek az Ön készülékén maradnak. Az alkalmazás nem hoz létre fiókot, " +
+            "és sehová nem küldi el az adatait — az internetre csak a térképszelvények kérése megy ki az " +
+            "openfreemap.org felé.",
+    StringKey.LegalPrivacyLink to "Adatvédelmi tájékoztató",
+
+    StringKey.AboutTitle to "Az alkalmazásról",
+    StringKey.AboutMapDataTitle to "Térképadatok",
+    StringKey.AboutMapDataText to
+        "A térkép az OpenStreetMap adataira épül, amelyeket ODbL licenc alatt terjesztenek. A vektorcsempék " +
+            "és a stílus az OpenMapTilestól származnak, kézbesítésüket az OpenFreeMap szolgáltatás végzi.",
+    StringKey.AboutOpenSourceTitle to "Nyílt forráskód",
+    StringKey.AboutOpenSourceText to
+        "Az alkalmazás nyílt forráskódú programkönyvtárakból áll. A lista egy sorára koppintva megnyílik a " +
+            "licencének teljes szövege.",
 
     StringKey.NavMenuContentDescription to "Menü",
     StringKey.HelpContentDescription to "Súgó",

@@ -107,19 +107,22 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Առաջ",
 
-    StringKey.LegalTitle to "Պայմաններ և գաղտնիություն",
-    StringKey.LegalTermsHeading to "Օգտագործման պայմաններ",
-    StringKey.LegalTermsText to
-        "Ամբողջական տեքստը կհայտնվի այստեղ հավելվածի հրապարակումից առաջ։ Համառոտ․ հավելվածը օգնական է, ոչ " +
-            "թե սնկերի որոշիչ։ Որոշումը, թե գտածոն ուտելի է, միշտ ձերն է, ինչպես և պատասխանատվությունը դրա " +
-            "համար։",
-    StringKey.LegalPrivacyHeading to "Գաղտնիություն",
+    StringKey.LegalTitle to "Գաղտնիություն",
     StringKey.LegalPrivacyText to
-        "Ամբողջական տեքստը կհայտնվի այստեղ հավելվածի հրապարակումից առաջ։ Համառոտ․ ձեր զբոսանքները, " +
-            "նշումները և լուսանկարները մնում են ձեր սարքում։ Հավելվածը հաշիվներ չի ստեղծում և ձեր տվյալները ոչ " +
-            "մի տեղ չի ուղարկում — համացանց են գնում միայն քարտեզի հատվածների հարցումները openfreemap.org " +
-            "հասցեին։",
-    StringKey.LegalAcceptButton to "Ընդունում եմ",
+        "Ձեր զբոսանքները, նշումները և լուսանկարները մնում են ձեր սարքում։ Հավելվածը հաշիվներ չի ստեղծում և " +
+            "ձեր տվյալները ոչ մի տեղ չի ուղարկում — համացանց են գնում միայն քարտեզի հատվածների հարցումները " +
+            "openfreemap.org հասցեին։",
+    StringKey.LegalPrivacyLink to "Գաղտնիության քաղաքականություն",
+
+    StringKey.AboutTitle to "Հավելվածի մասին",
+    StringKey.AboutMapDataTitle to "Քարտեզի տվյալներ",
+    StringKey.AboutMapDataText to
+        "Քարտեզը կառուցված է OpenStreetMap-ի տվյալների վրա, որոնք տարածվում են ODbL արտոնագրով։ Վեկտորային " +
+            "սալիկները և ոճը՝ OpenMapTiles-ից, մատուցումը՝ OpenFreeMap ծառայության։",
+    StringKey.AboutOpenSourceTitle to "Բաց կոդ",
+    StringKey.AboutOpenSourceText to
+        "Հավելվածը հավաքված է բաց կոդով գրադարաններից։ Ցանկի տողին հպվելը բացում է դրա արտոնագրի ամբողջական " +
+            "տեքստը։",
 
     StringKey.NavMenuContentDescription to "Ցանկ",
     StringKey.HelpContentDescription to "Օգնություն",

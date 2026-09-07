@@ -109,18 +109,22 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Далі",
 
-    StringKey.LegalTitle to "Угода та конфіденційність",
-    StringKey.LegalTermsHeading to "Угода користувача",
-    StringKey.LegalTermsText to
-        "Повний текст з’явиться тут до публікації застосунку. Коротко: застосунок — помічник, а не " +
-            "визначник грибів. Рішення про їстівність знахідки завжди за вами, і відповідальність за це рішення " +
-            "теж.",
-    StringKey.LegalPrivacyHeading to "Конфіденційність",
+    StringKey.LegalTitle to "Конфіденційність",
     StringKey.LegalPrivacyText to
-        "Повний текст з’явиться тут до публікації застосунку. Коротко: прогулянки, позначки й фотографії " +
-            "залишаються на вашому пристрої. Застосунок не заводить облікових записів і нікуди не передає ваші " +
-            "дані — в інтернет ідуть лише запити ділянок карти з openfreemap.org.",
-    StringKey.LegalAcceptButton to "Приймаю",
+        "Прогулянки, позначки й фотографії залишаються на вашому пристрої. Застосунок не заводить облікових " +
+            "записів і нікуди не передає ваші дані — в інтернет ідуть лише запити ділянок карти з " +
+            "openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Політика конфіденційності",
+
+    StringKey.AboutTitle to "Про застосунок",
+    StringKey.AboutMapDataTitle to "Дані карти",
+    StringKey.AboutMapDataText to
+        "Карта побудована на даних OpenStreetMap, які поширюються за ліцензією ODbL. Векторні фрагменти та " +
+            "стиль — від OpenMapTiles, доставка — сервіс OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Відкритий код",
+    StringKey.AboutOpenSourceText to
+        "Застосунок зібрано з бібліотек із відкритим кодом. Натискання на рядок списку відкриває повний " +
+            "текст її ліцензії.",
 
     StringKey.NavMenuContentDescription to "Меню",
     StringKey.HelpContentDescription to "Допомога",

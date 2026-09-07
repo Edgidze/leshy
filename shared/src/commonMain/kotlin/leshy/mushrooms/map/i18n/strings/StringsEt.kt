@@ -107,17 +107,21 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Edasi",
 
-    StringKey.LegalTitle to "Tingimused ja privaatsus",
-    StringKey.LegalTermsHeading to "Kasutustingimused",
-    StringKey.LegalTermsText to
-        "Täistekst ilmub siia enne rakenduse avaldamist. Lühidalt: rakendus on abiline, mitte " +
-            "seentemääraja. Otsus, kas leid on söödav, on alati teie oma — ja vastutus selle eest samuti.",
-    StringKey.LegalPrivacyHeading to "Privaatsus",
+    StringKey.LegalTitle to "Privaatsus",
     StringKey.LegalPrivacyText to
-        "Täistekst ilmub siia enne rakenduse avaldamist. Lühidalt: teie käigud, märked ja fotod jäävad teie " +
-            "seadmesse. Rakendus ei loo kontosid ega saada teie andmeid kuhugi — internetti lähevad vaid " +
-            "kaardiruutude päringud aadressile openfreemap.org.",
-    StringKey.LegalAcceptButton to "Nõustun",
+        "Teie käigud, märked ja fotod jäävad teie seadmesse. Rakendus ei loo kontosid ega saada teie " +
+            "andmeid kuhugi — internetti lähevad vaid kaardiruutude päringud aadressile openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Privaatsuspoliitika",
+
+    StringKey.AboutTitle to "Rakendusest",
+    StringKey.AboutMapDataTitle to "Kaardiandmed",
+    StringKey.AboutMapDataText to
+        "Kaart põhineb OpenStreetMapi andmetel, mida levitatakse ODbL-litsentsi alusel. Vektorpaanid ja " +
+            "stiil pärinevad OpenMapTilesilt, kohale toimetab need teenus OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Avatud lähtekood",
+    StringKey.AboutOpenSourceText to
+        "Rakendus on kokku pandud avatud lähtekoodiga teekidest. Loendirea koputamine avab selle litsentsi " +
+            "täisteksti.",
 
     StringKey.NavMenuContentDescription to "Menüü",
     StringKey.HelpContentDescription to "Abi",

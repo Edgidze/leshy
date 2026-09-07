@@ -114,18 +114,22 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Naprej",
 
-    StringKey.LegalTitle to "Pogoji in zasebnost",
-    StringKey.LegalTermsHeading to "Pogoji uporabe",
-    StringKey.LegalTermsText to
-        "Celotno besedilo se bo tu pojavilo pred objavo aplikacije. Na kratko: aplikacija je pomočnik, ne " +
-            "določevalni ključ za gobe. Odločitev, ali je najdba užitna, je vedno vaša — in odgovornost zanjo " +
-            "tudi.",
-    StringKey.LegalPrivacyHeading to "Zasebnost",
+    StringKey.LegalTitle to "Zasebnost",
     StringKey.LegalPrivacyText to
-        "Celotno besedilo se bo tu pojavilo pred objavo aplikacije. Na kratko: vaši sprehodi, oznake in " +
-            "fotografije ostanejo v vaši napravi. Aplikacija ne ustvarja računov in vaših podatkov nikamor ne " +
-            "pošilja — v splet gredo le zahteve za ploščice zemljevida na openfreemap.org.",
-    StringKey.LegalAcceptButton to "Strinjam se",
+        "Vaši sprehodi, oznake in fotografije ostanejo v vaši napravi. Aplikacija ne ustvarja računov in " +
+            "vaših podatkov nikamor ne pošilja — v splet gredo le zahteve za ploščice zemljevida na " +
+            "openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Politika zasebnosti",
+
+    StringKey.AboutTitle to "O aplikaciji",
+    StringKey.AboutMapDataTitle to "Podatki zemljevida",
+    StringKey.AboutMapDataText to
+        "Zemljevid temelji na podatkih OpenStreetMap, ki se razširjajo pod licenco ODbL. Vektorske ploščice " +
+            "in slog prihajajo iz OpenMapTiles, dostavlja jih storitev OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Odprta koda",
+    StringKey.AboutOpenSourceText to
+        "Aplikacija je sestavljena iz knjižnic z odprto kodo. Dotik vrstice na seznamu odpre celotno " +
+            "besedilo njene licence.",
 
     StringKey.NavMenuContentDescription to "Meni",
     StringKey.HelpContentDescription to "Pomoč",

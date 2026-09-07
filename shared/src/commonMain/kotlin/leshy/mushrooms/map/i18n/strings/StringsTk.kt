@@ -105,18 +105,22 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Öňe",
 
-    StringKey.LegalTitle to "Şertler we gizlinlik",
-    StringKey.LegalTermsHeading to "Ulanyş şertleri",
-    StringKey.LegalTermsText to
-        "Doly tekst programma neşir edilmezinden öň şu ýerde peýda bolar. Gysgaça: programma kömekçidir, " +
-            "kömelek kesgitleýji däl. Tapyndynyň iýilýändigi baradaky karar hemişe siziňki — onuň " +
-            "jogapkärçiligi hem.",
-    StringKey.LegalPrivacyHeading to "Gizlinlik",
+    StringKey.LegalTitle to "Gizlinlik",
     StringKey.LegalPrivacyText to
-        "Doly tekst programma neşir edilmezinden öň şu ýerde peýda bolar. Gysgaça: gezelençleriňiz, " +
-            "bellikleriňiz we suratlaryňyz enjamyňyzda galýar. Programma hasap açmaýar we maglumatlaryňyzy hiç " +
-            "ýere ibermeýär — internete diňe openfreemap.org salgysyndan karta bölekleri üçin soraglar gidýär.",
-    StringKey.LegalAcceptButton to "Kabul edýärin",
+        "Gezelençleriňiz, bellikleriňiz we suratlaryňyz enjamyňyzda galýar. Programma hasap açmaýar we " +
+            "maglumatlaryňyzy hiç ýere ibermeýär — internete diňe openfreemap.org salgysyndan karta " +
+            "bölekleri üçin soraglar gidýär.",
+    StringKey.LegalPrivacyLink to "Gizlinlik syýasaty",
+
+    StringKey.AboutTitle to "Programma barada",
+    StringKey.AboutMapDataTitle to "Karta maglumatlary",
+    StringKey.AboutMapDataText to
+        "Karta ODbL ygtyýarnamasy bilen ýaýradylýan OpenStreetMap maglumatlaryna esaslanýar. Wektor " +
+            "bölekleri we stil — OpenMapTiles-den, gowşurylyşy — OpenFreeMap hyzmatyndan.",
+    StringKey.AboutOpenSourceTitle to "Açyk kod",
+    StringKey.AboutOpenSourceText to
+        "Programma açyk kodly kitaphanalardan ýygnaldy. Sanawyň setirine degseňiz, onuň ygtyýarnamasynyň " +
+            "doly teksti açylýar.",
 
     StringKey.NavMenuContentDescription to "Menýu",
     StringKey.HelpContentDescription to "Kömek",

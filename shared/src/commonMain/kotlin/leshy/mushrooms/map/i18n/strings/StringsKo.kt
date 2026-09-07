@@ -94,16 +94,19 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "다음",
 
-    StringKey.LegalTitle to "약관 및 개인정보",
-    StringKey.LegalTermsHeading to "이용 약관",
-    StringKey.LegalTermsText to
-        "전체 내용은 앱 공개 전에 여기에 실립니다. 요약하면: 이 앱은 보조 도구이지 버섯 감별 도감이 아닙니다. 찾은 버섯을 먹을 수 있는지 판단하는 일은 언제나 사용자에게 있으며, " +
-            "그에 대한 책임도 마찬가지입니다.",
-    StringKey.LegalPrivacyHeading to "개인정보",
+    StringKey.LegalTitle to "개인정보",
     StringKey.LegalPrivacyText to
-        "전체 내용은 앱 공개 전에 여기에 실립니다. 요약하면: 산책과 표시, 사진은 사용자의 기기에 남습니다. 앱은 계정을 만들지 않고 데이터를 어디에도 보내지 않습니다. 네트워크로 " +
-            "나가는 것은 openfreemap.org에 보내는 지도 타일 요청뿐입니다.",
-    StringKey.LegalAcceptButton to "동의합니다",
+        "산책과 표시, 사진은 사용자의 기기에 남습니다. 앱은 계정을 만들지 않고 데이터를 어디에도 보내지 않습니다. 네트워크로 나가는 것은 openfreemap.org에 보내는 지도 " +
+            "타일 요청뿐입니다.",
+    StringKey.LegalPrivacyLink to "개인정보 처리방침",
+
+    StringKey.AboutTitle to "앱 정보",
+    StringKey.AboutMapDataTitle to "지도 데이터",
+    StringKey.AboutMapDataText to
+        "지도는 ODbL 라이선스로 배포되는 OpenStreetMap 데이터를 기반으로 합니다. 벡터 타일과 스타일은 OpenMapTiles에서 가져오며, 전송은 OpenFreeMap " +
+            "서비스가 담당합니다.",
+    StringKey.AboutOpenSourceTitle to "오픈 소스",
+    StringKey.AboutOpenSourceText to "이 앱은 오픈 소스 라이브러리로 구성되어 있습니다. 목록의 행을 누르면 해당 라이선스 전문이 열립니다.",
 
     StringKey.NavMenuContentDescription to "메뉴",
     StringKey.HelpContentDescription to "도움말",

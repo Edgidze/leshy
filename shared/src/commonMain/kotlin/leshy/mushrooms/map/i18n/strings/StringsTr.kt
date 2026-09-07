@@ -105,18 +105,22 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "İleri",
 
-    StringKey.LegalTitle to "Koşullar ve gizlilik",
-    StringKey.LegalTermsHeading to "Kullanım koşulları",
-    StringKey.LegalTermsText to
-        "Tam metin, uygulama yayımlanmadan önce burada yer alacak. Kısaca: uygulama bir yardımcıdır, mantar " +
-            "teşhis kılavuzu değildir. Bir buluntunun yenilebilir olup olmadığına karar vermek her zaman size " +
-            "aittir — sorumluluğu da öyle.",
-    StringKey.LegalPrivacyHeading to "Gizlilik",
+    StringKey.LegalTitle to "Gizlilik",
     StringKey.LegalPrivacyText to
-        "Tam metin, uygulama yayımlanmadan önce burada yer alacak. Kısaca: yürüyüşleriniz, işaretleriniz ve " +
-            "fotoğraflarınız cihazınızda kalır. Uygulama hesap açmaz ve verilerinizi hiçbir yere göndermez — " +
-            "internete yalnızca openfreemap.org adresinden harita parçası istekleri gider.",
-    StringKey.LegalAcceptButton to "Kabul ediyorum",
+        "Yürüyüşleriniz, işaretleriniz ve fotoğraflarınız cihazınızda kalır. Uygulama hesap açmaz ve " +
+            "verilerinizi hiçbir yere göndermez — internete yalnızca openfreemap.org adresinden harita " +
+            "parçası istekleri gider.",
+    StringKey.LegalPrivacyLink to "Gizlilik politikası",
+
+    StringKey.AboutTitle to "Uygulama hakkında",
+    StringKey.AboutMapDataTitle to "Harita verileri",
+    StringKey.AboutMapDataText to
+        "Harita, ODbL lisansıyla dağıtılan OpenStreetMap verilerine dayanır. Vektör parçaları ve stil " +
+            "OpenMapTiles’tan gelir, dağıtımını OpenFreeMap hizmeti yapar.",
+    StringKey.AboutOpenSourceTitle to "Açık kaynak",
+    StringKey.AboutOpenSourceText to
+        "Uygulama açık kaynaklı kitaplıklardan oluşur. Listedeki bir satıra dokunmak, o kitaplığın lisans " +
+            "metninin tamamını açar.",
 
     StringKey.NavMenuContentDescription to "Menü",
     StringKey.HelpContentDescription to "Yardım",

@@ -112,17 +112,21 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.WelcomeNextButton to "Tālāk",
 
-    StringKey.LegalTitle to "Noteikumi un privātums",
-    StringKey.LegalTermsHeading to "Lietošanas noteikumi",
-    StringKey.LegalTermsText to
-        "Pilns teksts parādīsies šeit pirms lietotnes publicēšanas. Īsumā: lietotne ir palīgs, nevis sēņu " +
-            "noteicējs. Lēmums par to, vai atradums ir ēdams, vienmēr ir jūsu — tāpat kā atbildība par to.",
-    StringKey.LegalPrivacyHeading to "Privātums",
+    StringKey.LegalTitle to "Privātums",
     StringKey.LegalPrivacyText to
-        "Pilns teksts parādīsies šeit pirms lietotnes publicēšanas. Īsumā: jūsu gājieni, atzīmes un " +
-            "fotoattēli paliek jūsu ierīcē. Lietotne neveido kontus un nekur nesūta jūsu datus — internetā " +
-            "aiziet tikai kartes fragmentu pieprasījumi uz openfreemap.org.",
-    StringKey.LegalAcceptButton to "Piekrītu",
+        "Jūsu gājieni, atzīmes un fotoattēli paliek jūsu ierīcē. Lietotne neveido kontus un nekur nesūta " +
+            "jūsu datus — internetā aiziet tikai kartes fragmentu pieprasījumi uz openfreemap.org.",
+    StringKey.LegalPrivacyLink to "Privātuma politika",
+
+    StringKey.AboutTitle to "Par lietotni",
+    StringKey.AboutMapDataTitle to "Kartes dati",
+    StringKey.AboutMapDataText to
+        "Karte balstīta uz OpenStreetMap datiem, kas tiek izplatīti ar ODbL licenci. Vektoru flīzes un " +
+            "stils nāk no OpenMapTiles, piegādi nodrošina pakalpojums OpenFreeMap.",
+    StringKey.AboutOpenSourceTitle to "Atvērtais kods",
+    StringKey.AboutOpenSourceText to
+        "Lietotne ir salikta no atvērtā koda bibliotēkām. Pieskaroties saraksta rindai, atveras tās " +
+            "licences pilns teksts.",
 
     StringKey.NavMenuContentDescription to "Izvēlne",
     StringKey.HelpContentDescription to "Palīdzība",
