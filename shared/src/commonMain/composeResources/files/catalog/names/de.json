@@ -1,4 +1,5 @@
 {
+  "agaricus_arvensis": "Schafchampignon",
   "agaricus_campestris": "Champignon",
   "agaricus_campestris__2": "Wiesenchampignon",
   "agaricus_sylvaticus": "Kleiner Waldchampignon",
@@ -23,6 +24,8 @@
   "calvatia_gigantea": "Riesenbovist",
   "cantharellus_cibarius": "Pfifferling",
   "chlorophyllum_brunneum": "Garten-Safranschirmling",
+  "chlorophyllum_rhacodes": "Gemeiner Safranschirmling",
+  "clitocybe_rivulosa": "Rinnigbereifter Trichterling",
   "collybia_nuda": "Violetter Rötelritterling",
   "coprinopsis_atramentaria": "Grauer Faltentintling",
   "coprinus_comatus": "Schopftintling",
@@ -51,6 +54,7 @@
   "lactarius_deterrimus": "Fichten-Reizker",
   "lactarius_salmonicolor": "Lachsreizker",
   "lactifluus_volemus": "Brätling",
+  "laetiporus_sulphureus": "Schwefelporling",
   "leccinellum_pseudoscabrum": "Hainbuchenröhrling",
   "leccinum_aurantiacum": "Rotkappe",
   "leccinum_leucopodium": "Rotkappe",

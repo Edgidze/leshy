@@ -1,8 +1,15 @@
 {
+  "boletus_reticulatus": "Cèpe d’été",
   "chlorophyllum_brunneum": "Lépiote vénéneuse",
+  "clitocybe_rivulosa": "Clitocybe du bord des routes",
+  "coprinopsis_atramentaria": "Coprin noir d’encre",
   "hygrophorus_marzuolus": "Hygrophore de mars",
+  "hypholoma_capnoides": "Hypholome doux",
   "inosperma_erubescens": "Inocybe de Patouillard",
+  "lactarius_deterrimus": "Lactaire de l’épicéa",
+  "leccinellum_pseudoscabrum": "Bolet des charmes",
   "suillus_grevillei": "Bolet élégant",
   "tricholoma_pardinum": "Tricholome tigré",
-  "tylopilus_felleus": "Bolet de fiel"
+  "tylopilus_felleus": "Bolet de fiel",
+  "xerocomellus_chrysenteron": "Bolet à chair jaune"
 }

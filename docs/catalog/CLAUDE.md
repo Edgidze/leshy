@@ -431,6 +431,25 @@ images: 408 verified, 0 copied, 0 orphaned group images removed
 изменился ни на байт, `drawable/` не тронут — инкрементная секция цветов снова
 отработала как задумано.
 
+## Фаза 2 партии `europe-15`, третья пачка (2026-09-07) — `LU`, `BE`
+
+```
+408 categories (+0 extra), 49 countries (+16 extra), 49 languages
+countries.json: 49 countries
+countries/: 42 files written (49 countries each, 17 manual overrides applied)
+names/: 49 files written (17 of them fed by extra_names/)
+images: 408 verified, 0 copied, 0 orphaned group images removed
+```
+
+Первая пачка, где `extra_names/` действительно дозаполняет, а не заводит файл с
+нуля: `fr` 116 → 123, `de` 94 → 98, `nl` 50 → 59. Сверка старых файлов с новыми
+после прогона — **ни одно существующее имя не изменилось**; две «удалённые»
+строки в диффе `names/fr|nl.json` — это перенос запятой на бывшую последнюю
+запись, значения те же.
+
+`catalog_reference.tsv` пересобран перед пачкой на 47 подборках, колонки
+названий — `en,de,fr,nl,el,es,it,sv,hr,sr,bg,tr` (добавились `nl` и `el`).
+
 ## Зависимости python (2026-09-07)
 
 `Babel` дважды ставился «в отдельную директорию и подавался через
