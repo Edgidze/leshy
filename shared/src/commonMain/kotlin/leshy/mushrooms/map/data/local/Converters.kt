@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import leshy.mushrooms.map.data.local.entity.ObjectType
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.CategorySource
+import leshy.mushrooms.map.domain.model.CollectionSource
 import kotlinx.serialization.json.Json
 
 private val customNamesJson = Json
@@ -20,6 +21,12 @@ class Converters {
 
     @TypeConverter
     fun toCategorySource(value: String): CategorySource = CategorySource.valueOf(value)
+
+    @TypeConverter
+    fun fromCollectionSource(value: CollectionSource): String = value.name
+
+    @TypeConverter
+    fun toCollectionSource(value: String): CollectionSource = CollectionSource.valueOf(value)
 
     /** Keyed by [AppLanguage.code] rather than the enum's own name so the stored JSON stays
      * readable and stable if the enum is ever renamed — and so it matches the shape the export

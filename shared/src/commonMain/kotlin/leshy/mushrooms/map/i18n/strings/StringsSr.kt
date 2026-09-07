@@ -37,7 +37,7 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
         "Све слике гљива у апликацији су илустративне — немојте их користити за одређивање " +
             "непознатих гљива!",
 
-    StringKey.SpeciesCollectionsTitle to "Збирке гљива",
+    StringKey.SpeciesCollectionsTitle to "Збирке гљива по државама",
     StringKey.SpeciesMyMushroomsTitle to "Додате гљиве",
     StringKey.SpeciesMyMushroomsEmpty to "Овде ће се појавити гљиве које сами додате",
     StringKey.SpeciesAddButton to "Додај гљиву",
@@ -51,6 +51,10 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Слике",
     StringKey.SpeciesFormSaveButton to "Сачувај",
     StringKey.SpeciesFormCancelContentDescription to "Откажи",
+    StringKey.SpeciesCollectionDialogTitle to "У коју збирку?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Назад",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Сачувај у збирку",
+    StringKey.SpeciesCollectionNameIsCountry to "То је назив државе — изаберите други",
     StringKey.SpeciesListImportedLabel to "из архиве",
     StringKey.SpeciesListEditContentDescription to "Измени",
     StringKey.SpeciesListDeleteContentDescription to "Обриши врсту",
@@ -134,7 +138,8 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Разно",
     StringKey.CategoryUnknownMushroom to "Непозната гљива",
 
-    StringKey.CollectionPickerSearchHint to "Претрага држава или гљива",
+    StringKey.CollectionOtherName to "Остале",
+    StringKey.CollectionPickerSearchHint to "Претрага збирки или гљива",
     StringKey.CollectionPickerMoreMatches to "Нису приказана сва подударања — прецизирајте упит",
 
     StringKey.LanguagePickerSearchHint to "Претрага језика",

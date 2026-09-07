@@ -36,7 +36,7 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
         "Колдонмодогу бардык козу карын сүрөттөрү маалымат үчүн гана — тааныш эмес козу карынды " +
             "аныктоо үчүн аларды колдонбоңуз!",
 
-    StringKey.SpeciesCollectionsTitle to "Козу карын жыйнактары",
+    StringKey.SpeciesCollectionsTitle to "Өлкө боюнча козу карын жыйнактары",
     StringKey.SpeciesMyMushroomsTitle to "Кошулган козу карындар",
     StringKey.SpeciesMyMushroomsEmpty to "Өзүңүз кошкон козу карындар ушул жерде көрүнөт",
     StringKey.SpeciesAddButton to "Козу карын кошуу",
@@ -50,6 +50,10 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Сүрөттөр",
     StringKey.SpeciesFormSaveButton to "Сактоо",
     StringKey.SpeciesFormCancelContentDescription to "Жокко чыгаруу",
+    StringKey.SpeciesCollectionDialogTitle to "Кайсы жыйнакка?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Артка",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Жыйнакка сактоо",
+    StringKey.SpeciesCollectionNameIsCountry to "Бул — өлкөнүн аты, башка ат тандаңыз",
     StringKey.SpeciesListImportedLabel to "архивден",
     StringKey.SpeciesListEditContentDescription to "Түзөтүү",
     StringKey.SpeciesListDeleteContentDescription to "Түрдү өчүрүү",
@@ -136,7 +140,8 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Башка",
     StringKey.CategoryUnknownMushroom to "Белгисиз козу карын",
 
-    StringKey.CollectionPickerSearchHint to "Өлкө же козу карын издөө",
+    StringKey.CollectionOtherName to "Башкалар",
+    StringKey.CollectionPickerSearchHint to "Жыйнак же козу карын издөө",
     StringKey.CollectionPickerMoreMatches to "Бардык дал келүүлөр көрсөтүлгөн жок — сурамды тактаңыз",
     StringKey.LanguagePickerSearchHint to "Тил издөө",
     StringKey.LanguagePickerBackContentDescription to "Артка",

@@ -36,7 +36,7 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
         "Kõik seenepildid rakenduses on üksnes illustratiivsed — ärge kasutage neid tundmatute " +
             "seente määramiseks!",
 
-    StringKey.SpeciesCollectionsTitle to "Seenekogud",
+    StringKey.SpeciesCollectionsTitle to "Seenekogud riikide kaupa",
     StringKey.SpeciesMyMushroomsTitle to "Lisatud seened",
     StringKey.SpeciesMyMushroomsEmpty to "Siia ilmuvad seened, mille ise lisate",
     StringKey.SpeciesAddButton to "Lisa seen",
@@ -50,6 +50,10 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Pildid",
     StringKey.SpeciesFormSaveButton to "Salvesta",
     StringKey.SpeciesFormCancelContentDescription to "Loobu",
+    StringKey.SpeciesCollectionDialogTitle to "Millisesse kogusse?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Tagasi",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Salvesta kogusse",
+    StringKey.SpeciesCollectionNameIsCountry to "See on riigi nimi — vali teine",
     StringKey.SpeciesListImportedLabel to "arhiivist",
     StringKey.SpeciesListEditContentDescription to "Muuda",
     StringKey.SpeciesListDeleteContentDescription to "Kustuta liik",
@@ -133,7 +137,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Muu",
     StringKey.CategoryUnknownMushroom to "Tundmatu seen",
 
-    StringKey.CollectionPickerSearchHint to "Otsi riiki või seent",
+    StringKey.CollectionOtherName to "Muud",
+    StringKey.CollectionPickerSearchHint to "Otsi kogu või seent",
     StringKey.CollectionPickerMoreMatches to "Kõiki vasteid ei kuvata — täpsusta otsingut",
 
     StringKey.LanguagePickerSearchHint to "Otsi keelt",

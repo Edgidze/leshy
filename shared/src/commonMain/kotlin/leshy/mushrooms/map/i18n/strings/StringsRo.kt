@@ -34,7 +34,7 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
         "Toate imaginile ciupercilor din aplicație sunt orientative — nu le folosiți pentru a " +
             "identifica ciuperci necunoscute!",
 
-    StringKey.SpeciesCollectionsTitle to "Colecții de ciuperci",
+    StringKey.SpeciesCollectionsTitle to "Colecții de ciuperci pe țări",
     StringKey.SpeciesMyMushroomsTitle to "Ciuperci adăugate",
     StringKey.SpeciesMyMushroomsEmpty to "Ciupercile pe care le adăugați chiar dvs. vor apărea aici",
     StringKey.SpeciesAddButton to "Adaugă ciupercă",
@@ -48,6 +48,10 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Catalog",
     StringKey.SpeciesFormSaveButton to "Salvează",
     StringKey.SpeciesFormCancelContentDescription to "Anulează",
+    StringKey.SpeciesCollectionDialogTitle to "În ce colecție?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Înapoi",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Salvează în colecție",
+    StringKey.SpeciesCollectionNameIsCountry to "Acesta este numele unei țări — alege altul",
     StringKey.SpeciesListImportedLabel to "din arhivă",
     StringKey.SpeciesListEditContentDescription to "Editează",
     StringKey.SpeciesListDeleteContentDescription to "Șterge specia",
@@ -136,7 +140,8 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Diverse",
     StringKey.CategoryUnknownMushroom to "Ciupercă necunoscută",
 
-    StringKey.CollectionPickerSearchHint to "Caută țara sau ciuperca",
+    StringKey.CollectionOtherName to "Altele",
+    StringKey.CollectionPickerSearchHint to "Caută colecția sau ciuperca",
     StringKey.CollectionPickerMoreMatches to "Nu sunt afișate toate rezultatele — precizează căutarea",
 
     StringKey.LanguagePickerSearchHint to "Caută limba",

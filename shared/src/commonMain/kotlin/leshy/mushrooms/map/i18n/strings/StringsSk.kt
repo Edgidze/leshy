@@ -35,7 +35,7 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
         "Všetky obrázky húb v aplikácii sú iba ilustračné — nepoužívajte ich na určovanie " +
             "neznámych húb!",
 
-    StringKey.SpeciesCollectionsTitle to "Zbierky húb",
+    StringKey.SpeciesCollectionsTitle to "Zbierky húb podľa krajín",
     StringKey.SpeciesMyMushroomsTitle to "Pridané huby",
     StringKey.SpeciesMyMushroomsEmpty to "Tu sa objavia huby, ktoré pridáte sami",
     StringKey.SpeciesAddButton to "Pridať hubu",
@@ -49,6 +49,10 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Obrázky",
     StringKey.SpeciesFormSaveButton to "Uložiť",
     StringKey.SpeciesFormCancelContentDescription to "Zrušiť",
+    StringKey.SpeciesCollectionDialogTitle to "Do ktorej zbierky?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Späť",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Uložiť do zbierky",
+    StringKey.SpeciesCollectionNameIsCountry to "To je názov krajiny — zvoľte iný",
     StringKey.SpeciesListImportedLabel to "z archívu",
     StringKey.SpeciesListEditContentDescription to "Upraviť",
     StringKey.SpeciesListDeleteContentDescription to "Odstrániť druh",
@@ -135,7 +139,8 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Rôzne",
     StringKey.CategoryUnknownMushroom to "Neznáma huba",
 
-    StringKey.CollectionPickerSearchHint to "Hľadať krajinu alebo hubu",
+    StringKey.CollectionOtherName to "Ostatné",
+    StringKey.CollectionPickerSearchHint to "Hľadať zbierku alebo hubu",
     StringKey.CollectionPickerMoreMatches to "Nezobrazujú sa všetky zhody — spresnite dopyt",
 
     StringKey.LanguagePickerSearchHint to "Hľadať jazyk",

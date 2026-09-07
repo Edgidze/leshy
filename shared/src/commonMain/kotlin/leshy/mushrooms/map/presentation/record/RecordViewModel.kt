@@ -676,7 +676,10 @@ class RecordViewModel(
      * Second entry point for creating a user species (`.claude/plans/user-mushrooms.md`, Phase 4)
      * — the rightmost "Добавить гриб" tile on Record's feed opens the same form as the "Грибы"
      * section, but saving here brings the new tile straight to the front of the feed instead of
-     * navigating anywhere, so a walk in progress is never interrupted. No find is logged
+     * navigating anywhere, so a walk in progress is never interrupted. Подборку тут спрашивают
+     * ровно так же, как на «Моих грибах» — тем же вторым диалогом формы: поведение формы не должно
+     * зависеть от того, откуда её открыли, а пустое поле там всё равно означает «Другие» и стоит
+     * одного нажатия галочки. No find is logged
      * automatically — the user still taps the tile's own "+" to mark it, same as any other tile.
      */
     fun saveNewSpecies(
@@ -684,6 +687,7 @@ class RecordViewModel(
         scientificNameInput: String?,
         colorHex: String,
         iconPngBytes: ByteArray?,
+        collectionName: String,
     ) {
         viewModelScope.launch {
             val saved = createOrUpdateUserSpecies(
@@ -693,6 +697,7 @@ class RecordViewModel(
                 currentLanguage,
                 colorHex,
                 iconPngBytes,
+                collectionName,
             )
             bringCategoryToFront(saved.id)
         }

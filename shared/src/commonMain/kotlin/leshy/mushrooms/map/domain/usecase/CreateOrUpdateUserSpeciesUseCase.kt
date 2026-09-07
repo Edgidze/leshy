@@ -24,6 +24,10 @@ private fun generateUserNameKey(): String = "user_${currentTimeMillis()}_${Rando
  * one — same form, same use case, `existing == null` is the only branch. Editing never touches
  * [Category.source]: that field is provenance, not a permission, see the plan's Phase 4 note.
  *
+ * [collectionName] is the name typed in the collection dialog that follows Save — blank/null
+ * means the service "Other" collection. It is applied on edit too, which is the only way to move a
+ * species between collections (there is no separate move UI).
+ *
  * [name] is the current-language display name and is required by the caller (the form disables Save
  * until it's non-blank) — this use case doesn't re-validate that. [scientificNameInput] is whatever
  * the user typed in that optional field; a blank value is replaced with [scientificNameFallback] so
@@ -33,6 +37,7 @@ private fun generateUserNameKey(): String = "user_${currentTimeMillis()}_${Rando
 class CreateOrUpdateUserSpeciesUseCase(
     private val categoryRepository: CategoryRepository,
     private val saveCategoryIcon: SaveCategoryIconUseCase,
+    private val assignToCollection: AssignSpeciesToCollectionUseCase,
 ) {
     suspend operator fun invoke(
         existing: Category?,
@@ -41,6 +46,7 @@ class CreateOrUpdateUserSpeciesUseCase(
         language: AppLanguage,
         colorHex: String,
         iconPngBytes: ByteArray?,
+        collectionName: String?,
     ): Category {
         val scientificName = scientificNameInput?.trim()?.takeIf { it.isNotEmpty() }
             ?: scientificNameFallback(name, language)
@@ -62,6 +68,7 @@ class CreateOrUpdateUserSpeciesUseCase(
         )
         val savedId = categoryRepository.upsert(updated)
         val saved = if (base.id == 0L) updated.copy(id = savedId) else updated
+        assignToCollection(saved.id, collectionName)
         return if (iconPngBytes != null) saveCategoryIcon(saved, iconPngBytes) else saved
     }
 }

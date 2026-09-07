@@ -32,7 +32,7 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
         "Қолданбадағы саңырауқұлақ суреттерінің бәрі тек ақпараттық сипатта — таныс емес " +
             "саңырауқұлақты анықтау үшін оларды пайдаланбаңыз!",
 
-    StringKey.SpeciesCollectionsTitle to "Саңырауқұлақ жинақтары",
+    StringKey.SpeciesCollectionsTitle to "Ел бойынша саңырауқұлақ жинақтары",
     StringKey.SpeciesMyMushroomsTitle to "Қосылған саңырауқұлақтар",
     StringKey.SpeciesMyMushroomsEmpty to "Өзіңіз қосқан саңырауқұлақтар осында көрінеді",
     StringKey.SpeciesAddButton to "Саңырауқұлақ қосу",
@@ -46,6 +46,10 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Суреттер",
     StringKey.SpeciesFormSaveButton to "Сақтау",
     StringKey.SpeciesFormCancelContentDescription to "Бас тарту",
+    StringKey.SpeciesCollectionDialogTitle to "Қай жинаққа?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Артқа",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Жинаққа сақтау",
+    StringKey.SpeciesCollectionNameIsCountry to "Бұл — ел атауы, басқа атау таңдаңыз",
     StringKey.SpeciesListImportedLabel to "мұрағаттан",
     StringKey.SpeciesListEditContentDescription to "Өңдеу",
     StringKey.SpeciesListDeleteContentDescription to "Түрді жою",
@@ -132,7 +136,8 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Басқа",
     StringKey.CategoryUnknownMushroom to "Белгісіз саңырауқұлақ",
 
-    StringKey.CollectionPickerSearchHint to "Елді немесе саңырауқұлақты іздеу",
+    StringKey.CollectionOtherName to "Басқалар",
+    StringKey.CollectionPickerSearchHint to "Жинақты немесе саңырауқұлақты іздеу",
     StringKey.CollectionPickerMoreMatches to "Барлық сәйкестік көрсетілмеген — сұранысты нақтылаңыз",
     StringKey.LanguagePickerSearchHint to "Тілді іздеу",
     StringKey.LanguagePickerBackContentDescription to "Артқа",

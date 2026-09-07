@@ -35,7 +35,7 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
         "Všechny obrázky hub v aplikaci jsou pouze orientační — nepoužívejte je k určování " +
             "neznámých hub!",
 
-    StringKey.SpeciesCollectionsTitle to "Sbírky hub",
+    StringKey.SpeciesCollectionsTitle to "Sbírky hub podle zemí",
     StringKey.SpeciesMyMushroomsTitle to "Přidané houby",
     StringKey.SpeciesMyMushroomsEmpty to "Zde se zobrazí houby, které sami přidáte",
     StringKey.SpeciesAddButton to "Přidat houbu",
@@ -49,6 +49,10 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Obrázky",
     StringKey.SpeciesFormSaveButton to "Uložit",
     StringKey.SpeciesFormCancelContentDescription to "Zrušit",
+    StringKey.SpeciesCollectionDialogTitle to "Do které sbírky?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Zpět",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Uložit do sbírky",
+    StringKey.SpeciesCollectionNameIsCountry to "To je název země — zvolte jiný",
     StringKey.SpeciesListImportedLabel to "z archivu",
     StringKey.SpeciesListEditContentDescription to "Upravit",
     StringKey.SpeciesListDeleteContentDescription to "Odstranit druh",
@@ -134,7 +138,8 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Ostatní",
     StringKey.CategoryUnknownMushroom to "Neznámá houba",
 
-    StringKey.CollectionPickerSearchHint to "Hledat zemi nebo houbu",
+    StringKey.CollectionOtherName to "Ostatní",
+    StringKey.CollectionPickerSearchHint to "Hledat sbírku nebo houbu",
     StringKey.CollectionPickerMoreMatches to "Nezobrazují se všechny shody — upřesněte dotaz",
 
     StringKey.LanguagePickerSearchHint to "Hledat jazyk",

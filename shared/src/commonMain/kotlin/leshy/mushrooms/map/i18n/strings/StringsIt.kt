@@ -33,7 +33,7 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
         "Tutte le immagini dei funghi nell'app sono puramente illustrative: non usarle per " +
             "identificare funghi sconosciuti!",
 
-    StringKey.SpeciesCollectionsTitle to "Collezioni di funghi",
+    StringKey.SpeciesCollectionsTitle to "Collezioni di funghi per paese",
     StringKey.SpeciesMyMushroomsTitle to "Funghi aggiunti",
     StringKey.SpeciesMyMushroomsEmpty to "Qui appariranno i funghi che aggiungerai tu stesso",
     StringKey.SpeciesAddButton to "Aggiungi fungo",
@@ -47,6 +47,10 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Immagini",
     StringKey.SpeciesFormSaveButton to "Salva",
     StringKey.SpeciesFormCancelContentDescription to "Annulla",
+    StringKey.SpeciesCollectionDialogTitle to "In quale collezione?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Indietro",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Salva nella collezione",
+    StringKey.SpeciesCollectionNameIsCountry to "Questo è il nome di un paese — scegline un altro",
     StringKey.SpeciesListImportedLabel to "dall'archivio",
     StringKey.SpeciesListEditContentDescription to "Modifica",
     StringKey.SpeciesListDeleteContentDescription to "Elimina specie",
@@ -136,7 +140,8 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Varie",
     StringKey.CategoryUnknownMushroom to "Fungo sconosciuto",
 
-    StringKey.CollectionPickerSearchHint to "Cerca paese o fungo",
+    StringKey.CollectionOtherName to "Altri",
+    StringKey.CollectionPickerSearchHint to "Cerca collezione o fungo",
     StringKey.CollectionPickerMoreMatches to "Non tutti i risultati sono mostrati — affina la ricerca",
 
     StringKey.LanguagePickerSearchHint to "Cerca lingua",

@@ -32,7 +32,7 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
         "Programmadaky ähli kömelek suratlary diňe maglumat üçindir — nätanyş kömelegi kesgitlemek " +
             "üçin olary ulanmaň!",
 
-    StringKey.SpeciesCollectionsTitle to "Kömelek ýygyndylary",
+    StringKey.SpeciesCollectionsTitle to "Ýurtlar boýunça kömelek ýygyndylary",
     StringKey.SpeciesMyMushroomsTitle to "Goşulan kömelekler",
     StringKey.SpeciesMyMushroomsEmpty to "Özüňiziň goşan kömelekleriňiz şu ýerde görüner",
     StringKey.SpeciesAddButton to "Kömelek goşmak",
@@ -46,6 +46,10 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Suratlar",
     StringKey.SpeciesFormSaveButton to "Ýatda saklamak",
     StringKey.SpeciesFormCancelContentDescription to "Ýatyrmak",
+    StringKey.SpeciesCollectionDialogTitle to "Haýsy ýygynda?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Yza",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Ýygynda ýatda saklamak",
+    StringKey.SpeciesCollectionNameIsCountry to "Bu ýurduň ady — başga at saýlaň",
     StringKey.SpeciesListImportedLabel to "arhiwden",
     StringKey.SpeciesListEditContentDescription to "Redaktirlemek",
     StringKey.SpeciesListDeleteContentDescription to "Görnüşi pozmak",
@@ -132,7 +136,8 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Beýleki",
     StringKey.CategoryUnknownMushroom to "Näbelli kömelek",
 
-    StringKey.CollectionPickerSearchHint to "Ýurt ýa-da kömelek gözlemek",
+    StringKey.CollectionOtherName to "Beýlekiler",
+    StringKey.CollectionPickerSearchHint to "Ýygyndy ýa-da kömelek gözlemek",
     StringKey.CollectionPickerMoreMatches to "Ähli gabat gelmeler görkezilmeýär — soragy takyklaň",
     StringKey.LanguagePickerSearchHint to "Dil gözlemek",
     StringKey.LanguagePickerBackContentDescription to "Yza",

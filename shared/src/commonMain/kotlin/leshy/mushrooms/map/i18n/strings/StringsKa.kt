@@ -36,7 +36,7 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
         "აპლიკაციაში სოკოების ყველა გამოსახულება მხოლოდ საილუსტრაციოა — არ გამოიყენოთ ისინი " +
             "უცნობი სოკოების დასადგენად!",
 
-    StringKey.SpeciesCollectionsTitle to "სოკოების კრებულები",
+    StringKey.SpeciesCollectionsTitle to "სოკოების კრებულები ქვეყნების მიხედვით",
     StringKey.SpeciesMyMushroomsTitle to "დამატებული სოკოები",
     StringKey.SpeciesMyMushroomsEmpty to "აქ გამოჩნდება სოკოები, რომლებსაც თავად დაამატებთ",
     StringKey.SpeciesAddButton to "სოკოს დამატება",
@@ -50,6 +50,10 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "სურათები",
     StringKey.SpeciesFormSaveButton to "შენახვა",
     StringKey.SpeciesFormCancelContentDescription to "გაუქმება",
+    StringKey.SpeciesCollectionDialogTitle to "რომელ კრებულში?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "უკან",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "კრებულში შენახვა",
+    StringKey.SpeciesCollectionNameIsCountry to "ეს ქვეყნის სახელია — აირჩიეთ სხვა",
     StringKey.SpeciesListImportedLabel to "არქივიდან",
     StringKey.SpeciesListEditContentDescription to "რედაქტირება",
     StringKey.SpeciesListDeleteContentDescription to "სახეობის წაშლა",
@@ -136,7 +140,8 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "სხვადასხვა",
     StringKey.CategoryUnknownMushroom to "უცნობი სოკო",
 
-    StringKey.CollectionPickerSearchHint to "ქვეყნის ან სოკოს ძიება",
+    StringKey.CollectionOtherName to "სხვები",
+    StringKey.CollectionPickerSearchHint to "კრებულის ან სოკოს ძიება",
     StringKey.CollectionPickerMoreMatches to "ყველა შედეგი არ არის ნაჩვენები — დააზუსტეთ ძიება",
 
     StringKey.LanguagePickerSearchHint to "ენის ძიება",

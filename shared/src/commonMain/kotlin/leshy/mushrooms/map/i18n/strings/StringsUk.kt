@@ -35,7 +35,7 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
         "Усі зображення грибів у застосунку умовні — не використовуйте їх для визначення " +
             "незнайомих грибів!",
 
-    StringKey.SpeciesCollectionsTitle to "Підбірки грибів",
+    StringKey.SpeciesCollectionsTitle to "Підбірки грибів за країнами",
     StringKey.SpeciesMyMushroomsTitle to "Додані гриби",
     StringKey.SpeciesMyMushroomsEmpty to "Тут з'являться гриби, які ви додасте самі",
     StringKey.SpeciesAddButton to "Додати гриб",
@@ -49,6 +49,10 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Картинки",
     StringKey.SpeciesFormSaveButton to "Зберегти",
     StringKey.SpeciesFormCancelContentDescription to "Скасувати",
+    StringKey.SpeciesCollectionDialogTitle to "До якої підбірки?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Назад",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Зберегти в підбірку",
+    StringKey.SpeciesCollectionNameIsCountry to "Так називається країна — виберіть іншу назву",
     StringKey.SpeciesListImportedLabel to "з архіву",
     StringKey.SpeciesListEditContentDescription to "Редагувати",
     StringKey.SpeciesListDeleteContentDescription to "Видалити вид",
@@ -136,7 +140,8 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Різне",
     StringKey.CategoryUnknownMushroom to "Невідомий гриб",
 
-    StringKey.CollectionPickerSearchHint to "Пошук країни або гриба",
+    StringKey.CollectionOtherName to "Інші",
+    StringKey.CollectionPickerSearchHint to "Пошук підбірки або гриба",
     StringKey.CollectionPickerMoreMatches to "Показано не всі збіги — уточніть запит",
 
     StringKey.LanguagePickerSearchHint to "Пошук мови",

@@ -210,3 +210,31 @@ val MIGRATION_11_12 = object : Migration(11, 12) {
         )
     }
 }
+
+/**
+ * Пользовательские подборки (`.claude/plans/user-collections.md`): `collections` перестаёт быть
+ * таблицей одних только страновых пресетов, поэтому у строки появляются `source` и литеральное
+ * `name` (у страновых оно всегда `NULL` — их имя приходит из `CountryNames` по `nameKey`).
+ *
+ * Здесь же бэкфилл: все грибы, добавленные пользователем до появления подборок, попадают в
+ * служебную «Другие». Строка «Других» создаётся только если такие грибы есть — иначе на устройстве
+ * с одним лишь каталогом появилась бы пустая подборка, которую больше некому удалить (пустые
+ * пользовательские подборки удаляются вместе с последним ушедшим из них грибом).
+ */
+val MIGRATION_12_13 = object : Migration(12, 13) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE collections ADD COLUMN source TEXT NOT NULL DEFAULT 'COUNTRY'")
+        connection.execSQL("ALTER TABLE collections ADD COLUMN name TEXT")
+
+        connection.execSQL(
+            "INSERT INTO collections (nameKey, `order`, source, name) " +
+                "SELECT 'collection_user_other', 2000, 'USER', NULL " +
+                "WHERE EXISTS (SELECT 1 FROM categories WHERE source != 'APP')",
+        )
+        connection.execSQL(
+            "INSERT OR IGNORE INTO category_collections (categoryId, collectionId) " +
+                "SELECT categories.id, collections.id FROM categories, collections " +
+                "WHERE categories.source != 'APP' AND collections.nameKey = 'collection_user_other'",
+        )
+    }
+}

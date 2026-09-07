@@ -22,6 +22,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
@@ -113,8 +116,11 @@ private fun CollectionsStep(viewModel: OnboardingViewModel, modifier: Modifier =
             Spacer(modifier = Modifier.width(6.dp))
             Text(uiState.language.endonym, style = MaterialTheme.typography.labelLarge)
         }
+        var collectionQuery by remember { mutableStateOf("") }
         CollectionPicker(
             items = uiState.collectionPickerItems,
+            query = collectionQuery,
+            onQueryChange = { collectionQuery = it },
             onToggleCollection = viewModel::toggleCollection,
             onToggleCategory = viewModel::setCategoryPicked,
             modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),

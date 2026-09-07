@@ -362,7 +362,7 @@ private fun RecordScreenContent(
     onRemoveMushroom: (Long) -> Unit,
     onFilterClick: () -> Unit,
     onAddMushrooms: (Long, Int) -> Unit = { _, _ -> },
-    onSaveSpecies: (String, String?, String, ByteArray?) -> Unit = { _, _, _, _ -> },
+    onSaveSpecies: (String, String?, String, ByteArray?, String) -> Unit = { _, _, _, _, _ -> },
     onMarkLocationClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onPlaceClick: (Long) -> Unit = {},

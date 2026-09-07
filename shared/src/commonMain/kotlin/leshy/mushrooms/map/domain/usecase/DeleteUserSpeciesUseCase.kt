@@ -2,7 +2,9 @@ package leshy.mushrooms.map.domain.usecase
 
 import leshy.mushrooms.map.data.platform.PhotoStorage
 import leshy.mushrooms.map.domain.model.Category
+import leshy.mushrooms.map.domain.model.CollectionSource
 import leshy.mushrooms.map.domain.repository.CategoryRepository
+import leshy.mushrooms.map.domain.repository.CollectionRepository
 import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 import okio.FileSystem
 import okio.Path.Companion.toPath
@@ -19,6 +21,7 @@ import okio.Path.Companion.toPath
 class DeleteUserSpeciesUseCase(
     private val categoryRepository: CategoryRepository,
     private val fieldMarkRepository: FieldMarkRepository,
+    private val collectionRepository: CollectionRepository,
     private val photoStorage: PhotoStorage,
     private val fileSystem: FileSystem = FileSystem.SYSTEM,
 ) {
@@ -27,7 +30,14 @@ class DeleteUserSpeciesUseCase(
             "Unknown mushroom category must exist before deleting a species"
         }
         fieldMarkRepository.reassignCategory(category.id, unknownMushroom.id)
+
+        val collections = collectionRepository.getMemberCollectionIds(category.id)
+            .mapNotNull { collectionRepository.getById(it) }
+            .filter { it.source != CollectionSource.COUNTRY }
         categoryRepository.delete(category)
+        for (collection in collections) {
+            if (collectionRepository.countMembers(collection.id) == 0) collectionRepository.delete(collection)
+        }
 
         // Only the species' own icon is garbage now — its finds survive under Unknown mushroom
         // with their photos untouched, so there's nothing else to clean up on disk.

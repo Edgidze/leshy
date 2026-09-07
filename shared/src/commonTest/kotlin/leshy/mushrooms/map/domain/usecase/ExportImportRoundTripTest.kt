@@ -16,7 +16,13 @@ import leshy.mushrooms.map.domain.model.FieldMark
 import leshy.mushrooms.map.domain.model.MarkType
 import leshy.mushrooms.map.domain.model.TrackPoint
 import leshy.mushrooms.map.domain.model.Walk
+import leshy.mushrooms.map.domain.model.CategoryCollectionMembership
+// Под своим именем `Collection` затенил бы `kotlin.collections.Collection`, который тут же нужен
+// фейку TrackPointRepository (`getPoints(walkIds: Collection<Long>)`).
+import leshy.mushrooms.map.domain.model.Collection as MushroomCollection
+import leshy.mushrooms.map.domain.model.CollectionSource
 import leshy.mushrooms.map.domain.repository.CategoryRepository
+import leshy.mushrooms.map.domain.repository.CollectionRepository
 import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
@@ -116,6 +122,53 @@ private class FakeCategoryRepository(seed: List<Category>) : CategoryRepository 
     override suspend fun delete(category: Category) = state.update { it.filterNot { c -> c.id == category.id } }
 }
 
+/** Подборки живут в памяти теста ровно так же, как категории: связь many-to-many держится списком
+ * пар, а не таблицей, — этого хватает и экспорту (он читает членство), и импорту (он его пишет). */
+private class FakeCollectionRepository(seed: List<MushroomCollection> = emptyList()) : CollectionRepository {
+    private val state = MutableStateFlow(seed)
+    private val members = MutableStateFlow(emptyList<CategoryCollectionMembership>())
+    private var nextId = (seed.maxOfOrNull { it.id } ?: 0L) + 1
+    override fun observeAll(): Flow<List<MushroomCollection>> = state
+    override fun observeAllMemberships(): Flow<List<CategoryCollectionMembership>> = members
+    override suspend fun getAll(): List<MushroomCollection> = state.value
+    override suspend fun getByNameKey(nameKey: String): MushroomCollection? =
+        state.value.find { it.nameKey == nameKey }
+    override suspend fun getById(id: Long): MushroomCollection? = state.value.find { it.id == id }
+    override suspend fun countBySource(source: CollectionSource): Int = state.value.count { it.source == source }
+    override suspend fun upsert(collection: MushroomCollection): Long {
+        if (collection.id != 0L) {
+            state.update { list -> list.map { if (it.id == collection.id) collection else it } }
+            return collection.id
+        }
+        val id = nextId++
+        state.update { it + collection.copy(id = id) }
+        return id
+    }
+    override suspend fun upsertAll(collections: List<MushroomCollection>) = error("not needed")
+    override suspend fun addMember(categoryId: Long, collectionId: Long) {
+        members.update { existing ->
+            val membership = CategoryCollectionMembership(categoryId, collectionId)
+            if (membership in existing) existing else existing + membership
+        }
+    }
+    override suspend fun addMembers(memberships: List<CategoryCollectionMembership>) {
+        memberships.forEach { addMember(it.categoryId, it.collectionId) }
+    }
+    override suspend fun getMemberCategoryIds(collectionId: Long): List<Long> =
+        members.value.filter { it.collectionId == collectionId }.map { it.categoryId }
+    override suspend fun getMemberCollectionIds(categoryId: Long): List<Long> =
+        members.value.filter { it.categoryId == categoryId }.map { it.collectionId }
+    override suspend fun countMembers(collectionId: Long): Int =
+        members.value.count { it.collectionId == collectionId }
+    override suspend fun removeMember(categoryId: Long, collectionId: Long) {
+        members.update { it.filterNot { m -> m.categoryId == categoryId && m.collectionId == collectionId } }
+    }
+    override suspend fun delete(collection: MushroomCollection) {
+        state.update { it.filterNot { c -> c.id == collection.id } }
+        members.update { it.filterNot { m -> m.collectionId == collection.id } }
+    }
+}
+
 // Flat at the filesystem root — FakeFileSystem (like a real one) requires a file's parent
 // directory to already exist, and production PhotoStorage implementations own creating theirs
 // (AndroidPhotoStorage.mkdirs(), IosPhotoStorage's always-existing Documents dir); a fake has no
@@ -154,6 +207,13 @@ private fun userCategory(
     scientificName = scientificName,
     iconFile = iconFile,
 )
+
+private fun userCollection(
+    id: Long,
+    nameKey: String,
+    name: String? = null,
+    order: Int = 1000,
+) = MushroomCollection(id = id, nameKey = nameKey, order = order, source = CollectionSource.USER, name = name)
 
 private const val BOLETUS_NAME_KEY = "boletus_edulis"
 
@@ -203,7 +263,10 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(walks, trackPoints, fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs)
+        val exportUseCase = ExportDataUseCase(
+            walks, trackPoints, fieldMarks, sourceCategories, FakeCollectionRepository(),
+            FakePhotoStorage(), sourceFs,
+        )
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -219,7 +282,8 @@ class ExportImportRoundTripTest {
         val destFieldMarks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            destWalks, destTrackPoints, destFieldMarks, destCategories, FakePhotoStorage(), destFs,
+            destWalks, destTrackPoints, destFieldMarks, destCategories, FakeCollectionRepository(),
+            FakePhotoStorage(), destFs,
         )
 
         val result = importUseCase(archiveBytes, "(импорт)")
@@ -276,7 +340,10 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, categories, FakePhotoStorage(), sourceFs)
+        val exportUseCase = ExportDataUseCase(
+            walks, FakeTrackPointRepository(), fieldMarks, categories, FakeCollectionRepository(),
+            FakePhotoStorage(), sourceFs,
+        )
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -286,7 +353,7 @@ class ExportImportRoundTripTest {
             ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), destFieldMarks,
             FakeCategoryRepository(listOf(category(1, BOLETUS_NAME_KEY), category(2, MISC_CATEGORY_NAME_KEY))),
-            FakePhotoStorage(), FakeFileSystem(),
+            FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
         )
         importUseCase(archiveBytes, "")
 
@@ -306,7 +373,7 @@ class ExportImportRoundTripTest {
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            categories, FakePhotoStorage(), FakeFileSystem(),
+            categories, FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
         )
 
         assertFailsWith<IllegalArgumentException> { importUseCase(sink.readByteArray(), "") }
@@ -334,7 +401,7 @@ class ExportImportRoundTripTest {
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            categories, FakePhotoStorage(), FakeFileSystem(),
+            categories, FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
         )
         val result = importUseCase(sink.readByteArray(), "")
 
@@ -368,7 +435,8 @@ class ExportImportRoundTripTest {
         )
 
         val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs,
+            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(),
+            FakePhotoStorage(), sourceFs,
         )
         val sink = Buffer()
         exportUseCase(sink)
@@ -379,7 +447,8 @@ class ExportImportRoundTripTest {
         val destFieldMarks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), destFieldMarks, destCategories, FakePhotoStorage(), destFs,
+            FakeWalkRepository(), FakeTrackPointRepository(), destFieldMarks, destCategories,
+            FakeCollectionRepository(), FakePhotoStorage(), destFs,
         )
         importUseCase(archiveBytes, "")
 
@@ -427,7 +496,8 @@ class ExportImportRoundTripTest {
         )
 
         val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs,
+            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(),
+            FakePhotoStorage(), sourceFs,
         )
         val sink = Buffer()
         exportUseCase(sink)
@@ -444,7 +514,7 @@ class ExportImportRoundTripTest {
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            destCategories, FakePhotoStorage(), destFs,
+            destCategories, FakeCollectionRepository(), FakePhotoStorage(), destFs,
         )
         importUseCase(archiveBytes, "")
 
@@ -480,7 +550,8 @@ class ExportImportRoundTripTest {
         )
 
         val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs,
+            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(),
+            FakePhotoStorage(), sourceFs,
         )
         val sink = Buffer()
         exportUseCase(sink)
@@ -493,7 +564,7 @@ class ExportImportRoundTripTest {
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            destCategories, FakePhotoStorage(), destFs,
+            destCategories, FakeCollectionRepository(), FakePhotoStorage(), destFs,
         )
         importUseCase(archiveBytes, "")
 
@@ -525,7 +596,8 @@ class ExportImportRoundTripTest {
         )
 
         val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakePhotoStorage(), sourceFs,
+            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(),
+            FakePhotoStorage(), sourceFs,
         )
         val sink = Buffer()
         exportUseCase(sink)
@@ -536,7 +608,7 @@ class ExportImportRoundTripTest {
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
             destWalks, FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            destCategories, FakePhotoStorage(), FakeFileSystem(),
+            destCategories, FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
         )
         importUseCase(archiveBytes, "")
         importUseCase(archiveBytes, "")
@@ -565,7 +637,7 @@ class ExportImportRoundTripTest {
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            categories, FakePhotoStorage(), FakeFileSystem(),
+            categories, FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
         )
         val result = importUseCase(sink.readByteArray(), "")
 
@@ -675,7 +747,8 @@ class ExportImportRoundTripTest {
         val marks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            walks, FakeTrackPointRepository(), marks, categories, FakePhotoStorage(), FakeFileSystem(),
+            walks, FakeTrackPointRepository(), marks, categories, FakeCollectionRepository(),
+            FakePhotoStorage(), FakeFileSystem(),
         )
 
         // Валидный манифест и валидная секция видов, но НИ ОДНОЙ читаемой прогулки: без
@@ -712,7 +785,7 @@ class ExportImportRoundTripTest {
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
             walks, FakeTrackPointRepository(), FakeFieldMarkRepository(), categories,
-            FakePhotoStorage(), FakeFileSystem(),
+            FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
         )
         val archive = archiveOf(manifestEntry(), goodWalkEntry(1))
 
@@ -732,7 +805,7 @@ class ExportImportRoundTripTest {
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
             FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(), categories,
-            FakePhotoStorage(), FakeFileSystem(),
+            FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
         )
         // Архив, выгруженный этим приложением, каталожных видов не содержит — но nameKey в JSON
         // всего лишь строка, и правленый/битый архив может назвать каталожный ключ своим.
@@ -747,6 +820,141 @@ class ExportImportRoundTripTest {
         importUseCase(archive, "")
 
         assertEquals(catalogRow, categories.getByNameKey(BOLETUS_NAME_KEY))
+    }
+
+    /** Ради этого подборки и попали в архив: на новом устройстве грибы обязаны разложиться так же,
+     * как их разложили руками на старом (`.claude/plans/user-collections.md`). */
+    @Test
+    fun userCollectionTravelsWithItsSpecies() = runBlocking {
+        val nameKey = "user_c1"
+        val sourceCategories = FakeCategoryRepository(
+            listOf(category(1, MISC_CATEGORY_NAME_KEY), userCategory(2, nameKey)),
+        )
+        val sourceCollections = FakeCollectionRepository(
+            listOf(userCollection(id = 1, nameKey = "usercoll_1", name = "Мои белые")),
+        )
+        sourceCollections.addMember(categoryId = 2, collectionId = 1)
+
+        val archiveBytes = exportSingleMarkArchive(sourceCategories, sourceCollections, categoryId = 2)
+
+        val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY)))
+        val destCollections = FakeCollectionRepository()
+        importArchive(archiveBytes, destCategories, destCollections)
+
+        val imported = destCategories.observeAll().first().single { it.nameKey == nameKey }
+        val collection = destCollections.getAll().single()
+        assertEquals("Мои белые", collection.name)
+        assertEquals(CollectionSource.IMPORTED, collection.source)
+        assertEquals(listOf(imported.id), destCollections.getMemberCategoryIds(collection.id))
+    }
+
+    /** У «Других» ключ фиксированный, поэтому приезжие «Другие» обязаны влиться в местные, а не
+     * встать рядом второй подборкой с тем же названием. */
+    @Test
+    fun otherCollectionsFromTwoDevicesMergeIntoOne() = runBlocking {
+        val sourceCategories = FakeCategoryRepository(
+            listOf(category(1, MISC_CATEGORY_NAME_KEY), userCategory(2, "user_c2")),
+        )
+        val sourceCollections = FakeCollectionRepository(
+            listOf(userCollection(id = 1, nameKey = OTHER_COLLECTION_NAME_KEY, order = 2000)),
+        )
+        sourceCollections.addMember(categoryId = 2, collectionId = 1)
+
+        val archiveBytes = exportSingleMarkArchive(sourceCategories, sourceCollections, categoryId = 2)
+
+        val local = userCategory(
+            11, "user_local",
+            customNames = mapOf(AppLanguage.RU to "Местный"),
+            scientificName = "Mycena localis",
+        )
+        val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY), local))
+        val destCollections = FakeCollectionRepository(
+            listOf(userCollection(id = 5, nameKey = OTHER_COLLECTION_NAME_KEY, order = 2000)),
+        )
+        destCollections.addMember(categoryId = 11, collectionId = 5)
+
+        importArchive(archiveBytes, destCategories, destCollections)
+
+        val collection = destCollections.getAll().single()
+        assertEquals(5L, collection.id)
+        val imported = destCategories.observeAll().first().single { it.nameKey == "user_c2" }
+        assertEquals(setOf(11L, imported.id), destCollections.getMemberCategoryIds(collection.id).toSet())
+    }
+
+    /** Вид, слившийся с местным по названию и латыни, остаётся в СВОЕЙ подборке: местная раскладка
+     * старше приезжей. Приехавшая подборка при этом не остаётся пустой строкой в базе. */
+    @Test
+    fun importKeepsALocalSpeciesInItsOwnCollection() = runBlocking {
+        val names = mapOf(AppLanguage.RU to "Одинаковый")
+        val sourceCategories = FakeCategoryRepository(
+            listOf(
+                category(1, MISC_CATEGORY_NAME_KEY),
+                userCategory(2, "user_from_archive", customNames = names, scientificName = "Mycena gemina"),
+            ),
+        )
+        val sourceCollections = FakeCollectionRepository(
+            listOf(userCollection(id = 1, nameKey = "usercoll_2", name = "Приезжие")),
+        )
+        sourceCollections.addMember(categoryId = 2, collectionId = 1)
+
+        val archiveBytes = exportSingleMarkArchive(sourceCategories, sourceCollections, categoryId = 2)
+
+        val local = userCategory(11, "user_local_same", customNames = names, scientificName = "Mycena gemina")
+        val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY), local))
+        val destCollections = FakeCollectionRepository(
+            listOf(userCollection(id = 5, nameKey = "usercoll_local", name = "Свои")),
+        )
+        destCollections.addMember(categoryId = 11, collectionId = 5)
+
+        importArchive(archiveBytes, destCategories, destCollections)
+
+        // Вид один: слились по названию + латыни, а не завелись вторым «Одинаковым».
+        assertEquals(1, destCategories.observeAll().first().count { it.source != CategorySource.APP })
+        val collection = destCollections.getAll().single()
+        assertEquals("Свои", collection.name)
+        assertEquals(listOf(11L), destCollections.getMemberCategoryIds(collection.id))
+    }
+
+    /** Общая обвязка трёх тестов выше: одна прогулка с одной находкой указанного вида. */
+    private suspend fun exportSingleMarkArchive(
+        categories: FakeCategoryRepository,
+        collections: FakeCollectionRepository,
+        categoryId: Long,
+    ): ByteArray {
+        val walks = FakeWalkRepository()
+        val walkId = walks.insert(
+            Walk(
+                id = 0, name = "Прогулка", startTime = 1000, endTime = 2000, distanceMeters = 0.0,
+                avgSpeed = 0.0, startLat = 55.7, startLon = 37.6, endLat = null, endLon = null,
+                mushroomCount = 1, thumbnailPath = null, description = null,
+            ),
+        )
+        val fieldMarks = FakeFieldMarkRepository()
+        fieldMarks.addMark(
+            FieldMark(
+                0, walkId, categoryId = categoryId, lat = 55.701, lon = 37.601, timestamp = 1200,
+                type = MarkType.MUSHROOM, photoPath = null, name = null, description = null,
+            ),
+        )
+        val exportUseCase = ExportDataUseCase(
+            walks, FakeTrackPointRepository(), fieldMarks, categories, collections,
+            FakePhotoStorage(), FakeFileSystem(),
+        )
+        val sink = Buffer()
+        exportUseCase(sink)
+        return sink.readByteArray()
+    }
+
+    private suspend fun importArchive(
+        archiveBytes: ByteArray,
+        categories: FakeCategoryRepository,
+        collections: FakeCollectionRepository,
+    ) {
+        ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
+            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(), categories, collections,
+            FakePhotoStorage(), FakeFileSystem(),
+        )(archiveBytes, "")
     }
 }
 

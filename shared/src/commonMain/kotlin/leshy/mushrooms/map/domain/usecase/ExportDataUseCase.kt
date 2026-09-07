@@ -2,6 +2,8 @@ package leshy.mushrooms.map.domain.usecase
 
 import leshy.mushrooms.map.data.export.dto.CATEGORIES_ENTRY_NAME
 import leshy.mushrooms.map.data.export.dto.CategoryExportDto
+import leshy.mushrooms.map.data.export.dto.COLLECTIONS_ENTRY_NAME
+import leshy.mushrooms.map.data.export.dto.CollectionExportDto
 import leshy.mushrooms.map.data.export.dto.EXPORT_SCHEMA_VERSION
 import leshy.mushrooms.map.data.export.dto.ExportJson
 import leshy.mushrooms.map.data.export.dto.ExportManifestDto
@@ -20,10 +22,12 @@ import leshy.mushrooms.map.data.platform.PhotoStorage
 import leshy.mushrooms.map.data.platform.currentTimeMillis
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.CategorySource
+import leshy.mushrooms.map.domain.model.CollectionSource
 import leshy.mushrooms.map.domain.model.FieldMark
 import leshy.mushrooms.map.domain.model.TrackPoint
 import leshy.mushrooms.map.domain.model.Walk
 import leshy.mushrooms.map.domain.repository.CategoryRepository
+import leshy.mushrooms.map.domain.repository.CollectionRepository
 import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
@@ -41,12 +45,17 @@ import okio.Path.Companion.toPath
  * install ([EnsureDefaultCategoriesUseCase]). User-created/imported species referenced by the
  * exported walks *are* exported (name, scientific name, color, edibility, icon) — otherwise their
  * finds would resolve to `category_misc` on the other end, an unlabeled loss of data.
+ *
+ * Вместе с ними едут и пользовательские подборки, в которых эти виды лежат
+ * (`.claude/plans/user-collections.md`): без них грибы приехали бы на новое устройство кучей, и
+ * порядок, наведённый руками, пришлось бы наводить заново.
  */
 class ExportDataUseCase(
     private val walkRepository: WalkRepository,
     private val trackPointRepository: TrackPointRepository,
     private val fieldMarkRepository: FieldMarkRepository,
     private val categoryRepository: CategoryRepository,
+    private val collectionRepository: CollectionRepository,
     private val photoStorage: PhotoStorage,
     private val fileSystem: FileSystem = FileSystem.SYSTEM,
 ) {
@@ -70,7 +79,8 @@ class ExportDataUseCase(
 
         val referencedNameKeys = mutableSetOf<String>()
         for (walk in walks) referencedNameKeys += writeWalk(writer, walk, nameKeyByCategoryId)
-        writeCategories(writer, referencedNameKeys, categoryByNameKey)
+        val exportedCategories = writeCategories(writer, referencedNameKeys, categoryByNameKey)
+        writeCollections(writer, exportedCategories)
 
         writer.finish()
     }
@@ -114,16 +124,19 @@ class ExportDataUseCase(
      * scoping [ExportDataUseCase.invoke]'s walk picker already applies to walks (see its own
      * `walkIds` doc). A species with no icon file, or one whose icon has since gone missing on
      * disk (same dangling-path story as [writeWalk]'s photos), is still exported without one —
-     * [CategoryExportDto.hasIcon] tells import whether to look for the icon entry at all. */
+     * [CategoryExportDto.hasIcon] tells import whether to look for the icon entry at all.
+     *
+     * Возвращает то, что действительно записано, — [writeCollections] раскладывает по подборкам
+     * ровно эти виды и ничего сверх них. */
     private fun writeCategories(
         writer: ZipWriter,
         referencedNameKeys: Set<String>,
         categoryByNameKey: Map<String, Category>,
-    ) {
+    ): List<Category> {
         val exportable = referencedNameKeys.mapNotNull { categoryByNameKey[it] }
             .filter { it.source != CategorySource.APP }
             .sortedBy { it.nameKey }
-        if (exportable.isEmpty()) return
+        if (exportable.isEmpty()) return exportable
 
         val dtos = exportable.map { category ->
             val iconPath = category.iconFile
@@ -140,6 +153,39 @@ class ExportDataUseCase(
         writer.writeEntry(
             CATEGORIES_ENTRY_NAME,
             ExportJson.encodeToString(ListSerializer(CategoryExportDto.serializer()), dtos).encodeToByteArray(),
+        )
+        return exportable
+    }
+
+    /** Подборки уехавших видов — только пользовательские и только непустые. Страновые пропускаются
+     * по той же причине, по которой пропускаются каталожные виды: на другом устройстве они уже
+     * есть, посеянные из `countries.json`. */
+    private suspend fun writeCollections(writer: ZipWriter, exportedCategories: List<Category>) {
+        if (exportedCategories.isEmpty()) return
+        val nameKeyById = exportedCategories.associate { it.id to it.nameKey }
+
+        val memberships = collectionRepository.observeAllMemberships().first()
+            .groupBy({ it.collectionId }, { it.categoryId })
+        val dtos = collectionRepository.getAll()
+            .filter { it.source != CollectionSource.COUNTRY }
+            .sortedBy { it.nameKey }
+            .mapNotNull { collection ->
+                val members = memberships[collection.id].orEmpty().mapNotNull { nameKeyById[it] }.sorted()
+                if (members.isEmpty()) {
+                    null
+                } else {
+                    CollectionExportDto(
+                        nameKey = collection.nameKey,
+                        name = collection.name,
+                        memberNameKeys = members,
+                    )
+                }
+            }
+        if (dtos.isEmpty()) return
+
+        writer.writeEntry(
+            COLLECTIONS_ENTRY_NAME,
+            ExportJson.encodeToString(ListSerializer(CollectionExportDto.serializer()), dtos).encodeToByteArray(),
         )
     }
 }

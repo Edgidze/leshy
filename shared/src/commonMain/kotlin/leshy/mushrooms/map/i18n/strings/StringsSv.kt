@@ -32,7 +32,7 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
         "Alla svampbilder i appen är illustrativa — använd dem inte för att artbestämma " +
             "okända svampar!",
 
-    StringKey.SpeciesCollectionsTitle to "Svampsamlingar",
+    StringKey.SpeciesCollectionsTitle to "Svampsamlingar efter land",
     StringKey.SpeciesMyMushroomsTitle to "Tillagda svampar",
     StringKey.SpeciesMyMushroomsEmpty to "Här visas svampar som du lägger till själv",
     StringKey.SpeciesAddButton to "Lägg till svamp",
@@ -46,6 +46,10 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Bilder",
     StringKey.SpeciesFormSaveButton to "Spara",
     StringKey.SpeciesFormCancelContentDescription to "Avbryt",
+    StringKey.SpeciesCollectionDialogTitle to "Vilken samling?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Tillbaka",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Spara i samlingen",
+    StringKey.SpeciesCollectionNameIsCountry to "Det här är ett landsnamn — välj ett annat",
     StringKey.SpeciesListImportedLabel to "från arkivet",
     StringKey.SpeciesListEditContentDescription to "Redigera",
     StringKey.SpeciesListDeleteContentDescription to "Ta bort art",
@@ -132,7 +136,8 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Övrigt",
     StringKey.CategoryUnknownMushroom to "Okänd svamp",
 
-    StringKey.CollectionPickerSearchHint to "Sök land eller svamp",
+    StringKey.CollectionOtherName to "Övriga",
+    StringKey.CollectionPickerSearchHint to "Sök samling eller svamp",
     StringKey.CollectionPickerMoreMatches to "Alla träffar visas inte — förfina sökningen",
 
     StringKey.LanguagePickerSearchHint to "Sök språk",

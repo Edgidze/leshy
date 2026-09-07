@@ -62,7 +62,11 @@ import leshy.mushrooms.map.presentation.sortCategories
  * All 45 country sections start collapsed by default (each section's own `expanded` state, below) —
  * with that many collections the search field is the primary way to find one, not scrolling.
  *
- * **The search field looks up both countries and single species** ("Поиск страны или гриба"):
+ * **Запрос поиска поднят к хосту** ([query]/[onQueryChange]): на «Моих грибах» тем же самым
+ * запросом фильтруется ещё и блок пользовательских подборок ниже по экрану, а поле ввода на весь
+ * экран одно. Онбординг держит это состояние у себя и никому больше его не показывает.
+ *
+ * **The search field looks up both countries and single species** ("Поиск подборки или гриба"):
  * matching countries come first as the same collapsed section headers, then the matching species
  * as standalone rows, identical to the rows inside an expanded section and toggling the very same
  * [Category] (a species picked from a search result is picked everywhere it is a member). Species
@@ -88,11 +92,12 @@ import leshy.mushrooms.map.presentation.sortCategories
 @Composable
 fun CollectionPicker(
     items: List<CollectionPickerItem>,
+    query: String,
+    onQueryChange: (String) -> Unit,
     onToggleCollection: (CollectionPickerItem) -> Unit,
     onToggleCategory: (Category, Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var query by remember { mutableStateOf("") }
     var isSearchFocused by remember { mutableStateOf(false) }
     val searchFieldPosition = remember { BringIntoViewRequester() }
     val language = LocalAppLanguage.current
@@ -101,7 +106,7 @@ fun CollectionPicker(
         items
     } else {
         items.filter {
-            collectionDisplayName(it.collection.nameKey, language).contains(trimmedQuery, ignoreCase = true)
+            collectionDisplayName(it.collection, language).contains(trimmedQuery, ignoreCase = true)
         }
     }
     val matchedSpecies = remember(items, trimmedQuery, language) {
@@ -135,7 +140,7 @@ fun CollectionPicker(
     Column(modifier = modifier.fillMaxWidth()) {
         OutlinedTextField(
             value = query,
-            onValueChange = { query = it },
+            onValueChange = onQueryChange,
             label = { Text(stringResource(StringKey.CollectionPickerSearchHint)) },
             singleLine = true,
             modifier = Modifier
@@ -208,7 +213,7 @@ private fun CollectionPickerSection(
                 onClick = { onToggleCollection(item) },
             )
             Text(
-                text = collectionDisplayName(item.collection.nameKey),
+                text = collectionDisplayName(item.collection),
                 modifier = Modifier.weight(1f).padding(start = 4.dp),
             )
             Icon(

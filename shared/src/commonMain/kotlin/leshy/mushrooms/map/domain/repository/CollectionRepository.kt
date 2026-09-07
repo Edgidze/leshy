@@ -2,6 +2,7 @@ package leshy.mushrooms.map.domain.repository
 
 import leshy.mushrooms.map.domain.model.CategoryCollectionMembership
 import leshy.mushrooms.map.domain.model.Collection
+import leshy.mushrooms.map.domain.model.CollectionSource
 import kotlinx.coroutines.flow.Flow
 
 interface CollectionRepository {
@@ -10,7 +11,10 @@ interface CollectionRepository {
     /** One-shot read of every collection — see `CollectionDao.getAll`. */
     suspend fun getAll(): List<Collection>
     suspend fun getByNameKey(nameKey: String): Collection?
-    suspend fun count(): Int
+    suspend fun getById(id: Long): Collection?
+
+    /** Counts only rows of one kind — see `CollectionDao.countBySource`. */
+    suspend fun countBySource(source: CollectionSource): Int
     suspend fun upsert(collection: Collection): Long
 
     /** Batch [upsert]: inserts the `id == 0` ones and updates the rest, each group in one
@@ -22,4 +26,8 @@ interface CollectionRepository {
      * `CollectionDao.insertMembers`. */
     suspend fun addMembers(memberships: List<CategoryCollectionMembership>)
     suspend fun getMemberCategoryIds(collectionId: Long): List<Long>
+    suspend fun getMemberCollectionIds(categoryId: Long): List<Long>
+    suspend fun countMembers(collectionId: Long): Int
+    suspend fun removeMember(categoryId: Long, collectionId: Long)
+    suspend fun delete(collection: Collection)
 }

@@ -41,7 +41,7 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
         "Vse slike gob v aplikaciji so zgolj ponazoritvene — ne uporabljajte jih za določanje " +
             "neznanih gob!",
 
-    StringKey.SpeciesCollectionsTitle to "Zbirke gob",
+    StringKey.SpeciesCollectionsTitle to "Zbirke gob po državah",
     StringKey.SpeciesMyMushroomsTitle to "Dodane gobe",
     StringKey.SpeciesMyMushroomsEmpty to "Tukaj se bodo pojavile gobe, ki jih dodate sami",
     StringKey.SpeciesAddButton to "Dodaj gobo",
@@ -55,6 +55,10 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Slike",
     StringKey.SpeciesFormSaveButton to "Shrani",
     StringKey.SpeciesFormCancelContentDescription to "Prekliči",
+    StringKey.SpeciesCollectionDialogTitle to "V katero zbirko?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Nazaj",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Shrani v zbirko",
+    StringKey.SpeciesCollectionNameIsCountry to "To je ime države — izberite drugo",
     StringKey.SpeciesListImportedLabel to "iz arhiva",
     StringKey.SpeciesListEditContentDescription to "Uredi",
     StringKey.SpeciesListDeleteContentDescription to "Izbriši vrsto",
@@ -141,7 +145,8 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Razno",
     StringKey.CategoryUnknownMushroom to "Neznana goba",
 
-    StringKey.CollectionPickerSearchHint to "Iskanje države ali gobe",
+    StringKey.CollectionOtherName to "Druge",
+    StringKey.CollectionPickerSearchHint to "Iskanje zbirke ali gobe",
     StringKey.CollectionPickerMoreMatches to "Niso prikazani vsi zadetki — natančneje določite iskanje",
 
     StringKey.LanguagePickerSearchHint to "Iskanje jezika",

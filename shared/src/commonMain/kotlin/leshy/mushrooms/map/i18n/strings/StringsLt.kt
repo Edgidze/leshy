@@ -39,7 +39,7 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
         "Visi grybų paveikslėliai programėlėje yra tik iliustraciniai — nenaudokite jų " +
             "nepažįstamiems grybams nustatyti!",
 
-    StringKey.SpeciesCollectionsTitle to "Grybų rinkiniai",
+    StringKey.SpeciesCollectionsTitle to "Grybų rinkiniai pagal šalis",
     StringKey.SpeciesMyMushroomsTitle to "Pridėti grybai",
     StringKey.SpeciesMyMushroomsEmpty to "Čia atsiras jūsų pačių pridėti grybai",
     StringKey.SpeciesAddButton to "Pridėti grybą",
@@ -53,6 +53,10 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Paveikslėliai",
     StringKey.SpeciesFormSaveButton to "Išsaugoti",
     StringKey.SpeciesFormCancelContentDescription to "Atšaukti",
+    StringKey.SpeciesCollectionDialogTitle to "Į kurį rinkinį?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Atgal",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Įrašyti į rinkinį",
+    StringKey.SpeciesCollectionNameIsCountry to "Tai šalies pavadinimas — pasirinkite kitą",
     StringKey.SpeciesListImportedLabel to "iš archyvo",
     StringKey.SpeciesListEditContentDescription to "Redaguoti",
     StringKey.SpeciesListDeleteContentDescription to "Ištrinti rūšį",
@@ -139,7 +143,8 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Įvairūs",
     StringKey.CategoryUnknownMushroom to "Nežinomas grybas",
 
-    StringKey.CollectionPickerSearchHint to "Ieškoti šalies arba grybo",
+    StringKey.CollectionOtherName to "Kiti",
+    StringKey.CollectionPickerSearchHint to "Ieškoti rinkinio arba grybo",
     StringKey.CollectionPickerMoreMatches to "Rodomi ne visi atitikmenys — patikslinkite užklausą",
 
     StringKey.LanguagePickerSearchHint to "Ieškoti kalbos",

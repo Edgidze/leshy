@@ -34,7 +34,7 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
         "Toutes les images de champignons de l'application sont purement illustratives — ne les " +
             "utilisez pas pour identifier des champignons inconnus !",
 
-    StringKey.SpeciesCollectionsTitle to "Collections de champignons",
+    StringKey.SpeciesCollectionsTitle to "Collections de champignons par pays",
     StringKey.SpeciesMyMushroomsTitle to "Champignons ajoutés",
     StringKey.SpeciesMyMushroomsEmpty to "Les champignons que vous ajoutez apparaîtront ici",
     StringKey.SpeciesAddButton to "Ajouter un champignon",
@@ -48,6 +48,10 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Images",
     StringKey.SpeciesFormSaveButton to "Enregistrer",
     StringKey.SpeciesFormCancelContentDescription to "Annuler",
+    StringKey.SpeciesCollectionDialogTitle to "Dans quelle collection ?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Retour",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Enregistrer dans la collection",
+    StringKey.SpeciesCollectionNameIsCountry to "C'est le nom d'un pays — choisissez-en un autre",
     StringKey.SpeciesListImportedLabel to "depuis les archives",
     StringKey.SpeciesListEditContentDescription to "Modifier",
     StringKey.SpeciesListDeleteContentDescription to "Supprimer l'espèce",
@@ -140,7 +144,8 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Divers",
     StringKey.CategoryUnknownMushroom to "Champignon inconnu",
 
-    StringKey.CollectionPickerSearchHint to "Rechercher un pays ou un champignon",
+    StringKey.CollectionOtherName to "Autres",
+    StringKey.CollectionPickerSearchHint to "Rechercher une collection ou un champignon",
     StringKey.CollectionPickerMoreMatches to "Tous les résultats ne sont pas affichés — affinez la recherche",
 
     StringKey.LanguagePickerSearchHint to "Rechercher une langue",
