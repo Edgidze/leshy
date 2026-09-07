@@ -32,7 +32,7 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
         "Հավելվածի բոլոր սնկերի պատկերները միայն տեղեկատվական են — մի՛ օգտագործեք դրանք " +
             "անծանոթ սունկ որոշելու համար։",
 
-    StringKey.SpeciesCollectionsTitle to "Սնկերի հավաքածուներ",
+    StringKey.SpeciesCollectionsTitle to "Սնկերի հավաքածուներ ըստ երկրների",
     StringKey.SpeciesMyMushroomsTitle to "Ավելացված սնկեր",
     StringKey.SpeciesMyMushroomsEmpty to "Ձեր ավելացրած սնկերն այստեղ կհայտնվեն",
     StringKey.SpeciesAddButton to "Ավելացնել սունկ",
@@ -46,6 +46,10 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Նկարներ",
     StringKey.SpeciesFormSaveButton to "Պահպանել",
     StringKey.SpeciesFormCancelContentDescription to "Չեղարկել",
+    StringKey.SpeciesCollectionDialogTitle to "Ո՞ր հավաքածուի մեջ",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Հետ",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Պահել հավաքածուում",
+    StringKey.SpeciesCollectionNameIsCountry to "Սա երկրի անուն է — ընտրեք այլ անուն",
     StringKey.SpeciesListImportedLabel to "արխիվից",
     StringKey.SpeciesListEditContentDescription to "Խմբագրել",
     StringKey.SpeciesListDeleteContentDescription to "Ջնջել տեսակը",
@@ -134,7 +138,8 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Այլ",
     StringKey.CategoryUnknownMushroom to "Անհայտ սունկ",
 
-    StringKey.CollectionPickerSearchHint to "Փնտրել երկիր կամ սունկ",
+    StringKey.CollectionOtherName to "Այլ",
+    StringKey.CollectionPickerSearchHint to "Փնտրել հավաքածու կամ սունկ",
     StringKey.CollectionPickerMoreMatches to "Ցուցադրված չեն բոլոր համընկնումները — ճշտեք հարցումը",
     StringKey.LanguagePickerSearchHint to "Փնտրել լեզու",
     StringKey.LanguagePickerBackContentDescription to "Հետ",

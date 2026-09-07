@@ -5,11 +5,16 @@ import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.CategorySource
 import leshy.mushrooms.map.domain.model.FieldMark
 import leshy.mushrooms.map.domain.model.MarkType
+import leshy.mushrooms.map.domain.model.CategoryCollectionMembership
+import leshy.mushrooms.map.domain.model.Collection
+import leshy.mushrooms.map.domain.model.CollectionSource
 import leshy.mushrooms.map.domain.repository.CategoryRepository
+import leshy.mushrooms.map.domain.repository.CollectionRepository
 import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import okio.Path.Companion.toPath
@@ -79,6 +84,27 @@ private val userSpecies = Category(
     iconFile = "catimg_user_123_456.png",
 )
 
+/** Подборок у этого теста нет — удаляемый вид ни в одной не состоит, и удалять вслед за ним нечего.
+ * Заглушка отвечает пустотой на всё, что [DeleteUserSpeciesUseCase] спрашивает, и падает на всём
+ * остальном: молча вернуть неправду там, где тест этого не ждёт, хуже, чем упасть. */
+private class DeleteSpeciesFakeCollectionRepository : CollectionRepository {
+    override fun observeAll(): Flow<List<Collection>> = flowOf(emptyList())
+    override fun observeAllMemberships(): Flow<List<CategoryCollectionMembership>> = flowOf(emptyList())
+    override suspend fun getAll(): List<Collection> = emptyList()
+    override suspend fun getByNameKey(nameKey: String): Collection? = null
+    override suspend fun getById(id: Long): Collection? = null
+    override suspend fun countBySource(source: CollectionSource): Int = 0
+    override suspend fun upsert(collection: Collection): Long = error("not needed")
+    override suspend fun upsertAll(collections: List<Collection>) = error("not needed")
+    override suspend fun addMember(categoryId: Long, collectionId: Long) = error("not needed")
+    override suspend fun addMembers(memberships: List<CategoryCollectionMembership>) = error("not needed")
+    override suspend fun getMemberCategoryIds(collectionId: Long): List<Long> = emptyList()
+    override suspend fun getMemberCollectionIds(categoryId: Long): List<Long> = emptyList()
+    override suspend fun countMembers(collectionId: Long): Int = 0
+    override suspend fun removeMember(categoryId: Long, collectionId: Long) = error("not needed")
+    override suspend fun delete(collection: Collection) = error("not needed")
+}
+
 class DeleteUserSpeciesUseCaseTest {
     @Test
     fun deletingASpeciesMovesItsFindsToUnknownMushroomAndKeepsTheirPhotos() = runBlocking {
@@ -93,7 +119,13 @@ class DeleteUserSpeciesUseCaseTest {
         )
         val categories = DeleteSpeciesFakeCategoryRepository(listOf(unknownMushroom, userSpecies))
         val fieldMarks = DeleteSpeciesFakeFieldMarkRepository(listOf(mark))
-        val useCase = DeleteUserSpeciesUseCase(categories, fieldMarks, DeleteSpeciesFakePhotoStorage(), fileSystem)
+        val useCase = DeleteUserSpeciesUseCase(
+            categories,
+            fieldMarks,
+            DeleteSpeciesFakeCollectionRepository(),
+            DeleteSpeciesFakePhotoStorage(),
+            fileSystem,
+        )
 
         useCase(userSpecies)
 

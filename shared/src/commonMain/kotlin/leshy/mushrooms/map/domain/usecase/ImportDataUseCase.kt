@@ -2,7 +2,9 @@ package leshy.mushrooms.map.domain.usecase
 
 import leshy.mushrooms.map.data.catalog.catalogKeyForLegacy
 import leshy.mushrooms.map.data.export.dto.CATEGORIES_ENTRY_NAME
+import leshy.mushrooms.map.data.export.dto.COLLECTIONS_ENTRY_NAME
 import leshy.mushrooms.map.data.export.dto.CategoryExportDto
+import leshy.mushrooms.map.data.export.dto.CollectionExportDto
 import leshy.mushrooms.map.data.export.dto.ExportJson
 import leshy.mushrooms.map.data.export.dto.OBJECTS_ENTRY_NAME
 import leshy.mushrooms.map.data.export.dto.ObjectExportDto
@@ -17,11 +19,14 @@ import leshy.mushrooms.map.data.platform.currentTimeMillis
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.CategorySource
+import leshy.mushrooms.map.domain.model.Collection
+import leshy.mushrooms.map.domain.model.CollectionSource
 import leshy.mushrooms.map.domain.model.FieldMark
 import leshy.mushrooms.map.domain.model.MarkType
 import leshy.mushrooms.map.domain.model.TrackPoint
 import leshy.mushrooms.map.domain.model.Walk
 import leshy.mushrooms.map.domain.repository.CategoryRepository
+import leshy.mushrooms.map.domain.repository.CollectionRepository
 import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
@@ -54,6 +59,7 @@ class ImportDataUseCase(
     private val trackPointRepository: TrackPointRepository,
     private val fieldMarkRepository: FieldMarkRepository,
     private val categoryRepository: CategoryRepository,
+    private val collectionRepository: CollectionRepository,
     private val photoStorage: PhotoStorage,
     private val fileSystem: FileSystem = FileSystem.SYSTEM,
 ) {
@@ -70,7 +76,7 @@ class ImportDataUseCase(
         validateArchive(archiveBytes)?.let { throw RejectedException(it) }
         val reader = ZipReader(archiveBytes)
 
-        importCategories(reader)
+        importCollections(reader, importCategories(reader))
 
         val categoryIdByNameKey = categoryRepository.observeAll().first().associate { it.nameKey to it.id }
         val miscCategoryId = requireNotNull(categoryIdByNameKey[MISC_CATEGORY_NAME_KEY]) {
@@ -149,44 +155,124 @@ class ImportDataUseCase(
 
     /** A category entry that fails to parse must not abort the rest — same "best effort" contract
      * as [importWalk]'s [runCatching] in [invoke]. Order matters here: no `runCatching` at the list
-     * level, each row is wrapped individually so one bad row doesn't take its siblings down with it. */
-    private suspend fun importCategories(reader: ZipReader) {
+     * level, each row is wrapped individually so one bad row doesn't take its siblings down with it.
+     *
+     * Возвращает соответствие «ключ вида в архиве → id вида на этом устройстве»: по нему
+     * [importCollections] раскладывает приехавшие виды по подборкам. Вид, который слился с местным,
+     * отдаёт id местного — именно поэтому карту строит эта функция, а не вызывающий её код. */
+    private suspend fun importCategories(reader: ZipReader): Map<String, Long> {
         val dtos = reader.readEntry(CATEGORIES_ENTRY_NAME)?.decodeToString()?.let { text ->
             runCatching {
                 ExportJson.decodeFromString(ListSerializer(CategoryExportDto.serializer()), text)
             }.getOrNull()
-        } ?: return
+        } ?: return emptyMap()
 
-        for (dto in dtos) runCatching { importCategory(reader, dto) }
+        // Один снимок на весь импорт: список нужен только для поиска совпадений по названию, а
+        // виды, создаваемые ниже, совпасть сами с собой не могут — у них уникальный `nameKey`.
+        val local = categoryRepository.observeNonCatalog().first()
+        val resolved = mutableMapOf<String, Long>()
+        for (dto in dtos) {
+            runCatching { importCategory(reader, dto, local) }.getOrNull()?.let { resolved[dto.nameKey] = it }
+        }
+        return resolved
     }
 
     /** Merge-by-[Category.nameKey], per the three-way table in `.claude/plans/user-mushrooms.md`
      * (Phase 6): no local row → create as [CategorySource.IMPORTED] with the icon; local row
      * without an icon → attach the archive's icon, touch nothing else; local row with an icon
-     * already → the local species wins outright, nothing to do. */
-    private suspend fun importCategory(reader: ZipReader, dto: CategoryExportDto) {
+     * already → the local species wins outright, nothing to do. Возвращает id вида, под которым
+     * находки этого архива будут жить дальше, или `null`, если вид не взят вовсе.
+     *
+     * Второй ключ слияния — [matchesByNameAndScientificName] — добавлен вместе с подборками
+     * (`.claude/plans/user-collections.md`) и намеренно требует совпадения И названия, И латыни.
+     * Одного названия мало: «Белый» у двух разных людей запросто окажется разными грибами, и
+     * склеить их — необратимая порча чужих находок. Латынь у пользовательского вида заполнена почти
+     * всегда (пустую подставляет `scientificNameFallback`), так что пара «название + латынь» —
+     * настоящая улика, а не совпадение слова. */
+    private suspend fun importCategory(reader: ZipReader, dto: CategoryExportDto, local: List<Category>): Long? {
         val existing = categoryRepository.getByNameKey(dto.nameKey)
+            ?: local.firstOrNull { matchesByNameAndScientificName(it, dto) }
         // Catalog rows are never a merge target. ExportDataUseCase only ever writes non-APP
         // species, so this can't happen for an archive this app produced — but `nameKey` is just a
         // string in a JSON file, and a hand-edited or corrupted one naming `boletus_edulis` (or
         // `category_misc`) would otherwise attach a foreign icon to a catalog species, which
         // EnsureDefaultCategoriesUseCase would then keep re-seeding around forever.
-        if (existing != null && existing.source == CategorySource.APP) return
-        val target = when {
-            existing == null -> {
-                val created = dto.toDomain()
-                created.copy(id = categoryRepository.upsert(created))
-            }
-            existing.iconFile == null -> existing
-            else -> return
-        }
-        if (!dto.hasIcon) return
-        val bytes = reader.readEntry(categoryIconEntryName(dto.nameKey)) ?: return
+        if (existing != null && existing.source == CategorySource.APP) return null
+        val target = existing ?: dto.toDomain().let { created -> created.copy(id = categoryRepository.upsert(created)) }
+        if (!dto.hasIcon || target.iconFile != null) return target.id
+        val bytes = reader.readEntry(categoryIconEntryName(dto.nameKey)) ?: return target.id
         // Deterministic (not timestamped like SaveCategoryIconUseCase's) so a repeat import of the
         // same archive overwrites this file instead of piling up copies.
         val fileName = "catimg_${dto.nameKey}.png"
         fileSystem.write(photoStorage.resolvePath(fileName).toPath()) { write(bytes) }
         categoryRepository.upsert(target.copy(iconFile = fileName))
+        return target.id
+    }
+
+    /** Названия сравниваются в пределах одного языка: «Rotkappe» по-немецки и «Rotkappe», записанное
+     * кем-то в русское поле, — не одно и то же утверждение. Достаточно одного общего языка, в
+     * котором названия совпали, — заполнять все 42 никто не обязан. */
+    private fun matchesByNameAndScientificName(local: Category, dto: CategoryExportDto): Boolean {
+        val archiveLatin = dto.scientificName?.trim().orEmpty()
+        val localLatin = local.scientificName?.trim().orEmpty()
+        if (archiveLatin.isEmpty() || !archiveLatin.equals(localLatin, ignoreCase = true)) return false
+        return local.customNames.any { (language, name) ->
+            dto.customNames[language.code]?.trim()?.equals(name.trim(), ignoreCase = true) == true
+        }
+    }
+
+    /** Пользовательские подборки архива (`.claude/plans/user-collections.md`). Ключ слияния —
+     * [Collection.nameKey], затем имя без учёта регистра: подборка, заведённая на двух устройствах
+     * с одинаковым названием, обязана остаться одной, иначе на экране появятся два одинаковых
+     * заголовка подряд. Не совпало ничего — подборка создаётся как [CollectionSource.IMPORTED].
+     *
+     * Вид, у которого на этом устройстве СВОЯ подборка уже есть, не переносится: местная раскладка
+     * старше приезжей, и импорт архива не повод её пересобирать. Практически это ровно те виды,
+     * что слились с местными по [matchesByNameAndScientificName]; заново созданные подборки не
+     * имеют, и попадают в приехавшую.
+     *
+     * Подборка, в которую в итоге ничего не легло, не остаётся пустой строкой в базе — пустых
+     * пользовательских подборок в приложении не бывает. */
+    private suspend fun importCollections(reader: ZipReader, categoryIdByArchiveKey: Map<String, Long>) {
+        if (categoryIdByArchiveKey.isEmpty()) return
+        val dtos = reader.readEntry(COLLECTIONS_ENTRY_NAME)?.decodeToString()?.let { text ->
+            runCatching {
+                ExportJson.decodeFromString(ListSerializer(CollectionExportDto.serializer()), text)
+            }.getOrNull()
+        } ?: return
+
+        val local = collectionRepository.getAll().filter { it.source != CollectionSource.COUNTRY }
+        for (dto in dtos) runCatching { importCollection(dto, local, categoryIdByArchiveKey) }
+    }
+
+    private suspend fun importCollection(
+        dto: CollectionExportDto,
+        local: List<Collection>,
+        categoryIdByArchiveKey: Map<String, Long>,
+    ) {
+        val existing = local.firstOrNull { it.nameKey == dto.nameKey }
+            ?: dto.name?.let { name -> local.firstOrNull { it.name.equals(name, ignoreCase = true) } }
+        val target = existing ?: Collection(
+            id = 0,
+            nameKey = dto.nameKey,
+            // Приехавшие «Другие» обязаны встать в свою полосу, иначе на экране они окажутся не
+            // последними, а вперемешку с именованными подборками.
+            order = if (dto.nameKey == OTHER_COLLECTION_NAME_KEY) OTHER_COLLECTION_ORDER else USER_COLLECTION_ORDER,
+            source = CollectionSource.IMPORTED,
+            name = dto.name,
+        ).let { created -> created.copy(id = collectionRepository.upsert(created)) }
+
+        var added = 0
+        for (key in dto.memberNameKeys) {
+            val categoryId = categoryIdByArchiveKey[key] ?: continue
+            val alreadyGrouped = collectionRepository.getMemberCollectionIds(categoryId)
+                .mapNotNull { collectionRepository.getById(it) }
+                .any { it.source != CollectionSource.COUNTRY }
+            if (alreadyGrouped) continue
+            collectionRepository.addMember(categoryId, target.id)
+            added++
+        }
+        if (existing == null && added == 0) collectionRepository.delete(target)
     }
 }
 

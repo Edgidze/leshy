@@ -34,7 +34,7 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
         "Усе выявы грыбоў у праграме ўмоўныя — не выкарыстоўвайце іх для вызначэння " +
             "незнаёмых грыбоў!",
 
-    StringKey.SpeciesCollectionsTitle to "Падборкі грыбоў",
+    StringKey.SpeciesCollectionsTitle to "Падборкі грыбоў па краінах",
     StringKey.SpeciesMyMushroomsTitle to "Дададзеныя грыбы",
     StringKey.SpeciesMyMushroomsEmpty to "Тут з'явяцца грыбы, якія вы дадасце самі",
     StringKey.SpeciesAddButton to "Дадаць грыб",
@@ -48,6 +48,10 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Малюнкі",
     StringKey.SpeciesFormSaveButton to "Захаваць",
     StringKey.SpeciesFormCancelContentDescription to "Скасаваць",
+    StringKey.SpeciesCollectionDialogTitle to "У якую падборку?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Назад",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Захаваць у падборку",
+    StringKey.SpeciesCollectionNameIsCountry to "Так называецца краіна — выберыце іншую назву",
     StringKey.SpeciesListImportedLabel to "з архіва",
     StringKey.SpeciesListEditContentDescription to "Рэдагаваць",
     StringKey.SpeciesListDeleteContentDescription to "Выдаліць від",
@@ -135,7 +139,8 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Рознае",
     StringKey.CategoryUnknownMushroom to "Невядомы грыб",
 
-    StringKey.CollectionPickerSearchHint to "Пошук краіны ці грыба",
+    StringKey.CollectionOtherName to "Іншыя",
+    StringKey.CollectionPickerSearchHint to "Пошук падборкі ці грыба",
     StringKey.CollectionPickerMoreMatches to "Паказаны не ўсе супадзенні — удакладніце запыт",
 
     StringKey.LanguagePickerSearchHint to "Пошук мовы",

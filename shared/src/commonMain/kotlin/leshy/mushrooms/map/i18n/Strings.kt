@@ -197,7 +197,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
         "Все изображения грибов в приложении условны — не используйте их для определения " +
             "незнакомых грибов!"
 
-    StringKey.SpeciesCollectionsTitle -> "Подборки грибов"
+    StringKey.SpeciesCollectionsTitle -> "Подборки грибов по странам"
     StringKey.SpeciesMyMushroomsTitle -> "Добавленные грибы"
     StringKey.SpeciesMyMushroomsEmpty -> "Здесь появятся грибы, которые вы добавите сами"
     StringKey.SpeciesAddButton -> "Добавить гриб"
@@ -211,6 +211,10 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesFormPickCatalogButton -> "Картинки"
     StringKey.SpeciesFormSaveButton -> "Сохранить"
     StringKey.SpeciesFormCancelContentDescription -> "Отмена"
+    StringKey.SpeciesCollectionDialogTitle -> "В какую подборку?"
+    StringKey.SpeciesCollectionDialogBackContentDescription -> "Назад"
+    StringKey.SpeciesCollectionDialogSaveContentDescription -> "Сохранить в подборку"
+    StringKey.SpeciesCollectionNameIsCountry -> "Так называется страна — выберите другое название"
     StringKey.SpeciesListImportedLabel -> "из архива"
     StringKey.SpeciesListEditContentDescription -> "Редактировать"
     StringKey.SpeciesListDeleteContentDescription -> "Удалить вид"
@@ -298,7 +302,8 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.CategoryMisc -> "Разное"
     StringKey.CategoryUnknownMushroom -> "Неизвестный гриб"
 
-    StringKey.CollectionPickerSearchHint -> "Поиск страны или гриба"
+    StringKey.CollectionOtherName -> "Другие"
+    StringKey.CollectionPickerSearchHint -> "Поиск подборки или гриба"
     StringKey.CollectionPickerMoreMatches -> "Показаны не все совпадения — уточните запрос"
 
     StringKey.LanguagePickerSearchHint -> "Поиск языка"
@@ -557,7 +562,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
         "All mushroom images in the app are illustrative only — do not use them to identify " +
             "unfamiliar mushrooms!"
 
-    StringKey.SpeciesCollectionsTitle -> "Mushroom collections"
+    StringKey.SpeciesCollectionsTitle -> "Mushroom collections by country"
     StringKey.SpeciesMyMushroomsTitle -> "Added mushrooms"
     StringKey.SpeciesMyMushroomsEmpty -> "Mushrooms you add yourself will show up here"
     StringKey.SpeciesAddButton -> "Add mushroom"
@@ -571,6 +576,10 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.SpeciesFormPickCatalogButton -> "Pictures"
     StringKey.SpeciesFormSaveButton -> "Save"
     StringKey.SpeciesFormCancelContentDescription -> "Cancel"
+    StringKey.SpeciesCollectionDialogTitle -> "Which collection?"
+    StringKey.SpeciesCollectionDialogBackContentDescription -> "Back"
+    StringKey.SpeciesCollectionDialogSaveContentDescription -> "Save to collection"
+    StringKey.SpeciesCollectionNameIsCountry -> "That is a country name — pick another one"
     StringKey.SpeciesListImportedLabel -> "from archive"
     StringKey.SpeciesListEditContentDescription -> "Edit"
     StringKey.SpeciesListDeleteContentDescription -> "Delete species"
@@ -657,7 +666,8 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.CategoryMisc -> "Misc"
     StringKey.CategoryUnknownMushroom -> "Unknown mushroom"
 
-    StringKey.CollectionPickerSearchHint -> "Search country or mushroom"
+    StringKey.CollectionOtherName -> "Other"
+    StringKey.CollectionPickerSearchHint -> "Search collection or mushroom"
     StringKey.CollectionPickerMoreMatches -> "Not all matches are shown — refine your search"
 
     StringKey.LanguagePickerSearchHint -> "Search language"

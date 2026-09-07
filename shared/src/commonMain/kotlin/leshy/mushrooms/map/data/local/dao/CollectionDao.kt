@@ -3,10 +3,12 @@ package leshy.mushrooms.map.data.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Update
 import leshy.mushrooms.map.data.local.entity.CategoryCollectionCrossRef
 import leshy.mushrooms.map.data.local.entity.CollectionEntity
+import leshy.mushrooms.map.domain.model.CollectionSource
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,8 +24,14 @@ interface CollectionDao {
     @Query("SELECT * FROM collections ORDER BY `order` ASC")
     suspend fun getAll(): List<CollectionEntity>
 
-    @Query("SELECT COUNT(*) FROM collections")
-    suspend fun count(): Int
+    @Query("SELECT * FROM collections WHERE id = :id LIMIT 1")
+    suspend fun getById(id: Long): CollectionEntity?
+
+    /** Counts only the rows the country seeding owns. A plain `COUNT(*)` over the table would also
+     * count the user's own collections, and the seeding gate reads that number as "all N country
+     * presets are present" — see `EnsureDefaultCollectionsUseCase` for what that would break. */
+    @Query("SELECT COUNT(*) FROM collections WHERE source = :source")
+    suspend fun countBySource(source: CollectionSource): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(collection: CollectionEntity): Long
@@ -54,4 +62,16 @@ interface CollectionDao {
 
     @Query("SELECT * FROM category_collections")
     fun observeAllMemberships(): Flow<List<CategoryCollectionCrossRef>>
+
+    @Query("SELECT collectionId FROM category_collections WHERE categoryId = :categoryId")
+    suspend fun getMemberCollectionIds(categoryId: Long): List<Long>
+
+    @Query("SELECT COUNT(*) FROM category_collections WHERE collectionId = :collectionId")
+    suspend fun countMembers(collectionId: Long): Int
+
+    @Query("DELETE FROM category_collections WHERE categoryId = :categoryId AND collectionId = :collectionId")
+    suspend fun removeMember(categoryId: Long, collectionId: Long)
+
+    @Delete
+    suspend fun delete(collection: CollectionEntity)
 }

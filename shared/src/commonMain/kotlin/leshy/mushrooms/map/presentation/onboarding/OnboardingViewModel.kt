@@ -9,6 +9,7 @@ import leshy.mushrooms.map.data.platform.currentDeviceRegionCode
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.repository.CategoryRepository
+import leshy.mushrooms.map.domain.model.CollectionSource
 import leshy.mushrooms.map.domain.repository.CollectionRepository
 import leshy.mushrooms.map.domain.repository.OnboardingRepository
 import leshy.mushrooms.map.domain.repository.SettingsRepository
@@ -65,7 +66,11 @@ class OnboardingViewModel(
                 collectionRepository.observeAllMemberships(),
                 settingsRepository.observeLanguage(),
             ) { collections, categories, memberships, language ->
-                language to buildCollectionPickerItems(collections, categories, memberships)
+                // Только страновые: пользовательских подборок на первом запуске взяться
+                // неоткуда, но шаг онбординга — про страны, и опираться тут на «их не бывает»
+                // вместо фильтра значит ждать, пока это перестанет быть правдой.
+                val countries = collections.filter { it.source == CollectionSource.COUNTRY }
+                language to buildCollectionPickerItems(countries, categories, memberships)
             }.collect { (language, items) ->
                 _uiState.update {
                     it.copy(language = language, collectionPickerItems = sortByLanguage(items, language))

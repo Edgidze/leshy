@@ -33,7 +33,7 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
         "Ҳамаи тасвирҳои занбӯруғ дар барнома танҳо ҷанбаи маълумотӣ доранд — онҳоро барои " +
             "муайян кардани занбӯруғи ношинос истифода накунед!",
 
-    StringKey.SpeciesCollectionsTitle to "Маҷмӯаҳои занбӯруғ",
+    StringKey.SpeciesCollectionsTitle to "Маҷмӯаҳои занбӯруғ аз рӯи кишварҳо",
     StringKey.SpeciesMyMushroomsTitle to "Занбӯруғҳои иловашуда",
     StringKey.SpeciesMyMushroomsEmpty to "Занбӯруғҳое, ки худатон илова мекунед, дар ин ҷо пайдо мешаванд",
     StringKey.SpeciesAddButton to "Илова кардани занбӯруғ",
@@ -47,6 +47,10 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Тасвирҳо",
     StringKey.SpeciesFormSaveButton to "Нигоҳ доштан",
     StringKey.SpeciesFormCancelContentDescription to "Бекор кардан",
+    StringKey.SpeciesCollectionDialogTitle to "Ба кадом маҷмӯа?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Бозгашт",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Дар маҷмӯа нигоҳ доштан",
+    StringKey.SpeciesCollectionNameIsCountry to "Ин номи кишвар аст — номи дигар интихоб кунед",
     StringKey.SpeciesListImportedLabel to "аз бойгонӣ",
     StringKey.SpeciesListEditContentDescription to "Таҳрир",
     StringKey.SpeciesListDeleteContentDescription to "Нест кардани навъ",
@@ -135,7 +139,8 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Дигар",
     StringKey.CategoryUnknownMushroom to "Занбӯруғи номаълум",
 
-    StringKey.CollectionPickerSearchHint to "Ҷустуҷӯи кишвар ё занбӯруғ",
+    StringKey.CollectionOtherName to "Дигарҳо",
+    StringKey.CollectionPickerSearchHint to "Ҷустуҷӯи маҷмӯа ё занбӯруғ",
     StringKey.CollectionPickerMoreMatches to "Ҳамаи мутобиқатҳо нишон дода нашудаанд — дархостро дақиқ кунед",
     StringKey.LanguagePickerSearchHint to "Ҷустуҷӯи забон",
     StringKey.LanguagePickerBackContentDescription to "Бозгашт",

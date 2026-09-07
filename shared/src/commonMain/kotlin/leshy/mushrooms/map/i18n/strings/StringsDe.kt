@@ -32,7 +32,7 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
         "Alle Pilzbilder in der App sind rein illustrativ – verwenden Sie sie nicht zur " +
             "Bestimmung unbekannter Pilze!",
 
-    StringKey.SpeciesCollectionsTitle to "Pilzsammlungen",
+    StringKey.SpeciesCollectionsTitle to "Pilzsammlungen nach Ländern",
     StringKey.SpeciesMyMushroomsTitle to "Hinzugefügte Pilze",
     StringKey.SpeciesMyMushroomsEmpty to "Hier erscheinen die Pilze, die Sie selbst hinzufügen",
     StringKey.SpeciesAddButton to "Pilz hinzufügen",
@@ -46,6 +46,10 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Bilder",
     StringKey.SpeciesFormSaveButton to "Speichern",
     StringKey.SpeciesFormCancelContentDescription to "Abbrechen",
+    StringKey.SpeciesCollectionDialogTitle to "In welche Sammlung?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Zurück",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "In Sammlung speichern",
+    StringKey.SpeciesCollectionNameIsCountry to "Das ist ein Ländername — bitte einen anderen wählen",
     StringKey.SpeciesListImportedLabel to "aus dem Archiv",
     StringKey.SpeciesListEditContentDescription to "Bearbeiten",
     StringKey.SpeciesListDeleteContentDescription to "Art löschen",
@@ -136,7 +140,8 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Sonstiges",
     StringKey.CategoryUnknownMushroom to "Unbekannter Pilz",
 
-    StringKey.CollectionPickerSearchHint to "Land oder Pilz suchen",
+    StringKey.CollectionOtherName to "Andere",
+    StringKey.CollectionPickerSearchHint to "Sammlung oder Pilz suchen",
     StringKey.CollectionPickerMoreMatches to "Es werden nicht alle Treffer angezeigt — Suche eingrenzen",
 
     StringKey.LanguagePickerSearchHint to "Sprache suchen",

@@ -30,7 +30,7 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.MushroomImagesDisclaimer to
         "アプリ内のキノコ画像はすべて参考用です。見知らぬキノコの判別には使用しないでください!",
 
-    StringKey.SpeciesCollectionsTitle to "キノコのコレクション",
+    StringKey.SpeciesCollectionsTitle to "国別のキノコのコレクション",
     StringKey.SpeciesMyMushroomsTitle to "追加したキノコ",
     StringKey.SpeciesMyMushroomsEmpty to "自分で追加したキノコがここに表示されます",
     StringKey.SpeciesAddButton to "キノコを追加",
@@ -44,6 +44,10 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "図鑑",
     StringKey.SpeciesFormSaveButton to "保存",
     StringKey.SpeciesFormCancelContentDescription to "キャンセル",
+    StringKey.SpeciesCollectionDialogTitle to "どのコレクションに?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "戻る",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "コレクションに保存",
+    StringKey.SpeciesCollectionNameIsCountry to "国名と同じです。別の名前を選んでください",
     StringKey.SpeciesListImportedLabel to "アーカイブから",
     StringKey.SpeciesListEditContentDescription to "編集",
     StringKey.SpeciesListDeleteContentDescription to "種類を削除",
@@ -113,7 +117,8 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "その他",
     StringKey.CategoryUnknownMushroom to "不明なキノコ",
 
-    StringKey.CollectionPickerSearchHint to "国またはキノコを検索",
+    StringKey.CollectionOtherName to "その他",
+    StringKey.CollectionPickerSearchHint to "コレクションまたはキノコを検索",
     StringKey.CollectionPickerMoreMatches to "すべての一致は表示されていません — 検索条件を絞り込んでください",
 
     StringKey.LanguagePickerSearchHint to "言語を検索",

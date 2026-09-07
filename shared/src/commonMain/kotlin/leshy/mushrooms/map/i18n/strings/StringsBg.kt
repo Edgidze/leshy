@@ -32,7 +32,7 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
         "Всички изображения на гъби в приложението са условни — не ги използвайте за " +
             "определяне на непознати гъби!",
 
-    StringKey.SpeciesCollectionsTitle to "Колекции от гъби",
+    StringKey.SpeciesCollectionsTitle to "Колекции от гъби по държави",
     StringKey.SpeciesMyMushroomsTitle to "Добавени гъби",
     StringKey.SpeciesMyMushroomsEmpty to "Тук ще се появят гъбите, които добавите сами",
     StringKey.SpeciesAddButton to "Добавяне на гъба",
@@ -46,6 +46,10 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Картинки",
     StringKey.SpeciesFormSaveButton to "Запази",
     StringKey.SpeciesFormCancelContentDescription to "Отказ",
+    StringKey.SpeciesCollectionDialogTitle to "В коя колекция?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Назад",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Запазване в колекцията",
+    StringKey.SpeciesCollectionNameIsCountry to "Това е име на държава — изберете друго",
     StringKey.SpeciesListImportedLabel to "от архив",
     StringKey.SpeciesListEditContentDescription to "Редактиране",
     StringKey.SpeciesListDeleteContentDescription to "Изтриване на вида",
@@ -135,7 +139,8 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Разни",
     StringKey.CategoryUnknownMushroom to "Непозната гъба",
 
-    StringKey.CollectionPickerSearchHint to "Търсене на държава или гъба",
+    StringKey.CollectionOtherName to "Други",
+    StringKey.CollectionPickerSearchHint to "Търсене на колекция или гъба",
     StringKey.CollectionPickerMoreMatches to "Показани са не всички съвпадения — уточнете заявката",
 
     StringKey.LanguagePickerSearchHint to "Търсене на език",

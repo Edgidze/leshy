@@ -39,7 +39,7 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
         "Visi sēņu attēli lietotnē ir tikai ilustratīvi — neizmantojiet tos nepazīstamu sēņu " +
             "noteikšanai!",
 
-    StringKey.SpeciesCollectionsTitle to "Sēņu kolekcijas",
+    StringKey.SpeciesCollectionsTitle to "Sēņu kolekcijas pa valstīm",
     StringKey.SpeciesMyMushroomsTitle to "Pievienotās sēnes",
     StringKey.SpeciesMyMushroomsEmpty to "Šeit parādīsies sēnes, kuras pievienosiet pats",
     StringKey.SpeciesAddButton to "Pievienot sēni",
@@ -53,6 +53,10 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Attēli",
     StringKey.SpeciesFormSaveButton to "Saglabāt",
     StringKey.SpeciesFormCancelContentDescription to "Atcelt",
+    StringKey.SpeciesCollectionDialogTitle to "Kurā kolekcijā?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Atpakaļ",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Saglabāt kolekcijā",
+    StringKey.SpeciesCollectionNameIsCountry to "Šis ir valsts nosaukums — izvēlieties citu",
     StringKey.SpeciesListImportedLabel to "no arhīva",
     StringKey.SpeciesListEditContentDescription to "Rediģēt",
     StringKey.SpeciesListDeleteContentDescription to "Dzēst sugu",
@@ -138,7 +142,8 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Dažādi",
     StringKey.CategoryUnknownMushroom to "Nezināma sēne",
 
-    StringKey.CollectionPickerSearchHint to "Meklēt valsti vai sēni",
+    StringKey.CollectionOtherName to "Citas",
+    StringKey.CollectionPickerSearchHint to "Meklēt kolekciju vai sēni",
     StringKey.CollectionPickerMoreMatches to "Netiek rādītas visas atbilstības — precizējiet vaicājumu",
 
     StringKey.LanguagePickerSearchHint to "Meklēt valodu",

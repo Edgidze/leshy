@@ -37,6 +37,10 @@ enum class StringKey {
     SpeciesFormPickCatalogButton,
     SpeciesFormSaveButton,
     SpeciesFormCancelContentDescription,
+    SpeciesCollectionDialogTitle,
+    SpeciesCollectionDialogBackContentDescription,
+    SpeciesCollectionDialogSaveContentDescription,
+    SpeciesCollectionNameIsCountry,
     SpeciesListImportedLabel,
     SpeciesListEditContentDescription,
     SpeciesListDeleteContentDescription,
@@ -96,6 +100,7 @@ enum class StringKey {
     CategoryMisc,
     CategoryUnknownMushroom,
 
+    CollectionOtherName,
     CollectionPickerSearchHint,
     CollectionPickerMoreMatches,
 

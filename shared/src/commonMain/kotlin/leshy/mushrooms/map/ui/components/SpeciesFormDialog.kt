@@ -133,6 +133,12 @@ private fun dominantHue(bitmap: ImageBitmap): Float? {
  * [MushroomSearchDialog]/`MushroomBulkAddDialog` in `RecordScreen.kt` — never a navigation route, so
  * opening it from Record never leaves the walk in progress.
  *
+ * Сохранение двухшаговое: по «Сохранить» открывается [CollectionNameDialog] (подборка, в которую
+ * ложится гриб), и только его галочка вызывает [onSave] — форма к этому моменту никуда не делась,
+ * стрелка «назад» во втором диалоге возвращает в неё со всем набранным. [initialCollectionName] —
+ * текущая подборка редактируемого гриба (пусто при создании и на «Записи», где подборку у гриба
+ * ещё никто не спрашивал).
+ *
  * A picked photo opens [IconEditorDialog] (Phase 3 of the plan) before it becomes the pending icon —
  * this dialog only holds the already-edited PNG bytes and its preview bitmap, never a raw photo
  * path. A photo is optional: [CategoryIcon] already renders a species with neither `iconFile` nor
@@ -147,8 +153,10 @@ fun SpeciesFormDialog(
         scientificNameInput: String?,
         colorHex: String,
         iconPngBytes: ByteArray?,
+        collectionName: String,
     ) -> Unit,
     onDismissRequest: () -> Unit,
+    initialCollectionName: String = "",
 ) {
     var name by remember { mutableStateOf(existing?.customNames?.get(language).orEmpty()) }
     var scientificName by remember { mutableStateOf(existing?.scientificName.orEmpty()) }
@@ -164,6 +172,7 @@ fun SpeciesFormDialog(
     val categoryRepository = koinInject<CategoryRepository>()
     val coroutineScope = rememberCoroutineScope()
     var showCatalogPicker by remember { mutableStateOf(false) }
+    var showCollectionStep by remember { mutableStateOf(false) }
     val catalogCategories by remember(categoryRepository) {
         categoryRepository.observeAll().map { list -> list.filter { it.source == CategorySource.APP && it.iconRef != null } }
     }.collectAsState(initial = emptyList())
@@ -195,6 +204,24 @@ fun SpeciesFormDialog(
                 }
             },
             onDismissRequest = { showCatalogPicker = false },
+        )
+    }
+
+    if (showCollectionStep) {
+        CollectionNameDialog(
+            initialName = initialCollectionName,
+            onBack = { showCollectionStep = false },
+            onConfirm = { collectionName ->
+                onSave(
+                    name.trim(),
+                    scientificName.trim().ifBlank { null },
+                    colorHex,
+                    pendingIconBytes,
+                    collectionName,
+                )
+                showCollectionStep = false
+                onDismissRequest()
+            },
         )
     }
 
@@ -358,10 +385,7 @@ fun SpeciesFormDialog(
 
                 Spacer(modifier = Modifier.height(24.dp))
                 LeshyButton(
-                    onClick = {
-                        onSave(name.trim(), scientificName.trim().ifBlank { null }, colorHex, pendingIconBytes)
-                        onDismissRequest()
-                    },
+                    onClick = { showCollectionStep = true },
                     enabled = name.isNotBlank(),
                     modifier = Modifier.fillMaxWidth(),
                 ) {

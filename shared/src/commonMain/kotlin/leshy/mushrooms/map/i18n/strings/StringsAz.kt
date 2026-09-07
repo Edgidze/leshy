@@ -32,7 +32,7 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
         "Tətbiqdəki bütün göbələk şəkilləri yalnız məlumat xarakterlidir — tanımadığınız " +
             "göbələkləri təyin etmək üçün onlardan istifadə etməyin!",
 
-    StringKey.SpeciesCollectionsTitle to "Göbələk kolleksiyaları",
+    StringKey.SpeciesCollectionsTitle to "Ölkələr üzrə göbələk kolleksiyaları",
     StringKey.SpeciesMyMushroomsTitle to "Əlavə edilmiş göbələklər",
     StringKey.SpeciesMyMushroomsEmpty to "Özünüzün əlavə etdiyiniz göbələklər burada görünəcək",
     StringKey.SpeciesAddButton to "Göbələk əlavə et",
@@ -46,6 +46,10 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Şəkillər",
     StringKey.SpeciesFormSaveButton to "Yadda saxla",
     StringKey.SpeciesFormCancelContentDescription to "Ləğv et",
+    StringKey.SpeciesCollectionDialogTitle to "Hansı kolleksiyaya?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Geri",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Kolleksiyaya yadda saxla",
+    StringKey.SpeciesCollectionNameIsCountry to "Bu, bir ölkənin adıdır — başqa ad seçin",
     StringKey.SpeciesListImportedLabel to "arxivdən",
     StringKey.SpeciesListEditContentDescription to "Redaktə et",
     StringKey.SpeciesListDeleteContentDescription to "Növü sil",
@@ -132,7 +136,8 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Digər",
     StringKey.CategoryUnknownMushroom to "Naməlum göbələk",
 
-    StringKey.CollectionPickerSearchHint to "Ölkə və ya göbələk axtar",
+    StringKey.CollectionOtherName to "Digərləri",
+    StringKey.CollectionPickerSearchHint to "Kolleksiya və ya göbələk axtar",
     StringKey.CollectionPickerMoreMatches to "Bütün uyğunluqlar göstərilmir — sorğunu dəqiqləşdirin",
     StringKey.LanguagePickerSearchHint to "Dil axtar",
     StringKey.LanguagePickerBackContentDescription to "Geri",

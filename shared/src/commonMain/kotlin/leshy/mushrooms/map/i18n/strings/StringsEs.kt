@@ -33,7 +33,7 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
         "Todas las imágenes de setas de la aplicación son solo ilustrativas: ¡no las use para " +
             "identificar setas desconocidas!",
 
-    StringKey.SpeciesCollectionsTitle to "Colecciones de setas",
+    StringKey.SpeciesCollectionsTitle to "Colecciones de setas por país",
     StringKey.SpeciesMyMushroomsTitle to "Setas añadidas",
     StringKey.SpeciesMyMushroomsEmpty to "Aquí aparecerán las setas que usted mismo añada",
     StringKey.SpeciesAddButton to "Añadir seta",
@@ -47,6 +47,10 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Imágenes",
     StringKey.SpeciesFormSaveButton to "Guardar",
     StringKey.SpeciesFormCancelContentDescription to "Cancelar",
+    StringKey.SpeciesCollectionDialogTitle to "¿En qué colección?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Atrás",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Guardar en la colección",
+    StringKey.SpeciesCollectionNameIsCountry to "Ese es el nombre de un país — elige otro",
     StringKey.SpeciesListImportedLabel to "del archivo",
     StringKey.SpeciesListEditContentDescription to "Editar",
     StringKey.SpeciesListDeleteContentDescription to "Eliminar especie",
@@ -136,7 +140,8 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Varios",
     StringKey.CategoryUnknownMushroom to "Seta desconocida",
 
-    StringKey.CollectionPickerSearchHint to "Buscar país o seta",
+    StringKey.CollectionOtherName to "Otras",
+    StringKey.CollectionPickerSearchHint to "Buscar colección o seta",
     StringKey.CollectionPickerMoreMatches to "No se muestran todas las coincidencias: precisa la búsqueda",
 
     StringKey.LanguagePickerSearchHint to "Buscar idioma",

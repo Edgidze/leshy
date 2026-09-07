@@ -30,7 +30,7 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.MushroomImagesDisclaimer to
         "앱의 모든 버섯 이미지는 참고용입니다 — 낯선 버섯을 식별하는 데 사용하지 마세요!",
 
-    StringKey.SpeciesCollectionsTitle to "버섯 컬렉션",
+    StringKey.SpeciesCollectionsTitle to "국가별 버섯 컬렉션",
     StringKey.SpeciesMyMushroomsTitle to "추가한 버섯",
     StringKey.SpeciesMyMushroomsEmpty to "직접 추가한 버섯이 여기에 표시됩니다",
     StringKey.SpeciesAddButton to "버섯 추가",
@@ -44,6 +44,10 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "도감",
     StringKey.SpeciesFormSaveButton to "저장",
     StringKey.SpeciesFormCancelContentDescription to "취소",
+    StringKey.SpeciesCollectionDialogTitle to "어느 컬렉션에?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "뒤로",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "컬렉션에 저장",
+    StringKey.SpeciesCollectionNameIsCountry to "국가 이름입니다. 다른 이름을 선택하세요",
     StringKey.SpeciesListImportedLabel to "아카이브에서",
     StringKey.SpeciesListEditContentDescription to "편집",
     StringKey.SpeciesListDeleteContentDescription to "종 삭제",
@@ -118,7 +122,8 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "기타",
     StringKey.CategoryUnknownMushroom to "알 수 없는 버섯",
 
-    StringKey.CollectionPickerSearchHint to "국가 또는 버섯 검색",
+    StringKey.CollectionOtherName to "기타",
+    StringKey.CollectionPickerSearchHint to "컬렉션 또는 버섯 검색",
     StringKey.CollectionPickerMoreMatches to "모든 결과가 표시되지는 않습니다 — 검색어를 좁혀 주세요",
 
     StringKey.LanguagePickerSearchHint to "언어 검색",

@@ -18,7 +18,7 @@ import leshy.mushrooms.map.data.local.entity.TrackPointEntity
 import leshy.mushrooms.map.data.local.entity.WalkEntity
 
 /**
- * Version 12 is the first published version — databases at versions 1-11 exist only on
+ * Version 12 was to be the first published version — databases at versions 1-12 exist only on
  * development machines, never outside of them.
  */
 @Database(
@@ -30,7 +30,7 @@ import leshy.mushrooms.map.data.local.entity.WalkEntity
         CollectionEntity::class,
         CategoryCollectionCrossRef::class,
     ],
-    version = 12,
+    version = 13,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)

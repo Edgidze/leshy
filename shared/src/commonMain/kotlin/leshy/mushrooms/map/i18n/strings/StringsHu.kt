@@ -37,7 +37,7 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
         "Az alkalmazásban látható gombaképek csak illusztrációk — ne használja őket ismeretlen " +
             "gombák meghatározására!",
 
-    StringKey.SpeciesCollectionsTitle to "Gombagyűjtemények",
+    StringKey.SpeciesCollectionsTitle to "Gombagyűjtemények országok szerint",
     StringKey.SpeciesMyMushroomsTitle to "Hozzáadott gombák",
     StringKey.SpeciesMyMushroomsEmpty to "Itt jelennek meg a saját maga által hozzáadott gombák",
     StringKey.SpeciesAddButton to "Gomba hozzáadása",
@@ -51,6 +51,10 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Képek",
     StringKey.SpeciesFormSaveButton to "Mentés",
     StringKey.SpeciesFormCancelContentDescription to "Mégse",
+    StringKey.SpeciesCollectionDialogTitle to "Melyik gyűjteménybe?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Vissza",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Mentés a gyűjteménybe",
+    StringKey.SpeciesCollectionNameIsCountry to "Ez egy ország neve — válassz másikat",
     StringKey.SpeciesListImportedLabel to "archívumból",
     StringKey.SpeciesListEditContentDescription to "Szerkesztés",
     StringKey.SpeciesListDeleteContentDescription to "Faj törlése",
@@ -141,7 +145,8 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Egyéb",
     StringKey.CategoryUnknownMushroom to "Ismeretlen gomba",
 
-    StringKey.CollectionPickerSearchHint to "Ország vagy gomba keresése",
+    StringKey.CollectionOtherName to "Egyéb",
+    StringKey.CollectionPickerSearchHint to "Gyűjtemény vagy gomba keresése",
     StringKey.CollectionPickerMoreMatches to "Nem látható minden találat — pontosítsa a keresést",
 
     StringKey.LanguagePickerSearchHint to "Nyelv keresése",

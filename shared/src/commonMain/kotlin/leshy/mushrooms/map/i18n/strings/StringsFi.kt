@@ -38,7 +38,7 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
         "Sovelluksen sienikuvat ovat vain havainnollistavia — älä käytä niitä tuntemattomien " +
             "sienten tunnistamiseen!",
 
-    StringKey.SpeciesCollectionsTitle to "Sienikokoelmat",
+    StringKey.SpeciesCollectionsTitle to "Sienikokoelmat maittain",
     StringKey.SpeciesMyMushroomsTitle to "Lisätyt sienet",
     StringKey.SpeciesMyMushroomsEmpty to "Tähän ilmestyvät itse lisäämäsi sienet",
     StringKey.SpeciesAddButton to "Lisää sieni",
@@ -52,6 +52,10 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Kuvat",
     StringKey.SpeciesFormSaveButton to "Tallenna",
     StringKey.SpeciesFormCancelContentDescription to "Peruuta",
+    StringKey.SpeciesCollectionDialogTitle to "Mihin kokoelmaan?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Takaisin",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Tallenna kokoelmaan",
+    StringKey.SpeciesCollectionNameIsCountry to "Tämä on maan nimi — valitse toinen",
     StringKey.SpeciesListImportedLabel to "arkistosta",
     StringKey.SpeciesListEditContentDescription to "Muokkaa",
     StringKey.SpeciesListDeleteContentDescription to "Poista laji",
@@ -139,7 +143,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Sekalaiset",
     StringKey.CategoryUnknownMushroom to "Tuntematon sieni",
 
-    StringKey.CollectionPickerSearchHint to "Hae maata tai sientä",
+    StringKey.CollectionOtherName to "Muut",
+    StringKey.CollectionPickerSearchHint to "Hae kokoelmaa tai sientä",
     StringKey.CollectionPickerMoreMatches to "Kaikkia osumia ei näytetä — tarkenna hakua",
 
     StringKey.LanguagePickerSearchHint to "Hae kieltä",

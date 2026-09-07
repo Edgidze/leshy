@@ -34,7 +34,7 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
         "Wszystkie zdjęcia grzybów w aplikacji są poglądowe — nie używaj ich do identyfikacji " +
             "nieznanych grzybów!",
 
-    StringKey.SpeciesCollectionsTitle to "Zestawy grzybów",
+    StringKey.SpeciesCollectionsTitle to "Zestawy grzybów według krajów",
     StringKey.SpeciesMyMushroomsTitle to "Dodane grzyby",
     StringKey.SpeciesMyMushroomsEmpty to "Tutaj pojawią się grzyby, które sam dodasz",
     StringKey.SpeciesAddButton to "Dodaj grzyb",
@@ -48,6 +48,10 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Obrazy",
     StringKey.SpeciesFormSaveButton to "Zapisz",
     StringKey.SpeciesFormCancelContentDescription to "Anuluj",
+    StringKey.SpeciesCollectionDialogTitle to "Do którego zestawu?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Wstecz",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Zapisz w zestawie",
+    StringKey.SpeciesCollectionNameIsCountry to "To nazwa kraju — wybierz inną",
     StringKey.SpeciesListImportedLabel to "z archiwum",
     StringKey.SpeciesListEditContentDescription to "Edytuj",
     StringKey.SpeciesListDeleteContentDescription to "Usuń gatunek",
@@ -134,7 +138,8 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Inne",
     StringKey.CategoryUnknownMushroom to "Nieznany grzyb",
 
-    StringKey.CollectionPickerSearchHint to "Szukaj kraju lub grzyba",
+    StringKey.CollectionOtherName to "Pozostałe",
+    StringKey.CollectionPickerSearchHint to "Szukaj zestawu lub grzyba",
     StringKey.CollectionPickerMoreMatches to "Nie pokazano wszystkich wyników — doprecyzuj zapytanie",
 
     StringKey.LanguagePickerSearchHint to "Szukaj języka",

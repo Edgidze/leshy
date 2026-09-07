@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.CategorySource
+import leshy.mushrooms.map.domain.model.CollectionSource
 import leshy.mushrooms.map.domain.repository.CategoryRepository
 import leshy.mushrooms.map.domain.repository.CollectionRepository
 import leshy.mushrooms.map.domain.repository.SettingsRepository
@@ -18,6 +19,8 @@ import leshy.mushrooms.map.domain.usecase.ToggleUserSpeciesVisibilityUseCase
 import leshy.mushrooms.map.presentation.CollectionPickState
 import leshy.mushrooms.map.presentation.CollectionPickerItem
 import leshy.mushrooms.map.presentation.buildCollectionPickerItems
+import leshy.mushrooms.map.presentation.UserSpeciesGroup
+import leshy.mushrooms.map.presentation.buildUserSpeciesGroups
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -61,17 +64,27 @@ class SpeciesViewModel(
                 categoryRepository.observeAll(),
                 collectionRepository.observeAllMemberships(),
             ) { collections, categories, memberships ->
-                buildCollectionPickerItems(collections, categories, memberships)
+                // Пользовательские подборки в этот пикер не идут: он про страновые пресеты и
+                // стоит в блоке «Подборки грибов по странам», а свои подборки — своим блоком
+                // ниже. Тот же пикер в онбординге тоже обязан остаться страновым.
+                val countries = collections.filter { it.source == CollectionSource.COUNTRY }
+                buildCollectionPickerItems(countries, categories, memberships)
             }.collect { items ->
                 _uiState.update { it.copy(collectionPickerItems = items) }
             }
         }
         viewModelScope.launch {
-            categoryRepository.observeNonCatalog().collect { species ->
+            combine(
+                categoryRepository.observeNonCatalog(),
+                collectionRepository.observeAll(),
+                collectionRepository.observeAllMemberships(),
+            ) { species, collections, memberships ->
                 val ordered = species.sortedWith(compareBy({ it.source != CategorySource.USER }, { it.order }))
+                ordered to buildUserSpeciesGroups(collections, memberships, ordered)
+            }.collect { (ordered, groups) ->
                 // isLoading снимается именно этим сборщиком: он единственный кормит список
                 // «моих грибов», у которого есть пустое состояние.
-                _uiState.update { it.copy(userSpecies = ordered, isLoading = false) }
+                _uiState.update { it.copy(userSpecies = ordered, userGroups = groups, isLoading = false) }
             }
         }
         viewModelScope.launch {
@@ -86,6 +99,17 @@ class SpeciesViewModel(
     fun toggleCollection(item: CollectionPickerItem) {
         val picked = item.pickState != CollectionPickState.ALL
         viewModelScope.launch { setCollectionPickedUseCase(item.collection.id, picked) }
+    }
+
+    /** То же правило, что у страновых подборок в [toggleCollection]: снимает выбор только
+     * подборка, выбранная целиком. */
+    fun toggleUserCollection(group: UserSpeciesGroup) {
+        val picked = !group.species.all { it.isPicked }
+        viewModelScope.launch { setCollectionPickedUseCase(group.collection.id, picked) }
+    }
+
+    fun onCollectionQueryChange(query: String) {
+        _uiState.update { it.copy(collectionQuery = query) }
     }
 
     fun setCategoryPicked(category: Category, picked: Boolean) {
@@ -118,10 +142,19 @@ class SpeciesViewModel(
         scientificNameInput: String?,
         colorHex: String,
         iconPngBytes: ByteArray?,
+        collectionName: String,
     ) {
         val language = _uiState.value.language
         viewModelScope.launch {
-            createOrUpdateUserSpecies(existing, name, scientificNameInput, language, colorHex, iconPngBytes)
+            createOrUpdateUserSpecies(
+                existing,
+                name,
+                scientificNameInput,
+                language,
+                colorHex,
+                iconPngBytes,
+                collectionName,
+            )
         }
     }
 }

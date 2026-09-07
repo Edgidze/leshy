@@ -32,7 +32,7 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
         "Uygulamadaki tüm mantar görselleri bilgilendirme amaçlıdır — tanımadığınız mantarları " +
             "belirlemek için kullanmayın!",
 
-    StringKey.SpeciesCollectionsTitle to "Mantar koleksiyonları",
+    StringKey.SpeciesCollectionsTitle to "Ülkelere göre mantar koleksiyonları",
     StringKey.SpeciesMyMushroomsTitle to "Eklenen mantarlar",
     StringKey.SpeciesMyMushroomsEmpty to "Kendiniz eklediğiniz mantarlar burada görünecek",
     StringKey.SpeciesAddButton to "Mantar ekle",
@@ -46,6 +46,10 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Katalog",
     StringKey.SpeciesFormSaveButton to "Kaydet",
     StringKey.SpeciesFormCancelContentDescription to "İptal",
+    StringKey.SpeciesCollectionDialogTitle to "Hangi koleksiyona?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Geri",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Koleksiyona kaydet",
+    StringKey.SpeciesCollectionNameIsCountry to "Bu bir ülke adı — başka bir ad seçin",
     StringKey.SpeciesListImportedLabel to "arşivden",
     StringKey.SpeciesListEditContentDescription to "Düzenle",
     StringKey.SpeciesListDeleteContentDescription to "Türü sil",
@@ -132,7 +136,8 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Diğer",
     StringKey.CategoryUnknownMushroom to "Bilinmeyen mantar",
 
-    StringKey.CollectionPickerSearchHint to "Ülke veya mantar ara",
+    StringKey.CollectionOtherName to "Diğerleri",
+    StringKey.CollectionPickerSearchHint to "Koleksiyon veya mantar ara",
     StringKey.CollectionPickerMoreMatches to "Tüm sonuçlar gösterilmiyor — aramayı daraltın",
 
     StringKey.LanguagePickerSearchHint to "Dil ara",

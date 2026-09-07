@@ -36,7 +36,7 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
         "Ilovadagi barcha qoʻziqorin rasmlari faqat maʼlumot uchun — notanish qoʻziqorinni " +
             "aniqlash uchun ulardan foydalanmang!",
 
-    StringKey.SpeciesCollectionsTitle to "Qoʻziqorin toʻplamlari",
+    StringKey.SpeciesCollectionsTitle to "Davlatlar boʻyicha qoʻziqorin toʻplamlari",
     StringKey.SpeciesMyMushroomsTitle to "Qoʻshilgan qoʻziqorinlar",
     StringKey.SpeciesMyMushroomsEmpty to "Oʻzingiz qoʻshgan qoʻziqorinlar shu yerda koʻrinadi",
     StringKey.SpeciesAddButton to "Qoʻziqorin qoʻshish",
@@ -50,6 +50,10 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.SpeciesFormPickCatalogButton to "Rasmlar",
     StringKey.SpeciesFormSaveButton to "Saqlash",
     StringKey.SpeciesFormCancelContentDescription to "Bekor qilish",
+    StringKey.SpeciesCollectionDialogTitle to "Qaysi toʻplamga?",
+    StringKey.SpeciesCollectionDialogBackContentDescription to "Orqaga",
+    StringKey.SpeciesCollectionDialogSaveContentDescription to "Toʻplamga saqlash",
+    StringKey.SpeciesCollectionNameIsCountry to "Bu davlat nomi — boshqa nom tanlang",
     StringKey.SpeciesListImportedLabel to "arxivdan",
     StringKey.SpeciesListEditContentDescription to "Tahrirlash",
     StringKey.SpeciesListDeleteContentDescription to "Turni oʻchirish",
@@ -141,7 +145,8 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Boshqa",
     StringKey.CategoryUnknownMushroom to "Nomaʼlum qoʻziqorin",
 
-    StringKey.CollectionPickerSearchHint to "Davlat yoki qoʻziqorinni qidirish",
+    StringKey.CollectionOtherName to "Boshqalar",
+    StringKey.CollectionPickerSearchHint to "Toʻplam yoki qoʻziqorinni qidirish",
     StringKey.CollectionPickerMoreMatches to "Barcha mosliklar koʻrsatilmagan — soʻrovni aniqlashtiring",
     StringKey.LanguagePickerSearchHint to "Tilni qidirish",
     StringKey.LanguagePickerBackContentDescription to "Orqaga",

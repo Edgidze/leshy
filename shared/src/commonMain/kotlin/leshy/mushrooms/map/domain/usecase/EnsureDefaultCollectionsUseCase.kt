@@ -5,6 +5,7 @@ import leshy.mushrooms.map.data.catalog.countryCodeForCollectionNameKey
 import leshy.mushrooms.map.data.catalog.countryCollectionNameKey
 import leshy.mushrooms.map.domain.model.CategoryCollectionMembership
 import leshy.mushrooms.map.domain.model.Collection
+import leshy.mushrooms.map.domain.model.CollectionSource
 import leshy.mushrooms.map.domain.repository.CatalogStateRepository
 import leshy.mushrooms.map.domain.repository.CategoryRepository
 import leshy.mushrooms.map.domain.repository.CollectionRepository
@@ -31,14 +32,23 @@ class EnsureDefaultCollectionsUseCase(
         val countries = countriesSource.entries
 
         // Fast path — see EnsureDefaultCategoriesUseCase for why the row-count check matters too.
+        // Считаются именно страновые строки: с появлением пользовательских подборок
+        // (`.claude/plans/user-collections.md`) общий COUNT(*) перестал означать «все пресеты на
+        // месте» — десяток своих подборок перекрыл бы недостачу стран, и вторая половина гейта
+        // молча перестала бы работать.
         if (catalogStateRepository.getSeededCountriesVersion() == countriesSource.version &&
-            collectionRepository.count() >= countries.size
+            collectionRepository.countBySource(CollectionSource.COUNTRY) >= countries.size
         ) {
             return
         }
 
         val desired = countries.mapIndexed { index, country ->
-            Collection(id = 0, nameKey = countryCollectionNameKey(country.code), order = index)
+            Collection(
+                id = 0,
+                nameKey = countryCollectionNameKey(country.code),
+                order = index,
+                source = CollectionSource.COUNTRY,
+            )
         }
         val existingByNameKey = collectionRepository.getAll().associateBy { it.nameKey }
         val pending = desired.mapNotNull { canonical ->
