@@ -5,6 +5,7 @@ import leshy.mushrooms.map.domain.usecase.AddPlaceMarkUseCase
 import leshy.mushrooms.map.domain.usecase.BackfillWalkThumbnailsUseCase
 import leshy.mushrooms.map.domain.usecase.CreateOrUpdateUserSpeciesUseCase
 import leshy.mushrooms.map.domain.usecase.DeletePlaceMarkUseCase
+import leshy.mushrooms.map.domain.usecase.DeleteWalkUseCase
 import leshy.mushrooms.map.domain.usecase.DeleteUserSpeciesUseCase
 import leshy.mushrooms.map.domain.usecase.EnsureDefaultCategoriesUseCase
 import leshy.mushrooms.map.domain.usecase.EnsureDefaultCollectionsUseCase
@@ -48,6 +49,7 @@ val domainModule = module {
     factory { AddPlaceMarkUseCase(get(), get()) }
     factory { UpdatePlaceMarkUseCase(get()) }
     factory { DeletePlaceMarkUseCase(get()) }
+    factory { DeleteWalkUseCase(get(), get()) }
     factory { ExportDataUseCase(get(), get(), get(), get(), get()) }
     factory { ValidateImportArchiveUseCase() }
     factory { ImportDataUseCase(get(), get(), get(), get(), get(), get()) }

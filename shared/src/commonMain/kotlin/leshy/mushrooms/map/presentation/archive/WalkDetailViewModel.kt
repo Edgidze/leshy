@@ -10,14 +10,13 @@ import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
 import leshy.mushrooms.map.domain.usecase.DeletePlaceMarkUseCase
+import leshy.mushrooms.map.domain.usecase.DeleteWalkUseCase
 import leshy.mushrooms.map.domain.usecase.UpdatePlaceMarkUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import okio.FileSystem
-import okio.Path.Companion.toPath
 
 class WalkDetailViewModel(
     private val walkId: Long,
@@ -27,7 +26,7 @@ class WalkDetailViewModel(
     categoryRepository: CategoryRepository,
     private val updatePlaceMark: UpdatePlaceMarkUseCase,
     private val deletePlaceMark: DeletePlaceMarkUseCase,
-    private val fileSystem: FileSystem = FileSystem.SYSTEM,
+    private val deleteWalk: DeleteWalkUseCase,
 ) : ViewModel() {
 
     private val showDeleteConfirmation = MutableStateFlow(false)
@@ -98,19 +97,10 @@ class WalkDetailViewModel(
     fun onDeleteConfirm() {
         viewModelScope.launch {
             showDeleteConfirmation.value = false
-            val walk = _uiState.value.walk
-            // Room's ON DELETE CASCADE on walkId only removes the `objects`/`track_points` rows,
-            // not the photo/thumbnail files they point at — collect those paths before the delete,
-            // a cascading DELETE doesn't return the rows it removes.
-            val orphanedPhotoPaths = _uiState.value.marks.mapNotNull { it.photoPath } +
-                listOfNotNull(walk?.thumbnailPath)
-            if (walk != null) {
-                walkRepository.delete(walk)
-                for (photoPath in orphanedPhotoPaths) {
-                    // Best-effort: a leftover file is harmless, a failed cleanup shouldn't surface as an error.
-                    runCatching { fileSystem.delete(photoPath.toPath()) }
-                }
-            }
+            // Удаление вместе с файлами фотографий и миниатюрой — [DeleteWalkUseCase], общий с
+            // массовым удалением из «Архива» (раньше уборка файлов жила здесь, и второй путь её
+            // не делал).
+            _uiState.value.walk?.let { deleteWalk(it) }
             deleted.value = true
         }
     }

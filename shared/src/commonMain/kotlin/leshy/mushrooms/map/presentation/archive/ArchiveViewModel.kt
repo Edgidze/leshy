@@ -11,6 +11,7 @@ import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
 import leshy.mushrooms.map.domain.usecase.BackfillWalkThumbnailsUseCase
+import leshy.mushrooms.map.domain.usecase.DeleteWalkUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,6 +31,7 @@ class ArchiveViewModel(
     private val trackPointRepository: TrackPointRepository,
     private val fieldMarkRepository: FieldMarkRepository,
     private val backfillWalkThumbnails: BackfillWalkThumbnailsUseCase,
+    private val deleteWalk: DeleteWalkUseCase,
 ) : ViewModel() {
 
     // UI-only flags, combined with the Room-backed item list in a second combine() below — kept
@@ -116,9 +118,12 @@ class ArchiveViewModel(
         viewModelScope.launch {
             showDeleteConfirmation.value = false
             val idsToDelete = selectedWalkIds.value
+            // Через [DeleteWalkUseCase], а не голым `walkRepository.delete`: массовое удаление
+            // обязано уносить фотографии и миниатюры так же, как удаление одной прогулки с её
+            // экрана, — разбор в KDoc use case'а.
             _uiState.value.items
                 .filter { it.walk.id in idsToDelete }
-                .forEach { walkRepository.delete(it.walk) }
+                .forEach { deleteWalk(it.walk) }
             selectedWalkIds.value = emptySet()
         }
     }
