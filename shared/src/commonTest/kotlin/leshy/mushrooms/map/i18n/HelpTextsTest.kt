@@ -10,10 +10,11 @@ import kotlin.test.assertTrue
  * exhaustive-`when` completeness check for every [AppLanguage] beyond `ru`/`en`, so the check runs
  * here instead.
  *
- * Unlike `StringsTest`, both completeness tests carry real load right now — help texts exist for `ru`/`en` only,
- * so [everyKeyFallsBackToEnglishForUntranslatedLanguages] covers 24 languages today and shrinks by
- * one with every translation pass (`.claude/plans/help-screens.md`), while
- * [everyHelpTranslationMapIsCompleteAndNonBlank] starts empty and grows to meet it.
+ * Both tests now carry the same load `StringsTest` does: every non-ru/en language has its own table
+ * (`.claude/plans/help-screens.md`), so [everyHelpTranslationMapIsCompleteAndNonBlank] checks all 40
+ * of them and [everyKeyFallsBackToEnglishForUntranslatedLanguages] covers nobody — it stays as the
+ * guard for a 41st language added before its file is written, exactly like the `?: englishHelpTexts`
+ * fallback it mirrors.
  */
 class HelpTextsTest {
     @Test

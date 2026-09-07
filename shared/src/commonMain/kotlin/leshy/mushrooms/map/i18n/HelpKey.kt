@@ -9,10 +9,11 @@ package leshy.mushrooms.map.i18n
  *    [HelpKey] is a block of prose that has to be read whole to be judged. Keeping them apart
  *    means a translation session can take one language's help texts (`i18n/help/HelpTexts<Xx>.kt`,
  *    one file) without diffing them out of a 310-line file of unrelated short strings.
- * 2. **Independent completeness.** `uiTranslations` is complete for all non-ru/en languages and
- *    `StringsTest` asserts exactly that; help texts start out translated for `ru`/`en` only. Mixed
- *    into [StringKey] they would turn that assertion red for every language at once, with no way to
- *    tell a genuinely missing UI string from a help block still awaiting its translation pass.
+ * 2. **Independent completeness.** Both tables are complete today, but they got there separately:
+ *    help texts were written for `ru`/`en` first and translated language by language afterwards.
+ *    Mixed into [StringKey] that intermediate state would have turned `StringsTest` red for every
+ *    language at once, with no way to tell a genuinely missing UI string from a help block still
+ *    awaiting its pass — and the next batch of blocks would do it again.
  * 3. **The English fallback is honest here.** A missing help block degrades to English prose the
  *    reader can still act on ([helpText]); the same fallback for a lone button label inside an
  *    otherwise translated screen would just look broken.

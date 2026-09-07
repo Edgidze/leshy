@@ -2,6 +2,46 @@ package leshy.mushrooms.map.i18n
 
 import androidx.compose.runtime.Composable
 import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.i18n.help.albanianHelpTexts
+import leshy.mushrooms.map.i18n.help.armenianHelpTexts
+import leshy.mushrooms.map.i18n.help.azerbaijaniHelpTexts
+import leshy.mushrooms.map.i18n.help.belarusianHelpTexts
+import leshy.mushrooms.map.i18n.help.bosnianHelpTexts
+import leshy.mushrooms.map.i18n.help.bulgarianHelpTexts
+import leshy.mushrooms.map.i18n.help.croatianHelpTexts
+import leshy.mushrooms.map.i18n.help.czechHelpTexts
+import leshy.mushrooms.map.i18n.help.danishHelpTexts
+import leshy.mushrooms.map.i18n.help.dutchHelpTexts
+import leshy.mushrooms.map.i18n.help.estonianHelpTexts
+import leshy.mushrooms.map.i18n.help.finnishHelpTexts
+import leshy.mushrooms.map.i18n.help.frenchHelpTexts
+import leshy.mushrooms.map.i18n.help.georgianHelpTexts
+import leshy.mushrooms.map.i18n.help.germanHelpTexts
+import leshy.mushrooms.map.i18n.help.greekHelpTexts
+import leshy.mushrooms.map.i18n.help.hungarianHelpTexts
+import leshy.mushrooms.map.i18n.help.icelandicHelpTexts
+import leshy.mushrooms.map.i18n.help.italianHelpTexts
+import leshy.mushrooms.map.i18n.help.japaneseHelpTexts
+import leshy.mushrooms.map.i18n.help.kazakhHelpTexts
+import leshy.mushrooms.map.i18n.help.koreanHelpTexts
+import leshy.mushrooms.map.i18n.help.kyrgyzHelpTexts
+import leshy.mushrooms.map.i18n.help.latvianHelpTexts
+import leshy.mushrooms.map.i18n.help.lithuanianHelpTexts
+import leshy.mushrooms.map.i18n.help.macedonianHelpTexts
+import leshy.mushrooms.map.i18n.help.norwegianHelpTexts
+import leshy.mushrooms.map.i18n.help.polishHelpTexts
+import leshy.mushrooms.map.i18n.help.portugueseHelpTexts
+import leshy.mushrooms.map.i18n.help.romanianHelpTexts
+import leshy.mushrooms.map.i18n.help.serbianHelpTexts
+import leshy.mushrooms.map.i18n.help.slovakHelpTexts
+import leshy.mushrooms.map.i18n.help.slovenianHelpTexts
+import leshy.mushrooms.map.i18n.help.spanishHelpTexts
+import leshy.mushrooms.map.i18n.help.swedishHelpTexts
+import leshy.mushrooms.map.i18n.help.tajikHelpTexts
+import leshy.mushrooms.map.i18n.help.turkishHelpTexts
+import leshy.mushrooms.map.i18n.help.turkmenHelpTexts
+import leshy.mushrooms.map.i18n.help.ukrainianHelpTexts
+import leshy.mushrooms.map.i18n.help.uzbekHelpTexts
 
 /**
  * Resolves one help block, mirroring [string] exactly: `ru`/`en` are exhaustive `when` branches so
@@ -30,12 +70,55 @@ fun helpResource(key: HelpKey): String = helpText(key, LocalAppLanguage.current)
  * .kt` file each — the help-text twin of `uiTranslations` (`Strings.kt`) and, like it, checked for
  * completeness by a `commonTest` rather than by the compiler.
  *
- * **Currently empty on purpose**: the Russian and English texts below are reviewed first, and only
- * then translated language by language (`.claude/plans/help-screens.md`). Until a language lands
- * here its help screen shows [englishHelpTexts]. `internal` so `HelpTextsTest` can assert against
- * it.
+ * **This map is complete**: all 40 non-ru/en [AppLanguage] values have a table, so the `else`
+ * branch of [helpText] reaches real prose for every language and the English fallback is now only
+ * the safety net for a 43rd language added before its own file is written. Order mirrors
+ * `uiTranslations` — same languages, same batches, easier to diff the two side by side.
+ *
+ * `internal` so `HelpTextsTest` can assert against it.
  */
-internal val helpTranslations: Map<AppLanguage, Map<HelpKey, String>> = emptyMap()
+internal val helpTranslations: Map<AppLanguage, Map<HelpKey, String>> = mapOf(
+    AppLanguage.AZ to azerbaijaniHelpTexts,
+    AppLanguage.HY to armenianHelpTexts,
+    AppLanguage.KK to kazakhHelpTexts,
+    AppLanguage.KY to kyrgyzHelpTexts,
+    AppLanguage.TG to tajikHelpTexts,
+    AppLanguage.TK to turkmenHelpTexts,
+    AppLanguage.UZ to uzbekHelpTexts,
+    AppLanguage.DE to germanHelpTexts,
+    AppLanguage.FR to frenchHelpTexts,
+    AppLanguage.ES to spanishHelpTexts,
+    AppLanguage.IT to italianHelpTexts,
+    AppLanguage.PL to polishHelpTexts,
+    AppLanguage.CS to czechHelpTexts,
+    AppLanguage.UK to ukrainianHelpTexts,
+    AppLanguage.SV to swedishHelpTexts,
+    AppLanguage.JA to japaneseHelpTexts,
+    AppLanguage.KO to koreanHelpTexts,
+    AppLanguage.TR to turkishHelpTexts,
+    AppLanguage.RO to romanianHelpTexts,
+    AppLanguage.BE to belarusianHelpTexts,
+    AppLanguage.BG to bulgarianHelpTexts,
+    AppLanguage.SR to serbianHelpTexts,
+    AppLanguage.HR to croatianHelpTexts,
+    AppLanguage.SK to slovakHelpTexts,
+    AppLanguage.SL to slovenianHelpTexts,
+    AppLanguage.HU to hungarianHelpTexts,
+    AppLanguage.FI to finnishHelpTexts,
+    AppLanguage.LT to lithuanianHelpTexts,
+    AppLanguage.LV to latvianHelpTexts,
+    AppLanguage.ET to estonianHelpTexts,
+    AppLanguage.KA to georgianHelpTexts,
+    AppLanguage.BS to bosnianHelpTexts,
+    AppLanguage.DA to danishHelpTexts,
+    AppLanguage.EL to greekHelpTexts,
+    AppLanguage.IS to icelandicHelpTexts,
+    AppLanguage.MK to macedonianHelpTexts,
+    AppLanguage.NB to norwegianHelpTexts,
+    AppLanguage.NL to dutchHelpTexts,
+    AppLanguage.PT to portugueseHelpTexts,
+    AppLanguage.SQ to albanianHelpTexts,
+)
 
 /**
  * Русский оригинал справки. Один ключ — один блок: картинка элемента интерфейса
