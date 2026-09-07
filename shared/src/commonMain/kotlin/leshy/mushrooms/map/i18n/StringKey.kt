@@ -70,6 +70,11 @@ enum class StringKey {
     WelcomeHelpText,
     WelcomeMenuTitle,
     WelcomeMenuText,
+    WelcomeConsentTitle,
+    WelcomeConsentIntro,
+    WelcomeConsentImages,
+    WelcomeConsentEating,
+    WelcomeConsentWarning,
     WelcomeNextButton,
 
     LegalTitle,

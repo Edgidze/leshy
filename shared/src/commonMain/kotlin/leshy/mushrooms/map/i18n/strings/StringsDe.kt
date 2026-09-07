@@ -92,6 +92,20 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Alles Weitere steht im Menü",
     StringKey.WelcomeMenuText to
         "Die Menü-Schaltfläche oben links öffnet die Liste aller Bereiche und Möglichkeiten der App.",
+    StringKey.WelcomeConsentTitle to "Bevor Sie loslegen",
+    StringKey.WelcomeConsentIntro to
+        "Bevor Sie zur App selbst übergehen, müssen Sie den folgenden Aussagen zustimmen:",
+    StringKey.WelcomeConsentImages to
+        "Sie werden nicht versuchen, Pilze anhand der Bilder aus der App zu bestimmen. Die Bilder sind " +
+            "Illustrationen und kein geprüftes Bestimmungsbuch.",
+    StringKey.WelcomeConsentEating to
+        "Sie werden unter keinen Umständen Pilze essen, die Sie nicht kennen. Pilze können ungenießbar und auch " +
+            "giftig sein. Am besten — holen Sie jemanden dazu, der sich mit den Pilzen Ihrer Gegend auskennt, um zu " +
+            "erfahren, welche Pilze gesammelt werden dürfen und wie sie danach zubereitet werden müssen.",
+    StringKey.WelcomeConsentWarning to
+        "Um fortzufahren, müssen Sie den Aussagen oben zustimmen und die Kästchen vor den Aussagen ankreuzen, denen " +
+            "Sie zustimmen",
+
     StringKey.WelcomeNextButton to "Weiter",
 
     StringKey.LegalTitle to "Nutzungsbedingungen und Datenschutz",

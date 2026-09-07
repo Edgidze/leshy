@@ -92,6 +92,20 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Reszta jest w menu",
     StringKey.WelcomeMenuText to
         "Przycisk menu w lewym górnym rogu otwiera listę wszystkich sekcji i możliwości aplikacji.",
+    StringKey.WelcomeConsentTitle to "Zanim zaczniesz",
+    StringKey.WelcomeConsentIntro to
+        "Przed przejściem do samej aplikacji trzeba zgodzić się z poniższymi stwierdzeniami:",
+    StringKey.WelcomeConsentImages to
+        "Nie będziesz próbować rozpoznawać grzybów po obrazkach z aplikacji. Obrazki pełnią rolę ilustracji i nie " +
+            "są sprawdzonym atlasem grzybów.",
+    StringKey.WelcomeConsentEating to
+        "W żadnym wypadku nie zjesz grzybów, których nie znasz. Grzyby mogą być niejadalne, a mogą być i trujące. " +
+            "Najlepiej — poproś kogoś, kto zna się na grzybach w twojej okolicy, żeby dowiedzieć się, które grzyby " +
+            "wolno zbierać i jak trzeba je potem przyrządzić.",
+    StringKey.WelcomeConsentWarning to
+        "Aby kontynuować, trzeba zgodzić się z powyższymi stwierdzeniami, zaznaczając pola przy tych " +
+            "stwierdzeniach, z którymi się zgadzasz",
+
     StringKey.WelcomeNextButton to "Dalej",
 
     StringKey.LegalTitle to "Regulamin i prywatność",

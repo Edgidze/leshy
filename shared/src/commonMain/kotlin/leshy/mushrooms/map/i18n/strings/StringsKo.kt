@@ -84,6 +84,14 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeHelpText to "오른쪽 위의 ‘?’ 버튼은 모든 섹션에 있으며 해당 섹션이 어떻게 구성되어 있는지 설명합니다.",
     StringKey.WelcomeMenuTitle to "나머지는 메뉴에 있습니다",
     StringKey.WelcomeMenuText to "왼쪽 위의 메뉴 버튼을 누르면 앱의 모든 섹션과 기능 목록이 열립니다.",
+    StringKey.WelcomeConsentTitle to "사용하기 전에",
+    StringKey.WelcomeConsentIntro to "앱 자체로 넘어가기 전에 다음 내용에 동의해야 합니다.",
+    StringKey.WelcomeConsentImages to "앱의 그림으로 버섯을 판별하려 하지 않겠습니다. 그림은 삽화 역할을 할 뿐이며 검증된 도감이 아닙니다.",
+    StringKey.WelcomeConsentEating to
+        "어떤 경우에도 모르는 버섯은 먹지 않겠습니다. 버섯은 먹을 수 없을 수도 있고 독이 있을 수도 있습니다. 가장 좋은 방법은 사는 지역의 버섯을 잘 아는 사람을 불러, 어떤 버섯을 채취해도 " +
+            "되는지와 채취한 뒤 어떻게 조리해야 하는지를 알아보는 것입니다.",
+    StringKey.WelcomeConsentWarning to "계속하려면 위 내용에 동의해야 합니다. 동의하는 항목 앞의 체크박스에 표시해 주세요",
+
     StringKey.WelcomeNextButton to "다음",
 
     StringKey.LegalTitle to "약관 및 개인정보",

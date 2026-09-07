@@ -93,6 +93,20 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Ostatné je v ponuke",
     StringKey.WelcomeMenuText to
         "Tlačidlo ponuky vľavo hore otvorí zoznam všetkých sekcií a možností aplikácie.",
+    StringKey.WelcomeConsentTitle to "Skôr než začnete",
+    StringKey.WelcomeConsentIntro to
+        "Pred prechodom k samotnej aplikácii musíte súhlasiť s nasledujúcimi tvrdeniami:",
+    StringKey.WelcomeConsentImages to
+        "Nebudete sa pokúšať určovať huby podľa obrázkov z aplikácie. Obrázky slúžia ako ilustrácie a nie sú " +
+            "overeným atlasom húb.",
+    StringKey.WelcomeConsentEating to
+        "Za žiadnych okolností nebudete jesť huby, ktoré nepoznáte. Huby môžu byť nejedlé a môžu byť aj jedovaté. " +
+            "Najlepšie — zavolajte niekoho, kto sa vyzná v hubách vo vašom okolí, aby ste zistili, ktoré huby sa " +
+            "smú zbierať a ako ich treba potom pripraviť.",
+    StringKey.WelcomeConsentWarning to
+        "Ak chcete pokračovať, musíte súhlasiť s tvrdeniami vyššie a začiarknuť políčka pred tými tvrdeniami, s " +
+            "ktorými súhlasíte",
+
     StringKey.WelcomeNextButton to "Ďalej",
 
     StringKey.LegalTitle to "Podmienky a súkromie",

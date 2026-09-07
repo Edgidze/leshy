@@ -26,5 +26,25 @@ data class OnboardingUiState(
      */
     val languageReturnStep: OnboardingStep = OnboardingStep.WELCOME,
     val language: AppLanguage = AppLanguage.EN,
+    /**
+     * Галочки блока «Перед использованием» на обзорной странице: «не определяю грибы по картинкам»
+     * и «не ем незнакомые грибы». Обе обязательны — пока хоть одна снята, «Дальше» не уводит с
+     * экрана, а прокручивает страницу к самому блоку и показывает предупреждение
+     * ([consentReminderCount]).
+     *
+     * Живут в состоянии онбординга, а не в DataStore: экран показывается ровно один раз за
+     * установку, и единственное, что должно пережить перезапуск, — уже существующий флаг
+     * завершения онбординга (см. [OnboardingViewModel.finish]). Возврат сюда системной «назад» с
+     * соглашения галочки сохраняет — ViewModel живёт всё время онбординга.
+     */
+    val consentImagesAccepted: Boolean = false,
+    val consentEatingAccepted: Boolean = false,
+    /**
+     * Сколько раз нажали «Дальше» с неполным согласием; `0` — предупреждения нет. Счётчик, а не
+     * флаг: каждый повторный промах обязан заново прокрутить страницу к галочкам, а повторное
+     * присвоение `true` тому же флагу состояние не меняет и `LaunchedEffect` в
+     * [leshy.mushrooms.map.ui.screens.WelcomeScreen] не перезапускает.
+     */
+    val consentReminderCount: Int = 0,
     val collectionPickerItems: List<CollectionPickerItem> = emptyList(),
 )

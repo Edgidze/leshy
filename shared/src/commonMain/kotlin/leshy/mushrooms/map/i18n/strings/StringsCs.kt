@@ -93,6 +93,19 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Ostatní je v nabídce",
     StringKey.WelcomeMenuText to
         "Tlačítko nabídky vlevo nahoře otevře seznam všech sekcí a možností aplikace.",
+    StringKey.WelcomeConsentTitle to "Než začnete",
+    StringKey.WelcomeConsentIntro to "Než přejdete k samotné aplikaci, musíte souhlasit s následujícími tvrzeními:",
+    StringKey.WelcomeConsentImages to
+        "Nebudete se pokoušet určovat houby podle obrázků z aplikace. Obrázky slouží jako ilustrace a nejsou " +
+            "ověřeným atlasem hub.",
+    StringKey.WelcomeConsentEating to
+        "Za žádných okolností nebudete jíst houby, které neznáte. Houby mohou být nejedlé a mohou být i jedovaté. " +
+            "Nejlépe — zavolejte někoho, kdo se vyzná v houbách ve vašem okolí, abyste zjistili, které houby se " +
+            "smějí sbírat a jak je poté třeba připravit.",
+    StringKey.WelcomeConsentWarning to
+        "Chcete-li pokračovat, musíte souhlasit s tvrzeními výše a zaškrtnout políčka před těmi tvrzeními, se " +
+            "kterými souhlasíte",
+
     StringKey.WelcomeNextButton to "Dále",
 
     StringKey.LegalTitle to "Podmínky a soukromí",

@@ -82,6 +82,12 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeHelpText to "右上の「?」ボタンはどの画面にもあり、その画面の仕組みを説明します。",
     StringKey.WelcomeMenuTitle to "残りはメニューの中に",
     StringKey.WelcomeMenuText to "左上のメニューボタンから、アプリのすべての画面と機能の一覧を開けます。",
+    StringKey.WelcomeConsentTitle to "ご利用の前に",
+    StringKey.WelcomeConsentIntro to "アプリそのものに進む前に、次の内容に同意していただく必要があります。",
+    StringKey.WelcomeConsentImages to "アプリの画像でキノコを見分けようとはしないこと。画像はイラストとしての役割であり、検証済みの図鑑ではありません。",
+    StringKey.WelcomeConsentEating to "知らないキノコは、どんな場合でも口にしないこと。キノコは食べられないこともあれば、毒を持つこともあります。いちばんよいのは、お住まいの地域のキノコに詳しい人に来てもらい、採ってよいキノコと、採ったあとの調理のしかたを教えてもらうことです。",
+    StringKey.WelcomeConsentWarning to "続けるには上の内容に同意する必要があります。同意する内容の前のチェックボックスにチェックを入れてください",
+
     StringKey.WelcomeNextButton to "次へ",
 
     StringKey.LegalTitle to "利用規約とプライバシー",

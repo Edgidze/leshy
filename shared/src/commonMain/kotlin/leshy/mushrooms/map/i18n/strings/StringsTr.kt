@@ -90,6 +90,19 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Gerisi menüde",
     StringKey.WelcomeMenuText to
         "Sol üstteki menü düğmesi uygulamanın bütün bölümlerinin ve olanaklarının listesini açar.",
+    StringKey.WelcomeConsentTitle to "Kullanmadan önce",
+    StringKey.WelcomeConsentIntro to "Uygulamanın kendisine geçmeden önce aşağıdaki ifadeleri kabul etmeniz gerekir:",
+    StringKey.WelcomeConsentImages to
+        "Mantarları uygulamadaki resimlere bakarak belirlemeye çalışmayacaksınız. Resimler yalnızca örnekleme " +
+            "görevi görür ve doğrulanmış bir tanı kılavuzu değildir.",
+    StringKey.WelcomeConsentEating to
+        "Hiçbir koşulda bilmediğiniz mantarları yemeyeceksiniz. Mantarlar yenmez olabilir, hatta zehirli de " +
+            "olabilir. En iyisi — yörenizdeki mantarları bilen birini çağırın, böylece hangi mantarların " +
+            "toplanabileceğini ve toplandıktan sonra nasıl pişirilmesi gerektiğini öğrenirsiniz.",
+    StringKey.WelcomeConsentWarning to
+        "Devam etmek için yukarıdaki ifadeleri kabul etmeniz, katıldığınız ifadelerin önündeki kutuları " +
+            "işaretlemeniz gerekir",
+
     StringKey.WelcomeNextButton to "İleri",
 
     StringKey.LegalTitle to "Koşullar ve gizlilik",

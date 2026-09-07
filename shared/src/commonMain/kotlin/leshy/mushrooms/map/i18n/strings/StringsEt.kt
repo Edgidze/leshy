@@ -94,6 +94,17 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Ülejäänu on menüüs",
     StringKey.WelcomeMenuText to
         "Menüünupp üleval vasakul avab kõigi rakenduse jaotiste ja võimaluste loendi.",
+    StringKey.WelcomeConsentTitle to "Enne kasutamist",
+    StringKey.WelcomeConsentIntro to "Enne rakenduse enda juurde asumist tuleb nõustuda järgmiste väidetega:",
+    StringKey.WelcomeConsentImages to
+        "Te ei püüa seeni rakenduse piltide järgi määrata. Pildid on illustratsioonid, mitte kontrollitud määraja.",
+    StringKey.WelcomeConsentEating to
+        "Te ei söö mitte mingil juhul seeni, mida te ei tunne. Seened võivad olla mittesöödavad ja võivad olla ka " +
+            "mürgised. Kõige parem — kutsuge appi keegi, kes tunneb teie kandi seeni, et teada saada, milliseid " +
+            "seeni tohib korjata ja kuidas neid pärast valmistada tuleb.",
+    StringKey.WelcomeConsentWarning to
+        "Jätkamiseks tuleb ülalolevate väidetega nõustuda, tehes linnukese nende väidete ette, millega olete nõus",
+
     StringKey.WelcomeNextButton to "Edasi",
 
     StringKey.LegalTitle to "Tingimused ja privaatsus",

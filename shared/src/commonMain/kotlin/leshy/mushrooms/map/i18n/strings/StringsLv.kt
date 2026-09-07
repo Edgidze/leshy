@@ -97,6 +97,19 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Pārējais ir izvēlnē",
     StringKey.WelcomeMenuText to
         "Izvēlnes poga augšā pa kreisi atver visu lietotnes sadaļu un iespēju sarakstu.",
+    StringKey.WelcomeConsentTitle to "Pirms lietošanas",
+    StringKey.WelcomeConsentIntro to "Pirms pāriet uz pašu lietotni, jāpiekrīt šādiem apgalvojumiem:",
+    StringKey.WelcomeConsentImages to
+        "Jūs nemēģināsiet noteikt sēnes pēc lietotnē redzamajiem attēliem. Attēli pilda ilustrāciju lomu un nav " +
+            "pārbaudīts sēņu noteicējs.",
+    StringKey.WelcomeConsentEating to
+        "Jūs nekādā gadījumā neēdīsiet sēnes, kuras nepazīstat. Sēnes var būt neēdamas, un tās var būt arī indīgas. " +
+            "Vislabāk — pieaiciniet kādu, kas pārzina jūsu apkārtnes sēnes, lai uzzinātu, kuras sēnes drīkst lasīt " +
+            "un kā tās pēc tam jāpagatavo.",
+    StringKey.WelcomeConsentWarning to
+        "Lai turpinātu, jāpiekrīt iepriekš minētajiem apgalvojumiem, atzīmējot izvēles rūtiņas pie tiem " +
+            "apgalvojumiem, kuriem piekrītat",
+
     StringKey.WelcomeNextButton to "Tālāk",
 
     StringKey.LegalTitle to "Noteikumi un privātums",

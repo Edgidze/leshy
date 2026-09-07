@@ -99,6 +99,19 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Ostalo je v meniju",
     StringKey.WelcomeMenuText to
         "Gumb menija zgoraj levo odpre seznam vseh razdelkov in možnosti aplikacije.",
+    StringKey.WelcomeConsentTitle to "Pred uporabo",
+    StringKey.WelcomeConsentIntro to "Pred prehodom na samo aplikacijo se morate strinjati z naslednjimi trditvami:",
+    StringKey.WelcomeConsentImages to
+        "Gob ne boste poskušali določati po slikah iz aplikacije. Slike imajo vlogo ilustracij in niso preverjen " +
+            "določevalni ključ.",
+    StringKey.WelcomeConsentEating to
+        "V nobenem primeru ne boste jedli gob, ki jih ne poznate. Gobe so lahko neužitne, lahko pa so tudi " +
+            "strupene. Najbolje — povabite nekoga, ki se spozna na gobe vašega kraja, da izveste, katere gobe se " +
+            "sme nabirati in kako jih je treba nato pripraviti.",
+    StringKey.WelcomeConsentWarning to
+        "Za nadaljevanje se morate strinjati z zgornjimi trditvami in označiti polja pred trditvami, s katerimi se " +
+            "strinjate",
+
     StringKey.WelcomeNextButton to "Naprej",
 
     StringKey.LegalTitle to "Pogoji in zasebnost",

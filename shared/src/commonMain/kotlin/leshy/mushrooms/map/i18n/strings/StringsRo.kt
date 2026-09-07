@@ -93,6 +93,20 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Restul este în meniu",
     StringKey.WelcomeMenuText to
         "Butonul de meniu din stânga sus deschide lista tuturor secțiunilor și posibilităților aplicației.",
+    StringKey.WelcomeConsentTitle to "Înainte de utilizare",
+    StringKey.WelcomeConsentIntro to
+        "Înainte de a trece la aplicația propriu-zisă, trebuie să fiți de acord cu următoarele afirmații:",
+    StringKey.WelcomeConsentImages to
+        "Nu veți încerca să identificați ciupercile după imaginile din aplicație. Imaginile au rol de ilustrații și " +
+            "nu sunt un ghid verificat.",
+    StringKey.WelcomeConsentEating to
+        "În niciun caz nu veți mânca ciuperci pe care nu le cunoașteți. Ciupercile pot fi necomestibile și pot fi " +
+            "chiar otrăvitoare. Cel mai bine — chemați pe cineva care se pricepe la ciupercile din zona " +
+            "dumneavoastră, ca să aflați ce ciuperci se pot culege și cum trebuie gătite după aceea.",
+    StringKey.WelcomeConsentWarning to
+        "Pentru a continua trebuie să fiți de acord cu afirmațiile de mai sus, bifând căsuțele din dreptul " +
+            "afirmațiilor cu care sunteți de acord",
+
     StringKey.WelcomeNextButton to "Mai departe",
 
     StringKey.LegalTitle to "Termeni și confidențialitate",

@@ -98,6 +98,20 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuText to
         "Yuqori chap burchakdagi menyu tugmasi ilovaning barcha boʻlimlari va imkoniyatlari roʻyxatini " +
             "ochadi.",
+    StringKey.WelcomeConsentTitle to "Foydalanishdan oldin",
+    StringKey.WelcomeConsentIntro to "Ilovaning oʻziga oʻtishdan avval quyidagi fikrlarga rozilik bildirish kerak:",
+    StringKey.WelcomeConsentImages to
+        "Qoʻziqorinlarni ilovadagi rasmlar boʻyicha aniqlashga urinmaysiz. Rasmlar faqat tasvir vazifasini bajaradi " +
+            "va tekshirilgan aniqlagich emas.",
+    StringKey.WelcomeConsentEating to
+        "Hech qanday sharoitda oʻzingiz bilmagan qoʻziqorinlarni yemaysiz. Qoʻziqorinlar yeb boʻlmaydigan boʻlishi " +
+            "mumkin, hatto zaharli ham boʻlishi mumkin. Eng yaxshisi — oʻz hududingiz qoʻziqorinlarini yaxshi " +
+            "biladigan odamni chaqiring, shunda qaysi qoʻziqorinlarni terish mumkinligini va ularni keyin qanday " +
+            "tayyorlash kerakligini bilib olasiz.",
+    StringKey.WelcomeConsentWarning to
+        "Davom etish uchun yuqoridagi fikrlarga rozilik bildirish va oʻzingiz rozi boʻlgan fikrlar oldiga belgi " +
+            "qoʻyish kerak",
+
     StringKey.WelcomeNextButton to "Keyingisi",
 
     StringKey.LegalTitle to "Shartlar va maxfiylik",

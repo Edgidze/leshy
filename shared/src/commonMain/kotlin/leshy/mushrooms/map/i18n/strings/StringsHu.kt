@@ -99,6 +99,19 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuText to
         "A bal felső sarokban lévő menügomb megnyitja az alkalmazás összes szakaszának és lehetőségének " +
             "listáját.",
+    StringKey.WelcomeConsentTitle to "Mielőtt hozzákezd",
+    StringKey.WelcomeConsentIntro to
+        "Mielőtt továbblépne magára az alkalmazásra, el kell fogadnia az alábbi állításokat:",
+    StringKey.WelcomeConsentImages to
+        "Nem fogja megpróbálni az alkalmazás képei alapján meghatározni a gombákat. A képek illusztrációk, nem " +
+            "pedig ellenőrzött gombahatározó.",
+    StringKey.WelcomeConsentEating to
+        "Semmilyen körülmények között nem eszik meg olyan gombát, amelyet nem ismer. A gombák lehetnek ehetetlenek, " +
+            "sőt mérgezőek is. A legjobb — hívjon valakit, aki ért a környék gombáihoz, hogy megtudja, mely gombák " +
+            "szedhetők, és hogyan kell azokat utána elkészíteni.",
+    StringKey.WelcomeConsentWarning to
+        "A folytatáshoz el kell fogadnia a fenti állításokat: tegyen pipát azon állítások elé, amelyekkel egyetért",
+
     StringKey.WelcomeNextButton to "Tovább",
 
     StringKey.LegalTitle to "Feltételek és adatvédelem",

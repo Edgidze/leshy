@@ -90,6 +90,19 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Qalanı menyudadır",
     StringKey.WelcomeMenuText to
         "Sol yuxarıdakı menyu düyməsi tətbiqin bütün bölmələrinin və imkanlarının siyahısını açır.",
+    StringKey.WelcomeConsentTitle to "İstifadədən əvvəl",
+    StringKey.WelcomeConsentIntro to "Tətbiqin özünə keçməzdən əvvəl aşağıdakı müddəalarla razılaşmaq lazımdır:",
+    StringKey.WelcomeConsentImages to
+        "Göbələkləri tətbiqdəki şəkillərə görə təyin etməyə çalışmayacaqsınız. Şəkillər yalnız illüstrasiya rolunu " +
+            "oynayır və yoxlanılmış təyinedici deyil.",
+    StringKey.WelcomeConsentEating to
+        "Heç bir halda tanımadığınız göbələkləri yeməyəcəksiniz. Göbələklər yeməli olmaya bilər, hətta zəhərli də " +
+            "ola bilər. Ən yaxşısı — bölgənizin göbələklərini bilən birinə müraciət edin ki, hansı göbələkləri " +
+            "yığmağın mümkün olduğunu və onları sonra necə hazırlamaq lazım gəldiyini öyrənəsiniz.",
+    StringKey.WelcomeConsentWarning to
+        "Davam etmək üçün yuxarıdakı müddəalarla razılaşmaq, razı olduğunuz müddəaların qarşısına işarə qoymaq " +
+            "lazımdır",
+
     StringKey.WelcomeNextButton to "İrəli",
 
     StringKey.LegalTitle to "Şərtlər və məxfilik",

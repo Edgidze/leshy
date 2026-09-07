@@ -91,6 +91,18 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Galany — menýuda",
     StringKey.WelcomeMenuText to
         "Çep ýokardaky menýu düwmesi programmanyň ähli bölümleriniň we mümkinçilikleriniň sanawyny açýar.",
+    StringKey.WelcomeConsentTitle to "Ulanmazdan öň",
+    StringKey.WelcomeConsentIntro to "Programmanyň özüne geçmezden ozal aşakdaky düzgünler bilen ylalaşmaly:",
+    StringKey.WelcomeConsentImages to
+        "Kömelekleri programmadaky suratlar boýunça kesgitlemäge synanyşmarsyňyz. Suratlar diňe şekillendiriş " +
+            "roluny ýerine ýetirýär we barlanan kesgitleýji däl.",
+    StringKey.WelcomeConsentEating to
+        "Hiç bir ýagdaýda özüňiziň bilmeýän kömelekleriňizi iýmersiňiz. Kömelekler iýip bolmaýan bolup biler, hatda " +
+            "zäherli hem bolup biler. Iň gowusy — öz ýeriňiziň kömeleklerine düşünýän birini çagyryň, şonda haýsy " +
+            "kömelekleri ýygnamagyň bolýandygyny we olary soň nähili taýýarlamalydygyny bilersiňiz.",
+    StringKey.WelcomeConsentWarning to
+        "Dowam etmek üçin ýokardaky düzgünler bilen ylalaşyp, ylalaşýan düzgünleriňiziň öňünde bellik goýmaly",
+
     StringKey.WelcomeNextButton to "Öňe",
 
     StringKey.LegalTitle to "Şertler we gizlinlik",

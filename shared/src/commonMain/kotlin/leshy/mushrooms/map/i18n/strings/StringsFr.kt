@@ -95,6 +95,21 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuText to
         "Le bouton de menu en haut à gauche ouvre la liste de toutes les sections et possibilités de " +
             "l’application.",
+    StringKey.WelcomeConsentTitle to "Avant de commencer",
+    StringKey.WelcomeConsentIntro to
+        "Avant de passer à l’application elle-même, vous devez accepter les affirmations suivantes :",
+    StringKey.WelcomeConsentImages to
+        "Vous n’essaierez pas d’identifier des champignons d’après les images de l’application. Les images servent " +
+            "d’illustrations et ne constituent pas un guide vérifié.",
+    StringKey.WelcomeConsentEating to
+        "Vous ne mangerez en aucun cas des champignons que vous ne connaissez pas. Les champignons peuvent être non " +
+            "comestibles, et ils peuvent aussi être vénéneux. Le mieux — faites appel à quelqu’un qui connaît les " +
+            "champignons de votre région pour savoir lesquels peuvent être ramassés et comment il faut les préparer " +
+            "ensuite.",
+    StringKey.WelcomeConsentWarning to
+        "Pour continuer, vous devez accepter les affirmations ci-dessus en cochant les cases devant celles avec " +
+            "lesquelles vous êtes d’accord",
+
     StringKey.WelcomeNextButton to "Suivant",
 
     StringKey.LegalTitle to "Conditions et confidentialité",

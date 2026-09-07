@@ -93,6 +93,20 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Il resto è nel menu",
     StringKey.WelcomeMenuText to
         "Il pulsante del menu in alto a sinistra apre l’elenco di tutte le sezioni e possibilità dell’app.",
+    StringKey.WelcomeConsentTitle to "Prima di iniziare",
+    StringKey.WelcomeConsentIntro to
+        "Prima di passare all’app vera e propria devi accettare le seguenti affermazioni:",
+    StringKey.WelcomeConsentImages to
+        "Non proverai a riconoscere i funghi dalle immagini dell’app. Le immagini hanno la funzione di " +
+            "illustrazioni e non sono un manuale verificato.",
+    StringKey.WelcomeConsentEating to
+        "In nessun caso mangerai funghi che non conosci. I funghi possono essere non commestibili e possono anche " +
+            "essere velenosi. La cosa migliore — chiedi a qualcuno che se ne intende dei funghi della tua zona, per " +
+            "sapere quali funghi si possono raccogliere e come vanno poi cucinati.",
+    StringKey.WelcomeConsentWarning to
+        "Per continuare devi accettare le affermazioni qui sopra, spuntando le caselle davanti alle affermazioni " +
+            "con cui sei d’accordo",
+
     StringKey.WelcomeNextButton to "Avanti",
 
     StringKey.LegalTitle to "Condizioni e privacy",

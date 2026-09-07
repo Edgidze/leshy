@@ -1,8 +1,10 @@
 package leshy.mushrooms.map.ui.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.WindowInsets
@@ -12,13 +14,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,9 +32,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.domain.model.AppLanguage
@@ -52,13 +61,28 @@ import org.jetbrains.compose.resources.painterResource
  * (`SettingsRepositoryImpl.observeLanguage` → `currentDeviceLanguage()`), поэтому кнопка языка
  * здесь — не обязательный шаг, а запасной выход для тех, кому система угадала не тот язык.
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WelcomeScreen(
     language: AppLanguage,
+    consentImagesAccepted: Boolean,
+    consentEatingAccepted: Boolean,
+    consentReminderCount: Int,
+    onConsentImagesChange: (Boolean) -> Unit,
+    onConsentEatingChange: (Boolean) -> Unit,
     onLanguageClick: () -> Unit,
     onNext: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // Неудачное нажатие «Дальше» не только зажигает предупреждение, но и подтягивает к глазам сам
+    // блок с галочками: страница длиннее экрана, и к моменту нажатия человек может стоять на любом
+    // её месте — на одном тексте «поставьте галочки выше» ему пришлось бы искать их самому.
+    // Ключ эффекта — счётчик нажатий, а не флаг: второе подряд нажатие обязано прокрутить снова.
+    val consentRequester = remember { BringIntoViewRequester() }
+    LaunchedEffect(consentReminderCount) {
+        if (consentReminderCount > 0) consentRequester.bringIntoView()
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -84,17 +108,28 @@ fun WelcomeScreen(
             // «Дальше» вынесена в bottomBar, а не в конец прокручиваемой колонки: страница длиннее
             // экрана на любом телефоне, и кнопка, до которой надо ещё доскроллить, читалась бы как
             // «выхода нет».
-            LeshyButton(
-                onClick = onNext,
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
                     // Слот bottomBar у Scaffold, в отличие от content, инсеты не получает — их
                     // добавляют себе сами панели Material (NavigationBar и подобные), а голая
                     // кнопка иначе уезжает под навигационную полосу телефона.
                     .windowInsetsPadding(WindowInsets.navigationBars)
                     .padding(horizontal = 16.dp, vertical = 12.dp),
             ) {
-                Text(stringResource(StringKey.WelcomeNextButton))
+                // Предупреждение стоит здесь, а не под галочками: галочки к этому моменту уже
+                // могли уехать вверх за край экрана (страница прокручиваемая), а нажал человек
+                // ровно сюда — сюда же и ответ.
+                if (consentReminderCount > 0) {
+                    Text(
+                        text = stringResource(StringKey.WelcomeConsentWarning),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                    )
+                }
+                LeshyButton(onClick = onNext, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(StringKey.WelcomeNextButton))
+                }
             }
         },
     ) { padding ->
@@ -123,6 +158,13 @@ fun WelcomeScreen(
                 title = stringResource(StringKey.WelcomeMenuTitle),
                 text = stringResource(StringKey.WelcomeMenuText),
             ) { MenuVignette() }
+            ConsentCard(
+                imagesAccepted = consentImagesAccepted,
+                eatingAccepted = consentEatingAccepted,
+                onImagesChange = onConsentImagesChange,
+                onEatingChange = onConsentEatingChange,
+                modifier = Modifier.bringIntoViewRequester(consentRequester),
+            )
             Spacer(modifier = Modifier.size(4.dp))
         }
     }
@@ -166,6 +208,76 @@ private fun Hero() {
 
 /** Скругление значка — примерно та же доля стороны (≈22%), с какой iOS скругляет иконки. */
 private val APP_ICON_CORNER = 25.dp
+
+/**
+ * «Перед использованием» — два утверждения, с каждым из которых нужно согласиться галочкой, чтобы
+ * «Дальше» сработала (проверка — в [leshy.mushrooms.map.presentation.onboarding.OnboardingViewModel.onWelcomeNext]).
+ *
+ * Карточка выделена цветом ошибки в приглушённом варианте (`errorContainer`), а не обычным
+ * `surfaceContainer` соседних карточек: единственный блок страницы, который требует действия, а не
+ * рассказывает, — и требования эти о безопасности.
+ */
+@Composable
+private fun ConsentCard(
+    imagesAccepted: Boolean,
+    eatingAccepted: Boolean,
+    onImagesChange: (Boolean) -> Unit,
+    onEatingChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
+    ) {
+        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                text = stringResource(StringKey.WelcomeConsentTitle),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+            )
+            Text(
+                text = stringResource(StringKey.WelcomeConsentIntro),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+            )
+            ConsentRow(
+                checked = imagesAccepted,
+                onCheckedChange = onImagesChange,
+                text = stringResource(StringKey.WelcomeConsentImages),
+            )
+            ConsentRow(
+                checked = eatingAccepted,
+                onCheckedChange = onEatingChange,
+                text = stringResource(StringKey.WelcomeConsentEating),
+            )
+        }
+    }
+}
+
+/**
+ * Утверждение с галочкой. Нажимается вся строка целиком (`toggleable` на `Row`, у самого
+ * `Checkbox` обработчик снят) — текст здесь в несколько строк, и цель размером с текст попадается
+ * пальцем куда надёжнее, чем один квадратик 20 dp сбоку.
+ */
+@Composable
+private fun ConsentRow(checked: Boolean, onCheckedChange: (Boolean) -> Unit, text: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .toggleable(value = checked, onValueChange = onCheckedChange, role = Role.Checkbox)
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.Top,
+    ) {
+        Checkbox(checked = checked, onCheckedChange = null)
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onErrorContainer,
+            modifier = Modifier.padding(start = 8.dp, top = 12.dp),
+        )
+    }
+}
 
 @Composable
 private fun FeatureCard(title: String, text: String, vignette: @Composable () -> Unit) {

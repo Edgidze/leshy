@@ -96,6 +96,18 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Ostalo je u izborniku",
     StringKey.WelcomeMenuText to
         "Gumb izbornika gore lijevo otvara popis svih odjeljaka i mogućnosti aplikacije.",
+    StringKey.WelcomeConsentTitle to "Prije početka",
+    StringKey.WelcomeConsentIntro to "Prije prelaska na samu aplikaciju morate se složiti sa sljedećim tvrdnjama:",
+    StringKey.WelcomeConsentImages to
+        "Nećete pokušavati određivati gljive prema slikama iz aplikacije. Slike služe kao ilustracije i nisu " +
+            "provjereni ključ za određivanje.",
+    StringKey.WelcomeConsentEating to
+        "Ni pod kojim uvjetima nećete jesti gljive koje ne poznajete. Gljive mogu biti nejestive, a mogu biti i " +
+            "otrovne. Najbolje — pozovite nekoga tko se razumije u gljive vašeg kraja kako biste saznali koje se " +
+            "gljive smiju brati i kako ih nakon toga treba pripremiti.",
+    StringKey.WelcomeConsentWarning to
+        "Za nastavak se morate složiti s gornjim tvrdnjama i označiti kućice ispred tvrdnji s kojima se slažete",
+
     StringKey.WelcomeNextButton to "Dalje",
 
     StringKey.LegalTitle to "Uvjeti i privatnost",

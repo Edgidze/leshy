@@ -93,6 +93,20 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuText to
         "El botón de menú de arriba a la izquierda abre la lista de todas las secciones y posibilidades de " +
             "la aplicación.",
+    StringKey.WelcomeConsentTitle to "Antes de empezar",
+    StringKey.WelcomeConsentIntro to
+        "Antes de pasar a la aplicación en sí, hay que aceptar las siguientes afirmaciones:",
+    StringKey.WelcomeConsentImages to
+        "No intentará identificar setas por las imágenes de la aplicación. Las imágenes cumplen la función de " +
+            "ilustraciones y no son una guía verificada.",
+    StringKey.WelcomeConsentEating to
+        "Bajo ninguna circunstancia comerá setas que no conozca. Las setas pueden ser no comestibles e incluso " +
+            "venenosas. Lo mejor — pida ayuda a alguien que conozca las setas de su zona para saber cuáles se " +
+            "pueden recoger y cómo hay que cocinarlas después.",
+    StringKey.WelcomeConsentWarning to
+        "Para continuar hay que aceptar las afirmaciones de arriba marcando las casillas delante de las " +
+            "afirmaciones con las que está de acuerdo",
+
     StringKey.WelcomeNextButton to "Siguiente",
 
     StringKey.LegalTitle to "Condiciones y privacidad",

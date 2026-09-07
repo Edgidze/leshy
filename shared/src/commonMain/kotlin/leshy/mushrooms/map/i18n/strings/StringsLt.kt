@@ -97,6 +97,19 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Visa kita — meniu",
     StringKey.WelcomeMenuText to
         "Meniu mygtukas viršuje kairėje atveria visų programėlės skyrių ir galimybių sąrašą.",
+    StringKey.WelcomeConsentTitle to "Prieš pradedant",
+    StringKey.WelcomeConsentIntro to "Prieš pereidami prie pačios programėlės turite sutikti su šiais teiginiais:",
+    StringKey.WelcomeConsentImages to
+        "Nebandysite atpažinti grybų pagal programėlės paveikslėlius. Paveikslėliai atlieka iliustracijų vaidmenį " +
+            "ir nėra patikrintas grybų atlasas.",
+    StringKey.WelcomeConsentEating to
+        "Jokiomis aplinkybėmis nevalgysite grybų, kurių nepažįstate. Grybai gali būti nevalgomi, o gali būti ir " +
+            "nuodingi. Geriausia — pasikvieskite ką nors, kas išmano jūsų krašto grybus, kad sužinotumėte, kuriuos " +
+            "grybus galima rinkti ir kaip juos paskui reikia paruošti.",
+    StringKey.WelcomeConsentWarning to
+        "Norint tęsti, reikia sutikti su pirmiau pateiktais teiginiais pažymint langelius prie tų teiginių, su " +
+            "kuriais sutinkate",
+
     StringKey.WelcomeNextButton to "Toliau",
 
     StringKey.LegalTitle to "Sąlygos ir privatumas",

@@ -116,10 +116,38 @@ class OnboardingViewModel(
         return titular + alsoSpoken + others
     }
 
-    /** «Дальше» с обзорной страницы — к соглашению. */
+    /**
+     * «Дальше» с обзорной страницы — к соглашению, но только с обеими галочками блока «Перед
+     * использованием» ([OnboardingUiState.consentImagesAccepted]/
+     * [OnboardingUiState.consentEatingAccepted]). Иначе шаг не меняется, а растёт
+     * [OnboardingUiState.consentReminderCount] — по нему экран и прокручивает страницу к блоку
+     * с галочками, и показывает красное предупреждение над кнопкой.
+     *
+     * Кнопка при этом остаётся живой, а не гаснет до простановки галочек: выключенная «Дальше» на
+     * первом же экране свежей установки не объясняет, чего от человека хотят, — нажатие с
+     * объяснением объясняет.
+     */
     fun onWelcomeNext() {
-        _uiState.update { it.copy(step = OnboardingStep.LEGAL) }
+        val state = _uiState.value
+        if (!state.consentImagesAccepted || !state.consentEatingAccepted) {
+            _uiState.update { it.copy(consentReminderCount = it.consentReminderCount + 1) }
+            return
+        }
+        _uiState.update { it.copy(step = OnboardingStep.LEGAL, consentReminderCount = 0) }
     }
+
+    fun setConsentImagesAccepted(accepted: Boolean) {
+        _uiState.update { it.copy(consentImagesAccepted = accepted).withReminderClearedIfComplete() }
+    }
+
+    fun setConsentEatingAccepted(accepted: Boolean) {
+        _uiState.update { it.copy(consentEatingAccepted = accepted).withReminderClearedIfComplete() }
+    }
+
+    /** Предупреждение гаснет в тот момент, когда встала последняя галочка, — держать его до
+     * повторного нажатия «Дальше» значило бы ругаться на уже исправленное. */
+    private fun OnboardingUiState.withReminderClearedIfComplete(): OnboardingUiState =
+        if (consentImagesAccepted && consentEatingAccepted) copy(consentReminderCount = 0) else this
 
     /** Кнопка языка (есть и на обзорной странице, и над списком стран) — запоминает, куда
      * возвращаться, см. [OnboardingUiState.languageReturnStep]. */

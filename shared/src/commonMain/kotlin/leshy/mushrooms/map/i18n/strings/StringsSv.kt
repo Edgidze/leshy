@@ -90,6 +90,19 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuTitle to "Resten finns i menyn",
     StringKey.WelcomeMenuText to
         "Menyknappen uppe till vänster öppnar listan över appens alla avsnitt och möjligheter.",
+    StringKey.WelcomeConsentTitle to "Innan du börjar",
+    StringKey.WelcomeConsentIntro to "Innan du går vidare till själva appen måste du godkänna följande påståenden:",
+    StringKey.WelcomeConsentImages to
+        "Du kommer inte att försöka artbestämma svampar utifrån bilderna i appen. Bilderna fungerar som " +
+            "illustrationer och är ingen kontrollerad svampbok.",
+    StringKey.WelcomeConsentEating to
+        "Du kommer under inga omständigheter att äta svampar som du inte känner till. Svampar kan vara oätliga, och " +
+            "de kan också vara giftiga. Bäst av allt — ta hjälp av någon som kan svamparna i din trakt, så att du " +
+            "får veta vilka svampar som får plockas och hur de sedan måste tillagas.",
+    StringKey.WelcomeConsentWarning to
+        "För att fortsätta måste du godkänna påståendena ovan genom att kryssa i rutorna framför de påståenden du " +
+            "godkänner",
+
     StringKey.WelcomeNextButton to "Vidare",
 
     StringKey.LegalTitle to "Villkor och integritet",

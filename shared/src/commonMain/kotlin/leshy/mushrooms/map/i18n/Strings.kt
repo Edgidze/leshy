@@ -234,6 +234,20 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.WelcomeMenuTitle -> "Остальное — в меню"
     StringKey.WelcomeMenuText ->
         "Кнопка меню слева сверху открывает список всех разделов и возможностей приложения."
+    StringKey.WelcomeConsentTitle -> "Перед использованием"
+    StringKey.WelcomeConsentIntro ->
+        "До перехода к самому приложению необходимо согласиться со следующими утверждениями:"
+    StringKey.WelcomeConsentImages ->
+        "Вы не будете пытаться определить грибы по картинкам из приложения. Картинки выполняют роль иллюстраций и " +
+            "не являются выверенным справочником."
+    StringKey.WelcomeConsentEating ->
+        "Вы ни при каких условиях не станете есть те грибы, которые не знаете. Грибы могут быть несъедобны, а могут " +
+            "быть и ядовиты. Лучше всего — позовите кого-то, кто разбирается в грибах вашей местности, чтобы " +
+            "узнать, какие грибы собирать можно и как их после этого необходимо приготовить."
+    StringKey.WelcomeConsentWarning ->
+        "Для продолжения необходимо согласиться с утверждениями выше, поставив галочки перед утверждениями, с " +
+            "которыми вы согласны"
+
     StringKey.WelcomeNextButton -> "Дальше"
 
     StringKey.LegalTitle -> "Соглашение и конфиденциальность"
@@ -573,6 +587,20 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.WelcomeMenuTitle -> "The rest is in the menu"
     StringKey.WelcomeMenuText ->
         "The menu button in the top left corner opens the list of all sections and features of the app."
+    StringKey.WelcomeConsentTitle -> "Before you start"
+    StringKey.WelcomeConsentIntro ->
+        "Before moving on to the app itself, you need to agree with the following statements:"
+    StringKey.WelcomeConsentImages ->
+        "You will not try to identify mushrooms from the pictures in the app. The pictures are illustrations, not a " +
+            "verified field guide."
+    StringKey.WelcomeConsentEating ->
+        "You will under no circumstances eat mushrooms you do not know. Mushrooms can be inedible, and they can be " +
+            "poisonous. Best of all — ask someone who knows the mushrooms of your area which ones may be picked and " +
+            "how they have to be cooked afterwards."
+    StringKey.WelcomeConsentWarning ->
+        "To continue, you have to agree with the statements above by ticking the boxes in front of the statements " +
+            "you agree with"
+
     StringKey.WelcomeNextButton -> "Next"
 
     StringKey.LegalTitle -> "Terms and privacy"

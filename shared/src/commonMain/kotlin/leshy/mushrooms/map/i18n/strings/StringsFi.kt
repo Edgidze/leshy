@@ -97,6 +97,20 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.WelcomeMenuText to
         "Vasemman yläkulman valikkopainike avaa luettelon sovelluksen kaikista osioista ja " +
             "mahdollisuuksista.",
+    StringKey.WelcomeConsentTitle to "Ennen kuin aloitat",
+    StringKey.WelcomeConsentIntro to
+        "Ennen kuin siirryt itse sovellukseen, sinun on hyväksyttävä seuraavat väittämät:",
+    StringKey.WelcomeConsentImages to
+        "Et yritä tunnistaa sieniä sovelluksen kuvien perusteella. Kuvat ovat havainnekuvia, eivät tarkistettu " +
+            "sienikirja.",
+    StringKey.WelcomeConsentEating to
+        "Et syö missään tapauksessa sieniä, joita et tunne. Sienet voivat olla syötäväksi kelpaamattomia ja ne " +
+            "voivat olla myös myrkyllisiä. Parasta — pyydä mukaan joku, joka tuntee oman seutusi sienet, jotta saat " +
+            "tietää, mitä sieniä saa kerätä ja miten ne on sen jälkeen valmistettava.",
+    StringKey.WelcomeConsentWarning to
+        "Jatkaaksesi sinun on hyväksyttävä yllä olevat väittämät rastittamalla ruudut niiden väittämien edestä, " +
+            "jotka hyväksyt",
+
     StringKey.WelcomeNextButton to "Eteenpäin",
 
     StringKey.LegalTitle to "Ehdot ja tietosuoja",

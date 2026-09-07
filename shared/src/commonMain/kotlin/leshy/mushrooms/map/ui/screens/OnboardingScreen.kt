@@ -60,6 +60,11 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
     when (uiState.step) {
         OnboardingStep.WELCOME -> WelcomeScreen(
             language = uiState.language,
+            consentImagesAccepted = uiState.consentImagesAccepted,
+            consentEatingAccepted = uiState.consentEatingAccepted,
+            consentReminderCount = uiState.consentReminderCount,
+            onConsentImagesChange = viewModel::setConsentImagesAccepted,
+            onConsentEatingChange = viewModel::setConsentEatingAccepted,
             onLanguageClick = viewModel::onOpenLanguagePicker,
             onNext = viewModel::onWelcomeNext,
             modifier = modifier,
