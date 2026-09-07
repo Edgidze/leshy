@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- Ярлык под иконкой. Значение здесь — база (английская), её перекрывают
+	     <язык>.lproj/InfoPlist.strings; без ключа в самом Info.plist локализация
+	     не подхватывается вовсе, iOS взяла бы PRODUCT_NAME («leshy»). -->
+	<key>CFBundleDisplayName</key>
+	<string>Mushroom Map</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>

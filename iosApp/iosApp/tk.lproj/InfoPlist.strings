@@ -1,0 +1,3 @@
+/* Ярлык приложения на домашнем экране. Локаль берётся у системы — см. комментарий
+   в androidApp/src/main/res/values/strings.xml. */
+"CFBundleDisplayName" = "Kömelek kartasy";

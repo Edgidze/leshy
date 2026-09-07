@@ -4,5 +4,5 @@
      переключатель языка внутри на него повлиять не может. Полное название
      («Грибная карта от Лешего») живёт в i18n/StringKey.AppName и переводится там. -->
 <resources>
-    <string name="app_name">Mushroom Map</string>
+    <string name="app_name">Karta gljiva</string>
 </resources>
