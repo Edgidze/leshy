@@ -182,6 +182,25 @@ NavHost и без `Scaffold` — просто `Column` с фиксированн
   `SectionScaffold`) только открывает панель — сама никуда не навигирует
   (см. инцидент №3 выше про то, почему это важно).
 
+## Справка раздела — лист, а не top-level переход
+
+`Destination.Help(topic)` открывается кнопкой «?» из шапки любого раздела
+обычным `navigate()` (`onHelpClick` в `LeshyNavHost`), как `About` из
+«Настроек». Именно так, а не через `navigateToTopLevel`: кнопка «?» уже
+однажды ходила top-level переходом и ровно этим ломала save/restore state
+остальных разделов (инцидент №2 выше). `SectionScaffold` при этом не знает
+никакого `NavHostController` — получает колбэк и зовёт его, чтобы соблазна
+навигировать из общей шапки не возникало (инцидент №3 про то же).
+
+**Раздел едет в маршруте строкой, а не значением `HelpTopic`.** Enum-аргумент
+типизированного маршрута `navigation-common` разбирает рефлексией, которой на
+нативных целях нет: `SerialDescriptor.parseEnum()` там — `actual`,
+возвращающий `UNKNOWN` (`NavTypeConverter.nonAndroid.kt`), а `RouteSerializer`
+на `UNKNOWN` бросает `IllegalArgumentException` при построении графа. То есть
+enum в маршруте компилируется на обеих платформах, работает на Android и роняет
+iOS. `NavType.StringType` есть везде; типизация сохранена конструктором
+`Help(topic: HelpTopic)` и свойством `topic`.
+
 ## Прочее
 
 - `NAV_TRANSITION_DURATION_MS = 200` (не библиотечный дефолт 700ms) —

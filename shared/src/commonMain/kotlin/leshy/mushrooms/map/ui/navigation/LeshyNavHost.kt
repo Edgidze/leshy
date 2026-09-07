@@ -21,6 +21,7 @@ import leshy.mushrooms.map.ui.components.SectionScaffold
 import leshy.mushrooms.map.ui.screens.ArchiveScreen
 import leshy.mushrooms.map.ui.screens.DataScreen
 import leshy.mushrooms.map.ui.screens.FindsMapScreen
+import leshy.mushrooms.map.ui.screens.HelpScreen
 import leshy.mushrooms.map.ui.screens.LanguagePickerScreen
 import leshy.mushrooms.map.ui.screens.MapScreen
 import leshy.mushrooms.map.ui.screens.PreparationScreen
@@ -47,6 +48,10 @@ fun LeshyNavHost(
     onMenuClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // Один и тот же переход для всех семи разделов: «?» открывает лист со справкой поверх
+    // текущего раздела, не трогая сохранённое состояние остальных.
+    val onHelpClick: (HelpTopic) -> Unit = { topic -> navController.navigate(Destination.Help(topic)) }
+
     NavHost(
         navController = navController,
         startDestination = Destination.Record,
@@ -62,6 +67,7 @@ fun LeshyNavHost(
                 title = StringKey.AppName,
                 help = HelpTopic.RECORD,
                 onMenuClick = onMenuClick,
+                onHelpClick = onHelpClick,
             ) { padding ->
                 RecordScreen(
                     viewModel = viewModel,
@@ -75,6 +81,7 @@ fun LeshyNavHost(
                 title = StringKey.NavArchive,
                 help = HelpTopic.ARCHIVE,
                 onMenuClick = onMenuClick,
+                onHelpClick = onHelpClick,
             ) { padding ->
                 ArchiveScreen(
                     onWalkClick = { walkId -> navController.navigate(Destination.WalkDetail(walkId)) },
@@ -135,6 +142,7 @@ fun LeshyNavHost(
                 title = StringKey.NavMap,
                 help = HelpTopic.MAP,
                 onMenuClick = onMenuClick,
+                onHelpClick = onHelpClick,
             ) { padding ->
                 MapScreen(
                     onStartWalkClick = { navController.navigateToTopLevel(Destination.Record) },
@@ -165,6 +173,7 @@ fun LeshyNavHost(
                 title = StringKey.NavPreparation,
                 help = HelpTopic.PREPARATION,
                 onMenuClick = onMenuClick,
+                onHelpClick = onHelpClick,
             ) { padding -> PreparationScreen(modifier = Modifier.padding(padding)) }
         }
         composable<Destination.Settings> {
@@ -172,6 +181,7 @@ fun LeshyNavHost(
                 title = StringKey.SettingsTitle,
                 help = HelpTopic.SETTINGS,
                 onMenuClick = onMenuClick,
+                onHelpClick = onHelpClick,
             ) { padding ->
                 SettingsScreen(
                     onLanguageClick = { navController.navigate(Destination.LanguagePicker) },
@@ -198,6 +208,12 @@ fun LeshyNavHost(
                 onBack = { navController.popBackStack() },
             )
         }
+        composable<Destination.Help> { backStackEntry ->
+            HelpScreen(
+                topic = backStackEntry.toRoute<Destination.Help>().topic,
+                onBack = { navController.popBackStack() },
+            )
+        }
         composable<Destination.About> {
             AboutScreen(onBack = { navController.popBackStack() })
         }
@@ -206,6 +222,7 @@ fun LeshyNavHost(
                 title = StringKey.NavData,
                 help = HelpTopic.DATA,
                 onMenuClick = onMenuClick,
+                onHelpClick = onHelpClick,
             ) { padding ->
                 DataScreen(
                     onNavigateToArchive = { navController.navigateToTopLevel(Destination.Archive) },
@@ -218,6 +235,7 @@ fun LeshyNavHost(
                 title = StringKey.NavSpecies,
                 help = HelpTopic.SPECIES,
                 onMenuClick = onMenuClick,
+                onHelpClick = onHelpClick,
             ) { padding -> SpeciesScreen(modifier = Modifier.padding(padding)) }
         }
     }

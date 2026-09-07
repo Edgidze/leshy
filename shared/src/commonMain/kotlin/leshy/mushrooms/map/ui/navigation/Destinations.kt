@@ -3,6 +3,7 @@ package leshy.mushrooms.map.ui.navigation
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import kotlinx.serialization.Serializable
+import leshy.mushrooms.map.i18n.HelpTopic
 
 sealed interface Destination {
     @Serializable
@@ -45,6 +46,31 @@ sealed interface Destination {
      */
     @Serializable
     data object About : Destination
+
+    /**
+     * Справка по разделу — лист, открываемый кнопкой «?» из шапки самого раздела обычным
+     * `navigate()`, как [About] из «Настроек».
+     *
+     * **Раздел едет строкой, а не значением [HelpTopic], и это не стиль, а требование iOS.**
+     * `navigation-common` разбирает enum-аргумент маршрута рефлексией, которой на нативных
+     * целях нет: `SerialDescriptor.parseEnum()` там — `actual`, возвращающий `UNKNOWN`
+     * (`NavTypeConverter.nonAndroid.kt`), после чего `RouteSerializer` бросает
+     * `IllegalArgumentException` про «unknown NavType» при построении графа. На Android то же
+     * самое работает, так что цена ошибки — приложение, собирающееся и работающее на одной
+     * платформе из двух. `NavType.StringType` есть на обеих.
+     *
+     * Наружу класс всё равно выглядит типизированным: конструктор принимает [HelpTopic],
+     * свойство [topic] возвращает его же обратно.
+     */
+    @Serializable
+    data class Help(val topicName: String) : Destination {
+        constructor(topic: HelpTopic) : this(topic.name)
+
+        /** Имя в маршруте кладём только мы сами (кнопкой «?»), внешних ссылок на маршруты у
+         * приложения нет — поэтому `valueOf` здесь не про валидацию чужого ввода, а про то, что
+         * несуществующее имя означает нашу же опечатку и должно падать громко. */
+        val topic: HelpTopic get() = HelpTopic.valueOf(topicName)
+    }
 
     @Serializable
     data object Data : Destination
