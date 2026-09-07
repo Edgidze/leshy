@@ -30,7 +30,7 @@ val presentationModule = module {
         SpeciesViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get())
     }
     viewModel { MapFilterViewModel(get(), get(), get(), get()) }
-    viewModel { DataViewModel(get(), get(), get(), get(), get(), get()) }
+    viewModel { DataViewModel(get(), get(), get(), get(), get()) }
     viewModel { PreparationViewModel(get()) }
     viewModel { OnboardingViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }

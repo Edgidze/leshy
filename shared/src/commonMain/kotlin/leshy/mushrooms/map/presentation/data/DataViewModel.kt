@@ -6,7 +6,6 @@ import leshy.mushrooms.map.data.platform.ArchiveFileReader
 import leshy.mushrooms.map.data.platform.PickedLocation
 import leshy.mushrooms.map.data.platform.currentTimeMillis
 import leshy.mushrooms.map.domain.repository.WalkRepository
-import leshy.mushrooms.map.domain.usecase.BackfillWalkThumbnailsUseCase
 import leshy.mushrooms.map.domain.usecase.ExportDataUseCase
 import leshy.mushrooms.map.domain.usecase.ImportDataUseCase
 import leshy.mushrooms.map.domain.usecase.ImportArchiveProblem
@@ -37,7 +36,6 @@ class DataViewModel(
     private val validateImportArchive: ValidateImportArchiveUseCase,
     private val archiveFileReader: ArchiveFileReader,
     private val walkRepository: WalkRepository,
-    private val backfillWalkThumbnails: BackfillWalkThumbnailsUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(
         DataUiState(exportArchiveName = defaultExportArchiveName(currentTimeMillis())),
@@ -147,14 +145,19 @@ class DataViewModel(
         _uiState.update { it.copy(isProcessing = true, errorMessage = null, importResult = null) }
         viewModelScope.launch {
             val result = runCatching { importDataUseCase(archiveFileReader.readBytes(handle), state.importWalkLabel) }
-            // Imported walks land with thumbnailPath = null (see ImportDataUseCase) and are meant
-            // to be repaired by ArchiveViewModel's one-shot backfill on its next init — but Archive
-            // is a top-level destination reached via navigateToTopLevel(), so its ViewModel (and
-            // that one-shot init) survives across tab switches (see ui/navigation/CLAUDE.md); if
-            // the user had already opened Archive before importing, revisiting it afterwards
-            // reuses the same ViewModel and never re-runs the backfill. Running it here too closes
-            // that gap without depending on Archive's ViewModel lifecycle at all.
-            if (result.getOrNull()?.importedWalkCount?.let { it > 0 } == true) backfillWalkThumbnails()
+            // Импорт закончен — и колёсико гаснет ЗДЕСЬ. Миниатюры приехавших прогулок сюда не
+            // входят и входить не должны: они рисуются снимками карты по сети, по одному на
+            // прогулку, и на архиве в сотню прогулок это минуты сверху — минуты, в которые
+            // приложение показывало «Идёт обработка…», хотя все треки, находки и фотографии
+            // давно лежали в базе (репорт 2026-09-07). Без сети это к тому же не кончалось бы
+            // ничем: снимков не будет в любом случае, а импорт при этом прошёл успешно.
+            //
+            // Отрисовку забирает «Архив» — [BackfillWalkThumbnailsUseCase] запускается на КАЖДОМ
+            // входе на экран (`ArchiveViewModel.onScreenShown`), а не однажды в `init`, поэтому
+            // приехавшие прогулки подхватываются и тогда, когда архив уже открывали до импорта и
+            // его ViewModel пережил переключение разделов (см. `ui/navigation/CLAUDE.md`). Пока
+            // снимок не готов — в карточке силуэт маршрута (`WalkRouteThumbnail`), нормальный
+            // результат, а не полупустой экран.
             _uiState.update {
                 it.copy(
                     isProcessing = false,

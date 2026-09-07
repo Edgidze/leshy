@@ -12,6 +12,7 @@ import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
 import leshy.mushrooms.map.domain.usecase.BackfillWalkThumbnailsUseCase
 import leshy.mushrooms.map.domain.usecase.DeleteWalkUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,12 +44,9 @@ class ArchiveViewModel(
     private val _uiState = MutableStateFlow(ArchiveUiState())
     val uiState: StateFlow<ArchiveUiState> = _uiState.asStateFlow()
 
+    private var thumbnailBackfillJob: Job? = null
+
     init {
-        // Independent of the UI-state flow below: one-shot repair pass (missing thumbnail map
-        // background — see BackfillWalkThumbnailsUseCase) that shouldn't delay rendering the
-        // Archive list itself. Dangling photo/thumbnail paths are repaired once at app startup
-        // instead (App.kt), not per-screen — see RepairPhotoPathsUseCase.
-        viewModelScope.launch { backfillWalkThumbnails() }
         viewModelScope.launch {
             val itemsFlow = combine(
                 walkRepository.observeAll(),
@@ -88,6 +86,31 @@ class ArchiveViewModel(
                 findLocations = findsByWalk[walk.id].orEmpty(),
             )
         }
+    }
+
+    /**
+     * Дорисовка недостающих снимков карты ([BackfillWalkThumbnailsUseCase]) — на КАЖДОМ входе на
+     * экран, а не однажды в `init`.
+     *
+     * «Архив» — top-level раздел, он открывается через `navigateToTopLevel()`, и его ViewModel
+     * переживает переключение разделов (см. `ui/navigation/CLAUDE.md`). Пока проход стоял в
+     * `init`, он и выполнялся ровно один раз за жизнь ViewModel: пользователь, заглянувший в
+     * архив ДО импорта, возвращался в него после импорта — и приехавшие прогулки не получали
+     * снимков уже никогда. Раньше эту дыру затыкал `DataViewModel`, гоняя тот же проход прямо в
+     * импорте; оттуда он убран (колёсико импорта не должно ждать сеть — разбор там же), и дыру
+     * закрывает вход на экран.
+     *
+     * Проход независим от потока состояния ниже и список рисовать не задерживает. Повторный вход,
+     * пока предыдущий проход ещё идёт, ничего не запускает: очередь и так дойдёт до всех, а второй
+     * параллельный проход рисовал бы те же прогулки по второму разу. Неудача (нет сети) не
+     * запоминается намеренно — вернулся в архив со связью, и снимки поедут.
+     *
+     * Битые пути к фото и снимкам чинятся не здесь, а один раз на старте приложения (`App.kt`,
+     * `RepairPhotoPathsUseCase`).
+     */
+    fun onScreenShown() {
+        if (thumbnailBackfillJob?.isActive == true) return
+        thumbnailBackfillJob = viewModelScope.launch { backfillWalkThumbnails() }
     }
 
     /** Long-press entry point: opens selection mode (if not already open) and selects this walk. */
