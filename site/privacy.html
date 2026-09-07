@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy policy — Mushroom Map from Leshy</title>
+<meta name="description" content="Privacy policy of the Mushroom Map from Leshy app / Политика конфиденциальности приложения «Грибная карта от Лешего»">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fbfaf7;
+    --surface: #ffffff;
+    --text: #1c1b17;
+    --muted: #5c5a51;
+    --line: #e2ded4;
+    --accent: #2f6b3a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14150f;
+      --surface: #1c1e17;
+      --text: #e8e6de;
+      --muted: #a5a296;
+      --line: #33362b;
+      --accent: #8fc79a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 1.25rem; margin-bottom: 1.5rem; }
+  .app { font-size: .95rem; color: var(--muted); letter-spacing: .02em; margin: 0 0 .35rem; }
+  h1 { font-size: 1.6rem; line-height: 1.25; margin: 0 0 .5rem; }
+  h2 { font-size: 1.1rem; margin: 2.2rem 0 .6rem; }
+  .date { color: var(--muted); font-size: .9rem; margin: 0; }
+  p, li { color: var(--text); }
+  ul { padding-left: 1.2rem; }
+  li { margin: .3rem 0; }
+  a { color: var(--accent); }
+  .lede {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: .5rem;
+    padding: .9rem 1.1rem;
+    margin: 1.5rem 0 0;
+  }
+  .lede p { margin: .4rem 0; }
+  .switch { float: right; display: flex; gap: .35rem; }
+  .switch button {
+    font: inherit; font-size: .85rem; cursor: pointer;
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--line); border-radius: .4rem; padding: .15rem .55rem;
+  }
+  .switch button[aria-pressed="true"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+  /* Разделитель между языковыми версиями: виден только когда JS не отработал
+     и все секции показаны подряд. */
+  section[data-section] + section[data-section] { margin-top: 4rem; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Переключатель бесполезен без JS, поэтому в разметке он скрыт
+       и раскрывается скриптом. Без скрипта страница показывает все
+       языковые версии подряд — контакт и текст остаются читаемыми. -->
+  <div class="switch" hidden>
+    <button type="button" data-lang="en" aria-pressed="false">Eng</button>
+    <button type="button" data-lang="ru" aria-pressed="true">Рус</button>
+    <button type="button" data-lang="fr" aria-pressed="false">Fra</button>
+    <button type="button" data-lang="es" aria-pressed="false">Esp</button>
+  </div>
+
+  <!-- ================================ ENGLISH ================================ -->
+  <section data-section="en" lang="en">
+    <header>
+      <p class="app">Mushroom Map from Leshy</p>
+      <h1>Privacy policy</h1>
+      <p class="date">Version of 7 September 2026</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>In short.</strong> The app collects no data about you and sends nothing to the
+      developer. Your walks, find marks, photos and settings are stored on your device only. There
+      are no accounts, no sign-up, no ads, no analytics and no trackers. The only thing that goes
+      online is a request for map tiles, so that there is something to draw the map with.</p>
+    </div>
+
+    <h2>1. Who is responsible for the app</h2>
+    <p>“Mushroom Map from Leshy” is developed and distributed by a private individual, referred to below
+    as “the developer”. Contact:
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a> — a working
+    address that is actually read.</p>
+    <p>The developer’s name and postal address are published by the app store on the “Mushroom Map from Leshy” listing: both Google Play and the App Store verify that information and display it as the
+    seller’s details. There is no point in repeating it here.</p>
+    <p>The app sends the developer no data about you. The developer therefore does not process your
+    personal data and is neither a controller within the meaning of the European GDPR nor an
+    operator within the meaning of the Russian Federal Law No. 152-FZ on personal data. This document
+    describes what data the app creates on your device and what happens to it afterwards, so that
+    you can make informed decisions about it. Should that ever change and the app start sending data
+    to the developer, they would become a controller and an operator, and their name and address
+    would then appear in this section (see section 9).</p>
+
+    <h2>2. What data the app creates and where it is kept</h2>
+    <p>Everything below is created by the app on your device and stays there:</p>
+    <ul>
+      <li>the walk track — a sequence of coordinates from the device sensors, with timestamps;</li>
+      <li>find marks — coordinate, mushroom species, count, time;</li>
+      <li>photos taken with the camera or picked from the gallery, and their link to a find;</li>
+      <li>notes and descriptions of walks, your own mushroom species and their icons;</li>
+      <li>settings: interface language, appearance, chosen collections, marker size and so on;</li>
+      <li>map areas downloaded in advance so the app works without a network.</li>
+    </ul>
+    <p>The developer has no access to any of it: the app sends nothing to any server, creates no
+    account for you, and shares nothing with third parties.</p>
+    <p>The single exception is not the app but the operating system: if you have the platform backup
+    turned on (Android Backup / iCloud), the system may copy the app’s data into your own cloud
+    storage. That copy is made by the system, belongs to you, and is governed by Google’s or Apple’s
+    policy. Backup can be turned off in the system settings.</p>
+
+    <h2>3. Device permissions and why they are needed</h2>
+    <ul>
+      <li><strong>Location.</strong> Needed to follow the walk route correctly and to record the
+      coordinates of your finds. During a recording, coordinates are read with the screen off too,
+      otherwise the track would break; on Android this comes with a persistent notification, on iOS
+      with the system indicator.</li>
+      <li><strong>Camera.</strong> Needed to photograph a find.</li>
+      <li><strong>Notifications</strong> (Android). Used for the “recording in progress” notification.</li>
+      <li><strong>Photos and files.</strong> No separate permission is requested: a gallery photo is
+      chosen through the system photo picker, an export or import file through the system file
+      picker. The app receives only what you pointed at — not access to the whole gallery, and not a
+      listing of your files.</li>
+    </ul>
+    <p>Any permission may be refused or revoked in the system settings. Without location, walk
+    recording does not work; without the camera, find photos do not. Everything else keeps working.</p>
+
+    <h2>4. What goes online</h2>
+    <p>The only network exchange is loading the map itself. The app requests vector map tiles and the
+    resources that go with them (the style description, label fonts, icons) from
+    <a href="https://openfreemap.org" rel="noreferrer">OpenFreeMap</a>
+    (<code>tiles.openfreemap.org</code>), which serves OpenStreetMap data. As with any request to any
+    website, its server learns your device’s IP address, the coordinates of the requested tiles — that is,
+    the approximate area you are looking at — and the ordinary request headers any client sends,
+    including a User-Agent naming the map library and the version of the operating system.</p>
+    <p>No track, no find marks, no photos and no device identifiers are sent there: the app has
+    neither an account nor an API key with that service. OpenFreeMap is a third-party service with
+    its own terms, published on its site. If you download the area you need in advance (the
+    “Preparation” section), the app can be used with no network at all.</p>
+    <p>There is no analytics, no advertising module, no visit counter, no crash reporting and no
+    advertising identifier in the app — not a single third-party SDK that would send anything. One
+    thing to note separately: the app store itself (Google Play, App Store) may collect its own
+    install and crash statistics under its own rules. That is done by the store, not by the app; the
+    developer receives install statistics and crash reports from it, but none of your walks, marks
+    or photos.</p>
+
+    <h2>5. Export, import and “Share”</h2>
+    <p>The app can export your journal to a file and send a walk through the system share sheet. That
+    happens only on your command and exactly where you point it. Once the data has left the app —
+    into a messenger, a cloud service or a file on disk — it is governed by that service’s rules, not
+    by this policy.</p>
+
+    <h2>6. How long data is kept and how to delete it</h2>
+    <p>Data is kept until you delete it. Deleting a walk in “Archive” deletes its track, its marks and
+    the photos attached to them. Uninstalling the app removes all of its data from the device, with
+    two exceptions: files you exported yourself, and the copy held by the platform backup if you have
+    it turned on (see section 2). That copy lives in your own Google or Apple cloud and is removed
+    through the system’s own settings; otherwise the data comes back when the app is reinstalled.
+    There is no need to ask the developer for deletion, and no point: they do not have your data.</p>
+
+    <h2>7. Children</h2>
+    <p>The app is not directed at children and collects no data about them — or about anybody else.</p>
+
+    <h2>8. Your rights</h2>
+    <p>Data-protection law — the European GDPR, the UK GDPR, the Russian Federal Law No. 152-FZ and
+    comparable laws elsewhere — grants the right to access, correct, delete and port your data. Since
+    the developer neither collects nor stores your data, you exercise all of those rights inside the
+    app and without anyone’s involvement: the data is on your device, and you edit, export and delete
+    it yourself.</p>
+    <p>If you believe otherwise, write to
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a>. You also
+    have the right to lodge a complaint with a data-protection supervisory authority: in the EU and
+    the UK, the authority of your residence, place of work or of the alleged infringement; in Russia,
+    Roskomnadzor; elsewhere, your national authority.</p>
+
+    <h2>9. Changes to this policy</h2>
+    <p>A new version is published on this same page with its date. If the app ever starts sending
+    anything outward, or starts using a different map service, it will be stated both here and in the
+    update notes in the app store.</p>
+
+    <h2>10. Contact</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+
+    <footer>
+      The map is built on OpenStreetMap data (ODbL licence) and served through OpenFreeMap.
+      Attribution for the map sources is shown on the map itself inside the app.
+    </footer>
+  </section>
+
+  <!-- ================================ РУССКИЙ ================================ -->
+  <section data-section="ru" lang="ru">
+    <header>
+      <p class="app">Грибная карта от Лешего</p>
+      <h1>Политика конфиденциальности</h1>
+      <p class="date">Редакция от 7 сентября 2026 года</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>Коротко.</strong> Приложение не собирает о вас никаких данных и ничего не передаёт
+      разработчику. Прогулки, отметки находок, фотографии и настройки хранятся только на вашем
+      устройстве. Аккаунтов, регистрации, рекламы, аналитики и трекеров в приложении нет. В интернет
+      уходит единственное — запросы участков карты, чтобы её было чем нарисовать.</p>
+    </div>
+
+    <h2>1. Кто отвечает за приложение</h2>
+    <p>Приложение «Грибная карта от Лешего» разрабатывает и распространяет частное лицо, далее
+    «разработчик». Связаться с ним можно по адресу
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a> — это
+    рабочий канал, письма читаются.</p>
+    <p>Имя и почтовый адрес разработчика публикует магазин приложений в карточке «Грибная карта от Лешего»: и Google Play, и App Store проверяют эти сведения и показывают их как данные продавца.
+    Дублировать их здесь незачем.</p>
+    <p>Приложение не передаёт разработчику никаких данных о вас. Поэтому разработчик не обрабатывает
+    ваши персональные данные: он не является ни оператором в смысле Федерального закона
+    № 152-ФЗ «О персональных данных», ни контролёром (controller) в смысле европейского GDPR. Этот
+    документ описывает, какие данные приложение создаёт на вашем устройстве и что происходит с ними
+    дальше, — чтобы решения об этих данных вы принимали осознанно. Если это когда-нибудь изменится и
+    приложение начнёт передавать данные разработчику, он станет оператором и контролёром, и тогда в
+    этом пункте появятся его имя и адрес (см. п. 9).</p>
+
+    <h2>2. Какие данные приложение создаёт и где хранит</h2>
+    <p>Всё перечисленное создаётся приложением на вашем устройстве и остаётся на нём:</p>
+    <ul>
+      <li>маршрут прогулки — последовательность координат, полученных от датчиков устройства, со временем;</li>
+      <li>отметки находок — координата, вид гриба, количество, время;</li>
+      <li>фотографии, снятые камерой или добавленные из галереи, и их привязка к находкам;</li>
+      <li>заметки и описания прогулок, ваши собственные виды грибов и значки к ним;</li>
+      <li>настройки: язык интерфейса, оформление, выбранные подборки, размер маркеров и прочее;</li>
+      <li>скачанные заранее участки карты, чтобы приложение работало без сети.</li>
+    </ul>
+    <p>Разработчик доступа к этим данным не имеет: приложение не отправляет их ни на какой сервер, не
+    заводит для вас учётной записи и не передаёт данные третьим лицам.</p>
+    <p>Единственное исключение — не приложение, а операционная система: если у вас включено штатное
+    резервное копирование (Android Backup / iCloud), система может копировать данные приложения в
+    ваше собственное облачное хранилище. Это делает не приложение, копия принадлежит вам, а правила
+    её хранения задаёт политика Google или Apple. Резервное копирование отключается в настройках
+    самой системы.</p>
+
+    <h2>3. Разрешения устройства и зачем они нужны</h2>
+    <ul>
+      <li><strong>Геолокация.</strong> Нужна, чтобы правильно вести маршрут прогулки и записывать
+      координаты находок. Во время записи координаты читаются и при погашенном экране, иначе трек
+      рвался бы; на Android это сопровождается постоянным уведомлением, на iOS — системным
+      индикатором.</li>
+      <li><strong>Камера.</strong> Нужна, чтобы сфотографировать находку.</li>
+      <li><strong>Уведомления</strong> (Android). Нужны для уведомления о том, что запись идёт.</li>
+      <li><strong>Фотографии и файлы.</strong> Отдельного разрешения приложение не просит: снимок из
+      галереи выбирается системным выбором фотографий, файл экспорта или импорта — системным
+      выбором файлов. Приложение получает только то, что вы указали пальцем, а не доступ ко всей
+      галерее и не список файлов.</li>
+    </ul>
+    <p>Любое разрешение можно не дать или отозвать в настройках системы. Без геолокации не работает
+    запись прогулки, без камеры — съёмка находок; всё остальное продолжит работать.</p>
+
+    <h2>4. Что уходит в интернет</h2>
+    <p>Единственный сетевой обмен — загрузка самой карты. Приложение запрашивает векторные фрагменты
+    карты и сопутствующие ресурсы (описание стиля, шрифты подписей, значки) у сервиса
+    <a href="https://openfreemap.org" rel="noreferrer">OpenFreeMap</a>
+    (<code>tiles.openfreemap.org</code>), который отдаёт данные проекта OpenStreetMap. Как при любом
+    обращении к сайту, его серверу становятся известны IP-адрес вашего устройства, координаты
+    запрошенных фрагментов карты (то есть примерный район, который вы в этот момент смотрите) и
+    обычные заголовки запроса, которые отправляет любой клиент, — включая User-Agent с названием
+    картографической библиотеки и версией операционной системы.</p>
+    <p>Ни трек, ни отметки находок, ни фотографии, ни идентификаторы устройства туда не передаются:
+    приложение не имеет ни учётной записи, ни ключа API у этого сервиса. OpenFreeMap — сторонний
+    сервис со своими условиями, опубликованными на его сайте. Если скачать нужный участок карты
+    заранее (раздел «Подготовка»), ходить с приложением можно вовсе без сети.</p>
+    <p>Никакой аналитики, рекламных модулей, счётчиков посещений, отчётов о сбоях и рекламных
+    идентификаторов в приложении нет — ни одного стороннего SDK, который бы что-то отправлял.
+    Отдельно отметим: магазин приложений (Google Play, App Store) может собирать собственную
+    статистику установок и сбоев по своим правилам. Это делает магазин, а не приложение; разработчик
+    получает оттуда статистику установок и отчёты о сбоях, но ни ваших прогулок, ни отметок, ни
+    фотографий там нет.</p>
+
+    <h2>5. Экспорт, импорт и «Поделиться»</h2>
+    <p>Приложение умеет выгрузить дневник файлом и отправить прогулку через системное меню
+    «Поделиться». Это происходит только по вашей команде и ровно туда, куда вы сами укажете. После
+    того как данные покинули приложение — ушли в мессенджер, облако или файл на диске, — они
+    подчиняются правилам того сервиса, а не этой политике.</p>
+
+    <h2>6. Сколько данные хранятся и как их удалить</h2>
+    <p>Данные хранятся, пока вы их не удалите. Удаление прогулки в «Архиве» удаляет её трек, отметки
+    и связанные фотографии. Удаление приложения удаляет все его данные с устройства — кроме двух
+    вещей: файлов, которые вы выгрузили наружу сами, и копии в системном резервном копировании, если
+    оно у вас включено (см. п. 2). Такая копия лежит в вашем облаке Google или Apple и удаляется
+    средствами самой системы; иначе при переустановке приложения данные вернутся. Обращаться за
+    удалением к разработчику не нужно и бесполезно: у него ваших данных нет.</p>
+
+    <h2>7. Дети</h2>
+    <p>Приложение не адресовано детям и не собирает данные ни о них, ни о ком-либо ещё.</p>
+
+    <h2>8. Ваши права</h2>
+    <p>Законодательство о персональных данных — европейский GDPR, британский UK GDPR, российский
+    Федеральный закон № 152-ФЗ и аналогичные законы других стран — даёт право на доступ к своим
+    данным, их исправление, удаление и перенос. Поскольку разработчик ваших данных не собирает и не
+    хранит, все эти права вы реализуете прямо в приложении и без чьего-либо участия: данные лежат на
+    вашем устройстве, редактируются, выгружаются файлом и удаляются вами.</p>
+    <p>Если вы считаете, что это не так, напишите на
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a>. Вы также
+    вправе подать жалобу в надзорный орган по защите данных: в ЕС и Великобритании — по месту вашего
+    жительства, работы или предполагаемого нарушения, в России — в Роскомнадзор, в других странах —
+    в соответствующий национальный орган.</p>
+
+    <h2>9. Изменения этой политики</h2>
+    <p>Новая редакция публикуется на этой же странице с указанием даты. Если приложение когда-нибудь
+    начнёт что-то передавать наружу или обращаться к другому картографическому сервису, это будет
+    отмечено и здесь, и в описании обновления в магазине приложений.</p>
+
+    <h2>10. Контакты</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+
+    <footer>
+      Карта в приложении построена на данных OpenStreetMap (лицензия ODbL) и показывается через
+      сервис OpenFreeMap. Атрибуция источников карты выводится на самой карте в приложении.
+    </footer>
+  </section>
+
+  <!-- ================================ FRANÇAIS ================================ -->
+  <section data-section="fr" lang="fr">
+    <header>
+      <p class="app">Carte des champignons de Leshy</p>
+      <h1>Politique de confidentialité</h1>
+      <p class="date">Version du 7 septembre 2026</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>En bref.</strong> L’application ne collecte aucune donnée vous concernant et
+      n’envoie rien au développeur. Vos sorties, vos marques de cueillette, vos photos et vos
+      réglages restent uniquement sur votre appareil. Il n’y a ni compte, ni inscription, ni
+      publicité, ni analyse d’audience, ni traceur. La seule chose qui passe par le réseau, ce sont
+      les tuiles de la carte, pour avoir de quoi la dessiner.</p>
+    </div>
+
+    <h2>1. Qui est responsable de l’application</h2>
+    <p>L’application « Carte des champignons de Leshy » est développée et distribuée par une personne
+    physique, ci-après « le développeur ». Contact :
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a> — une
+    adresse en service, réellement relevée.</p>
+    <p>Le nom et l’adresse postale du développeur sont publiés par la boutique d’applications sur la
+    fiche « Carte des champignons de Leshy » : Google Play comme l’App Store vérifient ces
+    informations et les affichent au titre des coordonnées du vendeur. Il est inutile de les répéter
+    ici.</p>
+    <p>L’application ne transmet au développeur aucune donnée vous concernant. Le développeur ne
+    traite donc pas vos données personnelles : il n’est ni responsable du traitement au sens du RGPD
+    européen, ni opérateur au sens de la loi fédérale russe n° 152-FZ. Le présent document décrit les
+    données que l’application crée sur votre appareil et ce qu’elles deviennent, afin que vous
+    puissiez décider en connaissance de cause. Si cela venait à changer et que l’application se
+    mettait à transmettre des données au développeur, celui-ci deviendrait responsable du traitement
+    et opérateur ; son nom et son adresse figureraient alors dans cette section (voir la
+    section 9).</p>
+
+    <h2>2. Quelles données l’application crée et où elles sont conservées</h2>
+    <p>Tout ce qui suit est créé par l’application sur votre appareil et y reste :</p>
+    <ul>
+      <li>le tracé de la sortie — une suite de coordonnées issues des capteurs de l’appareil, horodatées ;</li>
+      <li>les marques de cueillette — coordonnée, espèce de champignon, quantité, heure ;</li>
+      <li>les photos prises avec l’appareil photo ou choisies dans la galerie, et leur rattachement à une trouvaille ;</li>
+      <li>les notes et descriptions de sorties, vos propres espèces de champignons et leurs icônes ;</li>
+      <li>les réglages : langue de l’interface, apparence, sélections choisies, taille des marqueurs, etc. ;</li>
+      <li>les zones de carte téléchargées à l’avance, pour que l’application fonctionne hors ligne.</li>
+    </ul>
+    <p>Le développeur n’a accès à rien de tout cela : l’application n’envoie ces données à aucun
+    serveur, ne vous crée aucun compte et ne les communique à aucun tiers.</p>
+    <p>La seule exception ne vient pas de l’application mais du système d’exploitation : si la
+    sauvegarde intégrée est activée (Android Backup / iCloud), le système peut copier les données de
+    l’application dans votre propre espace de stockage en ligne. Cette copie est faite par le
+    système, elle vous appartient et relève des règles de Google ou d’Apple. La sauvegarde se
+    désactive dans les réglages du système.</p>
+
+    <h2>3. Autorisations de l’appareil et leur utilité</h2>
+    <ul>
+      <li><strong>Localisation.</strong> Nécessaire pour suivre correctement le tracé de la sortie et
+      enregistrer les coordonnées de vos trouvailles. Pendant l’enregistrement, les coordonnées sont
+      lues même écran éteint, sans quoi le tracé serait interrompu ; sur Android cela s’accompagne
+      d’une notification permanente, sur iOS de l’indicateur système.</li>
+      <li><strong>Appareil photo.</strong> Nécessaire pour photographier une trouvaille.</li>
+      <li><strong>Notifications</strong> (Android). Servent à signaler qu’un enregistrement est en cours.</li>
+      <li><strong>Photos et fichiers.</strong> Aucune autorisation distincte n’est demandée : une
+      photo de la galerie est choisie via le sélecteur de photos du système, un fichier d’export ou
+      d’import via le sélecteur de fichiers. L’application ne reçoit que ce que vous avez désigné —
+      ni l’accès à toute la galerie, ni la liste de vos fichiers.</li>
+    </ul>
+    <p>Toute autorisation peut être refusée ou révoquée dans les réglages du système. Sans
+    localisation, l’enregistrement d’une sortie ne fonctionne pas ; sans appareil photo, les photos
+    de trouvailles non plus. Tout le reste continue de fonctionner.</p>
+
+    <h2>4. Ce qui passe par le réseau</h2>
+    <p>Le seul échange réseau est le chargement de la carte elle-même. L’application demande les
+    tuiles vectorielles et les ressources qui les accompagnent (description du style, polices des
+    libellés, icônes) au service
+    <a href="https://openfreemap.org" rel="noreferrer">OpenFreeMap</a>
+    (<code>tiles.openfreemap.org</code>), qui diffuse les données du projet OpenStreetMap. Comme lors
+    de toute requête vers un site, son serveur apprend l’adresse IP de votre appareil, les
+    coordonnées des tuiles demandées — c’est-à-dire la zone approximative que vous consultez à ce
+    moment-là — ainsi que les en-têtes de requête habituels envoyés par tout client, dont un
+    User-Agent indiquant la bibliothèque cartographique et la version du système d’exploitation.</p>
+    <p>Ni le tracé, ni les marques de cueillette, ni les photos, ni les identifiants de l’appareil n’y
+    sont transmis : l’application n’a auprès de ce service ni compte ni clé d’API. OpenFreeMap est un
+    service tiers, avec ses propres conditions publiées sur son site. Si vous téléchargez à l’avance
+    la zone qui vous intéresse (section « Préparation »), l’application s’utilise entièrement hors
+    ligne.</p>
+    <p>L’application ne contient aucune analyse d’audience, aucun module publicitaire, aucun compteur
+    de visites, aucun rapport de plantage et aucun identifiant publicitaire — pas un seul SDK tiers
+    qui enverrait quoi que ce soit. À noter séparément : la boutique d’applications elle-même (Google
+    Play, App Store) peut collecter ses propres statistiques d’installation et de plantage selon ses
+    propres règles. C’est le fait de la boutique et non de l’application ; le développeur y reçoit des
+    statistiques d’installation et des rapports de plantage, mais ni sorties, ni marques, ni
+    photos.</p>
+
+    <h2>5. Export, import et « Partager »</h2>
+    <p>L’application peut exporter votre carnet dans un fichier et envoyer une sortie via le menu de
+    partage du système. Cela n’a lieu que sur votre commande et exactement là où vous l’indiquez. Une
+    fois les données sorties de l’application — vers une messagerie, un service en ligne ou un
+    fichier sur disque — elles relèvent des règles de ce service, et non de la présente politique.</p>
+
+    <h2>6. Durée de conservation et suppression</h2>
+    <p>Les données sont conservées jusqu’à ce que vous les supprimiez. Supprimer une sortie dans
+    « Archives » supprime son tracé, ses marques et les photos associées. Désinstaller l’application
+    efface toutes ses données de l’appareil, à deux exceptions près : les fichiers que vous avez
+    exportés vous-même et la copie détenue par la sauvegarde du système si celle-ci est activée
+    (voir la section 2). Cette copie se trouve dans votre propre espace Google ou Apple et se
+    supprime depuis les réglages du système ; sinon, les données reviennent lors d’une
+    réinstallation. Il n’est ni nécessaire ni utile de demander une suppression au développeur : il
+    ne détient pas vos données.</p>
+
+    <h2>7. Enfants</h2>
+    <p>L’application ne s’adresse pas aux enfants et ne collecte de données ni sur eux, ni sur
+    quiconque.</p>
+
+    <h2>8. Vos droits</h2>
+    <p>Le droit de la protection des données — le RGPD européen, le UK GDPR, la loi fédérale russe
+    n° 152-FZ et les lois comparables ailleurs — ouvre un droit d’accès, de rectification,
+    d’effacement et de portabilité. Comme le développeur ne collecte ni ne conserve vos données, vous
+    exercez tous ces droits directement dans l’application et sans l’intervention de qui que ce soit :
+    les données sont sur votre appareil, vous les modifiez, les exportez et les supprimez vous-même.</p>
+    <p>Si vous estimez qu’il en va autrement, écrivez à
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a>. Vous avez
+    également le droit d’introduire une réclamation auprès d’une autorité de contrôle : dans l’Union
+    européenne et au Royaume-Uni, celle de votre résidence, de votre lieu de travail ou du lieu de la
+    violation alléguée (en France, la CNIL) ; en Russie, Roskomnadzor ; ailleurs, l’autorité
+    nationale compétente.</p>
+
+    <h2>9. Modifications de la présente politique</h2>
+    <p>Toute nouvelle version est publiée sur cette même page, avec sa date. Si l’application se met
+    un jour à transmettre quoi que ce soit vers l’extérieur, ou à utiliser un autre service
+    cartographique, cela sera indiqué ici comme dans les notes de mise à jour de la boutique.</p>
+
+    <h2>10. Contact</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+
+    <footer>
+      La carte repose sur les données d’OpenStreetMap (licence ODbL) et est diffusée via OpenFreeMap.
+      L’attribution des sources cartographiques est affichée sur la carte, dans l’application.
+    </footer>
+  </section>
+
+  <!-- ================================ ESPAÑOL ================================ -->
+  <section data-section="es" lang="es">
+    <header>
+      <p class="app">Mapa de setas de Leshy</p>
+      <h1>Política de privacidad</h1>
+      <p class="date">Versión del 7 de septiembre de 2026</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>En resumen.</strong> La aplicación no recoge ningún dato sobre usted y no envía nada
+      al desarrollador. Sus salidas, sus marcas de hallazgos, sus fotos y sus ajustes se guardan solo
+      en su dispositivo. No hay cuentas, ni registro, ni publicidad, ni analítica, ni rastreadores. Lo
+      único que sale a la red son las peticiones de los fragmentos del mapa, para tener con qué
+      dibujarlo.</p>
+    </div>
+
+    <h2>1. Quién responde por la aplicación</h2>
+    <p>La aplicación «Mapa de setas de Leshy» la desarrolla y distribuye una persona física, en
+    adelante «el desarrollador». Contacto:
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a>: una
+    dirección en uso, que se lee de verdad.</p>
+    <p>El nombre y la dirección postal del desarrollador los publica la tienda de aplicaciones en la
+    ficha de «Mapa de setas de Leshy»: tanto Google Play como la App Store verifican esos datos y los
+    muestran como datos del vendedor. No tiene sentido repetirlos aquí.</p>
+    <p>La aplicación no transmite al desarrollador ningún dato sobre usted. Por tanto, el
+    desarrollador no trata sus datos personales: no es responsable del tratamiento en el sentido del
+    RGPD europeo ni operador en el sentido de la ley federal rusa n.º 152-FZ. Este documento describe
+    qué datos crea la aplicación en su dispositivo y qué ocurre después con ellos, para que usted
+    decida con conocimiento de causa. Si esto llegara a cambiar y la aplicación empezara a transmitir
+    datos al desarrollador, este pasaría a ser responsable del tratamiento y operador, y entonces su
+    nombre y su dirección aparecerían en esta sección (véase la sección 9).</p>
+
+    <h2>2. Qué datos crea la aplicación y dónde se guardan</h2>
+    <p>Todo lo siguiente lo crea la aplicación en su dispositivo y allí se queda:</p>
+    <ul>
+      <li>el recorrido de la salida: una secuencia de coordenadas de los sensores del dispositivo, con su hora;</li>
+      <li>las marcas de hallazgos: coordenada, especie de seta, cantidad, hora;</li>
+      <li>las fotos hechas con la cámara o elegidas de la galería, y su vínculo con un hallazgo;</li>
+      <li>las notas y descripciones de las salidas, sus propias especies de setas y sus iconos;</li>
+      <li>los ajustes: idioma de la interfaz, apariencia, selecciones elegidas, tamaño de los marcadores y demás;</li>
+      <li>las zonas del mapa descargadas de antemano para que la aplicación funcione sin red.</li>
+    </ul>
+    <p>El desarrollador no tiene acceso a nada de esto: la aplicación no lo envía a ningún servidor,
+    no le crea ninguna cuenta y no comparte datos con terceros.</p>
+    <p>La única excepción no es la aplicación, sino el sistema operativo: si tiene activada la copia
+    de seguridad del sistema (Android Backup / iCloud), este puede copiar los datos de la aplicación
+    a su propio almacenamiento en la nube. Lo hace el sistema, la copia le pertenece a usted y se rige
+    por las políticas de Google o de Apple. La copia de seguridad se desactiva en los ajustes del
+    propio sistema.</p>
+
+    <h2>3. Permisos del dispositivo y para qué sirven</h2>
+    <ul>
+      <li><strong>Ubicación.</strong> Necesaria para seguir correctamente el recorrido de la salida y
+      registrar las coordenadas de sus hallazgos. Durante el registro, las coordenadas se leen
+      también con la pantalla apagada, pues de lo contrario el recorrido se cortaría; en Android esto
+      va acompañado de una notificación permanente y en iOS del indicador del sistema.</li>
+      <li><strong>Cámara.</strong> Necesaria para fotografiar un hallazgo.</li>
+      <li><strong>Notificaciones</strong> (Android). Sirven para avisar de que el registro está en curso.</li>
+      <li><strong>Fotos y archivos.</strong> La aplicación no pide un permiso aparte: una foto de la
+      galería se elige con el selector de fotos del sistema y un archivo de exportación o importación,
+      con el selector de archivos. La aplicación recibe solo lo que usted ha señalado, no el acceso a
+      toda la galería ni la lista de sus archivos.</li>
+    </ul>
+    <p>Cualquier permiso puede denegarse o revocarse en los ajustes del sistema. Sin ubicación no
+    funciona el registro de salidas; sin cámara, las fotos de hallazgos. Todo lo demás sigue
+    funcionando.</p>
+
+    <h2>4. Qué sale a internet</h2>
+    <p>El único intercambio de red es la carga del propio mapa. La aplicación solicita los fragmentos
+    vectoriales del mapa y los recursos que los acompañan (la descripción del estilo, las fuentes de
+    las etiquetas, los iconos) al servicio
+    <a href="https://openfreemap.org" rel="noreferrer">OpenFreeMap</a>
+    (<code>tiles.openfreemap.org</code>), que sirve datos del proyecto OpenStreetMap. Como en
+    cualquier petición a cualquier sitio web, su servidor conoce la dirección IP de su dispositivo,
+    las coordenadas de los fragmentos solicitados —es decir, la zona aproximada que usted está
+    mirando en ese momento— y las cabeceras de petición habituales que envía cualquier cliente,
+    incluida una User-Agent con el nombre de la biblioteca cartográfica y la versión del sistema
+    operativo.</p>
+    <p>Allí no se envían ni el recorrido, ni las marcas de hallazgos, ni las fotos, ni identificadores
+    del dispositivo: la aplicación no tiene cuenta ni clave de API en ese servicio. OpenFreeMap es un
+    servicio de terceros con sus propias condiciones, publicadas en su sitio. Si descarga de antemano
+    la zona que necesita (sección «Preparación»), puede usar la aplicación sin red alguna.</p>
+    <p>La aplicación no tiene analítica, ni módulos de publicidad, ni contadores de visitas, ni
+    informes de fallos, ni identificadores publicitarios: ni un solo SDK de terceros que envíe algo.
+    Conviene señalar aparte que la propia tienda de aplicaciones (Google Play, App Store) puede
+    recoger sus propias estadísticas de instalación y de fallos según sus reglas. Eso lo hace la
+    tienda, no la aplicación; el desarrollador recibe de ella estadísticas de instalación e informes
+    de fallos, pero ni salidas, ni marcas, ni fotos.</p>
+
+    <h2>5. Exportación, importación y «Compartir»</h2>
+    <p>La aplicación puede exportar su diario a un archivo y enviar una salida por el menú de
+    compartir del sistema. Esto ocurre solo cuando usted lo ordena y exactamente adonde usted indique.
+    Una vez que los datos han salido de la aplicación —a una mensajería, a un servicio en la nube o a
+    un archivo en disco— se rigen por las reglas de ese servicio y no por esta política.</p>
+
+    <h2>6. Cuánto se conservan los datos y cómo borrarlos</h2>
+    <p>Los datos se conservan hasta que usted los borre. Borrar una salida en «Archivo» borra su
+    recorrido, sus marcas y las fotos asociadas. Desinstalar la aplicación elimina todos sus datos del
+    dispositivo, con dos excepciones: los archivos que usted mismo haya exportado y la copia que
+    guarda la copia de seguridad del sistema, si la tiene activada (véase la sección 2). Esa copia
+    está en su propia nube de Google o de Apple y se borra desde los ajustes del sistema; de lo
+    contrario, los datos volverán al reinstalar la aplicación. No hace falta —ni sirve de nada— pedir
+    la supresión al desarrollador: él no tiene sus datos.</p>
+
+    <h2>7. Menores</h2>
+    <p>La aplicación no está dirigida a menores y no recoge datos ni sobre ellos ni sobre nadie más.</p>
+
+    <h2>8. Sus derechos</h2>
+    <p>La normativa de protección de datos —el RGPD europeo, el UK GDPR, la ley federal rusa
+    n.º 152-FZ y las leyes equivalentes de otros países— reconoce el derecho de acceso, rectificación,
+    supresión y portabilidad. Dado que el desarrollador no recoge ni conserva sus datos, usted ejerce
+    todos esos derechos dentro de la propia aplicación y sin intervención de nadie: los datos están en
+    su dispositivo y usted mismo los edita, los exporta y los borra.</p>
+    <p>Si considera que no es así, escriba a
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a>. También
+    tiene derecho a presentar una reclamación ante una autoridad de control: en la Unión Europea y el
+    Reino Unido, la de su residencia, su lugar de trabajo o el lugar de la presunta infracción (en
+    España, la AEPD); en Rusia, Roskomnadzor; en otros países, la autoridad nacional
+    correspondiente.</p>
+
+    <h2>9. Cambios en esta política</h2>
+    <p>Cada nueva versión se publica en esta misma página, con su fecha. Si alguna vez la aplicación
+    empieza a transmitir algo hacia fuera o a usar otro servicio cartográfico, se indicará tanto aquí
+    como en las notas de la actualización en la tienda de aplicaciones.</p>
+
+    <h2>10. Contacto</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+
+    <footer>
+      El mapa se basa en datos de OpenStreetMap (licencia ODbL) y se sirve a través de OpenFreeMap.
+      La atribución de las fuentes cartográficas se muestra en el propio mapa, dentro de la
+      aplicación.
+    </footer>
+  </section>
+
+</div>
+
+<script>
+  // Скрипт — только удобство. Без него страница показывает все языковые
+  // версии подряд: текст, контакт и ссылки остаются на месте.
+  var LANGS = ["ru", "en", "fr", "es"];
+
+  var switcher = document.querySelector(".switch");
+  var buttons = document.querySelectorAll(".switch button");
+  var sections = document.querySelectorAll("section[data-section]");
+
+  var TITLES = {
+    ru: "Политика конфиденциальности — Грибная карта от Лешего",
+    en: "Privacy policy — Mushroom Map from Leshy",
+    fr: "Politique de confidentialité — Carte des champignons de Leshy",
+    es: "Política de privacidad — Mapa de setas de Leshy"
+  };
+
+  function show(lang) {
+    sections.forEach(function (s) { s.hidden = s.dataset.section !== lang; });
+    buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === lang)); });
+    document.documentElement.lang = lang;
+    document.title = TITLES[lang];
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener("click", function () {
+      show(b.dataset.lang);
+      history.replaceState(null, "", "#" + b.dataset.lang);
+    });
+  });
+
+  function preferred() {
+    // Язык по ссылке (#fr) важнее языка браузера — приложение может привести сюда явно.
+    var hash = location.hash.replace("#", "").toLowerCase();
+    if (LANGS.indexOf(hash) !== -1) return hash;
+
+    var list = navigator.languages && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || "en"];
+    for (var i = 0; i < list.length; i++) {
+      var tag = String(list[i]).toLowerCase().split("-")[0];
+      if (LANGS.indexOf(tag) !== -1) return tag;
+    }
+    return "en";
+  }
+
+  switcher.hidden = false;
+  show(preferred());
+</script>
+</body>
+</html>
