@@ -10,7 +10,7 @@ import kotlin.math.abs
  * `One`, `Two`, `Few`, `Many`, `Other`) but Latvian genuinely needs it: `lv` puts 0, every multiple
  * of ten and the whole 11–19 range into a form distinct from `other` ("10 sēņu" vs "2 sēnes"), so
  * folding `lv`'s zero into [Other] would give the wrong word for a large share of real counts.
- * Latvian is the only one of the 26 interface languages with this category.
+ * Latvian is the only one of the 42 interface languages with this category.
  *
  * Not every category is reachable in every language, and several are unreachable *everywhere* here
  * because these counts are always non-negative integers: CLDR reserves `many` for fractions in
@@ -43,12 +43,12 @@ internal class PluralForms(
 }
 
 /**
- * CLDR cardinal plural rules for all 26 [AppLanguage]s, specialized to non-negative integers —
+ * CLDR cardinal plural rules for all 42 [AppLanguage]s, specialized to non-negative integers —
  * the only kind of count this app formats (mushrooms found, walks selected, offline areas). That
  * specialization is what collapses the CLDR operands to two: with `v = f = t = 0` the operands
  * `n` and `i` coincide, so every rule below reads off `n`, `n % 10` and `n % 100` alone.
  *
- * An exhaustive `when` over [AppLanguage] rather than a `Map` on purpose: a 27th language then
+ * An exhaustive `when` over [AppLanguage] rather than a `Map` on purpose: a 43rd language then
  * fails to compile instead of silently inheriting English's two-way split, which is exactly the
  * class of error nobody would notice (§7 of `.claude/plans/countries-and-languages.md`).
  *
@@ -67,12 +67,14 @@ fun pluralCategory(language: AppLanguage, count: Int): PluralCategory {
         // for a rule nobody wrote: this *is* the rule.
         AppLanguage.JA, AppLanguage.KO, AppLanguage.TG -> PluralCategory.Other
 
-        // Two-way split on n = 1. Germanic/Finnic/Turkic/Kartvelian plus Bulgarian and Hungarian:
-        // CLDR writes some of these as `i = 1 and v = 0` and others as `n = 1`, which are the same
-        // rule for integers. The five Turkic languages of `post-soviet-countries.md` join Turkish
-        // here unchanged.
-        AppLanguage.AZ, AppLanguage.BG, AppLanguage.DE, AppLanguage.EN, AppLanguage.ET,
-        AppLanguage.FI, AppLanguage.HU, AppLanguage.KA, AppLanguage.KK, AppLanguage.KY,
+        // Two-way split on n = 1. Germanic/Finnic/Turkic/Kartvelian plus Bulgarian, Hungarian,
+        // Greek and Albanian: CLDR writes some of these as `i = 1 and v = 0` and others as
+        // `n = 1`, which are the same rule for integers. The five Turkic languages of
+        // `post-soviet-countries.md` join Turkish here unchanged, and `europe-15-countries.md`
+        // adds Danish, Dutch, Norwegian Bokmål, Greek and Albanian.
+        AppLanguage.AZ, AppLanguage.BG, AppLanguage.DA, AppLanguage.DE, AppLanguage.EL,
+        AppLanguage.EN, AppLanguage.ET, AppLanguage.FI, AppLanguage.HU, AppLanguage.KA,
+        AppLanguage.KK, AppLanguage.KY, AppLanguage.NB, AppLanguage.NL, AppLanguage.SQ,
         AppLanguage.SV, AppLanguage.TK, AppLanguage.TR, AppLanguage.UZ,
         -> if (n == 1L) PluralCategory.One else PluralCategory.Other
 
@@ -80,9 +82,11 @@ fun pluralCategory(language: AppLanguage, count: Int): PluralCategory {
         // without French's million-form `many`.
         AppLanguage.HY -> if (n == 0L || n == 1L) PluralCategory.One else PluralCategory.Other
 
-        // French: 0 is singular too ("0 champignon"). `many` is the "million" form ("un million
-        // *de* champignons") — unreachable at realistic counts, kept for exactness.
-        AppLanguage.FR -> when {
+        // French and Portuguese: 0 is singular too ("0 champignon", "0 cogumelo). `many` is the
+        // "million" form ("un million *de* champignons", "um milhão *de* cogumelos") —
+        // unreachable at realistic counts, kept for exactness. CLDR writes Portuguese as
+        // `i = 0..1`, which is this same rule for integers.
+        AppLanguage.FR, AppLanguage.PT -> when {
             n == 0L || n == 1L -> PluralCategory.One
             n != 0L && n % 1_000_000L == 0L -> PluralCategory.Many
             else -> PluralCategory.Other
@@ -117,12 +121,20 @@ fun pluralCategory(language: AppLanguage, count: Int): PluralCategory {
             else -> PluralCategory.Other
         }
 
-        // Serbo-Croatian: East Slavic shape without a `many` — 5–20 falls into `other`.
-        AppLanguage.HR, AppLanguage.SR -> when {
+        // Serbo-Croatian: East Slavic shape without a `many` — 5–20 falls into `other`. Bosnian
+        // is the same rule in CLDR, character for character.
+        AppLanguage.BS, AppLanguage.HR, AppLanguage.SR -> when {
             mod10 == 1 && mod100 != 11 -> PluralCategory.One
             mod10 in 2..4 && mod100 !in 12..14 -> PluralCategory.Few
             else -> PluralCategory.Other
         }
+
+        // Icelandic and Macedonian: `one` is every number *ending* in 1 except the teens — "21
+        // sveppur", "101 sveppur", but "11 sveppir". Two unrelated languages landing on the same
+        // rule; CLDR writes Macedonian's with the extra fraction clause, which integers never
+        // reach.
+        AppLanguage.IS, AppLanguage.MK ->
+            if (mod10 == 1 && mod100 != 11) PluralCategory.One else PluralCategory.Other
 
         // Slovenian — the only dual in the set: 1 / 2 / 3–4 / rest, all keyed off n % 100.
         AppLanguage.SL -> when (mod100) {

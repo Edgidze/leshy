@@ -11,8 +11,9 @@
 отличие от `tools/build_catalog.py`.
 
 Использование:
-    python3 tools/check_research.py                       # все файлы в results/
-    python3 tools/check_research.py path/to/research_KZ.json ...
+    python3 tools/check_research.py                       # все файлы текущей партии
+    python3 tools/check_research.py --batch post-soviet   # прошлая партия
+    python3 tools/check_research.py path/to/research_DK.json ...
 
 Один файл проверяется сам по себе. Если файлов несколько, добавляется сводка
 по тем вещам, которые в одном файле не видны: конфликты русских названий между
@@ -20,6 +21,7 @@
 предупреждения на код возврата не влияют.
 """
 
+import argparse
 import json
 import sys
 from collections import defaultdict
@@ -30,25 +32,87 @@ CATALOG_JSON = (
     REPO_ROOT / "shared" / "src" / "commonMain" / "composeResources" / "files" / "catalog"
     / "catalog.json"
 )
-RESULTS_DIR = REPO_ROOT / "docs" / "research" / "post-soviet" / "results"
+NAMES_DIR = CATALOG_JSON.parent / "names"
 
-# Страны плана и их языки: титульный первым, затем русский там, где он в `langs`
-# подборки по решению §7 плана. Сессия присылает `languages` сама — здесь это
-# ожидание, расхождение с которым стоит увидеть, а не молча принять.
-EXPECTED_LANGUAGES = {
-    "KZ": ["kk", "ru"],
-    "UZ": ["uz", "ru"],
-    "KG": ["ky", "ru"],
-    "TJ": ["tg", "ru"],
-    "TM": ["tk"],
-    "AZ": ["az"],
-    "AM": ["hy"],
+# Партии исследования. Каждая — своя директория результатов и своя таблица
+# ожиданий по странам: языки подборки (титульный первым), коридор размера
+# `(min, max, ориентир)` и коридор числа опасных видов.
+#
+# Коридоры вынесены в таблицу, а не заданы константами на всех, потому что
+# партия `europe-15` этого потребовала: островная (`IS`) и безлесная (`IE`,
+# `CY`) микобиота честно даёт меньше пятидесяти позиций, и общий нижний порог 40
+# заставил бы сессию добить список видами, которых там не собирают, — ровно то,
+# что промпт запрещает.
+DEFAULT_SIZE = (40, 55, 50)
+DEFAULT_DANGEROUS = (8, 19)
+
+BATCHES = {
+    # `.claude/plans/post-soviet-countries.md` — 33 → 40 подборок, сделано.
+    "post-soviet": {
+        "results": REPO_ROOT / "docs" / "research" / "post-soviet" / "results",
+        "countries": {
+            "KZ": {"languages": ["kk", "ru"]},
+            "UZ": {"languages": ["uz", "ru"]},
+            "KG": {"languages": ["ky", "ru"]},
+            "TJ": {"languages": ["tg", "ru"]},
+            "TM": {"languages": ["tk"]},
+            "AZ": {"languages": ["az"]},
+            "AM": {"languages": ["hy"]},
+        },
+    },
+    # `.claude/plans/europe-15-countries.md` — 40 → 55 подборок.
+    "europe-15": {
+        "results": REPO_ROOT / "docs" / "research" / "europe-15" / "results",
+        "countries": {
+            "AL": {"languages": ["sq"]},
+            "BA": {"languages": ["bs", "hr", "sr"]},
+            "BE": {"languages": ["nl", "fr", "de"]},
+            "CH": {"languages": ["de", "fr", "it"]},
+            "CY": {"languages": ["el", "tr"], "size": (35, 50, 45), "dangerous": (8, 16)},
+            "DK": {"languages": ["da"]},
+            "GR": {"languages": ["el"]},
+            "IE": {"languages": ["en"], "size": (35, 55, 45), "dangerous": (8, 18)},
+            "IS": {"languages": ["is"], "size": (25, 45, 35), "dangerous": (4, 12)},
+            "LU": {"languages": ["fr", "de"]},
+            "ME": {"languages": ["sr"]},
+            "MK": {"languages": ["mk", "sq"]},
+            "NL": {"languages": ["nl"]},
+            "NO": {"languages": ["nb"]},
+            "PT": {"languages": ["pt"]},
+        },
+    },
 }
 
-PRESET_SIZE_RANGE = (40, 55)
-PRESET_SIZE_TYPICAL = 50
-DANGEROUS_RANGE = (8, 19)
 GAP_PRIORITIES = {"high", "medium", "low"}
+
+# Партия, которую проверяют без явного `--batch`: текущая.
+DEFAULT_BATCH = "europe-15"
+
+
+def batch_of(country: str) -> "str | None":
+    """Имя партии, в которую входит код страны, или None."""
+    for name, batch in BATCHES.items():
+        if country in batch["countries"]:
+            return name
+    return None
+
+
+def spec_of(country: str) -> dict:
+    spec = BATCHES[batch_of(country)]["countries"][country]
+    return {
+        "languages": spec["languages"],
+        "size": spec.get("size", DEFAULT_SIZE),
+        "dangerous": spec.get("dangerous", DEFAULT_DANGEROUS),
+    }
+
+
+def load_existing_names(codes) -> dict:
+    """Уже лежащие в приложении названия по языкам, для проверки на перезапись."""
+    existing = {}
+    for code in codes:
+        path = NAMES_DIR / f"{code}.json"
+        existing[code] = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    return existing
 
 # Подборки стран, чей ареал заведомо не пересекается с семью нашими. Вид,
 # который сейчас входит ТОЛЬКО в них, почти наверняка взят по ошибке — это тот
@@ -135,13 +199,17 @@ def check_file(path: Path, catalog: dict, already_in: dict) -> tuple[Report, dic
     expected_country = path.stem.replace("research_", "")
     if country != expected_country:
         report.error(f"`country` = {country!r}, а файл называется research_{expected_country}.json")
-    if country not in EXPECTED_LANGUAGES:
-        report.error(f"{country} не входит в семь стран плана: {sorted(EXPECTED_LANGUAGES)}")
+    batch = batch_of(country)
+    if batch is None:
+        known = sorted(c for b in BATCHES.values() for c in b["countries"])
+        report.error(f"{country} не входит ни в одну партию исследования: {known}")
         return report, {}
+    spec = spec_of(country)
+    report.label = f"{path.name} ({batch})"
 
     # ---- языки --------------------------------------------------------------
     languages = data["languages"]
-    expected = EXPECTED_LANGUAGES[country]
+    expected = spec["languages"]
     if not languages:
         report.error("`languages` пуст")
     elif languages != expected:
@@ -173,18 +241,18 @@ def check_file(path: Path, catalog: dict, already_in: dict) -> tuple[Report, dic
             report.error(f"взято несколько ключей одного вида под разными родовыми именами: "
                          f"{taken} — оставить один")
 
-    low, high = PRESET_SIZE_RANGE
+    low, high, typical = spec["size"]
     if not low <= len(keys) <= high:
         report.error(f"{len(keys)} позиций — вне коридора {low}–{high}")
-    elif len(keys) < PRESET_SIZE_TYPICAL:
-        report.warn(f"{len(keys)} позиций (обычный размер — {PRESET_SIZE_TYPICAL}); "
+    elif len(keys) < typical:
+        report.warn(f"{len(keys)} позиций (ориентир партии — {typical}); "
                     f"это допустимо, но должно быть объяснено в ответе сессии")
     else:
         report.fact(f"{len(keys)} позиций")
 
     known_keys = [k for k in keys if k in catalog]
     dangerous = [k for k in known_keys if catalog[k]["dangerous"]]
-    low_d, high_d = DANGEROUS_RANGE
+    low_d, high_d = spec["dangerous"]
     share = f"{len(dangerous)} опасных ({100 * len(dangerous) // max(1, len(known_keys))}%)"
     if not low_d <= len(dangerous) <= high_d:
         report.error(f"{share} — вне коридора {low_d}–{high_d}")
@@ -216,6 +284,32 @@ def check_file(path: Path, catalog: dict, already_in: dict) -> tuple[Report, dic
         covered = len(set(table) & key_set)
         report.fact(f"names.{lang}: {covered} из {len(key_set)} "
                     f"({100 * covered // max(1, len(key_set))}%)")
+
+    # Файл `names/<lang>.json` в приложении один на все подборки, и `extra_names`
+    # применяется последним, то есть перезаписывает. Предложенное имя для ключа,
+    # у которого имя уже есть, — это правка чужой подборки (`DE`, `FR`, `GB`,
+    # `RS`, ...), а не дозаполнение; в прошлой партии такие 51 расхождение
+    # разбирались руками и почти все были отвергнуты.
+    existing = load_existing_names(names)
+    for lang in sorted(names):
+        clashes, case_only = {}, []
+        for key, name in sorted(names[lang].items()):
+            was = existing[lang].get(key)
+            if not was or was == name:
+                continue
+            if was.casefold() == name.casefold():
+                case_only.append(key)
+            else:
+                clashes[key] = (was, name)
+        if clashes:
+            shown = list(clashes.items())[:12]
+            rendered = "; ".join(f"{k}: было {a!r}, предложено {b!r}" for k, (a, b) in shown)
+            tail = f" (и ещё {len(clashes) - len(shown)})" if len(clashes) > len(shown) else ""
+            report.warn(f"names.{lang}: {len(clashes)} названий уже есть в приложении и "
+                        f"расходятся по существу — {rendered}{tail}")
+        if case_only:
+            report.warn(f"names.{lang}: ещё {len(case_only)} расходятся только регистром — "
+                        f"брать существующее написание")
 
     titular = languages[0] if languages else None
     if titular and titular not in names:
@@ -251,10 +345,11 @@ def check_file(path: Path, catalog: dict, already_in: dict) -> tuple[Report, dic
         if nearest is not None and nearest not in catalog:
             report.error(f"{where}: `nearest_key` = {nearest!r} — такого ключа в каталоге нет")
         also_in = set(gap.get("also_in", []))
-        outside = sorted((also_in - set(EXPECTED_LANGUAGES)) | (also_in & {country}))
+        batch_countries = set(BATCHES[batch]["countries"])
+        outside = sorted((also_in - batch_countries) | (also_in & {country}))
         if outside:
             report.error(f"{where}: `also_in` содержит {outside} — ожидались коды "
-                         f"из семи стран плана, кроме самой {country}")
+                         f"стран партии {batch}, кроме самой {country}")
         if not gap.get("sources"):
             report.warn(f"{where} ({gap.get('sci', '?')}): нет `sources`")
         if gap.get("same_concept_as_nearest") and priority == "high":
@@ -269,13 +364,14 @@ def check_file(path: Path, catalog: dict, already_in: dict) -> tuple[Report, dic
     return report, data
 
 
-def cross_check(files: dict) -> Report:
+def cross_check(files: dict, expected_countries: set) -> Report:
     """То, что не видно внутри одного файла: конфликты названий и слияние `gaps`."""
     report = Report("сводка по всем файлам")
 
-    # Название вида на данном языке в приложении одно. Титульные языки у семи
-    # стран не пересекаются, так что реально конфликтует только `ru` — но
-    # проверяется любой язык, встретившийся больше чем в одном файле.
+    # Название вида на данном языке в приложении одно, а один и тот же язык
+    # просят несколько сессий: `ru` — все семь стран прошлой партии, `el` — GR и
+    # CY, `sq` — AL и MK, `nl` — NL и BE, `fr` — BE, CH и LU. Проверяется любой
+    # язык, встретившийся больше чем в одном файле.
     by_language_key = defaultdict(lambda: defaultdict(dict))
     for country, data in files.items():
         for lang, table in data.get("names", {}).items():
@@ -320,9 +416,9 @@ def cross_check(files: dict) -> Report:
             report.fact(f"    {sci}: {len(per_country)} стран ({countries}), "
                         f"{'/'.join(sorted(str(p) for p in priorities))}{suffix}")
     else:
-        report.fact("`gaps` пуст во всех файлах — каталог покрывает все семь стран")
+        report.fact("`gaps` пуст во всех файлах — каталог покрывает все страны партии")
 
-    missing = sorted(set(EXPECTED_LANGUAGES) - set(files))
+    missing = sorted(expected_countries - set(files))
     if missing:
         report.fact(f"ещё не пришли: {', '.join(missing)}")
 
@@ -341,12 +437,20 @@ def main() -> int:
         for key in entry["keys"]:
             already_in[key].append(entry["code"])
 
-    if len(sys.argv) > 1:
-        paths = [Path(a) for a in sys.argv[1:]]
+    parser = argparse.ArgumentParser(description="Проверка файлов research_<CC>.json")
+    parser.add_argument("paths", nargs="*", type=Path,
+                        help="конкретные файлы; без них — вся директория результатов партии")
+    parser.add_argument("--batch", choices=sorted(BATCHES), default=DEFAULT_BATCH,
+                        help=f"партия исследования (по умолчанию {DEFAULT_BATCH})")
+    args = parser.parse_args()
+
+    if args.paths:
+        paths = args.paths
     else:
-        paths = sorted(RESULTS_DIR.glob("research_*.json"))
+        results_dir = BATCHES[args.batch]["results"]
+        paths = sorted(results_dir.glob("research_*.json"))
         if not paths:
-            print(f"в {RESULTS_DIR} нет файлов research_*.json — нечего проверять")
+            print(f"в {results_dir} нет файлов research_*.json — нечего проверять")
             return 0
 
     failed = False
@@ -363,7 +467,9 @@ def main() -> int:
             parsed[data["country"]] = data
 
     if len(parsed) > 1:
-        cross_check(parsed).print()
+        batches = {batch_of(cc) for cc in parsed if batch_of(cc)}
+        expected = {cc for b in batches for cc in BATCHES[b]["countries"]}
+        cross_check(parsed, expected).print()
 
     print()
     print("ЕСТЬ ОШИБКИ — файл(ы) вернуть в сессию" if failed else "Ошибок нет")

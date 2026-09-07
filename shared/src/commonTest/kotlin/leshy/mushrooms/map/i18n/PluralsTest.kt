@@ -43,6 +43,11 @@ class PluralsTest {
         AppLanguage.TK to twoWay(),
         AppLanguage.TR to twoWay(),
         AppLanguage.UZ to twoWay(),
+        AppLanguage.DA to twoWay(),
+        AppLanguage.EL to twoWay(),
+        AppLanguage.NB to twoWay(),
+        AppLanguage.NL to twoWay(),
+        AppLanguage.SQ to twoWay(),
 
         // Armenian: like `twoWay`, except 0 joins 1 in the singular. That single differing count
         // is the whole reason it can't reuse the helper — and exactly the sort of thing that
@@ -54,6 +59,14 @@ class PluralsTest {
 
         // French: 0 is singular; `many` is the million form.
         AppLanguage.FR to mapOf(
+            0 to One, 1 to One,
+            2 to Other, 5 to Other, 11 to Other, 21 to Other, 101 to Other,
+            1_000_000 to Many, 2_000_000 to Many, 1_000_001 to Other,
+        ),
+
+        // Portuguese: French's rule exactly — 0 joins 1 in the singular, `many` is the million
+        // form. CLDR writes it as `i = 0..1`, which is the same thing for integers.
+        AppLanguage.PT to mapOf(
             0 to One, 1 to One,
             2 to Other, 5 to Other, 11 to Other, 21 to Other, 101 to Other,
             1_000_000 to Many, 2_000_000 to Many, 1_000_001 to Other,
@@ -83,6 +96,13 @@ class PluralsTest {
         // Serbo-Croatian: East Slavic shape with `other` where Russian has `many`.
         AppLanguage.HR to serboCroatian(),
         AppLanguage.SR to serboCroatian(),
+        AppLanguage.BS to serboCroatian(),
+
+        // Icelandic and Macedonian: every number ending in 1 is singular except the teens. Two
+        // unrelated languages, one rule — 21 and 101 are `one` where the twoWay languages have
+        // `other`, and that single divergence is why they can't reuse the helper.
+        AppLanguage.IS to endsInOne(),
+        AppLanguage.MK to endsInOne(),
 
         // Slovenian dual.
         AppLanguage.SL to mapOf(
@@ -100,7 +120,7 @@ class PluralsTest {
             110 to Other, 111 to Other, 119 to Other,
         ),
 
-        // Latvian: the only `zero` of the 33.
+        // Latvian: the only `zero` of the 42.
         AppLanguage.LV to mapOf(
             0 to Zero, 10 to Zero, 11 to Zero, 15 to Zero, 19 to Zero, 20 to Zero, 30 to Zero,
             110 to Zero, 111 to Zero, 115 to Zero,
@@ -138,6 +158,11 @@ class PluralsTest {
         1 to One,
         2 to Few, 3 to Few, 4 to Few,
         0 to Other, 5 to Other, 11 to Other, 21 to Other, 22 to Other, 101 to Other,
+    )
+
+    private fun endsInOne() = mapOf(
+        1 to One, 21 to One, 31 to One, 101 to One, 121 to One,
+        0 to Other, 2 to Other, 5 to Other, 11 to Other, 22 to Other, 111 to Other,
     )
 
     private fun serboCroatian() = mapOf(

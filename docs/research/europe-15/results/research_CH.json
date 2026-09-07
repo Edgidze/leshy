@@ -1,0 +1,243 @@
+{
+  "country": "CH",
+  "languages": [
+    "de",
+    "fr",
+    "it"
+  ],
+  "keys": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "imleria_badia",
+    "armillaria_mellea",
+    "macrolepiota_procera",
+    "craterellus_cornucopioides",
+    "hydnum_repandum",
+    "neoboletus_erythropus",
+    "craterellus_tubaeformis",
+    "morchella_esculenta",
+    "lactarius_deliciosus",
+    "amanita_phalloides",
+    "amanita_muscaria",
+    "boletus_aereus",
+    "agaricus_campestris__2",
+    "amanita_rubescens",
+    "amanita_pantherina",
+    "calocybe_gambosa",
+    "coprinus_comatus",
+    "leccinum_scabrum",
+    "leccinum_aurantiacum",
+    "suillus_luteus",
+    "marasmius_oreades",
+    "lepista_nuda",
+    "russula_cyanoxantha__2",
+    "hypholoma_fasciculare",
+    "tylopilus_felleus",
+    "hygrophoropsis_aurantiaca",
+    "suillus_grevillei",
+    "albatrellus_ovinus",
+    "hygrophorus_marzuolus",
+    "amanita_caesarea",
+    "gomphus_clavatus",
+    "cortinarius_caperatus",
+    "sparassis_crispa",
+    "kuehneromyces_mutabilis",
+    "galerina_marginata",
+    "lyophyllum_decastes",
+    "pleurotus_ostreatus",
+    "russula_virescens",
+    "tuber_aestivum",
+    "tricholoma_pardinum",
+    "entoloma_sinuatum",
+    "agaricus_xanthodermus",
+    "chlorophyllum_brunneum",
+    "paxillus_involutus",
+    "amanita_virosa",
+    "cortinarius_orellanus",
+    "gyromitra_esculenta",
+    "rubroboletus_satanas",
+    "inosperma_erubescens",
+    "lepiota_brunneoincarnata",
+    "omphalotus_olearius"
+  ],
+  "names": {
+    "de": {
+      "boletus_aereus": "Schwarzhütiger Steinpilz",
+      "hygrophorus_marzuolus": "Märzschneckling",
+      "lyophyllum_decastes": "Büscheliger Rasling",
+      "tuber_aestivum": "Sommertrüffel",
+      "entoloma_sinuatum": "Riesenrötling",
+      "inosperma_erubescens": "Ziegelroter Risspilz",
+      "chlorophyllum_brunneum": "Garten-Safranschirmling",
+      "omphalotus_olearius": "Ölbaumtrichterling",
+      "lepiota_brunneoincarnata": "Fleischbrauner Schirmling"
+    },
+    "fr": {
+      "suillus_grevillei": "Bolet élégant",
+      "hygrophorus_marzuolus": "Hygrophore de mars",
+      "tylopilus_felleus": "Bolet de fiel",
+      "tricholoma_pardinum": "Tricholome tigré",
+      "inosperma_erubescens": "Inocybe de Patouillard",
+      "chlorophyllum_brunneum": "Lépiote vénéneuse"
+    },
+    "it": {
+      "imleria_badia": "Boleto baio",
+      "craterellus_tubaeformis": "Finferla",
+      "neoboletus_erythropus": "Boleto dal piede rosso",
+      "boletus_aereus": "Porcino nero",
+      "amanita_rubescens": "Tignosa vinata",
+      "leccinum_scabrum": "Porcinello grigio",
+      "suillus_luteus": "Pinarello",
+      "suillus_grevillei": "Boleto elegante",
+      "marasmius_oreades": "Gambesecche",
+      "lepista_nuda": "Agarico violetto",
+      "albatrellus_ovinus": "Fungo del pane",
+      "sparassis_crispa": "Ditola increspata",
+      "kuehneromyces_mutabilis": "Famigliola gialla",
+      "lyophyllum_decastes": "Agarico aggregato",
+      "paxillus_involutus": "Agarico accartocciato",
+      "hygrophoropsis_aurantiaca": "Falso gallinaccio"
+    }
+  },
+  "coined": [],
+  "notes": {
+    "boletus_edulis": "Гриб №1 во всех трёх языковых частях: Steinpilz / cèpe / porcino. Официальный швейцарский список разрешённых съедобных (pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm); в Тичино «95% собирающих несут порчини, лисички и сернелу» (laRegione (интервью с контролёром VAPKO, Тичино): https://www.laregione.ch/cantone/ticino/1457836/funghi-ticino-vapko-panzini-esemplari).",
+    "cantharellus_cibarius": "Второй по массовости; в немецкой Швейцарии повсеместно называется диалектным «Eierschwämmli» (в names намеренно стандартное Pfifferling). На официальном списке; 24heures отдельно пишет про «été des chanterelles» в Vaud.",
+    "imleria_badia": "Maronenröhrling — единственный из филцевых, допущенный к торговле в CH, и массовый в еловых посадках Миттельланда (pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm).",
+    "armillaria_mellea": "pilze.ch прямо называет опёнок «wohl die meistverzehrte Pilzarten» в Швейцарии; официально разрешён только A. mellea и только для собственного потребления, обязательно с отвариванием (pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm).",
+    "macrolepiota_procera": "Parasol/coulemelle/mazza di tamburo — в тройке названного тичинскими контролёрами (laRegione (интервью с контролёром VAPKO, Тичино): https://www.laregione.ch/cantone/ticino/1457836/funghi-ticino-vapko-panzini-esemplari); на официальном списке вместе с M. rhacodes.",
+    "craterellus_cornucopioides": "Totentrompete, в швейцарском немецком часто «Totentrümpete»; один из самых торгуемых сушёных грибов страны (pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm).",
+    "hydnum_repandum": "Semmelstoppelpilz / pied de mouton — стандартная позиция швейцарской корзины, на официальном списке вместе с var. rufescens.",
+    "neoboletus_erythropus": "Flockenstieliger Hexenröhrling: в CH массово собирают, несмотря на посинение; pilze.ch отдельно объясняет, что при жарке цвет возвращается.",
+    "craterellus_tubaeformis": "Trompeten-Pfifferling — поздне-осенний массовый сбор во влажных хвойниках; на официальном списке. Близкий C. lutescens в подборку не взят, чтобы не дробить один народный концепт (в CH оба идут как «Trompetenpfifferlinge»).",
+    "morchella_esculenta": "Весенний сбор, «сморчок» как общий концепт (M. esculenta + M. elata на официальном списке). Из пары взят широкий ключ, у которого есть названия на всех трёх языках.",
+    "lactarius_deliciosus": "Edelreizker / lactaire délicieux / sanguinello. На официальном списке вместе с L. deterrimus, L. salmonicolor, L. sanguifluus, L. semisanguifluus; L. deterrimus в подборку не взят отдельно — для швейцарского грибника это тот же «Reizker».",
+    "amanita_phalloides": "Главный смертельный вид страны; Tox Info Suisse фиксирует 0–8 отравлений бледной поганкой в год. В швейцарском списке белая форма проходит как var. verna, поэтому отдельный ключ amanita_verna не брал.",
+    "amanita_muscaria": "Обязателен к узнаванию по списку VAPKO (pilze.ch/Pilzkontrolle «Kenntnis der wichtigsten Giftpilze» — список ядовитых, который обязан знать швейцарский Pilzkontrolleur (VAPKO): http://www.pilze.ch/pilzkontrollstellen/giftpilze.htm); в Тичино назван как самый узнаваемый ядовитый (laRegione (интервью с контролёром VAPKO, Тичино): https://www.laregione.ch/cantone/ticino/1457836/funghi-ticino-vapko-panzini-esemplari).",
+    "boletus_aereus": "Порчино неро: каштановые и дубовые леса Тичино и южных долин Граубюндена — там это главный белый. На официальном списке.",
+    "agaricus_campestris__2": "Wiesenchampignon / rosé-des-prés — луговой шампиньон; из пары взят узкий «луговой» концепт. Официальный список допускает A. campester и родню секции Edules.",
+    "amanita_rubescens": "Perlpilz / golmotte — очень популярен в CH, но только хорошо проваренным; на официальном списке с оговоркой про сырой и про пантерный мухомор.",
+    "amanita_pantherina": "Прямой двойник Perlpilz'а, в списке обязательных к узнаванию VAPKO (pilze.ch/Pilzkontrolle «Kenntnis der wichtigsten Giftpilze» — список ядовитых, который обязан знать швейцарский Pilzkontrolleur (VAPKO): http://www.pilze.ch/pilzkontrollstellen/giftpilze.htm).",
+    "calocybe_gambosa": "Maipilz / mousseron de la Saint-Georges / prugnolo — «einer der ersten ergiebigen Speisepilze nach den Morcheln im Frühjahr» (pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm).",
+    "coprinus_comatus": "Schopftintling; на официальном списке, для торговли — только культурная форма.",
+    "leccinum_scabrum": "Birkenpilz; официальный список поимённо разрешает L. scabrum, L. rufum, L. versipelle, L. carpini, L. duriusculum, весь род признан съедобным.",
+    "leccinum_aurantiacum": "Rotkappe — второй народный концепт рода (краснолистные подосиновики); взят один ключ из трёх возможных «Rotkappe» в каталоге.",
+    "suillus_luteus": "Butterpilz / nonnette voilée / pinarello; на официальном списке, но pilze.ch предупреждает о редких случаях иммуногемолиза. Из пары взят ключ с немецким и французским названием.",
+    "marasmius_oreades": "Nelkenschwindling; «ein ausgezeichneter Speisepilz» официального списка, массовый на лугах и газонах.",
+    "lepista_nuda": "Violetter Rötelritterling / pied bleu — поздне-осенний массовый сбор, на официальном списке (L. nuda, L. irina, L. saeva). Взят lepista_nuda, а не синонимичные collybia_nuda/clitocybe_nuda.",
+    "russula_cyanoxantha__2": "Frauentäubling — один из пяти сыроежек официального швейцарского списка (R. cyanoxantha, integra, mustelina, vesca, virescens). Взят узкий ключ с названиями на всех трёх языках.",
+    "hypholoma_fasciculare": "Grünblättriger Schwefelkopf — двойник опёнка №1 в стране, где опёнок и есть самый поедаемый гриб (pilze.ch/Pilzkontrolle «Kenntnis der wichtigsten Giftpilze» — список ядовитых, который обязан знать швейцарский Pilzkontrolleur (VAPKO): http://www.pilze.ch/pilzkontrollstellen/giftpilze.htm).",
+    "tylopilus_felleus": "Gallenröhrling: самая частая причина, по которой швейцарскую корзину бракуют; в Тичино назван поимённо как «porcino del fiele» (laRegione (интервью с контролёром VAPKO, Тичино): https://www.laregione.ch/cantone/ticino/1457836/funghi-ticino-vapko-panzini-esemplari). В каталоге не помечен опасным, и это правильно — он горький, а не ядовитый.",
+    "hygrophoropsis_aurantiaca": "Falscher Pfifferling — двойник «Eierschwämmli», второго по массовости гриба страны.",
+    "suillus_grevillei": "Goldröhrling под лиственницей: лиственничный пояс Альп и Граубюндена — типично швейцарская стация. На официальном списке.",
+    "albatrellus_ovinus": "Schafeuterporling — субальпийские ельники; на списке VAPKO с оговоркой о возможных индивидуальных реакциях и о путанице с Osteina obducta.",
+    "hygrophorus_marzuolus": "Märzschneckling / marzuolo — ранневесенний сбор Тичино и известняковых хвойников выше 700 м, единственный Hygrophorus, допущенный к торговле в CH. Важная оговорка: VAPKO пишет, что вид попал в швейцарский красный список и рекомендует его не собирать, а фотографировать (VAPKO (fr), «L'hygrophore de mars pointe son chapeau en mars»: https://www.vapko.ch/index.php/fr/questions-de-champignons/articles-de-mycologie/le-marzuolus-pointe-son-chapeau-en-mars). Оставлен в подборке как культурно значимый ранневесенний вид, но это единственная позиция с прямой рекомендацией не собирать.",
+    "amanita_caesarea": "Ovolo buono — Тичино и южные долины; для остальной Швейцарии экзотика. На официальном списке; закрытые «яйца» продавать запрещено из-за риска спутать с мухоморами (pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm). Назван контролёрами среди трёх самых собираемых в Тичино (laRegione (интервью с контролёром VAPKO, Тичино): https://www.laregione.ch/cantone/ticino/1457836/funghi-ticino-vapko-panzini-esemplari).",
+    "gomphus_clavatus": "Violettes Schweinsohr — «sehr beliebter aber vielerorts seltener Speisepilz» официального списка; известняковые ельники Юры и Альп. Внимание: в каталоге already_in только CA, поэтому чекер помечает его как «далёкий» — ареал европейский, вид швейцарский, предупреждение ложное.",
+    "cortinarius_caperatus": "Reifpilz / Zigeuner — единственный массово собираемый паутинник CH наряду с Cortinarius praestans; «sehr beliebt» по официальному списку.",
+    "sparassis_crispa": "Krause Glucke; на списке, но с оговоркой щадить дикие находки.",
+    "kuehneromyces_mutabilis": "Stockschwämmchen — единственный из пары «Schwefelkopf/Stockschwämmchen» на официальном списке; вне культуры собирается для себя.",
+    "galerina_marginata": "Gifthäubling — амотоксиновый двойник Stockschwämmchen; отдельный пункт в списке обязательных к узнаванию VAPKO (pilze.ch/Pilzkontrolle «Kenntnis der wichtigsten Giftpilze» — список ядовитых, который обязан знать швейцарский Pilzkontrolleur (VAPKO): http://www.pilze.ch/pilzkontrollstellen/giftpilze.htm).",
+    "lyophyllum_decastes": "Büscheliger Rasling — «ausgezeichneter und offizieller Speisepilz», но с прямым предупреждением о путанице с рядовками-энтоломами (pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm). Внимание: already_in у ключа только JP,MX, и чекер помечает его как «далёкий» — Lyophyllum decastes широко распространён в Европе и стоит на официальном швейцарском списке, предупреждение ложное.",
+    "pleurotus_ostreatus": "Austernseitling; дикие находки в CH редки и часто зимние, но вид на официальном списке и в торговле.",
+    "russula_virescens": "Grüngefelderter Täubling — на официальном списке; в Тичино контролёры отдельно предупреждают, что зелёную шляпку путают с бледной поганкой (laRegione (интервью с контролёром VAPKO, Тичино): https://www.laregione.ch/cantone/ticino/1457836/funghi-ticino-vapko-panzini-esemplari).",
+    "tuber_aestivum": "Бургундский трюфель (T. aestivum f. uncinatum) — на официальном швейцарском списке разрешённых съедобных и предмет реального промысла с собаками в Во, Невшателе и Юре. Источник у меня только официальный список; масштаб любительского сбора по швейцарским источникам я не подтвердил — позиция самая спорная в подборке после hygrophorus_marzuolus.",
+    "tricholoma_pardinum": "Tigerritterling — VAPKO называет его в числе частых причин осложнений; известняковые буковые леса Юры и Альп, путают со съедобными серыми рядовками (pilze.ch/Pilzkontrolle «Kenntnis der wichtigsten Giftpilze» — список ядовитых, который обязан знать швейцарский Pilzkontrolleur (VAPKO): http://www.pilze.ch/pilzkontrollstellen/giftpilze.htm).",
+    "entoloma_sinuatum": "Riesenrötling — вместе с Tigerritterling и Karbolchampignon назван VAPKO частым виновником отравлений с госпитализацией.",
+    "agaricus_xanthodermus": "Karbolchampignon — третий из «частых виновников» списка VAPKO; двойник лугового шампиньона. Из двух орфографических вариантов в каталоге взят один.",
+    "chlorophyllum_brunneum": "Швейцарский официальный список разрешает весь род Macrolepiota, КРОМЕ M. venenata / M. rhacodes var. hortensis — то есть ровно этого вида, растущего в садах и компостах; это прямой двойник парасоля, одного из топ-5 грибов страны (pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm).",
+    "paxillus_involutus": "Kahler Krempling — отдельный пункт списка VAPKO; иммуногемолиз. В CH ещё живо старое представление о нём как о съедобном, и pilze.ch посвящает этому отдельный разбор.",
+    "amanita_virosa": "Spitzhütiger Knollenblätterpilz — третий из трёх смертельных Amanita швейцарского списка. Белая форма phalloides (var. verna) в CH проходит как цветовой вариант, поэтому ключ amanita_verna отдельно не брал.",
+    "cortinarius_orellanus": "VAPKO требует узнавать паутинники целым родом из-за орелланина; orellanus — представитель концепта.",
+    "gyromitra_esculenta": "Frühjahrslorchel — весенний двойник сморчка; в CH его ещё едят после отваривания, и pilze.ch объясняет почему это опасно. Из пары взят ключ с de/fr/it названиями.",
+    "rubroboletus_satanas": "Satansröhrling — известняковые дубово-буковые леса Юры и Плато, на списке обязательных к узнаванию.",
+    "inosperma_erubescens": "Ziegelroter Risspilz — мускариновый двойник майского гриба (Calocybe gambosa) в то же время и в тех же местах; VAPKO требует узнавать род Inocybe целиком. Взят inosperma_erubescens, а не синонимичный inocybe_erubescens.",
+    "lepiota_brunneoincarnata": "VAPKO требует узнавать род Lepiota целиком из-за амотоксинов; brunneoincarnata — самый частый смертельный представитель мелких зонтиков в садах и парках. Немецкое имя взято по швейцарской базе mycopedia.ch.",
+    "omphalotus_olearius": "Ölbaumtrichterling: pilze.ch пишет, что севернее Альп он редок, но узнавать обязан каждый — из-за жёлто-оранжевого цвета его принимают за лисичку; в Тичино и южных долинах присутствует реально."
+  },
+  "gaps": [
+    {
+      "sci": "Cortinarius praestans (Schleiereule)",
+      "names": {
+        "de": "Schleiereule",
+        "fr": "Cortinaire remarquable",
+        "it": "Cortinario violaceo-brunastro"
+      },
+      "why": "Единственный паутинник, который швейцарский список рекомендует как отличный съедобный («der einzige empfohlene und ausgezeichnete Speisepilz aus der Gruppe der Haarschleierlinge»); крупный, заметный, собирают в известняковых буковых лесах Юры и Плато. При этом VAPKO требует узнавать род Cortinarius целиком как смертельно опасный — то есть это редкий случай, когда съедобный и смертельный концепты внутри одного рода надо различать в поле.",
+      "nearest_key": "cortinarius_caperatus",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "BE",
+        "LU"
+      ],
+      "priority": "medium",
+      "sources": [
+        "pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm"
+      ]
+    },
+    {
+      "sci": "Amanita strobiliformis (син. A. solitaria auct.)",
+      "names": {
+        "de": "Fransiger Wulstling",
+        "fr": "Amanite à voile ample",
+        "it": "Tignosa pedante"
+      },
+      "why": "Швейцарский список описывает его как «sehr grosser, ergiebiger Speisepilz» — тёплые известняковые дубравы Плато и Тичино дают крупные сборы. Не на официальном торговом списке, но собирается.",
+      "nearest_key": "amanita_ovoidea",
+      "same_concept_as_nearest": true,
+      "also_in": [],
+      "priority": "low",
+      "sources": [
+        "pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm"
+      ]
+    },
+    {
+      "sci": "Disciotis venosa",
+      "names": {
+        "de": "Aderiger Morchelbecherling",
+        "fr": "Pézize veinée",
+        "it": "Discioto venato"
+      },
+      "why": "Весенний спутник сморчков в пойменных лесах Плато и Романдии; швейцарский список оценивает его «von ähnlicher Qualität wie Morcheln» и отдельно предупреждает о путанице с ядовитыми бокальчатыми. Отдельного концепта в каталоге нет вообще.",
+      "nearest_key": "morchella_esculenta",
+      "same_concept_as_nearest": false,
+      "also_in": [],
+      "priority": "low",
+      "sources": [
+        "pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm"
+      ]
+    },
+    {
+      "sci": "Butyriboletus appendiculatus (син. Boletus appendiculatus)",
+      "names": {
+        "de": "Anhängselröhrling",
+        "fr": "Bolet appendiculé",
+        "it": "Boleto appendicolato"
+      },
+      "why": "На швейцарском списке съедобных в одном блоке со Steinpilz'ами; тёплые дубово-буковые леса Плато и Тичино. Для грибника это «жёлтый белый гриб», отдельная плитка, а не разновидность Boletus edulis.",
+      "nearest_key": "boletus_edulis",
+      "same_concept_as_nearest": false,
+      "also_in": [],
+      "priority": "low",
+      "sources": [
+        "pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm"
+      ]
+    }
+  ],
+  "sources": [
+    "pilze.ch/Pilzkontrolle «Geeignete Speisepilze» (R. Winkler, VSVP) — свод официального швейцарского списка разрешённых съедобных грибов + учебный список VAPKO: http://www.pilze.ch/pilzkontrollstellen/speisepilze.htm",
+    "pilze.ch/Pilzkontrolle «Kenntnis der wichtigsten Giftpilze» — список ядовитых, который обязан знать швейцарский Pilzkontrolleur (VAPKO): http://www.pilze.ch/pilzkontrollstellen/giftpilze.htm",
+    "pilze.ch «Speisewert der Pilze» — как швейцарские специалисты градуируют съедобность (Paxillus, Tricholoma equestre, Pleurocybella): http://www.pilze.ch/pilzkontrollstellen/speisewert.htm",
+    "VAPKO — Vereinigung amtlicher Pilzkontrollorgane der Schweiz (институт грибного контроля, поиск контрольной станции): https://www.vapko.ch/",
+    "VAPKO, Merkblatt о торговле дикорастущими съедобными грибами: https://www.vapko.ch/index.php/de/der-pilzhandel/merkblatt-betreffend-die-vermarktung-und-die-kontrolle-von-wild-gewachsenen-speisepilzen",
+    "VAPKO (fr), «L'hygrophore de mars pointe son chapeau en mars»: https://www.vapko.ch/index.php/fr/questions-de-champignons/articles-de-mycologie/le-marzuolus-pointe-son-chapeau-en-mars",
+    "BLV (Bundesamt für Lebensmittelsicherheit und Veterinärwesen), Speisepilze — рекомендации по сбору и контролю: https://www.blv.admin.ch/blv/de/home/lebensmittel-und-ernaehrung/lebensmittelsicherheit/einzelne-lebensmittel/speisepilze-sicherheit-und-risiken.html",
+    "laRegione (интервью с контролёром VAPKO, Тичино): https://www.laregione.ch/cantone/ticino/1457836/funghi-ticino-vapko-panzini-esemplari",
+    "ticino.com, гид по сбору в Тичино: https://ticino.com/blog/guida-alla-raccolta-di-funghi-in-ticino/",
+    "Società Micologica Locarnese, кантональные правила сбора в Тичино: https://www.micologicalocarnese.ch/regolamenti/disposizioni/",
+    "24heures, о сезоне лисичек в Романдии: https://www.24heures.ch/cueillette-de-champignons-la-saison-de-tous-les-records-775353321814",
+    "Названия it: agraria.org «Atlante dei funghi: nomi comuni e dialettali» https://www.agraria.org/funghi/nomi-comuni.htm ; talmamax.it «Nomi volgari e dialettali» https://www.talmamax.it/nomi_comuni_dei_funghi.htm ; it.wikipedia (Boletus aereus, Paxillus involutus)",
+    "Названия de: mycopedia.ch (швейцарская база, Lepiota brunneoincarnata) https://www.mycopedia.ch/pilze/7866.htm ; de.wikipedia (Ölbaumtrichterling, Ziegelroter Risspilz); немецкие имена Speisepilz-списка pilze.ch",
+    "Названия fr: fr.wikipedia (Tylopilus felleus, Tricholoma pardinum, Inocybe de Patouillard, Bolet élégant, Hygrophore de mars); INPN/MNHN — Chlorophyllum brunneum «Lépiote vénéneuse» https://inpn.mnhn.fr/espece/cd_nom/462357"
+  ]
+}

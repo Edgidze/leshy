@@ -3,18 +3,24 @@ package leshy.mushrooms.map.i18n
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.i18n.strings.albanianStrings
 import leshy.mushrooms.map.i18n.strings.armenianStrings
 import leshy.mushrooms.map.i18n.strings.azerbaijaniStrings
 import leshy.mushrooms.map.i18n.strings.belarusianStrings
+import leshy.mushrooms.map.i18n.strings.bosnianStrings
 import leshy.mushrooms.map.i18n.strings.bulgarianStrings
 import leshy.mushrooms.map.i18n.strings.croatianStrings
 import leshy.mushrooms.map.i18n.strings.czechStrings
+import leshy.mushrooms.map.i18n.strings.danishStrings
+import leshy.mushrooms.map.i18n.strings.dutchStrings
 import leshy.mushrooms.map.i18n.strings.estonianStrings
 import leshy.mushrooms.map.i18n.strings.finnishStrings
 import leshy.mushrooms.map.i18n.strings.frenchStrings
 import leshy.mushrooms.map.i18n.strings.georgianStrings
 import leshy.mushrooms.map.i18n.strings.germanStrings
+import leshy.mushrooms.map.i18n.strings.greekStrings
 import leshy.mushrooms.map.i18n.strings.hungarianStrings
+import leshy.mushrooms.map.i18n.strings.icelandicStrings
 import leshy.mushrooms.map.i18n.strings.italianStrings
 import leshy.mushrooms.map.i18n.strings.japaneseStrings
 import leshy.mushrooms.map.i18n.strings.kazakhStrings
@@ -22,7 +28,10 @@ import leshy.mushrooms.map.i18n.strings.koreanStrings
 import leshy.mushrooms.map.i18n.strings.kyrgyzStrings
 import leshy.mushrooms.map.i18n.strings.latvianStrings
 import leshy.mushrooms.map.i18n.strings.lithuanianStrings
+import leshy.mushrooms.map.i18n.strings.macedonianStrings
+import leshy.mushrooms.map.i18n.strings.norwegianStrings
 import leshy.mushrooms.map.i18n.strings.polishStrings
+import leshy.mushrooms.map.i18n.strings.portugueseStrings
 import leshy.mushrooms.map.i18n.strings.romanianStrings
 import leshy.mushrooms.map.i18n.strings.serbianStrings
 import leshy.mushrooms.map.i18n.strings.slovakStrings
@@ -43,13 +52,14 @@ fun stringResource(key: StringKey): String = string(key, LocalAppLanguage.curren
 /**
  * `ru`/`en` stay exhaustive `when` branches on [StringKey] — the compiler catches a forgotten
  * translation the moment a new key is added, which is the whole point of the enum
- * (`i18n/CLAUDE.md`). The other 24 languages go through [uiTranslations] instead: a generated
+ * (`i18n/CLAUDE.md`). The other 40 languages go through [uiTranslations] instead: a generated
  * per-language `Map<StringKey, String>` (`i18n/strings/Strings<Xx>.kt`, Phases 6–11 of
- * `.claude/plans/countries-and-languages.md`) checked for completeness by a `commonTest`, not the
- * compiler — a missing key there degrades to English rather than failing the build, the right
- * tradeoff for 24 languages translated in batches over many sessions. As of Phase 11 all 24 are
- * filled, so the `else` branch reaches a real table for every [AppLanguage]; the `?: englishStrings`
- * fallback stays as the safety net for a 27th language added before its translation lands.
+ * `.claude/plans/countries-and-languages.md`, Phases 5–6 of `post-soviet-countries.md` and Phase 5
+ * of `europe-15-countries.md`) checked for completeness by a `commonTest`, not the compiler — a
+ * missing key there degrades to English rather than failing the build, the right tradeoff for 40
+ * languages translated in batches over many sessions. All 40 are filled, so the `else` branch
+ * reaches a real table for every [AppLanguage]; the `?: englishStrings` fallback stays as the
+ * safety net for a 43rd language added before its translation lands.
  */
 fun string(key: StringKey, language: AppLanguage): String = when (language) {
     AppLanguage.RU -> russianStrings(key)
@@ -62,9 +72,11 @@ fun string(key: StringKey, language: AppLanguage): String = when (language) {
  * `internal` rather than `private` so `StringsTest` (`commonTest`) can assert completeness once
  * entries land. Phase 6 filled `de`/`fr`/`es`/`it`, Phase 7 added `pl`/`cs`/`uk`/`sv`, Phase 8
  * `ja`/`ko`/`tr`/`ro`, Phase 9 `be`/`bg`/`sr`/`hr`, Phase 10 `sk`/`sl`/`hu`/`fi`, Phase 11
- * `lt`/`lv`/`et`/`ka` (`i18n/strings/Strings<Xx>.kt`). **This map is now complete** — all 24
- * non-ru/en [AppLanguage] values have a table; a 27th language would land here without one and
- * degrade to English until its own file is written. */
+ * `lt`/`lv`/`et`/`ka`; `post-soviet-countries.md` added `az`/`hy`/`kk`/`ky`/`tg`/`tk`/`uz`, and
+ * Phase 5 of `europe-15-countries.md` the nine of this batch —
+ * `bs`/`da`/`el`/`is`/`mk`/`nb`/`nl`/`pt`/`sq` (`i18n/strings/Strings<Xx>.kt`). **This map is
+ * complete** — all 40 non-ru/en [AppLanguage] values have a table; a 43rd language would land here
+ * without one and degrade to English until its own file is written. */
 internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = mapOf(
     AppLanguage.AZ to azerbaijaniStrings,
     AppLanguage.HY to armenianStrings,
@@ -97,6 +109,15 @@ internal val uiTranslations: Map<AppLanguage, Map<StringKey, String>> = mapOf(
     AppLanguage.LV to latvianStrings,
     AppLanguage.ET to estonianStrings,
     AppLanguage.KA to georgianStrings,
+    AppLanguage.BS to bosnianStrings,
+    AppLanguage.DA to danishStrings,
+    AppLanguage.EL to greekStrings,
+    AppLanguage.IS to icelandicStrings,
+    AppLanguage.MK to macedonianStrings,
+    AppLanguage.NB to norwegianStrings,
+    AppLanguage.NL to dutchStrings,
+    AppLanguage.PT to portugueseStrings,
+    AppLanguage.SQ to albanianStrings,
 )
 
 /** The countable units this app formats, each with its six per-[PluralCategory] [StringKey]s.

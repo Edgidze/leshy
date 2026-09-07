@@ -23,5 +23,14 @@ fun currentDeviceLanguage(): AppLanguage {
     // отдаёт язык как есть из NSLocale, и "ru_RU"-подобные значения с верхним регистром
     // исторически встречались на обеих платформах.
     val code = Locale.current.language.lowercase()
-    return AppLanguage.entries.find { it.code == code } ?: AppLanguage.EN
+    return AppLanguage.entries.find { it.code == code } ?: LEGACY_CODES[code] ?: AppLanguage.EN
 }
+
+/**
+ * Коды, под которыми платформа может отдать язык, уже имеющийся в [AppLanguage] под другим кодом.
+ * Пока такой ровно один: норвежский заведён как `nb` (букмол — то, что обе платформы отдают на
+ * норвежском устройстве), но `no` — живой макроязыковой код, который встречается и в ручных
+ * настройках локали, и в старых профилях. Без этой строки такое устройство молча открылось бы
+ * по-английски.
+ */
+private val LEGACY_CODES = mapOf("no" to AppLanguage.NB)
