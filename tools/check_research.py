@@ -311,6 +311,20 @@ def check_file(path: Path, catalog: dict, already_in: dict) -> tuple[Report, dic
             report.warn(f"names.{lang}: ещё {len(case_only)} расходятся только регистром — "
                         f"брать существующее написание")
 
+    # Два вида под одним именем — две одинаковые плитки на экране записи. Именно
+    # это случилось в прошлой партии с «Маслятами» (`suillus_luteus` и
+    # `suillus_granulatus` в подборках AM и AZ) и чинилось вручную уже после
+    # раскладки. Здесь ловится до неё.
+    for lang in sorted(names):
+        seen = {}
+        for key, name in sorted(names[lang].items()):
+            seen.setdefault(str(name).strip().casefold(), []).append(key)
+        dupes = {n: ks for n, ks in seen.items() if len(ks) > 1}
+        if dupes:
+            rendered = "; ".join(f"{n!r} → {', '.join(ks)}" for n, ks in sorted(dupes.items()))
+            report.error(f"names.{lang}: одно имя у нескольких видов — на «Записи» это "
+                         f"одинаковые плитки: {rendered}")
+
     titular = languages[0] if languages else None
     if titular and titular not in names:
         report.warn(f"нет ни одного названия на титульном языке `{titular}`")

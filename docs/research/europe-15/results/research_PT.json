@@ -1,6 +1,8 @@
 {
   "country": "PT",
-  "languages": ["pt"],
+  "languages": [
+    "pt"
+  ],
   "keys": [
     "lactarius_deliciosus",
     "boletus_edulis",
@@ -71,7 +73,7 @@
       "amanita_phalloides": "chapéu-da-morte",
       "cyclocybe_cylindracea": "cogumelo-dos-choupos",
       "agaricus_campestris__2": "cacavina",
-      "lactarius_sanguifluus": "lactário-sanguíneo",
+      "lactarius_sanguifluus": "pinheiras",
       "tricholoma_portentosum": "capuchinha",
       "tricholoma_terreum": "míscaro-cinzento",
       "omphalotus_olearius": "cogumelo-das-oliveiras",
@@ -94,7 +96,9 @@
       "amanita_ovoidea": "amanita-ovóide"
     }
   },
-  "coined": ["chlorophyllum_rhacodes", "lactarius_sanguifluus"],
+  "coined": [
+    "chlorophyllum_rhacodes"
+  ],
   "notes": {
     "lactarius_deliciosus": "Ядро подборки. Официальный список DGADR/ICNF «Guia do Coletor de Cogumelos» (2013) — «Sanchas, Cardelas, Pinheiras», сосняки Средиземноморья, главный осенний сбор Бейры и Центра. Названия сильно региональные: sancha, cardela, pinheira, cenourinha, míscaro/níscaro, raivaca, vaca-vermelha, verdete (Évora). Взято sancha как единственная форма, которую дают все три независимых источника. ccres.pt/cogumelos/silvestres; museubiodiversidade.uevora.pt; SPMI 16(4):257-263.",
     "boletus_edulis": "«Boletos, Cepes ou Tortulhos» — официальный список DGADR/ICNF; в montado de sobro e azinho. Товарный вид, вывозится свежим в Испанию (~7 €/кг, Trás-os-Montes). Народно: boleto, cepe, moncoso, tortulho, míscaro (SPMI). publico.pt/2022/10/26; diariodetrasosmontes.com.",
@@ -112,7 +116,7 @@
     "amanita_phalloides": "Единственный вид, к которому в Португалии практически сводятся смертельные случаи: «os casos potencialmente fatais, numa nação micófoba como a portuguesa, praticamente se resumem à síndrome faloidínica» (SPMI). Названия: chapéu-da-morte, cicuta-verde, rebenta-bois. Путается с silarca и с cacavina. SPMI; uevora.pt.",
     "cyclocybe_cylindracea": "Официальный список: «Repolgas ou Pilongos, Cogumelo dos Choupos» — на пнях тополя и ивы в приречных зонах. Взято cogumelo-dos-choupos, потому что repolga уже занята Pleurotus ostreatus. ccres.pt; SPMI («cogumelo dos choupos ou dos palhuços, branco de anilha»).",
     "agaricus_campestris__2": "Официальный список: «Cacavinas ou Febras» (A. arvensis/campestris/bisporus), «procurado para auto-consumo». Из пары с общей латынью взят __2 (европейский луговой концепт, already_in ES/FR/IT), не broad-вариант. SPMI: «cabreiro, cacavina, febra». ccres.pt; SPMI.",
-    "lactarius_sanguifluus": "Официальный список идёт парой с L. deliciosus: «Sanchas, Cardelas, Pinheiras — Lactarius deliciosus / Lactarius sanguifluus», торговое различение «lactários-sanguíneos». Отдельное народное имя не засвидетельствовано — записанное помечено в coined как торговый/книжный регистр. ccres.pt.",
+    "lactarius_sanguifluus": "Официальный список идёт парой с L. deliciosus: «Sanchas, Cardelas, Pinheiras — Lactarius deliciosus / Lactarius sanguifluus», торговое различение «lactários-sanguíneos». Отдельное народное имя не засвидетельствовано — записанное помечено в coined как торговый/книжный регистр. ccres.pt. | Уточнено при разборе (2026-09-07): «pinheiras» — засвидетельствованное народное имя именно этого вида, а не сконструированное. Guia do Colector, карточка вида: «NOMES VULGARES (POPULARES): Pinheiras… DESIGNAÇÃO COMERCIAL: Lactário-sanguíneo»; florestas.pt: «os Lactarius sanguifluus, conhecidos como pinheiras e lactários-sanguíneos». Торговое «lactário-sanguíneo» заменено на народное, ключ убран из coined. У L. deliciosus остаётся «sancha», так что двух одинаковых плиток не возникает.",
     "tricholoma_portentosum": "Официальный список: «Capuchinhas», в сосняках вместе с T. equestre, поздняя осень-зима. ccres.pt; ADPM (Baixo Alentejo).",
     "tricholoma_terreum": "Официальный список: «Cinzentinho, Míscaro-cinzento», сосняки на известняках и песках, большими группами. ccres.pt.",
     "boletus_reticulatus": "Входит в официальную группу «Boletos, Cepes ou Tortulhos» (folhosas). Отдельного народного имени нет — тиль пойдёт с латынью. ccres.pt.",
@@ -150,7 +154,9 @@
   "gaps": [
     {
       "sci": "Terfezia arenaria (Moris) Trappe (и Terfezia leptoderma)",
-      "names": { "pt": "túbera, criadilha, batata-da-terra, maravilha" },
+      "names": {
+        "pt": "túbera, criadilha, batata-da-terra, maravilha"
+      },
       "why": "Настоящая португальская túbera — это T. arenaria и T. leptoderma, а не T. boudieri: обе стоят в алентежанском руководстве ADPM, и именно T. arenaria SPMI ставит напротив вернакуляра «túbera, criadilha». Массовый весенний сбор Алентежу, Бейра-Байша и Рибатежу в стациях erva-da-túbera (Xolantha guttata), товарный, поставляется в рестораны.",
       "nearest_key": "terfezia_boudieri",
       "same_concept_as_nearest": true,
@@ -164,7 +170,9 @@
     },
     {
       "sci": "Amanita boudieri Barla",
-      "names": { "pt": "falsa-silarca, falso-tortulho, tortulho-venenoso, tortulho-de-cão, branquinho" },
+      "names": {
+        "pt": "falsa-silarca, falso-tortulho, tortulho-venenoso, tortulho-de-cão, branquinho"
+      },
       "why": "Специфический для португальского montado ядовитый двойник silarca: единственный вид, чьи народные названия в Португалии построены прямо вокруг ошибки сбора («falsa-silarca», «tortulho-venenoso»). Виртуальный музей Университета Эворы держит для него отдельную карточку с пятью вернакулярами — свидетельство, что путаница массовая, а не книжная.",
       "nearest_key": "amanita_verna",
       "same_concept_as_nearest": false,
@@ -177,7 +185,9 @@
     },
     {
       "sci": "Choiromyces gangliformis Vittad.",
-      "names": { "pt": "túbera-das-estevas" },
+      "names": {
+        "pt": "túbera-das-estevas"
+      },
       "why": "Вторая (после Terfezia) товарная «трюфельная» позиция Байшу-Алентежу, привязанная к эстевникам Cistus ladanifer; продаётся под собственным торговым именем túbera-das-estevas. Для грибника это отдельный концепт: другая стация (эстева, а не erva-da-túbera) и другой сезон.",
       "nearest_key": "terfezia_boudieri",
       "same_concept_as_nearest": false,
