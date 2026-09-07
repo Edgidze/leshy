@@ -39,6 +39,13 @@ sealed interface Destination {
     @Serializable
     data object LanguagePicker : Destination
 
+    /**
+     * «О приложении». НЕ пункт бокового меню — лист, открываемый строкой из «Настроек» обычным
+     * `navigate()`, как [LanguagePicker] оттуда же.
+     */
+    @Serializable
+    data object About : Destination
+
     @Serializable
     data object Data : Destination
 

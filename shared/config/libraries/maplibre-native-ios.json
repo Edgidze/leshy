@@ -1,0 +1,9 @@
+{
+  "uniqueId": "org.maplibre:maplibre-native-ios",
+  "name": "MapLibre Native (iOS)",
+  "artifactVersion": "6.25.1",
+  "website": "https://github.com/maplibre/maplibre-native",
+  "licenses": [
+    "BSD-2-Clause"
+  ]
+}

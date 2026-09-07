@@ -1,12 +1,12 @@
 # Лицензии — картографические данные и OSS-зависимости
 
 Задача 7 релизного плана (`docs/release/android-release-setup.md`), пункт 1 (атрибуция
-карты) и пункт 4 (список OSS-зависимостей) — **вместо экрана «Лицензии» в приложении**,
-по решению владельца продукта, этот список ведётся как md-файл в репозитории. Пункты 2
-(дисклеймер о съедобности), 3 (аудит CC-BY-NC изображений) — **не в скоупе этого прохода**,
-не проверялись и не трогались.
+карты) и пункт 4 (список OSS-зависимостей). Пункты 2 (дисклеймер о съедобности), 3 (аудит
+CC-BY-NC изображений) здесь не разбираются.
 
-Дата: 2026-08-26.
+Раздел 1 — разбор 2026-08-26, остаётся в силе. Раздел 2 переписан 2026-09-07: решение вести
+список лицензий md-файлом вместо экрана в приложении **отменено** — оно не выполняло условий
+самих лицензий, разбор внутри.
 
 ## 1. Атрибуция картографических данных (OSM / OpenFreeMap)
 
@@ -47,35 +47,42 @@
   рендер данных OSM без подписи — стоит учитывать при следующем release-аудите,
   если Android-миниатюры когда-нибудь подключат к публичному функционалу шеринга.
 
-## 2. OSS-зависимости и их лицензии
+## 2. OSS-зависимости и их лицензии — теперь в приложении, а не здесь
 
-Полный рантайм-набор согласно `gradle/libs.versions.toml` (KMP `commonMain`/`androidMain`)
-плюс нативный MapLibre SDK, подтягиваемый транзитивно и через SPM на iOS. Только
-рантайм-зависимости — build-time инструменты (Kotlin-компилятор, KSP, AGP, Gradle,
-плагин `spmForKmp`) в поставку приложения не попадают и здесь не перечислены.
+**Ручная таблица, которая стояла в этом разделе, удалена: она была неполной и не выполняла
+обязательство.** Неполной — потому что перечисляла только прямые зависимости, а Apache 2.0 и
+BSD привязаны ко всему, что попало в бинарник, включая транзитивные: ручной список честно
+пропускал, например, MIT у `org.maplibre.spatialk` и BSD-3-Clause у
+`androidx.datastore:datastore-preferences-external-protobuf`. Не выполняла — потому что md-файл
+в репозитории не «provided with the distribution»: Apache 2.0 §4(a) требует передать получателю
+копию лицензии, BSD — воспроизвести текст условий в материалах, поставляемых с дистрибутивом.
+Ни то, ни другое ссылкой на GitHub не закрывается.
 
-| Библиотека | Версия | Лицензия | Источник данных о лицензии |
-|---|---|---|---|
-| Kotlin stdlib / kotlinx-coroutines / kotlinx-serialization / kotlinx-datetime | 2.4.0 / 1.11.0 / 1.11.0 / 0.8.0 | Apache License 2.0 | JetBrains, `github.com/Kotlin/kotlinx.*` |
-| Compose Multiplatform (`org.jetbrains.compose.*`: runtime, foundation, ui, material3, components-resources) | 1.11.1 (material3 1.11.0-alpha07) | Apache License 2.0 | JetBrains, `github.com/JetBrains/compose-multiplatform` |
-| Compose Material Icons (core + extended) | 1.7.3 | Apache License 2.0 | тот же проект Compose Multiplatform |
-| AndroidX (core-ktx, appcompat, activity-compose, lifecycle-*, navigation-compose, room-runtime/compiler, sqlite-bundled, datastore-preferences-core) | см. `libs.versions.toml` | Apache License 2.0 | Google, `source.android.com`/AndroidX AOSP |
-| Koin (core, compose, compose-viewmodel, android) | 4.1.1 (BOM) | Apache License 2.0 | `github.com/InsertKoinIO/koin` |
-| MapLibre Compose (`org.maplibre.compose:maplibre-compose`) | 0.13.0 | **BSD 3-Clause** | `github.com/maplibre/maplibre-compose` |
-| MapLibre Native (Android `org.maplibre.gl:android-sdk`, iOS `maplibre-native` через SPM) | Android SDK 13.0.2, iOS 6.25.1 | **BSD 2-Clause** | `github.com/maplibre/maplibre-native`, `LICENSE.md` |
-| Coil 3 (`io.coil-kt.coil3:coil-compose`) | 3.5.0 | Apache License 2.0 | `github.com/coil-kt/coil` |
-| Okio | 3.17.0 | Apache License 2.0 | `github.com/square/okio` |
-| OkHttp | 4.12.0 | Apache License 2.0 | `github.com/square/okhttp` |
-| JUnit (тесты, не входит в релизный APK/AAB) | 4.13.2 | Eclipse Public License 1.0 | `github.com/junit-team/junit4` |
+Источник истины теперь — **экран «Настройки → О приложении»**
+(`shared/src/commonMain/kotlin/leshy/mushrooms/map/ui/screens/AboutScreen.kt`). Список из 169
+записей с полными текстами лицензий лежит в самом APK/IPA
+(`shared/src/commonMain/composeResources/files/aboutlibraries.json`, ~74 КБ) и собирается
+плагином AboutLibraries по реальному графу зависимостей.
 
-**Итог:** ни одной copyleft/NC-лицензии среди зависимостей не найдено — весь набор
-это Apache-2.0/BSD (плюс EPL-1.0 только у тестовой, не поставляемой в релиз, JUnit).
-Требование чек-листа «ни одной NC-лицензии в поставке» (в части OSS-зависимостей)
-выполнено. Картиночный каталог грибов (потенциальный источник NC-лицензии, пункт 3)
-в этом проходе не проверялся — см. преамбулу.
+Файл коммитится и **не пересобирается сам** — после любого изменения зависимостей:
 
-Лицензии BSD (MapLibre) и Apache 2.0 в общем случае требуют сохранения текста
-лицензии/копирайта при распространении — при появлении экрана «О приложении»/
-«Лицензии» в UI этот файл можно использовать как готовый источник для его контента,
-дополнив полными текстами лицензий (`NOTICE`/`LICENSE` файлы апстримов) вместо
-одной строки на зависимость.
+```bash
+./gradlew :shared:exportLibraryDefinitions
+```
+
+Настройки плагина и причина, по которой версия 14.2.1, а не последняя, — в `shared/build.gradle.kts`.
+Всё, что приезжает мимо Gradle (MapLibre для iOS через SPM), добавляется вручную —
+`shared/config/README.md`.
+
+**Итог по составу лицензий на 2026-09-07:** Apache-2.0, BSD-2-Clause, BSD-3-Clause, MIT. Ни одной
+copyleft- или NC-лицензии. Требование чек-листа «ни одной NC-лицензии в поставке» в части
+OSS-зависимостей выполнено. Каталожные изображения грибов (пункт 3 задачи 7) в этом проходе
+по-прежнему не проверялись.
+
+**Проверено на релизной сборке (2026-09-07):** `aboutlibraries.json` переживает R8 и сжатие
+ресурсов — в `androidApp-play-release.apk` он лежит как
+`assets/composeResources/leshy.shared.generated.resources/files/aboutlibraries.json`, 71 КБ.
+Штатное предупреждение AboutLibraries про `tools:keep="@raw/aboutlibraries"` к проекту не
+относится: файл идёт ассетом Compose Resources, а не ресурсом `res/raw`. Проверку стоит
+повторять при смене AGP или включении новых режимов сжатия — экран без этого файла показал бы
+пустой список, то есть обязательство оказалось бы невыполненным молча.

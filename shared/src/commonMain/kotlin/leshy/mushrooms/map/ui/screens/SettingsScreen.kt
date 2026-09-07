@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -17,9 +19,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -47,12 +47,14 @@ import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.settings.SettingsViewModel
 import leshy.mushrooms.map.ui.components.CategoryIcon
 import leshy.mushrooms.map.ui.components.LeshyButton
+import leshy.mushrooms.map.ui.components.PrivacyPolicyLink
 import leshy.mushrooms.map.ui.map.MUSHROOM_MARKER_BASE_SIZE
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SettingsScreen(
     onLanguageClick: () -> Unit,
+    onAboutClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
@@ -74,23 +76,16 @@ fun SettingsScreen(
         }
 
         SettingsSectionTitle(stringResource(StringKey.SettingsThemeTitle))
-        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-            ThemeMode.entries.forEachIndexed { index, mode ->
-                SegmentedButton(
+        // `selectableGroup` — не декорация: без него скринридер читает три отдельных переключателя
+        // вместо одной группы «вариант 2 из 3», и это единственное, чем радиогруппа отличается от
+        // трёх независимых строк с точки зрения доступности.
+        Column(modifier = Modifier.fillMaxWidth().selectableGroup()) {
+            ThemeMode.entries.forEach { mode ->
+                ThemeModeOption(
+                    mode = mode,
                     selected = uiState.themeMode == mode,
-                    onClick = { viewModel.setThemeMode(mode) },
-                    shape = SegmentedButtonDefaults.itemShape(index = index, count = ThemeMode.entries.size),
-                ) {
-                    Text(
-                        stringResource(
-                            when (mode) {
-                                ThemeMode.LIGHT -> StringKey.SettingsThemeLight
-                                ThemeMode.DARK -> StringKey.SettingsThemeDark
-                                ThemeMode.SYSTEM -> StringKey.SettingsThemeSystem
-                            },
-                        ),
-                    )
-                }
+                    onSelect = { viewModel.setThemeMode(mode) },
+                )
             }
         }
 
@@ -163,6 +158,25 @@ fun SettingsScreen(
                 modifier = Modifier.padding(top = 4.dp),
             )
         }
+
+        // Вторая (и после первого запуска — единственная) точка входа к публичной политике
+        // конфиденциальности: Google требует, чтобы ссылка была достижима ИЗ приложения, а экран
+        // онбординга показывается один раз за установку. Подробности — `ui/components/PrivacyPolicyLink.kt`.
+        PrivacyPolicyLink(modifier = Modifier.padding(top = 32.dp))
+
+        // «О приложении» — версия, атрибуция карты и лицензии зависимостей. Последней строкой и
+        // отдельным экраном: тексты лицензий обязаны доехать до пользователя (см. `AboutScreen`),
+        // но никто не должен на них натыкаться, листая настройки.
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onAboutClick)
+                .padding(vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(text = stringResource(StringKey.AboutTitle), modifier = Modifier.weight(1f))
+            Icon(imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
+        }
     }
 
     if (uiState.showUpdateMapDataConfirm) {
@@ -215,6 +229,39 @@ private fun SettingsSectionTitle(text: String) {
         textDecoration = TextDecoration.Underline,
         modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
     )
+}
+
+/**
+ * Вариант оформления строкой с радиокнопкой. Раньше три варианта стояли одним
+ * `SingleChoiceSegmentedButtonRow` — ряд из трёх кнопок делит ширину экрана на три и вынуждает
+ * подбирать названия под ширину кнопки, а не под смысл; на узком экране с крупным системным
+ * шрифтом подпись в такой кнопке всё равно обрезается. Три строки места стоят дёшево, а читаются
+ * одинаково при любом размере шрифта.
+ *
+ * Нажимается вся строка (`selectable` на `Row`, у самой `RadioButton` обработчик снят) — тот же
+ * приём, что у галочек ниже: цель шириной в строку попадается пальцем надёжнее, чем кружок 20 dp.
+ */
+@Composable
+private fun ThemeModeOption(mode: ThemeMode, selected: Boolean, onSelect: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .selectable(selected = selected, onClick = onSelect, role = Role.RadioButton)
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        RadioButton(selected = selected, onClick = null)
+        Text(
+            text = stringResource(
+                when (mode) {
+                    ThemeMode.LIGHT -> StringKey.SettingsThemeLight
+                    ThemeMode.SYSTEM -> StringKey.SettingsThemeSystem
+                    ThemeMode.DARK -> StringKey.SettingsThemeDark
+                },
+            ),
+            modifier = Modifier.padding(start = 8.dp),
+        )
+    }
 }
 
 @Composable

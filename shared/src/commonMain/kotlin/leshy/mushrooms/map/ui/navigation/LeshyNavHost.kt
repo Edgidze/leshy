@@ -25,6 +25,7 @@ import leshy.mushrooms.map.ui.screens.LanguagePickerScreen
 import leshy.mushrooms.map.ui.screens.MapScreen
 import leshy.mushrooms.map.ui.screens.PreparationScreen
 import leshy.mushrooms.map.ui.screens.RecordScreen
+import leshy.mushrooms.map.ui.screens.AboutScreen
 import leshy.mushrooms.map.ui.screens.SettingsScreen
 import leshy.mushrooms.map.ui.screens.SpeciesScreen
 import leshy.mushrooms.map.ui.screens.WalkDescriptionEditScreen
@@ -174,6 +175,7 @@ fun LeshyNavHost(
             ) { padding ->
                 SettingsScreen(
                     onLanguageClick = { navController.navigate(Destination.LanguagePicker) },
+                    onAboutClick = { navController.navigate(Destination.About) },
                     modifier = Modifier.padding(padding),
                 )
             }
@@ -195,6 +197,9 @@ fun LeshyNavHost(
                 },
                 onBack = { navController.popBackStack() },
             )
+        }
+        composable<Destination.About> {
+            AboutScreen(onBack = { navController.popBackStack() })
         }
         composable<Destination.Data> {
             SectionScaffold(

@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidxRoom)
     alias(libs.plugins.spmForKmp)
+    alias(libs.plugins.aboutlibraries)
 }
 
 kotlin {
@@ -108,6 +109,7 @@ kotlin {
             implementation(libs.androidx.datastore.preferences.core)
             implementation(libs.coil.compose)
             implementation(libs.okio)
+            implementation(libs.aboutlibraries.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -130,4 +132,82 @@ dependencies {
 
 room {
     schemaDirectory("$projectDir/schemas")
+}
+
+/**
+ * Версия приложения в общем коде — «О приложении» показывает её на обеих платформах, а брать её
+ * там неоткуда: `BuildConfig` есть только у Android, `CFBundleShortVersionString` — только у iOS.
+ * Вместо `expect`/`actual` под две однострочные реализации генерируется один общий файл из тех же
+ * свойств `gradle.properties`, что читает `androidApp` (`leshy.versionName`/`leshy.versionCode`), —
+ * так значение заведомо одно и то же во всех трёх местах.
+ */
+val generateAppVersion by tasks.registering {
+    // Значения и каталог — локальные переменные ВНУТРИ блока регистрации, а не поля скрипта:
+    // `doLast` иначе захватывает объект build-скрипта целиком, и configuration cache отказывается
+    // его сериализовать («cannot serialize Gradle script object references»).
+    val versionName = providers.gradleProperty("leshy.versionName")
+    val versionCode = providers.gradleProperty("leshy.versionCode")
+    val outputDir = layout.buildDirectory.dir("generated/appVersion/kotlin")
+    inputs.property("versionName", versionName)
+    inputs.property("versionCode", versionCode)
+    outputs.dir(outputDir)
+    doLast {
+        val dir = outputDir.get().asFile.resolve("leshy/mushrooms/map")
+        dir.mkdirs()
+        dir.resolve("AppVersion.kt").writeText(
+            """
+            |// Сгенерировано задачей generateAppVersion (shared/build.gradle.kts). Не редактировать.
+            |package leshy.mushrooms.map
+            |
+            |const val APP_VERSION_NAME: String = "${versionName.get()}"
+            |const val APP_VERSION_CODE: Int = ${versionCode.get()}
+            |
+            """.trimMargin()
+        )
+    }
+}
+
+kotlin.sourceSets.commonMain { kotlin.srcDir(generateAppVersion) }
+
+/**
+ * Список зависимостей и их лицензий для экрана «О приложении» — обязательство Apache 2.0 §4(a) и
+ * BSD («in the documentation and/or other materials provided with the distribution») выполняется
+ * только тем, что доехало до пользователя вместе с приложением.
+ *
+ * Плагин обходит РЕАЛЬНЫЙ граф зависимостей, включая транзитивные, — в этом и был смысл его брать,
+ * а не вести список руками. Генерация НЕ автоматическая (это обычный плагин, а не его
+ * `.android`-вариант): результат — `composeResources/files/aboutlibraries.json` — коммитится, и
+ * после любого изменения зависимостей его надо пересобрать:
+ *
+ *     ./gradlew :shared:exportLibraryDefinitions
+ *
+ * **Версия плагина и библиотеки — 14.2.1, а не последняя 15.x, и это вынужденно:**
+ * `aboutlibraries-core-android` начиная с 15.0 требует `compileSdk 37`, а проект собирается на 36
+ * (AGP 9.0.1 больше 36 и не рекомендует). Поднимать compileSdk всему приложению ради экрана с
+ * лицензиями — несоразмерный риск перед релизом; из 14.2.1 берётся только разбор JSON, UI-модули
+ * (где и живёт привязка к версии Compose) не подключены вовсе. Появится AGP с поддержкой 37 —
+ * можно вернуться на 15.x и включить там `library.mergePlatformArtifacts`, схлопывающий
+ * KMP-публикации в корневую координату (в 14.2.1 этой опции ещё нет, поэтому в списке соседствуют
+ * `...-android` и `...-jvm` варианты одной библиотеки — шумно, но не неверно).
+ */
+aboutLibraries {
+    collect {
+        // Ручные дополнения к графу — см. `shared/config/README.md` (там MapLibre для iOS,
+        // который приезжает через SPM и в classpath Gradle не виден).
+        configPath = file("config")
+        // Ходить в API GitHub за лицензиями, которых нет в POM, не нужно: весь набор — Apache 2.0
+        // и BSD, они определяются из метаданных, а сетевой шаг сделал бы генерацию невоспроизводимой.
+        fetchRemoteLicense = false
+        fetchRemoteFunding = false
+        // BOM'ы (`koin-bom`, `kotlinx-coroutines-bom`) — не код, а таблица версий; в поставку они
+        // не попадают, и в списке лицензий им делать нечего.
+        includePlatform = false
+    }
+    export {
+        outputFile = file("src/commonMain/composeResources/files/aboutlibraries.json")
+        prettyPrint = true
+        // Экран показывает имя, версию, копирайт и текст лицензии — всё прочее только раздувает
+        // ресурс, который целиком лежит в APK/IPA.
+        excludeFields.addAll("funding", "description", "organization", "scm", "developers")
+    }
 }

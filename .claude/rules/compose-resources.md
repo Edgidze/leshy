@@ -61,3 +61,20 @@ legacy `ic_launcher_round`), прозрачный foreground без фона (An
 adaptive icon). **iOS-иконка обязана быть без альфа-канала** (Apple
 отклоняет с прозрачностью) — канал убирается круглым провозом через JPEG
 (`sips -s format jpeg` → обратно в PNG).
+
+## `files/` — не картинки: каталог грибов и список лицензий
+
+Кроме `drawable/` в этой директории живёт `files/` — единственное место,
+куда Compose Resources пускает произвольные файлы (см. выше). Там лежат
+две вещи, обе **генерируемые, обе коммитятся**, обе руками не правятся:
+
+- `files/catalog/` — каталог видов и их имена по языкам (`tools/build_catalog.py`,
+  см. `docs/catalog/CLAUDE.md`);
+- `files/aboutlibraries.json` — список зависимостей с полными текстами лицензий
+  для экрана «О приложении» (`./gradlew :shared:exportLibraryDefinitions`,
+  настройки — в `shared/build.gradle.kts`, разбор обязательства —
+  `docs/release/licenses.md`).
+
+Оба попадают в APK/IPA целиком, поэтому объём здесь — не абстракция: у
+`aboutlibraries.json` из экспорта выброшены поля, которые экран не показывает
+(`excludeFields`), иначе он был бы вдвое толще.
