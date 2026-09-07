@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -224,7 +225,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     if (uiState.showNameDialog) {
         AlertDialog(
             onDismissRequest = viewModel::onNameDialogDismissed,
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.fillMaxWidth(0.9f).imePadding(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.PreparationRegionNameDialogTitle)) },
             text = {

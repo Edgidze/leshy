@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -595,7 +596,7 @@ private fun WalkNameEditDialog(initialName: String, onConfirm: (String) -> Unit,
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth(0.9f),
+        modifier = Modifier.fillMaxWidth(0.9f).imePadding(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.WalkDetailEditWalkNameTitle)) },
         text = {

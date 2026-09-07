@@ -72,6 +72,8 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "İlgilendiğiniz mantar koleksiyonlarını seçin. Bunu daha sonra Ayarlar'dan değiştirebilirsiniz.",
     StringKey.OnboardingContinueButton to "Başla",
+    StringKey.OnboardingNothingPickedWarning to
+        "Devam etmek için en az bir koleksiyon ya da bir mantar seçin",
 
     StringKey.WelcomeIntro to
         "Uygulama nereden geçtiğinizi ve ne bulduğunuzu hatırlar — ve mantar toplamaya gerçekten yardım " +
@@ -130,7 +132,8 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Diğer",
     StringKey.CategoryUnknownMushroom to "Bilinmeyen mantar",
 
-    StringKey.CollectionPickerSearchHint to "Ülke ara",
+    StringKey.CollectionPickerSearchHint to "Ülke veya mantar ara",
+    StringKey.CollectionPickerMoreMatches to "Tüm sonuçlar gösterilmiyor — aramayı daraltın",
 
     StringKey.LanguagePickerSearchHint to "Dil ara",
     StringKey.LanguagePickerBackContentDescription to "Geri",

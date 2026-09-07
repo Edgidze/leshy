@@ -68,6 +68,8 @@ internal val dutchStrings: Map<StringKey, String> = mapOf(
         "Kies de collecties paddenstoelen die je interesseren. Je kunt dit later aanpassen in de " +
             "instellingen.",
     StringKey.OnboardingContinueButton to "Aan de slag",
+    StringKey.OnboardingNothingPickedWarning to
+        "Kies minstens één collectie of één paddenstoel om verder te gaan",
     StringKey.WelcomeIntro to
         "De app onthoudt waar je hebt gelopen en wat je hebt gevonden — en dat helpt echt om meer " +
             "te vinden: goede plekken zijn makkelijk terug te vinden en elke vondst staat op één " +
@@ -124,7 +126,8 @@ internal val dutchStrings: Map<StringKey, String> = mapOf(
     StringKey.HelpDialogDismiss to "Duidelijk",
     StringKey.CategoryMisc to "Overig",
     StringKey.CategoryUnknownMushroom to "Onbekende paddenstoel",
-    StringKey.CollectionPickerSearchHint to "Land zoeken",
+    StringKey.CollectionPickerSearchHint to "Land of paddenstoel zoeken",
+    StringKey.CollectionPickerMoreMatches to "Niet alle resultaten worden getoond — verfijn de zoekopdracht",
     StringKey.LanguagePickerSearchHint to "Taal zoeken",
     StringKey.LanguagePickerBackContentDescription to "Terug",
     StringKey.LanguagePickerConfirmContentDescription to "Bevestigen",

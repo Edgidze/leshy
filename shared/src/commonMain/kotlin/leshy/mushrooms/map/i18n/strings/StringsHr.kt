@@ -78,6 +78,8 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Odaberite zbirke gljiva koje vas zanimaju. To možete promijeniti kasnije u Postavkama.",
     StringKey.OnboardingContinueButton to "Počni",
+    StringKey.OnboardingNothingPickedWarning to
+        "Odaberite barem jednu zbirku ili jednu gljivu za nastavak",
 
     StringKey.WelcomeIntro to
         "Aplikacija pamti kuda ste prošli i što ste našli — i uistinu pomaže u branju gljiva: do dobrih se " +
@@ -134,7 +136,8 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Razno",
     StringKey.CategoryUnknownMushroom to "Nepoznata gljiva",
 
-    StringKey.CollectionPickerSearchHint to "Pretraživanje država",
+    StringKey.CollectionPickerSearchHint to "Pretraživanje država ili gljiva",
+    StringKey.CollectionPickerMoreMatches to "Nisu prikazana sva podudaranja — precizirajte upit",
 
     StringKey.LanguagePickerSearchHint to "Pretraživanje jezika",
     StringKey.LanguagePickerBackContentDescription to "Natrag",

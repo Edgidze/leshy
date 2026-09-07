@@ -65,6 +65,8 @@ internal val norwegianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Velg soppsamlingene du er interessert i. Du kan endre dette senere i innstillingene.",
     StringKey.OnboardingContinueButton to "Kom i gang",
+    StringKey.OnboardingNothingPickedWarning to
+        "Velg minst én samling eller én sopp for å fortsette",
     StringKey.WelcomeIntro to
         "Appen husker hvor du har gått og hva du har funnet — og det hjelper virkelig til å finne " +
             "mer sopp: gode steder er lette å komme tilbake til, og hvert funn ligger på ett kart.",
@@ -118,7 +120,8 @@ internal val norwegianStrings: Map<StringKey, String> = mapOf(
     StringKey.HelpDialogDismiss to "Forstått",
     StringKey.CategoryMisc to "Annet",
     StringKey.CategoryUnknownMushroom to "Ukjent sopp",
-    StringKey.CollectionPickerSearchHint to "Søk etter land",
+    StringKey.CollectionPickerSearchHint to "Søk etter land eller sopp",
+    StringKey.CollectionPickerMoreMatches to "Ikke alle treff vises — presiser søket",
     StringKey.LanguagePickerSearchHint to "Søk etter språk",
     StringKey.LanguagePickerBackContentDescription to "Tilbake",
     StringKey.LanguagePickerConfirmContentDescription to "Bekreft",

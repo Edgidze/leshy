@@ -77,6 +77,8 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
         "Sizni qiziqtirgan qoʻziqorin toʻplamlarini tanlang. Buni keyinroq Sozlamalarda " +
             "oʻzgartirish mumkin.",
     StringKey.OnboardingContinueButton to "Boshlaymiz",
+    StringKey.OnboardingNothingPickedWarning to
+        "Davom etish uchun kamida bitta toʻplam yoki bitta qoʻziqorin tanlang",
 
     StringKey.WelcomeIntro to
         "Ilova qayerdan oʻtganingizni va nima topganingizni eslab qoladi — va qoʻziqorin terishga chinakam " +
@@ -139,7 +141,8 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Boshqa",
     StringKey.CategoryUnknownMushroom to "Nomaʼlum qoʻziqorin",
 
-    StringKey.CollectionPickerSearchHint to "Davlatni qidirish",
+    StringKey.CollectionPickerSearchHint to "Davlat yoki qoʻziqorinni qidirish",
+    StringKey.CollectionPickerMoreMatches to "Barcha mosliklar koʻrsatilmagan — soʻrovni aniqlashtiring",
     StringKey.LanguagePickerSearchHint to "Tilni qidirish",
     StringKey.LanguagePickerBackContentDescription to "Orqaga",
     StringKey.LanguagePickerConfirmContentDescription to "Tasdiqlash",

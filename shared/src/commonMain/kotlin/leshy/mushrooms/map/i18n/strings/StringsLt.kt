@@ -79,6 +79,8 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Pasirinkite jus dominančius grybų rinkinius. Tai galėsite pakeisti vėliau Nustatymuose.",
     StringKey.OnboardingContinueButton to "Pradėti",
+    StringKey.OnboardingNothingPickedWarning to
+        "Norėdami tęsti, pasirinkite bent vieną rinkinį arba vieną grybą",
 
     StringKey.WelcomeIntro to
         "Programėlė įsimena, kur ėjote ir ką radote, — ir grybaujant padeda išties pastebimai: į gerus " +
@@ -137,7 +139,8 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Įvairūs",
     StringKey.CategoryUnknownMushroom to "Nežinomas grybas",
 
-    StringKey.CollectionPickerSearchHint to "Ieškoti šalies",
+    StringKey.CollectionPickerSearchHint to "Ieškoti šalies arba grybo",
+    StringKey.CollectionPickerMoreMatches to "Rodomi ne visi atitikmenys — patikslinkite užklausą",
 
     StringKey.LanguagePickerSearchHint to "Ieškoti kalbos",
     StringKey.LanguagePickerBackContentDescription to "Atgal",

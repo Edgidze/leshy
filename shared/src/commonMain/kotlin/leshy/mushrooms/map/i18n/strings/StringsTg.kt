@@ -74,6 +74,8 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
         "Маҷмӯаҳои занбӯруғи ба шумо шавқоварро интихоб кунед. Инро баъдтар дар Танзимот " +
             "тағйир додан мумкин аст.",
     StringKey.OnboardingContinueButton to "Оғоз мекунем",
+    StringKey.OnboardingNothingPickedWarning to
+        "Барои идома додан ҳадди ақал як маҷмӯа ё як занбӯруғро интихоб кунед",
 
     StringKey.WelcomeIntro to
         "Барнома дар хотир мегирад, ки шумо аз куҷо гузаштед ва чӣ ёфтед — ва дар ҷамъоварии занбӯруғ " +
@@ -133,7 +135,8 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Дигар",
     StringKey.CategoryUnknownMushroom to "Занбӯруғи номаълум",
 
-    StringKey.CollectionPickerSearchHint to "Ҷустуҷӯи кишвар",
+    StringKey.CollectionPickerSearchHint to "Ҷустуҷӯи кишвар ё занбӯруғ",
+    StringKey.CollectionPickerMoreMatches to "Ҳамаи мутобиқатҳо нишон дода нашудаанд — дархостро дақиқ кунед",
     StringKey.LanguagePickerSearchHint to "Ҷустуҷӯи забон",
     StringKey.LanguagePickerBackContentDescription to "Бозгашт",
     StringKey.LanguagePickerConfirmContentDescription to "Тасдиқ",

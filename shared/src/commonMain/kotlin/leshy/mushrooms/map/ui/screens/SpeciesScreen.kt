@@ -3,6 +3,7 @@ package leshy.mushrooms.map.ui.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -50,7 +51,18 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
     var editingSpecies by remember { mutableStateOf<Category?>(null) }
     var showCreateDialog by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp)) {
+    // imePadding() ПЕРЕД verticalScroll — то есть окно прокрутки кончается там, где начинается
+    // клавиатура, а не уходит под неё; поле поиска подборок само подтягивается к его верху
+    // (`CollectionPicker`). На iOS это единственное, что удерживает поле над клавиатурой:
+    // рантаймовый сдвиг сцены снят, см. `MainViewController.kt`. Онбординг с тем же пикером
+    // обходится `WindowInsets.safeDrawing` у внешней колонки — на iOS он включает `ime`.
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .imePadding()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+    ) {
         Text(
             stringResource(StringKey.SpeciesCollectionsTitle),
             modifier = Modifier.padding(bottom = 8.dp),

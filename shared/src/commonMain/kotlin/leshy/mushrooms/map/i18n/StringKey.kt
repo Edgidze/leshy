@@ -60,6 +60,7 @@ enum class StringKey {
     OnboardingTitle,
     OnboardingDescription,
     OnboardingContinueButton,
+    OnboardingNothingPickedWarning,
 
     WelcomeIntro,
     WelcomeRecordTitle,
@@ -96,6 +97,7 @@ enum class StringKey {
     CategoryUnknownMushroom,
 
     CollectionPickerSearchHint,
+    CollectionPickerMoreMatches,
 
     LanguagePickerSearchHint,
     LanguagePickerBackContentDescription,

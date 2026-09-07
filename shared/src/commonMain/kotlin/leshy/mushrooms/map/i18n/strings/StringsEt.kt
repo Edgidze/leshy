@@ -76,6 +76,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Valige seenekogud, mis teid huvitavad. Seda saab hiljem Seadetes muuta.",
     StringKey.OnboardingContinueButton to "Alusta",
+    StringKey.OnboardingNothingPickedWarning to
+        "Jätkamiseks valige vähemalt üks kogu või üks seen",
 
     StringKey.WelcomeIntro to
         "Rakendus jätab meelde, kus te käisite ja mida leidsite — ja aitab seenelkäigul tuntavalt: headesse " +
@@ -131,7 +133,8 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Muu",
     StringKey.CategoryUnknownMushroom to "Tundmatu seen",
 
-    StringKey.CollectionPickerSearchHint to "Otsi riiki",
+    StringKey.CollectionPickerSearchHint to "Otsi riiki või seent",
+    StringKey.CollectionPickerMoreMatches to "Kõiki vasteid ei kuvata — täpsusta otsingut",
 
     StringKey.LanguagePickerSearchHint to "Otsi keelt",
     StringKey.LanguagePickerBackContentDescription to "Tagasi",

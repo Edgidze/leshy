@@ -74,6 +74,8 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Wybierz zestawy grzybów, które Cię interesują. Możesz to później zmienić w Ustawieniach.",
     StringKey.OnboardingContinueButton to "Rozpocznij",
+    StringKey.OnboardingNothingPickedWarning to
+        "Wybierz co najmniej jeden zestaw lub jednego grzyba, aby kontynuować",
 
     StringKey.WelcomeIntro to
         "Aplikacja pamięta twoje trasy i twoje znaleziska — i naprawdę pomaga w zbieraniu grzybów: do " +
@@ -132,7 +134,8 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Inne",
     StringKey.CategoryUnknownMushroom to "Nieznany grzyb",
 
-    StringKey.CollectionPickerSearchHint to "Szukaj kraju",
+    StringKey.CollectionPickerSearchHint to "Szukaj kraju lub grzyba",
+    StringKey.CollectionPickerMoreMatches to "Nie pokazano wszystkich wyników — doprecyzuj zapytanie",
 
     StringKey.LanguagePickerSearchHint to "Szukaj języka",
     StringKey.LanguagePickerBackContentDescription to "Wstecz",

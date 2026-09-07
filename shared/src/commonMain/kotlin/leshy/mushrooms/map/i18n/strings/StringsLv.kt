@@ -79,6 +79,8 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Izvēlieties sēņu kolekcijas, kas jūs interesē. To vēlāk varēsiet mainīt Iestatījumos.",
     StringKey.OnboardingContinueButton to "Sākt",
+    StringKey.OnboardingNothingPickedWarning to
+        "Lai turpinātu, izvēlieties vismaz vienu kolekciju vai vienu sēni",
 
     StringKey.WelcomeIntro to
         "Lietotne atceras, kur esat gājis un ko esat atradis, — un sēņošanā palīdz manāmi: uz labām vietām " +
@@ -136,7 +138,8 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Dažādi",
     StringKey.CategoryUnknownMushroom to "Nezināma sēne",
 
-    StringKey.CollectionPickerSearchHint to "Meklēt valsti",
+    StringKey.CollectionPickerSearchHint to "Meklēt valsti vai sēni",
+    StringKey.CollectionPickerMoreMatches to "Netiek rādītas visas atbilstības — precizējiet vaicājumu",
 
     StringKey.LanguagePickerSearchHint to "Meklēt valodu",
     StringKey.LanguagePickerBackContentDescription to "Atpakaļ",

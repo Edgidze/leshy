@@ -78,6 +78,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Valitse sinua kiinnostavat sienikokoelmat. Voit muuttaa tätä myöhemmin Asetuksissa.",
     StringKey.OnboardingContinueButton to "Aloita",
+    StringKey.OnboardingNothingPickedWarning to
+        "Valitse vähintään yksi kokoelma tai yksi sieni jatkaaksesi",
 
     StringKey.WelcomeIntro to
         "Sovellus muistaa, missä olet kulkenut ja mitä olet löytänyt — ja auttaa sienestyksessä tuntuvasti: " +
@@ -137,7 +139,8 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Sekalaiset",
     StringKey.CategoryUnknownMushroom to "Tuntematon sieni",
 
-    StringKey.CollectionPickerSearchHint to "Hae maata",
+    StringKey.CollectionPickerSearchHint to "Hae maata tai sientä",
+    StringKey.CollectionPickerMoreMatches to "Kaikkia osumia ei näytetä — tarkenna hakua",
 
     StringKey.LanguagePickerSearchHint to "Hae kieltä",
     StringKey.LanguagePickerBackContentDescription to "Takaisin",

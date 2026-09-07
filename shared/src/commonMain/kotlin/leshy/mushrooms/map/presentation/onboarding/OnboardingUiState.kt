@@ -47,4 +47,22 @@ data class OnboardingUiState(
      */
     val consentReminderCount: Int = 0,
     val collectionPickerItems: List<CollectionPickerItem> = emptyList(),
-)
+    /**
+     * Сколько раз нажали «Дальше» на шаге [OnboardingStep.COLLECTIONS], не выбрав ни одного гриба;
+     * `0` — предупреждения нет. Счётчик, а не флаг, по той же причине, что и
+     * [consentReminderCount]: повторный промах обязан заново что-то изменить в состоянии.
+     */
+    val collectionsReminderCount: Int = 0,
+) {
+    /**
+     * Есть ли хоть один отмеченный вид — единственное условие выхода с шага
+     * [OnboardingStep.COLLECTIONS]: приложение без единого выбранного гриба не умеет ничего, на
+     * «Записи» просто нечего нажимать.
+     *
+     * Считается по самим видам, а не по [leshy.mushrooms.map.presentation.CollectionPickState] у
+     * подборки: у подборки без участников `pickState` — `ALL` (отмечать в ней нечего), и по
+     * нему пустая подборка сошла бы за выбранную.
+     */
+    val hasPickedSpecies: Boolean
+        get() = collectionPickerItems.any { item -> item.members.any { it.isPicked } }
+}

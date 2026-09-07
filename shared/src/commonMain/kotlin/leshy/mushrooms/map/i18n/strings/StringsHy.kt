@@ -72,6 +72,8 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Ընտրեք ձեզ հետաքրքրող սնկերի հավաքածուները։ Սա հետո կարող եք փոխել Կարգավորումներում։",
     StringKey.OnboardingContinueButton to "Սկսենք",
+    StringKey.OnboardingNothingPickedWarning to
+        "Շարունակելու համար ընտրեք առնվազն մեկ հավաքածու կամ մեկ սունկ",
 
     StringKey.WelcomeIntro to
         "Հավելվածը հիշում է, թե որտեղով եք անցել և ինչ եք գտել, և իսկապես օգնում է սունկ հավաքելիս․ լավ " +
@@ -132,7 +134,8 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Այլ",
     StringKey.CategoryUnknownMushroom to "Անհայտ սունկ",
 
-    StringKey.CollectionPickerSearchHint to "Փնտրել երկիր",
+    StringKey.CollectionPickerSearchHint to "Փնտրել երկիր կամ սունկ",
+    StringKey.CollectionPickerMoreMatches to "Ցուցադրված չեն բոլոր համընկնումները — ճշտեք հարցումը",
     StringKey.LanguagePickerSearchHint to "Փնտրել լեզու",
     StringKey.LanguagePickerBackContentDescription to "Հետ",
     StringKey.LanguagePickerConfirmContentDescription to "Հաստատել",

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -55,7 +56,16 @@ fun DataScreen(
         onResult = viewModel::onExportResult,
     )
 
-    Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp)) {
+    // imePadding() перед verticalScroll — по той же причине, что и на «Моих грибах»: поля
+    // «Имя архива» и «Приписка к импорту» лежат ниже сгиба, а рантаймовой подстраховки на iOS
+    // больше нет (`MainViewController.kt`), без этого они остались бы под клавиатурой.
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .imePadding()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+    ) {
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
             DataMode.entries.forEachIndexed { index, mode ->
                 SegmentedButton(

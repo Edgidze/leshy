@@ -66,6 +66,8 @@ internal val portugueseStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Escolha as coleções de cogumelos que lhe interessam. Pode mudar isto mais tarde nas definições.",
     StringKey.OnboardingContinueButton to "Começar",
+    StringKey.OnboardingNothingPickedWarning to
+        "Escolha pelo menos uma coleção ou um cogumelo para continuar",
     StringKey.WelcomeIntro to
         "A aplicação lembra-se de por onde andou e do que encontrou — e isso ajuda mesmo a " +
             "apanhar mais cogumelos: é fácil voltar aos bons sítios e cada achado fica num único " +
@@ -123,7 +125,8 @@ internal val portugueseStrings: Map<StringKey, String> = mapOf(
     StringKey.HelpDialogDismiss to "Entendido",
     StringKey.CategoryMisc to "Diversos",
     StringKey.CategoryUnknownMushroom to "Cogumelo desconhecido",
-    StringKey.CollectionPickerSearchHint to "Procurar país",
+    StringKey.CollectionPickerSearchHint to "Procurar país ou cogumelo",
+    StringKey.CollectionPickerMoreMatches to "Nem todos os resultados são mostrados — refine a pesquisa",
     StringKey.LanguagePickerSearchHint to "Procurar idioma",
     StringKey.LanguagePickerBackContentDescription to "Voltar",
     StringKey.LanguagePickerConfirmContentDescription to "Confirmar",

@@ -74,6 +74,8 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
         "Изберете колекциите от гъби, които ви интересуват. Можете да промените това " +
             "по-късно в Настройки.",
     StringKey.OnboardingContinueButton to "Начало",
+    StringKey.OnboardingNothingPickedWarning to
+        "Изберете поне една колекция или една гъба, за да продължите",
 
     StringKey.WelcomeIntro to
         "Приложението помни къде сте минали и какво сте намерили — и наистина помага при бране на гъби: до " +
@@ -133,7 +135,8 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Разни",
     StringKey.CategoryUnknownMushroom to "Непозната гъба",
 
-    StringKey.CollectionPickerSearchHint to "Търсене на държава",
+    StringKey.CollectionPickerSearchHint to "Търсене на държава или гъба",
+    StringKey.CollectionPickerMoreMatches to "Показани са не всички съвпадения — уточнете заявката",
 
     StringKey.LanguagePickerSearchHint to "Търсене на език",
     StringKey.LanguagePickerBackContentDescription to "Назад",

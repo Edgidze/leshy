@@ -68,6 +68,8 @@ internal val icelandicStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Veldu sveppasöfnin sem þú hefur áhuga á. Þessu má breyta síðar í stillingunum.",
     StringKey.OnboardingContinueButton to "Byrjum",
+    StringKey.OnboardingNothingPickedWarning to
+        "Veldu að minnsta kosti eitt safn eða einn svepp til að halda áfram",
     StringKey.WelcomeIntro to
         "Forritið man hvar þú gekkst og hvað þú fannst — og það hjálpar raunverulega við að finna " +
             "meira: auðvelt er að snúa aftur á góða staði og hver einasti fundur er á sama kortinu.",
@@ -121,7 +123,8 @@ internal val icelandicStrings: Map<StringKey, String> = mapOf(
     StringKey.HelpDialogDismiss to "Skilið",
     StringKey.CategoryMisc to "Annað",
     StringKey.CategoryUnknownMushroom to "Óþekktur sveppur",
-    StringKey.CollectionPickerSearchHint to "Leita að landi",
+    StringKey.CollectionPickerSearchHint to "Leita að landi eða sveppi",
+    StringKey.CollectionPickerMoreMatches to "Ekki eru allar niðurstöður sýndar — afmarkaðu leitina",
     StringKey.LanguagePickerSearchHint to "Leita að tungumáli",
     StringKey.LanguagePickerBackContentDescription to "Til baka",
     StringKey.LanguagePickerConfirmContentDescription to "Staðfesta",

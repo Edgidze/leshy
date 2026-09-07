@@ -67,6 +67,8 @@ internal val greekStrings: Map<StringKey, String> = mapOf(
         "Διαλέξτε τις συλλογές μανιταριών που σας ενδιαφέρουν. Μπορείτε να το αλλάξετε αργότερα " +
             "στις ρυθμίσεις.",
     StringKey.OnboardingContinueButton to "Ξεκινήστε",
+    StringKey.OnboardingNothingPickedWarning to
+        "Επιλέξτε τουλάχιστον μία συλλογή ή ένα μανιτάρι για να συνεχίσετε",
     StringKey.WelcomeIntro to
         "Η εφαρμογή θυμάται πού περπατήσατε και τι βρήκατε — και βοηθάει πραγματικά να μαζεύετε " +
             "περισσότερα: στα καλά σημεία επιστρέφετε εύκολα, και κάθε εύρημα βρίσκεται πάνω σε έναν " +
@@ -125,7 +127,8 @@ internal val greekStrings: Map<StringKey, String> = mapOf(
     StringKey.HelpDialogDismiss to "Κατάλαβα",
     StringKey.CategoryMisc to "Διάφορα",
     StringKey.CategoryUnknownMushroom to "Άγνωστο μανιτάρι",
-    StringKey.CollectionPickerSearchHint to "Αναζήτηση χώρας",
+    StringKey.CollectionPickerSearchHint to "Αναζήτηση χώρας ή μανιταριού",
+    StringKey.CollectionPickerMoreMatches to "Δεν εμφανίζονται όλα τα αποτελέσματα — περιορίστε την αναζήτηση",
     StringKey.LanguagePickerSearchHint to "Αναζήτηση γλώσσας",
     StringKey.LanguagePickerBackContentDescription to "Πίσω",
     StringKey.LanguagePickerConfirmContentDescription to "Επιβεβαίωση",

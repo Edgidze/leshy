@@ -87,6 +87,17 @@
 - **Android MapLibre: `RenderOptions.RenderMode.TextureView`**, не дефолтный
   `SurfaceView` — иначе карта не участвует в alpha-переходах Compose
   Navigation и «просвечивает» через fade между экранами.
+- **Шапка экрана не двигается никогда — за это отвечает `imePadding()` у
+  каждого поля ввода.** По умолчанию `ComposeUIViewController` поднимает
+  сфокусированное поле над клавиатурой сдвигом ВСЕЙ сцены вверх, вместе с
+  шапкой (`OnFocusBehavior.FocusableAboveKeyboard`); на iPhone SE шапка так
+  уезжала под статус-бар (репорт 2026-09-07). Сдвиг снят целиком —
+  `MainViewController.kt` ставит `OnFocusBehavior.DoNothing`, — поэтому
+  **у любого нового поля ввода обязан быть свой `imePadding()`** (или
+  `WindowInsets.safeDrawing`, он на iOS включает `ime`): подстраховки от
+  рантайма больше нет, поле просто останется под клавиатурой. Для экрана с
+  прокруткой `imePadding()` идёт ПЕРЕД `verticalScroll`, для диалога — на его
+  `Surface`/`modifier`.
 - **Compose Multiplatform Resources не декодирует SVG на Android**
   (`painterResource` — только Skia, т.е. iOS/Desktop). Любой drawable-ресурс
   для показа в приложении — растеризовать в PNG/WebP заранее.

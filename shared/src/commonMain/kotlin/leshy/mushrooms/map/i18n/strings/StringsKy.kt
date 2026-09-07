@@ -76,6 +76,8 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Сизди кызыктырган козу карын жыйнактарын тандаңыз. Муну кийин Жөндөөлөрдөн өзгөртсө болот.",
     StringKey.OnboardingContinueButton to "Баштайлы",
+    StringKey.OnboardingNothingPickedWarning to
+        "Улантуу үчүн жок дегенде бир жыйнакты же бир козу карынды тандаңыз",
 
     StringKey.WelcomeIntro to
         "Колдонмо кайдан өткөнүңүздү жана эмне тапканыңызды эстеп калат — жана козу карын терүүгө чындап " +
@@ -134,7 +136,8 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Башка",
     StringKey.CategoryUnknownMushroom to "Белгисиз козу карын",
 
-    StringKey.CollectionPickerSearchHint to "Өлкө издөө",
+    StringKey.CollectionPickerSearchHint to "Өлкө же козу карын издөө",
+    StringKey.CollectionPickerMoreMatches to "Бардык дал келүүлөр көрсөтүлгөн жок — сурамды тактаңыз",
     StringKey.LanguagePickerSearchHint to "Тил издөө",
     StringKey.LanguagePickerBackContentDescription to "Артка",
     StringKey.LanguagePickerConfirmContentDescription to "Ырастоо",

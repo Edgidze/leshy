@@ -72,6 +72,8 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Maraqlandığınız göbələk kolleksiyalarını seçin. Bunu sonra Parametrlərdə dəyişə bilərsiniz.",
     StringKey.OnboardingContinueButton to "Başlayaq",
+    StringKey.OnboardingNothingPickedWarning to
+        "Davam etmək üçün ən azı bir kolleksiya və ya bir göbələk seçin",
 
     StringKey.WelcomeIntro to
         "Tətbiq haradan keçdiyinizi və nə tapdığınızı yadda saxlayır — və göbələk yığmağa həqiqətən kömək " +
@@ -130,7 +132,8 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Digər",
     StringKey.CategoryUnknownMushroom to "Naməlum göbələk",
 
-    StringKey.CollectionPickerSearchHint to "Ölkə axtar",
+    StringKey.CollectionPickerSearchHint to "Ölkə və ya göbələk axtar",
+    StringKey.CollectionPickerMoreMatches to "Bütün uyğunluqlar göstərilmir — sorğunu dəqiqləşdirin",
     StringKey.LanguagePickerSearchHint to "Dil axtar",
     StringKey.LanguagePickerBackContentDescription to "Geri",
     StringKey.LanguagePickerConfirmContentDescription to "Təsdiqlə",

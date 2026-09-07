@@ -73,6 +73,8 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
         "Wählen Sie die Pilzsammlungen aus, die Sie interessieren. Das können Sie später in den " +
             "Einstellungen ändern.",
     StringKey.OnboardingContinueButton to "Los geht's",
+    StringKey.OnboardingNothingPickedWarning to
+        "Wählen Sie mindestens eine Sammlung oder einen Pilz aus, um fortzufahren",
 
     StringKey.WelcomeIntro to
         "Die App merkt sich, wo Sie gelaufen sind und was Sie gefunden haben – und hilft beim Sammeln " +
@@ -134,7 +136,8 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Sonstiges",
     StringKey.CategoryUnknownMushroom to "Unbekannter Pilz",
 
-    StringKey.CollectionPickerSearchHint to "Land suchen",
+    StringKey.CollectionPickerSearchHint to "Land oder Pilz suchen",
+    StringKey.CollectionPickerMoreMatches to "Es werden nicht alle Treffer angezeigt — Suche eingrenzen",
 
     StringKey.LanguagePickerSearchHint to "Sprache suchen",
     StringKey.LanguagePickerBackContentDescription to "Zurück",

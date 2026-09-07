@@ -75,6 +75,8 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Виберіть підбірки грибів, які вас цікавлять. Це можна змінити пізніше в Налаштуваннях.",
     StringKey.OnboardingContinueButton to "Почати",
+    StringKey.OnboardingNothingPickedWarning to
+        "Виберіть хоча б одну підбірку або один гриб, щоб продовжити",
 
     StringKey.WelcomeIntro to
         "Застосунок запам’ятовує, де ви пройшли і що знайшли, — і помітно допомагає в зборі грибів: до " +
@@ -134,7 +136,8 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Різне",
     StringKey.CategoryUnknownMushroom to "Невідомий гриб",
 
-    StringKey.CollectionPickerSearchHint to "Пошук країни",
+    StringKey.CollectionPickerSearchHint to "Пошук країни або гриба",
+    StringKey.CollectionPickerMoreMatches to "Показано не всі збіги — уточніть запит",
 
     StringKey.LanguagePickerSearchHint to "Пошук мови",
     StringKey.LanguagePickerBackContentDescription to "Назад",

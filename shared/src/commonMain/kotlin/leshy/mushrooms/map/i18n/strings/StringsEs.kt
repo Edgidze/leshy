@@ -74,6 +74,8 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
         "Elija las colecciones de setas que le interesen. Podrá cambiarlo más tarde en los " +
             "ajustes.",
     StringKey.OnboardingContinueButton to "Empezar",
+    StringKey.OnboardingNothingPickedWarning to
+        "Elija al menos una colección o una seta para continuar",
 
     StringKey.WelcomeIntro to
         "La aplicación recuerda por dónde anduvo y qué encontró, y ayuda de verdad a recoger setas: es " +
@@ -134,7 +136,8 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Varios",
     StringKey.CategoryUnknownMushroom to "Seta desconocida",
 
-    StringKey.CollectionPickerSearchHint to "Buscar país",
+    StringKey.CollectionPickerSearchHint to "Buscar país o seta",
+    StringKey.CollectionPickerMoreMatches to "No se muestran todas las coincidencias: precisa la búsqueda",
 
     StringKey.LanguagePickerSearchHint to "Buscar idioma",
     StringKey.LanguagePickerBackContentDescription to "Atrás",

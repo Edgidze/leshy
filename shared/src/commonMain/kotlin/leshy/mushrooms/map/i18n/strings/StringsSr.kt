@@ -77,6 +77,8 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.OnboardingDescription to
         "Изаберите збирке гљива које вас занимају. Ово можете променити касније у Подешавањима.",
     StringKey.OnboardingContinueButton to "Почни",
+    StringKey.OnboardingNothingPickedWarning to
+        "Изаберите бар једну збирку или једну гљиву да наставите",
 
     StringKey.WelcomeIntro to
         "Апликација памти куда сте прошли и шта сте нашли — и заиста помаже у брању гљива: до добрих места " +
@@ -132,7 +134,8 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryMisc to "Разно",
     StringKey.CategoryUnknownMushroom to "Непозната гљива",
 
-    StringKey.CollectionPickerSearchHint to "Претрага држава",
+    StringKey.CollectionPickerSearchHint to "Претрага држава или гљива",
+    StringKey.CollectionPickerMoreMatches to "Нису приказана сва подударања — прецизирајте упит",
 
     StringKey.LanguagePickerSearchHint to "Претрага језика",
     StringKey.LanguagePickerBackContentDescription to "Назад",

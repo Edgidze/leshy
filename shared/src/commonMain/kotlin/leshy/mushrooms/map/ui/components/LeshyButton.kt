@@ -31,26 +31,43 @@ private const val DISABLED_BORDER_ALPHA = 0.38f
  *
  * `OutlinedButton` этим компонентом НЕ подменяется: у него обводка своя по определению, и он уже
  * стоит там, где нужна именно вторичная кнопка (Отмена рядом с Готово).
+ *
+ * [dimmed] — «выглядит выключенной, но нажимается»: кнопка красится цветами выключенного
+ * состояния, а `onClick` продолжает приходить. Нужно там, где условие перехода человеку заранее не
+ * очевидно и объяснить его можно только в ответ на нажатие (последний шаг онбординга: «Дальше» без
+ * единого выбранного гриба показывает предупреждение — см.
+ * [leshy.mushrooms.map.ui.screens.OnboardingScreen]). Честный `enabled = false` там не годится
+ * ровно тем, что молчит в ответ на тап. Со `enabled = false` не сочетается и не спорит: выключенная
+ * кнопка и так нарисована этими же цветами.
  */
 @Composable
 fun LeshyButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    dimmed: Boolean = false,
     shape: Shape = ButtonDefaults.shape,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     content: @Composable RowScope.() -> Unit,
 ) {
     val outline = MaterialTheme.colorScheme.outline
+    val looksEnabled = enabled && !dimmed
     Button(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
         shape = shape,
-        colors = colors,
+        colors = if (dimmed) {
+            colors.copy(
+                containerColor = colors.disabledContainerColor,
+                contentColor = colors.disabledContentColor,
+            )
+        } else {
+            colors
+        },
         border = BorderStroke(
             BORDER_WIDTH,
-            if (enabled) outline else outline.copy(alpha = DISABLED_BORDER_ALPHA),
+            if (looksEnabled) outline else outline.copy(alpha = DISABLED_BORDER_ALPHA),
         ),
         content = content,
     )
