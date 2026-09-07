@@ -10,7 +10,7 @@ import kotlin.test.assertTrue
  * exhaustive-`when` completeness check for every [AppLanguage] beyond `ru`/`en`, so the check runs
  * here instead.
  *
- * Unlike `StringsTest`, both tests carry real load right now — help texts exist for `ru`/`en` only,
+ * Unlike `StringsTest`, both completeness tests carry real load right now — help texts exist for `ru`/`en` only,
  * so [everyKeyFallsBackToEnglishForUntranslatedLanguages] covers 24 languages today and shrinks by
  * one with every translation pass (`.claude/plans/help-screens.md`), while
  * [everyHelpTranslationMapIsCompleteAndNonBlank] starts empty and grows to meet it.
@@ -36,23 +36,46 @@ class HelpTextsTest {
     }
 
     /** Russian and English are compiler-checked for presence, not for having actually been written
-     * — a paragraph accidentally left as `""` would compile. Also pins the shape every translation
-     * has to keep: three paragraphs per section, none of them a one-liner placeholder. */
+     * — a block accidentally left as `""` would compile. Also pins the shape every translation has
+     * to keep: a real block of prose, not a one-liner placeholder. */
     @Test
     fun russianAndEnglishHaveRealTextForEveryKey() {
         listOf(AppLanguage.RU, AppLanguage.EN).forEach { language ->
             HelpKey.entries.forEach { key ->
                 val text = helpText(key, language)
-                assertTrue(text.length > 40, "$language/$key is too short to be a real paragraph: $text")
+                assertTrue(text.length > 40, "$language/$key is too short to be a real block: $text")
             }
         }
     }
 
-    /** Every section's help must be reachable: a [HelpTopic] with a paragraph missing from
-     * [HelpKey] can't happen, but a [HelpKey] nobody shows silently can. */
+    /** Every section's help must be reachable: a [HelpTopic] with a block missing from [HelpKey]
+     * can't happen, but a [HelpKey] nobody shows silently can. */
     @Test
     fun everyHelpKeyBelongsToSomeTopic() {
-        val used = HelpTopic.entries.flatMap { it.paragraphs }.toSet()
+        val used = HelpTopic.entries.flatMap { it.blocks }.toSet()
         assertEquals(HelpKey.entries.toSet(), used, "help keys not shown by any section")
+    }
+
+    /** ...and to exactly one section: a block shown by two sections would be a copy-paste slip in
+     * [HelpTopic], invisible in the app until someone notices the same picture and the same
+     * sentences in two places. */
+    @Test
+    fun noHelpKeyIsSharedBetweenTopics() {
+        val shown = HelpTopic.entries.flatMap { it.blocks }
+        assertEquals(shown.size, shown.toSet().size, "help keys shown by more than one section")
+    }
+
+    /** A block is a picture plus a sentence or three, not a paragraph in disguise — the length cap
+     * is what keeps the screen scannable as sections grow. The longest Russian block today sits
+     * around 300 characters; 420 leaves room for a translation that runs longer than the original
+     * without leaving room for a wall of text. */
+    @Test
+    fun blocksStayShortEnoughToReadUnderAPicture() {
+        AppLanguage.entries.forEach { language ->
+            HelpKey.entries.forEach { key ->
+                val text = helpText(key, language)
+                assertTrue(text.length <= 420, "$language/$key is ${text.length} chars, too long for one block: $text")
+            }
+        }
     }
 }
