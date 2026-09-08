@@ -31,18 +31,26 @@ import leshy.mushrooms.map.shared.R
 import leshy.mushrooms.map.ui.util.formatDistanceKm
 
 /**
- * Канал заведён заново (был `walk_recording`) ради важности `IMPORTANCE_DEFAULT` вместо прежней
- * `IMPORTANCE_LOW`: у канала с LOW уведомление считается «тихим», а «тихие» не показываются на
- * заблокированном экране, если в системных настройках выбрано «Скрывать тихие уведомления».
- * Поднять важность существующего канала из кода нельзя — Android разрешает приложению только
- * понижать её, — поэтому единственный способ это исправить у тех, у кого приложение уже
- * установлено, — новый id. Старый канал удаляется, чтобы не висел в настройках мёртвым.
+ * Важность канала — `IMPORTANCE_HIGH`, и это решение владельца: пока идёт запись, отметка находок
+ * для человека главное занятие, а не фоновая мелочь. Практическая разница против `DEFAULT` — место
+ * в шторке (уведомление стоит выше и не уезжает в «тихие»), полноценный показ на замке и то, что
+ * система не свернёт его в одну строку среди прочих.
  *
- * Звука и вибрации у канала при этом нет (`setSound(null, null)`): DEFAULT здесь нужен ровно ради
- * видимости на замке, а не ради того, чтобы уведомление о собственной прогулке звенело.
+ * Звука и вибрации у канала при этом нет (`setSound(null, null)`, `enableVibration(false)`):
+ * важность здесь нужна ради места и видимости, а не ради того, чтобы уведомление о собственной
+ * прогулке звенело. Всплывающий баннер (heads-up) при HIGH показывается ОДИН раз, на старте
+ * прогулки, — за это отвечает `setOnlyAlertOnce(true)` на самом уведомлении, без которого баннер
+ * выскакивал бы на каждую находку и на каждые несколько десятков метров.
+ *
+ * **Каждое изменение важности требует НОВОГО id канала.** Android разрешает приложению только
+ * понижать важность существующего канала; поднять — нельзя, и удалить-пересоздать нельзя тоже
+ * (канал с тем же id «воскресает» со старыми настройками, это защита ровно от такого приёма).
+ * Поэтому id пронумерован, а все прежние удаляются, чтобы не висели в настройках мёртвыми:
+ * `walk_recording` был LOW (на LOW уведомление считается «тихим» и не показывается на замке, если
+ * в системе выбрано «скрывать тихие»), `walk_recording_v2` — DEFAULT.
  */
-private const val NOTIFICATION_CHANNEL_ID = "walk_recording_v2"
-private const val LEGACY_NOTIFICATION_CHANNEL_ID = "walk_recording"
+private const val NOTIFICATION_CHANNEL_ID = "walk_recording_v3"
+private val LEGACY_NOTIFICATION_CHANNEL_IDS = listOf("walk_recording", "walk_recording_v2")
 private const val NOTIFICATION_ID = 1
 private const val EXTRA_LANGUAGE = "language"
 
@@ -173,6 +181,9 @@ class WalkRecordingService : Service() {
             .setContentText(string(StringKey.BackgroundRecordingNotificationText, language))
             .setSmallIcon(android.R.drawable.ic_menu_mylocation)
             .setOngoing(true)
+            // Каналов до Android 8 нет — там важность уведомления задаётся только этим, поэтому
+            // без него на API 24–25 канал был бы HIGH, а уведомление осталось бы обычным.
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(contentIntent)
             // Показывать содержимое на заблокированном экране целиком: PRIVATE (умолчание) на
             // телефоне, настроенном скрывать чувствительное, оставил бы вместо строк видов
@@ -274,11 +285,13 @@ class WalkRecordingService : Service() {
     private fun ensureChannel(language: AppLanguage) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val manager = getSystemService(NotificationManager::class.java)
-        runCatching { manager.deleteNotificationChannel(LEGACY_NOTIFICATION_CHANNEL_ID) }
+        LEGACY_NOTIFICATION_CHANNEL_IDS.forEach { id ->
+            runCatching { manager.deleteNotificationChannel(id) }
+        }
         val channel = NotificationChannel(
             NOTIFICATION_CHANNEL_ID,
             string(StringKey.BackgroundRecordingChannelName, language),
-            NotificationManager.IMPORTANCE_DEFAULT,
+            NotificationManager.IMPORTANCE_HIGH,
         ).apply {
             setSound(null, null)
             enableVibration(false)
