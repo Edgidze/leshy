@@ -1,0 +1,229 @@
+{
+  "country": "CY",
+  "languages": [
+    "el",
+    "tr"
+  ],
+  "keys": [
+    "lactarius_deliciosus",
+    "russula_delica",
+    "tricholoma_anatolicum",
+    "pleurotus_eryngii",
+    "agaricus_campestris__2",
+    "morchella_esculenta",
+    "suillus_granulatus",
+    "suillus_luteus",
+    "coprinus_comatus",
+    "amanita_phalloides",
+    "amanita_ovoidea",
+    "lactarius_torminosus",
+    "chroogomphus_rutilus",
+    "pleurotus_ostreatus",
+    "terfezia_boudieri",
+    "omphalotus_olearius",
+    "agaricus_xanthodermus",
+    "tricholoma_terreum",
+    "marasmius_oreades",
+    "macrolepiota_procera",
+    "lepista_nuda",
+    "amanita_pantherina",
+    "tricholoma_equestre",
+    "rubroboletus_satanas",
+    "galerina_marginata",
+    "amanita_caesarea",
+    "agaricus_arvensis",
+    "agaricus_bitorquis",
+    "infundibulicybe_geotropa",
+    "armillaria_mellea",
+    "laetiporus_sulphureus",
+    "lycoperdon_perlatum",
+    "ganoderma_applanatum",
+    "tylopilus_felleus",
+    "caloboletus_calopus",
+    "russula_emetica",
+    "inocybe_sp",
+    "lepiota_brunneoincarnata",
+    "clitocybe_rivulosa"
+  ],
+  "names": {
+    "el": {
+      "tricholoma_anatolicum": "Ήμερο",
+      "suillus_luteus": "Λαρτάς",
+      "chroogomphus_rutilus": "Ορνιθούα",
+      "lactarius_torminosus": "Μαλλίτσης",
+      "tricholoma_equestre": "Κιτρινοβώλετος",
+      "ganoderma_applanatum": "Ίσκα"
+    },
+    "tr": {
+      "lepista_nuda": "Mavi cincile"
+    }
+  },
+  "coined": [],
+  "notes": {
+    "lactarius_deliciosus": "Главный гриб Кипра. Рыжик в сосняках Pinus brutia и чёрной сосны, кипр. «Κοκκινομανίταρο» («красный гриб»), у турок-киприотов «kırmızı/dağ mantarı». Первым идёт и в буклете Лесного департамента, и в подборках «самых желанных» грибов острова. Кипрская греческая форма Κοκκινομανίταρο расходится с материковой «Πευκίτης», уже стоящей в names/el.json, — не переписываю, фиксирую здесь. Источники: https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://www.24sports.com.cy/gr/news/nea/koinonia/ayta-einai-ta-pio-perizitita-manitaria-tis-kyproy ; https://www.kibrispostasi.com/c35-KIBRIS_HABERLERI/n271004-kuzey-kibrista-250ye-yakin-mantar-turu-yetisiyor",
+    "russula_delica": "Второй по значимости: кипр. «Ασπρομανίταρο/Ασπομανίταρο» («белый гриб»), у турок-киприотов «beyaz mantar». Есть в буклете Лесного департамента и в северокипрском списке съедобных (Russula delica Fr.). Кипрское имя расходится с материковым «Ρουσσούλα η απογαλακτισμένη» — в перезапись не идёт. https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://www.24sports.com.cy/gr/news/nea/koinonia/ayta-einai-ta-pio-perizitita-manitaria-tis-kyproy ; https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "tricholoma_anatolicum": "Кипрское «Ήμερο» («домашний») или «Μαραθεύτικο» — третий из трёх классических кипрских грибов, самый ароматный и самый дорогой. Кипрские источники называют его Tricholoma caligatum; в каталоге ближайший и, по последним ревизиям комплекса caligatum, вероятно тот же таксон — T. anatolicum (кедровый гриб), он же прямо стоит в северокипрском перечне съедобных. Латынь спорна, народный концепт — один. https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://www.alphanews.live/cyprus/vrosima-manitaria-sti-kypro-eseis-xerete-poia-einai/ ; https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "pleurotus_eryngii": "Вёшенка на ферулах — кипр. «Μανιτάρι της αναθρήκας» (αναθρήκα = Ferula communis), у турок-киприотов «gavcar mantarı» (gavcar = ферула); по данным КНК это самый распространённый собираемый гриб севера. Кипрские формы расходятся с уже стоящими Αγκαθίτης / Körek — оставляю их нетронутыми. https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://www.24sports.com.cy/gr/news/nea/koinonia/ayta-einai-ta-pio-perizitita-manitaria-tis-kyproy ; https://www.kibrispostasi.com/c35-KIBRIS_HABERLERI/n271004-kuzey-kibrista-250ye-yakin-mantar-turu-yetisiyor",
+    "agaricus_campestris__2": "Пастбищный шампиньон, кипр. «Πουρούϊ / Πουρούδι», заимствовано и в турецко-кипрское «burudi». В Месаории и на выгонах — массовый сбор. Взят ключ __2 (полевой шампиньон), а не agaricus_campestris (концепт «жёлтоокрашивающихся»). https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://kykpee.org/mushrooms-of-cyprus/ ; https://www.kibrispostasi.com/c35-KIBRIS_HABERLERI/n271004-kuzey-kibrista-250ye-yakin-mantar-turu-yetisiyor",
+    "morchella_esculenta": "Сморчки, кипр. «Αρνούϊ / Αρνούθκια», весенний гриб Питсильи, продаётся дороже прочих. Кипрские источники пишут Morchella conica, северокипрский чек-лист — M. galilaea; в каталоге один сморчковый концепт. https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://www.24sports.com.cy/gr/news/nea/koinonia/ayta-einai-ta-pio-perizitita-manitaria-tis-kyproy ; https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "suillus_granulatus": "Маслёнок зернистый, кипр. «Σφουγκαράς» («губчатый») — в буклете Лесного департамента. Родовое кипрское имя для маслят — «Λαρτάς/Λαρτάδες». Кипрская форма расходится с материковым «Σουίλος ο κοκκώδης», перезаписи нет. https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://larnakaonline.com.cy/2023/10/23/kataklysmos-manitarion-stin-kypro-oi-perioches-kai-ta-dilitiriodi-foto/",
+    "suillus_luteus": "Второй маслёнок кипрских сосняков, кипр. «Λαρτάς» или «Βρακωτό πευκίσιο» (по кольцу-«штанишкам»). Из пары suillus_luteus / suillus_luteus__2 взят первый — у него есть турецкое имя. На Кипре к тому же концепту относят S. bellinii и S. collinitus, которых в каталоге нет (см. gaps). https://larnakaonline.com.cy/2023/10/23/kataklysmos-manitarion-stin-kypro-oi-perioches-kai-ta-dilitiriodi-foto/",
+    "coprinus_comatus": "Навозник белый, кипр. «Κοπρομανίταρο», в перечне Лесного департамента и в северокипрском списке съедобных. Кипрское имя расходится с материковым «Κοπρίνος ο κομήτης». https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://kykpee.org/mushrooms-of-cyprus/ ; https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "amanita_phalloides": "Кипрское «Θανατίτης» — имя, под которым бледная поганка фигурирует в кипрской прессе и медицинских предупреждениях. ВАЖНАЯ ОГОВОРКА: Loizides et al. показали, что вековые кипрские записи A. phalloides и A. muscaria не подтверждены гербарно, а часть смертельных отравлений на самом деле давала нефротоксичная A. proxima. Оставлен как обязательный к узнаванию, но кипрская фактура — в amanita_ovoidea. https://www.researchgate.net/publication/328289090 ; https://omegalive.com.cy/ygeia/ta-dhlhthriwdh-manitaria-ths-kyproy-kai-ta-problhmata-ygeias-poy-prokaloyn/",
+    "amanita_ovoidea": "Главная кипрская мухоморная беда: A. ovoidea и нефротоксичная A. proxima филогенетически подтверждены на острове и на Кипре регулярно путаются между собой (острая почечная недостаточность). В перечне «12 ядовитых грибов Кипра» A. proxima идёт под именем Θανατίτης. Отдельного ключа под A. proxima в каталоге нет, ovoidea — тот же народный концепт «большой белый мухомор сосняков». https://www.researchgate.net/publication/328289090 ; https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/",
+    "lactarius_torminosus": "Кипр. «Μαλλίτης/Μαλλίτσης» или «Ξυσταρομανίταρο» — единственный ядовитый вид, попавший в буклет Лесного департамента: мохнатый млечник, который путают с κοκκινομανίταρο. Кипрские источники дают то L. torminosus (Лесной департамент, kykpee), то L. tesquorum (перечень 12 ядовитых) — цистусовый двойник; в каталоге есть только torminosus, народный концепт один. https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://kykpee.org/mushrooms-of-cyprus/ ; https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/ | ПРАВКА ПРИ РАЗБОРЕ (2026-09-08): орфография «Μαλλίτης» → «Μαλλίτσης». Оба кипрских первоисточника пишут через -τσ-: kykpee.org (перепечатка буклета Лесного департамента) — «Μαλλίτσης ή Ξυσταρομανίταρο, Lactarius torminosus», reporter.com.cy (перечень 12 ядовитых) — «Μαλλίτσης, Lactarius tesquorum».",
+    "chroogomphus_rutilus": "Кипр. «Ορνιθούα» — сосновый мокруха, в буклете Лесного департамента помечен как съедобный, но нерекомендуемый; в северокипрском списке съедобных тоже есть. Узнаваемая плитка «нашёл, но не берут». https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://kykpee.org/mushrooms-of-cyprus/ ; https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "pleurotus_ostreatus": "Вёшенка обыкновенная, кипр. «Μανιτάρι του καβακιού» (гриб тополя) — в путеводителе Педуласа среди собираемых. https://www.pedoulas.org.cy/index.php/el/articles/nature-gr/mushrooms-gr",
+    "terfezia_boudieri": "«Трюфели» песчаных почв Месаории: тур.-кипр. «domalan/dolaman», в турецком корпусе уже стоит «Keme». Съедобные подземные аскомицеты — часть кипрской кухни; кипрская форма domalan идёт сюда, а не в перезапись. Прямых греко-кипрских свидетельств сбора Terfezia найти не удалось — самая слабая позиция списка. https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content ; https://www.kibrispostasi.com/c35-KIBRIS_HABERLERI/n271004-kuzey-kibrista-250ye-yakin-mantar-turu-yetisiyor",
+    "omphalotus_olearius": "Кипр. «Μανιτάρι της ελιάς» — в перечне «12 ядовитых грибов Кипра». Оливковые рощи по всему острову, путают с вёшенкой и с ήμερο. https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/",
+    "agaricus_xanthodermus": "Кипр. «Πορτομανίταρο» — в перечне 12 ядовитых он назван Agaricus moelleri (близнец xanthodermus, каталожный концепт один): главный двойник πουρούι, самое частое бытовое отравление. https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/",
+    "tricholoma_terreum": "Рядовка серая под соснами — в северокипрском перечне съедобных вместе с T. myomyces и T. triste. Массовый и неприметный гриб сосняков Троодоса. https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "marasmius_oreades": "Луговой опёнок — в северокипрском перечне съедобных, обычен по обочинам и выгонам. https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "macrolepiota_procera": "Зонтик пёстрый: в северокипрском перечне стоит M. mastoidea, в общем средиземноморском обиходе концепт один «зонтик». Оба ключа брать не стал, оставил procera — он назван на обоих языках подборки. Прямого кипрского свидетельства именно по procera нет. https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "lepista_nuda": "Рядовка фиолетовая — в северокипрском перечне съедобных прямо с народным именем «Mavi Cincile» (оно и внесено в tr, ключ был пуст). Из группы синонимов lepista_nuda / collybia_nuda / clitocybe_nuda взят один ключ. https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "amanita_pantherina": "Пантерный мухомор — один из видов Amanita, филогенетически подтверждённых на Кипре (Loizides et al.). Обязателен к узнаванию. https://www.researchgate.net/publication/328289090",
+    "tricholoma_equestre": "Кипр. «Κιτρινοβώλετος», в перечне 12 ядовитых грибов Кипра: рабдомиолиз при повторном обильном употреблении. Собирался как съедобный, отсюда и опасность. https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/",
+    "rubroboletus_satanas": "Красноногие болеты Кипра: в перечне 12 ядовитых стоит Boletus (Rubroboletus) rhodoxanthus «Βωλετός», а обзор кипрских болетов прямо пишет, что виды Rubroboletus и Imperator в основном токсичны. Отдельного ключа под rhodoxanthus в каталоге нет — сатанинский гриб покрывает тот же концепт. https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/ ; https://larnakaonline.com.cy/2023/10/23/kataklysmos-manitarion-stin-kypro-oi-perioches-kai-ta-dilitiriodi-foto/",
+    "galerina_marginata": "В перечне 12 ядовитых грибов Кипра; смертельный аматоксиновый двойник опят на пнях. https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/",
+    "amanita_caesarea": "Цезарский гриб в дубравах золотистого дуба и на высотах Троодоса. Позиция на слабых источниках: у Loizides в списке филогенетически подтверждённых кипрских Amanita прямо не назван, свидетельства — популярные кипрские и турецко-кипрские материалы. Требует ручной проверки. https://www.researchgate.net/publication/328289090 ; https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "agaricus_arvensis": "Крупные белые анисовые шампиньоны выгонов и опушек. На Кипре подтверждены A. sylvicola, A. essettei, A. litoralis, A. comtulus, A. heimii, A. altipes — тот же народный концепт «большой белый πουρούι»; отдельного ключа под них нет. https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "agaricus_bitorquis": "Шампиньон двукольцевой прямо стоит в северокипрском перечне съедобных (Agaricus bitorquis) — гриб утоптанных обочин и городских газонов, у него есть турецкое имя. https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "infundibulicybe_geotropa": "Говорушка гигантская, тур.-кипр. «Et melkisi» (в турецком корпусе уже стоит «Ebişke» — кипрская форма только в заметке). Крупный осенне-зимний гриб маквиса и выгонов; свидетельство северокипрское, греко-кипрских прямых источников не нашёл. https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "armillaria_mellea": "Опёнок осенний, кипр. «Κουτσουρομανίτης» на материке; на Кипре — на пнях сосны и дуба. Прямого кипрского источника сбора нет, взят по аналогии с GR и TR и по присутствию в средиземноморских перечнях. https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "laetiporus_sulphureus": "Трутовик серно-жёлтый на дубах, шелковице и рожковом дереве — заметный и собираемый в Восточном Средиземноморье; кипрских прямых свидетельств сбора не нашёл, взят по аналогии с GR и TR. https://www.researchgate.net/publication/271264141",
+    "lycoperdon_perlatum": "Дождевики: в северокипрском перечне съедобных стоят Lycoperdon lambinonii и три вида Bovista. Каталожный дождевиковый концепт один, взят perlatum (из пары __2 — первый ключ). https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "ganoderma_applanatum": "Кипр. «Ίσκα» — единственный несъедобный трутовик, названный в буклете Лесного департамента и повторённый в кипрских определителях. Плитка «нашёл, но не гриб для стола»; кипрское имя внесено в el (ключ был пуст). https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf ; https://kykpee.org/mushrooms-of-cyprus/",
+    "tylopilus_felleus": "Жёлчный гриб — в кипрском обзоре болетов назван среди горьких, несъедобных, которые попадаются собирателям вместе с маслятами. https://larnakaonline.com.cy/2023/10/23/kataklysmos-manitarion-stin-kypro-oi-perioches-kai-ta-dilitiriodi-foto/",
+    "caloboletus_calopus": "Болет красивоногий — в том же кипрском обзоре болетов среди горьких и вызывающих расстройство (там же C. radicans, которого в каталоге нет). https://larnakaonline.com.cy/2023/10/23/kataklysmos-manitarion-stin-kypro-oi-perioches-kai-ta-dilitiriodi-foto/",
+    "russula_emetica": "Едкие красные сыроежки. В перечне 12 ядовитых грибов Кипра фигурирует Russula luteotacta «Μάνα» — отдельного ключа нет, emetica покрывает тот же народный концепт «жгучая сыроежка». Кипрское имя Μάνα в names не внесено: переносить его на другой вид было бы выдумкой. https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/",
+    "inocybe_sp": "Волоконницы. В перечне 12 ядовитых грибов Кипра стоит Inocybe geophylla var. lilacina; видового ключа под неё нет, поэтому взят родовой ключ каталога — он честнее подмены другим видом волоконницы. Мускариновый синдром. https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/",
+    "lepiota_brunneoincarnata": "Смертельная лепиота газонов и обочин — средиземноморский убийца, ответственный за смертельные отравления в Турции, Греции и Испании; входит и в подборки GR, и в TR. Прямого кипрского случая в найденных источниках нет, но стация (сухие газоны, оливковые рощи) на Кипре повсеместна. https://www.researchgate.net/publication/276866599",
+    "clitocybe_rivulosa": "Белые говорушки выгонов, мускариновые двойники лугового опёнка и молодого πουρούι — классическая пара к marasmius_oreades. Кипрских прямых свидетельств нет, взята по аналогии с GR. https://www.researchgate.net/publication/271264141"
+  },
+  "gaps": [
+    {
+      "sci": "Tricholoma caligatum (Viv.) Ricken",
+      "names": {
+        "el": "Ήμερο / Μαραθεύτικο",
+        "tr": ""
+      },
+      "why": "Один из трёх классических кипрских грибов и самый дорогой на рынке: буклет Лесного департамента и все популярные кипрские перечни называют именно его. В каталоге его нет, взят близкий T. anatolicum (кедровый гриб комплекса caligatum).",
+      "nearest_key": "tricholoma_anatolicum",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "GR"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf",
+        "https://kykpee.org/mushrooms-of-cyprus/",
+        "https://www.alphanews.live/cyprus/vrosima-manitaria-sti-kypro-eseis-xerete-poia-einai/"
+      ]
+    },
+    {
+      "sci": "Suillus bellinii (Inzenga) Kuntze (и S. collinitus (Fr.) Kuntze)",
+      "names": {
+        "el": "Λαρτάς",
+        "tr": ""
+      },
+      "why": "Основные маслята сосняков Pinus brutia; кипрские обзоры называют S. bellinii «превосходным по мнению многих киприотов». В каталоге из средиземноморских маслят есть только granulatus и luteus.",
+      "nearest_key": "suillus_granulatus",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "GR",
+        "PT"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://larnakaonline.com.cy/2023/10/23/kataklysmos-manitarion-stin-kypro-oi-perioches-kai-ta-dilitiriodi-foto/",
+        "https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content"
+      ]
+    },
+    {
+      "sci": "Volvopluteus gloiocephalus (DC.) Vizzini, Contu & Justo (= Volvariella speciosa)",
+      "names": {
+        "el": "Κουκκουλιόνος",
+        "tr": ""
+      },
+      "why": "Съедобный вид с собственным кипрским именем, входит и в кипрские списки съедобных, и в северокипрский чек-лист. Волвовый гриб на удобренной земле — и он же повод перепутать с мухомором.",
+      "nearest_key": "volvariella_bombycina",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "GR",
+        "PT"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://www.alphanews.live/cyprus/vrosima-manitaria-sti-kypro-eseis-xerete-poia-einai/",
+        "https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content"
+      ]
+    },
+    {
+      "sci": "Sarcosphaera coronaria (Jacq.) J. Schröt.",
+      "names": {
+        "el": "Αυτί του αρνιού",
+        "tr": ""
+      },
+      "why": "Входит в кипрский перечень «12 ядовитых грибов Кипра»: крупная подземно начинающаяся чаша сосняков, которую на Кипре путают со сморчками (Αρνούϊ) — отсюда и имя «ухо ягнёнка». В каталоге нет ни одного аскомицета-чаши.",
+      "nearest_key": null,
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "GR"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/"
+      ]
+    },
+    {
+      "sci": "Lactarius chrysorrheus Fr.",
+      "names": {
+        "el": "Λατζιομανίταρο",
+        "tr": ""
+      },
+      "why": "Ядовитый млечник дубов (кипр. λατζιά — дуб), в перечне 12 ядовитых грибов Кипра; отдельное кипрское имя, то есть народно отличается от «Μαλλίτης».",
+      "nearest_key": "lactarius_torminosus",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "GR",
+        "PT"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/"
+      ]
+    },
+    {
+      "sci": "Rhizopogon roseolus (Corda) Th. Fr. (= R. luteolus sensu auct. cypr.)",
+      "names": {
+        "el": "Πουρούλα",
+        "tr": ""
+      },
+      "why": "Подземный гриб сосняков с собственным кипрским именем, в кипрских списках съедобных (невысокого кулинарного достоинства) и в северокипрском чек-листе отдельным семейством Rhizopogonaceae.",
+      "nearest_key": "terfezia_boudieri",
+      "same_concept_as_nearest": false,
+      "also_in": [],
+      "priority": "low",
+      "sources": [
+        "https://www.alphanews.live/cyprus/vrosima-manitaria-sti-kypro-eseis-xerete-poia-einai/",
+        "https://larnakaonline.com.cy/2023/10/23/kataklysmos-manitarion-stin-kypro-oi-perioches-kai-ta-dilitiriodi-foto/",
+        "https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.moa.gov.cy/moa/fd/fd.nsf/5069A1E4F711B14CC225810600465201/$file/Μανιτάρια της Κύπρου - Ενας άγνωστος κόσμος - Τετράπτυχο.pdf",
+    "https://kykpee.org/mushrooms-of-cyprus/",
+    "https://www.pedoulas.org.cy/index.php/el/articles/nature-gr/mushrooms-gr",
+    "https://www.24sports.com.cy/gr/news/nea/koinonia/ayta-einai-ta-pio-perizitita-manitaria-tis-kyproy",
+    "https://www.alphanews.live/cyprus/vrosima-manitaria-sti-kypro-eseis-xerete-poia-einai/",
+    "https://reporter.com.cy/article/2017/1/14/307420/ta-12-deleteriode-manitaria-tes-kuprou/",
+    "https://larnakaonline.com.cy/2023/10/23/kataklysmos-manitarion-stin-kypro-oi-perioches-kai-ta-dilitiriodi-foto/",
+    "https://omegalive.com.cy/ygeia/ta-dhlhthriwdh-manitaria-ths-kyproy-kai-ta-problhmata-ygeias-poy-prokaloyn/",
+    "https://i-rep.emu.edu.tr/server/api/core/bitstreams/4886c604-8a9c-449b-a254-58ff20d4ce88/content",
+    "https://www.kibrispostasi.com/c35-KIBRIS_HABERLERI/n271004-kuzey-kibrista-250ye-yakin-mantar-turu-yetisiyor",
+    "https://www.researchgate.net/publication/328289090",
+    "https://www.researchgate.net/publication/276866599",
+    "https://www.researchgate.net/publication/271264141"
+  ]
+}

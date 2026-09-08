@@ -31,7 +31,7 @@ fun countryCodeForCollectionNameKey(nameKey: String): String? =
     nameKey.takeIf { it.startsWith(COUNTRY_COLLECTION_PREFIX) }?.removePrefix(COUNTRY_COLLECTION_PREFIX)
 
 /**
- * Parses `countries.json` (45 entries, ~68 KB) once and caches the result — Koin singleton
+ * Parses `countries.json` (55 entries, ~81 KB) once and caches the result — Koin singleton
  * (`di/DataModule.kt`), same shape and reasoning as [CatalogSource].
  */
 class CountriesSource {

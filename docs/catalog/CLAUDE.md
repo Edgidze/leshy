@@ -450,6 +450,42 @@ images: 408 verified, 0 copied, 0 orphaned group images removed
 `catalog_reference.tsv` пересобран перед пачкой на 47 подборках, колонки
 названий — `en,de,fr,nl,el,es,it,sv,hr,sr,bg,tr` (добавились `nl` и `el`).
 
+## Фаза 2 партии `europe-15`, четвёртая пачка (2026-09-08) — `AL`, `BA`, `CY`
+
+```
+408 categories (+0 extra), 52 countries (+19 extra), 51 languages
+colors: 408 reused from catalog.json, 0 computed from images
+countries.json: 52 countries
+countries/: 42 files written (52 countries each, 17 manual overrides applied)
+names/: 51 files written (20 of them fed by extra_names/)
+images: 408 verified, 0 copied, 0 orphaned group images removed
+```
+
+Ручные слои: `extra_country_presets.json` +3 записи (`AL` 52 ключа, `BA` 50,
+`CY` 39), `extra_names/sq.json` (14, новый), `extra_names/bs.json` (48, новый),
+`extra_names/tr.json` (1, новый файл поверх существующих 61 имени из дампа),
+`extra_names/el.json` 49 → 55.
+
+**Первый случай, когда `extra_names/<lang>.json` заводится для языка, у которого
+`names/<lang>.json` уже собран не этим слоем.** Турецкие имена (61) пришли из
+исходного дампа и `name_overrides.json`, а кипрская сессия добавляет к ним одно
+— `lepista_nuda` → «Mavi cincile». Слой применяется последним и перекрывает всё,
+поэтому проверка «дозаполняем, а не переписываем» здесь обязательна и сделана
+дважды: сверкой перед записью (0 конфликтов, 0 совпадений) и сверкой готовых
+`names/el|tr.json` со снятыми до прогона копиями — **ни одно из 49 греческих и
+61 турецкого имени не изменилось**.
+
+Дифф: 536 вставленных строк, 61 удалённая, и все удаления — в
+`docs/research/europe-15/catalog_reference.tsv` (пересобран на 52 подборках,
+колонка `already_in`). `catalog.json` не изменился ни на байт, `drawable/` не
+тронут, `countries.json` +168 строк без единого удаления.
+
+Поле `country` новых записей — краткая форма CLDR, как её отдаёт `babel`:
+`Albania`, `Bosnia & Herzegovina`, `Cyprus`. Амперсанд в боснийской форме — это
+то, что показывают английские интерфейсы Google и Apple; правило раздела «После
+Фазы 5» (не отклоняться от CLDR без причины) оставлено в силе, переопределения
+в `country_name_overrides.json` не заводились.
+
 ## Зависимости python (2026-09-07)
 
 `Babel` дважды ставился «в отдельную директорию и подавался через
