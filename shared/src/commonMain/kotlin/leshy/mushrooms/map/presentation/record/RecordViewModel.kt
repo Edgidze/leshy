@@ -582,22 +582,70 @@ class RecordViewModel(
         _uiState.update { it.copy(justFinished = false) }
     }
 
+    /**
+     * Находки, уже отправленные в Room, но ещё не доехавшие до [_uiState]: `categoryId` → сколько
+     * записей в полёте.
+     *
+     * Существует ради лимита [MAX_MUSHROOM_FINDS_PER_WALK]. Проверять его по одному
+     * `_uiState.mushroomCounts` нельзя: счётчик там растёт только ПОСЛЕ `addMushroomMark`, то есть
+     * после настоящей записи в базу, а [addMushroom] сама не приостанавливается — она стартует
+     * корутину и тут же возвращается. Пока запись идёт, следующий вызов видит прежнее число, и
+     * пачка вызовов подряд проходит проверку вся целиком.
+     *
+     * С плитками на экране это почти не проявлялось: у «+» гаснет кнопка, и палец физически не
+     * успевает. С кнопками уведомления проявляется в полную силу — [RecordingNotificationBus]
+     * буферизует до 32 нажатий, и `collect` разбирает буфер подряд, без единой приостановки между
+     * вызовами. Владелец так и получил больше 999 находок по одному виду (репорт 2026-09-08).
+     *
+     * Правится не блокировкой, а бронью: слот занимается СИНХРОННО, в том же такте, что и
+     * проверка, и освобождается там же, где счётчик в [_uiState] вырастает на эту находку. Мапа
+     * читается и пишется только из главного потока (`viewModelScope` и `collect` команд — на нём),
+     * поэтому синхронизации не требует.
+     */
+    private val findsInFlight = mutableMapOf<Long, Int>()
+
+    /**
+     * Пытается занять [count] слотов под находки вида [categoryId] в пределах лимита. Возвращает,
+     * сколько занять получилось (0 — вид уже на лимите). Занятое обязано быть освобождено
+     * [releaseFinds] — и в успешном пути, и в любом раннем выходе.
+     */
+    private fun reserveFinds(categoryId: Long, count: Int): Int {
+        val committed = _uiState.value.mushroomCounts[categoryId] ?: 0
+        val inFlight = findsInFlight[categoryId] ?: 0
+        val free = (MAX_MUSHROOM_FINDS_PER_WALK - committed - inFlight).coerceAtLeast(0)
+        val granted = count.coerceAtMost(free)
+        if (granted > 0) findsInFlight[categoryId] = inFlight + granted
+        return granted
+    }
+
+    private fun releaseFinds(categoryId: Long, count: Int) {
+        val left = (findsInFlight[categoryId] ?: 0) - count
+        if (left > 0) findsInFlight[categoryId] = left else findsInFlight.remove(categoryId)
+    }
+
     fun addMushroom(categoryId: Long) {
         val currentWalkId = walkId ?: return
-        if ((_uiState.value.mushroomCounts[categoryId] ?: 0) >= MAX_MUSHROOM_FINDS_PER_WALK) return
+        if (reserveFinds(categoryId, 1) == 0) return
         // Барьер, а не проверка «на всякий случай»: без фикса находку не к чему привязать, и
         // записать её всё равно куда — значит соврать (см. AddMushroomMarkUseCase). Экран
         // «Записи» ту же проверку делает раньше и показывает сообщение; здесь она стоит второй,
         // потому что ViewModel обязана быть верна сама по себе, а не по договорённости с UI.
-        val location = _uiState.value.currentLocation ?: return
+        val location = _uiState.value.currentLocation ?: run { releaseFinds(categoryId, 1); return }
         viewModelScope.launch {
-            val mark = addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
-            scheduleFrontBump(categoryId)
-            noteMarked(categoryId)
-            _uiState.update { state ->
-                val counts = state.mushroomCounts.toMutableMap()
-                counts[categoryId] = (counts[categoryId] ?: 0) + 1
-                state.copy(mushroomCounts = counts, marks = state.marks + mark)
+            try {
+                val mark = addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
+                scheduleFrontBump(categoryId)
+                noteMarked(categoryId)
+                _uiState.update { state ->
+                    val counts = state.mushroomCounts.toMutableMap()
+                    counts[categoryId] = (counts[categoryId] ?: 0) + 1
+                    state.copy(mushroomCounts = counts, marks = state.marks + mark)
+                }
+            } finally {
+                // Строго после того, как находка учтена в mushroomCounts: бронь и счётчик — две
+                // половины одного числа, и между ними не должно быть такта, в котором лимит виден
+                // недобранным.
+                releaseFinds(categoryId, 1)
             }
         }
     }
@@ -617,19 +665,34 @@ class RecordViewModel(
     fun addMushrooms(categoryId: Long, count: Int) {
         if (count <= 0) return
         val currentWalkId = walkId ?: return
+        // Та же бронь, что в [addMushroom], и по той же причине: диалог считает лимит по числу,
+        // которое видел на момент открытия, а пока его заполняли, вид могли добить кнопками
+        // уведомления. Здесь берётся столько, сколько осталось до лимита, — молча, как и «+».
+        val granted = reserveFinds(categoryId, count)
+        if (granted == 0) return
         // Тот же барьер, что в [addMushroom].
-        val location = _uiState.value.currentLocation ?: return
+        val location = _uiState.value.currentLocation ?: run { releaseFinds(categoryId, granted); return }
         viewModelScope.launch {
-            repeat(count) {
-                val mark = addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
-                _uiState.update { state ->
-                    val counts = state.mushroomCounts.toMutableMap()
-                    counts[categoryId] = (counts[categoryId] ?: 0) + 1
-                    state.copy(mushroomCounts = counts, marks = state.marks + mark)
+            // Бронь освобождается по одной находке, вместе с ростом счётчика, а не разом в конце:
+            // иначе на всю длину пачки (а это granted настоящих записей в базу) вид выглядел бы
+            // занятым вдвое и «+» рядом отказывал бы без причины.
+            var written = 0
+            try {
+                repeat(granted) {
+                    val mark = addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
+                    _uiState.update { state ->
+                        val counts = state.mushroomCounts.toMutableMap()
+                        counts[categoryId] = (counts[categoryId] ?: 0) + 1
+                        state.copy(mushroomCounts = counts, marks = state.marks + mark)
+                    }
+                    releaseFinds(categoryId, 1)
+                    written++
                 }
+                scheduleFrontBump(categoryId)
+                noteMarked(categoryId)
+            } finally {
+                releaseFinds(categoryId, granted - written)
             }
-            scheduleFrontBump(categoryId)
-            noteMarked(categoryId)
         }
     }
 
