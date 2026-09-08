@@ -91,6 +91,9 @@ fun LiveTrackMap(
     markers: List<MapMarker>,
     currentLocation: GeoPoint?,
     modifier: Modifier,
+    // Finds of PAST walks, drawn small and clustered under the current walk's own [markers] — which
+    // must not be repeated here: the same find in both layers shows up as a small icon peeking out
+    // from under the big one (see RecordViewModel's `pastWalkIds`).
     historicalMarkers: List<MapMarker> = emptyList(),
     // Tracks of past walks, keyed by walk id (the current walk's own track comes in as [track] and
     // must not be repeated here). Deliberately kept out of the camera-fitting math below — framing
