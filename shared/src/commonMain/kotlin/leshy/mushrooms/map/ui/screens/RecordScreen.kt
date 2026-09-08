@@ -560,15 +560,10 @@ private fun RecordScreenContent(
             )
         }
 
-        // Current walk's own POI marks plus past walks' ones, deduped — see LiveTrackMap's
-        // historicalPlaces param doc for why the dedup matters.
+        // Only the current walk's own POI marks — the past walks' ones arrive separately in
+        // uiState.historicalPlaces, which no longer needs deduplicating against these: the current
+        // walk is excluded from both historical lists at the source (RecordViewModel).
         val currentPlaceMarks = remember(uiState.marks) { uiState.marks.filter { it.type == MarkType.POI } }
-        val dedupedHistoricalPlaces = remember(uiState.historicalPlaces, uiState.marks) {
-            // Set rather than the nested `any` this used to do: with both lists growing over a
-            // long walk that was quadratic, and it ran on every single recomposition.
-            val currentIds = uiState.marks.mapTo(mutableSetOf()) { it.id }
-            uiState.historicalPlaces.filterNot { it.id in currentIds }
-        }
 
         // Every list below is remembered on its inputs. LiveTrackMap compares its parameters by
         // instance, so rebuilding them each recomposition handed MapLibre fresh-but-equal lists and
@@ -601,8 +596,8 @@ private fun RecordScreenContent(
                 PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
             }
         }
-        val historicalPlaceMarkers = remember(dedupedHistoricalPlaces) {
-            dedupedHistoricalPlaces.map { mark ->
+        val historicalPlaceMarkers = remember(uiState.historicalPlaces) {
+            uiState.historicalPlaces.map { mark ->
                 PlaceMarker(id = mark.id, lat = mark.lat, lon = mark.lon, photoPath = mark.photoPath)
             }
         }
@@ -623,10 +618,10 @@ private fun RecordScreenContent(
                     historicalTracks = uiState.historicalTracks,
                     places = placeMarkers,
                     onPlaceClick = onPlaceClick,
-                    // Excludes the current walk's own places (already shown above, interactive) —
-                    // unlike historicalMarkers/historicalFinds, a duplicate here would mean two
-                    // literal SymbolLayers stacked on the exact same pin, and whichever one MapLibre
-                    // hit-tests first would silently swallow taps meant for the interactive layer.
+                    // Past walks' places only — the current walk's own are in `places` above,
+                    // interactive. A place present in both would mean two literal SymbolLayers on the
+                    // exact same pin, and whichever one MapLibre hit-tests first would silently
+                    // swallow taps meant for the interactive layer.
                     historicalPlaces = historicalPlaceMarkers,
                     // Place markers can't yet be long-pressed on an unstarted walk — same gating as
                     // the "mark location" button.

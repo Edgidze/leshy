@@ -248,12 +248,23 @@ class RecordViewModel(
                 val defaultOrderCategories = restCategories + unknownMushroom
                 val tileCategories = applyRecencyOrder(defaultOrderCategories, order)
                 val categoryById = categories.associateBy { it.id }
-                val matchingWalkIds = walks.filter { it.matchesDateAndSeason(filter) }.map { it.id }.toSet()
+                // ТОЛЬКО ЗАВЕРШЁННЫЕ прогулки — тем же правилом, по которому отбираются
+                // historicalTracks ниже. Раньше сюда попадала и текущая: её находки рисовались
+                // ДВАЖДЫ — своим слоем (крупная иконка выбранного пользователем размера) и слоем
+                // прошлых находок (мелкая иконка кластеризованного слоя) — и при размере значка
+                // чуть выше среднего мелкая вылезала из-под крупной (репорт с устройства,
+                // 2026-09-08). Дело не только в наложении: слой прошлых находок — это карта
+                // ПРОШЛЫХ прогулок, и текущей в ней быть не должно по смыслу, она станет прошлой,
+                // когда закончится.
+                val pastWalkIds = walks
+                    .filter { it.endTime != null && it.matchesDateAndSeason(filter) }
+                    .map { it.id }
+                    .toSet()
                 val historicalFinds = marks.filter {
-                    it.walkId in matchingWalkIds && it.type == MarkType.MUSHROOM &&
+                    it.walkId in pastWalkIds && it.type == MarkType.MUSHROOM &&
                         categoryById[it.categoryId]?.isActive == true
                 }
-                val historicalPlaces = marks.filter { it.walkId in matchingWalkIds && it.type == MarkType.POI }
+                val historicalPlaces = marks.filter { it.walkId in pastWalkIds && it.type == MarkType.POI }
                 RecordFilterState(
                     tileCategories,
                     historicalFinds,
