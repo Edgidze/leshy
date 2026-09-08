@@ -158,4 +158,5 @@ Android + iOS. Каталог с тех пор вырос до 408 видов, �
 
 Перед финальным шагом публикации (Google Play / App Store) — обязателен supply-chain аудит
 зависимостей. Полный чеклист — навык `pre-release-audit`
-(`.claude/skills/pre-release-audit/SKILL.md`).
+(`.claude/skills/pre-release-audit/SKILL.md`), последний прогон и что он оставил на решение
+владельца — `docs/release/dependency-audit-2026-09.md`.
