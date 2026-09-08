@@ -32,9 +32,11 @@ internal val uzbekHelpTexts: Map<HelpKey, String> = mapOf(
             "koʻrinishini belgilaydi, ustidagi raqam esa hozir nechta filtr yoqilganini bildiradi. Filtr " +
             "«Topilmalar xaritasi» bilan umumiy: bu yerda yoqqaningiz u yerda ham ishlaydi.",
     HelpKey.RecordBackground to
-        "Izning yozilishi ilova fon rejimida boʻlganda ham davom etadi. Joriy sayrdan tashqari xarita " +
-            "oʻtgan sayrlarning topilmalari va belgilangan joylarini koʻrsatadi — ulardan qayerda " +
-            "yurganingiz va u yerda nima boʻlgani koʻrinadi.",
+        "Izning yozilishi ilova fon rejimida boʻlganda ham davom etadi. Androidda davom " +
+            "etayotgan sayr «+»/«−» tugmali bildirishnoma sifatida ham turadi — topilmani telefon " +
+            "qulfini ochmasdan belgilash mumkin. Joriy sayrdan tashqari xarita oʻtgan sayrlarning " +
+            "topilmalari va belgilangan joylarini koʻrsatadi — ulardan qayerda yurganingiz va u yerda " +
+            "nima boʻlgani koʻrinadi.",
     HelpKey.ArchivePurpose to
         "Barcha sayrlaringiz, yangilari tepada. Kartochkada nomi, sanasi, davomiyligi, kilometrlari, " +
             "topilmalar soni va bosib oʻtilgan izning kichik tasviri bor.",
@@ -82,13 +84,15 @@ internal val uzbekHelpTexts: Map<HelpKey, String> = mapOf(
             "boʻyicha toʻplamlarga boʻlingan, yonida esa katalogda yoʻq turlar yashaydi — ularni oʻzingiz " +
             "qoʻshasiz.",
     HelpKey.SpeciesCollections to
-        "«Qoʻziqorin toʻplamlari»da mamlakat qatorini bosish uning turlarini ochadi: mamlakat yonidagi " +
-            "belgi butun toʻplamni yoqadi, ichidagi belgilar — alohida turlarni. Tepadagi qidiruv maydoni " +
-            "mamlakatni nomi boʻyicha topadi.",
+        "«Qoʻziqorin toʻplamlari»da mamlakat qatorini bosish uning turlarini ochadi: mamlakat " +
+            "yonidagi belgi butun toʻplamni yoqadi, ichidagi belgilar — alohida turlarni. Yuqoridagi " +
+            "qidiruv maydoni nom boʻyicha ham davlatni, ham alohida qoʻziqorinni topadi.",
     HelpKey.SpeciesOwn to
-        "«Qoʻshilgan qoʻziqorinlar»da «Qoʻziqorin qoʻshish» tugmasi shaklni ochadi: nomi, ilmiy nomi, " +
-            "belgi rangi va rasm — kameradan, galereyadan yoki katalogdan. Qalam qoʻshilgan turni " +
-            "oʻzgartiradi, krestcha uni oʻchiradi.",
+        "«Qoʻshilgan qoʻziqorinlar»da «Qoʻziqorin qoʻshish» tugmasi shaklni ochadi: nomi, ilmiy " +
+            "nomi, belgi rangi va rasm — kameradan, galereyadan yoki katalogdan. Soʻng ilova «Qaysi " +
+            "toʻplamga?» deb soʻraydi: oʻz nomingiz bunday qoʻziqorinlarni birga yigʻadi, boʻsh " +
+            "maydon ularni «Boshqalar»ga qoʻyadi. Qalam qoʻshilgan turni oʻzgartiradi, krestcha uni " +
+            "oʻchiradi.",
     HelpKey.SpeciesCheckboxes to
         "Olib tashlangan belgi hech narsani oʻchirmaydi — tur shunchaki katak boʻlib koʻrinmaydi, oʻtgan " +
             "topilmalar esa joyida qoladi. Oʻz turingizni oʻchirish esa qaytarilmaydi: uning oʻtgan " +

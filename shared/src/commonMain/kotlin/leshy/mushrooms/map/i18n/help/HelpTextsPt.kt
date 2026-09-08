@@ -32,9 +32,11 @@ internal val portugueseHelpTexts: Map<HelpKey, String> = mapOf(
             "mapa, e o número nele indica quantos filtros estão ativos. O filtro é comum com o «Mapa de " +
             "achados»: o que ligar aqui vale também lá.",
     HelpKey.RecordBackground to
-        "O registo do percurso continua quando a aplicação está em segundo plano. Além da caminhada " +
-            "atual, o mapa mostra achados e locais marcados de caminhadas anteriores — por eles vê-se por " +
-            "onde já andou e o que havia ali.",
+        "O registo do percurso continua quando a aplicação está em segundo plano. No Android a " +
+            "caminhada em curso fica também como notificação com botões «+»/«−» — um achado " +
+            "regista-se sem desbloquear o telemóvel. Além da caminhada atual, o mapa mostra achados e " +
+            "locais marcados de caminhadas anteriores — por eles vê-se por onde já andou e o que " +
+            "havia ali.",
     HelpKey.ArchivePurpose to
         "Todas as suas caminhadas, as mais recentes em cima. No cartão estão o nome, a data, a duração, " +
             "os quilómetros, o número de achados e uma miniatura do percurso feito.",
@@ -81,13 +83,14 @@ internal val portugueseHelpTexts: Map<HelpKey, String> = mapOf(
             "coleções por país e, ao lado, vivem as espécies que o catálogo não tem — essas é o " +
             "utilizador que as acrescenta.",
     HelpKey.SpeciesCollections to
-        "Em «Coleções de cogumelos», tocar na linha de um país abre as suas espécies: a marca junto ao " +
-            "país liga a coleção inteira, as marcas interiores as espécies individuais. O campo de " +
-            "pesquisa em cima encontra um país pelo nome.",
+        "Em «Coleções de cogumelos», tocar na linha de um país abre as suas espécies: a marca " +
+            "junto ao país liga a coleção inteira, as marcas interiores as espécies individuais. O " +
+            "campo de pesquisa em cima encontra pelo nome tanto um país como um cogumelo isolado.",
     HelpKey.SpeciesOwn to
         "Em «Cogumelos adicionados», o botão «Adicionar cogumelo» abre um formulário: nome, nome " +
-            "científico, cor da marca e imagem — da câmara, da galeria ou do catálogo. O lápis altera uma " +
-            "espécie já adicionada, a cruz elimina-a.",
+            "científico, cor da marca e imagem — da câmara, da galeria ou do catálogo. Depois a " +
+            "aplicação pergunta «Em que coleção?»: um nome seu junta esses cogumelos, o campo vazio " +
+            "põe-nos em «Outros». O lápis altera uma espécie já adicionada, a cruz elimina-a.",
     HelpKey.SpeciesCheckboxes to
         "Tirar a marca não apaga nada — a espécie deixa apenas de aparecer como mosaico, e os achados " +
             "anteriores ficam onde estão. Eliminar uma espécie sua, pelo contrário, é irreversível: todas " +

@@ -31,9 +31,10 @@ internal val czechHelpTexts: Map<HelpKey, String> = mapOf(
             "a číslo na něm říká, kolik filtrů je právě zapnutých. Filtr je společný s „Mapou nálezů“: co " +
             "zapnete tady, platí i tam.",
     HelpKey.RecordBackground to
-        "Záznam trasy pokračuje i tehdy, když je aplikace na pozadí. Kromě aktuální procházky mapa " +
-            "ukazuje nálezy a označená místa z minulých procházek — je z nich vidět, kudy jste už chodili " +
-            "a co tam bylo.",
+        "Záznam trasy pokračuje i tehdy, když je aplikace na pozadí. Na Androidu probíhající " +
+            "procházka visí i jako oznámení s tlačítky „+“/„−“ — nález lze zapsat bez odemykání " +
+            "telefonu. Kromě aktuální procházky mapa ukazuje nálezy a označená místa z minulých " +
+            "procházek — je z nich vidět, kudy jste už chodili a co tam bylo.",
     HelpKey.ArchivePurpose to
         "Všechny vaše procházky, nejnovější nahoře. Na kartě je název, datum, doba trvání, kilometry, " +
             "počet nálezů a náhled ušlé trasy.",
@@ -77,12 +78,14 @@ internal val czechHelpTexts: Map<HelpKey, String> = mapOf(
         "Tady rozhodujete, které houby budou dlaždicemi na obrazovce záznamu. Katalog je rozdělený na " +
             "sbírky podle zemí a vedle něj žijí druhy, které v katalogu nejsou — ty přidáváte sami.",
     HelpKey.SpeciesCollections to
-        "Ve „Sbírkách hub“ klepnutí na řádek země rozbalí její druhy: zaškrtnutí u země zapne celou " +
-            "sbírku, zaškrtnutí uvnitř jednotlivé druhy. Vyhledávací pole nahoře najde zemi podle názvu.",
+        "Ve „Sbírkách hub“ klepnutí na řádek země rozbalí její druhy: zaškrtnutí u země zapne " +
+            "celou sbírku, zaškrtnutí uvnitř jednotlivé druhy. Vyhledávací pole nahoře najde podle " +
+            "názvu zemi i jednotlivou houbu.",
     HelpKey.SpeciesOwn to
-        "V „Přidaných houbách“ tlačítko „Přidat houbu“ otevře formulář: název, vědecký název, barva " +
-            "značky a obrázek — z fotoaparátu, z galerie nebo z katalogu. Tužka změní už přidaný druh, " +
-            "křížek ho odstraní.",
+        "V „Přidaných houbách“ tlačítko „Přidat houbu“ otevře formulář: název, vědecký název, " +
+            "barva značky a obrázek — z fotoaparátu, z galerie nebo z katalogu. Poté se aplikace " +
+            "zeptá „Do které sbírky?“: vlastní název shromáždí takové houby pohromadě, prázdné pole " +
+            "je uloží do „Ostatní“. Tužka změní už přidaný druh, křížek ho odstraní.",
     HelpKey.SpeciesCheckboxes to
         "Zrušené zaškrtnutí nic nemaže — druh se prostě přestane ukazovat jako dlaždice a dřívější nálezy " +
             "zůstanou na místě. Odstranění vlastního druhu je naopak nevratné: všechna jeho označení v " +

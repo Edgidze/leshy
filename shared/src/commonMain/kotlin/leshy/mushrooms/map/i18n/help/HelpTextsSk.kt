@@ -31,9 +31,10 @@ internal val slovakHelpTexts: Map<HelpKey, String> = mapOf(
             "číslo na ňom hovorí, koľko filtrov je práve zapnutých. Filter je spoločný s „Mapou nálezov“: " +
             "čo zapnete tu, platí aj tam.",
     HelpKey.RecordBackground to
-        "Záznam trasy pokračuje aj vtedy, keď je aplikácia na pozadí. Okrem aktuálnej prechádzky mapa " +
-            "ukazuje nálezy a označené miesta z minulých prechádzok — vidno z nich, kadiaľ ste už chodili " +
-            "a čo tam bolo.",
+        "Záznam trasy pokračuje aj vtedy, keď je aplikácia na pozadí. V Androide prebiehajúca " +
+            "prechádzka visí aj ako oznámenie s tlačidlami „+“/„−“ — nález sa dá zapísať bez " +
+            "odomknutia telefónu. Okrem aktuálnej prechádzky mapa ukazuje nálezy a označené miesta z " +
+            "minulých prechádzok — vidno z nich, kadiaľ ste už chodili a čo tam bolo.",
     HelpKey.ArchivePurpose to
         "Všetky vaše prechádzky, najnovšie hore. Na karte je názov, dátum, trvanie, kilometre, počet " +
             "nálezov a náhľad prejdenej trasy.",
@@ -77,13 +78,14 @@ internal val slovakHelpTexts: Map<HelpKey, String> = mapOf(
         "Tu rozhodujete, ktoré huby budú dlaždicami na obrazovke záznamu. Katalóg je rozdelený na zbierky " +
             "podľa krajín a vedľa neho žijú druhy, ktoré v katalógu nie sú — tie pridávate sami.",
     HelpKey.SpeciesCollections to
-        "V „Zbierkach húb“ ťuknutie na riadok krajiny rozbalí jej druhy: zaškrtnutie pri krajine zapne " +
-            "celú zbierku, zaškrtnutia vnútri jednotlivé druhy. Vyhľadávacie pole hore nájde krajinu " +
-            "podľa názvu.",
+        "V „Zbierkach húb“ ťuknutie na riadok krajiny rozbalí jej druhy: zaškrtnutie pri krajine " +
+            "zapne celú zbierku, zaškrtnutia vnútri jednotlivé druhy. Vyhľadávacie pole hore nájde " +
+            "podľa názvu krajinu aj jednotlivú hubu.",
     HelpKey.SpeciesOwn to
-        "V „Pridaných hubách“ tlačidlo „Pridať hubu“ otvorí formulár: názov, vedecký názov, farba značky " +
-            "a obrázok — z fotoaparátu, z galérie alebo z katalógu. Ceruzka zmení už pridaný druh, krížik " +
-            "ho odstráni.",
+        "V „Pridaných hubách“ tlačidlo „Pridať hubu“ otvorí formulár: názov, vedecký názov, farba " +
+            "značky a obrázok — z fotoaparátu, z galérie alebo z katalógu. Potom sa aplikácia spýta " +
+            "„Do ktorej zbierky?“: vlastný názov zhromaždí takéto huby spolu, prázdne pole ich uloží " +
+            "do „Ostatné“. Ceruzka zmení už pridaný druh, krížik ho odstráni.",
     HelpKey.SpeciesCheckboxes to
         "Zrušené zaškrtnutie nič nemaže — druh sa jednoducho prestane ukazovať ako dlaždica a predošlé " +
             "nálezy zostanú na mieste. Odstránenie vlastného druhu je naopak nezvratné: všetky jeho " +

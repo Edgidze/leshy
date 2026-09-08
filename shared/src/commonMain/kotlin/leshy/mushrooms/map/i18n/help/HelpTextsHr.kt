@@ -30,9 +30,10 @@ internal val croatianHelpTexts: Map<HelpKey, String> = mapOf(
             "a broj na njemu govori koliko je filtara trenutno uključeno. Filtar je zajednički s „Kartom " +
             "nalaza“: ono što uključite ovdje vrijedi i tamo.",
     HelpKey.RecordBackground to
-        "Snimanje traga nastavlja se i kad je aplikacija u pozadini. Osim trenutne šetnje, karta " +
-            "prikazuje nalaze i označena mjesta prijašnjih šetnji — po njima se vidi kuda ste već hodali " +
-            "i što je ondje bilo.",
+        "Snimanje traga nastavlja se i kad je aplikacija u pozadini. Na Androidu šetnja u tijeku " +
+            "stoji i kao obavijest s tipkama „+“/„−“ — nalaz se može zabilježiti bez otključavanja " +
+            "telefona. Osim trenutne šetnje, karta prikazuje nalaze i označena mjesta prijašnjih " +
+            "šetnji — po njima se vidi kuda ste već hodali i što je ondje bilo.",
     HelpKey.ArchivePurpose to
         "Sve vaše šetnje, najnovije na vrhu. Na kartici su naziv, datum, trajanje, kilometraža, broj " +
             "nalaza i minijatura prijeđenog traga.",
@@ -75,13 +76,14 @@ internal val croatianHelpTexts: Map<HelpKey, String> = mapOf(
         "Ovdje odlučujete koje će gljive biti pločice na zaslonu snimanja. Katalog je podijeljen na " +
             "zbirke po državama, a uz njega žive vrste kojih u katalogu nema — njih dodajete sami.",
     HelpKey.SpeciesCollections to
-        "U „Zbirkama gljiva“ pritisak na redak države otvara njezine vrste: kvačica uz državu uključuje " +
-            "cijelu zbirku, kvačice unutra pojedine vrste. Polje pretraživanja na vrhu pronalazi državu " +
-            "po nazivu.",
+        "U „Zbirkama gljiva“ pritisak na redak države otvara njezine vrste: kvačica uz državu " +
+            "uključuje cijelu zbirku, kvačice unutra pojedine vrste. Polje pretraživanja na vrhu po " +
+            "nazivu pronalazi i državu i pojedinu gljivu.",
     HelpKey.SpeciesOwn to
-        "U „Dodanim gljivama“ gumb „Dodaj gljivu“ otvara obrazac: naziv, znanstveni naziv, boja oznake i " +
-            "slika — s kamere, iz galerije ili iz kataloga. Olovka mijenja već dodanu vrstu, križić je " +
-            "briše.",
+        "U „Dodanim gljivama“ gumb „Dodaj gljivu“ otvara obrazac: naziv, znanstveni naziv, boja " +
+            "oznake i slika — s kamere, iz galerije ili iz kataloga. Zatim aplikacija pita „U koju " +
+            "zbirku?“: vlastiti naziv skuplja takve gljive zajedno, prazno polje ih stavlja u " +
+            "„Ostale“. Olovka mijenja već dodanu vrstu, križić je briše.",
     HelpKey.SpeciesCheckboxes to
         "Skinuta kvačica ništa ne briše — vrsta se jednostavno prestaje prikazivati kao pločica, a " +
             "prijašnji nalazi ostaju na svome mjestu. Brisanje vlastite vrste, naprotiv, nepovratno je: " +

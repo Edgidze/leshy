@@ -30,9 +30,10 @@ internal val azerbaijaniHelpTexts: Map<HelpKey, String> = mapOf(
             "görünəcəyini müəyyən edir, üzərindəki rəqəm isə indi neçə filtrin açıq olduğunu bildirir. " +
             "Filtr «Tapıntı xəritəsi» ilə ortaqdır: burada açdığınız orada da işləyir.",
     HelpKey.RecordBackground to
-        "İzin yazılması tətbiq arxa planda olanda da davam edir. Cari gəzintidən başqa, xəritə keçmiş " +
-            "gəzintilərin tapıntılarını və qeyd olunmuş yerlərini göstərir — onlardan hara getdiyiniz və " +
-            "orada nə olduğu görünür.",
+        "İzin yazılması tətbiq arxa planda olanda da davam edir. Android-də gedən gəzinti «+»/«−» " +
+            "düymələri olan bildiriş kimi də görünür — tapıntını telefonun kilidini açmadan qeyd " +
+            "etmək olar. Cari gəzintidən başqa, xəritə keçmiş gəzintilərin tapıntılarını və qeyd " +
+            "olunmuş yerlərini göstərir — onlardan hara getdiyiniz və orada nə olduğu görünür.",
     HelpKey.ArchivePurpose to
         "Bütün gəzintiləriniz, yeniləri yuxarıda. Kartda ad, tarix, müddət, kilometr, tapıntı sayı və " +
             "keçilmiş izin kiçik təsviri var.",
@@ -77,13 +78,14 @@ internal val azerbaijaniHelpTexts: Map<HelpKey, String> = mapOf(
             "üzrə kolleksiyalara bölünüb, yanında isə kataloqda olmayan növlər yaşayır — onları özünüz " +
             "əlavə edirsiniz.",
     HelpKey.SpeciesCollections to
-        "«Göbələk kolleksiyaları»nda ölkənin sətrinə toxunmaq onun növlərini açır: ölkənin yanındakı " +
-            "işarə bütün kolleksiyanı açır, içəridəki işarələr ayrı-ayrı növləri. Yuxarıdakı axtarış " +
-            "sahəsi ölkəni adına görə tapır.",
+        "«Göbələk kolleksiyaları»nda ölkənin sətrinə toxunmaq onun növlərini açır: ölkənin " +
+            "yanındakı işarə bütün kolleksiyanı açır, içəridəki işarələr ayrı-ayrı növləri. " +
+            "Yuxarıdakı axtarış sahəsi adına görə həm ölkəni, həm də ayrıca göbələyi tapır.",
     HelpKey.SpeciesOwn to
-        "«Əlavə edilmiş göbələklər»də «Göbələk əlavə et» düyməsi forma açır: ad, elmi ad, nişanın rəngi " +
-            "və şəkil — kameradan, qalereyadan və ya kataloqdan. Karandaş artıq əlavə edilmiş növü " +
-            "dəyişir, çarpaz onu silir.",
+        "«Əlavə edilmiş göbələklər»də «Göbələk əlavə et» düyməsi forma açır: ad, elmi ad, nişanın " +
+            "rəngi və şəkil — kameradan, qalereyadan və ya kataloqdan. Ardınca tətbiq «Hansı " +
+            "kolleksiyaya?» soruşur: öz adınız belə göbələkləri bir yerə yığır, boş sahə isə " +
+            "«Digərləri»nə salır. Karandaş artıq əlavə edilmiş növü dəyişir, çarpaz onu silir.",
     HelpKey.SpeciesCheckboxes to
         "İşarəni götürmək heç nəyi silmir — növ sadəcə lövhəcik kimi görünmür, keçmiş tapıntılar yerində " +
             "qalır. Öz növünüzü silmək isə geri qaytarılmır: onun keçmiş gəzintilərdəki bütün qeydləri " +

@@ -31,9 +31,10 @@ internal val lithuanianHelpTexts: Map<HelpKey, String> = mapOf(
             "žemėlapyje, o skaičius ant jo — kiek filtrų dabar įjungta. Filtras bendras su „Radinių " +
             "žemėlapiu“: kas įjungta čia, veikia ir ten.",
     HelpKey.RecordBackground to
-        "Pėdsako įrašymas tęsiasi ir tada, kai programėlė sutraukta. Be dabartinio žygio, žemėlapis rodo " +
-            "ankstesnių žygių radinius ir pažymėtas vietas — iš jų matyti, kur jau vaikščiojote ir kas " +
-            "ten buvo.",
+        "Pėdsako įrašymas tęsiasi ir tada, kai programėlė sutraukta. „Android“ vykstantis žygis " +
+            "kabo ir kaip pranešimas su mygtukais „+“/„−“ — radinį galima užrašyti neatrakinus " +
+            "telefono. Be dabartinio žygio, žemėlapis rodo ankstesnių žygių radinius ir pažymėtas " +
+            "vietas — iš jų matyti, kur jau vaikščiojote ir kas ten buvo.",
     HelpKey.ArchivePurpose to
         "Visi jūsų žygiai, naujausi viršuje. Kortelėje — pavadinimas, data, trukmė, kilometrai, radinių " +
             "skaičius ir nueito pėdsako miniatiūra.",
@@ -76,13 +77,15 @@ internal val lithuanianHelpTexts: Map<HelpKey, String> = mapOf(
         "Čia nusprendžiate, kurie grybai bus kortelės įrašymo ekrane. Katalogas suskirstytas į rinkinius " +
             "pagal šalis, o šalia gyvena rūšys, kurių kataloge nėra — jas pridedate patys.",
     HelpKey.SpeciesCollections to
-        "„Grybų rinkiniuose“ paspaudus šalies eilutę išsiskleidžia jos rūšys: varnelė prie šalies įjungia " +
-            "visą rinkinį, varnelės viduje — atskiras rūšis. Paieškos laukas viršuje randa šalį pagal " +
-            "pavadinimą.",
+        "„Grybų rinkiniuose“ paspaudus šalies eilutę išsiskleidžia jos rūšys: varnelė prie šalies " +
+            "įjungia visą rinkinį, varnelės viduje — atskiras rūšis. Viršuje esantis paieškos laukas " +
+            "pagal pavadinimą randa ir šalį, ir atskirą grybą.",
     HelpKey.SpeciesOwn to
         "Skiltyje „Pridėti grybai“ mygtukas „Pridėti grybą“ atveria formą: pavadinimas, mokslinis " +
             "pavadinimas, žymės spalva ir paveikslėlis — iš kameros, iš galerijos arba iš katalogo. " +
-            "Pieštukas keičia jau pridėtą rūšį, kryželis ją ištrina.",
+            "Paskui programėlė klausia „Į kurį rinkinį?“: savas pavadinimas surenka tokius grybus " +
+            "kartu, tuščias laukas juos įdeda į „Kiti“. Pieštukas keičia jau pridėtą rūšį, kryželis " +
+            "ją ištrina.",
     HelpKey.SpeciesCheckboxes to
         "Nuimta varnelė nieko neištrina — rūšis tiesiog nerodoma kortele, o ankstesni radiniai lieka savo " +
             "vietose. Savo rūšies ištrynimas, priešingai, negrįžtamas: visos jos žymės ankstesniuose " +

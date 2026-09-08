@@ -31,9 +31,10 @@ internal val danishHelpTexts: Map<HelpKey, String> = mapOf(
             "vises på kortet, og tallet på den siger, hvor mange filtre der er slået til. Filteret deles " +
             "med «Fundkort»: det, du slår til her, gælder også der.",
     HelpKey.RecordBackground to
-        "Optagelsen af sporet fortsætter, når appen er i baggrunden. Ud over den aktuelle tur viser " +
-            "kortet fund og markerede steder fra tidligere ture — af dem kan du se, hvor du allerede har " +
-            "gået, og hvad der var dér.",
+        "Optagelsen af sporet fortsætter, når appen er i baggrunden. På Android vises den " +
+            "igangværende tur også som en notifikation med «+»/«−»-knapper — et fund kan noteres uden " +
+            "at låse telefonen op. Ud over den aktuelle tur viser kortet fund og markerede steder fra " +
+            "tidligere ture — af dem kan du se, hvor du allerede har gået, og hvad der var dér.",
     HelpKey.ArchivePurpose to
         "Alle dine ture, de nyeste øverst. På kortet står navn, dato, varighed, kilometer, antal fund og " +
             "et miniaturebillede af det gåede spor.",
@@ -78,13 +79,15 @@ internal val danishHelpTexts: Map<HelpKey, String> = mapOf(
             "samlinger efter land, og ved siden af bor de arter, kataloget ikke har — dem tilføjer du " +
             "selv.",
     HelpKey.SpeciesCollections to
-        "Under «Svampesamlinger» folder et tryk på et lands række dets arter ud: fluebenet ved landet " +
-            "slår hele samlingen til, fluebenene indeni de enkelte arter. Søgefeltet øverst finder et " +
-            "land på navn.",
+        "Under «Svampesamlinger» folder et tryk på et lands række dets arter ud: fluebenet ved " +
+            "landet slår hele samlingen til, fluebenene indeni de enkelte arter. Søgefeltet øverst " +
+            "finder både et land og en enkelt svamp på navn.",
     HelpKey.SpeciesOwn to
-        "Under «Tilføjede svampe» åbner knappen «Tilføj svamp» en formular: navn, videnskabeligt navn, " +
-            "markeringsfarve og billede — fra kameraet, fra galleriet eller fra kataloget. Blyanten " +
-            "ændrer en allerede tilføjet art, krydset sletter den.",
+        "Under «Tilføjede svampe» åbner knappen «Tilføj svamp» en formular: navn, videnskabeligt " +
+            "navn, markeringsfarve og billede — fra kameraet, fra galleriet eller fra kataloget. " +
+            "Derefter spørger appen «Hvilken samling?»: et eget navn samler den slags svampe, et tomt " +
+            "felt lægger dem i «Andre». Blyanten ændrer en allerede tilføjet art, krydset sletter " +
+            "den.",
     HelpKey.SpeciesCheckboxes to
         "Et fjernet flueben sletter ingenting — arten vises bare ikke længere som felt, og tidligere fund " +
             "bliver, hvor de er. At slette din egen art kan derimod ikke fortrydes: alle dens markeringer " +

@@ -30,9 +30,10 @@ internal val estonianHelpTexts: Map<HelpKey, String> = mapOf(
             "ning number sellel ütleb, mitu filtrit on praegu sees. Filter on ühine „Leidude kaardiga“: " +
             "siin sisse lülitatu kehtib ka seal.",
     HelpKey.RecordBackground to
-        "Raja salvestamine jätkub ka siis, kui rakendus on taustal. Peale praeguse matka näitab kaart " +
-            "varasemate matkade leide ja märgitud kohti — nende järgi on näha, kus te juba käisite ja mis " +
-            "seal oli.",
+        "Raja salvestamine jätkub ka siis, kui rakendus on taustal. Androidis ripub käimasolev " +
+            "matk ka teatisena nuppudega „+“/„−“ — leiu saab kirja panna telefoni avamata. Peale " +
+            "praeguse matka näitab kaart varasemate matkade leide ja märgitud kohti — nende järgi on " +
+            "näha, kus te juba käisite ja mis seal oli.",
     HelpKey.ArchivePurpose to
         "Kõik teie matkad, uuemad üleval. Kaardil on nimi, kuupäev, kestus, kilomeetrid, leidude arv ja " +
             "läbitud raja pisipilt.",
@@ -74,12 +75,14 @@ internal val estonianHelpTexts: Map<HelpKey, String> = mapOf(
         "Siin otsustate, millised seened on salvestusekraanil paanidena. Kataloog on jaotatud kogudeks " +
             "riikide kaupa ja selle kõrval elavad liigid, mida kataloogis pole — need lisate ise.",
     HelpKey.SpeciesCollections to
-        "„Seenekogudes“ avab vajutus riigi real selle liigid: linnuke riigi juures lülitab sisse kogu " +
-            "kogumi, linnukesed sees üksikud liigid. Otsinguväli ülal leiab riigi nime järgi.",
+        "„Seenekogudes“ avab vajutus riigi real selle liigid: linnuke riigi juures lülitab sisse " +
+            "kogu kogumi, linnukesed sees üksikud liigid. Ülemine otsinguväli leiab nime järgi nii " +
+            "riigi kui ka üksiku seene.",
     HelpKey.SpeciesOwn to
-        "Jaotises „Lisatud seened“ avab nupp „Lisa seen“ vormi: nimi, teaduslik nimi, tähise värv ja pilt " +
-            "— kaamerast, galeriist või kataloogist. Pliiats muudab juba lisatud liiki, rist kustutab " +
-            "selle.",
+        "Jaotises „Lisatud seened“ avab nupp „Lisa seen“ vormi: nimi, teaduslik nimi, tähise värv " +
+            "ja pilt — kaamerast, galeriist või kataloogist. Seejärel küsib rakendus „Millisesse " +
+            "kogusse?“: oma nimi koondab sellised seened kokku, tühi väli paneb need kogusse „Muud“. " +
+            "Pliiats muudab juba lisatud liiki, rist kustutab selle.",
     HelpKey.SpeciesCheckboxes to
         "Eemaldatud linnuke ei kustuta midagi — liik lihtsalt ei ilmu enam paanina ja varasemad leiud " +
             "jäävad oma kohale. Oma liigi kustutamine on seevastu pöördumatu: kõik selle märked " +

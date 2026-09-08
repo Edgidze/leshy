@@ -163,7 +163,9 @@ private fun russianHelpTexts(key: HelpKey): String = when (key) {
             "находок»: включённое здесь действует и там."
 
     HelpKey.RecordBackground ->
-        "Запись трека продолжается, когда приложение свёрнуто. Кроме текущей прогулки карта " +
+        "Запись трека продолжается, когда приложение свёрнуто. На Android идущая прогулка висит " +
+            "уведомлением с кнопками «+»/«−» — находку можно отметить, не разблокируя телефон. " +
+            "Кроме текущей прогулки карта " +
             "показывает находки и отмеченные места прошлых прогулок — по ним видно, где вы уже " +
             "ходили и что там было."
 
@@ -228,12 +230,14 @@ private fun russianHelpTexts(key: HelpKey): String = when (key) {
     HelpKey.SpeciesCollections ->
         "В «Подборках грибов» нажатие на строку страны раскрывает её виды: галочка у страны " +
             "включает всю подборку целиком, галочки внутри — отдельные виды. Поле поиска сверху " +
-            "находит страну по названию."
+            "находит по названию и страну, и отдельный гриб."
 
     HelpKey.SpeciesOwn ->
         "В «Добавленных грибах» кнопка «Добавить гриб» открывает форму: название, научное " +
-            "название, цвет метки и картинка — с камеры, из галереи или из каталога. Карандаш " +
-            "меняет уже добавленный вид, крестик удаляет его."
+            "название, цвет метки и картинка — с камеры, из галереи или из каталога. Следом " +
+            "приложение спрашивает «В какую подборку?»: своё название соберёт такие грибы вместе, " +
+            "пустое поле положит гриб в «Другие». Карандаш меняет уже добавленный вид, крестик " +
+            "удаляет его."
 
     HelpKey.SpeciesCheckboxes ->
         "Снятая галочка ничего не удаляет — вид просто не показывается плиткой, а прошлые находки " +
@@ -366,7 +370,9 @@ private fun englishHelpTexts(key: HelpKey): String = when (key) {
             "is shared with the Finds Map: whatever you switch on here applies there as well."
 
     HelpKey.RecordBackground ->
-        "Track recording continues while the app is in the background. Besides the current walk, " +
+        "Track recording continues while the app is in the background. On Android the walk in " +
+            "progress also hangs as a notification with “+”/“−” buttons — a find can be logged " +
+            "without unlocking the phone. Besides the current walk, " +
             "the map also shows the finds and marked places of past walks, so you can see where " +
             "you have already been and what was there."
 
@@ -432,12 +438,15 @@ private fun englishHelpTexts(key: HelpKey): String = when (key) {
     HelpKey.SpeciesCollections ->
         "Under Mushroom collections, tapping a country's row expands its species: the checkbox " +
             "next to the country switches the whole collection on or off, the checkboxes inside " +
-            "switch individual species. The search field at the top finds a country by name."
+            "switch individual species. The search field at the top finds both a country and a " +
+            "single mushroom by name."
 
     HelpKey.SpeciesOwn ->
         "Under Added mushrooms, the Add mushroom button opens a form: name, scientific name, " +
             "marker colour and a picture — from the camera, from the gallery or from the catalog. " +
-            "The pencil edits a species you added, the cross deletes it."
+            "Then the app asks “Which collection?”: a name of your own gathers such mushrooms " +
+            "together, an empty field puts them into “Other”. The pencil edits a species you " +
+            "added, the cross deletes it."
 
     HelpKey.SpeciesCheckboxes ->
         "Clearing a checkbox deletes nothing — the species simply stops appearing as a tile, and " +

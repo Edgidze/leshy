@@ -32,9 +32,11 @@ internal val spanishHelpTexts: Map<HelpKey, String> = mapOf(
             "los hallazgos en el mapa, y el número que lleva indica cuántos filtros están activos. El " +
             "filtro es común con el «Mapa de hallazgos»: lo que actives aquí vale allí también.",
     HelpKey.RecordBackground to
-        "El registro del recorrido continúa cuando la aplicación queda en segundo plano. Además del paseo " +
-            "actual, el mapa muestra los hallazgos y los lugares marcados de paseos anteriores — por " +
-            "ellos se ve por dónde ya anduviste y qué había allí.",
+        "El registro del recorrido continúa cuando la aplicación queda en segundo plano. En " +
+            "Android el paseo en curso aparece también como notificación con botones «+»/«−»: un " +
+            "hallazgo se anota sin desbloquear el teléfono. Además del paseo actual, el mapa muestra " +
+            "los hallazgos y los lugares marcados de paseos anteriores — por ellos se ve por dónde ya " +
+            "anduviste y qué había allí.",
     HelpKey.ArchivePurpose to
         "Todos tus paseos, los más nuevos arriba. En la tarjeta están el nombre, la fecha, la duración, " +
             "los kilómetros, el número de hallazgos y una miniatura del recorrido.",
@@ -85,13 +87,16 @@ internal val spanishHelpTexts: Map<HelpKey, String> = mapOf(
             "colecciones por países, y junto a él viven las especies que el catálogo no tiene — esas las " +
             "añades tú.",
     HelpKey.SpeciesCollections to
-        "En «Colecciones de setas», al pulsar la fila de un país se despliegan sus especies: la casilla " +
-            "junto al país activa la colección entera, las casillas de dentro las especies sueltas. El " +
-            "campo de búsqueda de arriba encuentra un país por su nombre.",
+        "En «Colecciones de setas», al pulsar la fila de un país se despliegan sus especies: la " +
+            "casilla junto al país activa la colección entera, las casillas de dentro las especies " +
+            "sueltas. El campo de búsqueda de arriba encuentra por nombre tanto un país como una seta " +
+            "concreta.",
     HelpKey.SpeciesOwn to
-        "En «Setas añadidas», el botón «Añadir seta» abre un formulario: nombre, nombre científico, color " +
-            "de la marca e imagen — de la cámara, de la galería o del catálogo. El lápiz modifica una " +
-            "especie ya añadida, la cruz la elimina.",
+        "En «Setas añadidas», el botón «Añadir seta» abre un formulario: nombre, nombre " +
+            "científico, color de la marca e imagen — de la cámara, de la galería o del catálogo. " +
+            "Después la aplicación pregunta «¿En qué colección?»: un nombre propio reúne esas setas, " +
+            "el campo vacío las pone en «Otras». El lápiz modifica una especie ya añadida, la cruz la " +
+            "elimina.",
     HelpKey.SpeciesCheckboxes to
         "Quitar la casilla no borra nada — la especie simplemente deja de aparecer como ficha, y los " +
             "hallazgos anteriores se quedan donde están. Eliminar una especie propia, en cambio, es " +

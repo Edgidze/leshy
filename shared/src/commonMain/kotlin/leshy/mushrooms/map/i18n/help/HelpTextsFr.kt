@@ -34,9 +34,11 @@ internal val frenchHelpTexts: Map<HelpKey, String> = mapOf(
             "filtre est commun avec la « Carte des trouvailles » : ce que vous activez ici s'applique là " +
             "aussi.",
     HelpKey.RecordBackground to
-        "L'enregistrement du parcours continue quand l'application passe en arrière-plan. Outre la " +
-            "promenade en cours, la carte montre les trouvailles et les lieux marqués des promenades " +
-            "passées — on y voit où vous êtes déjà allé et ce qu'il y avait.",
+        "L'enregistrement du parcours continue quand l'application passe en arrière-plan. Sur " +
+            "Android, la promenade en cours reste en notification avec des boutons « + » / « − » : " +
+            "une trouvaille se note téléphone verrouillé. Outre la promenade en cours, la carte " +
+            "montre les trouvailles et les lieux marqués des promenades passées — on y voit où vous " +
+            "êtes déjà allé et ce qu'il y avait.",
     HelpKey.ArchivePurpose to
         "Toutes vos promenades, les plus récentes en haut. La fiche porte le nom, la date, la durée, les " +
             "kilomètres, le nombre de trouvailles et une miniature du parcours effectué.",
@@ -87,13 +89,16 @@ internal val frenchHelpTexts: Map<HelpKey, String> = mapOf(
             "est découpé en collections par pays, et à côté vivent les espèces absentes du catalogue — " +
             "celles que vous ajoutez vous-même.",
     HelpKey.SpeciesCollections to
-        "Dans « Collections de champignons », un appui sur la ligne d'un pays déplie ses espèces : la " +
-            "case à côté du pays active toute la collection, les cases à l'intérieur les espèces une à " +
-            "une. Le champ de recherche en haut trouve un pays par son nom.",
+        "Dans « Collections de champignons », un appui sur la ligne d'un pays déplie ses espèces " +
+            ": la case à côté du pays active toute la collection, les cases à l'intérieur les espèces " +
+            "une à une. Le champ de recherche en haut trouve par le nom aussi bien un pays qu'un " +
+            "champignon isolé.",
     HelpKey.SpeciesOwn to
-        "Dans « Champignons ajoutés », le bouton « Ajouter un champignon » ouvre un formulaire : nom, nom " +
-            "scientifique, couleur du repère et image — depuis l'appareil photo, la galerie ou le " +
-            "catalogue. Le crayon modifie une espèce déjà ajoutée, la croix la supprime.",
+        "Dans « Champignons ajoutés », le bouton « Ajouter un champignon » ouvre un formulaire : " +
+            "nom, nom scientifique, couleur du repère et image — depuis l'appareil photo, la galerie " +
+            "ou le catalogue. Ensuite l'application demande « Dans quelle collection ? » : un nom à " +
+            "vous regroupe ces champignons, un champ vide les met dans « Autres ». Le crayon modifie " +
+            "une espèce déjà ajoutée, la croix la supprime.",
     HelpKey.SpeciesCheckboxes to
         "Décocher ne supprime rien — l'espèce cesse simplement d'apparaître en tuile, et les trouvailles " +
             "passées restent en place. Supprimer votre propre espèce est en revanche définitif : toutes " +

@@ -30,9 +30,10 @@ internal val slovenianHelpTexts: Map<HelpKey, String> = mapOf(
             "zemljevidu, številka na njem pa pove, koliko filtrov je zdaj vklopljenih. Filter je skupen z " +
             "„Zemljevidom najdb“: vklopljeno tukaj velja tudi tam.",
     HelpKey.RecordBackground to
-        "Snemanje sledi se nadaljuje tudi, ko je aplikacija v ozadju. Poleg trenutnega sprehoda zemljevid " +
-            "kaže najdbe in označene kraje prejšnjih sprehodov — iz njih je videti, kod ste že hodili in " +
-            "kaj je tam bilo.",
+        "Snemanje sledi se nadaljuje tudi, ko je aplikacija v ozadju. V Androidu sprehod, ki " +
+            "poteka, visi tudi kot obvestilo z gumbi „+“/„−“ — najdbo je mogoče zapisati brez " +
+            "odklepanja telefona. Poleg trenutnega sprehoda zemljevid kaže najdbe in označene kraje " +
+            "prejšnjih sprehodov — iz njih je videti, kod ste že hodili in kaj je tam bilo.",
     HelpKey.ArchivePurpose to
         "Vsi vaši sprehodi, najnovejši zgoraj. Na kartici so ime, datum, trajanje, kilometri, število " +
             "najdb in sličica prehojene sledi.",
@@ -75,12 +76,14 @@ internal val slovenianHelpTexts: Map<HelpKey, String> = mapOf(
         "Tu odločate, katere gobe bodo ploščice na zaslonu snemanja. Katalog je razdeljen na zbirke po " +
             "državah, poleg njega pa živijo vrste, ki jih v katalogu ni — te dodate sami.",
     HelpKey.SpeciesCollections to
-        "V „Zbirkah gob“ pritisk na vrstico države razgrne njene vrste: kljukica pri državi vklopi " +
-            "celotno zbirko, kljukice znotraj pa posamezne vrste. Iskalno polje zgoraj poišče državo po " +
-            "imenu.",
+        "V „Zbirkah gob“ pritisk na vrstico države razgrne njene vrste: kljukica pri državi " +
+            "vklopi celotno zbirko, kljukice znotraj pa posamezne vrste. Iskalno polje na vrhu po " +
+            "imenu najde državo in posamezno gobo.",
     HelpKey.SpeciesOwn to
-        "V „Dodanih gobah“ gumb „Dodaj gobo“ odpre obrazec: ime, znanstveno ime, barva oznake in slika — " +
-            "s kamere, iz galerije ali iz kataloga. Svinčnik spremeni že dodano vrsto, križec jo izbriše.",
+        "V „Dodanih gobah“ gumb „Dodaj gobo“ odpre obrazec: ime, znanstveno ime, barva oznake in " +
+            "slika — s kamere, iz galerije ali iz kataloga. Nato aplikacija vpraša „V katero " +
+            "zbirko?“: lastno ime zbere take gobe skupaj, prazno polje jih uvrsti med „Druge“. " +
+            "Svinčnik spremeni že dodano vrsto, križec jo izbriše.",
     HelpKey.SpeciesCheckboxes to
         "Odstranjena kljukica ne izbriše ničesar — vrsta se preprosto ne kaže več kot ploščica, prejšnje " +
             "najdbe pa ostanejo na svojem mestu. Brisanje lastne vrste je nasprotno nepovratno: vse njene " +

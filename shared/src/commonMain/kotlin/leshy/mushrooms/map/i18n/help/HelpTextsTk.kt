@@ -32,9 +32,11 @@ internal val turkmenHelpTexts: Map<HelpKey, String> = mapOf(
             "görünjegini kesgitleýär, üstündäki san bolsa häzir näçe filtriň açykdygyny görkezýär. Filtr " +
             "«Tapyndylar kartasy» bilen umumy: bu ýerde açanyňyz ol ýerde-de işleýär.",
     HelpKey.RecordBackground to
-        "Yzyň ýazylmagy programma arka meýdanda bolanda-da dowam edýär. Häzirki gezelençden başga karta " +
-            "öňki gezelençleriň tapyndylaryny we bellenen ýerlerini görkezýär — olardan nirede " +
-            "ýörändigiňiz we ol ýerde nämäniň bolandygy görünýär.",
+        "Yzyň ýazylmagy programma arka meýdanda bolanda-da dowam edýär. Android-de dowam edýän " +
+            "gezelenç «+»/«−» düwmeli habarnama görnüşinde-de durýar — tapyndyny telefonyň gulpuny " +
+            "açman bellemek bolýar. Häzirki gezelençden başga karta öňki gezelençleriň tapyndylaryny " +
+            "we bellenen ýerlerini görkezýär — olardan nirede ýörändigiňiz we ol ýerde nämäniň " +
+            "bolandygy görünýär.",
     HelpKey.ArchivePurpose to
         "Ähli gezelençleriňiz, täzeleri ýokarda. Kartoçkada ady, senesi, dowamlylygy, kilometrleri, " +
             "tapyndy sany we geçilen yzyň kiçi şekili bar.",
@@ -80,13 +82,14 @@ internal val turkmenHelpTexts: Map<HelpKey, String> = mapOf(
             "boýunça ýygyndylara bölünen, ýanynda bolsa katalogda ýok görnüşler ýaşaýar — olary özüňiz " +
             "goşýarsyňyz.",
     HelpKey.SpeciesCollections to
-        "«Kömelek ýygyndylarynda» ýurduň setirine basmak onuň görnüşlerini açýar: ýurduň ýanyndaky bellik " +
-            "tutuş ýygyndyny açýar, içindäki bellikler — aýry görnüşleri. Ýokardaky gözleg meýdany ýurdy " +
-            "ady boýunça tapýar.",
+        "«Kömelek ýygyndylarynda» ýurduň setirine basmak onuň görnüşlerini açýar: ýurduň " +
+            "ýanyndaky bellik tutuş ýygyndyny açýar, içindäki bellikler — aýry görnüşleri. Ýokardaky " +
+            "gözleg meýdany ada görä ýurdy-da, aýratyn kömelegi-de tapýar.",
     HelpKey.SpeciesOwn to
-        "«Goşulan kömeleklerde» «Kömelek goşmak» düwmesi görnüşi açýar: ady, ylmy ady, bellikiň reňki we " +
-            "surat — kameradan, galereýadan ýa-da katalogdan. Galam goşulan görnüşi üýtgedýär, haç ony " +
-            "pozýar.",
+        "«Goşulan kömeleklerde» «Kömelek goşmak» düwmesi görnüşi açýar: ady, ylmy ady, bellikiň " +
+            "reňki we surat — kameradan, galereýadan ýa-da katalogdan. Soňra programma «Haýsy " +
+            "ýygynda?» diýip soraýar: öz adyňyz şeýle kömelekleri bir ýere jemleýär, boş meýdan olary " +
+            "«Beýlekiler» ýygyndysyna salýar. Galam goşulan görnüşi üýtgedýär, haç ony pozýar.",
     HelpKey.SpeciesCheckboxes to
         "Aýrylan bellik hiç zady pozmaýar — görnüş diňe plitka bolup görünmeýär, öňki tapyndylar bolsa " +
             "ýerinde galýar. Öz görnüşiňizi pozmak bolsa yzyna gaýtarylmaýar: onuň öňki gezelençlerdäki " +

@@ -32,9 +32,10 @@ internal val finnishHelpTexts: Map<HelpKey, String> = mapOf(
             "kartalla, ja painikkeen luku kertoo, montako suodatinta on nyt päällä. Suodatin on yhteinen " +
             "”Löytöjen kartan” kanssa: täällä valittu pätee siellä.",
     HelpKey.RecordBackground to
-        "Reitin tallennus jatkuu, vaikka sovellus olisi taustalla. Nykyisen retken lisäksi kartta näyttää " +
-            "aiempien retkien löydöt ja merkityt paikat — niistä näkee, missä olet jo kulkenut ja mitä " +
-            "siellä oli.",
+        "Reitin tallennus jatkuu, vaikka sovellus olisi taustalla. Androidissa käynnissä oleva " +
+            "retki näkyy myös ilmoituksena, jossa on ”+”/”−”-painikkeet — löydön voi merkitä " +
+            "puhelinta avaamatta. Nykyisen retken lisäksi kartta näyttää aiempien retkien löydöt ja " +
+            "merkityt paikat — niistä näkee, missä olet jo kulkenut ja mitä siellä oli.",
     HelpKey.ArchivePurpose to
         "Kaikki retkesi, uusimmat ylimpänä. Kortissa ovat nimi, päivämäärä, kesto, kilometrit, löytöjen " +
             "määrä ja pienoiskuva kuljetusta reitistä.",
@@ -78,13 +79,14 @@ internal val finnishHelpTexts: Map<HelpKey, String> = mapOf(
             "maakohtaisiin kokoelmiin, ja sen vieressä elävät lajit, joita luettelossa ei ole — ne lisäät " +
             "itse.",
     HelpKey.SpeciesCollections to
-        "Kohdassa ”Sienikokoelmat” maan rivin painallus avaa sen lajit: maan vieressä oleva rasti kytkee " +
-            "koko kokoelman, sisällä olevat rastit yksittäiset lajit. Ylälaidan hakukenttä löytää maan " +
-            "nimellä.",
+        "Kohdassa ”Sienikokoelmat” maan rivin painallus avaa sen lajit: maan vieressä oleva rasti " +
+            "kytkee koko kokoelman, sisällä olevat rastit yksittäiset lajit. Ylälaidan hakukenttä " +
+            "löytää nimellä sekä maan että yksittäisen sienen.",
     HelpKey.SpeciesOwn to
-        "Kohdassa ”Lisätyt sienet” painike ”Lisää sieni” avaa lomakkeen: nimi, tieteellinen nimi, merkin " +
-            "väri ja kuva — kamerasta, galleriasta tai luettelosta. Kynä muokkaa jo lisättyä lajia, rasti " +
-            "poistaa sen.",
+        "Kohdassa ”Lisätyt sienet” painike ”Lisää sieni” avaa lomakkeen: nimi, tieteellinen nimi, " +
+            "merkin väri ja kuva — kamerasta, galleriasta tai luettelosta. Sitten sovellus kysyy " +
+            "”Mihin kokoelmaan?”: oma nimi kokoaa tällaiset sienet yhteen, tyhjä kenttä vie ne " +
+            "kokoelmaan ”Muut”. Kynä muokkaa jo lisättyä lajia, rasti poistaa sen.",
     HelpKey.SpeciesCheckboxes to
         "Rastin poistaminen ei poista mitään — laji vain lakkaa näkymästä laattana, ja aiemmat löydöt " +
             "jäävät paikoilleen. Oman lajin poistaminen sen sijaan on peruuttamaton: kaikki sen merkinnät " +

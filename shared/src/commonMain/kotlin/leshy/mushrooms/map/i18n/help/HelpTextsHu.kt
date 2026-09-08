@@ -32,9 +32,11 @@ internal val hungarianHelpTexts: Map<HelpKey, String> = mapOf(
             "térképen, a rajta lévő szám pedig azt, hány szűrő aktív éppen. A szűrő közös a „Leletek " +
             "térképével”: amit itt bekapcsol, ott is érvényes.",
     HelpKey.RecordBackground to
-        "Az útvonal rögzítése akkor is folytatódik, amikor az alkalmazás a háttérben van. Az aktuális " +
-            "sétán kívül a térkép a korábbi séták leleteit és megjelölt helyeit is mutatja — látszik " +
-            "belőlük, merre járt már és mi volt ott.",
+        "Az útvonal rögzítése akkor is folytatódik, amikor az alkalmazás a háttérben van. " +
+            "Androidon a folyamatban lévő séta „+”/„−” gombokkal ellátott értesítésként is látszik — " +
+            "a lelet a telefon feloldása nélkül is rögzíthető. Az aktuális sétán kívül a térkép a " +
+            "korábbi séták leleteit és megjelölt helyeit is mutatja — látszik belőlük, merre járt már " +
+            "és mi volt ott.",
     HelpKey.ArchivePurpose to
         "Minden sétája, a legújabbak felül. A kártyán a név, a dátum, az időtartam, a megtett " +
             "kilométerek, a leletek száma és a bejárt útvonal kicsinyített képe látható.",
@@ -81,13 +83,15 @@ internal val hungarianHelpTexts: Map<HelpKey, String> = mapOf(
             "országonkénti gyűjteményekre oszlik, mellette pedig azok a fajok élnek, amelyek nincsenek " +
             "benne — ezeket saját maga adja hozzá.",
     HelpKey.SpeciesCollections to
-        "A „Gombagyűjteményekben” az ország sorára koppintva nyílnak meg a fajai: az ország melletti pipa " +
-            "az egész gyűjteményt kapcsolja be, a belső pipák az egyes fajokat. A felső keresőmező név " +
-            "szerint találja meg az országot.",
+        "A „Gombagyűjteményekben” az ország sorára koppintva nyílnak meg a fajai: az ország " +
+            "melletti pipa az egész gyűjteményt kapcsolja be, a belső pipák az egyes fajokat. A felső " +
+            "keresőmező név szerint az országot és az egyes gombát is megtalálja.",
     HelpKey.SpeciesOwn to
-        "A „Hozzáadott gombák” résznél a „Gomba hozzáadása” gomb űrlapot nyit: név, tudományos név, " +
-            "jelölőszín és kép — kamerából, galériából vagy a katalógusból. A ceruza a már hozzáadott " +
-            "fajt módosítja, a kereszt törli.",
+        "A „Hozzáadott gombák” résznél a „Gomba hozzáadása” gomb űrlapot nyit: név, tudományos " +
+            "név, jelölőszín és kép — kamerából, galériából vagy a katalógusból. Utána az alkalmazás " +
+            "megkérdezi: „Melyik gyűjteménybe?” — a saját név egybefogja az ilyen gombákat, az üres " +
+            "mező az „Egyéb” közé teszi őket. A ceruza a már hozzáadott fajt módosítja, a kereszt " +
+            "törli.",
     HelpKey.SpeciesCheckboxes to
         "A pipa levétele semmit nem töröl — a faj egyszerűen nem jelenik meg csempeként, a korábbi " +
             "leletek a helyükön maradnak. A saját faj törlése ezzel szemben végleges: minden jelölése a " +

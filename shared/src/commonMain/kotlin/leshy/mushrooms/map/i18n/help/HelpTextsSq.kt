@@ -32,9 +32,10 @@ internal val albanianHelpTexts: Map<HelpKey, String> = mapOf(
             "hartë, ndërsa numri mbi të tregon sa filtra janë ndezur tani. Filtri është i përbashkët me " +
             "«Hartën e gjetjeve»: ajo që ndizni këtu vlen edhe atje.",
     HelpKey.RecordBackground to
-        "Regjistrimi i gjurmës vazhdon edhe kur aplikacioni është në sfond. Përveç shëtitjes aktuale, " +
-            "harta tregon gjetjet dhe vendet e shënuara të shëtitjeve të kaluara — prej tyre duket ku " +
-            "keni ecur tashmë dhe çfarë kishte atje.",
+        "Regjistrimi i gjurmës vazhdon edhe kur aplikacioni është në sfond. Në Android shëtitja " +
+            "në vazhdim rri edhe si njoftim me butonat «+»/«−» — një gjetje shënohet pa e shkyçur " +
+            "telefonin. Përveç shëtitjes aktuale, harta tregon gjetjet dhe vendet e shënuara të " +
+            "shëtitjeve të kaluara — prej tyre duket ku keni ecur tashmë dhe çfarë kishte atje.",
     HelpKey.ArchivePurpose to
         "Të gjitha shëtitjet tuaja, të rejat lart. Në kartë janë emri, data, kohëzgjatja, kilometrat, " +
             "numri i gjetjeve dhe një miniaturë e gjurmës së përshkuar.",
@@ -81,13 +82,15 @@ internal val albanianHelpTexts: Map<HelpKey, String> = mapOf(
             "në përmbledhje sipas vendeve, ndërsa pranë tij jetojnë llojet që nuk gjenden në katalog — " +
             "ato i shtoni vetë.",
     HelpKey.SpeciesCollections to
-        "Te «Përmbledhjet e kërpudhave» shtypja mbi rreshtin e një vendi hap llojet e tij: shenja pranë " +
-            "vendit ndez tërë përmbledhjen, shenjat brenda llojet e veçanta. Fusha e kërkimit lart gjen " +
-            "vendin sipas emrit.",
+        "Te «Përmbledhjet e kërpudhave» shtypja mbi rreshtin e një vendi hap llojet e tij: shenja " +
+            "pranë vendit ndez tërë përmbledhjen, shenjat brenda llojet e veçanta. Fusha e kërkimit " +
+            "lart gjen sipas emrit edhe shtetin, edhe një kërpudhë të veçantë.",
     HelpKey.SpeciesOwn to
-        "Te «Kërpudhat e shtuara» butoni «Shto kërpudhë» hap një formular: emri, emri shkencor, ngjyra e " +
-            "shenjës dhe figura — nga kamera, nga galeria ose nga katalogu. Lapsi ndryshon një lloj " +
-            "tashmë të shtuar, kryqi e fshin.",
+        "Te «Kërpudhat e shtuara» butoni «Shto kërpudhë» hap një formular: emri, emri shkencor, " +
+            "ngjyra e shenjës dhe figura — nga kamera, nga galeria ose nga katalogu. Pastaj " +
+            "aplikacioni pyet «Në cilën përmbledhje?»: një emër i juaji i mbledh kërpudhat e tilla " +
+            "bashkë, fusha bosh i vendos te «Të tjera». Lapsi ndryshon një lloj tashmë të shtuar, " +
+            "kryqi e fshin.",
     HelpKey.SpeciesCheckboxes to
         "Heqja e shenjës nuk fshin asgjë — lloji thjesht nuk shfaqet më si pllakëz, ndërsa gjetjet e " +
             "mëparshme mbeten në vend. Fshirja e llojit tuaj, përkundrazi, është e pakthyeshme: të gjitha " +
