@@ -1,0 +1,194 @@
+{
+  "country": "ME",
+  "languages": [
+    "sr"
+  ],
+  "keys": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "amanita_caesarea",
+    "boletus_aereus",
+    "morchella_esculenta",
+    "craterellus_cornucopioides",
+    "boletus_reticulatus",
+    "boletus_pinophilus",
+    "hydnum_repandum",
+    "lactarius_deliciosus",
+    "macrolepiota_procera",
+    "armillaria_mellea",
+    "pleurotus_ostreatus",
+    "amanita_rubescens",
+    "suillus_granulatus",
+    "suillus_luteus",
+    "agaricus_campestris__2",
+    "calocybe_gambosa",
+    "coprinus_comatus",
+    "russula_cyanoxantha",
+    "lepista_nuda",
+    "russula_virescens",
+    "agaricus_macrosporus",
+    "pleurotus_eryngii",
+    "flammulina_velutipes",
+    "lactarius_sanguifluus",
+    "cyclocybe_aegerita",
+    "laetiporus_sulphureus",
+    "neoboletus_erythropus",
+    "tricholoma_terreum",
+    "marasmius_oreades",
+    "lactifluus_piperatus",
+    "hygrophorus_marzuolus",
+    "tuber_aestivum",
+    "amanita_phalloides",
+    "amanita_pantherina",
+    "rubroboletus_satanas",
+    "russula_emetica",
+    "omphalotus_olearius",
+    "amanita_muscaria",
+    "galerina_marginata",
+    "entoloma_sinuatum",
+    "hypholoma_fasciculare",
+    "hygrophoropsis_aurantiaca",
+    "amanita_verna",
+    "agaricus_xanthodermus",
+    "chlorophyllum_rhacodes",
+    "clitocybe_dealbata",
+    "inosperma_erubescens",
+    "cortinarius_orellanus"
+  ],
+  "names": {
+    "sr": {
+      "suillus_luteus": "Maslenka",
+      "agaricus_campestris__2": "Rudnjača",
+      "pleurotus_eryngii": "Kraljevska bukovača",
+      "hypholoma_fasciculare": "Sumporača",
+      "hygrophoropsis_aurantiaca": "Lažna lisičarka",
+      "amanita_verna": "Proljećna pupavka"
+    }
+  },
+  "coined": [],
+  "notes": {
+    "boletus_edulis": "Товар №1 черногорского откупа: перерабатывающие компании (EKOPROMET, Бело-Поле; K.D. Sloga) прямо перечисляют «Vrganj» первым в списке закупаемого и заявляют ~100 т грибов в год на европейский рынок. Kasom (2013) подтверждает вид для ME; Perić & Perić (2000a) — в национальном перечне съедобных.",
+    "cantharellus_cibarius": "Второй товарный вид откупа («Lisičarka» в прайсах EKOPROMET и K.D. Sloga). Deretić (2022) называет лисичарку «представителем лекарственных грибов Черногории» — то есть народно самый узнаваемый вид после вргани.",
+    "amanita_caesarea": "Культовый вид: Kasom (NP Lovćen) даёт народные имена «blagva, knjeginja, jajača» и отмечает, что вид законно ЗАЩИЩЁН в Черногории именно из-за пресса сбора; закупщики всё равно называют blagva среди принимаемых грибов. В подборке оставлен: это то, что человек здесь узнаёт в лицо в первую очередь.",
+    "boletus_aereus": "Дубово-каштановые леса Црмницы и Приморья; Perić & Perić (1997d, «Jestive gljive iz porodice Boletaceae u Crnoj Gori») и Kasom (2013). Экспортёры сортируют вргань по классам, «crni» (aereus) — отдельный класс. В ME вид в списке защищённых (перелов), но собирается.",
+    "morchella_esculenta": "«Smrčak» — третий по частоте вид в прайсах откупа (EKOPROMET, K.D. Sloga). Ключ взят как широкий концепт «смрчак»; в Черногории товарный сморчок — группа M. conica/elata (Kasom, NP Lovćen: «Morchella conica – stožasti smrčak»), см. gaps.",
+    "craterellus_cornucopioides": "«Crna truba» — отдельная позиция в закупочных прайсах черногорских переработчиков (EKOPROMET, K.D. Sloga), то есть собирается товарно, а не только для себя.",
+    "boletus_reticulatus": "Летний/«raspucani» вргань — отдельный закупочный класс у балканских откупщиков; Perić & Perić (1997d), Kasom (2013) для ME.",
+    "boletus_pinophilus": "Сосновый вргань; реликтовые и культурные сосняки (Pinus heldreichii/peuce на севере, приморские Pinus halepensis). Perić & Perić (1997d, 2000a), Kasom (2013).",
+    "hydnum_repandum": "K.D. Sloga закупает «Žuta ježevica»; Kasom (NP Lovćen) — среди обычно собираемых; Perić & Perić (2000a).",
+    "lactarius_deliciosus": "«Rujnica» в закупочном прайсе K.D. Sloga; Perić & Perić (2000a); Kasom (2013).",
+    "macrolepiota_procera": "Kasom (NP Lovćen) — среди обычно собираемых; Perić & Perić (2000a); Deretić (2022) отдельным разделом.",
+    "armillaria_mellea": "Perić & Perić (2000a); массовый осенний сбор по всему динарскому поясу, Kasom (2013).",
+    "pleurotus_ostreatus": "Kasom (NP Lovćen) и Perić & Perić (2000a); буковые леса севера и тополя поймы Зеты/Скадара.",
+    "amanita_rubescens": "Perić & Perić (2000a); Deretić (2022) описывает биserku как обычный съедобный вид Черногории.",
+    "suillus_granulatus": "Приморские сосняки; Perić & Perić (2000a, 1997d), Kasom (NP Lovćen, как «slinavka»). Расхождение имён — см. общий notes ниже.",
+    "suillus_luteus": "Perić & Perić (2000a, 1997d); Kasom (NP Lovćen) даёт имя «maslenka, prstenasta ovčarka» и отмечает «veliki pritisak sakupljanja plodonosnih tijela za hranu» — прямое свидетельство сбора. Из пары взят узкий ключ, потому что широкий `suillus_luteus__2` («slinavke») перекрылся бы с `suillus_granulatus`.",
+    "agaricus_campestris__2": "Kasom (NP Lovćen): «Agaricus campestris – rudnjača/livadski šampinjon» среди обычно собираемых; Deretić (2022) отдельным разделом. Из пары взят `__2` — узкий «луговой шампиньон», как у HR/GR/IT.",
+    "calocybe_gambosa": "Весенний сбор в дубравах и на карстовых полянах; Kasom (2013) подтверждает вид для ME. Прямого черногорского свидетельства сбора не нашлось — по аналогии с RS/HR, где đurđevača культовая.",
+    "coprinus_comatus": "Perić & Perić (2000a); Kasom (2013).",
+    "russula_cyanoxantha": "Perić & Perić (2000a) — единственная русула в национальном перечне съедобных. Из пары взят широкий ключ (концепт «zeke/krasnice»), как в RS.",
+    "lepista_nuda": "Perić & Perić (2000a); поздняя осень, дубово-грабовые леса.",
+    "russula_virescens": "Классическая балканская «golubača» дубрав; Kasom (2013) для ME. Прямого черногорского свидетельства сбора нет — взято по аналогии с RS/BG, где это один из главных летних видов.",
+    "agaricus_macrosporus": "= Agaricus urinascens, в национальном перечне Perić & Perić (2000a); горные пастбища Дурмитора/Синяевины — типичное место «kračuna».",
+    "pleurotus_eryngii": "Perić & Perić (2000a); карстовые пастбища с Eryngium — приморье и Катунска нахия. Вид, которого нет в подборке RS и который отличает ME от континентальных соседей.",
+    "flammulina_velutipes": "Perić & Perić (2000a); зимний сбор на тополях и вербах в низинах — сезон, когда в горах уже ничего нет.",
+    "lactarius_sanguifluus": "Приморские и карстовые сосняки; в ME задокументирован множеством находок (Perić & Perić 1996a, 1996c, 1997b, 1997e, 1999a, 1999b; Kasom 2004) — средиземноморская «рујница», отличная от еловой/пихтовой северной. Устойчивого черногорского имени в источниках не нашёл, оставлен без записи в `names`.",
+    "cyclocybe_aegerita": "= Agrocybe cylindracea, Perić & Perić (2000a); тополя и вербы поймы Зеты, Морачи и Скадарского озера. Из двух ключей каталога (`cyclocybe_aegerita` / `cyclocybe_cylindracea`) взят тот, у которого уже есть сербское имя.",
+    "laetiporus_sulphureus": "Kasom (2013); дуб и каштан Црмницы/Приморья, массовый весенне-летний вид.",
+    "neoboletus_erythropus": "= Boletus luridiformis, в обоих черногорских перечнях съедобных болетовых (Perić & Perić 1997d и 2000a). Взят один ключ из двух синонимичных (`neoboletus_erythropus` / `neoboletus_luridiformis`) — тот, у которого шире европейский already_in. Сербского имени в источниках не нашёл.",
+    "tricholoma_terreum": "Средиземноморские сосняки Приморья; Kasom (2013) подтверждает вид для ME, сбор — по аналогии с GR/IT/ES/TR, где «мишка» массовая; черногорского свидетельства сбора отдельно не нашёл.",
+    "marasmius_oreades": "Kasom (NP Lovćen) — среди обычно собираемых, под именем «vilin karanfilić».",
+    "lactifluus_piperatus": "= Lactarius piperatus, Perić & Perić (2000a); в Черногории, как и в Сербии, идёт после отваривания/засолки.",
+    "hygrophorus_marzuolus": "Ранневесенний вид пихтово-буковых лесов севера; для ME подтверждён Perić & Perić (1997b), Perić & al. (2001a), Kasom & Miličković (2010). Свидетельство именно сбора в ME слабое — взят по аналогии с CH/IT/GR/ES, где «martovka» ценится; кандидат на вылет при проверке.",
+    "tuber_aestivum": "Растущий трюфельный промысел; для Черногории есть медийные и предпринимательские свидетельства (бренд «Ola tartufi», me.ekapija.com), но научного подтверждения по стране я не нашёл — самое слабое место списка. Из пары взят ключ с существующим сербским именем и с RS в already_in.",
+    "amanita_phalloides": "Медицинский портал Medical CG: фалоидный синдром — самые тяжёлые и самые частые смертельные отравления; Deretić (2022) описывает вид отдельным разделом; Kasom (NP Lovćen) — среди ядовитых.",
+    "amanita_pantherina": "Deretić (2022): «raste u šumama južne Evrope, a možemo je pronaći i na Lovćenu» — прямая привязка к черногорской локации; Medical CG: пантериновый синдром.",
+    "rubroboletus_satanas": "Medical CG прямо называет Boletus satanas одним из двух видов, «posebno značajnih» для гастроинтестинальных отравлений в Черногории; Kasom (NP Lovćen): «ludara», защищённый вид карстовых дубрав.",
+    "russula_emetica": "Второй вид, названный Medical CG как «posebno značajan» для отравлений в Черногории («bljuvara»).",
+    "omphalotus_olearius": "Средиземноморский двойник лисичарки/благвы на дубе и оливе — ровно тот тип леса, что на Приморье; Kasom (2013) для ME, already_in включает HR, GR, IT, ES, PT.",
+    "amanita_muscaria": "Deretić (2022) отдельным разделом и с прямым предупреждением: «često se može pomiješati sa blagvom» — а благва здесь вид №3 по значимости.",
+    "galerina_marginata": "Смертельный двойник опят и паньевчиц; в ME задокументирован многократно (Kasom 2013). Сербское имя «Mala smrt» уже в приложении.",
+    "entoloma_sinuatum": "Medical CG перечисляет «rudoliske» среди причин гастроинтестинального синдрома; двойник đurđevače и brašnjače, оба в этом списке.",
+    "hypholoma_fasciculare": "Двойник опят/зимней паньевчицы на пнях; Kasom (2013) для ME, вид повсеместный.",
+    "hygrophoropsis_aurantiaca": "Двойник товарного вида №2 (лисичарки) — для страны, где лисичарку сдают на откуп, это обязательная плитка. Kasom (2013) для ME.",
+    "amanita_verna": "Medical CG: фалоидный синдром вызывают «zelena, bijela i proljećna pupavka». Взята весенняя (verna) как южная/дубравная; A. virosa (bijela) в ME тоже есть (Kasom 2013), но это горно-таёжный вид, и место в списке отдано verna.",
+    "agaricus_xanthodermus": "Двойник луговых шампиньонов (rudnjača, kračun — оба в списке); Kasom (2013) для ME.",
+    "chlorophyllum_rhacodes": "Двойник сунчаницы; в ME подтверждён (Kasom 2013, как Macrolepiota rachodes). Сам по себе съедобен для многих, но в каталоге помечен опасным и в Черногории даёт желудочные реакции — оставлен как «узнавать в лицо».",
+    "clitocybe_dealbata": "Мускариновый вид лугов и опушек, двойник вилиного клинчича и брашняче; Kasom (2013) для ME. Из двух близких ключей (`dealbata`/`rivulosa`) взят тот, у которого есть сербское имя и который в подборке RS.",
+    "inosperma_erubescens": "Весенний мускариновый двойник đurđevače (Calocybe gambosa) — оба выходят в апреле-мае в тех же дубравах; Kasom (2013) для ME (как Inocybe erubescens). Взят один ключ из синонимичной пары. Устойчивого сербского имени не нашёл.",
+    "cortinarius_orellanus": "Medical CG отдельно называет «orelanski sindrom» среди типов отравлений; Kasom (2013) подтверждает вид для ME. Собирают его редко, но узнавать обязан — коварство в двухнедельной латентности. Имени не предлагаю."
+  },
+  "gaps": [
+    {
+      "sci": "Morchella conica / Morchella elata (группа тёмных сморчков; часто под именем M. conica sensu lato)",
+      "names": {
+        "sr": "Stožasti smrčak, crni smrčak"
+      },
+      "why": "Товарный сморчок черногорского откупа: «Smrčak» стоит в закупочных прайсах EKOPROMET и K.D. Sloga наравне с врганью и лисичаркой, а Kasom для NP Lovćen называет собираемым именно Morchella conica, а не M. esculenta. В каталоге тёмной группы нет вовсе.",
+      "nearest_key": "morchella_esculenta",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "AL",
+        "BA",
+        "MK",
+        "GR"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://www.hranaipice.net/ekopromet-vrganj-lisicarka-smrcak-sumski-plodovi.html",
+        "https://kdsloga.me/",
+        "https://odgovor.me/2021/09/14/gljive-np-lovcen-sa-osvrtom-na-vrste-koje-su-znacajne-sa-aspekta-zastite-dr-gordana-kasom/"
+      ]
+    },
+    {
+      "sci": "Suillus bellinii, Suillus collinitus",
+      "names": {
+        "sr": "Slinavka"
+      },
+      "why": "Средиземноморские маслята приморских сосняков: оба входят в национальный перечень самых обычных съедобных грибов Черногории (Perić & Perić 2000a) и в перечень съедобных болетовых (1997d). Для приморского грибника это столь же обычная добыча, как S. granulatus.",
+      "nearest_key": "suillus_granulatus",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "AL",
+        "GR",
+        "PT",
+        "CY",
+        "MK"
+      ],
+      "priority": "low",
+      "sources": [
+        "https://fedora.ucg.ac.me/fedora/get/o:334/bdef:Content/get"
+      ]
+    },
+    {
+      "sci": "Butyriboletus appendiculatus (= Boletus appendiculatus)",
+      "names": {
+        "sr": "Šiljatonogi vrganj, smeđa kraljevka"
+      },
+      "why": "Входит в оба черногорских перечня съедобных болетовых (Perić & Perić 1997d, 2000a) и одновременно в список охраняемых видов ME — то есть его собирают достаточно, чтобы это стало поводом для охраны. Народно это «вргань», отдельная плитка нужна не грибнику, а статистике.",
+      "nearest_key": "boletus_edulis",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "BA",
+        "MK",
+        "AL"
+      ],
+      "priority": "low",
+      "sources": [
+        "https://odgovor.me/2021/09/14/gljive-np-lovcen-sa-osvrtom-na-vrste-koje-su-znacajne-sa-aspekta-zastite-dr-gordana-kasom/",
+        "https://www.pdpobeda.rs/ekologija/fajlovi/gljivecrnagora.html"
+      ]
+    }
+  ],
+  "sources": [
+    "Kasom G. (2013). Makromicete razdjela Basidiomycota Crne Gore. Doktorska disertacija, Univerzitet Crne Gore, PMF, Podgorica, 251 s. — национальный чек-лист макромицетов ME с указанием находок и литературы: https://fedora.ucg.ac.me/fedora/get/o:334/bdef:Content/get",
+    "Perić B. & Perić O. (2000a). Neke najčešće jestive i ljekovite samonikle gljive Crne Gore. Poljoprivreda i šumarstvo 46(3-4): 97-119, Biotehnički institut, Podgorica — национальный перечень самых обычных съедобных и лекарственных грибов ME (состав восстановлен по цитированию в Kasom 2013)",
+    "Perić B. & Perić O. (1997d). Jestive gljive iz porodice Boletaceae u Crnoj Gori. Poljoprivreda i šumarstvo 43(1-2): 57-71 (состав восстановлен по цитированию в Kasom 2013)",
+    "Kasom G. Gljive NP «Lovćen» sa osvrtom na vrste koje su značajne sa aspekta zaštite: https://odgovor.me/2021/09/14/gljive-np-lovcen-sa-osvrtom-na-vrste-koje-su-znacajne-sa-aspekta-zastite-dr-gordana-kasom/ — народные имена и перечень обычно собираемых видов",
+    "Заготовительные прайсы черногорских переработчиков: EKOPROMET (Bijelo Polje) https://www.hranaipice.net/ekopromet-vrganj-lisicarka-smrcak-sumski-plodovi.html и K.D. Sloga https://kdsloga.me/ — какие виды реально принимают на откуп (~100 т/год на европейский рынок)",
+    "Medical CG (черногорский медицинский портал): Trovanje gljivama — gastrointestinalni sindrom https://medicalcg.me/trovanje-gljivama-gastrointestinalni-sindrom/ и Amatoksinski sindrom https://medicalcg.me/trovanje-gljivama-amatoksinski-sindrom/ — какими видами в ME травятся",
+    "Deretić L. (2022). Ljekovite, jestive i otrovne gljive u Crnoj Gori: https://projekti.cellula.me/wp-content/uploads/2022/09/Luka-Deretic-Ljekovite-jestive-i-otrovne-gljive-u-Crnoj-Gori.pdf",
+    "Zaštićene vrste gljiva Crne Gore (111 видов, включая Amanita caesarea, Boletus aereus, Rubroboletus satanas, Suillus luteus): https://www.pdpobeda.rs/ekologija/fajlovi/gljivecrnagora.html",
+    "me.ekapija.com — «Ola tartufi», предпринимательское свидетельство трюфельного промысла в ME: https://me.ekapija.com/news/5061407/kroz-sume-i-sumarke-do-rijetkog-tartufa-brend-ola-tartufi-skupocjene-gljive"
+  ]
+}
