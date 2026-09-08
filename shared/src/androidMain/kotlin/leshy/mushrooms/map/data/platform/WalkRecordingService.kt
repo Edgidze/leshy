@@ -10,17 +10,45 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
+import android.net.Uri
 import android.os.Build
 import android.os.IBinder
+import android.os.SystemClock
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.string
+import leshy.mushrooms.map.shared.R
+import leshy.mushrooms.map.ui.util.formatDistanceKm
 
-private const val NOTIFICATION_CHANNEL_ID = "walk_recording"
+/**
+ * Канал заведён заново (был `walk_recording`) ради важности `IMPORTANCE_DEFAULT` вместо прежней
+ * `IMPORTANCE_LOW`: у канала с LOW уведомление считается «тихим», а «тихие» не показываются на
+ * заблокированном экране, если в системных настройках выбрано «Скрывать тихие уведомления».
+ * Поднять важность существующего канала из кода нельзя — Android разрешает приложению только
+ * понижать её, — поэтому единственный способ это исправить у тех, у кого приложение уже
+ * установлено, — новый id. Старый канал удаляется, чтобы не висел в настройках мёртвым.
+ *
+ * Звука и вибрации у канала при этом нет (`setSound(null, null)`): DEFAULT здесь нужен ровно ради
+ * видимости на замке, а не ради того, чтобы уведомление о собственной прогулке звенело.
+ */
+private const val NOTIFICATION_CHANNEL_ID = "walk_recording_v2"
+private const val LEGACY_NOTIFICATION_CHANNEL_ID = "walk_recording"
 private const val NOTIFICATION_ID = 1
 private const val EXTRA_LANGUAGE = "language"
+
+/** Прозрачность «−» у вида, которого в этой прогулке ещё не отмечали: убирать нечего. */
+private const val DISABLED_BUTTON_ALPHA = 90
+private const val ENABLED_BUTTON_ALPHA = 255
 
 /**
  * A foreground service whose sole job is to keep this app out of Android's "background" state
@@ -28,8 +56,17 @@ private const val EXTRA_LANGUAGE = "language"
  * Android throttles/stops location callbacks once the screen turns off or another app comes to
  * the front — the GPS subscription itself still lives in [leshy.mushrooms.map.presentation.record.RecordViewModel]
  * (via [AndroidLocationTracker]), this service just keeps the app exempt from that throttling.
+ *
+ * Второе (и с точки зрения пользователя — главное) его дело: рисовать само уведомление. Оно
+ * кастомное (`RemoteViews`), а не стандартное, потому что стандартный шаблон даёт максимум три
+ * кнопки на всё уведомление, а здесь их нужно по две на каждый из
+ * [leshy.mushrooms.map.data.platform.MAX_RECORDING_NOTIFICATION_SPECIES] видов. Содержимое
+ * приходит снимками из [RecordingNotificationBus] — см. `androidMain/CLAUDE.md`.
  */
 class WalkRecordingService : Service() {
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var snapshotJob: Job? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -47,8 +84,9 @@ class WalkRecordingService : Service() {
         }
         val language = intent?.getStringExtra(EXTRA_LANGUAGE)
             ?.let { runCatching { AppLanguage.valueOf(it) }.getOrNull() }
-            ?: AppLanguage.EN
-        val notification = buildNotification(language)
+            ?: RecordingNotificationBus.language
+        ensureChannel(language)
+        val notification = buildNotification(RecordingNotificationBus.snapshot.value, language)
         // Still guarded: the permission can be lost between the check above and this call, and
         // Android 12+ can also refuse a background start outright
         // (ForegroundServiceStartNotAllowedException). Neither is worth a crash — the walk itself
@@ -64,10 +102,40 @@ class WalkRecordingService : Service() {
             stopSelf()
             return START_NOT_STICKY
         }
+        observeSnapshots(language)
         // NOT_STICKY: if the process is killed mid-recording, RecordViewModel's in-memory walkId
         // is gone too (nothing persists it), so a system-driven restart of just this service would
         // resurrect "Идёт запись прогулки" with no walk behind it — see androidMain/CLAUDE.md.
         return START_NOT_STICKY
+    }
+
+    /**
+     * Подписка на снимки от `RecordViewModel` — ровно одна на весь срок жизни сервиса, даже если
+     * `onStartCommand` позвали повторно.
+     *
+     * Первое значение НЕ пропускается, хотя уведомление с ним уже ушло в `startForeground`: между
+     * чтением `snapshot.value` там и подпиской здесь успевает пролезть новый снимок (`start()`
+     * контроллера и первый `update()` из `RecordViewModel` разделены одним переключением
+     * корутины), и `drop(1)` выбросил бы именно его — уведомление осталось бы с устаревшими
+     * показателями до следующего изменения, которого на паузе может и не случиться. Лишний
+     * `notify()` тем же содержимым не стоит ничего.
+     */
+    private fun observeSnapshots(startLanguage: AppLanguage) {
+        if (snapshotJob != null) return
+        snapshotJob = scope.launch {
+            RecordingNotificationBus.snapshot.collect { snapshot ->
+                if (snapshot == null) return@collect
+                val manager = getSystemService(NotificationManager::class.java)
+                // Молча ничего не делает, если пользователь не дал POST_NOTIFICATIONS, — запись при
+                // этом идёт как шла.
+                runCatching { manager.notify(NOTIFICATION_ID, buildNotification(snapshot, startLanguage)) }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        scope.cancel()
+        super.onDestroy()
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
@@ -82,28 +150,141 @@ class WalkRecordingService : Service() {
         super.onTaskRemoved(rootIntent)
     }
 
-    private fun buildNotification(language: AppLanguage): Notification {
-        ensureChannel(language)
+    /**
+     * [fallbackLanguage] нужен ровно до первого снимка — на те миллисекунды между
+     * `startForegroundService` и первым `update()` из `RecordViewModel`, когда показывать ещё
+     * нечего. Дальше язык берётся из самого снимка, чтобы переключение языка посреди прогулки
+     * доезжало и до заголовка (см. [RecordingNotificationSnapshot.language]).
+     */
+    private fun buildNotification(
+        snapshot: RecordingNotificationSnapshot?,
+        fallbackLanguage: AppLanguage,
+    ): Notification {
+        val language = snapshot?.language ?: fallbackLanguage
         val contentIntent = packageManager.getLaunchIntentForPackage(packageName)?.let {
             PendingIntent.getActivity(this, 0, it, PendingIntent.FLAG_IMMUTABLE)
         }
+        val title = string(StringKey.BackgroundRecordingNotificationTitle, language)
+        val paused = snapshot?.isPaused == true
         return NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setContentTitle(string(StringKey.BackgroundRecordingNotificationTitle, language))
+            // Заголовок и текст не рисуются, пока разметка своя, но остаются единственным, что
+            // видно там, где кастомная разметка не доезжает: часы, авто, старые оболочки.
+            .setContentTitle(title)
             .setContentText(string(StringKey.BackgroundRecordingNotificationText, language))
             .setSmallIcon(android.R.drawable.ic_menu_mylocation)
             .setOngoing(true)
             .setContentIntent(contentIntent)
+            // Показывать содержимое на заблокированном экране целиком: PRIVATE (умолчание) на
+            // телефоне, настроенном скрывать чувствительное, оставил бы вместо строк видов
+            // системную заглушку — а вместе с ними и кнопки, ради которых всё и затевалось.
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            // Уведомление перестраивается на каждую находку и каждые несколько десятков метров;
+            // без этого каждая перестройка считалась бы новым поводом «привлечь внимание».
+            .setOnlyAlertOnce(true)
+            .setShowWhen(false)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setCustomContentView(collapsedView(title, paused, snapshot, language))
+            .setCustomBigContentView(expandedView(title, paused, snapshot, language))
             .build()
+    }
+
+    private fun collapsedView(
+        title: String,
+        paused: Boolean,
+        snapshot: RecordingNotificationSnapshot?,
+        language: AppLanguage,
+    ): RemoteViews = RemoteViews(packageName, R.layout.notification_walk_recording_collapsed)
+        .also { bindHeader(it, title, paused, snapshot, language) }
+
+    private fun expandedView(
+        title: String,
+        paused: Boolean,
+        snapshot: RecordingNotificationSnapshot?,
+        language: AppLanguage,
+    ): RemoteViews {
+        val views = RemoteViews(packageName, R.layout.notification_walk_recording_expanded)
+        bindHeader(views, title, paused, snapshot, language)
+        // Строки добавляются, а не выбираются из заранее разложенных в xml: их число меняется по
+        // ходу прогулки, и пустая строка-заглушка съедала бы высоту, которой и так впритык.
+        snapshot?.species?.forEachIndexed { index, species -> views.addView(R.id.recording_species, speciesRow(index, species)) }
+        return views
+    }
+
+    /** Заголовок и строка показателей — общая часть свёрнутого и развёрнутого видов. */
+    private fun bindHeader(
+        views: RemoteViews,
+        title: String,
+        paused: Boolean,
+        snapshot: RecordingNotificationSnapshot?,
+        language: AppLanguage,
+    ) {
+        views.setTextViewText(
+            R.id.recording_title,
+            if (paused) "$title · ${string(StringKey.RecordPause, language)}" else title,
+        )
+        // Chronometer'у отдаётся точка отсчёта в шкале elapsedRealtime, дальше он считает сам,
+        // внутри SystemUI, — приложение из-за времени не просыпается вовсе. На паузе он
+        // останавливается, но показывает накопленное: setBase перерисовывает текст и у
+        // остановленного.
+        views.setChronometer(
+            R.id.recording_time,
+            SystemClock.elapsedRealtime() - (snapshot?.elapsedMillis ?: 0L),
+            null,
+            !paused,
+        )
+        views.setTextViewText(R.id.recording_distance, snapshot?.distanceText ?: formatDistanceKm(0.0, language))
+        views.setTextViewText(R.id.recording_finds, (snapshot?.totalFinds ?: 0).toString())
+    }
+
+    private fun speciesRow(index: Int, species: RecordingNotificationSpecies): RemoteViews {
+        val row = RemoteViews(packageName, R.layout.notification_walk_recording_species_row)
+        row.setTextViewText(R.id.species_name, species.name)
+        row.setTextViewText(R.id.species_count, species.count.toString())
+        row.setOnClickPendingIntent(R.id.species_add, actionIntent(index, ACTION_ADD_MUSHROOM, species.categoryId))
+        row.setOnClickPendingIntent(R.id.species_remove, actionIntent(index, ACTION_REMOVE_MUSHROOM, species.categoryId))
+        // Нажатие «−» на нуле безвредно (RemoveLastMushroomMarkUseCase не найдёт что удалять), но
+        // кнопка должна говорить об этом до нажатия, а не после.
+        row.setInt(
+            R.id.species_remove,
+            "setImageAlpha",
+            if (species.count > 0) ENABLED_BUTTON_ALPHA else DISABLED_BUTTON_ALPHA,
+        )
+        return row
+    }
+
+    /**
+     * `PendingIntent` сравниваются по [Intent.filterEquals], а он не смотрит на extras — четыре
+     * «плюса», отличающиеся только `categoryId`, оказались бы одним и тем же отложенным интентом,
+     * и все четыре добавляли бы первый вид. Различает их `data`; `FLAG_UPDATE_CURRENT` вдобавок
+     * обновляет extras у переиспользованного интента, когда список видов сдвинулся.
+     */
+    private fun actionIntent(index: Int, action: String, categoryId: Long): PendingIntent {
+        val intent = Intent(this, WalkRecordingActionReceiver::class.java)
+            .setAction(action)
+            .setData(Uri.parse("leshy://recording/$action/$categoryId"))
+            .putExtra(EXTRA_CATEGORY_ID, categoryId)
+        return PendingIntent.getBroadcast(
+            this,
+            index,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+        )
     }
 
     private fun ensureChannel(language: AppLanguage) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val manager = getSystemService(NotificationManager::class.java)
+        runCatching { manager.deleteNotificationChannel(LEGACY_NOTIFICATION_CHANNEL_ID) }
         val channel = NotificationChannel(
             NOTIFICATION_CHANNEL_ID,
             string(StringKey.BackgroundRecordingChannelName, language),
-            NotificationManager.IMPORTANCE_LOW,
-        )
+            NotificationManager.IMPORTANCE_DEFAULT,
+        ).apply {
+            setSound(null, null)
+            enableVibration(false)
+            setShowBadge(false)
+            lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+        }
         manager.createNotificationChannel(channel)
     }
 
@@ -123,6 +304,9 @@ internal fun hasLocationPermission(context: Context): Boolean =
         PackageManager.PERMISSION_GRANTED
 
 class AndroidBackgroundRecordingController(private val context: Context) : BackgroundRecordingController {
+
+    override val commands: Flow<RecordingCommand> = RecordingNotificationBus.commands
+
     override fun start(language: AppLanguage) {
         // Without a location permission the service can't legally start at all (see
         // WalkRecordingService.onStartCommand) and would have nothing to do — a walk recorded with
@@ -130,12 +314,22 @@ class AndroidBackgroundRecordingController(private val context: Context) : Backg
         // here is what keeps the app from crashing when the user pressed "Start" after denying
         // location.
         if (!hasLocationPermission(context)) return
+        RecordingNotificationBus.language = language
+        // Именно здесь, а не в stop(): сервис может подняться раньше первого снимка, и без сброса
+        // он показал бы показатели предыдущей прогулки. Обнулять на stop() было бы недостаточно —
+        // startupHealJob зовёт stop() и до того, как что-то вообще запускалось.
+        RecordingNotificationBus.snapshot.value = null
         runCatching {
             ContextCompat.startForegroundService(context, WalkRecordingService.intent(context, language))
         }
     }
 
+    override fun update(snapshot: RecordingNotificationSnapshot) {
+        RecordingNotificationBus.snapshot.value = snapshot
+    }
+
     override fun stop() {
+        RecordingNotificationBus.snapshot.value = null
         runCatching { context.stopService(Intent(context, WalkRecordingService::class.java)) }
     }
 }

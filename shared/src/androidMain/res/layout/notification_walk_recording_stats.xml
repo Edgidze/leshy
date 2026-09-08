@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Строка показателей уведомления идущей записи: время, расстояние, находки. Отдельным файлом,
+  потому что включается дважды — и в свёрнутый вид, и в развёрнутый (см. соседние два layout'а).
+
+  Время — системный `Chronometer`, а не TextView, который мы бы обновляли сами: он тикает внутри
+  процесса SystemUI, и приложению не нужно ни будить себя раз в секунду, ни слать раз в секунду
+  новое уведомление. Приложение задаёт ему только точку отсчёта — см. WalkRecordingService.
+
+  Цвета — только через `?android:attr/...`: разметка инфлейтится в SystemUI с темой уведомлений,
+  и любая прибитая гвоздями краска промахнётся мимо неё на светлой либо на тёмной теме шторки.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+    <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/notif_ic_stopwatch"
+            android:tint="?android:attr/textColorSecondary"/>
+
+    <Chronometer
+            android:id="@+id/recording_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textAppearance="@style/TextAppearance.Compat.Notification"/>
+
+    <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="12dp"
+            android:contentDescription="@null"
+            android:src="@drawable/notif_ic_route"
+            android:tint="?android:attr/textColorSecondary"/>
+
+    <TextView
+            android:id="@+id/recording_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.Compat.Notification"/>
+
+    <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="12dp"
+            android:contentDescription="@null"
+            android:src="@drawable/notif_ic_mushrooms"
+            android:tint="?android:attr/textColorSecondary"/>
+
+    <TextView
+            android:id="@+id/recording_finds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.Compat.Notification"/>
+</LinearLayout>
