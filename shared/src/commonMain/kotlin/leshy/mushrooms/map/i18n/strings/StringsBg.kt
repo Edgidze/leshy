@@ -355,7 +355,17 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
         "Изтеглете видимата област от картата, за да я използвате офлайн",
     StringKey.PreparationRetryContentDescription to "Повторно изтегляне",
 
-    StringKey.MapTilesLoadFailed to "Картата не се зареди напълно от",
+    StringKey.MapTilesLoadFailed to
+        "Основата на картата не се зареди, но разходката и находките се записват и запазват както " +
+            "обикновено. Няма връзка със сървъра:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Основата на картата не се зареди, областта не може да се изтегли сега. Няма връзка със сървъра:",
+    StringKey.MapTilesLoadSlow to
+        "Основата на картата се зарежда бавно, а разходката и находките се записват както обикновено. " +
+            "Сървърът отговаря бавно:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Основата на картата се зарежда бавно, изтеглянето на областта също ще е дълго. Сървърът отговаря " +
+            "бавно:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Затваряне на съобщението",
 
     StringKey.SettingsMapDataTitle to "Данни на картата",

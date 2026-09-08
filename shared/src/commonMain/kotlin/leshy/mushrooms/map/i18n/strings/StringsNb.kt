@@ -328,7 +328,17 @@ internal val norwegianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Feil",
     StringKey.PreparationSubtitle to "Last ned det synlige kartområdet for å bruke det uten nett",
     StringKey.PreparationRetryContentDescription to "Prøv nedlastingen på nytt",
-    StringKey.MapTilesLoadFailed to "Kartet ble ikke fullstendig lastet fra",
+    StringKey.MapTilesLoadFailed to
+        "Kartbakgrunnen ble ikke lastet, men turen og funnene registreres og lagres som vanlig. Ingen " +
+            "forbindelse til serveren:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Kartbakgrunnen ble ikke lastet, og kartområdet kan ikke lastes ned nå. Ingen forbindelse til " +
+            "serveren:",
+    StringKey.MapTilesLoadSlow to
+        "Kartbakgrunnen lastes sakte, mens turen og funnene registreres som vanlig. Serveren svarer sakte:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Kartbakgrunnen lastes sakte, og nedlastingen av kartområdet vil også ta lang tid. Serveren svarer " +
+            "sakte:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Lukk meldingen",
     StringKey.SettingsMapDataTitle to "Kartdata",
     StringKey.SettingsRefreshMapDataButton to "Oppdater kartdata",

@@ -357,7 +357,18 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
         "Laden Sie den sichtbaren Kartenbereich herunter, um ihn offline zu nutzen",
     StringKey.PreparationRetryContentDescription to "Download wiederholen",
 
-    StringKey.MapTilesLoadFailed to "Die Karte wurde nicht vollständig geladen von",
+    StringKey.MapTilesLoadFailed to
+        "Der Kartenhintergrund wurde nicht geladen, Spaziergang und Funde werden aber wie gewohnt " +
+            "aufgezeichnet und gespeichert. Keine Verbindung zum Server:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Der Kartenhintergrund wurde nicht geladen, der Kartenbereich lässt sich jetzt nicht herunterladen. " +
+            "Keine Verbindung zum Server:",
+    StringKey.MapTilesLoadSlow to
+        "Der Kartenhintergrund lädt langsam, Spaziergang und Funde werden dabei wie gewohnt aufgezeichnet. " +
+            "Der Server antwortet langsam:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Der Kartenhintergrund lädt langsam, das Herunterladen des Kartenbereichs wird ebenfalls lange " +
+            "dauern. Der Server antwortet langsam:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Hinweis schließen",
 
     StringKey.SettingsMapDataTitle to "Kartendaten",

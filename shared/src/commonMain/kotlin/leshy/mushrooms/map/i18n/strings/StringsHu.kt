@@ -362,7 +362,18 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
         "Töltse le a térkép látható területét, hogy internet nélkül is használhassa",
     StringKey.PreparationRetryContentDescription to "Letöltés újrapróbálása",
 
-    StringKey.MapTilesLoadFailed to "A térkép nem töltődött be teljesen innen:",
+    StringKey.MapTilesLoadFailed to
+        "A térkép alaprétege nem töltődött be, de a séta és a leletek a szokásos módon rögzülnek és " +
+            "mentődnek. Nincs kapcsolat a kiszolgálóval:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "A térkép alaprétege nem töltődött be, a terület most nem tölthető le. Nincs kapcsolat a " +
+            "kiszolgálóval:",
+    StringKey.MapTilesLoadSlow to
+        "A térkép alaprétege lassan töltődik be, a séta és a leletek közben a szokásos módon rögzülnek. A " +
+            "kiszolgáló lassan válaszol:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "A térkép alaprétege lassan töltődik be, a terület letöltése is sokáig fog tartani. A kiszolgáló " +
+            "lassan válaszol:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Értesítés bezárása",
 
     StringKey.SettingsMapDataTitle to "Térképadatok",

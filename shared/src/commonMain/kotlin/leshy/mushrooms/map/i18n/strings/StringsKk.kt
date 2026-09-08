@@ -353,7 +353,17 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
         "Интернетсіз пайдалану үшін картаның көрініп тұрған бөлігін жүктеңіз",
     StringKey.PreparationRetryContentDescription to "Жүктеуді қайталау",
 
-    StringKey.MapTilesLoadFailed to "Карта толық жүктелмеді:",
+    StringKey.MapTilesLoadFailed to
+        "Картаның негізі жүктелмеді, бірақ серуен мен олжа әдеттегідей жазылып, сақталып жатыр. Сервермен " +
+            "байланыс жоқ:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Картаның негізі жүктелмеді, бөлікті қазір жүктеп алу мүмкін емес. Сервермен байланыс жоқ:",
+    StringKey.MapTilesLoadSlow to
+        "Картаның негізі баяу жүктеліп жатыр, серуен мен олжа әдеттегідей жазылуда. Сервер баяу жауап " +
+            "беруде:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Картаның негізі баяу жүктеліп жатыр, бөлікті жүктеп алу да ұзаққа созылады. Сервер баяу жауап " +
+            "беруде:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Хабарламаны жабу",
 
     StringKey.SettingsMapDataTitle to "Карта деректері",

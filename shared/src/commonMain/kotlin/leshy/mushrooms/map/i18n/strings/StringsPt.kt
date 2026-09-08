@@ -339,7 +339,17 @@ internal val portugueseStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Erro",
     StringKey.PreparationSubtitle to "Descarregue a área do mapa visível para a usar sem Internet",
     StringKey.PreparationRetryContentDescription to "Tentar descarregar de novo",
-    StringKey.MapTilesLoadFailed to "O mapa não carregou por completo a partir de",
+    StringKey.MapTilesLoadFailed to
+        "O fundo do mapa não carregou, mas a caminhada e os achados continuam a ser registados e guardados. " +
+            "Sem ligação ao servidor:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "O fundo do mapa não carregou e a área não pode ser descarregada agora. Sem ligação ao servidor:",
+    StringKey.MapTilesLoadSlow to
+        "O fundo do mapa está a carregar lentamente; a caminhada e os achados continuam a ser registados. O " +
+            "servidor responde devagar:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "O fundo do mapa está a carregar lentamente e descarregar a área também vai demorar. O servidor " +
+            "responde devagar:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Fechar o aviso",
     StringKey.SettingsMapDataTitle to "Dados do mapa",
     StringKey.SettingsRefreshMapDataButton to "Atualizar os dados do mapa",

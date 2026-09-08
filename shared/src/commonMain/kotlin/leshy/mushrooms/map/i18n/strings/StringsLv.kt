@@ -357,7 +357,16 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
         "Lejupielādējiet redzamo kartes apgabalu, lai to izmantotu bezsaistē",
     StringKey.PreparationRetryContentDescription to "Atkārtot lejupielādi",
 
-    StringKey.MapTilesLoadFailed to "Karte pilnībā neielādējās no",
+    StringKey.MapTilesLoadFailed to
+        "Kartes pamatne neielādējās, taču pastaiga un atradumi tiek ierakstīti un saglabāti kā parasti. Nav " +
+            "savienojuma ar serveri:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Kartes pamatne neielādējās, apgabalu pašlaik nevar lejupielādēt. Nav savienojuma ar serveri:",
+    StringKey.MapTilesLoadSlow to
+        "Kartes pamatne ielādējas lēni, pastaiga un atradumi tiek ierakstīti kā parasti. Serveris atbild " +
+            "lēni:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Kartes pamatne ielādējas lēni, arī apgabala lejupielāde būs ilga. Serveris atbild lēni:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Aizvērt paziņojumu",
 
     StringKey.SettingsMapDataTitle to "Kartes dati",

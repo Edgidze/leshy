@@ -353,7 +353,15 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
         "Преузмите видљиви део мапе да бисте га користили ван мреже",
     StringKey.PreparationRetryContentDescription to "Понови преузимање",
 
-    StringKey.MapTilesLoadFailed to "Мапа се није у потпуности учитала са",
+    StringKey.MapTilesLoadFailed to
+        "Подлога мапе није учитана, али се шетња и налази бележе и чувају као и обично. Нема везе са " +
+            "сервером:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Подлога мапе није учитана, део мапе сада не може да се преузме. Нема везе са сервером:",
+    StringKey.MapTilesLoadSlow to
+        "Подлога мапе се учитава споро, а шетња и налази се бележе као и обично. Сервер одговара споро:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Подлога мапе се учитава споро, па ће и преузимање дела мапе дуго трајати. Сервер одговара споро:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Затвори обавештење",
 
     StringKey.SettingsMapDataTitle to "Подаци мапе",

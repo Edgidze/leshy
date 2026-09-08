@@ -354,7 +354,16 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
         "Pobierz widoczny obszar mapy, aby korzystać z niego offline",
     StringKey.PreparationRetryContentDescription to "Ponów pobieranie",
 
-    StringKey.MapTilesLoadFailed to "Mapa nie została w pełni załadowana z",
+    StringKey.MapTilesLoadFailed to
+        "Podkład mapy nie został wczytany, ale spacer i znaleziska są zapisywane jak zwykle. Brak " +
+            "połączenia z serwerem:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Podkład mapy nie został wczytany, obszaru nie można teraz pobrać. Brak połączenia z serwerem:",
+    StringKey.MapTilesLoadSlow to
+        "Podkład mapy wczytuje się wolno, a spacer i znaleziska są zapisywane jak zwykle. Serwer odpowiada " +
+            "wolno:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Podkład mapy wczytuje się wolno, pobieranie obszaru również będzie długie. Serwer odpowiada wolno:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Zamknij powiadomienie",
 
     StringKey.SettingsMapDataTitle to "Dane mapy",

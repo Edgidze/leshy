@@ -343,7 +343,18 @@ internal val greekStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationSubtitle to
         "Κατεβάστε την ορατή περιοχή του χάρτη για να τη χρησιμοποιείτε εκτός σύνδεσης",
     StringKey.PreparationRetryContentDescription to "Επανάληψη της λήψης",
-    StringKey.MapTilesLoadFailed to "Ο χάρτης δεν φορτώθηκε πλήρως από",
+    StringKey.MapTilesLoadFailed to
+        "Το υπόβαθρο του χάρτη δεν φορτώθηκε, αλλά η εξόρμηση και τα ευρήματα καταγράφονται και " +
+            "αποθηκεύονται κανονικά. Δεν υπάρχει σύνδεση με τον διακομιστή:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Το υπόβαθρο του χάρτη δεν φορτώθηκε και η περιοχή δεν μπορεί να ληφθεί τώρα. Δεν υπάρχει σύνδεση " +
+            "με τον διακομιστή:",
+    StringKey.MapTilesLoadSlow to
+        "Το υπόβαθρο του χάρτη φορτώνει αργά, ενώ η εξόρμηση και τα ευρήματα καταγράφονται κανονικά. Ο " +
+            "διακομιστής απαντά αργά:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Το υπόβαθρο του χάρτη φορτώνει αργά και η λήψη της περιοχής θα αργήσει επίσης. Ο διακομιστής " +
+            "απαντά αργά:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Κλείσιμο της ειδοποίησης",
     StringKey.SettingsMapDataTitle to "Δεδομένα χάρτη",
     StringKey.SettingsRefreshMapDataButton to "Ενημέρωση των δεδομένων χάρτη",

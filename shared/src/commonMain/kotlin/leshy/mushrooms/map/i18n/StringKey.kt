@@ -307,6 +307,9 @@ enum class StringKey {
     PreparationRetryContentDescription,
 
     MapTilesLoadFailed,
+    MapTilesLoadFailedPreparation,
+    MapTilesLoadSlow,
+    MapTilesLoadSlowPreparation,
     MapTilesLoadFailedDismissContentDescription,
 
     SettingsMapDataTitle,

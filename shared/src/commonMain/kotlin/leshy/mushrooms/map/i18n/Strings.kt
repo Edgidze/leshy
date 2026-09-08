@@ -511,7 +511,10 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.PreparationSubtitle -> "Скачайте видимую область карты, чтобы пользоваться ей без интернета"
     StringKey.PreparationRetryContentDescription -> "Повторить скачивание"
 
-    StringKey.MapTilesLoadFailed -> "Карта не полностью загрузилась с сайта"
+    StringKey.MapTilesLoadFailed -> "Подложка карты не загрузилась, но прогулка и находки записываются и сохраняются как обычно. Нет связи с сервером:"
+    StringKey.MapTilesLoadFailedPreparation -> "Подложка карты не загрузилась, скачать участок сейчас не получится. Нет связи с сервером:"
+    StringKey.MapTilesLoadSlow -> "Подложка карты загружается медленно, прогулка и находки при этом записываются как обычно. Медленно отвечает сервер:"
+    StringKey.MapTilesLoadSlowPreparation -> "Подложка карты загружается медленно, скачивание участка тоже будет долгим. Медленно отвечает сервер:"
     StringKey.MapTilesLoadFailedDismissContentDescription -> "Закрыть уведомление"
 
     StringKey.SettingsMapDataTitle -> "Данные карты"
@@ -878,7 +881,10 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.PreparationSubtitle -> "Download the visible map area to use it offline"
     StringKey.PreparationRetryContentDescription -> "Retry download"
 
-    StringKey.MapTilesLoadFailed -> "The map didn't fully load from"
+    StringKey.MapTilesLoadFailed -> "The map background didn't load, but the walk and its finds are recorded and saved as usual. No connection to the server:"
+    StringKey.MapTilesLoadFailedPreparation -> "The map background didn't load, and an area can't be downloaded right now. No connection to the server:"
+    StringKey.MapTilesLoadSlow -> "The map background is loading slowly; the walk and its finds are recorded as usual. Slow response from the server:"
+    StringKey.MapTilesLoadSlowPreparation -> "The map background is loading slowly, and downloading an area will be slow too. Slow response from the server:"
     StringKey.MapTilesLoadFailedDismissContentDescription -> "Dismiss notice"
 
     StringKey.SettingsMapDataTitle -> "Map data"

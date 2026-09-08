@@ -357,7 +357,17 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
         "Descargue la zona de mapa visible para usarla sin conexión",
     StringKey.PreparationRetryContentDescription to "Reintentar descarga",
 
-    StringKey.MapTilesLoadFailed to "El mapa no se cargó por completo desde",
+    StringKey.MapTilesLoadFailed to
+        "El fondo del mapa no se cargó, pero el paseo y los hallazgos se registran y se guardan como " +
+            "siempre. Sin conexión con el servidor:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "El fondo del mapa no se cargó y ahora no se puede descargar la zona. Sin conexión con el servidor:",
+    StringKey.MapTilesLoadSlow to
+        "El fondo del mapa se carga lentamente; el paseo y los hallazgos se registran como siempre. El " +
+            "servidor responde despacio:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "El fondo del mapa se carga lentamente y descargar la zona también tardará mucho. El servidor " +
+            "responde despacio:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Cerrar aviso",
 
     StringKey.SettingsMapDataTitle to "Datos del mapa",

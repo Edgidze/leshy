@@ -360,7 +360,16 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
         "Prenesite vidno območje zemljevida za uporabo brez povezave",
     StringKey.PreparationRetryContentDescription to "Ponovi prenos",
 
-    StringKey.MapTilesLoadFailed to "Zemljevid se ni v celoti naložil z",
+    StringKey.MapTilesLoadFailed to
+        "Podlaga zemljevida se ni naložila, a se sprehod in najdbe beležijo ter shranjujejo kot običajno. " +
+            "Ni povezave s strežnikom:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Podlaga zemljevida se ni naložila, območja zdaj ni mogoče prenesti. Ni povezave s strežnikom:",
+    StringKey.MapTilesLoadSlow to
+        "Podlaga zemljevida se nalaga počasi, sprehod in najdbe pa se beležijo kot običajno. Strežnik " +
+            "odgovarja počasi:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Podlaga zemljevida se nalaga počasi, tudi prenos območja bo dolgotrajen. Strežnik odgovarja počasi:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Zapri obvestilo",
 
     StringKey.SettingsMapDataTitle to "Podatki zemljevida",

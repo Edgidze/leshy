@@ -360,7 +360,16 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
         "Интернетсиз пайдалануу үчүн картанын көрүнүп турган бөлүгүн жүктөңүз",
     StringKey.PreparationRetryContentDescription to "Жүктөөнү кайталоо",
 
-    StringKey.MapTilesLoadFailed to "Карта толук жүктөлгөн жок:",
+    StringKey.MapTilesLoadFailed to
+        "Картанын негизи жүктөлгөн жок, бирок сейилдөө менен табылгалар мурдагыдай жазылып, сакталып жатат. " +
+            "Сервер менен байланыш жок:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Картанын негизи жүктөлгөн жок, бөлүктү азыр жүктөп алуу мүмкүн эмес. Сервер менен байланыш жок:",
+    StringKey.MapTilesLoadSlow to
+        "Картанын негизи жай жүктөлүүдө, сейилдөө менен табылгалар мурдагыдай жазылып жатат. Сервер жай " +
+            "жооп берүүдө:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Картанын негизи жай жүктөлүүдө, бөлүктү жүктөп алуу да көпкө созулат. Сервер жай жооп берүүдө:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Билдирүүнү жабуу",
 
     StringKey.SettingsMapDataTitle to "Карта маалыматтары",

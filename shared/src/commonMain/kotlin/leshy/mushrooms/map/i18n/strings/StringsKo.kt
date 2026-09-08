@@ -332,7 +332,10 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationSubtitle to "표시된 지도 영역을 다운로드하면 오프라인에서도 사용할 수 있습니다",
     StringKey.PreparationRetryContentDescription to "다운로드 다시 시도",
 
-    StringKey.MapTilesLoadFailed to "지도를 완전히 불러오지 못했습니다:",
+    StringKey.MapTilesLoadFailed to "지도 배경을 불러오지 못했지만 산책과 발견 기록은 평소처럼 저장되고 있습니다. 서버에 연결할 수 없습니다:",
+    StringKey.MapTilesLoadFailedPreparation to "지도 배경을 불러오지 못해 지금은 영역을 내려받을 수 없습니다. 서버에 연결할 수 없습니다:",
+    StringKey.MapTilesLoadSlow to "지도 배경을 느리게 불러오고 있습니다. 산책과 발견 기록은 평소처럼 저장됩니다. 서버 응답이 느립니다:",
+    StringKey.MapTilesLoadSlowPreparation to "지도 배경을 느리게 불러오고 있습니다. 영역 내려받기도 오래 걸립니다. 서버 응답이 느립니다:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "알림 닫기",
 
     StringKey.SettingsMapDataTitle to "지도 데이터",

@@ -353,7 +353,17 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
         "Internetsiz ulanmak üçin kartanyň görünýän bölegini ýükläň",
     StringKey.PreparationRetryContentDescription to "Ýüklemegi gaýtalamak",
 
-    StringKey.MapTilesLoadFailed to "Karta doly ýüklenmedi:",
+    StringKey.MapTilesLoadFailed to
+        "Kartanyň esasy ýüklenmedi, ýöne gezelenç we tapyndylar adatdakysy ýaly ýazylýar we saklanýar. " +
+            "Server bilen baglanyşyk ýok:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Kartanyň esasy ýüklenmedi, kartanyň bölegini häzir ýükläp bolmaýar. Server bilen baglanyşyk ýok:",
+    StringKey.MapTilesLoadSlow to
+        "Kartanyň esasy haýal ýüklenýär, gezelenç we tapyndylar bolsa adatdakysy ýaly ýazylýar. Server " +
+            "haýal jogap berýär:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Kartanyň esasy haýal ýüklenýär, kartanyň bölegini ýüklemek hem uzaga çeker. Server haýal jogap " +
+            "berýär:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Habary ýapmak",
 
     StringKey.SettingsMapDataTitle to "Karta maglumatlary",

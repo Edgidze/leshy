@@ -53,16 +53,7 @@ fun RegionPickerMap(
     val overlayColors = rememberMapOverlayColors()
     val mapStyleCacheRepository = koinInject<MapStyleCacheRepository>()
     val baseStyle by mapStyleCacheRepository.baseStyle.collectAsState()
-    var tilesLoadFailed by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        mapStyleCacheRepository.ensureLoaded()
-        // Independent of onMapLoadFailed/onMapLoadFinished below — those only reflect whether the
-        // (now locally-pinned) style loaded, not whether the tile host is actually reachable. See
-        // MapStyleCacheRepository.isTileHostReachable's doc comment.
-        if (!mapStyleCacheRepository.isTileHostReachable()) {
-            tilesLoadFailed = true
-        }
-    }
+    val tileHost = rememberTileHostWatch(preparation = true)
 
     Box(modifier) {
         MaplibreMap(
@@ -70,8 +61,7 @@ fun RegionPickerMap(
             baseStyle = baseStyle,
             cameraState = cameraState,
             options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = mapOrnamentOptions),
-            onMapLoadFailed = { tilesLoadFailed = true },
-            onMapLoadFinished = { tilesLoadFailed = false },
+            onMapLoadFailed = { tileHost.onStyleLoadFailed() },
         ) {
             regions.forEach { region ->
                 key(region.name) {
@@ -97,9 +87,10 @@ fun RegionPickerMap(
                 }
             }
         }
-        if (tilesLoadFailed) {
+        tileHost.bannerMessage?.let { message ->
             MapLoadFailedBanner(
-                onDismiss = { tilesLoadFailed = false },
+                message = message,
+                onDismiss = tileHost::dismiss,
                 modifier = Modifier.align(bannerAlignment).padding(bannerPadding),
             )
         }

@@ -333,7 +333,17 @@ internal val macedonianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationSubtitle to
         "Преземете го видливото подрачје од картата за да го користите без интернет",
     StringKey.PreparationRetryContentDescription to "Обиди се повторно да преземеш",
-    StringKey.MapTilesLoadFailed to "Картата не се вчита целосно од",
+    StringKey.MapTilesLoadFailed to
+        "Подлогата на картата не се вчита, но прошетката и наодите се запишуваат и се зачувуваат како и " +
+            "обично. Нема врска со серверот:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Подлогата на картата не се вчита, подрачјето не може да се преземе сега. Нема врска со серверот:",
+    StringKey.MapTilesLoadSlow to
+        "Подлогата на картата се вчитува бавно, а прошетката и наодите се запишуваат како и обично. " +
+            "Серверот одговара бавно:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Подлогата на картата се вчитува бавно, па и преземањето на подрачјето ќе трае долго. Серверот " +
+            "одговара бавно:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Затвори го известувањето",
     StringKey.SettingsMapDataTitle to "Податоци за картата",
     StringKey.SettingsRefreshMapDataButton to "Ажурирај ги податоците за картата",

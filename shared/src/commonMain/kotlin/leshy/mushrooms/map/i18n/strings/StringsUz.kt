@@ -366,7 +366,17 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
         "Internetsiz foydalanish uchun xaritaning koʻrinib turgan qismini yuklab oling",
     StringKey.PreparationRetryContentDescription to "Yuklashni qayta urinish",
 
-    StringKey.MapTilesLoadFailed to "Xarita toʻliq yuklanmadi:",
+    StringKey.MapTilesLoadFailed to
+        "Xarita foni yuklanmadi, lekin sayr va topilmalar odatdagidek yozilib, saqlanmoqda. Server bilan " +
+            "aloqa yoʻq:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Xarita foni yuklanmadi, hozir xarita qismini yuklab boʻlmaydi. Server bilan aloqa yoʻq:",
+    StringKey.MapTilesLoadSlow to
+        "Xarita foni sekin yuklanmoqda, sayr va topilmalar esa odatdagidek yozilmoqda. Server sekin javob " +
+            "bermoqda:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Xarita foni sekin yuklanmoqda, hududni yuklab olish ham uzoq davom etadi. Server sekin javob " +
+            "bermoqda:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Xabarnomani yopish",
 
     StringKey.SettingsMapDataTitle to "Xarita maʼlumotlari",

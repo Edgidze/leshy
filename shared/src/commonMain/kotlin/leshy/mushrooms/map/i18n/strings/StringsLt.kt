@@ -357,7 +357,16 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
         "Atsisiųskite matomą žemėlapio sritį, kad galėtumėte ja naudotis neprisijungę",
     StringKey.PreparationRetryContentDescription to "Kartoti atsisiuntimą",
 
-    StringKey.MapTilesLoadFailed to "Žemėlapis ne visas įkeltas iš",
+    StringKey.MapTilesLoadFailed to
+        "Žemėlapio pagrindas neįkeltas, bet žygis ir radiniai įrašomi ir išsaugomi kaip įprasta. Nėra ryšio " +
+            "su serveriu:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Žemėlapio pagrindas neįkeltas, srities dabar atsisiųsti negalima. Nėra ryšio su serveriu:",
+    StringKey.MapTilesLoadSlow to
+        "Žemėlapio pagrindas kraunasi lėtai, o žygis ir radiniai įrašomi kaip įprasta. Serveris atsako " +
+            "lėtai:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Žemėlapio pagrindas kraunasi lėtai, srities atsisiuntimas taip pat užtruks. Serveris atsako lėtai:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Uždaryti pranešimą",
 
     StringKey.SettingsMapDataTitle to "Žemėlapio duomenys",
