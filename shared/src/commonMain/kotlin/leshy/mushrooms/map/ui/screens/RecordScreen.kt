@@ -52,6 +52,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -125,6 +126,7 @@ import leshy.mushrooms.map.ui.util.walkPaused
 import leshy.mushrooms.map.ui.util.walkResumed
 import leshy.mushrooms.map.ui.util.walkStarted
 import org.koin.compose.viewmodel.koinViewModel
+import kotlinx.coroutines.launch
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
@@ -422,6 +424,29 @@ private fun RecordScreenContent(
                 tileListState.animateScrollBy(-distancePx, tween(slowDurationMillis))
             }
         }
+    }
+
+    // Возврат на экран — из другого раздела или из фона — всегда открывает ленту с её начала,
+    // пока действует порядок «последние найденные вперёд». Прокрутка ленты переживает и то, и
+    // другое (`rememberLazyListState` сохраняет позицию через `rememberSaveable`, а уход в фон
+    // композицию вовсе не разбирает), а вот смысл сохранённой позиции — нет: пока экрана не было
+    // видно, плитки успевали уехать в начало ленты. И отмеченные прямо перед уходом (перестановка
+    // случается по тихому окну уже без экрана, см. `RecordViewModel.scheduleFrontBump`), и
+    // отмеченные кнопками уведомления идущей записи. Возвращаться к прежнему смещению после такой
+    // перестановки — значит показать ленту с самыми свежими находками ЛЕВЕЕ видимой области, то
+    // есть спрятать ровно то, ради чего порядок и переставлялся.
+    //
+    // Без анимации (`scrollToItem`, не `animateScrollToItem`): экран должен ОТКРЫТЬСЯ в начале, а
+    // не поехать туда на глазах у пользователя. Медленная анимация есть у перестановки, случившейся
+    // при открытом экране, — это её и только её язык (см. `scrollToStartSignal` выше).
+    //
+    // При включённом «неподвижном порядке» ничего не делаем: там лента стоит в алфавитном порядке,
+    // никуда не переставляется, и позиция прокрутки — осознанный выбор пользователя, который он
+    // вправе застать на месте.
+    val tileScrollScope = rememberCoroutineScope()
+    LifecycleResumeEffect(Unit) {
+        if (uiState.tileOrderFollowsRecency) tileScrollScope.launch { tileListState.scrollToItem(0) }
+        onPauseOrDispose { }
     }
 
     // Manual dragging of the feed counts as activity for RecordViewModel's reorder quiet window,

@@ -328,7 +328,10 @@ class RecordViewModel(
             settingsRepository.observeResetMushroomOrderOnWalkFinish().collect { resetOrderOnWalkFinish = it }
         }
         viewModelScope.launch {
-            settingsRepository.observeFreezeMushroomOrder().collect { freezeOrder = it }
+            settingsRepository.observeFreezeMushroomOrder().collect { freeze ->
+                freezeOrder = freeze
+                _uiState.update { it.copy(tileOrderFollowsRecency = !freeze) }
+            }
         }
         viewModelScope.launch {
             // Кнопки «+»/«−» в уведомлении идущей записи (Android; на iOS поток всегда пуст)
