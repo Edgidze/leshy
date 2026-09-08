@@ -37,5 +37,5 @@
             android:padding="4dp"
             android:scaleType="fitCenter"
             android:src="@drawable/notif_ic_pause"
-            android:tint="?android:attr/textColorPrimary"/>
+            android:tint="@color/notification_action_color_filter"/>
 </LinearLayout>

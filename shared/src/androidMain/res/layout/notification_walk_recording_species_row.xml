@@ -49,7 +49,7 @@
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/notif_ic_remove"
-            android:tint="?android:attr/textColorPrimary"/>
+            android:tint="@color/notification_action_color_filter"/>
 
     <TextView
             android:id="@+id/species_count"
@@ -67,5 +67,5 @@
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/notif_ic_add"
-            android:tint="?android:attr/textColorPrimary"/>
+            android:tint="@color/notification_action_color_filter"/>
 </LinearLayout>
