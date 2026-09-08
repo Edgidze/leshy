@@ -1,0 +1,207 @@
+{
+  "country": "IE",
+  "languages": [
+    "en"
+  ],
+  "keys": [
+    "agaricus_campestris__2",
+    "hydnum_repandum",
+    "cantharellus_cibarius",
+    "craterellus_tubaeformis",
+    "boletus_edulis",
+    "coprinus_comatus",
+    "agaricus_arvensis",
+    "marasmius_oreades",
+    "macrolepiota_procera",
+    "amanita_phalloides",
+    "amanita_muscaria",
+    "armillaria_mellea",
+    "calvatia_gigantea",
+    "lycoperdon_perlatum",
+    "imleria_badia",
+    "lactarius_deliciosus",
+    "suillus_grevillei",
+    "suillus_luteus",
+    "leccinum_scabrum",
+    "russula_cyanoxantha__2",
+    "pleurotus_ostreatus",
+    "auricularia_auricula_judae",
+    "laccaria_amethystina",
+    "lepista_nuda",
+    "lepista_personata",
+    "cuphophyllus_pratensis",
+    "calocybe_gambosa",
+    "fistulina_hepatica",
+    "laetiporus_sulphureus",
+    "flammulina_velutipes",
+    "craterellus_cornucopioides",
+    "amanita_fulva",
+    "infundibulicybe_geotropa",
+    "amanita_rubescens",
+    "hypholoma_fasciculare",
+    "paxillus_involutus",
+    "hygrophoropsis_aurantiaca",
+    "agaricus_xanthodermus",
+    "clitocybe_rivulosa",
+    "galerina_marginata",
+    "scleroderma_citrinum",
+    "chlorophyllum_rhacodes",
+    "coprinopsis_atramentaria",
+    "amanita_virosa",
+    "amanita_pantherina",
+    "cortinarius_rubellus",
+    "caloboletus_calopus"
+  ],
+  "names": {
+    "en": {
+      "suillus_grevillei": "Larch bolete",
+      "cuphophyllus_pratensis": "Meadow waxcap",
+      "craterellus_cornucopioides": "Horn of plenty",
+      "infundibulicybe_geotropa": "Monk's head",
+      "caloboletus_calopus": "Bitter beech bolete"
+    }
+  },
+  "coined": [],
+  "notes": {
+    "agaricus_campestris__2": "Единственный гриб, который в Ирландии собирали всегда. Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008), с. 2: «In Ireland all mushrooms, apart from the field mushroom (Agaricus campestris), were known as ‘pookies’ and were absolutely avoided»; предисловие там же: «Wild fungi, except for the white field mushroom, have not been traditionally collected for eating in Ireland». Стация — некормленые выпасы под скотом и лошадьми. GBIF IE: 44 записи (занижено, вид почти не документируют). Из пары взят `__2` (узкий концепт «field mushroom», уже с английским именем), `agaricus_campestris` — широкий концепт «yellow stainers» — не взят.",
+    "hydnum_repandum": "Самый часто встречаемый съедобный гриб ирландских лесов по единственному в стране количественному учёту: O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 — 24,3 % площадок (первое место из 44 видов), Table 4.3 — второе место по массе плодовых тел. Именно поэтому в ирландской подборке стоит выше белого и лисички, в отличие от британской логики. Хвойные посадки и старые буково-дубовые леса.",
+    "cantharellus_cibarius": "Топ-приоритетный вид ирландского учёта: O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 — 13,4 % площадок; Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — отдельная глава и позиция в «Calendar of wild edible Irish mushrooms» (авг.–нояб.), 9 графств в Приложении 4. GBIF IE: 73.",
+    "craterellus_tubaeformis": "Ирландский рекордсмен по числу и массе плодовых тел: O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.3 — 1825 плодовых тел и 8,4 кг в год в среднем, первое место по обоим показателям; один из четырёх видов, доминирующих в сборе именно в посадках ситхинской ели. В Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Cantharellus tubaeformis, Winter/Yellow leg chanterelle» и позиция в календаре (окт.–фев.). Для Ирландии это главный «плантационный» гриб, ранг выше, чем у соседей.",
+    "boletus_edulis": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008), Приложение 4: «Boletus edulis — All counties. ‘common throughout the country’». O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 — 4,8 % площадок, но Table 4.3 — 880 г/год, один из самых весомых. Виклоу и Слив-Блум (посадки Coillte + дубовые долины) — основные места. GBIF IE: 83.",
+    "coprinus_comatus": "Массовый луговой и придорожный вид: GBIF IE 340 записей — больше, чем у любого другого съедобного в стране; Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — 13 графств, глава «Shaggy ink cap/Lawyer’s wig» и позиция в календаре (сент.–дек.). Пастбища, обочины, газоны — ровно та стация, вокруг которой построена ирландская традиция.",
+    "agaricus_arvensis": "Второй луговой шампиньон ирландских выпасов; в лесном справочнике его нет по формату (COFORD — про леса), но GBIF IE даёт 26 записей, а ирландские полевые материалы про «field mushrooms» неизменно упоминают конский шампиньон рядом с полевым (ireland-guide.com, «In Season: Wild Mushrooms»). Взят ключ `agaricus_arvensis` (узкий, с готовым английским именем), не `agaricus_arvensis__2`.",
+    "marasmius_oreades": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008), Приложение 4 — 13 графств (наравне с шампиньоном-навозником, максимум по стране); там же с. 132 «The edible Marasmius oreades (fairy ring champignon)». Дерновые круги на пастбищах и газонах — вторая опора луговой части подборки. GBIF IE: 48.",
+    "macrolepiota_procera": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава, 8 графств, позиция в календаре с июля по октябрь. Опушки, обочины, приморские луга. GBIF IE: 39. Тайл нужен ещё и как якорь для двойника — Chlorophyllum rhacodes, который ирландский источник помещает в «best avoided».",
+    "amanita_phalloides": "Первый по значимости ядовитый вид страны: один из 13 в разделе «Poisonous mushrooms» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (с. 46), 7 графств; предисловие книги: «there is no excuse for anyone who wants to collect fungi to eat, not to know that death cap fungi are common». Дубово-буковые остатки и усадебные парки; «loads around Wicklow» — Irish Times, 2019. GBIF IE: 59.",
+    "amanita_muscaria": "Раздел «Poisonous mushrooms» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (с. 42), 9 графств; GBIF IE 205 — второй по числу записей среди ядовитых. Берёза и хвойные посадки, узнаётся всеми.",
+    "armillaria_mellea": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008), Приложение 4: «All counties. ‘Very common throughout Ireland’». O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 — 12,4 % площадок, Table 4.3 — третье место по массе. Съедобен после отваривания, но и главный ориентир для предупреждения о Galerina marginata.",
+    "calvatia_gigantea": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (как Langermannia gigantea) — глава, 8 графств, в календаре с июля по ноябрь. Луга и опушки; для Ирландии — типичный «пастбищный» трофей.",
+    "lycoperdon_perlatum": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008), Приложение 4: «very common everywhere». O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 — 5,8 % площадок. GBIF IE: 213. Из пары взят `lycoperdon_perlatum` (широкий концепт «puffball», уже с именем), не `lycoperdon_perlatum__2`.",
+    "imleria_badia": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (как Boletus badius) — глава, 7 графств, календарь авг.–нояб.; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 — 6,0 % площадок, приоритетный вид. GBIF IE: 35. В хвойных посадках берётся чаще белого.",
+    "lactarius_deliciosus": "Ключевой гриб ирландских хвойных ПОСАДОК, а не естественных лесов: O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 — 5,3 % площадок, приоритетный вид; Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Pine saffron milk cap», 9 графств (в Приложении 4 дан объединённо с L. deterrimus). Irish Times (2019) прямо называет saffron milk caps среди того, что находят в ситхинских посадках. `lactarius_deterrimus` (еловая форма) отдельным тайлом не берётся — для сборщика это тот же концепт, см. `gaps`-логику.",
+    "suillus_grevillei": "Маслёнок лиственничный — ирландская специфика: лиственничные посадки Coillte дают его повсеместно. Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Yellow larch bolete», 12 графств в Приложении 4 (один из самых широко распределённых съедобных в стране); O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1 — в списке обычных съедобных лесных грибов Ирландии. GBIF IE: 63 — больше, чем у любого другого Suillus. В подборке GB маслят нет вообще; для Ирландии это как раз та треть, ради которой подборка и собирается.",
+    "suillus_luteus": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Slippery jack/Pine bolete», 12 графств; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1 и Table 4.1 (найден в учёте). Сосновые посадки. GBIF IE: 33. Из пары взят узкий `suillus_luteus` (готовое имя «Slippery Jack»), не широкий `suillus_luteus__2`.",
+    "leccinum_scabrum": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Brown birch bolete», 8 графств, календарь сент.–нояб.; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1 и Table 4.1. Берёза — одна из немногих массовых местных пород, поэтому подберёзовик в Ирландии обычнее подосиновика (Leccinum versipelle — всего 3 графства и 6 записей GBIF, потому не взят).",
+    "russula_cyanoxantha__2": "Единственная сыроежка, которую ирландские источники называют поимённо как сбор: O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 — 11,7 % площадок, помечена приоритетной. При этом Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) помещает её в раздел «Mushrooms best avoided» (с. 90) — не потому, что ядовита, а из-за риска спутать с ядовитыми сыроежками; это ирландская осторожность, о которой стоит знать. Из пары взят `russula_cyanoxantha__2` («Charcoal burner», уже с именем), не широкий `russula_cyanoxantha`.",
+    "pleurotus_ostreatus": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Grey oyster mushroom», 6 графств, единственная позиция календаря, идущая круглый год; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1 и Table 4.1 (приоритетный). Мёртвая древесина лиственных, в основном бук и ясень.",
+    "auricularia_auricula_judae": "GBIF IE 232 записи — один из самых обычных грибов страны; Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава, 10 графств, единственный вид в календаре на январь–март. Бузина в живых изгородях есть по всей Ирландии, поэтому это зимний тайл номер один.",
+    "laccaria_amethystina": "В Ирландии — не «мелочь», а реально учитываемый съедобный: O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 — 18,9 % площадок (третье место из 44), Table 4.3 — 333 плодовых тела в год; Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава и позиция в календаре с августа по ноябрь. GBIF IE: 156. Родственный Laccaria laccata по учёту даже обычнее (22,3 %), но народно это тот же концепт «deceiver», а фиолетовая форма узнаваемее — взят один тайл.",
+    "lepista_nuda": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Wood blewit», 5 графств, календарь окт.–нояб.; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1 и Table 4.2 (2,9 % площадок, приоритетный). GBIF IE: 61.",
+    "lepista_personata": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (как Lepista saeva) — отдельная глава «Field blewit», 6 графств. Это луговой, а не лесной синеножка: в стране пастбищ он занимает более заметное место, чем в лесных подборках соседей. GBIF IE: 12.",
+    "cuphophyllus_pratensis": "Гигроцибовые луга — международно значимая ирландская стация, и луговая гигроцибе единственная из них ходит в еду. Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — отдельная глава «Meadow wax cap», 7 графств, позиция в календаре с августа по ноябрь; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.1 и Table 4.3 (как Hygrocybe pratensis, 14 плодовых тел/год) — то есть её собирают и в лесных стациях тоже. GBIF IE: 118. Взята вместо британского широкого тайла `hygrocybe_conica` («Waxcaps»): в Ирландии восковики важны как индикатор старого дерна (Northern Ireland Fungus Group, greatirishgrasslands.ie), а из съедобных народный концепт — именно луговая.",
+    "calocybe_gambosa": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (как Tricholoma gambosum) — глава «St George’s mushroom», 5 графств, единственная весенняя позиция календаря вместе со сморчком; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1. Ирландские кулинарные материалы (jpmcmahon.substack.com, «St. George Mushrooms») подтверждают сбор. GBIF IE: 12 — вид нечастый, но культурно закреплённый как «начало сезона».",
+    "fistulina_hepatica": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Beefsteak fungus», 8 графств, календарь авг.–нояб.; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1 и Table 4.1 (приоритетный). Старые дубы усадебных парков и остатков лесов. GBIF IE: 29.",
+    "laetiporus_sulphureus": "O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1 — в списке обычных съедобных лесных грибов Ирландии; GBIF IE 78. Но Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) помещает его в «Mushrooms best avoided» (с. 78) из-за желудочных реакций у части людей — ирландская позиция строже британской, тайл нужен и как съедобный, и как предупреждение.",
+    "flammulina_velutipes": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Velvet shank», 6 графств; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1 и Table 4.1. Зимний вид на пнях лиственных; в мягком безморозном ирландском климате плодоносит почти всю зиму. Обязательный контрапункт к Galerina marginata.",
+    "craterellus_cornucopioides": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Horn of plenty», 3 графства, календарь сент.–нояб.; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 2.1 (обычный съедобный Ирландии), Table 4.1 (приоритетный) и Table 4.3 (23 плодовых тела/год). GBIF IE 14 — вид в Ирландии заметно реже, чем на континенте, но входит в оба национальных перечня, поэтому оставлен, хоть и низким рангом.",
+    "amanita_fulva": "Ирландская особенность: поплавок здесь числится съедобным и попадает в национальный календарь сбора. Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — глава «Tawny grisette» в разделе съедобных, 5 графств в Приложении 4, позиция в «Calendar of wild edible Irish mushrooms» с августа по ноябрь; O’Hanlon & Harrington (FORESTFUNGI, COFORD), Table 4.1 — найден в трёхлетнем учёте. GBIF IE: 37 записей. Проверка ареала: в `already_in` вид сейчас стоит только у Мексики, но это артефакт истории каталога, а не ареала — Amanita fulva описана из Европы и обычна по всей Северо-Западной Европе; для Ирландии она подтверждена двумя национальными источниками и полевыми записями GBIF. В подборке GB её нет — это одно из отличий ирландского набора от британского.",
+    "infundibulicybe_geotropa": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (как Clitocybe geotropa) — глава «Monk’s head», 4 графства, календарь сент.–нояб.; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.1 («Monkshead»). Крупные воронковидные говорушки на опушках и в живых изгородях — ирландский осенний сбор, которого нет в британской подборке. GBIF IE: 22.",
+    "amanita_rubescens": "Раздел «Mushrooms best avoided» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (с. 70) — не потому, что ядовит, а из-за сходства с пантерным мухомором; при этом O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.2 даёт 5,1 % площадок, а GBIF IE — 164 записи, один из самых обычных мухоморов страны. Взят как обязательный к узнаванию, а не как еда.",
+    "hypholoma_fasciculare": "GBIF IE 308 записей — самый массовый ядовитый гриб Ирландии; Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008), Приложение 4 — 13 графств (максимум по стране). Растёт на тех же пнях, что опёнок и зимний гриб, оба из которых в подборке. В подборке GB его нет — для Ирландии это пропуск.",
+    "paxillus_involutus": "Раздел «Poisonous mushrooms» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (с. 58), 10 графств; GBIF IE 136. Берёзовые опушки и посадки.",
+    "hygrophoropsis_aurantiaca": "Раздел «Poisonous mushrooms» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (с. 56), 6 графств; GBIF IE 93. Двойник лисички именно в хвойных посадках — там, где ирландцы лисичку и берут.",
+    "agaricus_xanthodermus": "Раздел «Poisonous mushrooms» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (с. 40), 4 графства. Прямой двойник полевого шампиньона — главного гриба страны, поэтому ранг выше, чем даёт число записей (GBIF IE 15). Из пары взят `agaricus_xanthodermus` (готовое имя «Yellow stainer»), не `agaricus_xanthoderma`.",
+    "clitocybe_rivulosa": "Мускариновая говорушка газонов и выпасов — ирландский «садовый» тип отравления. Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008), Приложение 4 фиксирует близкую Clitocybe dealbata в 3 графствах; GBIF IE даёт по 31 записи и на C. rivulosa, и на C. dealbata (для сборщика это один концепт). Взят `clitocybe_rivulosa` — у него есть устоявшееся английское имя «Fool’s funnel»; расхождение по латыни с национальным источником отмечено здесь намеренно.",
+    "galerina_marginata": "В Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) отдельной главы нет, но вид необходим как двойник опёнка, зимнего гриба и чешуйчатки, все из которых в подборке; смертельные аматоксины. GBIF IE: 17. Ирландские современные руководства (fungiatlas.com, «Mushroom Hunting in Ireland») ставят Galerina marginata в пятёрку опасных видов страны.",
+    "scleroderma_citrinum": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008), Приложение 4 (как Scleroderma aurantia): «very common everywhere»; GBIF IE 117. Двойник дождевиков, которых в подборке два.",
+    "chlorophyllum_rhacodes": "Раздел «Mushrooms best avoided» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (с. 80, как Macrolepiota rhacodes), 6 графств; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.1 (найден в учёте). GBIF IE: 32. Прямой двойник зонтика пёстрого.",
+    "coprinopsis_atramentaria": "Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008), Приложение 4 (как Coprinus atramentarius) — 9 графств; O’Hanlon & Harrington, FORESTFUNGI final report (COFORD), учёт 2007–2009, Table 4.1 («Common Inkcap»). GBIF IE: 90. Коприновый синдром с алкоголем — ровно тот случай, о котором ирландские курсы форейджинга предупреждают отдельно.",
+    "amanita_virosa": "Раздел «Poisonous mushrooms» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (с. 48) — один из 13 обязательных к узнаванию. В Ирландии вид редок: Приложение 4 даёт единственное графство (Даун), GBIF IE — 7 записей. Оставлен именно из-за статуса в национальном перечне; по фактической встречаемости это самая слабая позиция подборки, ранг низкий.",
+    "amanita_pantherina": "Раздел «Poisonous mushrooms» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) (с. 44), 3 графства; GBIF IE 13. Как и destroying angel, в Ирландии заметно реже, чем на континенте, но входит в национальный перечень 13 обязательных.",
+    "cortinarius_rubellus": "Раздел «Poisonous mushrooms» Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) — отдельная глава «Tawny web cap» (с. 54), плюс общая глава «Cortinarius species» (с. 52). Вид хвойных посадок, то есть ровно тех стаций Coillte, куда идут за лисичкой и воронковой лисичкой. GBIF IE всего 5 записей — редок, но орелланин работает с задержкой в недели, и национальный источник счёл нужным дать ему отдельную главу.",
+    "caloboletus_calopus": "Самая «ирландская» позиция среди ядовитых: Dowding & Smith, «Forest Fungi in Ireland» (COFORD 2008) включает Boletus calopus в свои 13 ядовитых (с. 50, «Red-stalked bolete (Bitter beech bolete)»), 5 графств. Ни в одной из соседних подборок каталога его нет; здесь он оправдан тем, что буковые посадки и усадебные буки — вторая по значимости лесная стация страны, а горький болет с красной ножкой попадает в корзину вместо белого. GBIF IE: 8."
+  },
+  "gaps": [
+    {
+      "sci": "Russula ochroleuca Fr. — ochre brittlegill",
+      "names": {
+        "en": "Ochre brittlegill"
+      },
+      "why": "Один из четырёх видов, доминирующих в съедобном сборе именно в посадках ситхинской ели — главной лесной стации современной Ирландии: O’Hanlon & Harrington (FORESTFUNGI, COFORD), Table 4.2 — 7,1 % площадок (16,7 % в 2009), Table 4.3 — 1,4 кг плодовых тел в год, третье место по массе после воронковой лисички и ежовика. В каталоге из сыроежек есть только `russula_cyanoxantha__2` (charcoal burner) и `russula_emetica`, а ирландский плантационный концепт — жёлтая сыроежка — не покрыт ни тем, ни другим.",
+      "nearest_key": "russula_cyanoxantha__2",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "NO",
+        "DK",
+        "BE",
+        "NL",
+        "LU"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://www.coford.ie/media/coford/content/FORESTFUNGIFinalReport3251019.pdf"
+      ]
+    },
+    {
+      "sci": "Psilocybe semilanceata (Fr.) P. Kumm. — liberty cap",
+      "names": {
+        "en": "Liberty cap"
+      },
+      "why": "Самый собираемый дикий гриб ирландских пастбищ после полевого шампиньона, и единственный, вокруг которого в стране есть отдельное законодательство (запрет 2006 года после смертельного случая). Dowding & Smith, Приложение 4 — 9 графств; GBIF IE — 72 записи. Ни один вид каталога не покрывает этот концепт: имеющиеся Psilocybe — центральноамериканские и австралийские (`psilocybe_cubensis`, `psilocybe_mexicana`, `psilocybe_subaeruginosa`, `psilocybe_caerulescens`), в Ирландии не растут. Нужен и как «то, что реально ищут», и как позиция, о которой приложение обязано что-то знать в стране, где сбор запрещён.",
+      "nearest_key": null,
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "NO",
+        "DK",
+        "IS",
+        "NL",
+        "BE",
+        "PT"
+      ],
+      "priority": "medium",
+      "sources": [
+        "https://www.coford.ie/media/coford/content/publications/ForestFungiinIreland2008160919.pdf",
+        "https://api.gbif.org/v1/occurrence/search?country=IE&scientificName=Psilocybe%20semilanceata&limit=0"
+      ]
+    },
+    {
+      "sci": "Paralepista flaccida (Sowerby) Vizzini (= Lepista flaccida, Clitocybe flaccida) — tawny funnel",
+      "names": {
+        "en": "Tawny funnel"
+      },
+      "why": "Массовый съедобный вид ирландских хвойных посадок, растущий большими кольцами: Dowding & Smith — отдельная глава «Clitocybe flaccida — tawny funnel cap ... often found in large clusters in conifer forests», 5 графств и позиция в национальном календаре сбора (сент.–нояб.); FORESTFUNGI, Table 4.2 — 3,5 % площадок, Table 4.3 — 109 плодовых тел в год. В каталоге воронковые говорушки представлены только `infundibulicybe_geotropa` и `infundibulicybe_gibba`/`clitocybe_gibba`, а это для ирландского сборщика третий, отдельно называемый концепт (рыжая, поздняя, в хвое).",
+      "nearest_key": "infundibulicybe_geotropa",
+      "same_concept_as_nearest": false,
+      "also_in": [
+        "BE",
+        "NL",
+        "LU",
+        "DK"
+      ],
+      "priority": "low",
+      "sources": [
+        "https://www.coford.ie/media/coford/content/publications/ForestFungiinIreland2008160919.pdf",
+        "https://www.coford.ie/media/coford/content/FORESTFUNGIFinalReport3251019.pdf"
+      ]
+    },
+    {
+      "sci": "Lycoperdon pyriforme Schaeff. — stump puffball; и Apioperdon pyriforme как принятая комбинация",
+      "names": {
+        "en": "Stump puffball"
+      },
+      "why": "Dowding & Smith, Приложение 4: «very common everywhere», глава в разделе съедобных и позиция в национальном календаре сбора (авг.–дек.); FORESTFUNGI, Table 4.2 — 2,5 % площадок. Отмечен для полноты: для ирландского сборщика это, скорее всего, тот же тайл «дождевик», что и `lycoperdon_perlatum`, поэтому отдельной категории, вероятно, не требуется — достаточно знать, что пнёвая форма тоже съедобна.",
+      "nearest_key": "lycoperdon_perlatum",
+      "same_concept_as_nearest": true,
+      "also_in": [
+        "BE",
+        "NL",
+        "DK",
+        "NO"
+      ],
+      "priority": "low",
+      "sources": [
+        "https://www.coford.ie/media/coford/content/publications/ForestFungiinIreland2008160919.pdf"
+      ]
+    }
+  ],
+  "sources": [
+    "Paul Dowding & Louis Smith, «Forest Fungi in Ireland» (COFORD, 2008) — национальный справочник: 43 съедобных вида, 14 «best avoided», 13 ядовитых, Приложение 4 с распределением по графствам и «Calendar of wild edible Irish mushrooms» — https://www.coford.ie/media/coford/content/publications/ForestFungiinIreland2008160919.pdf",
+    "Richard O’Hanlon & Thomas J. Harrington, «Assessment of production of wild edible fungi (WEF) in Irish forests» (FORESTFUNGI, COFORD final report) — трёхлетний количественный учёт 2007–2009, 76 площадок в 18 графствах, 44 вида, частота встречаемости и урожай по типам леса, включая посадки ситхинской ели и лиственницы — https://www.coford.ie/media/coford/content/FORESTFUNGIFinalReport3251019.pdf",
+    "GBIF Occurrence API, country=IE — проверка ареала и порядка встречаемости для каждого спорного вида (например Tuber aestivum 0, Hericium erinaceus 0, Cortinarius caperatus 0, Tylopilus felleus 2, Gyromitra esculenta 0 — все отвергнуты) — https://api.gbif.org/v1/occurrence/search?country=IE&scientificName=Hydnum%20repandum&limit=0",
+    "Irish Times, «When mushroom picking, a little knowledge is a dangerous thing» (2019) — что реально собирают в ирландских лесах и кто: «Many, if not most, of the mushroom hunters ... in Irish woods this autumn will, I guess, not be Irish at all, but eastern European settlers» — https://www.irishtimes.com/news/environment/when-mushroom-picking-a-little-knowledge-is-a-dangerous-thing-1.4009113",
+    "Irish Times, «National helpline fields more than 100 calls over suspected mushroom poisoning» (2025) и «Authority warns over wild mushrooms» (2014) — данные National Poisons Information Centre по обращениям (19 случаев в 2014: 7 взрослых, 12 детей) — https://www.irishtimes.com/health/2025/07/08/national-helpline-fields-more-than-100-calls-over-suspected-mushroom-poisoning/",
+    "«Mushroom Hunting in Ireland: species, laws, foraging culture» (fungiatlas.com) — современная практика: посадки Coillte в Виклоу и Слив-Блум как основные места сбора, отсутствие в Ирландии государственной службы грибных контролёров, роль Irish Mycological Society — https://fungiatlas.com/mushrooms-in-ireland/",
+    "Northern Ireland Fungus Group, «Grassland Fungi», и Mark Wright, «Introduction to Grassland Fungi» (Great Irish Grasslands, 2023) — значение гигроцибовых лугов для острова и статус восковиков как индикаторов старого дерна — https://www.nifg.org.uk/waxcaps-and-other-grassland-fungi/",
+    "ireland-guide.com, «In Season in Ireland: Wild Mushrooms» — сезонность и стации полевого шампиньона, лугового опёнка и лесных видов в ирландской бытовой практике — https://www.ireland-guide.com/article/in-season---wild-mushrooms.11245.html"
+  ]
+}

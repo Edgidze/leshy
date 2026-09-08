@@ -1,17 +1,17 @@
 key	sci	en	de	fr	nl	el	es	it	sv	hr	sr	bg	tr	breadth	importance	dangerous	already_in
-agaricus_arvensis	Agaricus arvensis	Horse mushroom		Agaric des jachères	Gewone anijschampignon	Αγαρικό των αγρών			Snöbollschampinjon		Beli šampinjoni			narrow	5	no	AM,DK,FI,FR,GB,GR,IS,KG,KR,NL,NO,PT,RO,RS,SE,TJ,TM
+agaricus_arvensis	Agaricus arvensis	Horse mushroom	Schafchampignon	Agaric des jachères	Gewone anijschampignon	Αγαρικό των αγρών			Snöbollschampinjon		Beli šampinjoni			narrow	5	no	AM,BE,DK,FI,FR,GB,GR,IS,KG,KR,LU,NL,NO,PT,RO,RS,SE,TJ,TM
 agaricus_arvensis__2	Agaricus arvensis											Печурка		mid	5	no	BG
 agaricus_augustus	Agaricus augustus	The prince							Kungschampinjon				Şehzade mantarı	narrow	3	no	TR
 agaricus_bisporus	Agaricus bisporus	Button mushroom											Kültür mantarı	narrow	5	no	KR,TJ
 agaricus_bitorquis	Agaricus bitorquis				Straatchampignon								Doğal tarla mantarı	narrow	3	no	EE,NL,TJ,TM,UZ
 agaricus_campestris	Agaricus campestris	Yellow stainers	Champignon				Hongo de tierra							broad	5	yes	AM,AT,AZ,BY,EE,GE,HU,KG,KZ,LT,LV,MD,MX,NZ,PL,RU,SI,SK,TJ,UA,UZ
-agaricus_campestris__2	Agaricus campestris	Field mushroom	Wiesenchampignon	Rosé-des-prés	Gewone weidechampignon	Αγαρικό το πεδινό	Champiñón silvestre	Prataiolo		Poljska pečurka			İçi kızıl	narrow	5	no	AT,AU,CH,CZ,DE,DK,ES,FR,GB,GR,HR,IS,IT,NL,NO,PT,RO,TM,TR
+agaricus_campestris__2	Agaricus campestris	Field mushroom	Wiesenchampignon	Rosé-des-prés	Gewone weidechampignon	Αγαρικό το πεδινό	Champiñón silvestre	Prataiolo		Poljska pečurka			İçi kızıl	narrow	5	no	AT,AU,BE,CH,CZ,DE,DK,ES,FR,GB,GR,HR,IS,IT,LU,NL,NO,PT,RO,TM,TR
 agaricus_macrosporus	Agaricus macrosporus										Kračun			narrow	5	no	RS,TM
 agaricus_silvicola	Agaricus silvicola			Agaric anisé des bois			Champiñón de monte							narrow	3	no	MX
 agaricus_subrufescens	Agaricus subrufescens	Field mushrooms												broad	5	no	NZ
 agaricus_sylvaticus	Agaricus sylvaticus		Kleiner Waldchampignon											narrow	4	no	EE,GE,KG,RO,TJ
 agaricus_xanthoderma	Agaricus xanthoderma													narrow	5	yes	CZ
-agaricus_xanthodermus	Agaricus xanthodermus	Yellow stainer	Karbolchampignon	Agaric jaunissant	Karbolchampignon	Αγαρικό το ξανθόδερμο	Agárico amarilleante	Falsi prataioli	Giftchampinjon	Otrovna pečurka	Otrovni šampinjon	Карболова печурка		narrow	5	yes	AM,AT,AU,AZ,BG,CH,DE,DK,ES,FR,GB,GR,HR,HU,IT,KG,KZ,MD,NL,NO,PL,PT,RO,RS,SI,SK,TJ,TM,UA,UZ
+agaricus_xanthodermus	Agaricus xanthodermus	Yellow stainer	Karbolchampignon	Agaric jaunissant	Karbolchampignon	Αγαρικό το ξανθόδερμο	Agárico amarilleante	Falsi prataioli	Giftchampinjon	Otrovna pečurka	Otrovni šampinjon	Карболова печурка		narrow	5	yes	AM,AT,AU,AZ,BE,BG,CH,DE,DK,ES,FR,GB,GR,HR,HU,IT,KG,KZ,LU,MD,NL,NO,PL,PT,RO,RS,SI,SK,TJ,TM,UA,UZ
 albatrellus_ovinus	Albatrellus ovinus	Sheep polypore	Schafporling	Polypore des brebis				Fungo del pane	Fårticka	Ovčje vime				narrow	4	no	CA,CH,EE,FI,HR,LV,NO,SE,SI
 amanita_amerivirosa	Amanita amerivirosa	Destroying angel		Amanite vireuse										mid	5	yes	CA
 amanita_arocheae	Amanita arocheae													narrow	4	yes	MX
@@ -22,55 +22,55 @@ amanita_bisporigera	Amanita bisporigera	Destroying angel												broad	5	yes	
 amanita_caesarea	Amanita caesarea		Kaiserling	Oronge		Καισαρικό	Oronja	Ovolo buono		Blagva	Blagva	Булка гъба	Duvaklıca	narrow	5	no	AM,AZ,BG,CH,ES,FR,GE,GR,HR,IT,MD,PT,RO,RS,TR
 amanita_caesareoides	Amanita caesareoides													narrow	4	no	JP
 amanita_chrysoblema	Amanita chrysoblema	Fly agaric												mid	5	yes	US
-amanita_citrina	Amanita citrina			Amanite citrine	Gele knolamaniet									narrow	4	yes	GE,HU,LT,MD,NL,PL
+amanita_citrina	Amanita citrina			Amanite citrine	Gele knolamaniet									narrow	4	yes	BE,GE,HU,LT,MD,NL,PL
 amanita_fulva	Amanita fulva	Tawny grisette					Señoritas							narrow	3	no	MX
 amanita_gemmata	Amanita gemmata				Narcisamaniet									narrow	3	yes	NL,PT,SK
 amanita_hemibapha	Amanita hemibapha													narrow	4	no	KR
-amanita_muscaria	Amanita muscaria	Fly agaric	Fliegenpilz	Amanite tue-mouches	Vliegenzwam	Αμανίτης ο μυγοκτόνος	Mata moscas	Fungo di Cappuccetto rosso	Röd flugsvamp	Muhara	Muhara	Червена мухоморка	Sinek mantarı	narrow	5	yes	AM,AT,AU,AZ,BG,BY,CA,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IS,IT,JP,KG,KZ,LT,LV,MD,MX,NL,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TR,UA,UZ
+amanita_muscaria	Amanita muscaria	Fly agaric	Fliegenpilz	Amanite tue-mouches	Vliegenzwam	Αμανίτης ο μυγοκτόνος	Mata moscas	Fungo di Cappuccetto rosso	Röd flugsvamp	Muhara	Muhara	Червена мухоморка	Sinek mantarı	narrow	5	yes	AM,AT,AU,AZ,BE,BG,BY,CA,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IS,IT,JP,KG,KZ,LT,LU,LV,MD,MX,NL,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TR,UA,UZ
 amanita_novinupta	Amanita novinupta						Dieguito							mid	4	no	MX
 amanita_ovoidea	Amanita ovoidea					Αμανίτης ο αβγοειδής		Farinaccio		Jajasta pupavka				narrow	4	yes	GR,IT,PT
-amanita_pantherina	Amanita pantherina	Panther cap	Pantherpilz	Amanite panthère	Panteramaniet	Αμανίτης ο πάνθηρας	Amanita pantera	Tignosa tigrata	Panterflugsvamp	Panterova muhara	Panterovka	Пантерка	Panter mantarı	narrow	5	yes	AM,AT,AZ,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IT,JP,KG,KR,KZ,LT,LV,MD,MX,NL,NO,PL,PT,RS,RU,SE,SI,SK,TJ,UA,UZ
+amanita_pantherina	Amanita pantherina	Panther cap	Pantherpilz	Amanite panthère	Panteramaniet	Αμανίτης ο πάνθηρας	Amanita pantera	Tignosa tigrata	Panterflugsvamp	Panterova muhara	Panterovka	Пантерка	Panter mantarı	narrow	5	yes	AM,AT,AZ,BE,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IT,JP,KG,KR,KZ,LT,LU,LV,MD,MX,NL,NO,PL,PT,RS,RU,SE,SI,SK,TJ,UA,UZ
 amanita_pantherinoides	Amanita pantherinoides	Panther amanitas		Amanite panthérinoïde										narrow	5	yes	CA,US
-amanita_phalloides	Amanita phalloides	Death cap	Grüner Knollenblätterpilz	Amanite phalloïde	Groene knolamaniet	Θανατίτης	Oronja verde	Tignosa verdognola	Lömsk flugsvamp	Zelena pupavka	Zelena pupavka	Зелена мухоморка	Köygöçüren mantarı	narrow	5	yes	AM,AT,AU,AZ,BG,BY,CA,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IT,KG,KR,KZ,LT,LV,MD,NL,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TR,UA,US,UZ
+amanita_phalloides	Amanita phalloides	Death cap	Grüner Knollenblätterpilz	Amanite phalloïde	Groene knolamaniet	Θανατίτης	Oronja verde	Tignosa verdognola	Lömsk flugsvamp	Zelena pupavka	Zelena pupavka	Зелена мухоморка	Köygöçüren mantarı	narrow	5	yes	AM,AT,AU,AZ,BE,BG,BY,CA,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IT,KG,KR,KZ,LT,LU,LV,MD,NL,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TR,UA,US,UZ
 amanita_ponderosa	Amanita ponderosa						Gurumelo							narrow	5	no	ES,PT
 amanita_regalis	Amanita regalis								Brun flugsvamp					narrow	4	yes	FI,LV,NO,SE
-amanita_rubescens	Amanita rubescens	Blusher	Perlpilz	Golmotte	Parelamaniet	Αμανίτης ο κοκκινίζων		Tignosa vinata		Biserka	Biserke	Бисерна гъба		narrow	5	no	AT,AZ,BG,CH,CZ,DE,DK,FR,GE,GR,HR,HU,KR,MD,NL,PT,RS,SI,SK
+amanita_rubescens	Amanita rubescens	Blusher	Perlpilz	Golmotte	Parelamaniet	Αμανίτης ο κοκκινίζων		Tignosa vinata		Biserka	Biserke	Бисерна гъба		narrow	5	no	AT,AZ,BE,BG,CH,CZ,DE,DK,FR,GE,GR,HR,HU,KR,LU,MD,NL,PT,RS,SI,SK
 amanita_smithiana	Amanita smithiana	Smith’s amanita		Amanite de smith										narrow	5	yes	CA,US
 amanita_subjunquillea	Amanita subjunquillea													narrow	5	yes	JP,KR
 amanita_vaginata	Amanita vaginata			Grisette						Preslice	Siva preslica		Meşe mantarı	narrow	4	no	AZ,FR,IS,MD,RU,SI,TR
 amanita_verna	Amanita verna		Frühlingsknollenblätterpilz			Αμανίτης ο εαρινός	Cicuta blanca			Bijela pupavka		Бяла мухоморка		narrow	5	yes	BG,ES,GR,HR,HU,JP,KG,KR,PT,SK,UZ
-amanita_virosa	Amanita virosa	Destroying angel	Kegelhütiger Knollenblätterpilz	Amanite vireuse				Tignosa bianca	Vit flugsvamp	Smrdljiva pupavka		Бяла леплива мухоморка		narrow	5	yes	AT,BG,BY,CH,DE,DK,EE,FI,FR,GB,HR,IT,JP,KR,KZ,LT,LV,NO,PL,RU,SE,SI,SK,UA
+amanita_virosa	Amanita virosa	Destroying angel	Kegelhütiger Knollenblätterpilz	Amanite vireuse	Kleverige knolamaniet			Tignosa bianca	Vit flugsvamp	Smrdljiva pupavka		Бяла леплива мухоморка		narrow	5	yes	AT,BE,BG,BY,CH,DE,DK,EE,FI,FR,GB,HR,IT,JP,KR,KZ,LT,LU,LV,NO,PL,RU,SE,SI,SK,UA
 amanita_xanthocephala	Amanita xanthocephala	Vermilion grisette												narrow	4	no	AU
 anthracophyllum_archeri	Anthracophyllum archeri	Orange fan												narrow	4	no	AU,NZ
 anthurus_archeri	Anthurus archeri	Octopus stinkhorn												narrow	4	no	NZ
 armillaria_borealis	Armillaria borealis								Honungsskivling					mid	5	no	FI
 armillaria_luteobubalina	Armillaria luteobubalina	Australian honey fungus												narrow	4	no	AU
-armillaria_mellea	Armillaria mellea	Honey mushroom	Hallimasch	Armillaire couleur de miel	Echte honingzwam	Κουτσουρομανίτης	Montoncitos	Chiodini		Puze	Puze	Обикновена пънчушка		mid	5	no	AM,AT,AZ,BG,BY,CA,CH,CZ,DE,DK,EE,GB,GE,GR,HR,HU,IS,IT,JP,KG,KZ,LT,LV,MD,MX,NL,PL,PT,RO,RS,RU,SI,SK,TJ,TM,UA,US
+armillaria_mellea	Armillaria mellea	Honey mushroom	Hallimasch	Armillaire couleur de miel	Echte honingzwam	Κουτσουρομανίτης	Montoncitos	Chiodini		Puze	Puze	Обикновена пънчушка		mid	5	no	AM,AT,AZ,BE,BG,BY,CA,CH,CZ,DE,DK,EE,GB,GE,GR,HR,HU,IS,IT,JP,KG,KZ,LT,LU,LV,MD,MX,NL,PL,PT,RO,RS,RU,SI,SK,TJ,TM,UA,US
 armillaria_novae_zelandiae	Armillaria novae-zelandiae	Austral honey mushroom												narrow	4	no	NZ
 aseroe_rubra	Aseroe rubra	Anemone stinkhorn												narrow	4	no	AU,NZ
 astraeus_hygrometricus	Astraeus hygrometricus	Barometer earthstar												narrow	4	no	AU
 auricularia_americana	Auricularia americana	Wood ears					Oreja de palo							broad	4	no	JP,KR,MX
-auricularia_auricula_judae	Auricularia auricula-judae	Jelly ear	Judasohr	Oreille de Judas	Echt judasoor		Oreja de Judas			Judino uho	Judino uvo		Kulak mantarı	narrow	4	no	CZ,DK,GB,HR,HU,MD,NL,TJ,UA,UZ
+auricularia_auricula_judae	Auricularia auricula-judae	Jelly ear	Judasohr	Oreille de Judas	Echt judasoor		Oreja de Judas			Judino uho	Judino uvo		Kulak mantarı	narrow	4	no	BE,CZ,DK,GB,HR,HU,MD,NL,TJ,UA,UZ
 auricularia_cornea	Auricularia cornea	Wood ear												mid	5	no	NZ
 boletaceae	Boletaceae													broad	5	no	EE
 boletellus_obscurecoccineus	Boletellus obscurecoccineus	Rhubarb bolete												narrow	4	no	AU
 boletopsis_leucomelaena	Boletopsis leucomelaena													narrow	3	no	KR
-boletus_aereus	Boletus aereus		Schwarzhütiger Steinpilz	Cèpe bronzé		Βωλίτης ο χάλκειος	Boleto negro	Porcino nero			Crni vrganj			narrow	5	no	AZ,CH,ES,FR,GR,PT,RO,RS
+boletus_aereus	Boletus aereus		Schwarzhütiger Steinpilz	Cèpe bronzé		Βωλίτης ο χάλκειος	Boleto negro	Porcino nero			Crni vrganj			narrow	5	no	AZ,CH,ES,FR,GR,LU,PT,RO,RS
 boletus_aestivalis	Boletus aestivalis			Cèpe d’été										narrow	5	no	FR
-boletus_edulis	Boletus edulis	Porcini	Steinpilz	Cèpe de Bordeaux	Gewoon eekhoorntjesbrood	Βασιλομανίταρο	Boleto comestible	Porcini	Stensopp	Vrganj	Vrganj	Манатарка	Ayı mantarı	mid	5	no	AM,AT,AZ,BG,BY,CA,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IS,IT,KG,KZ,LT,LV,MD,MX,NL,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TR,UA,US
+boletus_edulis	Boletus edulis	Porcini	Steinpilz	Cèpe de Bordeaux	Gewoon eekhoorntjesbrood	Βασιλομανίταρο	Boleto comestible	Porcini	Stensopp	Vrganj	Vrganj	Манатарка	Ayı mantarı	mid	5	no	AM,AT,AZ,BE,BG,BY,CA,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IS,IT,KG,KZ,LT,LU,LV,MD,MX,NL,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TR,UA,US
 boletus_pinophilus	Boletus pinophilus		Kiefernsteinpilz	Cèpe des pins		Βωλίτης ο πευκόφιλος	Boleto de pino		Rödbrun stensopp		Borov vrganj			narrow	5	no	ES,FR,GR,PT,RS,SE
-boletus_reticulatus	Boletus reticulatus		Sommersteinpilz			Βωλίτης ο δικτυωτός	Boleto reticulado		Finluden stensopp		Prolećni vrganj			narrow	5	no	AZ,CZ,ES,GR,PT,RS,SE
+boletus_reticulatus	Boletus reticulatus		Sommersteinpilz	Cèpe d’été		Βωλίτης ο δικτυωτός	Boleto reticulado		Finluden stensopp		Prolećni vrganj			narrow	5	no	AZ,CZ,ES,GR,LU,PT,RS,SE
 boletus_sp	Boletus sp.													broad	4	no	KR
 bovista_nigrescens	Bovista nigrescens													broad	4	no	GE,IS
 bovista_plumbea	Bovista plumbea		Bovist										Puf mantarı	broad	3	no	AM,TJ,TM,TR,UZ
 bovista_sp	Bovista sp.													broad	3	no	PL
 bovistella_utriformis	Bovistella utriformis													mid	3	no	HU
 caloboletus_calopus	Caloboletus calopus		Schönfußröhrling											narrow	3	yes	AZ,DE,SI
-calocybe_gambosa	Calocybe gambosa	St George’s mushroom	Mairitterling	Tricholome de la Saint-Georges		Αγιωργίτικο	Seta de San Jorge	Prugnolo	Vårmusseron	Đurđevača	Đurđevača	Майска гъба	Cincile	narrow	5	no	AM,AT,AZ,BG,CH,CZ,DE,DK,ES,FR,GB,GE,GR,HR,HU,IT,KG,KZ,LT,MD,RO,RS,SI,SK,TJ,TM,TR,UA,UZ
+calocybe_gambosa	Calocybe gambosa	St George’s mushroom	Mairitterling	Tricholome de la Saint-Georges	Voorjaarspronkridder	Αγιωργίτικο	Seta de San Jorge	Prugnolo	Vårmusseron	Đurđevača	Đurđevača	Майска гъба	Cincile	narrow	5	no	AM,AT,AZ,BE,BG,CH,CZ,DE,DK,ES,FR,GB,GE,GR,HR,HU,IT,KG,KZ,LT,LU,MD,RO,RS,SI,SK,TJ,TM,TR,UA,UZ
 calostoma_fuscum	Calostoma fuscum	Common prettymouth												narrow	4	no	AU
 calvatia_cyathiformis	Calvatia cyathiformis						Bolitas de llano							broad	4	no	MX,TM
-calvatia_gigantea	Calvatia gigantea	Giant puffball	Riesenbovist	Vesse-de-loup géante	Reuzenbovist			Vescia gigante		Golema puhara	Velika puhara			narrow	5	no	AM,AT,CA,CZ,DE,DK,EE,GB,HR,HU,IT,KG,KZ,LT,LV,MD,NL,NZ,RO,RS,SK,TJ,TM,UA,US,UZ
-cantharellus_cibarius	Cantharellus cibarius	Chanterelle	Pfifferling	Girolle	Hanenkam	Κανθαρέλλα	Flores	Finferlo	Kantarell	Lisičice	Lisičarka	Пачи крак	Sarı mantar	mid	5	no	AM,AT,AZ,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IS,IT,KG,KR,KZ,LT,LV,MD,MX,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TR,UA
+calvatia_gigantea	Calvatia gigantea	Giant puffball	Riesenbovist	Vesse-de-loup géante	Reuzenbovist			Vescia gigante		Golema puhara	Velika puhara			narrow	5	no	AM,AT,BE,CA,CZ,DE,DK,EE,GB,HR,HU,IT,KG,KZ,LT,LV,MD,NL,NZ,RO,RS,SK,TJ,TM,UA,US,UZ
+cantharellus_cibarius	Cantharellus cibarius	Chanterelle	Pfifferling	Girolle	Hanenkam	Κανθαρέλλα	Flores	Finferlo	Kantarell	Lisičice	Lisičarka	Пачи крак	Sarı mantar	mid	5	no	AM,AT,AZ,BE,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IS,IT,KG,KR,KZ,LT,LU,LV,MD,MX,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TR,UA
 cantharellus_cinnabarinus	Cantharellus cinnabarinus	Red chanterelles												narrow	3	no	US
 cantharellus_enelensis	Cantharellus enelensis	Chanterelle		Chanterelle										mid	5	no	CA
 cantharellus_pallens	Cantharellus pallens								Blek kantarell					narrow	4	no	SE
@@ -81,7 +81,7 @@ chalciporus_piperatus	Chalciporus piperatus													narrow	4	no	BY,IS,LT
 chlorophyllum_brunneum	Chlorophyllum brunneum	Shaggy parasol	Garten-Safranschirmling	Lépiote vénéneuse										narrow	5	yes	AU,CH,HU,TJ,TM
 chlorophyllum_molybdites	Chlorophyllum molybdites	Green-spored parasol												narrow	5	yes	AU,JP,KR,US
 chlorophyllum_neomastoideum	Chlorophyllum neomastoideum													narrow	4	yes	KR
-chlorophyllum_rhacodes	Chlorophyllum rhacodes	Shaggy parasol		Lépiote déguenillée	Gewone knolparasolzwam			Falsa mazza di tamburo	Rodnande fjällskivling		Čupava sunčanica			mid	4	yes	AZ,CA,DK,EE,GB,IT,LV,NL,NZ,PT,RS,SK,US
+chlorophyllum_rhacodes	Chlorophyllum rhacodes	Shaggy parasol	Gemeiner Safranschirmling	Lépiote déguenillée	Gewone knolparasolzwam			Falsa mazza di tamburo	Rodnande fjällskivling		Čupava sunčanica			mid	4	yes	AZ,BE,CA,DK,EE,GB,IT,LU,LV,NL,NZ,PT,RS,SK,US
 chroogomphus_rutilus	Chroogomphus rutilus									Borov čavlić			Çam kabara	narrow	3	no	HR,MD,TR
 clathrus_archeri	Clathrus archeri	Seastar stinkhorn												narrow	4	no	AU
 claustula_fischeri	Claustula fischeri	Bunyip egg												narrow	4	no	AU
@@ -90,31 +90,31 @@ clavogaster_virescens	Clavogaster virescens	Blue pouch fungus												narrow	
 clavulinopsis_sulcata	Clavulinopsis sulcata	Flame fungus												mid	3	no	NZ
 clitocybe_dealbata	Clitocybe dealbata										Otrovna brašnjača			narrow	5	yes	AM,RO,RS,SI
 clitocybe_gibba	Clitocybe gibba						Oreja							narrow	4	no	MX
-clitocybe_nebularis	Clitocybe nebularis			Clitocybe nébuleux	Nevelzwam			Fungo delle nebbie						narrow	4	yes	FR,HU,IT,NL,SK
+clitocybe_nebularis	Clitocybe nebularis			Clitocybe nébuleux	Nevelzwam			Fungo delle nebbie						narrow	4	yes	BE,FR,HU,IT,NL,SK
 clitocybe_nuda	Clitocybe nuda	Wood blewit												narrow	4	no	NZ
-clitocybe_rivulosa	Clitocybe rivulosa	Fool’s funnel			Giftige weidetrechterzwam		Clitocibe blanco		Gifttrattskivling					narrow	5	yes	DK,ES,GB,GR,HU,IS,NL,TJ,TM,UZ
-clitopilus_prunulus	Clitopilus prunulus			Meunier				Prugnolo		Obična brašnjača	Brašnjača			narrow	4	no	BY,FR,GE,HR,RS,SI
+clitocybe_rivulosa	Clitocybe rivulosa	Fool’s funnel	Rinnigbereifter Trichterling	Clitocybe du bord des routes	Giftige weidetrechterzwam		Clitocibe blanco		Gifttrattskivling					narrow	5	yes	BE,DK,ES,GB,GR,HU,IS,LU,NL,TJ,TM,UZ
+clitopilus_prunulus	Clitopilus prunulus			Meunier	Grote molenaar			Prugnolo		Obična brašnjača	Brašnjača			narrow	4	no	BE,BY,FR,GE,HR,RS,SI
 collybia_nuda	Collybia nuda	Blewit	Violetter Rötelritterling	Pied bleu									Mor cincile	narrow	4	no	AM,AZ,CA,DE,JP,MD,PL,SK,TM,TR,US
 collybia_nuda__2	Collybia nuda													mid	4	no	GE
 collybia_personata	Collybia personata												Mor bacak mantarı	narrow	3	no	TR
 conocybe_filaris	Conocybe filaris	Fool’s conecap												narrow	4	yes	GB
 coprinellus_micaceus	Coprinellus micaceus												Mürekkep mantarı	narrow	3	yes	TM,TR
-coprinopsis_atramentaria	Coprinopsis atramentaria	Alcohol inky	Grauer Faltentintling		Grote kale inktzwam				Grå bläcksvamp		Sivi jarčić			narrow	4	yes	EE,GB,GE,IS,KG,KR,LV,NL,SK,TJ,TM,US,UZ
-coprinus_comatus	Coprinus comatus	Shaggy mane	Schopftintling	Coprin chevelu	Geschubde inktzwam	Κοπρίνος ο κομήτης	Barbuda	Agarico chiomato	Fjällig bläcksvamp	Velika gnojištarka	Gnojištarke	Порцеланова копринка	Söbelen mantarı	narrow	5	no	AM,AT,AU,AZ,BG,BY,CA,CH,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,IS,IT,KG,KR,KZ,LV,MD,NL,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TM,TR,UA,US,UZ
+coprinopsis_atramentaria	Coprinopsis atramentaria	Alcohol inky	Grauer Faltentintling	Coprin noir d’encre	Grote kale inktzwam				Grå bläcksvamp		Sivi jarčić			narrow	4	yes	BE,EE,GB,GE,IS,KG,KR,LV,NL,SK,TJ,TM,US,UZ
+coprinus_comatus	Coprinus comatus	Shaggy mane	Schopftintling	Coprin chevelu	Geschubde inktzwam	Κοπρίνος ο κομήτης	Barbuda	Agarico chiomato	Fjällig bläcksvamp	Velika gnojištarka	Gnojištarke	Порцеланова копринка	Söbelen mantarı	narrow	5	no	AM,AT,AU,AZ,BE,BG,BY,CA,CH,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,IS,IT,KG,KR,KZ,LU,LV,MD,NL,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TM,TR,UA,US,UZ
 coprinus_sp	Coprinus sp.		Tintling											broad	3	no	EE
 cordyceps_militaris	Cordyceps militaris													mid	4	no	KR
 cortinarius_austrovenetus	Cortinarius austrovenetus	Green skinhead												narrow	4	no	AU
 cortinarius_caperatus	Cortinarius caperatus	Gypsy mushroom	Reifpilz	Pholiote ridée				Caperata	Rimskivling	Ciganček		Скрежовка		narrow	5	no	AT,BG,BY,CH,EE,FI,FR,HR,IT,JP,LT,NO,PL,RU,SE,SI,UA
 cortinarius_mucosus	Cortinarius mucosus													narrow	3	no	EE
-cortinarius_orellanus	Cortinarius orellanus		Orangefuchsiger Raukopf	Cortinaire couleur de rocou		Κορτινάριος ο ορελλάνιος	Cortinario mortal	Cortinario orellano	Orangebrun giftspindling					narrow	5	yes	AT,CH,CZ,DE,ES,FR,GR,HU,IT,LT,NO,RO,SK
+cortinarius_orellanus	Cortinarius orellanus		Orangefuchsiger Raukopf	Cortinaire couleur de rocou		Κορτινάριος ο ορελλάνιος	Cortinario mortal	Cortinario orellano	Orangebrun giftspindling					narrow	5	yes	AT,CH,CZ,DE,ES,FR,GR,HU,IT,LT,LU,NO,RO,SK
 cortinarius_porphyroideus	Cortinarius porphyroideus	Purple pouch fungus												narrow	4	no	NZ
 cortinarius_rotundisporus	Cortinarius rotundisporus	Elegant blue webcap												narrow	4	no	AU
 cortinarius_rubellus	Cortinarius rubellus	Deadly webcap							Toppig giftspindling					narrow	5	yes	DK,EE,FI,GB,LT,LV,NO,SE,US
 cortinarius_sp	Cortinarius sp.													broad	4	yes	EE,IS
-craterellus_cornucopioides	Craterellus cornucopioides		Herbsttrompete	Trompette-des-morts		Μαύρη τρομπέτα	Trompeta de los muertos	Trombetta dei morti	Svart trumpetsvamp	Mrka trubača	Mrka truba	Тръбенка	Borazan mantarı	narrow	5	no	AM,AT,BG,CH,CZ,DE,DK,EE,ES,FI,FR,GE,GR,HR,HU,IT,LT,LV,NO,PL,PT,RO,RS,SE,SI,SK,TR,UA
+craterellus_cornucopioides	Craterellus cornucopioides		Herbsttrompete	Trompette-des-morts	Hoorn des overvloeds	Μαύρη τρομπέτα	Trompeta de los muertos	Trombetta dei morti	Svart trumpetsvamp	Mrka trubača	Mrka truba	Тръбенка	Borazan mantarı	narrow	5	no	AM,AT,BE,BG,CH,CZ,DE,DK,EE,ES,FI,FR,GE,GR,HR,HU,IT,LT,LU,LV,NO,PL,PT,RO,RS,SE,SI,SK,TR,UA
 craterellus_fallax	Craterellus fallax	Black trumpet		Trompette des morts										mid	4	no	CA,US
 craterellus_lutescens	Craterellus lutescens			Chanterelle jaune		Χρυσή τρομπέτα	Trompeta amarilla	Finferle	Rödgul trumpetsvamp					narrow	4	no	ES,FI,FR,GR,IT,NO,SE
-craterellus_tubaeformis	Craterellus tubaeformis	Winter chanterelle	Trompeten-Pfifferling	Chanterelle en tube	Trechtercantharel			Finferla	Trattkantarell				Civciv ayağı	narrow	5	no	CA,CH,CZ,DE,DK,FI,FR,GB,LV,NL,NO,RU,SE,TR,US
+craterellus_tubaeformis	Craterellus tubaeformis	Winter chanterelle	Trompeten-Pfifferling	Chanterelle en tube	Trechtercantharel			Finferla	Trattkantarell				Civciv ayağı	narrow	5	no	BE,CA,CH,CZ,DE,DK,FI,FR,GB,LU,LV,NL,NO,RU,SE,TR,US
 crucibulum_simile	Crucibulum simile	Common bird’s nest fungus												narrow	3	no	NZ
 cruentomycena_viscidocruenta	Cruentomycena viscidocruenta	Ruby bonnet												narrow	4	no	AU
 cuphophyllus_pratensis	Cuphophyllus pratensis									Livadna vlažnica		Есенна ливадна гъба		narrow	3	no	BG,IS
@@ -133,15 +133,15 @@ entoloma_hochstetteri	Entoloma hochstetteri	Blue pinkgill												narrow	5	no
 entoloma_rhodopolium	Entoloma rhodopolium													narrow	5	yes	JP,KR,MD
 entoloma_sarcopum	Entoloma sarcopum													narrow	5	no	JP
 entoloma_sepium	Entoloma sepium									Voćnjačka rudoliska	Bela šljivovača			narrow	4	no	RS
-entoloma_sinuatum	Entoloma sinuatum		Riesenrötling	Entolome livide		Εντόλωμα το κολπωτό	La engañosa	Entoloma livido			Olovasta rudoliska	Отровна сливовка	Sahte cincile	narrow	5	yes	AM,AZ,BG,CH,DK,ES,FR,GR,HU,IT,KG,KZ,MD,NO,PT,RO,RS,SI,TJ,TM,TR,UZ
+entoloma_sinuatum	Entoloma sinuatum		Riesenrötling	Entolome livide	Giftige satijnzwam	Εντόλωμα το κολπωτό	La engañosa	Entoloma livido			Olovasta rudoliska	Отровна сливовка	Sahte cincile	narrow	5	yes	AM,AZ,BE,BG,CH,DK,ES,FR,GR,HU,IT,KG,KZ,LU,MD,NO,PT,RO,RS,SI,TJ,TM,TR,UZ
 favolaschia_claudopus	Favolaschia claudopus	Orange pore fungus												mid	4	no	NZ
-fistulina_hepatica	Fistulina hepatica	Beefsteak fungus		Langue de bœuf	Biefstukzwam	Βοϊδόγλωσσα	Lengua de buey			Jetrenka	Jetrenjače	Чернодробна гъба		narrow	4	no	AU,BG,GB,GE,GR,HR,MD,NL,PT,US
+fistulina_hepatica	Fistulina hepatica	Beefsteak fungus		Langue de bœuf	Biefstukzwam	Βοϊδόγλωσσα	Lengua de buey			Jetrenka	Jetrenjače	Чернодробна гъба		narrow	4	no	AU,BE,BG,GB,GE,GR,HR,MD,NL,PT,US
 flammulina_velutipes	Flammulina velutipes	Velvet shank	Samtfußrübling		Gewoon fluweelpootje					Baršunasta panjevka	Zimska panjevica	Зимна припънка	Kış mantarı	narrow	5	no	AM,AT,AZ,BG,BY,CZ,DE,DK,GB,HR,HU,JP,KR,KZ,LV,MD,NL,NZ,RS,RU,SI,TJ,TM,TR,UA,UZ
 fomes_fomentarius	Fomes fomentarius	Hoof fungus		Amadouvier					Fnöskticka		Trud	Праханова гъба	Kav mantarı	narrow	4	no	AM,CA,GB,GE,LT,TJ,UZ
 fomitiporia_robusta	Fomitiporia robusta	Robust bracket												narrow	2	no	NZ
 fomitopsis_betulina	Fomitopsis betulina	Birch polypore		Polypore du bouleau					Björkticka		Brezina guba			narrow	4	no	CA,GB,UZ
 fomitopsis_mounceae	Fomitopsis mounceae	Red-belted conk		Polypore marginé										mid	4	no	CA
-galerina_marginata	Galerina marginata	Deadly Galerina	Gifthäubling	Galère marginée	Bundelmosklokje	Γαλερίνα η χειλοφόρα	Galerina rebordeada		Gifthätting		Mala smrt	Отровна галерина		narrow	5	yes	AM,AT,AZ,BG,BY,CA,CH,CZ,DE,DK,ES,FI,FR,GB,GR,HU,IS,KZ,LT,LV,MD,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TJ,UA,US,UZ
+galerina_marginata	Galerina marginata	Deadly Galerina	Gifthäubling	Galère marginée	Bundelmosklokje	Γαλερίνα η χειλοφόρα	Galerina rebordeada		Gifthätting		Mala smrt	Отровна галерина		narrow	5	yes	AM,AT,AZ,BE,BG,BY,CA,CH,CZ,DE,DK,ES,FI,FR,GB,GR,HU,IS,KZ,LT,LU,LV,MD,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TJ,UA,US,UZ
 ganoderma_applanatum	Ganoderma applanatum	Artist’s conk		Ganoderme aplani							Pljosnata sjajnica			narrow	4	no	CA,UZ
 ganoderma_lingzhi	Ganoderma lingzhi													mid	4	no	KR
 ganoderma_oerstedii	Ganoderma oerstedii						Oreja de pino							narrow	3	no	MX
@@ -151,11 +151,11 @@ geastrum_fornicatum	Geastrum fornicatum	Arched earthstar												narrow	4	no	
 gliophorus_sp	Gliophorus sp.	Waxgills												broad	4	no	NZ
 gomphidius_glutinosus	Gomphidius glutinosus		Großer Schmierling							Veliki slinar		Сив овчи нос		narrow	3	no	BG,CZ,DE,EE,HR,IS,NO,RU,SI
 gomphus_clavatus	Gomphus clavatus	Pig’s ears	Schweinsohr	Gomphe clavé										narrow	4	no	CA,CH
-grifola_frondosa	Grifola frondosa	Hen of the woods	Gemeiner Klapperschwamm	Maitaké	Eikhaas					Zečarka	Zec gljiva	Листовидна грифола	Çalık	narrow	5	no	CA,GB,HR,JP,KR,NL,TR,US,UZ
+grifola_frondosa	Grifola frondosa	Hen of the woods	Gemeiner Klapperschwamm	Maitaké	Eikhaas					Zečarka	Zec gljiva	Листовидна грифола	Çalık	narrow	5	no	BE,CA,GB,HR,JP,KR,NL,TR,US,UZ
 guepinia_helvelloides	Guepinia helvelloides									Crvenkasta hladetina				narrow	3	no	HR
 gymnopilus_junonius	Gymnopilus junonius	Spectacular rustgill												narrow	4	no	AU
 gymnopus_dryophilus	Gymnopus dryophilus						Gringa							mid	3	no	MX
-gyromitra_esculenta	Gyromitra esculenta	False morel	Frühjahrslorchel	Gyromitre			Bonete	Falsa spugnola	Stenmurkla	Proljetna moždanica	Hrčci	Обикновена дипленка	Kuzugöbeği ebesi	narrow	5	yes	AM,AT,AZ,BY,CH,CZ,DE,DK,EE,ES,FI,FR,GR,HU,IT,LT,NO,PL,RO,RS,SE,SK,TM,TR,UA,UZ
+gyromitra_esculenta	Gyromitra esculenta	False morel	Frühjahrslorchel	Gyromitre			Bonete	Falsa spugnola	Stenmurkla	Proljetna moždanica	Hrčci	Обикновена дипленка	Kuzugöbeği ebesi	narrow	5	yes	AM,AT,AZ,BY,CH,CZ,DE,DK,EE,ES,FI,FR,GR,HU,IT,LT,LU,NO,PL,RO,RS,SE,SK,TM,TR,UA,UZ
 gyromitra_esculenta__2	Gyromitra esculenta	False morel		Fausse morille										broad	5	yes	CA,KG,KZ,LV,RU,TJ,US
 gyroporus_castaneus	Gyroporus castaneus	Chestnut bolete								Kestenjasta šupljonoška				narrow	3	no	HR,LT,US
 gyroporus_cyanescens	Gyroporus cyanescens	Cornflower bolete								Plaveća šupljonoška				narrow	4	no	HR,LV,PL,US
@@ -167,11 +167,11 @@ hericium_coralloides	Hericium coralloides	Coral tooth									Bukova brada		Dede
 hericium_erinaceus	Hericium erinaceus	Lion’s mane										Игловиден корал	Aslan yelesi	narrow	5	no	JP,KR,US
 hericium_novae_zealandiae	Hericium novae-zealandiae	New Zealand lion’s mane												narrow	5	no	NZ
 hydnopolyporus_fimbriatus	Hydnopolyporus fimbriatus													narrow	3	no	MX
-hydnum_repandum	Hydnum repandum	Hedgehog fungus	Semmelstoppelpilz	Pied de mouton	Gele stekelzwam	Αγκαθάκι	Lengua de vaca	Steccherino dorato	Blek taggsvamp	Prosenjaci	Ježevice	Жълта рогачка	Sığır dili mantarı	mid	5	no	AM,AT,AZ,BG,BY,CA,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GR,HR,HU,IS,IT,MD,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TR,UA
+hydnum_repandum	Hydnum repandum	Hedgehog fungus	Semmelstoppelpilz	Pied de mouton	Gele stekelzwam	Αγκαθάκι	Lengua de vaca	Steccherino dorato	Blek taggsvamp	Prosenjaci	Ježevice	Жълта рогачка	Sığır dili mantarı	mid	5	no	AM,AT,AZ,BE,BG,BY,CA,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GR,HR,HU,IS,IT,LU,MD,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TR,UA
 hydnum_rufescens	Hydnum rufescens					Κόκκινο αγκαθάκι			Rödgul taggsvamp			Оранжева рогачка		narrow	4	no	BG,FI,GR,NO,PT,SE
 hydnum_sp	Hydnum sp.	Hedgehog mushrooms												broad	4	no	LT,LV,US
 hygrocybe_conica	Hygrocybe conica	Waxcaps		Hygrocybes										broad	3	no	GB
-hygrophoropsis_aurantiaca	Hygrophoropsis aurantiaca	False chanterelle	Falscher Pfifferling	Fausse-girolle	Valse hanenkam		Membrillo	Falso gallinaccio	Narrkantarell			Лъжлив пачи крак		narrow	4	yes	AT,AZ,BG,BY,CA,CH,DE,DK,EE,FI,FR,GB,GR,KG,KZ,LV,MD,NL,NO,PL,PT,RU,SE,UA,US
+hygrophoropsis_aurantiaca	Hygrophoropsis aurantiaca	False chanterelle	Falscher Pfifferling	Fausse-girolle	Valse hanenkam		Membrillo	Falso gallinaccio	Narrkantarell			Лъжлив пачи крак		narrow	4	yes	AT,AZ,BE,BG,BY,CA,CH,DE,DK,EE,FI,FR,GB,GR,KG,KZ,LU,LV,MD,NL,NO,PL,PT,RU,SE,UA,US
 hygrophorus_camarophyllus	Hygrophorus camarophyllus								Sotvaxing					narrow	3	no	EE,FI,NO
 hygrophorus_chrysodon	Hygrophorus chrysodon						Nixtamal							narrow	3	no	MX
 hygrophorus_eburneus	Hygrophorus eburneus											Седефена гъба		narrow	3	no	BG
@@ -180,31 +180,31 @@ hygrophorus_hypothejus	Hygrophorus hypothejus											Кехлибарена �
 hygrophorus_latitabundus	Hygrophorus latitabundus													narrow	4	no	ES
 hygrophorus_marzuolus	Hygrophorus marzuolus		Märzschneckling	Hygrophore de mars		Μαρτούλι	Seta de marzo	Marzuolo			Martovka			narrow	4	no	CH,ES,GR,IT
 hygrophorus_russula	Hygrophorus russula						Higróforo escarlata				Medenka			narrow	4	no	ES,JP,RS
-hypholoma_capnoides	Hypholoma capnoides		Rauchblättriger Schwefelkopf						Rökslöjskivling	Sivolisna sumporača				narrow	4	no	DE,DK,NO
-hypholoma_fasciculare	Hypholoma fasciculare	Sulphur tuft	Grünblättriger Schwefelkopf	Hypholome en touffes	Gewone zwavelkop	Υφόλωμα το θυσανώδες	Hifoloma de láminas verdes	Falso chiodino	Svavelgul slöjskivling	Prava sumporača		Отровна пънчушка		narrow	5	yes	AM,AT,AZ,BG,BY,CA,CH,CZ,DE,DK,FI,GE,GR,HR,IT,JP,KG,KR,KZ,LT,MD,NL,NO,PL,PT,RO,RU,SI,SK,TJ,UA,UZ
+hypholoma_capnoides	Hypholoma capnoides		Rauchblättriger Schwefelkopf	Hypholome doux					Rökslöjskivling	Sivolisna sumporača				narrow	4	no	DE,DK,LU,NO
+hypholoma_fasciculare	Hypholoma fasciculare	Sulphur tuft	Grünblättriger Schwefelkopf	Hypholome en touffes	Gewone zwavelkop	Υφόλωμα το θυσανώδες	Hifoloma de láminas verdes	Falso chiodino	Svavelgul slöjskivling	Prava sumporača		Отровна пънчушка		narrow	5	yes	AM,AT,AZ,BE,BG,BY,CA,CH,CZ,DE,DK,FI,GE,GR,HR,IT,JP,KG,KR,KZ,LT,LU,MD,NL,NO,PL,PT,RO,RU,SI,SK,TJ,UA,UZ
 hypholoma_lateritium	Hypholoma lateritium													narrow	4	yes	GE,JP,KR,RU
 hypomyces_lactifluorum	Hypomyces lactifluorum	Lobster mushroom		Champignon homard			Barroso							narrow	5	no	CA,MX,US
 hypsizygus_marmoreus	Hypsizygus marmoreus													narrow	4	no	KR
 hypsizygus_ulmarius	Hypsizygus ulmarius	Elm oyster		Pleurote de l’orme						Obična stablarica				narrow	4	no	CA
 ileodictyon_cibarium	Ileodictyon cibarium	Basket fungus												narrow	5	no	AU,NZ
 ileodictyon_gracile	Ileodictyon gracile	Smooth cage												narrow	4	no	AU
-imleria_badia	Imleria badia	Bay bolete	Marone	Bolet bai	Kastanjeboleet		Boleto bayo	Boleto baio	Brunsopp				Ayıca	narrow	5	no	AT,AZ,BY,CH,CZ,DE,DK,ES,FR,GB,HU,LT,LV,NL,NO,PL,PT,RO,RU,SE,SI,SK,TR,UA
+imleria_badia	Imleria badia	Bay bolete	Marone	Bolet bai	Kastanjeboleet		Boleto bayo	Boleto baio	Brunsopp				Ayıca	narrow	5	no	AT,AZ,BE,BY,CH,CZ,DE,DK,ES,FR,GB,HU,LT,LU,LV,NL,NO,PL,PT,RO,RU,SE,SI,SK,TR,UA
 infundibulicybe_geotropa	Infundibulicybe geotropa			Clitocybe géotrope		Χωνιοκύβη η γεώτροπη	Platera	Cimballo		Velika martinčica	Martinčica		Ebişke	narrow	4	no	ES,FR,GR,HR,IT,TJ,TM,TR,UZ
 infundibulicybe_gibba	Infundibulicybe gibba									Mala martinčica				narrow	3	no	HR
 inocybe_erubescens	Inocybe erubescens													narrow	5	yes	LT
 inocybe_sp	Inocybe sp.													broad	4	yes	HU,IS
 inonotus_obliquus	Inonotus obliquus	Chaga		Chaga					Sprängticka					narrow	4	no	BY,CA,KZ,LT,RU
 inosperma_adaequatum	Inosperma adaequatum													narrow	4	yes	MD
-inosperma_erubescens	Inosperma erubescens		Ziegelroter Risspilz	Inocybe de Patouillard			Inocibe de Patouillard		Gifttråding					narrow	5	yes	AM,CH,ES,KG,KZ,LV,PT,SI,SK,TJ,TM,UZ
-kuehneromyces_mutabilis	Kuehneromyces mutabilis		Stockschwämmchen	Pholiote changeante	Stobbezwammetje			Famigliola gialla	Föränderlig tofsskivling	Obična panjevčica				narrow	4	no	AT,BY,CH,CZ,DE,DK,EE,FI,HR,IS,KZ,LT,LV,NL,NO,PL,RU,SE,SI,UA
+inosperma_erubescens	Inosperma erubescens		Ziegelroter Risspilz	Inocybe de Patouillard	Giftige vezelkop		Inocibe de Patouillard		Gifttråding					narrow	5	yes	AM,BE,CH,ES,KG,KZ,LU,LV,PT,SI,SK,TJ,TM,UZ
+kuehneromyces_mutabilis	Kuehneromyces mutabilis		Stockschwämmchen	Pholiote changeante	Stobbezwammetje			Famigliola gialla	Föränderlig tofsskivling	Obična panjevčica				narrow	4	no	AT,BE,BY,CH,CZ,DE,DK,EE,FI,HR,IS,KZ,LT,LU,LV,NL,NO,PL,RU,SE,SI,UA
 laccaria_amethystina	Laccaria amethystina	Amethyst deceiver	Violetter Lacktrichterling				Xocoyol morado			Ljubičasta lakovka				narrow	3	no	GB,HR
 laccaria_laccata	Laccaria laccata						Chocuyul			Obična lakovka				narrow	4	no	HR,MX
 laccaria_ochropurpurea	Laccaria ochropurpurea	Purple laccaria												narrow	2	no	US
 laccocephalum_hartmannii	Laccocephalum hartmannii	Chestnut polypore												narrow	4	no	AU
 laccocephalum_mylittae	Laccocephalum mylittae	Native bread												narrow	4	no	AU
 lactarius_camphoratus	Lactarius camphoratus								Kamferriska					narrow	3	no	FI
-lactarius_deliciosus	Lactarius deliciosus	Saffron milk cap	Echter Reizker	Lactaire délicieux		Πευκίτης	Chilpan	Sanguinelli	Tallblodriska	Rujnice	Rujnice	Рижика	Kanlıca	mid	5	no	AM,AT,AU,AZ,BG,BY,CH,CZ,DE,EE,ES,FR,GE,GR,HR,HU,IT,KG,KZ,LT,LV,MD,MX,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TR,UA,UZ
-lactarius_deterrimus	Lactarius deterrimus		Fichten-Reizker						Granblodriska		Smrekina mlečnica			narrow	4	no	AM,AT,CZ,DE,DK,FI,KG,NO,RS,SE
+lactarius_deliciosus	Lactarius deliciosus	Saffron milk cap	Echter Reizker	Lactaire délicieux	Smakelijke melkzwam	Πευκίτης	Chilpan	Sanguinelli	Tallblodriska	Rujnice	Rujnice	Рижика	Kanlıca	mid	5	no	AM,AT,AU,AZ,BE,BG,BY,CH,CZ,DE,EE,ES,FR,GE,GR,HR,HU,IT,KG,KZ,LT,LV,MD,MX,NO,NZ,PL,PT,RO,RS,RU,SE,SI,SK,TR,UA,UZ
+lactarius_deterrimus	Lactarius deterrimus		Fichten-Reizker	Lactaire de l’épicéa					Granblodriska		Smrekina mlečnica			narrow	4	no	AM,AT,CZ,DE,DK,FI,KG,LU,NO,RS,SE
 lactarius_flexuosus	Lactarius flexuosus													narrow	3	no	RU
 lactarius_hatsudake	Lactarius hatsudake													narrow	4	no	JP
 lactarius_helvus	Lactarius helvus	Maple-scented milkcap		Lactaire à odeur d’érable					Lakritsriska					narrow	3	yes	EE,FI,NO
@@ -233,15 +233,15 @@ lactifluus_vellereus	Lactifluus vellereus											Вълнеста млечн�
 lactifluus_volemus	Lactifluus volemus		Brätling						Mandelriska		Presna mlečnica	Хлебенка	Geyik tirmiti	narrow	4	no	AT,AZ,BG,BY,DE,JP,LV,PL,RO,RS,SE,SI,SK,TR,UA
 laetiporus_cincinnatus	Laetiporus cincinnatus	Chicken of the woods												mid	5	no	US
 laetiporus_portentosus	Laetiporus portentosus	Bracket fungus												narrow	4	no	NZ
-laetiporus_sulphureus	Laetiporus sulphureus	Chicken of the woods		Polypore soufré	Zwavelzwam	Κοτόπουλο του δάσους			Svavelticka	Žuti kruh	Šumsko pile	Сярна гъба	Kiraz mantarı	narrow	5	no	AM,AZ,BG,CA,CZ,DK,GB,GR,HR,HU,LT,LV,MD,MX,NL,PL,RS,SK,TJ,TM,TR,UA,UZ
+laetiporus_sulphureus	Laetiporus sulphureus	Chicken of the woods	Schwefelporling	Polypore soufré	Zwavelzwam	Κοτόπουλο του δάσους			Svavelticka	Žuti kruh	Šumsko pile	Сярна гъба	Kiraz mantarı	narrow	5	no	AM,AZ,BE,BG,CA,CZ,DK,GB,GR,HR,HU,LT,LU,LV,MD,MX,NL,PL,RS,SK,TJ,TM,TR,UA,UZ
 lampteromyces_japonicus	Lampteromyces japonicus													narrow	5	yes	KR
-leccinellum_pseudoscabrum	Leccinellum pseudoscabrum		Hainbuchenröhrling									Габърова гъба		narrow	4	no	AM,AZ,BG,HU,PL
-leccinum_aurantiacum	Leccinum aurantiacum	Rough-stemmed boletes	Rotkappe	Bolets rugueux	Rosse populierboleet			Porcinelli		Djedovi				mid	5	no	AT,CA,CH,HR,IT,KR,KZ,LV,MD,NL,PL,RU,SK,UA
+leccinellum_pseudoscabrum	Leccinellum pseudoscabrum		Hainbuchenröhrling	Bolet des charmes								Габърова гъба		narrow	4	no	AM,AZ,BG,HU,LU,PL
+leccinum_aurantiacum	Leccinum aurantiacum	Rough-stemmed boletes	Rotkappe	Bolets rugueux	Rosse populierboleet			Porcinelli		Djedovi				mid	5	no	AT,BE,CA,CH,HR,IT,KR,KZ,LU,LV,MD,NL,PL,RU,SK,UA
 leccinum_aurantiacum__2	Leccinum aurantiacum								Aspsopp			Червена брезовка		narrow	5	no	AM,BG,BY,EE,GE,LT,NO,RO,SE
 leccinum_leucopodium	Leccinum leucopodium		Rotkappe											mid	5	no	DE
 leccinum_pseudoscabrum	Leccinum pseudoscabrum													narrow	4	no	CZ
 leccinum_rufum	Leccinum rufum													mid	5	no	CZ
-leccinum_scabrum	Leccinum scabrum	Birch bolete	Birkenpilz	Bolet rude	Gewone berkenboleet			Porcinello grigio	Björksopp			Обикновена брезовка		mid	5	no	AM,AT,BG,BY,CH,CZ,DE,DK,FI,FR,GE,IS,KG,KZ,LT,LV,MD,NL,NO,NZ,PL,RO,RU,SE,SI,SK,UA
+leccinum_scabrum	Leccinum scabrum	Birch bolete	Birkenpilz	Bolet rude	Gewone berkenboleet			Porcinello grigio	Björksopp			Обикновена брезовка		mid	5	no	AM,AT,BE,BG,BY,CH,CZ,DE,DK,FI,FR,GE,IS,KG,KZ,LT,LU,LV,MD,NL,NO,NZ,PL,RO,RU,SE,SI,SK,UA
 leccinum_versipelle	Leccinum versipelle								Tegelsopp					narrow	5	no	CZ,DK,FI,IS,NO,SE
 lentinula_edodes	Lentinula edodes	Shiitake											Meşe	narrow	5	no	JP,KR
 lentinula_novae_zelandiae	Lentinula novae-zelandiae	Native shiitake												narrow	4	no	NZ
@@ -250,29 +250,29 @@ lentinus_sp	Lentinus sp.													broad	3	no	MX,UZ
 lepiota_brunneoincarnata	Lepiota brunneoincarnata		Fleischbrauner Schirmling	Lépiote brun rose									Yalancı dede mantarı	narrow	5	yes	AM,AZ,CH,FR,GR,KG,KZ,NO,PT,TJ,TM,TR,UZ
 lepiota_cristata	Lepiota cristata													narrow	5	yes	MD,SI,TM,UZ
 lepiota_subincarnata	Lepiota subincarnata	Deadly dapperling		Lépiotes mortelles				Piccole mazze di tamburo						mid	5	yes	CA,IT
-lepista_nuda	Lepista nuda	Wood blewit	Violetter Rötelritterling	Pied bleu	Paarse schijnridderzwam	Λεπίστα η γυμνή	Pie azul	Agarico violetto	Blåmusseron	Modrikača	Modrikača			narrow	5	no	AU,BY,CH,CZ,DK,FR,GB,GR,HR,HU,KG,NL,NO,PT,RU,SI,TJ,UA,UZ
+lepista_nuda	Lepista nuda	Wood blewit	Violetter Rötelritterling	Pied bleu	Paarse schijnridderzwam	Λεπίστα η γυμνή	Pie azul	Agarico violetto	Blåmusseron	Modrikača	Modrikača			narrow	5	no	AU,BE,BY,CH,CZ,DK,FR,GB,GR,HR,HU,KG,LU,NL,NO,PT,RU,SI,TJ,UA,UZ
 lepista_personata	Lepista personata	Field blewit												narrow	4	no	AM,GB,HU,KG,KZ,MD,TJ,TM,UZ
 leratiomyces_erythrocephalus	Leratiomyces erythrocephalus	Scarlet pouch												narrow	3	no	NZ
 leucoagaricus_americanus	Leucoagaricus americanus	Reddening lepiota												narrow	3	no	US
 leucocoprinus_leucothites	Leucocoprinus leucothites													narrow	3	no	RO
 leucocybe_candicans	Leucocybe candicans													narrow	5	yes	AZ,KG,KZ,MD
 lycoperdon_perlatum	Lycoperdon perlatum	Puffball	Stäublinge und Boviste	Vesse-de-loup	Parelstuifzwam					Puhare				broad	4	no	AM,AZ,BY,CA,GB,HR,IS,KG,KZ,LV,NL,RU,TJ,TM,UZ
-lycoperdon_perlatum__2	Lycoperdon perlatum		Flaschen-Stäubling	Vesse de loup perlée							Tikvasta puhara			narrow	4	no	CZ,KR,LT,SI,UA
+lycoperdon_perlatum__2	Lycoperdon perlatum		Flaschen-Stäubling	Vesse de loup perlée							Tikvasta puhara			narrow	4	no	CZ,KR,LT,LU,SI,UA
 lyophyllum_decastes	Lyophyllum decastes	Fried chicken mushroom	Büscheliger Rasling	Lyophylle décasté			Cholete	Agarico aggregato		Obična kostanjevčica			Küme cincile mantarı	narrow	5	no	CH,JP,MX
 lyophyllum_fumosum	Lyophyllum fumosum													narrow	4	no	IS,JP
 lyophyllum_shimeji	Lyophyllum shimeji													narrow	5	no	JP
 macrolepiota_mastoidea	Macrolepiota mastoidea										Sisasta sunčanica			narrow	4	no	PT,RS
-macrolepiota_procera	Macrolepiota procera	Parasol	Parasol	Coulemelle	Grote parasolzwam	Ζαρκαδίσιο	Jongo de culebra	Mazza di tamburo	Stolt fjällskivling	Sunčanice	Sunčanica	Сърнела	Şemsiye mantarı	narrow	5	no	AM,AT,AZ,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IT,KG,KR,KZ,LT,LV,MD,MX,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TM,TR,UA,US,UZ
+macrolepiota_procera	Macrolepiota procera	Parasol	Parasol	Coulemelle	Grote parasolzwam	Ζαρκαδίσιο	Jongo de culebra	Mazza di tamburo	Stolt fjällskivling	Sunčanice	Sunčanica	Сърнела	Şemsiye mantarı	narrow	5	no	AM,AT,AZ,BE,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FR,GB,GE,GR,HR,HU,IT,KG,KR,KZ,LT,LU,LV,MD,MX,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TM,TR,UA,US,UZ
 marasmius_elegans	Marasmius elegans	Velvet parachute												narrow	4	no	AU
-marasmius_oreades	Marasmius oreades	Fairy ring mushroom	Nelkenschwindling	Marasme des Oréades	Weidekringzwam	Μαράσμιος ο ορειάδης	Corralitos	Gambesecche	Nejlikbrosking	Vilin klinčac	Vilin klinčić	Челядинка	Mıhbaşı	narrow	5	no	AM,AT,AU,AZ,BG,CA,CH,CZ,DE,DK,EE,ES,FR,GB,GE,GR,HR,HU,KG,KZ,MD,MX,NL,NO,NZ,PL,RO,RS,RU,SE,SK,TJ,TM,TR,UA,US,UZ
+marasmius_oreades	Marasmius oreades	Fairy ring mushroom	Nelkenschwindling	Marasme des Oréades	Weidekringzwam	Μαράσμιος ο ορειάδης	Corralitos	Gambesecche	Nejlikbrosking	Vilin klinčac	Vilin klinčić	Челядинка	Mıhbaşı	narrow	5	no	AM,AT,AU,AZ,BE,BG,CA,CH,CZ,DE,DK,EE,ES,FR,GB,GE,GR,HR,HU,KG,KZ,LU,MD,MX,NL,NO,NZ,PL,RO,RS,RU,SE,SK,TJ,TM,TR,UA,US,UZ
 mattirolomyces_terfezioides	Mattirolomyces terfezioides													narrow	4	no	HU
-morchella_esculenta	Morchella esculenta	Morel	Morchel	Morilles	Gewone morielje	Μορχέλα	Colmenilla	Spugnole	Toppmurkla	Smrčci	Kupasti smrčak	Смръчкула	Kuzu göbeği	broad	5	no	AM,AZ,BG,CA,CH,CZ,DE,ES,FI,FR,GB,GR,HR,HU,IS,IT,KG,KZ,LT,LV,MD,MX,NL,NO,NZ,PL,PT,RO,RS,RU,SK,TJ,TM,TR,UA,US,UZ
+morchella_esculenta	Morchella esculenta	Morel	Morchel	Morilles	Gewone morielje	Μορχέλα	Colmenilla	Spugnole	Toppmurkla	Smrčci	Kupasti smrčak	Смръчкула	Kuzu göbeği	broad	5	no	AM,AZ,BE,BG,CA,CH,CZ,DE,ES,FI,FR,GB,GR,HR,HU,IS,IT,KG,KZ,LT,LU,LV,MD,MX,NL,NO,NZ,PL,PT,RO,RS,RU,SK,TJ,TM,TR,UA,US,UZ
 morchella_esculenta__2	Morchella esculenta		Speisemorchel						Rund toppmurkla		Debelonogi smrčak			mid	5	no	AT,BY,GE,RS,SE,SI
 morchella_septentrionalis	Morchella septentrionalis	Black morels												mid	5	no	US
 morchella_steppicola	Morchella steppicola										Stepski smrčak			narrow	4	no	KZ,RS,TJ,TM,UZ
 mycena_interrupta	Mycena interrupta	Pixie’s parasol												narrow	4	no	AU
 mycoleptodonoides_aitchisonii	Mycoleptodonoides aitchisonii													narrow	4	no	JP
-neoboletus_erythropus	Neoboletus erythropus		Flockenstieliger Hexenröhrling	Bolet à pied rouge	Gewone heksenboleet			Boleto dal piede rosso						narrow	5	no	AT,CH,DE,DK,FR,GE,MD,NL,SI
+neoboletus_erythropus	Neoboletus erythropus		Flockenstieliger Hexenröhrling	Bolet à pied rouge	Gewone heksenboleet			Boleto dal piede rosso						narrow	5	no	AT,BE,CH,DE,DK,FR,GE,LU,MD,NL,SI
 neoboletus_luridiformis	Neoboletus luridiformis	Scarletina bolete							Blodsopp					narrow	4	no	CZ,SE,SK
 neoboletus_luridiformis__2	Neoboletus luridiformis						Galambos							mid	3	no	MX
 neolentinus_lepideus	Neolentinus lepideus													broad	3	no	MX
@@ -287,7 +287,7 @@ panellus_serotinus	Panellus serotinus													narrow	4	no	KR
 panus_fasciatus	Panus fasciatus	Hairy trumpet												narrow	4	no	AU
 panus_rudis	Panus rudis													narrow	4	no	GE
 paralepistopsis_acromelalga	Paralepistopsis acromelalga													narrow	5	yes	JP
-paxillus_involutus	Paxillus involutus	Brown roll-rim	Kahler Krempling	Paxille enroulé	Gewone krulzoom	Πάξιλλος	Paxilo enrollado	Agarico accartocciato	Pluggskivling					narrow	5	yes	AT,BY,CH,CZ,DE,DK,EE,ES,FI,GB,GR,HU,IS,KG,KZ,LT,LV,NL,NO,NZ,PL,PT,RU,SE,SI,SK,UA,US
+paxillus_involutus	Paxillus involutus	Brown roll-rim	Kahler Krempling	Paxille enroulé	Gewone krulzoom	Πάξιλλος	Paxilo enrollado	Agarico accartocciato	Pluggskivling					narrow	5	yes	AT,BE,BY,CH,CZ,DE,DK,EE,ES,FI,GB,GR,HU,IS,KG,KZ,LT,LU,LV,NL,NO,NZ,PL,PT,RU,SE,SI,SK,UA,US
 phaeolepiota_aurea	Phaeolepiota aurea	Gold-cap		Phéolépiote dorée										narrow	3	yes	EE
 phallus_impudicus	Phallus impudicus	Stinkhorn	Stinkmorchel		Grote stinkzwam						Smrdljivi pevac			narrow	3	no	BY,GB,LT,NL,UA
 phallus_indusiatus	Phallus indusiatus	White crinoline stinkhorn												narrow	4	no	AU
@@ -303,7 +303,7 @@ pleurotus_cornucopiae	Pleurotus cornucopiae													narrow	3	no	GE,TJ,TM
 pleurotus_djamor	Pleurotus djamor	Pink oyster					Orejas de ochote							narrow	5	no	MX
 pleurotus_eryngii	Pleurotus eryngii			Pleurote du panicaut		Αγκαθίτης	Seta de cardo	Cardoncello					Körek	narrow	5	no	AM,AZ,ES,GR,HU,IT,KG,KR,KZ,TJ,TM,TR,UZ
 pleurotus_opuntiae	Pleurotus opuntiae						Oreja de nopal							narrow	4	no	MX
-pleurotus_ostreatus	Pleurotus ostreatus	Oyster mushroom	Austernseitling	Pleurote en huître	Gewone oesterzwam	Πλευρώτους	Seta de ostra	Gelone	Ostronmussling	Bukovača	Bukovača	Кладница	İstiridye mantarı	narrow	5	no	AM,AT,AZ,BG,BY,CA,CH,CZ,DE,DK,ES,FR,GB,GE,GR,HR,HU,IT,JP,KG,KR,KZ,LT,LV,MD,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TM,TR,UA,US,UZ
+pleurotus_ostreatus	Pleurotus ostreatus	Oyster mushroom	Austernseitling	Pleurote en huître	Gewone oesterzwam	Πλευρώτους	Seta de ostra	Gelone	Ostronmussling	Bukovača	Bukovača	Кладница	İstiridye mantarı	narrow	5	no	AM,AT,AZ,BE,BG,BY,CA,CH,CZ,DE,DK,ES,FR,GB,GE,GR,HR,HU,IT,JP,KG,KR,KZ,LT,LU,LV,MD,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,TJ,TM,TR,UA,US,UZ
 pleurotus_parsonsiae	Pleurotus parsonsiae	Velvet oyster												narrow	4	no	NZ
 pleurotus_pulmonarius	Pleurotus pulmonarius	Native phoenix oyster												narrow	4	no	NZ,SK
 podaxis_pistillaris	Podaxis pistillaris	Black powderpuff												narrow	4	no	AU,TM
@@ -323,7 +323,7 @@ ramaria_flava__2	Ramaria flava													narrow	4	no	GE
 ramaria_formosa	Ramaria formosa													narrow	4	yes	KR,SI
 rhodocollybia_butyracea	Rhodocollybia butyracea												Yağlı mantar	narrow	3	no	TR
 rossbeevera_pachydermis	Rossbeevera pachydermis	Potato fungus												narrow	3	no	NZ
-rubroboletus_satanas	Rubroboletus satanas	Devil’s bolete	Satansröhrling	Bolet Satan		Βωλίτης ο σατανάς	Boleto de Satanás	Porcino malefico		Ludara	Ludara	Дяволска гъба		narrow	5	yes	AM,AT,AZ,BG,CH,CZ,DE,ES,FR,GR,HR,HU,IT,MD,PL,RS,RU,SI,SK,UA
+rubroboletus_satanas	Rubroboletus satanas	Devil’s bolete	Satansröhrling	Bolet Satan	Satansboleet	Βωλίτης ο σατανάς	Boleto de Satanás	Porcino malefico		Ludara	Ludara	Дяволска гъба		narrow	5	yes	AM,AT,AZ,BE,BG,CH,CZ,DE,ES,FR,GR,HR,HU,IT,LU,MD,PL,RS,RU,SI,SK,UA
 rugiboletus_extremiorientalis	Rugiboletus extremiorientalis													narrow	3	no	JP
 russula_adusta	Russula adusta													narrow	3	no	GE
 russula_aeruginea	Russula aeruginea								Grönkremla					narrow	4	no	EE,FI,GE,IS,NO,SE
@@ -333,7 +333,7 @@ russula_brevipes	Russula brevipes						Blanco							broad	5	no	MX
 russula_chloroides	Russula chloroides												Kayışkıran	narrow	3	no	TR
 russula_claroflava	Russula claroflava								Gulkremla					narrow	3	no	FI,SE
 russula_cyanoxantha	Russula cyanoxantha	Quilted green russula		Russules		Ρούσουλα η κυανόξανθη	Ardillitas			Krasnice	Zeke			broad	5	no	AM,AZ,BY,CA,EE,GR,HU,KG,KZ,LT,LV,MD,PL,RS,RU,SI,SK,UA,US
-russula_cyanoxantha__2	Russula cyanoxantha	Charcoal burner	Frauentäubling	Russule charbonnière	Regenboogrussula		Carbonera	Colombina maggiore	Brokkremla			Сиво-виолетова гълъбка		narrow	4	no	AT,BG,CH,CZ,DE,DK,ES,FI,FR,GB,GE,IT,NL,PT,RO,SE
+russula_cyanoxantha__2	Russula cyanoxantha	Charcoal burner	Frauentäubling	Russule charbonnière	Regenboogrussula		Carbonera	Colombina maggiore	Brokkremla			Сиво-виолетова гълъбка		narrow	4	no	AT,BE,BG,CH,CZ,DE,DK,ES,FI,FR,GB,GE,IT,LU,NL,PT,RO,SE
 russula_decolorans	Russula decolorans								Tegelkremla					narrow	4	no	EE,FI,NO
 russula_delica	Russula delica					Ρουσσούλα η απογαλακτισμένη							Güz kirmiti	narrow	4	no	AM,AZ,BY,EE,GE,GR,KG,KZ,LT,RU,TR
 russula_emetica	Russula emetica		Speitäubling				Rúsula emética	Colombina pepata			Bljuvara	Бясна гъба		narrow	4	yes	BG,DE,IT,LT,PL,RS,SI,UA
@@ -347,7 +347,7 @@ russula_rosea	Russula rosea													narrow	4	no	GE
 russula_subnigricans	Russula subnigricans													mid	5	yes	JP,KR
 russula_vesca	Russula vesca		Speisetäubling	Russule vieux-rose					Kantkremla		Krasnice	Кафяво-виолетова гълъбка		narrow	4	no	AT,BG,DK,GE,RO,RS,SE
 russula_vinosa	Russula vinosa								Vinkremla					narrow	3	no	FI
-russula_virescens	Russula virescens		Grüngefelderter Täubling	Russule verdoyante		Ρουσσούλα η πρασινίζουσα	Palometa	Verdone			Golubače	Зелена гълъбка		narrow	5	no	AZ,BG,CH,CZ,ES,FR,GE,GR,IT,RO,RS,SK
+russula_virescens	Russula virescens		Grüngefelderter Täubling	Russule verdoyante		Ρουσσούλα η πρασινίζουσα	Palometa	Verdone			Golubače	Зелена гълъбка		narrow	5	no	AZ,BG,CH,CZ,ES,FR,GE,GR,IT,LU,RO,RS,SK
 russula_xerampelina	Russula xerampelina								Sillkremla					narrow	3	no	DK,FI,IS,SE
 sanghuangporus_sanghuang	Sanghuangporus sanghuang													broad	4	no	KR
 sarcodon_aspratus	Sarcodon aspratus													mid	5	no	JP,KR
@@ -356,17 +356,17 @@ sarcodon_squamosus	Sarcodon squamosus	Hawk’s wing		Hydne écailleux										m
 sarcomyxa_edulis	Sarcomyxa edulis													narrow	5	no	JP
 sarcoscypha_austriaca	Sarcoscypha austriaca	Scarlet elf cup												mid	3	no	GB
 schizophyllum_commune	Schizophyllum commune	Splitgill												narrow	4	no	AU,MX,TM,UZ
-scleroderma_citrinum	Scleroderma citrinum	Common earthball	Kartoffelbovist	Scléroderme commun	Gele aardappelbovist		Escleroderma amarilla							narrow	4	yes	AM,AT,DK,GB,KG,NL,PL,PT,SK,TJ,TM,UA,US,UZ
+scleroderma_citrinum	Scleroderma citrinum	Common earthball	Kartoffelbovist	Scléroderme commun	Gele aardappelbovist		Escleroderma amarilla							narrow	4	yes	AM,AT,BE,DK,GB,KG,LU,NL,PL,PT,SK,TJ,TM,UA,US,UZ
 scleroderma_sp	Scleroderma sp.	Earthball	Kartoffelbovist	Scléroderme										broad	5	yes	AU,CA,DE,JP
-sparassis_crispa	Sparassis crispa	Cauliflower fungus	Krause Glucke	Sparassis crépu	Grote sponszwam	Σπάραξη η σγουρή	Seta coliflor	Ditola increspata	Blomkålssvamp			Зелчеста гъба	Çam göbeği mantarı	narrow	5	no	AT,CH,CZ,DE,DK,GB,GE,GR,NL,NO,PL,SE,SI,SK,TR
+sparassis_crispa	Sparassis crispa	Cauliflower fungus	Krause Glucke	Sparassis crépu	Grote sponszwam	Σπάραξη η σγουρή	Seta coliflor	Ditola increspata	Blomkålssvamp			Зелчеста гъба	Çam göbeği mantarı	narrow	5	no	AT,BE,CH,CZ,DE,DK,GB,GE,GR,LU,NL,NO,PL,SE,SI,SK,TR
 sparassis_latifolia	Sparassis latifolia													narrow	4	no	JP,KR
 sparassis_spathulata	Sparassis spathulata	Cauliflower mushroom		Sparassis										broad	4	no	CA,US
 stropharia_rugosoannulata	Stropharia rugosoannulata	Wine cap								Slamnatica			Halkalı cücüle mantarı	narrow	3	no	NZ
 suillellus_luridus	Suillellus luridus		Netzstieliger Hexenröhrling					Boleto lurido	Eldsopp			Огнена манатарка		narrow	4	no	AM,AT,AZ,BY,CZ,DE,EE,GE,LT,LV,PT,RO,RU,SE,SK,UA
 suillus_bovinus	Suillus bovinus		Kuh-Röhrling		Koeienboleet				Örsopp			Кравешка масловка		narrow	4	no	BY,DK,IS,JP,LT,NL,PL,PT,RU
 suillus_granulatus	Suillus granulatus		Körnchenröhrling			Σουίλος ο κοκκώδης			Grynsopp		Borovnjača			narrow	5	no	AM,AZ,CZ,DE,GR,HU,KG,MD,RO,RS,SE
-suillus_grevillei	Suillus grevillei		Goldröhrling	Bolet élégant	Gele ringboleet			Boleto elegante	Lärksopp			Елегантна масловка		narrow	4	no	AT,CH,CZ,DE,IS,JP,NL,PL,RO
-suillus_luteus	Suillus luteus	Slippery Jack	Butterpilz	Nonnette voilée	Bruine ringboleet		Boleto anillado	Pinarello	Smörsopp			Масловка	Kaypak mantarı	narrow	5	no	AM,AT,AU,AZ,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FR,IS,JP,LT,LV,NL,NO,NZ,PL,RO,SE,UA
+suillus_grevillei	Suillus grevillei		Goldröhrling	Bolet élégant	Gele ringboleet			Boleto elegante	Lärksopp			Елегантна масловка		narrow	4	no	AT,CH,CZ,DE,IS,JP,LU,NL,PL,RO
+suillus_luteus	Suillus luteus	Slippery Jack	Butterpilz	Nonnette voilée	Bruine ringboleet		Boleto anillado	Pinarello	Smörsopp			Масловка	Kaypak mantarı	narrow	5	no	AM,AT,AU,AZ,BE,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FR,IS,JP,LT,LV,NL,NO,NZ,PL,RO,SE,UA
 suillus_luteus__2	Suillus luteus	Slippery Jacks		Bolets visqueux			Viejitas	Pinaroli		Slinavke				broad	5	no	CA,HR,IT,KG,KR,KZ,MX,RU,SI,SK
 suillus_variegatus	Suillus variegatus		Sandröhrling						Sandsopp					narrow	4	no	AT,BY,DK,FI,IS,LT,LV,NO,PL,SE
 sutorius_venenatus	Sutorius venenatus													narrow	4	yes	JP
@@ -397,13 +397,13 @@ tuber_magnatum	Tuber magnatum							Tartufo bianco						narrow	5	no	IT,RO
 tuber_melanosporum	Tuber melanosporum			Truffe du Périgord			Trufa negra	Tartufo nero pregiato						narrow	5	no	ES,FR,IT,RO
 turbinellus_floccosus	Turbinellus floccosus						Corneta							narrow	4	no	MX
 turbinellus_kauffmanii	Turbinellus kauffmanii						Corneta blanca							narrow	3	no	MX
-tylopilus_felleus	Tylopilus felleus	Bitter bolete	Gallenröhrling	Bolet de fiel				Falso porcino	Gallsopp			Горчива манатарка		narrow	5	no	AM,AT,BG,BY,CH,CZ,DE,DK,EE,FI,HU,IT,KG,KZ,LT,LV,MD,NO,PL,RU,SI,SK,UA
+tylopilus_felleus	Tylopilus felleus	Bitter bolete	Gallenröhrling	Bolet de fiel	Bittere boleet			Falso porcino	Gallsopp			Горчива манатарка		narrow	5	no	AM,AT,BE,BG,BY,CH,CZ,DE,DK,EE,FI,HU,IT,KG,KZ,LT,LV,MD,NO,PL,RU,SI,SK,UA
 umbilicaria_esculenta	Umbilicaria esculenta													narrow	4	no	KR
 ustilago_maydis	Ustilago maydis	Huitlacoche					Cuitlacoche							narrow	5	no	MX
 verpa_bohemica	Verpa bohemica										Češka smrčkovica		Yalancı kuzugöbeği	narrow	4	no	HU,KG,LV,TJ,TM,TR,UZ
 volvariella_bombycina	Volvariella bombycina						Hongo de ochote							narrow	5	no	MX,TM
 volvariella_volvacea	Volvariella volvacea	Paddy straw mushroom												narrow	4	yes	NZ
 wolfiporia_cocos	Wolfiporia cocos													narrow	4	no	KR
-xerocomellus_chrysenteron	Xerocomellus chrysenteron		Rotfußröhrling								Zlatača	Червенокрака манатарка		mid	5	no	AZ,BY,CZ,LV,MD,PT,UA
+xerocomellus_chrysenteron	Xerocomellus chrysenteron		Rotfußröhrling	Bolet à chair jaune							Zlatača	Червенокрака манатарка		mid	5	no	AZ,BY,CZ,LU,LV,MD,PT,UA
 xerocomus_subtomentosus	Xerocomus subtomentosus		Ziegenlippe								Velika podstavka	Кадифена манатарка		narrow	4	no	AT,HU,IS,KG,LT,PL,RO,RU,SK
 xylaria_hypoxylon	Xylaria hypoxylon	Candlesnuff fungus												narrow	3	no	GB
