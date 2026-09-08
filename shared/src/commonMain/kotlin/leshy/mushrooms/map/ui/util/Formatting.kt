@@ -1,7 +1,9 @@
 package leshy.mushrooms.map.ui.util
 
 import androidx.compose.runtime.Composable
+import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.i18n.StringKey
+import leshy.mushrooms.map.i18n.string
 import leshy.mushrooms.map.i18n.stringResource
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.char
@@ -154,6 +156,15 @@ fun formatSpeedKmh(metersPerSecond: Double): String {
 @Composable
 fun formatDistanceKm(meters: Double): String =
     "${formatDistanceKmValue(meters)} ${stringResource(StringKey.UnitKilometers)}"
+
+/**
+ * Не-`@Composable` двойник [formatDistanceKm], которому язык передают явно, — для текста, который
+ * собирается вне композиции. Такое место одно: снимок уведомления идущей записи
+ * ([leshy.mushrooms.map.data.platform.RecordingNotificationSnapshot]), который целиком строится во
+ * `RecordViewModel`, чтобы платформенный слой не ходил в i18n.
+ */
+fun formatDistanceKm(meters: Double, language: AppLanguage): String =
+    "${formatDistanceKmValue(meters)} ${string(StringKey.UnitKilometers, language)}"
 
 /**
  * То же число, но без единицы — для мест, где подпись «км» не помещается и снимается, а само

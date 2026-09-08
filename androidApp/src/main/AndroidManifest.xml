@@ -33,6 +33,12 @@
                 android:exported="false"
                 android:foregroundServiceType="location"/>
 
+        <!-- Кнопки «+»/«−» в уведомлении идущей записи. exported=false: интенты на него строит
+             только сам сервис, снаружи процесса дёргать нечего. -->
+        <receiver
+                android:name="leshy.mushrooms.map.data.platform.WalkRecordingActionReceiver"
+                android:exported="false"/>
+
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="${applicationId}.fileprovider"

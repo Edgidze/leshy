@@ -4,6 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import leshy.mushrooms.map.data.platform.BackgroundRecordingController
 import leshy.mushrooms.map.data.platform.LocationTracker
+import leshy.mushrooms.map.data.platform.MAX_RECORDING_NOTIFICATION_SPECIES
+import leshy.mushrooms.map.data.platform.RecordingCommand
+import leshy.mushrooms.map.data.platform.RecordingNotificationSnapshot
+import leshy.mushrooms.map.data.platform.RecordingNotificationSpecies
 import leshy.mushrooms.map.data.platform.WalkThumbnailRenderer
 import leshy.mushrooms.map.data.platform.currentTimeMillis
 import leshy.mushrooms.map.domain.model.AppLanguage
@@ -44,9 +48,11 @@ import leshy.mushrooms.map.domain.util.haversineMeters
 import leshy.mushrooms.map.domain.util.matchesDateAndSeason
 import leshy.mushrooms.map.domain.util.turnRecommendation
 import leshy.mushrooms.map.i18n.StringKey
+import leshy.mushrooms.map.i18n.categoryDisplayName
 import leshy.mushrooms.map.i18n.string
 import leshy.mushrooms.map.presentation.applyRecencyOrder
 import leshy.mushrooms.map.presentation.sortCategories
+import leshy.mushrooms.map.ui.util.formatDistanceKm
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -165,6 +171,23 @@ class RecordViewModel(
     private val pendingFrontBumps = mutableListOf<Long>()
     private var frontBumpFlushJob: Job? = null
 
+    // Виды, показанные строками в уведомлении идущей записи, в порядке показа — не более
+    // MAX_RECORDING_NOTIFICATION_SPECIES штук. Заполняется началом ленты плиток
+    // ([syncNotificationSlots]), дальше живёт заменами на месте ([noteMarked]).
+    //
+    // Позиции строк здесь НЕ меняются от нажатий — и это главное свойство списка, а не мелочь
+    // реализации. Кнопки уведомления жмут с заблокированного экрана, вслепую и часто подряд;
+    // список «самый свежий первым» переставлял бы строку прямо из-под пальца, ровно та беда,
+    // ради которой на самой ленте плиток заведено окно тишины [TILE_REORDER_QUIET_WINDOW]. На
+    // экране от неё спасает то, что плитку видно; на замке — ничто.
+    private val notificationSlots = MutableStateFlow<List<Long>>(emptyList())
+
+    // Когда каждый из видов последний раз отмечали в этой прогулке — монотонный счётчик, а не
+    // время: сравнивается только порядок. Нужен, когда все слоты заняты, а отметили вид не из
+    // них: место уступает наименее свежий, и уступает НА МЕСТЕ, не сдвигая соседей.
+    private val slotMarkOrder = mutableMapOf<Long, Long>()
+    private var markCounter = 0L
+
     // Whether the Record screen is currently in front of the user (composed AND resumed). Gates
     // the GPS subscription together with isRecording — see the collector in init().
     private val isRecordScreenResumed = MutableStateFlow(false)
@@ -238,6 +261,7 @@ class RecordViewModel(
                     computeFilterCount(filter, walks, categories),
                 )
             }.collect { s ->
+                syncNotificationSlots(s.categories)
                 _uiState.update {
                     it.copy(
                         categories = s.categories,
@@ -305,6 +329,51 @@ class RecordViewModel(
         }
         viewModelScope.launch {
             settingsRepository.observeFreezeMushroomOrder().collect { freezeOrder = it }
+        }
+        viewModelScope.launch {
+            // Кнопки «+»/«−» в уведомлении идущей записи (Android; на iOS поток всегда пуст)
+            // приходят сюда и идут теми же методами, что и плитки на экране. У находки должен
+            // быть ровно один путь в Room независимо от того, откуда её отметили, — вместе с
+            // проверкой лимита и барьером по отсутствию GPS-фикса, которые в этих методах уже
+            // стоят.
+            backgroundRecordingController.commands.collect { command ->
+                when (command) {
+                    is RecordingCommand.AddMushroom -> addMushroom(command.categoryId)
+                    is RecordingCommand.RemoveMushroom -> removeMushroom(command.categoryId)
+                }
+            }
+        }
+        viewModelScope.launch {
+            // Снимок для уведомления идущей записи пересобирается только когда меняется что-то
+            // из него самого. distinctUntilChanged тут обязателен: uiState переиздаётся на
+            // каждый GPS-фикс (currentLocation, trackPoints), а из снимка от фикса зависит одно
+            // расстояние — и то уже строкой, которая меняется раз в десяток метров, а не раз в
+            // секунду.
+            //
+            // Времени в сравниваемом снимке нет вовсе (elapsedMillis = 0): оно тикает ежесекундно,
+            // и попади оно сюда — уведомление перестраивалось бы каждую секунду ради цифры,
+            // которую системный `Chronometer` внутри уведомления считает сам (см.
+            // [RecordingNotificationSnapshot]). Настоящее значение подставляется уже после
+            // дедупликации, в collect, — как точка отсчёта для этого `Chronometer`.
+            combine(
+                uiState,
+                notificationSlots,
+                settingsRepository.observeLanguage(),
+            ) { state, slots, language ->
+                if (!state.isRecording) return@combine null
+                RecordingNotificationSnapshot(
+                    language = language,
+                    elapsedMillis = 0L,
+                    isPaused = state.isPaused,
+                    distanceText = formatDistanceKm(state.distanceMeters, language),
+                    totalFinds = state.mushroomCounts.values.sum(),
+                    species = notificationSpecies(state, slots, language),
+                )
+            }.distinctUntilChanged().collect { snapshot ->
+                if (snapshot != null) {
+                    backgroundRecordingController.update(snapshot.copy(elapsedMillis = _elapsedMillis.value))
+                }
+            }
         }
         viewModelScope.launch {
             // GPS is subscribed to only while it is actually needed: the Record screen is in front
@@ -433,6 +502,7 @@ class RecordViewModel(
             walkId = id
             trackSequence = 0
             lastPersistedPoint = null
+            slotMarkOrder.clear()
             backgroundRecordingController.start(currentLanguage)
             _elapsedMillis.value = 0L
             _uiState.update {
@@ -482,6 +552,7 @@ class RecordViewModel(
             finishWalk(currentWalkId, currentTimeMillis(), location?.lat, location?.lon)
             walkId = null
             navigationTargetId.value = null
+            slotMarkOrder.clear()
             if (resetOrderOnWalkFinish) categoryOrder.value = emptyList()
             // Explicit now that elapsed time lives outside RecordUiState: the rebuild below used
             // to zero it implicitly, by virtue of not carrying it over. Without this the header
@@ -522,6 +593,7 @@ class RecordViewModel(
         viewModelScope.launch {
             val mark = addMushroomMark(currentWalkId, categoryId, location, currentTimeMillis())
             scheduleFrontBump(categoryId)
+            noteMarked(categoryId)
             _uiState.update { state ->
                 val counts = state.mushroomCounts.toMutableMap()
                 counts[categoryId] = (counts[categoryId] ?: 0) + 1
@@ -557,6 +629,7 @@ class RecordViewModel(
                 }
             }
             scheduleFrontBump(categoryId)
+            noteMarked(categoryId)
         }
     }
 
@@ -627,6 +700,7 @@ class RecordViewModel(
             val removed = removeLastMushroomMark(currentWalkId, categoryId)
             if (removed != null) {
                 scheduleFrontBump(categoryId)
+                noteMarked(categoryId)
                 _uiState.update { state ->
                     val counts = state.mushroomCounts.toMutableMap()
                     val newCount = (counts[categoryId] ?: 0) - 1
@@ -702,6 +776,71 @@ class RecordViewModel(
             bringCategoryToFront(saved.id)
         }
     }
+
+    /**
+     * Держит [notificationSlots] заполненными и живыми: выбрасывает виды, переставшие быть
+     * активными (сняты на «Фильтре», удалены из «Моих грибов» посреди прогулки), и добирает
+     * недостающее началом ленты плиток [feed].
+     *
+     * Добор началом ленты — не украшение: без него до первой находки уведомление нечем было бы
+     * наполнить, то есть отметить гриб с заблокированного экрана можно было бы только после того,
+     * как хотя бы раз отметил его же с разблокированного.
+     */
+    private fun syncNotificationSlots(feed: List<Category>) {
+        val feedIds = feed.mapTo(mutableSetOf()) { it.id }
+        notificationSlots.update { current ->
+            val alive = current.filter { it in feedIds }
+            if (alive.size >= MAX_RECORDING_NOTIFICATION_SPECIES) {
+                alive
+            } else {
+                alive + feed.asSequence()
+                    .map { it.id }
+                    .filterNot { it in alive }
+                    .take(MAX_RECORDING_NOTIFICATION_SPECIES - alive.size)
+            }
+        }
+    }
+
+    /**
+     * Отмечает вид как только что тронутый и, если его ещё нет среди строк уведомления, заводит
+     * ему там место — заменой наименее свежего слота НА ЕГО ЖЕ ПОЗИЦИИ. Ни одна другая строка при
+     * этом не съезжает, см. [notificationSlots].
+     */
+    private fun noteMarked(categoryId: Long) {
+        markCounter += 1
+        slotMarkOrder[categoryId] = markCounter
+        notificationSlots.update { current ->
+            when {
+                categoryId in current -> current
+                current.size < MAX_RECORDING_NOTIFICATION_SPECIES -> current + categoryId
+                else -> {
+                    val victim = current.minBy { slotMarkOrder[it] ?: 0L }
+                    current.map { if (it == victim) categoryId else it }
+                }
+            }
+        }
+    }
+
+    /**
+     * Строки «вид — счётчик» для уведомления идущей записи — ровно [notificationSlots], в их
+     * порядке.
+     *
+     * Вид, у которого «−» довёл счётчик до нуля, из списка не выпадает: строка обязана оставаться
+     * на месте ровно тогда, когда по соседней промахнуться легче всего.
+     */
+    private fun notificationSpecies(
+        state: RecordUiState,
+        slots: List<Long>,
+        language: AppLanguage,
+    ): List<RecordingNotificationSpecies> =
+        slots.mapNotNull { id ->
+            val category = state.categories.find { it.id == id } ?: return@mapNotNull null
+            RecordingNotificationSpecies(
+                categoryId = id,
+                name = categoryDisplayName(category, language),
+                count = state.mushroomCounts[id] ?: 0,
+            )
+        }
 
     private fun startTicker() {
         tickerJob?.cancel()

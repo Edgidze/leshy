@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Одна строка «вид — счётчик — −/+» развёрнутого уведомления. Кнопки шлют broadcast
+  (WalkRecordingActionReceiver), а не запускают Activity, — именно поэтому они срабатывают прямо с
+  заблокированного экрана: разблокировки система требует только для PendingIntent'ов на Activity.
+
+  44dp на строку — компромисс между рекомендацией Material в 48dp и лимитом Android в 256dp на всё
+  содержимое (см. MAX_RECORDING_NOTIFICATION_SPECIES); недобор высоты кнопки компенсирован её
+  шириной в 52dp.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="44dp"
+              android:baselineAligned="false"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+    <TextView
+            android:id="@+id/species_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
+
+    <TextView
+            android:id="@+id/species_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
+
+    <ImageButton
+            android:id="@+id/species_remove"
+            android:layout_width="52dp"
+            android:layout_height="44dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/notif_ic_remove"
+            android:tint="?android:attr/textColorPrimary"/>
+
+    <ImageButton
+            android:id="@+id/species_add"
+            android:layout_width="52dp"
+            android:layout_height="44dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/notif_ic_add"
+            android:tint="?android:attr/textColorPrimary"/>
+</LinearLayout>
