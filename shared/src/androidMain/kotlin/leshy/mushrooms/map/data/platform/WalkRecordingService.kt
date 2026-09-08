@@ -10,6 +10,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
@@ -23,6 +25,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.i18n.StringKey
@@ -53,6 +57,15 @@ private const val NOTIFICATION_CHANNEL_ID = "walk_recording_v3"
 private val LEGACY_NOTIFICATION_CHANNEL_IDS = listOf("walk_recording", "walk_recording_v2")
 private const val NOTIFICATION_ID = 1
 private const val EXTRA_LANGUAGE = "language"
+
+/**
+ * Сторона миниатюры вида в строке уведомления, в пикселях. 96 — это ровно 32dp разметки на
+ * xxhdpi, то есть на большинстве нынешних телефонов картинка приходит в SystemUI такой, какой
+ * рисуется, без пересчёта. Больше брать нельзя не из-за памяти: `RemoteViews` едут через Binder,
+ * у транзакции которого ~1 МБ на всё уведомление, а миниатюр в нём до четырёх, и пересобирается
+ * оно на каждую находку.
+ */
+private const val SPECIES_ICON_PX = 96
 
 /** Прозрачность «−» у вида, которого в этой прогулке ещё не отмечали: убирать нечего. */
 private const val DISABLED_BUTTON_ALPHA = 90
@@ -94,7 +107,11 @@ class WalkRecordingService : Service() {
             ?.let { runCatching { AppLanguage.valueOf(it) }.getOrNull() }
             ?: RecordingNotificationBus.language
         ensureChannel(language)
-        val notification = buildNotification(RecordingNotificationBus.snapshot.value, language)
+        val notification = buildNotification(
+            RecordingNotificationBus.snapshot.value,
+            language,
+            RecordingNotificationBus.icons.value,
+        )
         // Still guarded: the permission can be lost between the check above and this call, and
         // Android 12+ can also refuse a background start outright
         // (ForegroundServiceStartNotAllowedException). Neither is worth a crash — the walk itself
@@ -131,12 +148,17 @@ class WalkRecordingService : Service() {
     private fun observeSnapshots(startLanguage: AppLanguage) {
         if (snapshotJob != null) return
         snapshotJob = scope.launch {
-            RecordingNotificationBus.snapshot.collect { snapshot ->
+            // Миниатюры приезжают отдельным потоком и позже снимка (их надо прочитать с диска и
+            // раскодировать), поэтому уведомление перерисовывается и на них тоже — иначе первая
+            // строка нового вида осталась бы без картинки до следующей находки.
+            combine(RecordingNotificationBus.snapshot, RecordingNotificationBus.icons) { snapshot, icons ->
+                snapshot to icons
+            }.collect { (snapshot, icons) ->
                 if (snapshot == null) return@collect
                 val manager = getSystemService(NotificationManager::class.java)
                 // Молча ничего не делает, если пользователь не дал POST_NOTIFICATIONS, — запись при
                 // этом идёт как шла.
-                runCatching { manager.notify(NOTIFICATION_ID, buildNotification(snapshot, startLanguage)) }
+                runCatching { manager.notify(NOTIFICATION_ID, buildNotification(snapshot, startLanguage, icons)) }
             }
         }
     }
@@ -167,6 +189,7 @@ class WalkRecordingService : Service() {
     private fun buildNotification(
         snapshot: RecordingNotificationSnapshot?,
         fallbackLanguage: AppLanguage,
+        icons: Map<Long, Bitmap>,
     ): Notification {
         val language = snapshot?.language ?: fallbackLanguage
         val contentIntent = packageManager.getLaunchIntentForPackage(packageName)?.let {
@@ -179,7 +202,11 @@ class WalkRecordingService : Service() {
             // видно там, где кастомная разметка не доезжает: часы, авто, старые оболочки.
             .setContentTitle(title)
             .setContentText(string(StringKey.BackgroundRecordingNotificationText, language))
-            .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+            // Силуэт логотипа, а не «указатель на карте»: уведомление про прогулку в этом
+            // приложении, а не про местоположение вообще. Значок статус-бара Android перекрашивает
+            // в один цвет по альфе — цветным он быть не может в принципе, поэтому это альфа-маска,
+            // снятая с ic_launcher_foreground яркостью (см. androidMain/CLAUDE.md).
+            .setSmallIcon(R.drawable.notif_ic_leshy)
             .setOngoing(true)
             // Каналов до Android 8 нет — там важность уведомления задаётся только этим, поэтому
             // без него на API 24–25 канал был бы HIGH, а уведомление осталось бы обычным.
@@ -195,7 +222,7 @@ class WalkRecordingService : Service() {
             .setShowWhen(false)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(collapsedView(title, paused, snapshot, language))
-            .setCustomBigContentView(expandedView(title, paused, snapshot, language))
+            .setCustomBigContentView(expandedView(title, paused, snapshot, language, icons))
             .build()
     }
 
@@ -212,12 +239,15 @@ class WalkRecordingService : Service() {
         paused: Boolean,
         snapshot: RecordingNotificationSnapshot?,
         language: AppLanguage,
+        icons: Map<Long, Bitmap>,
     ): RemoteViews {
         val views = RemoteViews(packageName, R.layout.notification_walk_recording_expanded)
         bindHeader(views, title, paused, snapshot, language)
         // Строки добавляются, а не выбираются из заранее разложенных в xml: их число меняется по
         // ходу прогулки, и пустая строка-заглушка съедала бы высоту, которой и так впритык.
-        snapshot?.species?.forEachIndexed { index, species -> views.addView(R.id.recording_species, speciesRow(index, species)) }
+        snapshot?.species?.forEachIndexed { index, species ->
+            views.addView(R.id.recording_species, speciesRow(index, species, icons[species.categoryId]))
+        }
         return views
     }
 
@@ -233,6 +263,14 @@ class WalkRecordingService : Service() {
             R.id.recording_title,
             if (paused) "$title · ${string(StringKey.RecordPause, language)}" else title,
         )
+        // Одна кнопка на оба состояния: на ходу — две палочки, на паузе — треугольник. Подписи нет
+        // (значки общеизвестны, а подпись пришлось бы переводить на 42 языка), поэтому состояние
+        // читается только по значку — и он обязан меняться вместе с paused.
+        views.setImageViewResource(
+            R.id.recording_pause,
+            if (paused) R.drawable.notif_ic_resume else R.drawable.notif_ic_pause,
+        )
+        views.setOnClickPendingIntent(R.id.recording_pause, pauseIntent())
         // Chronometer'у отдаётся точка отсчёта в шкале elapsedRealtime, дальше он считает сам,
         // внутри SystemUI, — приложение из-за времени не просыпается вовсе. На паузе он
         // останавливается, но показывает накопленное: setBase перерисовывает текст и у
@@ -247,8 +285,15 @@ class WalkRecordingService : Service() {
         views.setTextViewText(R.id.recording_finds, (snapshot?.totalFinds ?: 0).toString())
     }
 
-    private fun speciesRow(index: Int, species: RecordingNotificationSpecies): RemoteViews {
+    private fun speciesRow(
+        index: Int,
+        species: RecordingNotificationSpecies,
+        icon: Bitmap?,
+    ): RemoteViews {
         val row = RemoteViews(packageName, R.layout.notification_walk_recording_species_row)
+        // Пока миниатюра не доехала, место под неё остаётся пустым, а не схлопывается: иначе
+        // строки дёргались бы влево-вправо по мере того, как картинки догружаются.
+        if (icon != null) row.setImageViewBitmap(R.id.species_icon, icon)
         row.setTextViewText(R.id.species_name, species.name)
         row.setTextViewText(R.id.species_count, species.count.toString())
         row.setOnClickPendingIntent(R.id.species_add, actionIntent(index, ACTION_ADD_MUSHROOM, species.categoryId))
@@ -269,6 +314,20 @@ class WalkRecordingService : Service() {
      * и все четыре добавляли бы первый вид. Различает их `data`; `FLAG_UPDATE_CURRENT` вдобавок
      * обновляет extras у переиспользованного интента, когда список видов сдвинулся.
      */
+    /**
+     * Отложенный интент кнопки паузы. Свой код запроса, заведомо больший, чем у строк видов
+     * (те нумеруются индексом строки, 0..MAX_RECORDING_NOTIFICATION_SPECIES), и свой `data` — по
+     * той же причине, что и у них: [Intent.filterEquals] не смотрит на extras.
+     */
+    private fun pauseIntent(): PendingIntent = PendingIntent.getBroadcast(
+        this,
+        PAUSE_REQUEST_CODE,
+        Intent(this, WalkRecordingActionReceiver::class.java)
+            .setAction(ACTION_TOGGLE_PAUSE)
+            .setData(Uri.parse("leshy://recording/pause")),
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+    )
+
     private fun actionIntent(index: Int, action: String, categoryId: Long): PendingIntent {
         val intent = Intent(this, WalkRecordingActionReceiver::class.java)
             .setAction(action)
@@ -304,6 +363,8 @@ class WalkRecordingService : Service() {
     private fun hasLocationPermission(): Boolean = hasLocationPermission(this)
 
     companion object {
+        private const val PAUSE_REQUEST_CODE = 100
+
         fun intent(context: Context, language: AppLanguage): Intent =
             Intent(context, WalkRecordingService::class.java).putExtra(EXTRA_LANGUAGE, language.name)
     }
@@ -316,7 +377,25 @@ internal fun hasLocationPermission(context: Context): Boolean =
         ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) ==
         PackageManager.PERMISSION_GRANTED
 
-class AndroidBackgroundRecordingController(private val context: Context) : BackgroundRecordingController {
+class AndroidBackgroundRecordingController(
+    private val context: Context,
+    private val photoStorage: PhotoStorage,
+) : BackgroundRecordingController {
+
+    /**
+     * Отдельная область под чтение и декодирование миниатюр: у контроллера нет ни жизненного
+     * цикла, ни владельца, который её закрыл бы, — он живёт столько же, сколько граф Koin, то
+     * есть весь процесс. Работа здесь короткая (прочитать файл, раскодировать webp), а результат
+     * запоминается — на прогулку это до четырёх декодирований, а не поток задач.
+     */
+    private val iconScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    /**
+     * Виды, чью миниатюру уже запрашивали, — чтобы не запускать декодирование повторно на каждый
+     * снимок (а снимок приходит на каждую находку). Читается и пишется только из [update] и
+     * [start], то есть с главного потока, — синхронизации не требует.
+     */
+    private val requestedIcons = mutableSetOf<Long>()
 
     override val commands: Flow<RecordingCommand> = RecordingNotificationBus.commands
 
@@ -328,6 +407,12 @@ class AndroidBackgroundRecordingController(private val context: Context) : Backg
         // location.
         if (!hasLocationPermission(context)) return
         RecordingNotificationBus.language = language
+        // Кеш миниатюр сбрасывается на старте прогулки, а не держится вечно: у пользовательского
+        // вида картинку можно поменять между прогулками, и запомненная навсегда осталась бы
+        // старой. Внутри одной прогулки она не меняется — редактировать вид, не выходя из записи,
+        // нельзя.
+        requestedIcons.clear()
+        RecordingNotificationBus.icons.value = emptyMap()
         // Именно здесь, а не в stop(): сервис может подняться раньше первого снимка, и без сброса
         // он показал бы показатели предыдущей прогулки. Обнулять на stop() было бы недостаточно —
         // startupHealJob зовёт stop() и до того, как что-то вообще запускалось.
@@ -339,10 +424,36 @@ class AndroidBackgroundRecordingController(private val context: Context) : Backg
 
     override fun update(snapshot: RecordingNotificationSnapshot) {
         RecordingNotificationBus.snapshot.value = snapshot
+        snapshot.species.forEach { species ->
+            if (!requestedIcons.add(species.categoryId)) return@forEach
+            iconScope.launch {
+                val bytes = resolveCategoryIconBytes(species.iconRef, species.iconFile, photoStorage)
+                val bitmap = bytes?.let { decodeSpeciesIcon(it) } ?: return@launch
+                RecordingNotificationBus.icons.update { it + (species.categoryId to bitmap) }
+            }
+        }
+    }
+
+    /**
+     * Уменьшает картинку вида при декодировании, а не после: исходники каталога — под 500×500, и
+     * четыре таких в уведомлении не пролезли бы в транзакцию Binder'а, через которую `RemoteViews`
+     * едут в SystemUI. `inSampleSize` декодер округляет вниз до степени двойки, поэтому итог
+     * получается не точно [SPECIES_ICON_PX], а от него до вдвое большего — доводит `fitCenter`
+     * самого `ImageView`.
+     */
+    private fun decodeSpeciesIcon(bytes: ByteArray): Bitmap? {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
+        val longest = maxOf(bounds.outWidth, bounds.outHeight)
+        val options = BitmapFactory.Options().apply {
+            inSampleSize = if (longest > 0) maxOf(1, longest / SPECIES_ICON_PX) else 1
+        }
+        return runCatching { BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options) }.getOrNull()
     }
 
     override fun stop() {
         RecordingNotificationBus.snapshot.value = null
+        RecordingNotificationBus.icons.value = emptyMap()
         runCatching { context.stopService(Intent(context, WalkRecordingService::class.java)) }
     }
 }

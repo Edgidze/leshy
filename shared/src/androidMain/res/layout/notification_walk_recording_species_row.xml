@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Одна строка «вид — счётчик — −/+» развёрнутого уведомления. Кнопки шлют broadcast
-  (WalkRecordingActionReceiver), а не запускают Activity, — именно поэтому они срабатывают прямо с
-  заблокированного экрана: разблокировки система требует только для PendingIntent'ов на Activity.
+  Одна строка развёрнутого уведомления: миниатюра вида, его название, «−», счётчик, «+». Кнопки
+  шлют broadcast (WalkRecordingActionReceiver), а не запускают Activity, — именно поэтому они
+  срабатывают прямо с заблокированного экрана: разблокировки система требует только для
+  PendingIntent'ов на Activity.
+
+  Счётчик стоит МЕЖДУ кнопками, а не перед ними: «−  N  +» читается как одна группа управления
+  этим числом, и палец не промахивается мимо кнопки в цифру.
+
+  Название — единственное, что тянется (`layout_weight`), поэтому длинное имя обрезается
+  многоточием (`ellipsize="end"`, `maxLines="1"`), а миниатюра слева и группа кнопок справа
+  никогда не съезжают и не сжимаются.
 
   44dp на строку — компромисс между рекомендацией Material в 48dp и лимитом Android в 256dp на всё
   содержимое (см. MAX_RECORDING_NOTIFICATION_SPECIES); недобор высоты кнопки компенсирован её
-  шириной в 52dp.
+  шириной в 48dp.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
@@ -14,6 +22,14 @@
               android:baselineAligned="false"
               android:gravity="center_vertical"
               android:orientation="horizontal">
+
+    <ImageView
+            android:id="@+id/species_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter"/>
 
     <TextView
             android:id="@+id/species_name"
@@ -24,28 +40,28 @@
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
 
-    <TextView
-            android:id="@+id/species_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="4dp"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
-
     <ImageButton
             android:id="@+id/species_remove"
-            android:layout_width="52dp"
+            android:layout_width="48dp"
             android:layout_height="44dp"
+            android:layout_marginStart="4dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/notif_ic_remove"
             android:tint="?android:attr/textColorPrimary"/>
 
+    <TextView
+            android:id="@+id/species_count"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
+
     <ImageButton
             android:id="@+id/species_add"
-            android:layout_width="52dp"
+            android:layout_width="48dp"
             android:layout_height="44dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="10dp"

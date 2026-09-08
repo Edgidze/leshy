@@ -1,5 +1,6 @@
 package leshy.mushrooms.map.data.platform
 
+import android.graphics.Bitmap
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,6 +39,15 @@ internal object RecordingNotificationBus {
         extraBufferCapacity = 32,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
+
+    /**
+     * Миниатюры видов для строк уведомления: `categoryId` → уже декодированный и уменьшенный
+     * `Bitmap`. Отдельным потоком от [snapshot], а не полем в нём: снимок приходит из общего кода,
+     * где `Bitmap`'а нет и быть не может, и сравнивается целиком — картинки в нём ломали бы
+     * сравнение (у массива байт равенство ссылочное). Заполняет
+     * [AndroidBackgroundRecordingController], читает [WalkRecordingService].
+     */
+    val icons = MutableStateFlow<Map<Long, Bitmap>>(emptyMap())
 
     /** Язык, на котором построено текущее уведомление, — из настроек, через `start()`. */
     @Volatile

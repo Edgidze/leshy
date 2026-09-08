@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Свёрнутый вид — то, что видно в шторке и на замке до того, как уведомление развернули.
-  Android режет содержимое кастомного уведомления по 48dp в этом состоянии, поэтому здесь ровно
-  две строки: заголовок и показатели. Кнопки видов живут только в развёрнутом виде.
+  Свёрнутый вид — то, что видно в шторке, на замке и во всплывающем баннере до того, как
+  уведомление развернули. Android режет содержимое кастомного уведомления по 48dp в этом
+  состоянии, поэтому здесь ровно две строки: заголовок с кнопкой паузы (28dp) и показатели
+  (~18dp). Строки видов живут только в развёрнутом виде.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <TextView
-            android:id="@+id/recording_title"
+    <include
+            layout="@layout/notification_walk_recording_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
+            android:layout_height="28dp"/>
 
     <include
             layout="@layout/notification_walk_recording_stats"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"/>
+            android:layout_height="wrap_content"/>
 </LinearLayout>

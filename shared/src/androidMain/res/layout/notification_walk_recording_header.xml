@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Заголовок уведомления идущей записи и кнопка «пауза»/«продолжить» в конце той же строки.
+  Отдельным файлом по той же причине, что и строка показателей: включается и в свёрнутый вид, и
+  в развёрнутый (см. соседние два layout'а), а строка должна быть в обоих одинаковой.
+
+  Кнопка не подписана словами — только стандартные значки (две палочки / треугольник), потому что
+  подпись пришлось бы переводить на все 42 языка интерфейса ради двух общеизвестных пиктограмм, и
+  она же съела бы место у самого заголовка.
+
+  Высота строки 28dp, а не 44dp как у строк видов: свёрнутый вид Android режет по 48dp на всё
+  содержимое, и в этот бюджет должны уложиться и эта строка, и строка показателей под ней. Кнопка
+  добирает недостающее до комфортного нажатия шириной (48dp), как и кнопки видов.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="28dp"
+              android:baselineAligned="false"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+    <TextView
+            android:id="@+id/recording_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
+
+    <ImageButton
+            android:id="@+id/recording_pause"
+            android:layout_width="48dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/notif_ic_pause"
+            android:tint="?android:attr/textColorPrimary"/>
+</LinearLayout>

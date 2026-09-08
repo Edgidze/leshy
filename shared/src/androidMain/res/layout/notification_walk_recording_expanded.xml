@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Развёрнутый вид: то же самое плюс до MAX_RECORDING_NOTIFICATION_SPECIES строк «вид — счётчик —
-  −/+». Сами строки не лежат в разметке — их добавляет WalkRecordingService через
-  RemoteViews.addView, потому что их число и содержимое меняются по ходу прогулки.
+  Развёрнутый вид: то же самое плюс до MAX_RECORDING_NOTIFICATION_SPECIES строк
+  «миниатюра — вид — −/N/+». Сами строки не лежат в разметке — их добавляет WalkRecordingService
+  через RemoteViews.addView, потому что их число и содержимое меняются по ходу прогулки.
 
   Суммарная высота обязана уложиться в 256dp, которыми Android с 12-й версии режет содержимое
-  кастомного уведомления: заголовок + показатели (~48dp) плюс четыре строки по 44dp — см.
+  кастомного уведомления: заголовок (28dp) + показатели (~18dp) плюс четыре строки по 44dp — см.
   MAX_RECORDING_NOTIFICATION_SPECIES.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,19 +13,15 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <TextView
-            android:id="@+id/recording_title"
+    <include
+            layout="@layout/notification_walk_recording_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
+            android:layout_height="28dp"/>
 
     <include
             layout="@layout/notification_walk_recording_stats"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"/>
+            android:layout_height="wrap_content"/>
 
     <LinearLayout
             android:id="@+id/recording_species"

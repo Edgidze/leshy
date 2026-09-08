@@ -22,12 +22,25 @@ import org.jetbrains.compose.resources.getSystemResourceEnvironment
  * in a loop. Returns null on any failure (missing file, unknown `iconRef`, decode error at the
  * resource layer) — callers must fall back gracefully, not crash.
  */
-suspend fun resolveCategoryIconBytes(category: Category, photoStorage: PhotoStorage): ByteArray? = when {
-    category.iconFile != null ->
-        runCatching { FileSystem.SYSTEM.read(photoStorage.resolvePath(category.iconFile).toPath()) { readByteArray() } }
+suspend fun resolveCategoryIconBytes(category: Category, photoStorage: PhotoStorage): ByteArray? =
+    resolveCategoryIconBytes(category.iconRef, category.iconFile, photoStorage)
+
+/**
+ * Та же выборка по двум полям напрямую — для тех, у кого на руках не весь [Category], а только
+ * ссылка на его картинку: строки уведомления идущей записи
+ * ([leshy.mushrooms.map.data.platform.RecordingNotificationSpecies]) везут именно ссылки, потому
+ * что байты в снимке сломали бы его сравнение.
+ */
+suspend fun resolveCategoryIconBytes(
+    iconRef: String?,
+    iconFile: String?,
+    photoStorage: PhotoStorage,
+): ByteArray? = when {
+    iconFile != null ->
+        runCatching { FileSystem.SYSTEM.read(photoStorage.resolvePath(iconFile).toPath()) { readByteArray() } }
             .getOrNull()
-    category.iconRef != null ->
-        Res.allDrawableResources[category.iconRef]?.let { resource ->
+    iconRef != null ->
+        Res.allDrawableResources[iconRef]?.let { resource ->
             runCatching { getDrawableResourceBytes(getSystemResourceEnvironment(), resource) }.getOrNull()
         }
     else -> null

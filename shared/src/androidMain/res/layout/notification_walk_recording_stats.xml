@@ -7,58 +7,89 @@
   процесса SystemUI, и приложению не нужно ни будить себя раз в секунду, ни слать раз в секунду
   новое уведомление. Приложение задаёт ему только точку отсчёта — см. WalkRecordingService.
 
+  Три показателя разложены по ширине равными долями (три вложенных контейнера с `layout_weight`,
+  каждый по своему левому краю), а не выстроены подряд от левого края. Так строка не пляшет:
+  расстояние растёт с «0 м» до «12.34 км», а число находок — с одной цифры до четырёх, и при
+  укладке подряд каждый такой переход сдвигал бы все следующие значки. Одинаковые доли этого
+  не допускают — значок стоит там же, где стоял.
+
   Цвета — только через `?android:attr/...`: разметка инфлейтится в SystemUI с темой уведомлений,
   и любая прибитая гвоздями краска промахнётся мимо неё на светлой либо на тёмной теме шторки.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal">
+              android:baselineAligned="false"
+              android:orientation="horizontal"
+              android:weightSum="3">
 
-    <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:contentDescription="@null"
-            android:src="@drawable/notif_ic_stopwatch"
-            android:tint="?android:attr/textColorSecondary"/>
-
-    <Chronometer
-            android:id="@+id/recording_time"
-            android:layout_width="wrap_content"
+    <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textAppearance="@style/TextAppearance.Compat.Notification"/>
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-    <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="12dp"
-            android:contentDescription="@null"
-            android:src="@drawable/notif_ic_route"
-            android:tint="?android:attr/textColorSecondary"/>
+        <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/notif_ic_stopwatch"
+                android:tint="?android:attr/textColorSecondary"/>
 
-    <TextView
-            android:id="@+id/recording_distance"
-            android:layout_width="wrap_content"
+        <Chronometer
+                android:id="@+id/recording_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textAppearance="@style/TextAppearance.Compat.Notification"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.Compat.Notification"/>
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-    <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="12dp"
-            android:contentDescription="@null"
-            android:src="@drawable/notif_ic_mushrooms"
-            android:tint="?android:attr/textColorSecondary"/>
+        <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/notif_ic_route"
+                android:tint="?android:attr/textColorSecondary"/>
 
-    <TextView
-            android:id="@+id/recording_finds"
-            android:layout_width="wrap_content"
+        <TextView
+                android:id="@+id/recording_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Compat.Notification"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.Compat.Notification"/>
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/notif_ic_mushrooms"
+                android:tint="?android:attr/textColorSecondary"/>
+
+        <TextView
+                android:id="@+id/recording_finds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Compat.Notification"/>
+    </LinearLayout>
 </LinearLayout>

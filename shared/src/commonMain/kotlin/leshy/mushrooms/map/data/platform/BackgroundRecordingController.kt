@@ -16,12 +16,24 @@ import leshy.mushrooms.map.domain.model.AppLanguage
  */
 const val MAX_RECORDING_NOTIFICATION_SPECIES = 4
 
-/** Одна строка «вид — счётчик» в уведомлении идущей записи. */
+/** Одна строка «миниатюра — вид — −/N/+» в уведомлении идущей записи. */
 data class RecordingNotificationSpecies(
     val categoryId: Long,
     /** Уже локализованное имя вида — `androidMain` в i18n не ходит. */
     val name: String,
     val count: Int,
+    /**
+     * Откуда платформе взять миниатюру вида — ровно те два поля
+     * [leshy.mushrooms.map.domain.model.Category], по которым это решает
+     * [resolveCategoryIconBytes]: `iconRef` у вида каталога, `iconFile` у пользовательского.
+     *
+     * Именно ссылки, а не готовые байты: снимок сравнивается целиком (`distinctUntilChanged` в
+     * `RecordViewModel`), а у `ByteArray` равенство ссылочное — картинка в снимке ломала бы
+     * сравнение, и уведомление пересобиралось бы на каждый GPS-фикс. Декодированием и кешем
+     * занимается `AndroidBackgroundRecordingController`.
+     */
+    val iconRef: String? = null,
+    val iconFile: String? = null,
 )
 
 /**
@@ -53,6 +65,9 @@ data class RecordingNotificationSnapshot(
 sealed interface RecordingCommand {
     data class AddMushroom(val categoryId: Long) : RecordingCommand
     data class RemoveMushroom(val categoryId: Long) : RecordingCommand
+
+    /** Кнопка «пауза»/«продолжить» в заголовке уведомления — одна кнопка на оба состояния. */
+    data object TogglePause : RecordingCommand
 }
 
 /**

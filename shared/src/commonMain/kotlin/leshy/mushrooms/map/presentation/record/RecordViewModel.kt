@@ -340,6 +340,15 @@ class RecordViewModel(
                 when (command) {
                     is RecordingCommand.AddMushroom -> addMushroom(command.categoryId)
                     is RecordingCommand.RemoveMushroom -> removeMushroom(command.categoryId)
+                    // Не onStartOrPauseClick(): та же кнопка на экране умеет ещё и НАЧАТЬ
+                    // прогулку, а уведомление существует только пока запись идёт — начинать ему
+                    // нечего, и случайно начатая с уведомления прогулка была бы худшим из
+                    // возможных исходов нажатия.
+                    RecordingCommand.TogglePause -> when {
+                        !_uiState.value.isRecording -> Unit
+                        _uiState.value.isPaused -> resume()
+                        else -> pause()
+                    }
                 }
             }
         }
@@ -902,6 +911,8 @@ class RecordViewModel(
                 categoryId = id,
                 name = categoryDisplayName(category, language),
                 count = state.mushroomCounts[id] ?: 0,
+                iconRef = category.iconRef,
+                iconFile = category.iconFile,
             )
         }
 
