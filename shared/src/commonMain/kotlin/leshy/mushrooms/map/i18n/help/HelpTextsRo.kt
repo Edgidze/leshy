@@ -32,9 +32,11 @@ internal val romanianHelpTexts: Map<HelpKey, String> = mapOf(
             "numărul de pe el arată câte filtre sunt active acum. Filtrul este comun cu „Harta " +
             "descoperirilor”: ce activați aici se aplică și acolo.",
     HelpKey.RecordBackground to
-        "Înregistrarea traseului continuă și când aplicația este în fundal. Pe lângă plimbarea curentă, " +
-            "harta arată descoperirile și locurile marcate din plimbările trecute — din ele se vede pe " +
-            "unde ați umblat deja și ce a fost acolo.",
+        "Înregistrarea traseului continuă și când aplicația este în fundal. Pe Android plimbarea " +
+            "în curs stă și ca notificare cu butoane „+”/„−” — o descoperire poate fi notată fără a " +
+            "debloca telefonul. Pe lângă plimbarea curentă, harta arată descoperirile și locurile " +
+            "marcate din plimbările trecute — din ele se vede pe unde ați umblat deja și ce a fost " +
+            "acolo.",
     HelpKey.ArchivePurpose to
         "Toate plimbările dumneavoastră, cele noi sus. Pe fișă sunt numele, data, durata, kilometrii, " +
             "numărul de descoperiri și o miniatură a traseului parcurs.",
@@ -82,13 +84,15 @@ internal val romanianHelpTexts: Map<HelpKey, String> = mapOf(
             "colecții pe țări, iar alături trăiesc speciile care nu există în catalog — pe acelea le " +
             "adăugați dumneavoastră.",
     HelpKey.SpeciesCollections to
-        "În „Colecții de ciuperci”, apăsarea pe rândul unei țări îi desface speciile: bifa de lângă țară " +
-            "activează întreaga colecție, bifele dinăuntru speciile individuale. Câmpul de căutare de sus " +
-            "găsește țara după nume.",
+        "În „Colecții de ciuperci”, apăsarea pe rândul unei țări îi desface speciile: bifa de " +
+            "lângă țară activează întreaga colecție, bifele dinăuntru speciile individuale. Câmpul de " +
+            "căutare de sus găsește după nume atât o țară, cât și o ciupercă anume.",
     HelpKey.SpeciesOwn to
-        "În „Ciuperci adăugate”, butonul „Adaugă ciupercă” deschide un formular: nume, nume științific, " +
-            "culoarea marcajului și o imagine — de la cameră, din galerie sau din catalog. Creionul " +
-            "modifică o specie deja adăugată, crucea o șterge.",
+        "În „Ciuperci adăugate”, butonul „Adaugă ciupercă” deschide un formular: nume, nume " +
+            "științific, culoarea marcajului și o imagine — de la cameră, din galerie sau din " +
+            "catalog. Apoi aplicația întreabă „În ce colecție?”: un nume propriu adună astfel de " +
+            "ciuperci laolaltă, câmpul gol le pune în „Altele”. Creionul modifică o specie deja " +
+            "adăugată, crucea o șterge.",
     HelpKey.SpeciesCheckboxes to
         "Bifa scoasă nu șterge nimic — specia pur și simplu nu mai apare ca placă, iar descoperirile " +
             "trecute rămân la locul lor. Ștergerea unei specii proprii este, dimpotrivă, ireversibilă: " +

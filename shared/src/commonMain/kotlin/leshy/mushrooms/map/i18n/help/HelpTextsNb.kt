@@ -30,9 +30,10 @@ internal val norwegianHelpTexts: Map<HelpKey, String> = mapOf(
             "vises på kartet, og tallet på den sier hvor mange filtre som er på nå. Filteret deles med " +
             "«Funnkart»: det du slår på her, gjelder også der.",
     HelpKey.RecordBackground to
-        "Opptaket av sporet fortsetter når appen er i bakgrunnen. I tillegg til dagens tur viser kartet " +
-            "funn og merkede steder fra tidligere turer — av dem ser du hvor du allerede har gått og hva " +
-            "som var der.",
+        "Opptaket av sporet fortsetter når appen er i bakgrunnen. På Android ligger turen som " +
+            "pågår også som et varsel med «+»/«−»-knapper — et funn kan noteres uten å låse opp " +
+            "telefonen. I tillegg til dagens tur viser kartet funn og merkede steder fra tidligere " +
+            "turer — av dem ser du hvor du allerede har gått og hva som var der.",
     HelpKey.ArchivePurpose to
         "Alle turene dine, de nyeste øverst. På kortet står navn, dato, varighet, kilometer, antall funn " +
             "og et miniatyrbilde av sporet du gikk.",
@@ -76,12 +77,14 @@ internal val norwegianHelpTexts: Map<HelpKey, String> = mapOf(
             "samlinger etter land, og ved siden av bor artene katalogen ikke har — dem legger du til " +
             "selv.",
     HelpKey.SpeciesCollections to
-        "Under «Soppsamlinger» folder et trykk på landets rad ut artene: haken ved landet slår på hele " +
-            "samlingen, hakene inni de enkelte artene. Søkefeltet øverst finner et land på navn.",
+        "Under «Soppsamlinger» folder et trykk på landets rad ut artene: haken ved landet slår på " +
+            "hele samlingen, hakene inni de enkelte artene. Søkefeltet øverst finner både et land og " +
+            "en enkelt sopp på navn.",
     HelpKey.SpeciesOwn to
-        "Under «Lagte til sopper» åpner knappen «Legg til sopp» et skjema: navn, vitenskapelig navn, " +
-            "markørfarge og bilde — fra kameraet, fra galleriet eller fra katalogen. Blyanten endrer en " +
-            "art du har lagt til, krysset sletter den.",
+        "Under «Lagte til sopper» åpner knappen «Legg til sopp» et skjema: navn, vitenskapelig " +
+            "navn, markørfarge og bilde — fra kameraet, fra galleriet eller fra katalogen. Deretter " +
+            "spør appen «Hvilken samling?»: et eget navn samler slike sopper, et tomt felt legger dem " +
+            "i «Andre». Blyanten endrer en art du har lagt til, krysset sletter den.",
     HelpKey.SpeciesCheckboxes to
         "En fjernet hake sletter ingenting — arten vises bare ikke lenger som flis, og tidligere funn " +
             "blir der de er. Å slette din egen art kan derimot ikke angres: alle merkingene dens i " +

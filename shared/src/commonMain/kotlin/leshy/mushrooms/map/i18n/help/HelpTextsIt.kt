@@ -33,9 +33,11 @@ internal val italianHelpTexts: Map<HelpKey, String> = mapOf(
             "mappa, mentre il numero sopra indica quanti filtri sono attivi. Il filtro è comune con la " +
             "«Mappa dei ritrovamenti»: ciò che attivi qui vale anche là.",
     HelpKey.RecordBackground to
-        "La registrazione del percorso prosegue quando l'app è in secondo piano. Oltre all'uscita in " +
-            "corso, la mappa mostra ritrovamenti e luoghi segnati delle uscite passate — da essi si vede " +
-            "dove sei già stato e cosa c'era.",
+        "La registrazione del percorso prosegue quando l'app è in secondo piano. Su Android " +
+            "l'uscita in corso resta anche come notifica con i pulsanti «+»/«−» — un ritrovamento si " +
+            "annota senza sbloccare il telefono. Oltre all'uscita in corso, la mappa mostra " +
+            "ritrovamenti e luoghi segnati delle uscite passate — da essi si vede dove sei già stato " +
+            "e cosa c'era.",
     HelpKey.ArchivePurpose to
         "Tutte le tue uscite, le più recenti in alto. Sulla scheda ci sono nome, data, durata, " +
             "chilometri, numero di ritrovamenti e una miniatura del percorso.",
@@ -86,13 +88,15 @@ internal val italianHelpTexts: Map<HelpKey, String> = mapOf(
             "in collezioni per paese, e accanto vivono le specie che il catalogo non ha — quelle le " +
             "aggiungi tu.",
     HelpKey.SpeciesCollections to
-        "In «Collezioni di funghi», toccando la riga di un paese si aprono le sue specie: la spunta " +
-            "accanto al paese attiva l'intera collezione, le spunte interne le singole specie. Il campo " +
-            "di ricerca in alto trova un paese per nome.",
+        "In «Collezioni di funghi», toccando la riga di un paese si aprono le sue specie: la " +
+            "spunta accanto al paese attiva l'intera collezione, le spunte interne le singole specie. " +
+            "Il campo di ricerca in alto trova per nome sia un paese sia un singolo fungo.",
     HelpKey.SpeciesOwn to
-        "In «Funghi aggiunti» il pulsante «Aggiungi fungo» apre un modulo: nome, nome scientifico, colore " +
-            "del segno e immagine — dalla fotocamera, dalla galleria o dal catalogo. La matita modifica " +
-            "una specie già aggiunta, la crocetta la elimina.",
+        "In «Funghi aggiunti» il pulsante «Aggiungi fungo» apre un modulo: nome, nome " +
+            "scientifico, colore del segno e immagine — dalla fotocamera, dalla galleria o dal " +
+            "catalogo. Poi l'app chiede «In quale collezione?»: un nome tuo raccoglie insieme questi " +
+            "funghi, il campo vuoto li mette in «Altri». La matita modifica una specie già aggiunta, " +
+            "la crocetta la elimina.",
     HelpKey.SpeciesCheckboxes to
         "Togliere la spunta non cancella nulla — la specie semplicemente smette di comparire come " +
             "casella, e i ritrovamenti passati restano al loro posto. Eliminare una tua specie, invece, è " +

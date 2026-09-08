@@ -55,4 +55,11 @@ data class RecordUiState(
      * a reader of the signal always sees the value meant for that specific event.
      */
     val scrollToStartDurationMillis: Int? = null,
+    /**
+     * Whether the tile feed still reorders itself around recent finds — i.e. Settings'
+     * «неподвижный порядок грибов» (freeze order) is OFF. While it does, the front of the feed is
+     * the only position in it that means anything, and the Record screen snaps back there every
+     * time it resumes — see the `LifecycleResumeEffect` in `RecordScreenContent`.
+     */
+    val tileOrderFollowsRecency: Boolean = true,
 )

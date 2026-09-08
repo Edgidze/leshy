@@ -30,9 +30,10 @@ internal val turkishHelpTexts: Map<HelpKey, String> = mapOf(
             "görüneceğini belirler; üzerindeki sayı şu anda kaç filtrenin açık olduğunu söyler. Filtre " +
             "«Bulgu Haritası» ile ortaktır: burada açtığınız orada da geçerlidir.",
     HelpKey.RecordBackground to
-        "İz kaydı, uygulama arka plandayken de sürer. Güncel yürüyüşün yanı sıra harita geçmiş " +
-            "yürüyüşlerin bulgularını ve işaretlenmiş yerlerini gösterir — onlardan nerede yürüdüğünüz ve " +
-            "orada ne olduğu görülür.",
+        "İz kaydı, uygulama arka plandayken de sürer. Android'de süren yürüyüş «+»/«−» düğmeleri " +
+            "olan bir bildirim olarak da durur — bulgu, telefonun kilidi açılmadan kaydedilebilir. " +
+            "Güncel yürüyüşün yanı sıra harita geçmiş yürüyüşlerin bulgularını ve işaretlenmiş " +
+            "yerlerini gösterir — onlardan nerede yürüdüğünüz ve orada ne olduğu görülür.",
     HelpKey.ArchivePurpose to
         "Tüm yürüyüşleriniz, yeniler üstte. Kartta ad, tarih, süre, kilometre, bulgu sayısı ve yürünen " +
             "izin küçük görseli bulunur.",
@@ -76,13 +77,15 @@ internal val turkishHelpTexts: Map<HelpKey, String> = mapOf(
             "göre koleksiyonlara ayrılmıştır, yanında ise katalogda bulunmayan türler yaşar — onları siz " +
             "eklersiniz.",
     HelpKey.SpeciesCollections to
-        "«Mantar koleksiyonları» içinde bir ülkenin satırına dokunmak türlerini açar: ülkenin yanındaki " +
-            "onay kutusu koleksiyonun tamamını açar, içindekiler tek tek türleri. Üstteki arama alanı " +
-            "ülkeyi adıyla bulur.",
+        "«Mantar koleksiyonları» içinde bir ülkenin satırına dokunmak türlerini açar: ülkenin " +
+            "yanındaki onay kutusu koleksiyonun tamamını açar, içindekiler tek tek türleri. Üstteki " +
+            "arama alanı ada göre hem ülkeyi hem de tek bir mantarı bulur.",
     HelpKey.SpeciesOwn to
-        "«Eklenen mantarlar» bölümünde «Mantar ekle» düğmesi bir form açar: ad, bilimsel ad, işaret rengi " +
-            "ve görsel — kameradan, galeriden ya da katalogdan. Kalem eklenmiş bir türü değiştirir, çarpı " +
-            "onu siler.",
+        "«Eklenen mantarlar» bölümünde «Mantar ekle» düğmesi bir form açar: ad, bilimsel ad, " +
+            "işaret rengi ve görsel — kameradan, galeriden ya da katalogdan. Ardından uygulama «Hangi " +
+            "koleksiyona?» diye sorar: kendi verdiğiniz ad böyle mantarları bir arada toplar, boş " +
+            "alan onları «Diğerleri» içine koyar. Kalem eklenmiş bir türü değiştirir, çarpı onu " +
+            "siler.",
     HelpKey.SpeciesCheckboxes to
         "İşareti kaldırmak hiçbir şeyi silmez — tür yalnızca kutucuk olarak görünmez olur, geçmiş " +
             "bulgular yerinde kalır. Kendi türünüzü silmek ise geri alınamaz: geçmiş yürüyüşlerdeki tüm " +

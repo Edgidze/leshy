@@ -32,9 +32,11 @@ internal val swedishHelpTexts: Map<HelpKey, String> = mapOf(
             "kartan, och siffran på den säger hur många filter som är på. Filtret delas med ”Fyndkarta”: " +
             "det du slår på här gäller även där.",
     HelpKey.RecordBackground to
-        "Inspelningen av spåret fortsätter när appen ligger i bakgrunden. Utöver den pågående promenaden " +
-            "visar kartan fynd och markerade platser från tidigare promenader — av dem syns var du redan " +
-            "gått och vad som fanns där.",
+        "Inspelningen av spåret fortsätter när appen ligger i bakgrunden. På Android visas den " +
+            "pågående promenaden även som en avisering med knapparna ”+”/”−” — ett fynd kan noteras " +
+            "utan att låsa upp telefonen. Utöver den pågående promenaden visar kartan fynd och " +
+            "markerade platser från tidigare promenader — av dem syns var du redan gått och vad som " +
+            "fanns där.",
     HelpKey.ArchivePurpose to
         "Alla dina promenader, de nyaste överst. På kortet finns namn, datum, längd i tid, kilometer, " +
             "antal fynd och en miniatyr av det gångna spåret.",
@@ -79,12 +81,15 @@ internal val swedishHelpTexts: Map<HelpKey, String> = mapOf(
             "i samlingar per land, och bredvid den bor de arter som katalogen saknar — dem lägger du till " +
             "själv.",
     HelpKey.SpeciesCollections to
-        "Under ”Svampsamlingar” fäller ett tryck på landets rad ut dess arter: bocken vid landet slår på " +
-            "hela samlingen, bockarna inuti enskilda arter. Sökfältet överst hittar ett land på namn.",
+        "Under ”Svampsamlingar” fäller ett tryck på landets rad ut dess arter: bocken vid landet " +
+            "slår på hela samlingen, bockarna inuti enskilda arter. Sökfältet högst upp hittar både " +
+            "ett land och en enskild svamp på namn.",
     HelpKey.SpeciesOwn to
-        "Under ”Tillagda svampar” öppnar knappen ”Lägg till svamp” ett formulär: namn, vetenskapligt " +
-            "namn, markeringsfärg och bild — från kameran, från galleriet eller från katalogen. Pennan " +
-            "ändrar en redan tillagd art, krysset tar bort den.",
+        "Under ”Tillagda svampar” öppnar knappen ”Lägg till svamp” ett formulär: namn, " +
+            "vetenskapligt namn, markeringsfärg och bild — från kameran, från galleriet eller från " +
+            "katalogen. Sedan frågar appen ”Vilken samling?”: ett eget namn samlar sådana svampar, " +
+            "ett tomt fält lägger dem i ”Övriga”. Pennan ändrar en redan tillagd art, krysset tar " +
+            "bort den.",
     HelpKey.SpeciesCheckboxes to
         "En borttagen bock raderar ingenting — arten slutar bara visas som ruta, och tidigare fynd ligger " +
             "kvar. Att ta bort en egen art går däremot inte att ångra: alla dess markeringar i tidigare " +

@@ -32,9 +32,10 @@ internal val polishHelpTexts: Map<HelpKey, String> = mapOf(
             "pokazywać na mapie, a liczba na nim mówi, ile filtrów jest teraz włączonych. Filtr jest " +
             "wspólny z „Mapą znalezisk”: włączone tutaj działa i tam.",
     HelpKey.RecordBackground to
-        "Zapis trasy trwa również wtedy, gdy aplikacja jest zwinięta. Poza bieżącym spacerem mapa " +
-            "pokazuje znaleziska i oznaczone miejsca z poprzednich spacerów — widać po nich, gdzie już " +
-            "chodziłeś i co tam było.",
+        "Zapis trasy trwa również wtedy, gdy aplikacja jest zwinięta. Na Androidzie trwający " +
+            "spacer wisi też jako powiadomienie z przyciskami „+”/„−” — znalezisko można zapisać bez " +
+            "odblokowywania telefonu. Poza bieżącym spacerem mapa pokazuje znaleziska i oznaczone " +
+            "miejsca z poprzednich spacerów — widać po nich, gdzie już chodziłeś i co tam było.",
     HelpKey.ArchivePurpose to
         "Wszystkie twoje spacery, najnowsze na górze. Na karcie są nazwa, data, czas trwania, kilometry, " +
             "liczba znalezisk i miniatura przebytej trasy.",
@@ -78,13 +79,14 @@ internal val polishHelpTexts: Map<HelpKey, String> = mapOf(
         "Tutaj decydujesz, które grzyby będą kafelkami na ekranie zapisu. Katalog jest podzielony na " +
             "zestawy według krajów, a obok żyją gatunki, których w katalogu nie ma — te dodajesz sam.",
     HelpKey.SpeciesCollections to
-        "W „Zestawach grzybów” naciśnięcie wiersza kraju rozwija jego gatunki: zaznaczenie przy kraju " +
-            "włącza cały zestaw, zaznaczenia w środku — poszczególne gatunki. Pole wyszukiwania na górze " +
-            "znajduje kraj po nazwie.",
+        "W „Zestawach grzybów” naciśnięcie wiersza kraju rozwija jego gatunki: zaznaczenie przy " +
+            "kraju włącza cały zestaw, zaznaczenia w środku — poszczególne gatunki. Pole wyszukiwania " +
+            "u góry znajduje po nazwie i kraj, i pojedynczego grzyba.",
     HelpKey.SpeciesOwn to
-        "W „Dodanych grzybach” przycisk „Dodaj grzyb” otwiera formularz: nazwa, nazwa naukowa, kolor " +
-            "znacznika i obrazek — z aparatu, z galerii albo z katalogu. Ołówek zmienia już dodany " +
-            "gatunek, krzyżyk go usuwa.",
+        "W „Dodanych grzybach” przycisk „Dodaj grzyb” otwiera formularz: nazwa, nazwa naukowa, " +
+            "kolor znacznika i obrazek — z aparatu, z galerii albo z katalogu. Potem aplikacja pyta " +
+            "„Do którego zestawu?”: własna nazwa zbiera takie grzyby razem, puste pole odkłada je do " +
+            "„Pozostałe”. Ołówek zmienia już dodany gatunek, krzyżyk go usuwa.",
     HelpKey.SpeciesCheckboxes to
         "Odznaczenie niczego nie usuwa — gatunek po prostu przestaje pokazywać się jako kafelek, a dawne " +
             "znaleziska zostają na miejscu. Usunięcie własnego gatunku jest natomiast nieodwracalne: " +

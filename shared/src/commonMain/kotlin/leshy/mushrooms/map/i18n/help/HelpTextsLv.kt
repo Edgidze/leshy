@@ -31,9 +31,10 @@ internal val latvianHelpTexts: Map<HelpKey, String> = mapOf(
             "skaitlis uz tās — cik filtru pašlaik ieslēgts. Filtrs ir kopīgs ar „Atradumu karti“: " +
             "ieslēgtais te darbojas arī tur.",
     HelpKey.RecordBackground to
-        "Maršruta ierakstīšana turpinās arī tad, kad lietotne ir fonā. Papildus pašreizējai pastaigai " +
-            "karte rāda iepriekšējo pastaigu atradumus un atzīmētās vietas — pēc tām redzams, kur jau " +
-            "esat gājis un kas tur bija.",
+        "Maršruta ierakstīšana turpinās arī tad, kad lietotne ir fonā. Android ierīcēs notiekošā " +
+            "pastaiga redzama arī kā paziņojums ar pogām „+“/„−“ — atradumu var pierakstīt, " +
+            "neatbloķējot tālruni. Papildus pašreizējai pastaigai karte rāda iepriekšējo pastaigu " +
+            "atradumus un atzīmētās vietas — pēc tām redzams, kur jau esat gājis un kas tur bija.",
     HelpKey.ArchivePurpose to
         "Visas jūsu pastaigas, jaunākās augšā. Kartītē ir nosaukums, datums, ilgums, kilometri, atradumu " +
             "skaits un noietā maršruta sīktēls.",
@@ -77,13 +78,15 @@ internal val latvianHelpTexts: Map<HelpKey, String> = mapOf(
         "Te jūs izlemjat, kuras sēnes būs elementi ierakstīšanas ekrānā. Katalogs ir sadalīts kolekcijās " +
             "pa valstīm, un tam blakus dzīvo sugas, kuru katalogā nav — tās pievienojat pats.",
     HelpKey.SpeciesCollections to
-        "Sadaļā „Sēņu kolekcijas“ pieskāriens valsts rindai atver tās sugas: ķeksītis pie valsts ieslēdz " +
-            "visu kolekciju, ķeksīši iekšpusē — atsevišķas sugas. Meklēšanas lauks augšā atrod valsti pēc " +
-            "nosaukuma.",
+        "Sadaļā „Sēņu kolekcijas“ pieskāriens valsts rindai atver tās sugas: ķeksītis pie valsts " +
+            "ieslēdz visu kolekciju, ķeksīši iekšpusē — atsevišķas sugas. Meklēšanas lauks augšā pēc " +
+            "nosaukuma atrod gan valsti, gan atsevišķu sēni.",
     HelpKey.SpeciesOwn to
-        "Sadaļā „Pievienotās sēnes“ poga „Pievienot sēni“ atver formu: nosaukums, zinātniskais nosaukums, " +
-            "atzīmes krāsa un attēls — no kameras, no galerijas vai no kataloga. Zīmulis maina jau " +
-            "pievienoto sugu, krustiņš to dzēš.",
+        "Sadaļā „Pievienotās sēnes“ poga „Pievienot sēni“ atver formu: nosaukums, zinātniskais " +
+            "nosaukums, atzīmes krāsa un attēls — no kameras, no galerijas vai no kataloga. Pēc tam " +
+            "lietotne jautā „Kurā kolekcijā?“: paša dots nosaukums savāc šādas sēnes kopā, tukšs " +
+            "lauks tās ievieto kolekcijā „Citas“. Zīmulis maina jau pievienoto sugu, krustiņš to " +
+            "dzēš.",
     HelpKey.SpeciesCheckboxes to
         "Noņemts ķeksītis neko nedzēš — suga vienkārši netiek rādīta kā elements, bet iepriekšējie " +
             "atradumi paliek savās vietās. Savas sugas dzēšana turpretī ir neatgriezeniska: visas tās " +

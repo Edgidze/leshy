@@ -32,9 +32,11 @@ internal val germanHelpTexts: Map<HelpKey, String> = mapOf(
             "Karte erscheinen; die Zahl darauf sagt, wie viele Filter gerade aktiv sind. Der Filter gilt " +
             "gemeinsam mit der „Fundkarte“: Was Sie hier einschalten, wirkt auch dort.",
     HelpKey.RecordBackground to
-        "Die Streckenaufzeichnung läuft weiter, wenn die App im Hintergrund ist. Neben dem laufenden " +
-            "Spaziergang zeigt die Karte Funde und markierte Orte früherer Spaziergänge — daran sehen " +
-            "Sie, wo Sie schon waren und was es dort gab.",
+        "Die Streckenaufzeichnung läuft weiter, wenn die App im Hintergrund ist. Unter Android " +
+            "hängt der laufende Spaziergang auch als Benachrichtigung mit „+“/„−“-Tasten — ein Fund " +
+            "lässt sich ohne Entsperren eintragen. Neben dem laufenden Spaziergang zeigt die Karte " +
+            "Funde und markierte Orte früherer Spaziergänge — daran sehen Sie, wo Sie schon waren und " +
+            "was es dort gab.",
     HelpKey.ArchivePurpose to
         "Alle Ihre Spaziergänge, die neuesten oben. Auf der Karte stehen Name, Datum, Dauer, Kilometer, " +
             "Anzahl der Funde und eine Miniatur der gelaufenen Strecke.",
@@ -84,13 +86,15 @@ internal val germanHelpTexts: Map<HelpKey, String> = mapOf(
             "Katalog ist in Sammlungen nach Ländern geteilt, und daneben leben die Arten, die der Katalog " +
             "nicht kennt — die fügen Sie selbst hinzu.",
     HelpKey.SpeciesCollections to
-        "Unter „Pilzsammlungen“ klappt ein Tippen auf die Länderzeile deren Arten auf: Das Häkchen beim " +
-            "Land schaltet die ganze Sammlung ein, die Häkchen darin einzelne Arten. Das Suchfeld oben " +
-            "findet ein Land über den Namen.",
+        "Unter „Pilzsammlungen“ klappt ein Tippen auf die Länderzeile deren Arten auf: Das " +
+            "Häkchen beim Land schaltet die ganze Sammlung ein, die Häkchen darin einzelne Arten. Das " +
+            "Suchfeld oben findet über den Namen sowohl ein Land als auch einen einzelnen Pilz.",
     HelpKey.SpeciesOwn to
         "Unter „Hinzugefügte Pilze“ öffnet die Taste „Pilz hinzufügen“ ein Formular: Name, " +
-            "wissenschaftlicher Name, Markierungsfarbe und Bild — aus der Kamera, aus der Galerie oder " +
-            "aus dem Katalog. Der Stift ändert eine bereits hinzugefügte Art, das Kreuz löscht sie.",
+            "wissenschaftlicher Name, Markierungsfarbe und Bild — aus der Kamera, aus der Galerie " +
+            "oder aus dem Katalog. Danach fragt die App „In welche Sammlung?“: ein eigener Name " +
+            "sammelt solche Pilze zusammen, ein leeres Feld legt sie in „Andere“. Der Stift ändert " +
+            "eine bereits hinzugefügte Art, das Kreuz löscht sie.",
     HelpKey.SpeciesCheckboxes to
         "Ein entferntes Häkchen löscht nichts — die Art erscheint einfach nicht mehr als Kachel, frühere " +
             "Funde bleiben, wo sie sind. Das Löschen einer eigenen Art ist dagegen endgültig: Alle ihre " +

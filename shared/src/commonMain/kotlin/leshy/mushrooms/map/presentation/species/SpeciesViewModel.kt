@@ -63,12 +63,16 @@ class SpeciesViewModel(
                 collectionRepository.observeAll(),
                 categoryRepository.observeAll(),
                 collectionRepository.observeAllMemberships(),
-            ) { collections, categories, memberships ->
+                // Язык здесь не для показа, а для ПОРЯДКА: подборки сортируются по названию
+                // страны на языке интерфейса (см. buildCollectionPickerItems), так что смена
+                // языка обязана пересобрать список, а не только переписать надписи в нём.
+                settingsRepository.observeLanguage(),
+            ) { collections, categories, memberships, language ->
                 // Пользовательские подборки в этот пикер не идут: он про страновые пресеты и
                 // стоит в блоке «Подборки грибов по странам», а свои подборки — своим блоком
                 // ниже. Тот же пикер в онбординге тоже обязан остаться страновым.
                 val countries = collections.filter { it.source == CollectionSource.COUNTRY }
-                buildCollectionPickerItems(countries, categories, memberships)
+                buildCollectionPickerItems(countries, categories, memberships, language)
             }.collect { items ->
                 _uiState.update { it.copy(collectionPickerItems = items) }
             }

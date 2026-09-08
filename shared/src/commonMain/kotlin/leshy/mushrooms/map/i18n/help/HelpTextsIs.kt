@@ -30,9 +30,10 @@ internal val icelandicHelpTexts: Map<HelpKey, String> = mapOf(
             "talan á honum segir hve margar síur eru virkar núna. Sían er sameiginleg með „Korti yfir " +
             "fundi“: það sem þú kveikir á hér gildir líka þar.",
     HelpKey.RecordBackground to
-        "Skráning slóðarinnar heldur áfram þegar forritið er í bakgrunni. Auk yfirstandandi ferðar sýnir " +
-            "kortið fundi og merkta staði fyrri ferða — af þeim sést hvar þú hefur þegar gengið og hvað " +
-            "var þar.",
+        "Skráning slóðarinnar heldur áfram þegar forritið er í bakgrunni. Á Android birtist " +
+            "ferðin sem er í gangi einnig sem tilkynning með „+“/„−“ hnöppum — fund má skrá án þess " +
+            "að opna símann. Auk yfirstandandi ferðar sýnir kortið fundi og merkta staði fyrri ferða " +
+            "— af þeim sést hvar þú hefur þegar gengið og hvað var þar.",
     HelpKey.ArchivePurpose to
         "Allar ferðirnar þínar, þær nýjustu efst. Á spjaldinu eru heiti, dagsetning, lengd, kílómetrar, " +
             "fjöldi funda og smámynd af genginni slóð.",
@@ -75,12 +76,14 @@ internal val icelandicHelpTexts: Map<HelpKey, String> = mapOf(
         "Hér ákveður þú hvaða sveppir verða reitir á upptökuskjánum. Skráin skiptist í söfn eftir löndum, " +
             "og við hliðina búa tegundirnar sem eru ekki í skránni — þeim bætir þú við sjálf.",
     HelpKey.SpeciesCollections to
-        "Í „Sveppasöfnum“ opnar smellur á línu lands tegundir þess: hakið við landið kveikir á öllu " +
-            "safninu, hökin innan í stökum tegundum. Leitarreiturinn efst finnur land eftir heiti.",
+        "Í „Sveppasöfnum“ opnar smellur á línu lands tegundir þess: hakið við landið kveikir á " +
+            "öllu safninu, hökin innan í stökum tegundum. Leitarreiturinn efst finnur bæði land og " +
+            "stakan svepp eftir heiti.",
     HelpKey.SpeciesOwn to
-        "Í „Sveppir sem bætt var við“ opnar hnappurinn „Bæta við sveppi“ eyðublað: heiti, fræðiheiti, " +
-            "litur merkis og mynd — úr myndavél, úr myndasafni eða úr skránni. Blýanturinn breytir tegund " +
-            "sem þegar var bætt við, krossinn eyðir henni.",
+        "Í „Sveppir sem bætt var við“ opnar hnappurinn „Bæta við sveppi“ eyðublað: heiti, " +
+            "fræðiheiti, litur merkis og mynd — úr myndavél, úr myndasafni eða úr skránni. Síðan spyr " +
+            "forritið „Í hvaða safn?“: eigið heiti safnar slíkum sveppum saman, auður reitur setur þá " +
+            "í „Annað“. Blýanturinn breytir tegund sem þegar var bætt við, krossinn eyðir henni.",
     HelpKey.SpeciesCheckboxes to
         "Hak sem tekið er af eyðir engu — tegundin hættir einfaldlega að birtast sem reitur og fyrri " +
             "fundir sitja kyrrir. Að eyða eigin tegund er hins vegar óafturkræft: allar merkingar hennar " +

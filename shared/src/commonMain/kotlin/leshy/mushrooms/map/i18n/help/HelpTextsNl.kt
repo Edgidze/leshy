@@ -32,9 +32,11 @@ internal val dutchHelpTexts: Map<HelpKey, String> = mapOf(
             "getal erop zegt hoeveel filters nu aanstaan. Het filter is gedeeld met de “Vondstenkaart”: " +
             "wat je hier aanzet, geldt daar ook.",
     HelpKey.RecordBackground to
-        "Het opnemen van de route gaat door wanneer de app op de achtergrond staat. Naast de huidige " +
-            "wandeling toont de kaart de vondsten en gemarkeerde plekken van eerdere wandelingen — " +
-            "daaraan zie je waar je al liep en wat daar was.",
+        "Het opnemen van de route gaat door wanneer de app op de achtergrond staat. Op Android " +
+            "staat de lopende wandeling ook als melding met “+”/“−”-knoppen — een vondst leg je vast " +
+            "zonder de telefoon te ontgrendelen. Naast de huidige wandeling toont de kaart de " +
+            "vondsten en gemarkeerde plekken van eerdere wandelingen — daaraan zie je waar je al liep " +
+            "en wat daar was.",
     HelpKey.ArchivePurpose to
         "Al je wandelingen, de nieuwste bovenaan. Op de kaart staan naam, datum, duur, kilometers, aantal " +
             "vondsten en een miniatuur van de gelopen route.",
@@ -83,14 +85,15 @@ internal val dutchHelpTexts: Map<HelpKey, String> = mapOf(
             "verdeeld in collecties per land, en daarnaast leven de soorten die niet in de catalogus " +
             "staan — die voeg je zelf toe.",
     HelpKey.SpeciesCollections to
-        "Bij “Collecties paddenstoelen” klapt tikken op de regel van een land de soorten uit: het vinkje " +
-            "bij het land zet de hele collectie aan, de vinkjes erbinnen losse soorten. Het zoekveld " +
-            "bovenaan vindt een land op naam.",
+        "Bij “Collecties paddenstoelen” klapt tikken op de regel van een land de soorten uit: het " +
+            "vinkje bij het land zet de hele collectie aan, de vinkjes erbinnen losse soorten. Het " +
+            "zoekveld bovenaan vindt op naam zowel een land als een enkele paddenstoel.",
     HelpKey.SpeciesOwn to
-        "Bij “Toegevoegde paddenstoelen” opent de knop “Paddenstoel toevoegen” een formulier: naam, " +
-            "wetenschappelijke naam, kleur van de markering en een afbeelding — uit de camera, uit de " +
-            "galerij of uit de catalogus. Het potlood wijzigt een al toegevoegde soort, het kruisje " +
-            "verwijdert hem.",
+        "Bij “Toegevoegde paddenstoelen” opent de knop “Paddenstoel toevoegen” een formulier: " +
+            "naam, wetenschappelijke naam, kleur van de markering en een afbeelding — uit de camera, " +
+            "uit de galerij of uit de catalogus. Daarna vraagt de app “In welke collectie?”: een " +
+            "eigen naam bundelt zulke paddenstoelen, een leeg veld zet ze bij “Overige”. Het potlood " +
+            "wijzigt een al toegevoegde soort, het kruisje verwijdert hem.",
     HelpKey.SpeciesCheckboxes to
         "Een vinkje weghalen verwijdert niets — de soort verschijnt gewoon niet meer als tegel, en " +
             "eerdere vondsten blijven staan. Een eigen soort verwijderen is daarentegen onomkeerbaar: al " +
