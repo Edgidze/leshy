@@ -330,7 +330,18 @@ internal val danishStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Fejl",
     StringKey.PreparationSubtitle to "Hent det synlige kortområde for at bruge det offline",
     StringKey.PreparationRetryContentDescription to "Prøv at hente igen",
-    StringKey.MapTilesLoadFailed to "Kortet blev ikke hentet helt fra",
+    StringKey.MapTilesLoadFailed to
+        "Kortbaggrunden blev ikke hentet, men turen og fundene optages og gemmes som sædvanlig. Ingen " +
+            "forbindelse til serveren:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Kortbaggrunden blev ikke hentet, og kortområdet kan ikke hentes lige nu. Ingen forbindelse til " +
+            "serveren:",
+    StringKey.MapTilesLoadSlow to
+        "Kortbaggrunden hentes langsomt, mens turen og fundene optages som sædvanlig. Serveren svarer " +
+            "langsomt:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Kortbaggrunden hentes langsomt, og hentningen af kortområdet vil også tage lang tid. Serveren " +
+            "svarer langsomt:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Luk beskeden",
     StringKey.SettingsMapDataTitle to "Kortdata",
     StringKey.SettingsRefreshMapDataButton to "Opdatér kortdata",

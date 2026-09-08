@@ -351,7 +351,14 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
         "Laadige alla kaardi nähtav piirkond, et seda võrguühenduseta kasutada",
     StringKey.PreparationRetryContentDescription to "Korda allalaadimist",
 
-    StringKey.MapTilesLoadFailed to "Kaart ei laadinud täielikult aadressilt",
+    StringKey.MapTilesLoadFailed to
+        "Kaardi alus ei laadinud, kuid matk ja leiud salvestatakse tavapäraselt. Ühendus serveriga puudub:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Kaardi alus ei laadinud, piirkonda ei saa praegu alla laadida. Ühendus serveriga puudub:",
+    StringKey.MapTilesLoadSlow to
+        "Kaardi alus laadib aeglaselt, matk ja leiud salvestatakse tavapäraselt. Server vastab aeglaselt:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Kaardi alus laadib aeglaselt, ka piirkonna allalaadimine võtab kaua aega. Server vastab aeglaselt:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Sulge teade",
 
     StringKey.SettingsMapDataTitle to "Kaardiandmed",

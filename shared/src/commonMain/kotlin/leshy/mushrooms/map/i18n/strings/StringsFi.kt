@@ -358,7 +358,16 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
         "Lataa kartan näkyvä alue käyttääksesi sitä ilman verkkoyhteyttä",
     StringKey.PreparationRetryContentDescription to "Yritä latausta uudelleen",
 
-    StringKey.MapTilesLoadFailed to "Kartta ei latautunut kokonaan osoitteesta",
+    StringKey.MapTilesLoadFailed to
+        "Kartan pohja ei latautunut, mutta retki ja löydöt tallentuvat tavalliseen tapaan. Ei yhteyttä " +
+            "palvelimeen:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Kartan pohja ei latautunut, eikä aluetta voi nyt ladata. Ei yhteyttä palvelimeen:",
+    StringKey.MapTilesLoadSlow to
+        "Kartan pohja latautuu hitaasti, retki ja löydöt tallentuvat silti tavalliseen tapaan. Palvelin " +
+            "vastaa hitaasti:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Kartan pohja latautuu hitaasti, ja alueen lataaminen kestää myös kauan. Palvelin vastaa hitaasti:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Sulje ilmoitus",
 
     StringKey.SettingsMapDataTitle to "Karttatiedot",

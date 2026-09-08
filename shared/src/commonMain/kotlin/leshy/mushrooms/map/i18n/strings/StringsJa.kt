@@ -327,7 +327,10 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationSubtitle to "表示中の地図エリアをダウンロードすると、オフラインでも利用できます",
     StringKey.PreparationRetryContentDescription to "ダウンロードを再試行",
 
-    StringKey.MapTilesLoadFailed to "地図の読み込みが完了しませんでした:",
+    StringKey.MapTilesLoadFailed to "地図の下地を読み込めませんでしたが、散策と発見の記録はいつもどおり保存されています。サーバーに接続できません:",
+    StringKey.MapTilesLoadFailedPreparation to "地図の下地を読み込めなかったため、いまはエリアをダウンロードできません。サーバーに接続できません:",
+    StringKey.MapTilesLoadSlow to "地図の下地の読み込みが遅くなっています。散策と発見の記録はいつもどおり保存されています。サーバーの応答が遅い状態です:",
+    StringKey.MapTilesLoadSlowPreparation to "地図の下地の読み込みが遅くなっています。エリアのダウンロードにも時間がかかります。サーバーの応答が遅い状態です:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "通知を閉じる",
 
     StringKey.SettingsMapDataTitle to "地図データ",

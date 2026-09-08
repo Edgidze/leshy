@@ -353,7 +353,16 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
         "Oflayn istifadə etmək üçün xəritənin görünən hissəsini yükləyin",
     StringKey.PreparationRetryContentDescription to "Yükləməni təkrarla",
 
-    StringKey.MapTilesLoadFailed to "Xəritə tam yüklənmədi:",
+    StringKey.MapTilesLoadFailed to
+        "Xəritə altlığı yüklənmədi, lakin gəzinti və tapıntılar həmişəki kimi yazılır və saxlanılır. " +
+            "Serverlə əlaqə yoxdur:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Xəritə altlığı yüklənmədi, xəritənin hissəsini indi yükləmək mümkün deyil. Serverlə əlaqə yoxdur:",
+    StringKey.MapTilesLoadSlow to
+        "Xəritə altlığı yavaş yüklənir, gəzinti və tapıntılar isə həmişəki kimi yazılır. Server yavaş cavab " +
+            "verir:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Xəritə altlığı yavaş yüklənir, ərazinin endirilməsi də uzun çəkəcək. Server yavaş cavab verir:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Bildirişi bağla",
 
     StringKey.SettingsMapDataTitle to "Xəritə məlumatları",

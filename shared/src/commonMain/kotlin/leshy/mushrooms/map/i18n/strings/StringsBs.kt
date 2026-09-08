@@ -330,7 +330,15 @@ internal val bosnianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Greška",
     StringKey.PreparationSubtitle to "Preuzmite vidljivo područje karte da ga koristite bez interneta",
     StringKey.PreparationRetryContentDescription to "Pokušaj preuzimanje ponovo",
-    StringKey.MapTilesLoadFailed to "Karta se nije u potpunosti učitala sa",
+    StringKey.MapTilesLoadFailed to
+        "Podloga karte nije učitana, ali se šetnja i nalazi bilježe i čuvaju kao i obično. Nema veze sa " +
+            "serverom:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Podloga karte nije učitana, područje se sada ne može preuzeti. Nema veze sa serverom:",
+    StringKey.MapTilesLoadSlow to
+        "Podloga karte se učitava sporo, a šetnja i nalazi bilježe se kao i obično. Server odgovara sporo:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Podloga karte se učitava sporo, pa će i preuzimanje područja dugo trajati. Server odgovara sporo:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Zatvori obavještenje",
     StringKey.SettingsMapDataTitle to "Podaci karte",
     StringKey.SettingsRefreshMapDataButton to "Ažuriraj podatke karte",

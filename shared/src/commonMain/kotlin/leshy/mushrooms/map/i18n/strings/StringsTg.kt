@@ -358,7 +358,17 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
         "Барои истифода бе интернет қисми намоёни харитаро боргирӣ кунед",
     StringKey.PreparationRetryContentDescription to "Такрори боргирӣ",
 
-    StringKey.MapTilesLoadFailed to "Харита пурра бор нашуд:",
+    StringKey.MapTilesLoadFailed to
+        "Заминаи харита бор нашуд, аммо сайругашт ва ёфтаҳо мисли ҳамеша сабт ва нигоҳ дошта мешаванд. Бо " +
+            "сервер алоқа нест:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Заминаи харита бор нашуд, қисми харитаро ҳоло боргирӣ кардан мумкин нест. Бо сервер алоқа нест:",
+    StringKey.MapTilesLoadSlow to
+        "Заминаи харита оҳиста бор мешавад, сайругашт ва ёфтаҳо бошанд мисли ҳамеша сабт мешаванд. Сервер " +
+            "оҳиста ҷавоб медиҳад:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Заминаи харита оҳиста бор мешавад, боргирии қисми харита низ тӯл мекашад. Сервер оҳиста ҷавоб " +
+            "медиҳад:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Пӯшидани огоҳинома",
 
     StringKey.SettingsMapDataTitle to "Маълумоти харита",

@@ -31,6 +31,8 @@ import kotlin.coroutines.resumeWithException
  * session with an [NSURLSessionDataDelegateProtocol] that buffers `didReceiveData` chunks and
  * resolves the continuation on `didCompleteWithError`.
  */
+private const val REQUEST_TIMEOUT_SECONDS = 30.0
+
 class IosHttpTextFetcher : HttpTextFetcher {
     // Class-level var, not a local val inside fetchText — ARC releases an object with no strong
     // references outside a local scope once that scope's last use of it passes, silently breaking
@@ -42,8 +44,15 @@ class IosHttpTextFetcher : HttpTextFetcher {
     override suspend fun fetchText(url: String): String = suspendCancellableCoroutine { continuation ->
         val delegate = Delegate(continuation)
         activeDelegate = delegate
+        // Дефолт NSURLSession — 60 с на запрос, и это заметили на живом устройстве: на первом
+        // запуске сюда подряд идут style.json и TileJSON, и на придушенном мобильном канале
+        // (репорт 2026-09-08, Россия) экран с картой молчал минутами, прежде чем сказать хоть
+        // что-то. Стиль — 43 КБ; не пришедший за полминуты значит, что и тайлы не придут.
+        val configuration = NSURLSessionConfiguration.defaultSessionConfiguration().apply {
+            setTimeoutIntervalForRequest(REQUEST_TIMEOUT_SECONDS)
+        }
         val session = NSURLSession.sessionWithConfiguration(
-            configuration = NSURLSessionConfiguration.defaultSessionConfiguration(),
+            configuration = configuration,
             delegate = delegate,
             delegateQueue = NSOperationQueue.mainQueue(),
         )

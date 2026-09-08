@@ -338,7 +338,17 @@ internal val albanianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Gabim",
     StringKey.PreparationSubtitle to "Shkarkoni zonën e dukshme të hartës për ta përdorur pa internet",
     StringKey.PreparationRetryContentDescription to "Provo sërish shkarkimin",
-    StringKey.MapTilesLoadFailed to "Harta nuk u ngarkua plotësisht nga",
+    StringKey.MapTilesLoadFailed to
+        "Sfondi i hartës nuk u ngarkua, por shëtitja dhe gjetjet regjistrohen e ruhen si zakonisht. Nuk ka " +
+            "lidhje me serverin:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Sfondi i hartës nuk u ngarkua dhe zona nuk mund të shkarkohet tani. Nuk ka lidhje me serverin:",
+    StringKey.MapTilesLoadSlow to
+        "Sfondi i hartës po ngarkohet ngadalë, ndërsa shëtitja dhe gjetjet regjistrohen si zakonisht. " +
+            "Serveri përgjigjet ngadalë:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Sfondi i hartës po ngarkohet ngadalë dhe shkarkimi i zonës do të zgjasë gjithashtu. Serveri " +
+            "përgjigjet ngadalë:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Mbyll njoftimin",
     StringKey.SettingsMapDataTitle to "Të dhënat e hartës",
     StringKey.SettingsRefreshMapDataButton to "Përditëso të dhënat e hartës",

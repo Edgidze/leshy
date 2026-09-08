@@ -4,12 +4,14 @@ import leshy.mushrooms.map.data.platform.HttpTextFetcher
 import leshy.mushrooms.map.data.platform.MapStyleStorage
 import leshy.mushrooms.map.data.platform.PinnedStyleInterceptor
 import leshy.mushrooms.map.data.style.darkenMapStyle
+import leshy.mushrooms.map.data.style.fallbackMapStyle
 import leshy.mushrooms.map.data.style.freezeStyleTileSources
 import leshy.mushrooms.map.data.style.localizeMapStyle
 import leshy.mushrooms.map.data.style.styleHasUnfrozenTileSources
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +26,15 @@ import okio.Path.Companion.toPath
 import org.maplibre.compose.style.BaseStyle
 
 private const val STYLE_CACHE_FILE_NAME = "style.json"
+
+/** Сколько ждать ответа в [MapStyleCacheRepository.probeTileHost], прежде чем считать канал
+ * непригодным. Дольше держать бессмысленно: за это время не пришли 43 КБ стиля, значит мировой вид
+ * (сотни килобайт вектора на тайл плюс растр Natural Earth) не придёт и за минуты. */
 private val TILE_HOST_PROBE_TIMEOUT = 8.seconds
+
+/** Ответ медленнее этого — уже «медленно», хотя связь и есть: 43 КБ за три секунды это ~15 КБ/с, а
+ * один тайл мирового зума весит до 1.3 МБ. */
+private val TILE_HOST_SLOW_AFTER = 3.seconds
 
 /**
  * Freezes the app to the FIRST tile URL template it ever successfully resolves from OpenFreeMap's
@@ -61,7 +71,14 @@ class MapStyleCacheRepository(
     private val fileSystem = FileSystem.SYSTEM
     private val stylePath: Path get() = storage.resolvePath(STYLE_CACHE_FILE_NAME).toPath()
 
-    private val _baseStyle = MutableStateFlow<BaseStyle>(BaseStyle.Uri(OPEN_FREE_MAP_STYLE_URL))
+    /**
+     * Starts on the bundled [fallbackMapStyle] rather than on `BaseStyle.Uri(OPEN_FREE_MAP_STYLE_URL)`,
+     * which is what it used to be. Two things that fallback never did: it loads instantly and offline,
+     * so the app's own layers (track, finds, location dot) have a style to attach to even on a first
+     * launch with no network — see [fallbackMapStyle] for why that was the whole bug — and it costs no
+     * fetch of an unpinned remote style that [publish] then replaced anyway.
+     */
+    private val _baseStyle = MutableStateFlow<BaseStyle>(BaseStyle.Json(fallbackMapStyle(dark = false)))
     val baseStyle: StateFlow<BaseStyle> = _baseStyle.asStateFlow()
 
     private val loadMutex = Mutex()
@@ -90,8 +107,8 @@ class MapStyleCacheRepository(
                     true
                 } else {
                     // No pinned copy yet (very first launch) and no network — leave `loaded` false
-                    // so the next screen visit retries automatically, instead of getting stuck on
-                    // the unpinned remote-Uri fallback for the rest of the app session.
+                    // so the next screen visit retries automatically, instead of staying on the
+                    // bundled fallback style for the rest of the app session.
                     refreshFromNetworkLocked().isSuccess
                 }
             }
@@ -136,7 +153,8 @@ class MapStyleCacheRepository(
     suspend fun setLabelLanguage(language: AppLanguage) {
         if (labelLanguage.value == language) return
         labelLanguage.value = language
-        // Nothing pinned yet: ensureLoaded() will publish under this language on its own.
+        // Nothing pinned yet: the fallback style carries no labels at all, and ensureLoaded() will
+        // publish under this language on its own once there is something to publish.
         val raw = pinnedRawJson.value ?: return
         withContext(Dispatchers.Default) { publish(raw) }
     }
@@ -152,7 +170,12 @@ class MapStyleCacheRepository(
     suspend fun setDarkTheme(dark: Boolean) {
         if (darkTheme.value == dark) return
         darkTheme.value = dark
-        val raw = pinnedRawJson.value ?: return
+        // Nothing pinned yet — the map is showing the bundled fallback, which has a light and a dark
+        // ground of its own and must follow the theme just like the real style does.
+        val raw = pinnedRawJson.value ?: run {
+            _baseStyle.value = BaseStyle.Json(fallbackMapStyle(dark))
+            return
+        }
         withContext(Dispatchers.Default) { publish(raw) }
     }
 
@@ -193,15 +216,36 @@ class MapStyleCacheRepository(
         pinnedStyleInterceptor.setPinnedStyle(localized)
     }
 
-    /** Independent connectivity probe for the tile host — needed because once the style is
-     * pinned, MapLibre loads it from the local file instantly and reports success
-     * (`onMapLoadFinished`) regardless of whether the network is up, and maplibre-compose exposes
-     * no per-tile failure signal to app code. A blocked/unreachable host (the original bug report —
-     * an ISP blocking `tiles.openfreemap.org`) otherwise fails completely silently. Reuses the
-     * small `style.json` fetch rather than a dedicated endpoint — same host, cheap payload, and it
-     * never writes to the pinned file (this is read-only probing, not a refresh). */
-    suspend fun isTileHostReachable(): Boolean =
-        withTimeoutOrNull(TILE_HOST_PROBE_TIMEOUT) {
-            runCatching { httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL) }.isSuccess
-        } ?: false
+    /** Independent health probe for the tile host — needed because once the style is pinned (or
+     * served from the bundled fallback), MapLibre loads it locally and instantly and reports
+     * success regardless of whether the network is up, and maplibre-compose exposes no per-tile
+     * signal at all to app code. Everything that can actually go wrong with the basemap therefore
+     * happens with no error anywhere: the screen just stays the colour of the `background` layer.
+     * Reuses the small `style.json` fetch rather than a dedicated endpoint — same host, cheap
+     * payload, and it never writes to the pinned file (this is read-only probing, not a refresh).
+     *
+     * Returns three states because the user-visible consequence differs. [TileHostStatus.Slow] is
+     * the case reported from a Russian mobile network on 2026-09-08: the map does load, it just
+     * takes minutes, and telling that user "no connection" is simply false — while telling them
+     * nothing (what the old boolean did whenever the probe squeaked through) leaves a white screen
+     * unexplained. A request still in flight at [TILE_HOST_PROBE_TIMEOUT] counts as slow, not dead:
+     * a link that hasn't failed yet is one that may still deliver, and a genuinely refused or
+     * unroutable host fails long before that on both platforms. */
+    suspend fun probeTileHost(): TileHostStatus {
+        val started = TimeSource.Monotonic.markNow()
+        val result = withTimeoutOrNull(TILE_HOST_PROBE_TIMEOUT) {
+            runCatching { httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL) }
+        }
+        return when {
+            result == null -> TileHostStatus.Slow
+            result.isFailure -> TileHostStatus.Unreachable
+            started.elapsedNow() >= TILE_HOST_SLOW_AFTER -> TileHostStatus.Slow
+            else -> TileHostStatus.Reachable
+        }
+    }
 }
+
+/** What [MapStyleCacheRepository.probeTileHost] found. [Slow] and [Unreachable] carry different
+ * banners (`ui/map/TileHostWatch.kt`): one says the map will arrive eventually, the other says it
+ * won't arrive at all. */
+enum class TileHostStatus { Reachable, Slow, Unreachable }

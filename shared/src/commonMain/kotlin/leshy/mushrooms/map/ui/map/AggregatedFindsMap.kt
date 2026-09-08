@@ -81,16 +81,7 @@ fun AggregatedFindsMap(
 
     val mapStyleCacheRepository = koinInject<MapStyleCacheRepository>()
     val baseStyle by mapStyleCacheRepository.baseStyle.collectAsState()
-    var tilesLoadFailed by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        mapStyleCacheRepository.ensureLoaded()
-        // Independent of onMapLoadFailed/onMapLoadFinished below — those only reflect whether the
-        // (now locally-pinned) style loaded, not whether the tile host is actually reachable. See
-        // MapStyleCacheRepository.isTileHostReachable's doc comment.
-        if (!mapStyleCacheRepository.isTileHostReachable()) {
-            tilesLoadFailed = true
-        }
-    }
+    val tileHost = rememberTileHostWatch()
 
     Box(modifier) {
         MaplibreMap(
@@ -102,8 +93,7 @@ fun AggregatedFindsMap(
                 gestureOptions = gestureOptions,
                 ornamentOptions = ornamentOptions,
             ),
-            onMapLoadFailed = { tilesLoadFailed = true },
-            onMapLoadFinished = { tilesLoadFailed = false },
+            onMapLoadFailed = { tileHost.onStyleLoadFailed() },
         ) {
             // ONE layer for all routes, not one per walk — same rationale as LiveTrackMap's
             // historical tracks: a layer plus its source is a synchronous native style mutation
@@ -127,9 +117,10 @@ fun AggregatedFindsMap(
             ClusteredFindsLayers(markers)
             PlaceMarkersLayer(places, onPlaceClick)
         }
-        if (tilesLoadFailed && showLoadFailedBanner) {
+        tileHost.bannerMessage?.takeIf { showLoadFailedBanner }?.let { message ->
             MapLoadFailedBanner(
-                onDismiss = { tilesLoadFailed = false },
+                message = message,
+                onDismiss = tileHost::dismiss,
                 modifier = Modifier.align(bannerAlignment).padding(bannerPadding),
             )
         }

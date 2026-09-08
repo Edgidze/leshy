@@ -352,7 +352,16 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
         "Stáhněte viditelnou oblast mapy, abyste ji mohli používat offline",
     StringKey.PreparationRetryContentDescription to "Opakovat stahování",
 
-    StringKey.MapTilesLoadFailed to "Mapa se nenačetla úplně z",
+    StringKey.MapTilesLoadFailed to
+        "Podklad mapy se nenačetl, ale procházka i nálezy se zaznamenávají a ukládají jako obvykle. Není " +
+            "spojení se serverem:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Podklad mapy se nenačetl, oblast teď nelze stáhnout. Není spojení se serverem:",
+    StringKey.MapTilesLoadSlow to
+        "Podklad mapy se načítá pomalu, procházka i nálezy se přitom zaznamenávají jako obvykle. Server " +
+            "odpovídá pomalu:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Podklad mapy se načítá pomalu, stahování oblasti bude také dlouhé. Server odpovídá pomalu:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Zavřít oznámení",
 
     StringKey.SettingsMapDataTitle to "Data mapy",

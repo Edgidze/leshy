@@ -334,7 +334,17 @@ internal val icelandicStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Villa",
     StringKey.PreparationSubtitle to "Sæktu sýnilega kortasvæðið til að nota það án nettengingar",
     StringKey.PreparationRetryContentDescription to "Reyna niðurhalið aftur",
-    StringKey.MapTilesLoadFailed to "Kortið hlóðst ekki að fullu frá",
+    StringKey.MapTilesLoadFailed to
+        "Kortgrunnurinn hlóðst ekki, en ferðin og fundirnir eru skráð og vistuð eins og venjulega. Engin " +
+            "tenging við netþjóninn:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Kortgrunnurinn hlóðst ekki og ekki er hægt að sækja kortasvæðið núna. Engin tenging við netþjóninn:",
+    StringKey.MapTilesLoadSlow to
+        "Kortgrunnurinn hleðst hægt, en ferðin og fundirnir eru skráð eins og venjulega. Netþjónninn svarar " +
+            "hægt:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Kortgrunnurinn hleðst hægt og niðurhal kortasvæðisins tekur líka langan tíma. Netþjónninn svarar " +
+            "hægt:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Loka tilkynningunni",
     StringKey.SettingsMapDataTitle to "Kortagögn",
     StringKey.SettingsRefreshMapDataButton to "Uppfæra kortagögn",

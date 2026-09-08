@@ -354,7 +354,17 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
         "Завантажте видиму область карти, щоб користуватися нею офлайн",
     StringKey.PreparationRetryContentDescription to "Повторити завантаження",
 
-    StringKey.MapTilesLoadFailed to "Карта не повністю завантажилася з сайту",
+    StringKey.MapTilesLoadFailed to
+        "Підкладка карти не завантажилася, але прогулянка і знахідки записуються та зберігаються як завжди. " +
+            "Немає зв'язку із сервером:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Підкладка карти не завантажилася, область зараз не вдасться завантажити. Немає зв'язку із сервером:",
+    StringKey.MapTilesLoadSlow to
+        "Підкладка карти завантажується повільно, прогулянка і знахідки при цьому записуються як завжди. " +
+            "Сервер відповідає повільно:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Підкладка карти завантажується повільно, завантаження ділянки теж буде довгим. Сервер відповідає " +
+            "повільно:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Закрити сповіщення",
 
     StringKey.SettingsMapDataTitle to "Дані карти",

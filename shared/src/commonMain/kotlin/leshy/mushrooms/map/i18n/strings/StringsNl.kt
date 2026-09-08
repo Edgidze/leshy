@@ -343,7 +343,18 @@ internal val dutchStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationStatusError to "Fout",
     StringKey.PreparationSubtitle to "Download het zichtbare kaartgebied om het offline te gebruiken",
     StringKey.PreparationRetryContentDescription to "Download opnieuw proberen",
-    StringKey.MapTilesLoadFailed to "De kaart is niet volledig geladen van",
+    StringKey.MapTilesLoadFailed to
+        "De kaartondergrond is niet geladen, maar de wandeling en de vondsten worden gewoon vastgelegd en " +
+            "opgeslagen. Geen verbinding met de server:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "De kaartondergrond is niet geladen en het kaartgebied kan nu niet worden gedownload. Geen " +
+            "verbinding met de server:",
+    StringKey.MapTilesLoadSlow to
+        "De kaartondergrond laadt langzaam; de wandeling en de vondsten worden gewoon vastgelegd. De server " +
+            "reageert traag:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "De kaartondergrond laadt langzaam en het downloaden van het kaartgebied duurt ook lang. De server " +
+            "reageert traag:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Melding sluiten",
     StringKey.SettingsMapDataTitle to "Kaartgegevens",
     StringKey.SettingsRefreshMapDataButton to "Kaartgegevens bijwerken",

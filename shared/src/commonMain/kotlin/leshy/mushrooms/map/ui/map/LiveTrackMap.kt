@@ -196,16 +196,7 @@ fun LiveTrackMap(
 
     val mapStyleCacheRepository = koinInject<MapStyleCacheRepository>()
     val baseStyle by mapStyleCacheRepository.baseStyle.collectAsState()
-    var tilesLoadFailed by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        mapStyleCacheRepository.ensureLoaded()
-        // Independent of onMapLoadFailed/onMapLoadFinished below — those only reflect whether the
-        // (now locally-pinned) style loaded, not whether the tile host is actually reachable. See
-        // MapStyleCacheRepository.isTileHostReachable's doc comment.
-        if (!mapStyleCacheRepository.isTileHostReachable()) {
-            tilesLoadFailed = true
-        }
-    }
+    val tileHost = rememberTileHostWatch()
 
     Box(modifier) {
         MaplibreMap(
@@ -213,8 +204,7 @@ fun LiveTrackMap(
             baseStyle = baseStyle,
             cameraState = cameraState,
             options = MapOptions(renderOptions = mapRenderOptions, ornamentOptions = ornamentOptions),
-            onMapLoadFailed = { tilesLoadFailed = true },
-            onMapLoadFinished = { tilesLoadFailed = false },
+            onMapLoadFailed = { tileHost.onStyleLoadFailed() },
         ) {
             // First in the layer list — past routes are background context and must never draw over
             // the current walk's own track, its markers, or the location dot.
@@ -323,9 +313,10 @@ fun LiveTrackMap(
                 )
             }
         }
-        if (tilesLoadFailed) {
+        tileHost.bannerMessage?.let { message ->
             MapLoadFailedBanner(
-                onDismiss = { tilesLoadFailed = false },
+                message = message,
+                onDismiss = tileHost::dismiss,
                 modifier = Modifier.align(bannerAlignment).padding(bannerPadding),
             )
         }

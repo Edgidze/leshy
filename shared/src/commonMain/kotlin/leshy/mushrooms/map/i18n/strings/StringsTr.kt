@@ -346,7 +346,17 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationSubtitle to "Çevrimdışı kullanmak için görünen harita alanını indirin",
     StringKey.PreparationRetryContentDescription to "İndirmeyi yeniden dene",
 
-    StringKey.MapTilesLoadFailed to "Harita şu kaynaktan tam olarak yüklenemedi:",
+    StringKey.MapTilesLoadFailed to
+        "Harita altlığı yüklenmedi, ancak yürüyüş ve bulgular her zamanki gibi kaydediliyor. Sunucuya " +
+            "bağlanılamıyor:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Harita altlığı yüklenmedi, harita alanı şu anda indirilemiyor. Sunucuya bağlanılamıyor:",
+    StringKey.MapTilesLoadSlow to
+        "Harita altlığı yavaş yükleniyor, yürüyüş ve bulgular ise her zamanki gibi kaydediliyor. Sunucu " +
+            "yavaş yanıt veriyor:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Harita altlığı yavaş yükleniyor, harita alanını indirmek de uzun sürecek. Sunucu yavaş yanıt " +
+            "veriyor:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Bildirimi kapat",
 
     StringKey.SettingsMapDataTitle to "Harita verileri",

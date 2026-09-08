@@ -354,7 +354,17 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
         "Ներբեռնեք քարտեզի տեսանելի հատվածը՝ այն առանց ինտերնետի օգտագործելու համար",
     StringKey.PreparationRetryContentDescription to "Կրկնել ներբեռնումը",
 
-    StringKey.MapTilesLoadFailed to "Քարտեզը լիովին չբեռնվեց՝",
+    StringKey.MapTilesLoadFailed to
+        "Քարտեզի հիմքը չբեռնվեց, սակայն զբոսանքն ու գտածոները գրանցվում և պահվում են սովորականի պես։ Կապ " +
+            "չկա սերվերի հետ՝",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Քարտեզի հիմքը չբեռնվեց, հատվածն այժմ հնարավոր չէ ներբեռնել։ Կապ չկա սերվերի հետ՝",
+    StringKey.MapTilesLoadSlow to
+        "Քարտեզի հիմքը դանդաղ է բեռնվում, զբոսանքն ու գտածոները գրանցվում են սովորականի պես։ Սերվերը " +
+            "պատասխանում է դանդաղ՝",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Քարտեզի հիմքը դանդաղ է բեռնվում, հատվածի ներբեռնումը նույնպես երկար կտևի։ Սերվերը պատասխանում է " +
+            "դանդաղ՝",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Փակել ծանուցումը",
 
     StringKey.SettingsMapDataTitle to "Քարտեզի տվյալներ",

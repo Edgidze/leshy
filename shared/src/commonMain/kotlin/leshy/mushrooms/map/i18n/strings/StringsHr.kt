@@ -355,7 +355,17 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
         "Preuzmite vidljivi dio karte da biste ga koristili izvan mreže",
     StringKey.PreparationRetryContentDescription to "Ponovi preuzimanje",
 
-    StringKey.MapTilesLoadFailed to "Karta se nije u potpunosti učitala s",
+    StringKey.MapTilesLoadFailed to
+        "Podloga karte nije učitana, ali se šetnja i nalazi bilježe i spremaju kao i obično. Nema veze s " +
+            "poslužiteljem:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Podloga karte nije učitana, dio karte sada se ne može preuzeti. Nema veze s poslužiteljem:",
+    StringKey.MapTilesLoadSlow to
+        "Podloga karte učitava se sporo, a šetnja i nalazi bilježe se kao i obično. Poslužitelj odgovara " +
+            "sporo:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Podloga karte učitava se sporo, pa će i preuzimanje dijela karte dugo trajati. Poslužitelj " +
+            "odgovara sporo:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Zatvori obavijest",
 
     StringKey.SettingsMapDataTitle to "Podaci karte",

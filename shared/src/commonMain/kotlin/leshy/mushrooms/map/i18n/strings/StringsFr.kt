@@ -363,7 +363,18 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
         "Téléchargez la zone de carte visible pour l'utiliser hors ligne",
     StringKey.PreparationRetryContentDescription to "Relancer le téléchargement",
 
-    StringKey.MapTilesLoadFailed to "La carte ne s'est pas chargée complètement depuis",
+    StringKey.MapTilesLoadFailed to
+        "Le fond de carte ne s'est pas chargé, mais la promenade et les trouvailles sont enregistrées et " +
+            "sauvegardées comme d'habitude. Pas de connexion au serveur :",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Le fond de carte ne s'est pas chargé et la zone ne peut pas être téléchargée pour le moment. Pas " +
+            "de connexion au serveur :",
+    StringKey.MapTilesLoadSlow to
+        "Le fond de carte se charge lentement ; la promenade et les trouvailles sont enregistrées comme " +
+            "d'habitude. Le serveur répond lentement :",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Le fond de carte se charge lentement et le téléchargement de la zone sera long lui aussi. Le " +
+            "serveur répond lentement :",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Fermer l'avis",
 
     StringKey.SettingsMapDataTitle to "Données cartographiques",

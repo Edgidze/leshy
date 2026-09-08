@@ -357,7 +357,18 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
         "Scarica l'area di mappa visibile per usarla offline",
     StringKey.PreparationRetryContentDescription to "Riprova il download",
 
-    StringKey.MapTilesLoadFailed to "La mappa non si è caricata completamente da",
+    StringKey.MapTilesLoadFailed to
+        "Lo sfondo della mappa non si è caricato, ma l'uscita e i ritrovamenti vengono registrati e salvati " +
+            "come sempre. Nessuna connessione al server:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Lo sfondo della mappa non si è caricato e l'area non può essere scaricata ora. Nessuna connessione " +
+            "al server:",
+    StringKey.MapTilesLoadSlow to
+        "Lo sfondo della mappa si carica lentamente; l'uscita e i ritrovamenti vengono registrati come " +
+            "sempre. Il server risponde lentamente:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Lo sfondo della mappa si carica lentamente e anche scaricare l'area richiederà molto tempo. Il " +
+            "server risponde lentamente:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Chiudi avviso",
 
     StringKey.SettingsMapDataTitle to "Dati della mappa",

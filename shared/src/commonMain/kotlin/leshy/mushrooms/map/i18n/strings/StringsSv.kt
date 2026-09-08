@@ -352,7 +352,17 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
         "Ladda ner det synliga kartområdet för att använda det offline",
     StringKey.PreparationRetryContentDescription to "Försök igen",
 
-    StringKey.MapTilesLoadFailed to "Kartan laddades inte helt från",
+    StringKey.MapTilesLoadFailed to
+        "Kartbakgrunden laddades inte, men promenaden och fynden spelas in och sparas som vanligt. Ingen " +
+            "anslutning till servern:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Kartbakgrunden laddades inte och kartområdet kan inte laddas ned nu. Ingen anslutning till servern:",
+    StringKey.MapTilesLoadSlow to
+        "Kartbakgrunden laddas långsamt, medan promenaden och fynden spelas in som vanligt. Servern svarar " +
+            "långsamt:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Kartbakgrunden laddas långsamt, och nedladdningen av kartområdet tar också lång tid. Servern " +
+            "svarar långsamt:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Stäng meddelandet",
 
     StringKey.SettingsMapDataTitle to "Kartdata",

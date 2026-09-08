@@ -351,7 +351,16 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.PreparationSubtitle to "Descărcați zona de hartă vizibilă pentru a o folosi offline",
     StringKey.PreparationRetryContentDescription to "Reia încercarea de descărcare",
 
-    StringKey.MapTilesLoadFailed to "Harta nu s-a încărcat complet de pe",
+    StringKey.MapTilesLoadFailed to
+        "Fundalul hărții nu s-a încărcat, dar plimbarea și descoperirile se înregistrează și se salvează ca " +
+            "de obicei. Fără conexiune la server:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Fundalul hărții nu s-a încărcat, iar zona nu poate fi descărcată acum. Fără conexiune la server:",
+    StringKey.MapTilesLoadSlow to
+        "Fundalul hărții se încarcă lent, iar plimbarea și descoperirile se înregistrează ca de obicei. " +
+            "Serverul răspunde lent:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Fundalul hărții se încarcă lent, iar descărcarea zonei va dura și ea mult. Serverul răspunde lent:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Închide notificarea",
 
     StringKey.SettingsMapDataTitle to "Date hartă",

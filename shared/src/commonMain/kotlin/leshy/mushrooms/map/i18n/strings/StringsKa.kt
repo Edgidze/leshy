@@ -356,7 +356,15 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
         "ჩამოტვირთეთ რუკის ხილული ტერიტორია, რომ ინტერნეტის გარეშე გამოიყენოთ",
     StringKey.PreparationRetryContentDescription to "ჩამოტვირთვის გამეორება",
 
-    StringKey.MapTilesLoadFailed to "რუკა სრულად არ ჩაიტვირთა აქედან:",
+    StringKey.MapTilesLoadFailed to
+        "რუკის ფონი არ ჩაიტვირთა, მაგრამ გასეირნება და აღმოჩენები ჩვეულებრივ იწერება და ინახება. სერვერთან " +
+            "კავშირი არ არის:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "რუკის ფონი არ ჩაიტვირთა და ტერიტორიის ჩამოტვირთვა ახლა შეუძლებელია. სერვერთან კავშირი არ არის:",
+    StringKey.MapTilesLoadSlow to
+        "რუკის ფონი ნელა იტვირთება, გასეირნება და აღმოჩენები კი ჩვეულებრივ იწერება. სერვერი ნელა პასუხობს:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "რუკის ფონი ნელა იტვირთება, ტერიტორიის ჩამოტვირთვაც დიდხანს გასტანს. სერვერი ნელა პასუხობს:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "შეტყობინების დახურვა",
 
     StringKey.SettingsMapDataTitle to "რუკის მონაცემები",

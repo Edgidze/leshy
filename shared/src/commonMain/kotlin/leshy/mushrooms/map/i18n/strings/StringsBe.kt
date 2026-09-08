@@ -352,7 +352,17 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
         "Спампуйце бачную вобласць карты, каб карыстацца ёй без інтэрнэту",
     StringKey.PreparationRetryContentDescription to "Паўтарыць спампоўку",
 
-    StringKey.MapTilesLoadFailed to "Карта не цалкам загрузілася з сайта",
+    StringKey.MapTilesLoadFailed to
+        "Падкладка карты не загрузілася, але прагулка і знаходкі запісваюцца і захоўваюцца як звычайна. " +
+            "Няма сувязі з серверам:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Падкладка карты не загрузілася, спампаваць вобласць зараз не атрымаецца. Няма сувязі з серверам:",
+    StringKey.MapTilesLoadSlow to
+        "Падкладка карты грузіцца павольна, прагулка і знаходкі пры гэтым запісваюцца як звычайна. Сервер " +
+            "адказвае павольна:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Падкладка карты грузіцца павольна, спампоўванне вобласці таксама будзе доўгім. Сервер адказвае " +
+            "павольна:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Закрыць паведамленне",
 
     StringKey.SettingsMapDataTitle to "Даныя карты",

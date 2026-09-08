@@ -354,7 +354,16 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
         "Stiahnite si viditeľnú oblasť mapy, aby ste ju mohli používať offline",
     StringKey.PreparationRetryContentDescription to "Zopakovať sťahovanie",
 
-    StringKey.MapTilesLoadFailed to "Mapa sa úplne nenačítala z",
+    StringKey.MapTilesLoadFailed to
+        "Podklad mapy sa nenačítal, ale prechádzka aj nálezy sa zaznamenávajú a ukladajú ako zvyčajne. Bez " +
+            "spojenia so serverom:",
+    StringKey.MapTilesLoadFailedPreparation to
+        "Podklad mapy sa nenačítal, oblasť sa teraz nedá stiahnuť. Bez spojenia so serverom:",
+    StringKey.MapTilesLoadSlow to
+        "Podklad mapy sa načítava pomaly, prechádzka aj nálezy sa pritom zaznamenávajú ako zvyčajne. Server " +
+            "odpovedá pomaly:",
+    StringKey.MapTilesLoadSlowPreparation to
+        "Podklad mapy sa načítava pomaly, sťahovanie oblasti bude tiež dlhé. Server odpovedá pomaly:",
     StringKey.MapTilesLoadFailedDismissContentDescription to "Zavrieť oznámenie",
 
     StringKey.SettingsMapDataTitle to "Údaje mapy",
