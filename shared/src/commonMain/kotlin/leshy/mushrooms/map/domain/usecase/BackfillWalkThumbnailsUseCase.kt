@@ -8,9 +8,28 @@ import leshy.mushrooms.map.domain.model.Walk
 import leshy.mushrooms.map.domain.repository.FieldMarkRepository
 import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeoutOrNull
 import okio.FileSystem
 import okio.Path.Companion.toPath
+
+/**
+ * Потолок на ОДНУ прогулку, а не на весь проход.
+ *
+ * Снапшоттеры обеих платформ — колбэчные, и `suspendCancellableCoroutine` вокруг них резюмится
+ * только из колбэка: не пришёл колбэк — корутина висит вечно. Проход идёт последовательно, поэтому
+ * одна такая прогулка раньше забирала с собой все оставшиеся, и у владельца архива на сотню
+ * прогулок не появлялось НИ ОДНОЙ миниатюры (репорт 2026-09-07, импорт после переустановки).
+ * Потолок не «на всякий случай»: он и есть то, что превращает проход в постепенную загрузку,
+ * которую видно на экране, вместо одного молчаливого зависания.
+ *
+ * Щедрый намеренно — снимок это стиль плюс десяток-другой тайлов по сети, и на медленной связи
+ * секунды складываются. Не уложившаяся прогулка ничего не теряет: `thumbnailPath` у неё остаётся
+ * пустым, в архиве рисуется силуэт маршрута (`WalkRouteThumbnail`), а попытка повторится при
+ * следующем заходе в архив.
+ */
+private const val RENDER_TIMEOUT_MILLIS = 30_000L
 
 /**
  * One-shot repair pass for walks whose `thumbnailPath` is still null — either recorded before the
@@ -25,16 +44,23 @@ import okio.Path.Companion.toPath
  * полоса, но с точками находок без обводки, слипающимися в пятно там, где находок много.
  * Поколение узнаётся по имени файла, без чтения самого файла, — ради этого имя его и называет.
  *
- * Called once per [leshy.mushrooms.map.presentation.archive.ArchiveViewModel] lifecycle (Archive
- * screen open) — cheap no-op once every walk has a thumbnail of the current geometry, since both
- * sets shrink to empty and stay there via the normal [WalkRepository.update] write.
+ * Запускается на КАЖДОМ входе на экран «Архив»
+ * ([leshy.mushrooms.map.presentation.archive.ArchiveViewModel.onScreenShown]) — дешёвый no-op,
+ * когда у всех прогулок уже есть снимок текущей геометрии: оба набора схлопываются в пустой и
+ * остаются такими через обычную запись [WalkRepository.update].
+ *
+ * **Из импорта этот проход НЕ вызывается, и это условие, а не деталь.** Импорт заканчивается
+ * своей последней записью в базу, а не отрисовкой картинок по сети: раньше `DataViewModel` ждал
+ * здесь окончания прохода, и владелец архива на сотню прогулок видел «Идёт обработка…» минутами
+ * после того, как все треки и находки уже лежали в базе, — а без сети не дожидался вовсе.
  *
  * Первый заход после обновления, сменившего поколение, — не no-op: он перерисовывает снимок
  * КАЖДОЙ прогулки, а каждый
  * снимок это обращение к тайлам, то есть сеть. Идёт последовательно и в фоне, экран архива не
  * ждёт (см. `ArchiveViewModel`), неудача любой отдельной прогулки оставляет прежний файл на месте
  * и повторяется при следующем открытии архива — но у владельца большого архива первый заход
- * заметно потратит трафик, и без сети он просто не сделает ничего.
+ * заметно потратит трафик, и без сети он просто не сделает ничего: в карточках останется силуэт
+ * маршрута (`WalkRouteThumbnail`), это нормальный результат, а не недогруженный экран.
  */
 class BackfillWalkThumbnailsUseCase(
     private val walkRepository: WalkRepository,
@@ -46,7 +72,19 @@ class BackfillWalkThumbnailsUseCase(
 ) {
     suspend operator fun invoke() {
         val walksNeedingThumbnail = walkRepository.observeAll().first().filter { it.thumbnailPath.isStale() }
-        walksNeedingThumbnail.forEach { walk -> backfill(walk) }
+        for (walk in walksNeedingThumbnail) {
+            try {
+                withTimeoutOrNull(RENDER_TIMEOUT_MILLIS) { backfill(walk) }
+            } catch (e: CancellationException) {
+                // Отмена всего прохода (экран закрыт) — не «неудача прогулки», её нельзя гасить:
+                // проглоти её здесь, и цикл продолжил бы крутиться в уже мёртвой области.
+                throw e
+            } catch (_: Exception) {
+                // Сбой одной прогулки не имеет права остановить очередь — ровно тот же контракт,
+                // что у [RENDER_TIMEOUT_MILLIS] выше, только для исключения вместо зависания.
+                // Записи в базу тут нет, значит прогулка просто останется в списке на следующий раз.
+            }
+        }
     }
 
     /** Нет снимка вовсе — или есть, но снятый в другой пропорции (см. [WALK_THUMBNAIL_VARIANT]). */

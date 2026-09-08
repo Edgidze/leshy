@@ -126,11 +126,11 @@ class AndroidWalkThumbnailRenderer(
                 // Normally happens implicitly the first time some screen renders a live
                 // MaplibreMap/OfflineManager (see ui/map/CLAUDE.md) — a walk finishing on Record
                 // always goes through that first. Backfilling thumbnails for imported walks
-                // (BackfillWalkThumbnailsUseCase, called from DataViewModel right after import)
-                // has no such guarantee: if Data→Import is the very first screen touching maps in
-                // this process, MapSnapshotter's native init never ran and it silently produces
-                // nothing. getInstance() is idempotent (no-ops once already initialized), so
-                // calling it unconditionally here is safe and closes that gap for good.
+                // (BackfillWalkThumbnailsUseCase, run on every entry into Archive) has no such
+                // guarantee: if Archive is the very first screen touching maps in this process,
+                // MapSnapshotter's native init never ran and it silently produces nothing.
+                // getInstance() is idempotent (no-ops once already initialized), so calling it
+                // unconditionally here is safe and closes that gap for good.
                 MapLibre.getInstance(context)
 
                 val region = regionOf(track + findLocations + listOfNotNull(anchor))

@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -52,6 +53,11 @@ fun ArchiveScreen(
     // ArchiveViewModel.onDeleteDismiss). App process death trivially drops the in-memory selection.
     BackHandler(enabled = uiState.isSelectionMode) { viewModel.clearSelection() }
     DisposableEffect(Unit) { onDispose { viewModel.clearSelection() } }
+
+    // На каждом входе в раздел, а не однажды за жизнь ViewModel: «Архив» — top-level раздел, его
+    // ViewModel переживает переключение разделов, и проход, стоявший в `init`, не подхватывал
+    // прогулки, приехавшие импортом уже после первого захода сюда. Разбор — в KDoc onScreenShown().
+    LaunchedEffect(Unit) { viewModel.onScreenShown() }
 
     if (uiState.showDeleteConfirmation) {
         AlertDialog(
