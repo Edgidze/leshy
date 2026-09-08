@@ -70,7 +70,7 @@ class OnboardingViewModel(
                 // неоткуда, но шаг онбординга — про страны, и опираться тут на «их не бывает»
                 // вместо фильтра значит ждать, пока это перестанет быть правдой.
                 val countries = collections.filter { it.source == CollectionSource.COUNTRY }
-                language to buildCollectionPickerItems(countries, categories, memberships)
+                language to buildCollectionPickerItems(countries, categories, memberships, language)
             }.collect { (language, items) ->
                 _uiState.update {
                     it.copy(language = language, collectionPickerItems = sortByLanguage(items, language))
@@ -81,10 +81,11 @@ class OnboardingViewModel(
     }
 
     /**
-     * Countries that speak the current interface language float to the top; everything
-     * else keeps the ordinary [leshy.mushrooms.map.domain.model.Collection.order] below them. This
-     * is a default ORDER, not a filter — every one of the 40 countries is still in the list, and
-     * the search field still finds any of them.
+     * Countries that speak the current interface language float to the top; everything else keeps
+     * below them the alphabetical-by-localized-name order
+     * [leshy.mushrooms.map.presentation.buildCollectionPickerItems] already built. This is a
+     * default ORDER, not a filter — every country is still in the list, and the search field still
+     * finds any of them.
      *
      * Inside the floated group, the countries the language is *titular* in come first — those whose
      * [leshy.mushrooms.map.data.catalog.CountryEntry.langs] starts with it. Without that split the
@@ -96,9 +97,9 @@ class OnboardingViewModel(
      * puts `UA` first, `kk` puts `KZ` first.
      *
      * Only the onboarding step reorders like this. The same picker on the "Грибы" screen keeps the
-     * plain alphabetical/catalog order: there, the user is looking for a specific country they
-     * already have in mind, and a list that silently reshuffles itself around the interface
-     * language would just make it harder to find.
+     * plain alphabetical order: there, the user is looking for a specific country they already have
+     * in mind, and a list that silently reshuffles itself around the interface language would just
+     * make it harder to find.
      */
     private fun sortByLanguage(
         items: List<CollectionPickerItem>,
