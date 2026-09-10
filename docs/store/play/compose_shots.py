@@ -3,34 +3,36 @@
 
 Play rejects anything longer than 2:1, which every modern phone capture is, so each shot is
 cropped (status bar and gesture bar off) and set on a canvas with a one-line caption in the app's
-own palette.  Raw captures in `shots/` are never modified.
+own palette.  Raw captures are never modified.
+
+    python3 compose_shots.py            # en, from shots/    -> play/phone-en/
+    python3 compose_shots.py ru         # ru, from shots-ru/ -> play/phone-ru/
+
+Captions per locale live in captions.json, in the same order as SCREENS.
 """
-import os, json
+import json, os, sys
 from PIL import Image, ImageDraw, ImageFont
 
-RAW = "shots"
-OUT = "play/phone"
+LANG = sys.argv[1] if len(sys.argv) > 1 else "en"
+RAW = "shots" if LANG == "en" else f"shots-{LANG}"
+OUT = f"play/phone-{LANG}"
 FONT = "fonts/NotoSans.ttf"
 
 W, H = 1080, 1920
-BG_TOP = (244, 241, 232)      # app background  #F4F1E8
-BG_BOTTOM = (226, 221, 206)   # surfaceContainerHigh
+# Light green, picked off the app's own tertiaryContainer (#DCE6C0) — the same family as the
+# forest fill the map is drawn in, so the frame reads as part of the picture rather than a mat.
+BG_TOP = (237, 243, 227)
+BG_BOTTOM = (216, 228, 198)
 INK = (27, 67, 50)            # LeshyGreen #1B4332
-SUB = (76, 71, 57)            # onSurfaceVariant
 
 # crop of the raw capture: drop the status bar (top) and the gesture bar (bottom)
 CROP_TOP, CROP_BOTTOM = 70, 2330
 
-SHOTS = [
-    ("16_record.png",       "Tap the tile — the find is saved\nwith its place and type"),
-    ("01_archive.png",      "Every walk kept on its own"),
-    ("02_walk_detail.png",  "The whole walk: route, finds,\nplaces, statistics"),
-    ("12_finds_map.png",    "All of your finds on one map"),
-    ("09_map_stats.png",    "How much, where, and when"),
-    ("07_place_card.png",   "Mark a place — with a photo,\na note and its coordinates"),
-    ("14_preload.png",      "Download the map while you\nstill have internet"),
-    ("15_species.png",      "408 species, 55 collections\nby country"),
-]
+# order fixed across locales — captions.json is indexed by position
+SCREENS = ["16_record.png", "02_walk_detail.png", "03b_finds_chart.png", "12_finds_map.png",
+           "09_map_stats.png", "07_place_card.png", "14_preload.png", "15_species.png"]
+
+CAPTIONS = json.load(open("captions.json", encoding="utf-8"))[LANG]
 
 
 def gradient(w, h, top, bottom):
@@ -61,7 +63,14 @@ def compose(src, caption, dst):
         font.set_variation_by_axes([100, 700])
     except Exception:
         pass
-    line_h = 78
+    # a caption that grew in translation gets shrunk rather than clipped
+    while max(draw.textbbox((0, 0), l, font=font)[2] for l in lines) > W - 100 and font.size > 40:
+        font = ImageFont.truetype(FONT, font.size - 2)
+        try:
+            font.set_variation_by_axes([100, 700])
+        except Exception:
+            pass
+    line_h = round(font.size * 1.26)
     y = 96
     for line in lines:
         w = draw.textbbox((0, 0), line, font=font)[2]
@@ -85,16 +94,12 @@ def compose(src, caption, dst):
 
 
 os.makedirs(OUT, exist_ok=True)
-made = []
-for i, (name, caption) in enumerate(SHOTS, start=1):
+for i, (name, caption) in enumerate(zip(SCREENS, CAPTIONS), start=1):
     src = os.path.join(RAW, name)
     if not os.path.exists(src):
         print("missing", src)
         continue
     dst = os.path.join(OUT, f"{i:02d}_{name}")
     compose(src, caption, dst)
-    made.append(dst)
-
-for m in made:
-    im = Image.open(m)
-    print(m, im.size, "ratio ok" if max(im.size) <= 2 * min(im.size) else "RATIO REJECTED")
+    im = Image.open(dst)
+    print(dst, im.size, "ratio ok" if max(im.size) <= 2 * min(im.size) else "RATIO REJECTED")

@@ -109,8 +109,8 @@ TEXTS = {
                "First walk of the season", "Along the cutting", "Late October, mostly empty"],
         descriptions={
             0: "Warm and dry after a week of rain. Started at the ride, went round the bog and "
-               "back along the ridge — chanterelles by the ditch as always, and the birches past "
-               "the windfall finally gave boletes.",
+               "back along the ridge — chanterelles by the ditch as always, and the birch boletes "
+               "have clearly only just started.",
             1: "Two hours before the heat. Slow, along the wet side only.",
         },
         places={
@@ -121,7 +121,7 @@ TEXTS = {
                            "The old alder leans right over the stream — visible from the ride, "
                            "the crossing is just below it."),
             "windfall": ("Fallen spruce",
-                         "Big windfall across the slope. Boletes under the birches just past it."),
+                         "Landmark for the mushroom clearing to the right of it."),
             "pine": ("The tall pine",
                      "Head for it from anywhere on the ridge — it stands a good head above the "
                      "rest of the stand."),
@@ -138,8 +138,7 @@ TEXTS = {
                "Первый выход за сезон", "Вдоль просеки", "Конец октября, почти пусто"],
         descriptions={
             0: "Тепло и сухо после недели дождей. Начал от просеки, обошёл болото и назад по "
-               "гряде — лисички у канавы как всегда, а берёзы за буреломом наконец дали "
-               "подберёзовики.",
+               "гряде — лисички у канавы как всегда, а подберёзовики явно ещё только начались",
             1: "Два часа до жары. Медленно, только по сырой стороне.",
         },
         places={
@@ -149,7 +148,7 @@ TEXTS = {
                            "Старая ольха наклонилась прямо над ручьём — видно с просеки, переход "
                            "сразу под ней."),
             "windfall": ("Упавшая ель",
-                         "Большой ветровал поперёк склона. Подберёзовики под берёзами сразу за ним."),
+                         "Ориентир для грибной поляны справа"),
             "pine": ("Высокая сосна",
                      "На неё можно выходить с любого места гряды — она заметно выше остального леса."),
             "ride": ("Заросшая просека",
