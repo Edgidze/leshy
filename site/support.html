@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support — Mushroom Map from Leshy</title>
+<meta name="description" content="Support page for the Mushroom Map from Leshy app / Страница поддержки приложения «Грибная карта от Лешего»">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fbfaf7;
+    --surface: #ffffff;
+    --text: #1c1b17;
+    --muted: #5c5a51;
+    --line: #e2ded4;
+    --accent: #2f6b3a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14150f;
+      --surface: #1c1e17;
+      --text: #e8e6de;
+      --muted: #a5a296;
+      --line: #33362b;
+      --accent: #8fc79a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 1.25rem; margin-bottom: 1.5rem; }
+  .app { font-size: .95rem; color: var(--muted); letter-spacing: .02em; margin: 0 0 .35rem; }
+  h1 { font-size: 1.6rem; line-height: 1.25; margin: 0 0 .5rem; }
+  h2 { font-size: 1.1rem; margin: 2.2rem 0 .6rem; }
+  h3 { font-size: 1rem; margin: 1.4rem 0 .35rem; }
+  .date { color: var(--muted); font-size: .9rem; margin: 0; }
+  p, li { color: var(--text); }
+  ul { padding-left: 1.2rem; }
+  li { margin: .3rem 0; }
+  a { color: var(--accent); }
+  .lede {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: .5rem;
+    padding: .9rem 1.1rem;
+    margin: 1.5rem 0 0;
+  }
+  .lede p { margin: .4rem 0; }
+  .switch { float: right; display: flex; gap: .35rem; }
+  .switch button {
+    font: inherit; font-size: .85rem; cursor: pointer;
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--line); border-radius: .4rem; padding: .15rem .55rem;
+  }
+  .switch button[aria-pressed="true"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+  /* Разделитель между языковыми версиями: виден только когда JS не отработал
+     и все секции показаны подряд. */
+  section[data-section] + section[data-section] { margin-top: 4rem; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Переключатель бесполезен без JS, поэтому в разметке он скрыт
+       и раскрывается скриптом. Без скрипта страница показывает все
+       языковые версии подряд — контакт и текст остаются читаемыми. -->
+  <div class="switch" hidden>
+    <button type="button" data-lang="en" aria-pressed="false">Eng</button>
+    <button type="button" data-lang="ru" aria-pressed="true">Рус</button>
+    <button type="button" data-lang="fr" aria-pressed="false">Fra</button>
+    <button type="button" data-lang="es" aria-pressed="false">Esp</button>
+  </div>
+
+  <!-- ================================ ENGLISH ================================ -->
+  <section data-section="en" lang="en">
+    <header>
+      <p class="app">Mushroom Map from Leshy</p>
+      <h1>Support</h1>
+      <p class="date">Updated 12 September 2026</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>Write to <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></strong> — in
+      English or Russian. It is a working address that is actually read; there is no ticket system,
+      no chat bot and no queue.</p>
+    </div>
+
+    <h2>Reporting a problem</h2>
+    <p>Please include these four things — without them a problem usually cannot be reproduced, and
+    the reply turns into a round of questions:</p>
+    <ul>
+      <li><strong>the device model</strong> (for example “iPhone SE 2020”, “Pixel 6a”);</li>
+      <li><strong>the system version</strong> — iOS or Android;</li>
+      <li><strong>the app version</strong> — Settings → “About”;</li>
+      <li><strong>what happened and what you expected instead</strong>, and what you were doing at
+      the time: recording a walk, looking at the map, importing an archive.</li>
+    </ul>
+    <p>A screenshot or a screen recording helps more than a description. If the app closed by itself,
+    please say whether it happened right after some particular action and whether it repeats.</p>
+
+    <h2>Frequent questions</h2>
+
+    <h3>The app does not identify mushrooms and does not tell edible from poisonous</h3>
+    <p>It never does, by design. The catalogue is a reference for marking what <em>you</em> have
+    identified yourself; nothing in the app determines whether a mushroom is edible, and it cannot
+    replace a specialist. Photographs in the catalogue are illustrations, not identification keys.</p>
+
+    <h3>The map is blank or blurry without a network</h3>
+    <p>Map tiles are downloaded from the internet. For a walk without a signal, download the area in
+    advance: the side menu (the button at the top left) → “Preload”, pick the area, download it while
+    you still have a network. Outside the downloaded area and its zoom range there will be no map.</p>
+
+    <h3>The track is not being recorded, or the app does not see my location</h3>
+    <p>Check that location permission is granted to the app in the system settings, and that
+    location services are on for the device as a whole. The app asks for location only for the
+    recording screen and only while it is recording.</p>
+
+    <h3>How do I move my walks to another phone?</h3>
+    <p>The side menu → “Export/Import”: export makes a single archive file with walks, finds and
+    photos; import on the other device reads it back. The archive is an ordinary file — put it
+    anywhere you like.</p>
+
+    <h3>How do I change the interface language?</h3>
+    <p>Settings → “Interface language”. It is independent of the system language.</p>
+
+    <h2>Data and privacy</h2>
+    <p>The app collects nothing and sends nothing to the developer: walks, photos and settings stay
+    on your device. Details are in the
+    <a href="privacy.html">privacy policy</a>.</p>
+
+    <h2>Contact</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+
+    <footer>
+      The map is built on OpenStreetMap data (ODbL licence) and served through OpenFreeMap.
+    </footer>
+  </section>
+
+  <!-- ================================ РУССКИЙ ================================ -->
+  <section data-section="ru" lang="ru">
+    <header>
+      <p class="app">Грибная карта от Лешего</p>
+      <h1>Поддержка</h1>
+      <p class="date">Обновлено 12 сентября 2026 года</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>Пишите на <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></strong> —
+      по-русски или по-английски. Это рабочий адрес, который действительно читают: ни системы
+      тикетов, ни чат-бота, ни очереди.</p>
+    </div>
+
+    <h2>Как сообщить о проблеме</h2>
+    <p>Пожалуйста, укажите четыре вещи — без них проблему обычно не воспроизвести, и ответ
+    превращается в череду уточняющих вопросов:</p>
+    <ul>
+      <li><strong>модель устройства</strong> (например, «iPhone SE 2020», «Pixel 6a»);</li>
+      <li><strong>версию системы</strong> — iOS или Android;</li>
+      <li><strong>версию приложения</strong> — «Настройки» → «О приложении»;</li>
+      <li><strong>что произошло и чего вы ожидали вместо этого</strong>, и чем были заняты в этот
+      момент: записывали прогулку, смотрели карту, импортировали архив.</li>
+    </ul>
+    <p>Скриншот или запись экрана помогают больше описания. Если приложение закрылось само —
+    напишите, происходит ли это после какого-то определённого действия и повторяется ли.</p>
+
+    <h2>Частые вопросы</h2>
+
+    <h3>Приложение не определяет грибы и не отличает съедобные от ядовитых</h3>
+    <p>И не будет — так задумано. Каталог нужен, чтобы отмечать то, что вы определили
+    <em>сами</em>; съедобность приложение не определяет и специалиста не заменяет. Фотографии в
+    каталоге — иллюстрации, а не определитель.</p>
+
+    <h3>Без сети карта пустая или размытая</h3>
+    <p>Тайлы карты загружаются из интернета. Для прогулки без связи скачайте участок заранее: боковое
+    меню (кнопка слева сверху) → «Предзагрузка», выбрать участок, скачать, пока сеть есть. За
+    пределами скачанного участка и его диапазона масштабов карты не будет.</p>
+
+    <h3>Трек не пишется, приложение не видит геопозицию</h3>
+    <p>Проверьте, что разрешение на геопозицию выдано приложению в системных настройках и что
+    службы геолокации включены на устройстве целиком. Приложение запрашивает геопозицию только для
+    экрана записи и только пока идёт запись.</p>
+
+    <h3>Как перенести прогулки на другой телефон?</h3>
+    <p>Боковое меню → «Экспорт/Импорт»: экспорт складывает прогулки, находки и фотографии в один
+    файл-архив, импорт на другом устройстве читает его обратно. Архив — обычный файл, положить его
+    можно куда угодно.</p>
+
+    <h3>Как сменить язык интерфейса?</h3>
+    <p>«Настройки» → «Язык интерфейса». От языка системы он не зависит.</p>
+
+    <h2>Данные и приватность</h2>
+    <p>Приложение ничего не собирает и ничего не отправляет разработчику: прогулки, фотографии и
+    настройки остаются на вашем устройстве. Подробности — в
+    <a href="privacy.html">политике конфиденциальности</a>.</p>
+
+    <h2>Контакты</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+
+    <footer>
+      Карта построена на данных OpenStreetMap (лицензия ODbL) и отдаётся через OpenFreeMap.
+    </footer>
+  </section>
+
+  <!-- ================================ FRANÇAIS ================================ -->
+  <section data-section="fr" lang="fr">
+    <header>
+      <p class="app">Carte des champignons de Leshy</p>
+      <h1>Assistance</h1>
+      <p class="date">Mise à jour du 12 septembre 2026</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>Écrivez à <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></strong> — en
+      anglais ou en russe. C’est une adresse réelle, effectivement lue : pas de système de tickets,
+      pas de robot de discussion, pas de file d’attente.</p>
+    </div>
+
+    <h2>Signaler un problème</h2>
+    <p>Merci d’indiquer ces quatre éléments — sans eux, un problème est généralement impossible à
+    reproduire :</p>
+    <ul>
+      <li><strong>le modèle de l’appareil</strong> (par exemple « iPhone SE 2020 », « Pixel 6a ») ;</li>
+      <li><strong>la version du système</strong> — iOS ou Android ;</li>
+      <li><strong>la version de l’application</strong> — « Réglages » → « À propos » ;</li>
+      <li><strong>ce qui s’est passé et ce que vous attendiez</strong>, et ce que vous faisiez à ce
+      moment-là : enregistrement d’une sortie, consultation de la carte, import d’une archive.</li>
+    </ul>
+    <p>Une capture d’écran ou un enregistrement vidéo aide davantage qu’une description. Si
+    l’application s’est fermée d’elle-même, précisez si cela suit une action particulière et si cela
+    se répète.</p>
+
+    <h2>Questions fréquentes</h2>
+
+    <h3>L’application n’identifie pas les champignons et ne distingue pas les comestibles des vénéneux</h3>
+    <p>C’est voulu. Le catalogue sert à noter ce que <em>vous</em> avez identifié vous-même ;
+    l’application ne détermine pas la comestibilité et ne remplace pas un spécialiste. Les
+    photographies du catalogue sont des illustrations, pas une clé de détermination.</p>
+
+    <h3>Sans réseau, la carte est vide ou floue</h3>
+    <p>Les tuiles de la carte se téléchargent depuis Internet. Pour une sortie sans couverture,
+    téléchargez la zone à l’avance : menu latéral (bouton en haut à gauche) → « Préchargement »,
+    choisir la zone, la télécharger tant que le réseau est là. En dehors de la zone et de la plage de
+    zoom téléchargées, il n’y aura pas de carte.</p>
+
+    <h3>La trace ne s’enregistre pas, l’application ne voit pas ma position</h3>
+    <p>Vérifiez que l’autorisation de localisation est accordée à l’application dans les réglages du
+    système et que les services de localisation sont activés pour l’appareil. L’application demande
+    la position uniquement pour l’écran d’enregistrement et uniquement pendant l’enregistrement.</p>
+
+    <h3>Comment transférer mes sorties vers un autre téléphone ?</h3>
+    <p>Menu latéral → « Export/Import » : l’export réunit sorties, trouvailles et photos dans une seule
+    archive ; l’import la relit sur l’autre appareil. L’archive est un fichier ordinaire.</p>
+
+    <h3>Comment changer la langue de l’interface ?</h3>
+    <p>« Réglages » → « Langue de l'interface ». Elle est indépendante de la langue du système.</p>
+
+    <h2>Données et confidentialité</h2>
+    <p>L’application ne collecte rien et n’envoie rien au développeur : sorties, photos et réglages
+    restent sur votre appareil. Détails dans la
+    <a href="privacy.html">politique de confidentialité</a>.</p>
+
+    <h2>Contact</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+
+    <footer>
+      La carte repose sur les données d’OpenStreetMap (licence ODbL), servies via OpenFreeMap.
+    </footer>
+  </section>
+
+  <!-- ================================ ESPAÑOL ================================ -->
+  <section data-section="es" lang="es">
+    <header>
+      <p class="app">Mapa de setas de Leshy</p>
+      <h1>Soporte</h1>
+      <p class="date">Actualizado el 12 de septiembre de 2026</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>Escriba a <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></strong> — en
+      inglés o en ruso. Es una dirección real que se lee de verdad: sin sistema de tickets, sin bot
+      de chat y sin cola.</p>
+    </div>
+
+    <h2>Cómo informar de un problema</h2>
+    <p>Indique estas cuatro cosas — sin ellas normalmente no se puede reproducir el problema:</p>
+    <ul>
+      <li><strong>el modelo del dispositivo</strong> (por ejemplo, «iPhone SE 2020», «Pixel 6a»);</li>
+      <li><strong>la versión del sistema</strong> — iOS o Android;</li>
+      <li><strong>la versión de la aplicación</strong> — «Ajustes» → «Acerca de la aplicación»;</li>
+      <li><strong>qué ocurrió y qué esperaba en su lugar</strong>, y qué estaba haciendo en ese
+      momento: grabar una salida, mirar el mapa, importar un archivo.</li>
+    </ul>
+    <p>Una captura de pantalla o una grabación ayuda más que una descripción. Si la aplicación se
+    cerró sola, indique si ocurre tras alguna acción concreta y si se repite.</p>
+
+    <h2>Preguntas frecuentes</h2>
+
+    <h3>La aplicación no identifica setas ni distingue las comestibles de las venenosas</h3>
+    <p>Y no lo hará: está pensada así. El catálogo sirve para marcar lo que <em>usted</em> ha
+    identificado; la aplicación no determina la comestibilidad ni sustituye a un especialista. Las
+    fotografías del catálogo son ilustraciones, no una clave de identificación.</p>
+
+    <h3>Sin red el mapa aparece vacío o borroso</h3>
+    <p>Las teselas del mapa se descargan de Internet. Para una salida sin cobertura, descargue la zona
+    por adelantado: menú lateral (botón arriba a la izquierda) → «Precarga», elegir la zona y
+    descargarla mientras haya red. Fuera de la zona y de su rango de zoom no habrá mapa.</p>
+
+    <h3>La traza no se graba, la aplicación no ve mi ubicación</h3>
+    <p>Compruebe que el permiso de ubicación está concedido a la aplicación en los ajustes del
+    sistema y que los servicios de localización están activados en el dispositivo. La aplicación
+    pide la ubicación solo para la pantalla de grabación y solo mientras graba.</p>
+
+    <h3>¿Cómo paso mis salidas a otro teléfono?</h3>
+    <p>Menú lateral → «Exportar/Importar»: la exportación reúne salidas, hallazgos y fotos en un solo
+    archivo; la importación lo lee en el otro dispositivo. El archivo es un fichero corriente.</p>
+
+    <h3>¿Cómo cambio el idioma de la interfaz?</h3>
+    <p>«Ajustes» → «Idioma de la interfaz». Es independiente del idioma del sistema.</p>
+
+    <h2>Datos y privacidad</h2>
+    <p>La aplicación no recopila nada ni envía nada al desarrollador: salidas, fotos y ajustes
+    permanecen en su dispositivo. Detalles en la
+    <a href="privacy.html">política de privacidad</a>.</p>
+
+    <h2>Contacto</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+
+    <footer>
+      El mapa se basa en datos de OpenStreetMap (licencia ODbL) y se sirve a través de OpenFreeMap.
+    </footer>
+  </section>
+
+</div>
+
+<script>
+  var LANGS = ["en", "ru", "fr", "es"];
+  var switcher = document.querySelector(".switch");
+  var buttons = document.querySelectorAll(".switch button");
+  var sections = document.querySelectorAll("section[data-section]");
+
+  var TITLES = {
+    ru: "Поддержка — Грибная карта от Лешего",
+    en: "Support — Mushroom Map from Leshy",
+    fr: "Assistance — Carte des champignons de Leshy",
+    es: "Soporte — Mapa de setas de Leshy"
+  };
+
+  function show(lang) {
+    sections.forEach(function (s) { s.hidden = s.dataset.section !== lang; });
+    buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === lang)); });
+    document.documentElement.lang = lang;
+    document.title = TITLES[lang];
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener("click", function () {
+      show(b.dataset.lang);
+      history.replaceState(null, "", "#" + b.dataset.lang);
+    });
+  });
+
+  function preferred() {
+    // Язык по ссылке (#fr) важнее языка браузера — приложение может привести сюда явно.
+    var hash = location.hash.replace("#", "").toLowerCase();
+    if (LANGS.indexOf(hash) !== -1) return hash;
+
+    var list = navigator.languages && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || "en"];
+    for (var i = 0; i < list.length; i++) {
+      var tag = String(list[i]).toLowerCase().split("-")[0];
+      if (LANGS.indexOf(tag) !== -1) return tag;
+    }
+    return "en";
+  }
+
+  switcher.hidden = false;
+  show(preferred());
+</script>
+</body>
+</html>
