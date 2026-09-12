@@ -294,3 +294,33 @@ Build settings (Debug+Release): `OTHER_LDFLAGS = (-framework Shared,
   язык без своей `.lproj` в карточке магазина не появится. Парная правка на
   Android — `androidApp/src/main/res/values-<язык>/strings.xml`, то же
   значение.
+
+## Файлы в таргет добавлять не надо — папка синхронизирована
+
+`project.pbxproj` — формат Xcode 16 (`objectVersion = 77`), каталог
+`iosApp/iosApp` подключён как `PBXFileSystemSynchronizedRootGroup`. То есть
+**явного списка файлов в проекте нет вообще**: всё, что лежит в каталоге на
+диске, автоматически принадлежит таргету. Единственное исключение прописано
+для `Info.plist` (`PBXFileSystemSynchronizedBuildFileExceptionSet`) — он не
+ресурс, а манифест.
+
+Практические следствия:
+
+- новый ресурс (`PrivacyInfo.xcprivacy`, новая `<язык>.lproj`, картинка)
+  достаточно положить в каталог — перетаскивать в Xcode и править
+  `project.pbxproj` не нужно, а значит и известная ловушка с обнулением
+  `PRODUCT_NAME` не провоцируется лишний раз;
+- `knownRegions` в проекте уже перечисляет все 42 языка, так что новая
+  локализация подхватывается без правки настроек;
+- проверять результат надо по собранному бандлу, а не по дереву проекта:
+
+```bash
+xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -configuration Debug \
+  -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+  -derivedDataPath /tmp/dd build
+ls -d /tmp/dd/Build/Products/Debug-iphonesimulator/leshy.app/*.lproj | wc -l   # 42
+ls /tmp/dd/Build/Products/Debug-iphonesimulator/leshy.app/PrivacyInfo.xcprivacy
+```
+
+Проверено 12.09.2026 этим же прогоном: 42 локализации, манифест в корне
+`.app`, `ITSAppUsesNonExemptEncryption = false` в собранном `Info.plist`.
