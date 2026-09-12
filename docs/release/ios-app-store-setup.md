@@ -137,8 +137,12 @@
 
 2. `iosApp/iosApp.xcodeproj/project.pbxproj`:
    - в **обеих** конфигурациях таргета `TARGETED_DEVICE_FAMILY = "1,2"` → `"1"`;
-   - в конфигурации **Release** `CODE_SIGN_IDENTITY = "Apple Development"` →
-     `"Apple Distribution"`. В Debug оставить как есть — там она и нужна.
+   - `CODE_SIGN_IDENTITY` **не трогать**. Проверено 12.09.2026: при `CODE_SIGN_STYLE =
+     Automatic` попытка прописать `"Apple Distribution"` в Release ломает архив на старте —
+     «iosApp has conflicting provisioning settings… automatically signed for development, but a
+     conflicting code signing identity Apple Distribution has been manually specified».
+     Автоматическая подпись подставляет distribution-сертификат сама, на этапе Distribute App;
+     `"Apple Development"` в build settings — это её штатное значение, а не недосмотр.
 
 3. Проверить `TEAM_ID=` в `iosApp/Configuration/Config.xcconfig`: переменная пустая. Если
    `grep -rn "TEAM_ID" iosApp/` не находит ни одного её использования — **не трогать**,

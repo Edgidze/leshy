@@ -324,3 +324,24 @@ ls /tmp/dd/Build/Products/Debug-iphonesimulator/leshy.app/PrivacyInfo.xcprivacy
 
 Проверено 12.09.2026 этим же прогоном: 42 локализации, манифест в корне
 `.app`, `ITSAppUsesNonExemptEncryption = false` в собранном `Info.plist`.
+
+## `CODE_SIGN_IDENTITY = "Apple Development"` в Release — так и надо
+
+Выглядит как недосмотр («релиз подписывается сертификатом разработчика?»),
+но при `CODE_SIGN_STYLE = Automatic` это штатное значение: distribution-
+сертификат Xcode подставляет сам на этапе Distribute App, в build settings он
+не прописывается.
+
+Попытка «исправить» на `"Apple Distribution"` ломает архив сразу на старте
+(проверено 12.09.2026, первый заход на Product → Archive):
+
+```
+iosApp has conflicting provisioning settings. iosApp is automatically signed for
+development, but a conflicting code signing identity Apple Distribution has been
+manually specified.
+```
+
+Прописывать distribution-идентичность руками имеет смысл только вместе с
+переходом на ручную подпись (`CODE_SIGN_STYLE = Manual` плюс свой
+provisioning profile) — то есть это другое решение целиком, а не правка одной
+строки.
