@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Privacy manifest — машиночитаемая декларация внутри бандла, НЕ анкета App Privacy
+	     в App Store Connect (её заполняют отдельно, руками). Без этого файла загрузка
+	     проходит, но приходит письмо ITMS-91053 «Missing API declaration», которое
+	     блокирует публикацию. -->
+
+	<!-- Трекинга нет: ни аналитики, ни крашлитики, ни рекламных SDK. Проверяется по
+	     списку зависимостей composeResources/files/aboutlibraries.json. -->
+	<key>NSPrivacyTracking</key>
+	<false/>
+	<key>NSPrivacyTrackingDomains</key>
+	<array/>
+
+	<!-- Ничего не собирается: все данные остаются на устройстве, наружу уходят только
+	     запросы тайлов к OpenFreeMap (OPEN_FREE_MAP_STYLE_URL, ui/map/MapStyle.kt).
+	     Фактура сверена с политикой конфиденциальности — site/README.md. -->
+	<key>NSPrivacyCollectedDataTypes</key>
+	<array/>
+
+	<!-- API с обязательным обоснованием. Свой код их не зовёт — они приходят из
+	     библиотек, влинкованных в Shared.framework. У MapLibre.framework собственный
+	     манифест, за себя он отвечает сам, дублировать не нужно.
+
+	     Список — гипотеза по составу зависимостей. Если после загрузки придёт
+	     ITMS-91053, письмо называет конкретный API и категорию: дописать её сюда и
+	     загрузить следующий билд. Это штатный цикл. -->
+	<key>NSPrivacyAccessedAPITypes</key>
+	<array>
+		<dict>
+			<!-- Временны́е метки файлов: okio/DataStore/Room работают с файлами внутри
+			     контейнера приложения (C617.1 — ровно этот случай). -->
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array>
+				<string>C617.1</string>
+			</array>
+		</dict>
+		<dict>
+			<!-- Свободное место на диске: проверка перед записью (офлайн-паки карты,
+			     фотографии находок) — E174.1. -->
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryDiskSpace</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array>
+				<string>E174.1</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

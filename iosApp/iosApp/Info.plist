@@ -7,6 +7,12 @@
 	     не подхватывается вовсе, iOS взяла бы PRODUCT_NAME («leshy»). -->
 	<key>CFBundleDisplayName</key>
 	<string>Mushroom Map</string>
+	<!-- Экспортное соответствие: приложение ходит только по HTTPS (тайлы OpenFreeMap) и
+	     системной криптографией не пользуется — это штатное исключение. Без ключа
+	     App Store Connect держит билд в статусе Missing Compliance (в TestFlight он не
+	     раздаётся) и задаёт вопрос руками при каждой загрузке. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
