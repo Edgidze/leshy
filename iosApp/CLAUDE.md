@@ -345,3 +345,28 @@ manually specified.
 переходом на ручную подпись (`CODE_SIGN_STYLE = Manual` плюс свой
 provisioning profile) — то есть это другое решение целиком, а не правка одной
 строки.
+
+## Purpose-строки в `Info.plist` требуются и за чужой код
+
+`ITMS-90683` на первой загрузке (13.09.2026) потребовал
+`NSLocationAlwaysAndWhenInUseUsageDescription`, хотя приложение просит только
+`requestWhenInUseAuthorization` (`IosLocationTracker.kt`). Причина — символ
+`requestAlwaysAuthorization` внутри `MapLibre.framework`: статический анализатор
+Apple смотрит бандл целиком, включая чужие фреймворки, и на исполняемые пути не
+смотрит вовсе.
+
+Отсюда правило: **новая зависимость может потребовать purpose-строку, которой
+не соответствует ни одна строка нашего кода.** Проверять так:
+
+```bash
+strings <путь к .app>/Frameworks/<Имя>.framework/<Имя> | grep -iE "requestAlways|AuthorizationStatus"
+nm -u <путь к .app>/<бинарник> | grep -iE "PHPhotoLibrary|UIImagePicker|AVCaptureDevice"
+```
+
+Строки добавляются **по факту требования**, а не на опережение: в `Info.plist`
+лежит то, что Apple назвала в письме или что просит наш код, и ничего сверх.
+Ближайший кандидат на будущее — `NSPhotoLibraryUsageDescription`:
+`UIImagePickerController` из `CameraLauncher.ios.kt` в бинарнике есть, но
+открывается он только с `sourceType = Camera`, и Apple строку не потребовала.
+Появится путь с `sourceType = photoLibrary` — строка станет обязательной сразу,
+без неё система убивает приложение в момент обращения к библиотеке.
