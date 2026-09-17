@@ -1,9 +1,12 @@
 package leshy.mushrooms.map.ui.theme
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 private val LeshyGreen = Color(0xFF1B4332)
@@ -81,10 +84,27 @@ private val DarkColors = darkColorScheme(
     surfaceContainerHighest = Color(0xFF3A3831),
 )
 
+/**
+ * **`Surface` внутри темы — не оформление, а единственное, что делает тёмную тему работающей на
+ * экране без собственного скаффолда.** Material3 держит `LocalContentColor` с дефолтом
+ * `Color.Black`, и цвет темы в него кладёт ближайший `Surface`/`Scaffold` — больше никто.
+ * Экран без того и другого (шаг «выбор подборок» онбординга — голая `Column`) рисовал текст
+ * буквальным чёрным и не красил фон вовсе, то есть показывал фон хост-контроллера: на iOS в
+ * тёмном режиме — чёрный. Чёрное по чёрному, репорт тестировщиц 2026-09-17. Явно заданные цвета
+ * при этом работали (баннер `onErrorContainer`, подпись `TextField`) — отсюда и след, по
+ * которому нашлась причина.
+ *
+ * На Android дефект не проявлялся: окно `Activity` красится темой из манифеста, и чёрный текст на
+ * ней читался. Разбираться с этим здесь, а не заплаткой на экран, — чтобы следующий экран без
+ * скаффолда не воспроизвёл то же самое заново.
+ */
 @Composable
 fun LeshyTheme(useDarkTheme: Boolean = false, content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = if (useDarkTheme) DarkColors else LightColors,
-        content = content,
-    )
+    MaterialTheme(colorScheme = if (useDarkTheme) DarkColors else LightColors) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background,
+            content = content,
+        )
+    }
 }
