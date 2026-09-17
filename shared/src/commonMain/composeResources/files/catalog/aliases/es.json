@@ -1,0 +1,360 @@
+{
+  "agaricus_campestris": [
+    "Pipila",
+    "Pollito",
+    "Sanjuanero",
+    "Sombrillita"
+  ],
+  "agaricus_campestris__2": [
+    "Champiñón de campo",
+    "Hongo",
+    "Bola de nieve",
+    "Champiñón de campa",
+    "Champiñón de prado"
+  ],
+  "amanita_basii": [
+    "Yema",
+    "Yemita",
+    "Yemitas",
+    "Tecomate",
+    "Amarillos",
+    "Hongo real",
+    "Pan amarillo",
+    "Hongo de la sierra"
+  ],
+  "amanita_caesarea": [
+    "Amanita de los Césares",
+    "Yema de huevo"
+  ],
+  "amanita_fulva": [
+    "Venadito"
+  ],
+  "amanita_muscaria": [
+    "Falsa oronja",
+    "Falso kuleto",
+    "Agárico pintado",
+    "Hongo de mosca",
+    "Tecomate de moscas"
+  ],
+  "amanita_novinupta": [
+    "Juan Diego",
+    "Mantecadas"
+  ],
+  "amanita_pantherina": [
+    "Pantera",
+    "Oronja pantera",
+    "Falso galipierno",
+    "Venadito venenoso",
+    "Mantecado venenoso"
+  ],
+  "amanita_phalloides": [
+    "Seta mortal",
+    "Cicuta verde"
+  ],
+  "amanita_verna": [
+    "Oronja blanca"
+  ],
+  "boletus_aereus": [
+    "Hongo negro",
+    "Tentullo",
+    "Cabeza de negro",
+    "Boleto bronceado",
+    "Cabeza de fraile"
+  ],
+  "boletus_edulis": [
+    "Hongo",
+    "Hongo calabaza",
+    "Porro",
+    "Calabaza",
+    "Hongo rubio",
+    "Cemitas",
+    "Pancita",
+    "Semitas",
+    "Panadero",
+    "Pancitas"
+  ],
+  "boletus_pinophilus": [
+    "Boleto pinícola",
+    "Hongo de pino",
+    "Hongo negro rojizo"
+  ],
+  "boletus_reticulatus": [
+    "Hongo de primavera",
+    "Boleto rubio",
+    "Boleto reticulado de verano"
+  ],
+  "calocybe_gambosa": [
+    "Muchardón",
+    "Seta de mayo",
+    "Isón",
+    "Usón",
+    "Sisón",
+    "Seta de primavera"
+  ],
+  "calvatia_cyathiformis": [
+    "Bombón",
+    "Terneritas"
+  ],
+  "cantharellus_cibarius": [
+    "Cabrilla",
+    "Gírola",
+    "Canterela",
+    "Seta amarilla",
+    "Membrillo",
+    "Duraznillo",
+    "Sochilillo",
+    "Suchilillo",
+    "Xochilillo",
+    "Flor de calabacita"
+  ],
+  "clitocybe_gibba": [
+    "Orejita",
+    "Tejamanilero"
+  ],
+  "clitocybe_rivulosa": [
+    "Clitocibe de las cunetas"
+  ],
+  "coprinus_comatus": [
+    "Matacandil",
+    "Apagador"
+  ],
+  "cortinarius_orellanus": [
+    "Cortinario de montaña"
+  ],
+  "craterellus_cornucopioides": [
+    "Cuerno de la abundancia"
+  ],
+  "craterellus_lutescens": [
+    "Rebozuelo anaranjado",
+    "Rebozuelo",
+    "Angula de monte"
+  ],
+  "entoloma_clypeatum": [
+    "Xolete rosa"
+  ],
+  "entoloma_sinuatum": [
+    "Entoloma lívido",
+    "Pérfida",
+    "Pérfido",
+    "Entoloma",
+    "Seta engañosa"
+  ],
+  "fistulina_hepatica": [
+    "Hígado de buey",
+    "Hígado de vaca",
+    "Lengua de gato",
+    "Lengua de vaca"
+  ],
+  "galerina_marginata": [
+    "Seta rebordeada"
+  ],
+  "gymnopus_dryophilus": [
+    "Güera",
+    "Uachitas",
+    "Paragüitas",
+    "Montoncitos"
+  ],
+  "gyromitra_esculenta": [
+    "Giromitra comestible"
+  ],
+  "hebeloma_aminophilum": [
+    "Ocochalero",
+    "Nixtamalero",
+    "Hongo del ocote",
+    "Xolete de ocote",
+    "Clavito de ocote"
+  ],
+  "helvella_lacunosa": [
+    "Orejitas",
+    "Gachupín blanco",
+    "Orejas de ratón"
+  ],
+  "hydnum_repandum": [
+    "Pie de cordero",
+    "Gamuza",
+    "Lengua de gato",
+    "Seta de serrín"
+  ],
+  "hygrophoropsis_aurantiaca": [
+    "Mosquito"
+  ],
+  "hygrophorus_chrysodon": [
+    "Nixtamalito"
+  ],
+  "hygrophorus_gliocyclus": [
+    "Hongo de lala"
+  ],
+  "hygrophorus_marzuolus": [
+    "Higróforo de marzo",
+    "Seta de ardilla"
+  ],
+  "hypholoma_fasciculare": [
+    "Agárico fasciculado"
+  ],
+  "hypomyces_lactifluorum": [
+    "Colorado",
+    "Trompa de puerco",
+    "Trompa de cochino"
+  ],
+  "infundibulicybe_geotropa": [
+    "Cabeza de fraile",
+    "Caperán"
+  ],
+  "inosperma_erubescens": [
+    "Bruja"
+  ],
+  "laccaria_laccata": [
+    "Socoyol",
+    "Xocoyol",
+    "Xocoyole",
+    "Corralito"
+  ],
+  "lactarius_deliciosus": [
+    "Robellón",
+    "Rebollón",
+    "Rebichuelo",
+    "Nícalo",
+    "Mízcalo",
+    "Nízcalo",
+    "Seta de pino",
+    "Enchilada",
+    "Enchilado",
+    "Enchilado de llano",
+    "Enchilado de oyametal",
+    "Enchilados"
+  ],
+  "lactarius_indigo": [
+    "Hongo azul",
+    "Oreja azul"
+  ],
+  "lactarius_sanguifluus": [
+    "Níscalo",
+    "Rovellón"
+  ],
+  "lactarius_torminosus": [
+    "Níscalo cabruno"
+  ],
+  "lepista_nuda": [
+    "Tricoloma pie violeta",
+    "Pezón azul",
+    "Tricoloma pie azul"
+  ],
+  "lyophyllum_decastes": [
+    "Xolete",
+    "Clavito",
+    "Clavitos",
+    "Cuaresmeño"
+  ],
+  "macrolepiota_procera": [
+    "Matacandil",
+    "Apagador",
+    "Cachiporra",
+    "Galipierno",
+    "Matacandelas",
+    "Agárico culebra",
+    "Gavilan",
+    "Quelele",
+    "Paraguas"
+  ],
+  "marasmius_oreades": [
+    "Carrerilla",
+    "Fongeta",
+    "Correola",
+    "Muchardina"
+  ],
+  "morchella_esculenta": [
+    "Morilla",
+    "Cagarria",
+    "Colmenilla gris",
+    "Colmenilla redonda",
+    "Colmenilla comestible",
+    "Mazorca",
+    "Organito",
+    "Mazorquita"
+  ],
+  "neoboletus_luridiformis__2": [
+    "Jalambos"
+  ],
+  "paxillus_involutus": [
+    "Seta enrollada"
+  ],
+  "pleurotus_eryngii": [
+    "Oreja de cardo"
+  ],
+  "psilocybe_cubensis": [
+    "San José",
+    "San Pedro",
+    "Alucinante",
+    "Michoacano"
+  ],
+  "ramaria_flava": [
+    "Pata de pájaro",
+    "Patita de pájaro"
+  ],
+  "rubroboletus_satanas": [
+    "Hongo del diablo",
+    "Satán",
+    "Mataparientes"
+  ],
+  "russula_brevipes": [
+    "Oreja",
+    "Orejas",
+    "Borrego",
+    "Totopitle",
+    "Borreguito",
+    "Hongo blanco",
+    "Trompa blanca",
+    "Trompa de marrano"
+  ],
+  "russula_cyanoxantha": [
+    "Hongo manalco"
+  ],
+  "russula_cyanoxantha__2": [
+    "Rúsula de los cerdos"
+  ],
+  "russula_emetica": [
+    "Escaldabec"
+  ],
+  "russula_virescens": [
+    "Seta de cura",
+    "Gorro verde"
+  ],
+  "sparassis_crispa": [
+    "Clavaria rizada"
+  ],
+  "suillus_luteus": [
+    "Hongo anillado",
+    "Boleto viscoso anillado"
+  ],
+  "suillus_luteus__2": [
+    "Cobataya"
+  ],
+  "terfezia_boudieri": [
+    "Patata de tierra"
+  ],
+  "tricholoma_equestre": [
+    "Tricoloma ecuestre",
+    "Nejo",
+    "Cailita",
+    "Periquito",
+    "Calandria"
+  ],
+  "tricholoma_portentosum": [
+    "Pretenciosas",
+    "Tricoloma portentosa"
+  ],
+  "tricholoma_sejunctum": [
+    "Cola de rata"
+  ],
+  "tricholoma_terreum": [
+    "Seta de pino",
+    "Ratón",
+    "Capuchina"
+  ],
+  "turbinellus_floccosus": [
+    "Trompeta"
+  ],
+  "ustilago_maydis": [
+    "Huitlacoche"
+  ]
+}

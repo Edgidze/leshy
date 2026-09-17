@@ -1,0 +1,76 @@
+{
+  "agaricus_macrosporus": [
+    "Veliki šampinjon",
+    "Velika pečurka"
+  ],
+  "amanita_caesarea": [
+    "Jajara"
+  ],
+  "amanita_phalloides": [
+    "Zelena smrt"
+  ],
+  "amanita_rubescens": [
+    "Biserka"
+  ],
+  "armillaria_mellea": [
+    "Mednjače"
+  ],
+  "boletus_edulis": [
+    "Letnji vrganj"
+  ],
+  "boletus_reticulatus": [
+    "Ispucali vrganj",
+    "Mrežasti vrganj"
+  ],
+  "calocybe_gambosa": [
+    "Đurđevače"
+  ],
+  "calvatia_gigantea": [
+    "Golema puša"
+  ],
+  "cantharellus_cibarius": [
+    "Lisičarke"
+  ],
+  "chlorophyllum_rhacodes": [
+    "Kuštrave sunčanice"
+  ],
+  "coprinus_comatus": [
+    "Smetličarke",
+    "Beli jarići"
+  ],
+  "craterellus_cornucopioides": [
+    "Crna truba"
+  ],
+  "entoloma_sinuatum": [
+    "Guja"
+  ],
+  "fistulina_hepatica": [
+    "Volovski jezik"
+  ],
+  "flammulina_velutipes": [
+    "Zimska panjevčica"
+  ],
+  "gyromitra_esculenta": [
+    "Hrčak"
+  ],
+  "lactarius_torminosus": [
+    "Brezovka"
+  ],
+  "lactifluus_piperatus": [
+    "Bele ljute"
+  ],
+  "macrolepiota_procera": [
+    "Sunčanice"
+  ],
+  "morchella_esculenta": [
+    "Crni smrčak"
+  ],
+  "morchella_esculenta__2": [
+    "Obični smrčak",
+    "Tamni smrčak",
+    "Okrugli smrčak"
+  ],
+  "pleurotus_ostreatus": [
+    "Bukovače"
+  ]
+}

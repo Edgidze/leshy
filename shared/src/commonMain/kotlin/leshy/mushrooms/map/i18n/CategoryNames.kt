@@ -84,3 +84,24 @@ private fun catalogDisplayName(nameKey: String, language: AppLanguage): String {
         ?: koin.get<CatalogSource>().scientificName(nameKey)
         ?: nameKey
 }
+
+/**
+ * Строка, по которой вид ищется в диалоге поиска: основное имя плюс народные синонимы этого языка
+ * ([MushroomAliases]). Показывается по-прежнему только основное — это поисковый индекс, а не
+ * второе название.
+ *
+ * Порядок слагаемых важен и держит ранжировку [leshy.mushrooms.map.i18n.searchOrdered] осмысленной
+ * без единой правки в ней самой: основное имя стоит первым, поэтому в ведро `startsWith` вид
+ * попадает только по нему, а совпадение по синониму падает ведром ниже, в `contains`. То есть вид,
+ * чьё НАСТОЯЩЕЕ имя начинается с запроса, по-прежнему обгоняет вид, у которого с запросом совпал
+ * лишь синоним.
+ *
+ * У пользовательских видов синонимов нет и быть не может — [Category.customNames] и так хранит
+ * ровно то, что человек ввёл сам.
+ */
+fun categorySearchLabel(category: Category, language: AppLanguage): String {
+    val name = categoryDisplayName(category, language)
+    if (category.source != CategorySource.APP) return name
+    val aliases = getKoin().get<MushroomAliases>().aliasesFor(language)[category.nameKey].orEmpty()
+    return if (aliases.isEmpty()) name else (listOf(name) + aliases).joinToString(" ")
+}

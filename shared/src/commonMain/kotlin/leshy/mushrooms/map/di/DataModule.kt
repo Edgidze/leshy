@@ -27,12 +27,14 @@ import leshy.mushrooms.map.domain.repository.SettingsRepository
 import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
 import leshy.mushrooms.map.i18n.CountryNames
+import leshy.mushrooms.map.i18n.MushroomAliases
 import leshy.mushrooms.map.i18n.MushroomNames
 import org.koin.dsl.module
 
 val dataModule = module {
     single { CatalogSource() }
     single { MushroomNames() }
+    single { MushroomAliases() }
     single { CountriesSource() }
     single { CountryNames() }
     single { getRoomDatabase(get<RoomDatabase.Builder<LeshyDatabase>>()) }

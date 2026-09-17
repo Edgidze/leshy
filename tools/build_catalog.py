@@ -68,6 +68,9 @@ APP_LANGUAGE_KT = (
 EXTRA_PRESETS_JSON = REPO_ROOT / "docs" / "catalog" / "extra_country_presets.json"
 EXTRA_CATEGORIES_JSON = REPO_ROOT / "docs" / "catalog" / "extra_categories.json"
 EXTRA_NAMES_DIR = REPO_ROOT / "docs" / "catalog" / "extra_names"
+# Ручной слой поверх `alt_names` источника — см. `write_aliases`. Тоже по catalog
+# `key`, а не по `GC####`, по той же причине, что и слои выше.
+ALIAS_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "alias_overrides.json"
 
 # Section 3.3: RU preset gained/lost these categories relative to what the
 # source dump shipped, per the project owner's decisions.
@@ -360,6 +363,62 @@ def resolve_colors(categories: list, recompute: bool) -> dict:
     return colors
 
 
+def write_aliases(categories: list, out_dir: Path) -> None:
+    """`aliases/<lang>.json` (`{key: [имя, ...]}`) — вторые названия видов для ПОИСКА.
+
+    Источник — поле `alt_names` каждой категории дампа (121 запись у `en`, 68 у
+    `ru`, есть ещё у двух десятков языков). До 2026-09-17 оно не выгружалось
+    вовсе: генератор писал в `names/<lang>.json` только основное имя, и поиск
+    по ленте плиток ранжировал по одной строке. Народных синонимов у грибов
+    больше, чем основных названий, и «подосиновик» ищут как «красный», а
+    «подберёзовик» как «обабок».
+
+    Показывается по-прежнему ТОЛЬКО основное имя — это поисковый индекс, а не
+    второй набор названий. Поэтому синоним, совпавший с основным именем,
+    отбрасывается: в `names/<lang>.json` он уже есть, и дублировать его в
+    индексе незачем.
+
+    Ручной слой `alias_overrides.json` (`{key: {lang: [имя, ...]}}`) ДОПОЛНЯЕТ
+    список, а не заменяет его: у слоя ровно одна задача — дописать то, чего в
+    дампе нет. Неизвестный ключ — ошибка, а не тихий пропуск: опечатка в нём
+    иначе просто ничего бы не сделала, и заметили бы это через месяц в лесу.
+    """
+    overrides = load_optional_json(ALIAS_OVERRIDES_JSON, {})
+    by_key = {c["key"]: c for c in categories}
+    unknown = sorted(set(overrides) - set(by_key))
+    if unknown:
+        raise ValueError(f"alias_overrides.json: неизвестные ключи каталога: {unknown}")
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    written = 0
+    for lang in app_language_codes():
+        # Основные имена этого языка нужны, чтобы отбросить совпадающие синонимы.
+        # Читаются с диска, а не из памяти: секция гоняется и отдельным флагом
+        # `--only-aliases`, когда остальной конвейер не выполнялся.
+        names_path = FILES_CATALOG_DIR / "names" / f"{lang}.json"
+        names = json.loads(names_path.read_text(encoding="utf-8")) if names_path.exists() else {}
+        result = {}
+        for key, category in by_key.items():
+            main = (names.get(key) or "").strip().casefold()
+            seen = set()
+            aliases = []
+            source_aliases = (category.get("alt_names") or {}).get(lang) or []
+            for alias in list(source_aliases) + list(overrides.get(key, {}).get(lang, [])):
+                alias = (alias or "").strip()
+                folded = alias.casefold()
+                if not alias or folded == main or folded in seen:
+                    continue
+                seen.add(folded)
+                aliases.append(alias)
+            if aliases:
+                result[key] = aliases
+        (out_dir / f"{lang}.json").write_text(
+            json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
+        )
+        written += 1
+    print(f"aliases/: {written} files written")
+
+
 def write_country_names(presets: dict, out_dir: Path) -> None:
     codes = sorted(presets)
     languages = app_language_codes()
@@ -403,12 +462,23 @@ def main() -> None:
         help="Regenerate countries/<lang>.json only — the cheap section, no images touched.",
     )
     parser.add_argument(
+        "--only-aliases", action="store_true",
+        help="Regenerate aliases/<lang>.json only — reads names/<lang>.json from disk, "
+             "touches no images.",
+    )
+    parser.add_argument(
         "--recompute-colors", action="store_true",
         help="Re-derive every dominant colour from the images instead of reusing the ones "
              "catalog.json already stores. Changes ~298 of 408 values, 12 of them visibly — "
              "see the module docstring before using this.",
     )
     args = parser.parse_args()
+
+    if args.only_aliases:
+        data = json.loads(SOURCE_JSON.read_text(encoding="utf-8"))
+        categories = data["categories"] + load_extra_categories(data["categories"])
+        write_aliases(categories, FILES_CATALOG_DIR / "aliases")
+        return
 
     if args.only_country_names:
         data = json.loads(SOURCE_JSON.read_text(encoding="utf-8"))
@@ -523,6 +593,9 @@ def run_full(recompute_colors: bool = False) -> None:
             json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
         )
     print(f"names/: {len(all_langs)} files written ({len(extra_names)} of them fed by extra_names/)")
+
+    # ---- aliases/<lang>.json ---------------------------------------------------
+    write_aliases(categories, FILES_CATALOG_DIR / "aliases")
 
     # ---- images -----------------------------------------------------
     DRAWABLE_DIR.mkdir(parents=True, exist_ok=True)

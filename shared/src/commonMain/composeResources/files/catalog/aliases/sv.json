@@ -1,0 +1,36 @@
+{
+  "agaricus_xanthodermus": [
+    "Karbolchampinjon"
+  ],
+  "armillaria_borealis": [
+    "Honungsskivlingar"
+  ],
+  "boletus_edulis": [
+    "Karljohans-svamp",
+    "Karljohan"
+  ],
+  "cortinarius_caperatus": [
+    "Rynkad tofsskivling"
+  ],
+  "craterellus_lutescens": [
+    "Gul trumpetsvamp"
+  ],
+  "craterellus_tubaeformis": [
+    "Höstkantarell"
+  ],
+  "hygrophoropsis_aurantiaca": [
+    "Falsk kantarell"
+  ],
+  "lactarius_deterrimus": [
+    "Blodriskor"
+  ],
+  "leccinum_versipelle": [
+    "Röda strävsoppar"
+  ],
+  "marasmius_oreades": [
+    "Nejlikbroskskivling"
+  ],
+  "morchella_esculenta": [
+    "Toppmurklor"
+  ]
+}

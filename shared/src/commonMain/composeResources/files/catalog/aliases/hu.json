@@ -1,0 +1,51 @@
+{
+  "agaricus_campestris": [
+    "Mezei csiperke"
+  ],
+  "armillaria_mellea": [
+    "Gyűrűs tuskógomba",
+    "Mézgomba",
+    "Vendel-gomba"
+  ],
+  "boletus_edulis": [
+    "Szepe",
+    "Fenyősi vargánya",
+    "Fenyőszepe",
+    "Nyírfaszepe",
+    "Tölgyfaszepe"
+  ],
+  "bovistella_utriformis": [
+    "Változékony pöfeteg",
+    "Pikkelyes pöfeteg"
+  ],
+  "cantharellus_cibarius": [
+    "Sárga rókagomba",
+    "Csirkegomba",
+    "Nyulica"
+  ],
+  "hydnum_repandum": [
+    "Sárga gereben"
+  ],
+  "lactarius_deliciosus": [
+    "Ízletes rizike"
+  ],
+  "lactifluus_piperatus": [
+    "Fehértejű keserűgomba"
+  ],
+  "leccinellum_pseudoscabrum": [
+    "Sötét érdestinóru"
+  ],
+  "marasmius_oreades": [
+    "Szegfűgomba",
+    "Csirkegomba"
+  ],
+  "morchella_esculenta": [
+    "Ízletes kucsmagomba"
+  ],
+  "russula_cyanoxantha": [
+    "Kékhátú galambgomba"
+  ],
+  "suillus_granulatus": [
+    "Szemcsésnyelű fenyőtinóru"
+  ]
+}

@@ -1,0 +1,246 @@
+{
+  "agaricus_campestris": [
+    "Шампиньоны"
+  ],
+  "albatrellus_ovinus": [
+    "Трутовик овечий"
+  ],
+  "amanita_muscaria": [
+    "Красный мухомор",
+    "Мухомор"
+  ],
+  "amanita_pantherina": [
+    "Пантерный мухомор"
+  ],
+  "amanita_phalloides": [
+    "Зелёный мухомор"
+  ],
+  "amanita_rubescens": [
+    "Мухомор краснеющий"
+  ],
+  "amanita_vaginata": [
+    "Поплавок"
+  ],
+  "amanita_virosa": [
+    "Белый мухомор",
+    "Белая поганка",
+    "Мухомор ядовитый",
+    "Вонючий мухомор"
+  ],
+  "armillaria_borealis": [
+    "Осенний опёнок"
+  ],
+  "armillaria_mellea": [
+    "Опёнок",
+    "Опята",
+    "Осенние опята"
+  ],
+  "boletus_edulis": [
+    "Боровик",
+    "Боровики",
+    "Белые грибы"
+  ],
+  "calvatia_gigantea": [
+    "Дождевики",
+    "Дождевик гигантский"
+  ],
+  "cantharellus_cibarius": [
+    "Лисичка обыкновенная",
+    "Лисички"
+  ],
+  "clitopilus_prunulus": [
+    "Подвишенник"
+  ],
+  "coprinopsis_atramentaria": [
+    "Чернильный навозник",
+    "Навозник чернильный"
+  ],
+  "coprinus_comatus": [
+    "Навозник лохматый"
+  ],
+  "cortinarius_caperatus": [
+    "Курочка"
+  ],
+  "craterellus_cornucopioides": [
+    "Чёрная лисичка",
+    "Лисичка чёрная"
+  ],
+  "fistulina_hepatica": [
+    "Печёночница"
+  ],
+  "flammulina_velutipes": [
+    "Зимний гриб",
+    "Зимний опёнок",
+    "Зимние опята"
+  ],
+  "grifola_frondosa": [
+    "Грифола курчавая"
+  ],
+  "gyromitra_esculenta": [
+    "Строчок обыкновенный"
+  ],
+  "gyromitra_esculenta__2": [
+    "Строчки"
+  ],
+  "hydnum_repandum": [
+    "Ежевик желтый"
+  ],
+  "hygrophoropsis_aurantiaca": [
+    "Говорушка оранжевая",
+    "Лисичка ложная"
+  ],
+  "hygrophorus_hypothejus": [
+    "Гигрофор бурый"
+  ],
+  "hypholoma_fasciculare": [
+    "Ложные опята",
+    "Ложный опёнок",
+    "Ложный опёнок серно-жёлтый"
+  ],
+  "hypholoma_lateritium": [
+    "Ложный опёнок кирпично-красный"
+  ],
+  "inonotus_obliquus": [
+    "Берёзовый гриб"
+  ],
+  "inosperma_erubescens": [
+    "Иносперма краснеющая"
+  ],
+  "lactarius_deliciosus": [
+    "Рыжик деликатесный",
+    "Рыжик настоящий",
+    "Рыжики"
+  ],
+  "lactarius_necator": [
+    "Чернушка"
+  ],
+  "lactarius_pubescens": [
+    "Волнушка белая"
+  ],
+  "lactarius_resimus": [
+    "Груздь",
+    "Белый груздь",
+    "Грузди"
+  ],
+  "lactarius_torminosus": [
+    "Волнушки",
+    "Волнушка розовая",
+    "Волжанка",
+    "Волженка"
+  ],
+  "lactarius_trivialis": [
+    "Млечник обыкновенный",
+    "Гладиш"
+  ],
+  "lactarius_turpis": [
+    "Груздь чёрный"
+  ],
+  "lactifluus_piperatus": [
+    "Белые грузди",
+    "Жёлтые грузди"
+  ],
+  "lactifluus_vellereus": [
+    "Груздь войлочный",
+    "Грузди"
+  ],
+  "lactifluus_volemus": [
+    "Молочай",
+    "Млечник молочай"
+  ],
+  "leccinum_aurantiacum": [
+    "Подосиновики",
+    "Красный",
+    "Красноголовик"
+  ],
+  "leccinum_aurantiacum__2": [
+    "Красноголовик",
+    "Красно-бурый подосиновик"
+  ],
+  "leccinum_scabrum": [
+    "Обабок",
+    "Подберёзовики"
+  ],
+  "lycoperdon_perlatum": [
+    "Дождевики",
+    "Дождевик жемчужный"
+  ],
+  "macrolepiota_procera": [
+    "Гриб-зонтик",
+    "Гриб-зонтик пестрый",
+    "Гриб-зонтик высокий",
+    "Зонтик",
+    "Зонтики",
+    "Гриб-зонтик пёстрый",
+    "Грибы-зонтики"
+  ],
+  "marasmius_oreades": [
+    "Луговой опёнок"
+  ],
+  "morchella_esculenta": [
+    "Сморчки"
+  ],
+  "neoboletus_erythropus": [
+    "Дубовики"
+  ],
+  "paxillus_involutus": [
+    "Свинушка",
+    "Свинушки"
+  ],
+  "pleurotus_ostreatus": [
+    "Вешенка обыкновенная",
+    "Вешенки",
+    "Вёшенка обыкновенная"
+  ],
+  "russula_cyanoxantha": [
+    "Сыроежки"
+  ],
+  "russula_delica": [
+    "Подгруздки"
+  ],
+  "russula_foetens": [
+    "Бычок"
+  ],
+  "sarcodon_imbricatus": [
+    "Саркодон чешуйчатый"
+  ],
+  "suillellus_luridus": [
+    "Поддубник",
+    "Дубовик оливково-бурый",
+    "Дубовики"
+  ],
+  "suillus_luteus": [
+    "Маслёнок",
+    "Масленок"
+  ],
+  "suillus_variegatus": [
+    "Пестрец"
+  ],
+  "tricholoma_equestre": [
+    "Зеленка",
+    "Зеленушки",
+    "Рядовка зелёная"
+  ],
+  "tricholoma_matsutake": [
+    "Рядовка обутая"
+  ],
+  "tricholoma_populinum": [
+    "Подтопольник"
+  ],
+  "tricholoma_portentosum": [
+    "Подзеленка",
+    "Рядовки",
+    "Рядовка"
+  ],
+  "tricholoma_sejunctum": [
+    "Рядовка"
+  ],
+  "tylopilus_felleus": [
+    "Горчак",
+    "Ложный белый гриб",
+    "Ложный боровик",
+    "Ложный белый"
+  ],
+  "xerocomellus_chrysenteron": [
+    "Моховик"
+  ]
+}

@@ -3,6 +3,7 @@ package leshy.mushrooms.map.presentation
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.i18n.categoryDisplayName
+import leshy.mushrooms.map.i18n.categorySearchLabel
 import leshy.mushrooms.map.i18n.hasLocalizedName
 
 /**
@@ -39,10 +40,14 @@ private const val MIN_FUZZY_PREFIX_LENGTH = 2
 
 /**
  * Reorders [categories] for the mushroom-search dialog — thin wrapper around [searchOrdered]
- * keyed by [categoryDisplayName]. See [searchOrdered]'s doc for the ranking itself.
+ * keyed by [categorySearchLabel]. See [searchOrdered]'s doc for the ranking itself.
+ *
+ * Ключ — НЕ `categoryDisplayName`, как было до 2026-09-17, а имя вместе с народными синонимами:
+ * подосиновик обязан находиться по «красному», подберёзовик по «обабку». Почему при этом ничего не
+ * пришлось менять в самой ранжировке — см. KDoc [categorySearchLabel].
  */
 fun searchOrderedCategories(categories: List<Category>, query: String, language: AppLanguage): List<Category> =
-    searchOrdered(categories, query) { categoryDisplayName(it, language) }
+    searchOrdered(categories, query) { categorySearchLabel(it, language) }
 
 /**
  * Reorders [items] by relevance to [query], ranked by [label]: entries whose label starts with
