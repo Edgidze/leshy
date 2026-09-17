@@ -72,7 +72,7 @@ class AndroidLocationTracker(private val context: Context) : LocationTracker {
      * `FUSED_PROVIDER` (Android 12+) — тот самый, которым пользуются карты: он сам сводит GPS,
      * сеть и датчики. Ниже 12 его нет, там остаются `gps` и `network`.
      */
-    override fun track(): Flow<GeoPoint> = callbackFlow {
+    override fun track(): Flow<LocationFix> = callbackFlow {
         if (!hasFineLocationPermission(context)) {
             close()
             return@callbackFlow
@@ -92,7 +92,7 @@ class AndroidLocationTracker(private val context: Context) : LocationTracker {
         fun offer(location: Location) {
             if (!isBetterFix(location, accepted)) return
             accepted = location
-            trySend(location.toGeoPoint())
+            trySend(location.toFix())
         }
 
         // requestLocationUpdates зовёт слушателя только на СЛЕДУЮЩЕМ фиксе — без этого карта
@@ -167,4 +167,20 @@ private fun Location.toGeoPoint() = GeoPoint(
     lon = longitude,
     elevation = if (hasAltitude()) altitude else null,
     timestamp = time,
+)
+
+/**
+ * `hasBearing()`/`hasSpeed()`, а не сравнение с нулём: `getBearing()` у фикса без курса возвращает
+ * ровно `0f`, то есть «строго на север» — значение, неотличимое от настоящего курса на север. Тот
+ * же разговор про скорость.
+ *
+ * `getBearingAccuracyDegrees()` сознательно не читается: он с API 26, а `minSdk` здесь 24, и
+ * пришлось бы заводить ветку ради величины, которую всё равно перекрывает порог по скорости в
+ * `RecordViewModel` (медленное движение — главная причина плохого курса, и она видна по самой
+ * скорости).
+ */
+private fun Location.toFix() = LocationFix(
+    point = toGeoPoint(),
+    courseDegrees = if (hasBearing()) bearing.toDouble() else null,
+    speedMetersPerSecond = if (hasSpeed()) speed.toDouble() else null,
 )

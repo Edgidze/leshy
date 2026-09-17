@@ -3,6 +3,9 @@ package leshy.mushrooms.map.presentation.record
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import leshy.mushrooms.map.data.platform.BackgroundRecordingController
+import leshy.mushrooms.map.data.platform.HeadingProvider
+import leshy.mushrooms.map.data.platform.LOCATION_MIN_DISTANCE_METERS
+import leshy.mushrooms.map.data.platform.LocationFix
 import leshy.mushrooms.map.data.platform.LocationTracker
 import leshy.mushrooms.map.data.platform.MAX_RECORDING_NOTIFICATION_SPECIES
 import leshy.mushrooms.map.data.platform.RecordingCommand
@@ -46,6 +49,7 @@ import leshy.mushrooms.map.domain.util.decimateTrack
 import leshy.mushrooms.map.domain.util.hasArrived
 import leshy.mushrooms.map.domain.util.haversineMeters
 import leshy.mushrooms.map.domain.util.matchesDateAndSeason
+import leshy.mushrooms.map.domain.util.smoothAngleDegrees
 import leshy.mushrooms.map.domain.util.turnRecommendation
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.categoryDisplayName
@@ -63,6 +67,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -73,7 +78,42 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 private const val TICK_INTERVAL_MILLIS = 1000L
-private const val MIN_COURSE_FIX_DISTANCE_METERS = 3.0
+
+/**
+ * Ниже этой скорости курс от приёмника не берётся. Угловая ошибка курса — примерно
+ * `atan(σ_v / v)`, то есть растёт при замедлении: при типичной σ_v = 0.1 м/с метр в секунду даёт
+ * около 6°, полметра — уже 11°, а на 0.2 м/с курс разваливается совсем. Обе платформы отказываются
+ * отдавать курс где-то там же сами; этот порог — второй рубеж, поверх их собственного.
+ *
+ * Метр в секунду — это ещё и граница по смыслу: быстрее человек идёт, когда идёт К ЦЕЛИ, а
+ * медленнее — когда высматривает грибы под ногами. Во втором случае направление движения не
+ * отвечает на вопрос «куда я смотрю» даже будучи точным, и компас там уместнее по существу, а не
+ * только по точности.
+ */
+private const val MIN_SPEED_FOR_GPS_COURSE = 1.0
+
+/**
+ * Сколько курс от приёмника считается действительным без подтверждения новым фиксом.
+ *
+ * Фиксы приходят по пройденному расстоянию, а не по времени ([LOCATION_MIN_DISTANCE_METERS] — 5 м),
+ * так что на скорости от [MIN_SPEED_FOR_GPS_COURSE] очередной приходит не реже чем раз в пять
+ * секунд. Восемь секунд — с запасом на этот интервал и при этом достаточно коротко, чтобы
+ * остановившийся человек быстро вернулся на компас.
+ */
+private val GPS_COURSE_VALIDITY = 8.seconds
+
+/**
+ * Насколько каждое новое показание компаса сдвигает стрелку: 0.25 — четверть пути к нему, то есть
+ * стрелка догоняет реальный курс примерно за десяток событий (доли секунды при `SENSOR_DELAY_UI`).
+ *
+ * Без сглаживания панель показывала бы сырой датчик: число градусов в ней прыгало бы на
+ * несколько единиц непрерывно, даже когда человек стоит смирно, — а это то самое «показания
+ * дрожат», из-за которого стрелке перестают верить. Порог [
+ * leshy.mushrooms.map.data.platform.HEADING_MIN_CHANGE_DEGREES] на стороне платформы убирает
+ * мелочь, но оставшиеся изменения делает ступенчатыми; сглаживание превращает ступеньки в
+ * движение.
+ */
+private const val HEADING_SMOOTHING_FACTOR = 0.25
 
 /** How long the tile feed must sit idle (no +/-, no manual scroll) before a pending "bring to
  * front" actually reorders the feed — see [RecordViewModel.scheduleFrontBump]. */
@@ -114,6 +154,7 @@ class RecordViewModel(
     private val mapFilterRepository: MapFilterRepository,
     trackPointRepository: TrackPointRepository,
     private val locationTracker: LocationTracker,
+    private val headingProvider: HeadingProvider,
     private val backgroundRecordingController: BackgroundRecordingController,
     private val settingsRepository: SettingsRepository,
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
@@ -160,9 +201,14 @@ class RecordViewModel(
     private var freezeOrder = false
 
     // Most-recently-bumped category ids first — a tile jumps to the front of the feed each time
-    // it's added (or picked from search). Not persisted across app restarts; whether it survives
-    // past the end of a walk is gated by resetOrderOnWalkFinish (Settings, off by default — see
-    // finish()).
+    // it's added (or picked from search). Whether it survives past the end of a walk is gated by
+    // resetOrderOnWalkFinish (Settings, off by default — see finish()).
+    //
+    // Переживает перезапуск приложения: значение зеркалится в DataStore
+    // (`SettingsRepository.observeMushroomTileOrder`, восстановление и запись — в init). До
+    // 2026-09-17 список жил только здесь, в памяти, и настройка «не сбрасывать порядок» работала
+    // лишь до закрытия приложения: процесс умирал, список обнулялся, наутро лента снова шла по
+    // алфавиту. Репорт с устройства.
     private val categoryOrder = MutableStateFlow<List<Long>>(emptyList())
 
     // Category ids tapped (+/-) during the current quiet-window countdown, oldest first —
@@ -193,8 +239,36 @@ class RecordViewModel(
     private val isRecordScreenResumed = MutableStateFlow(false)
 
     private val navigationTargetId = MutableStateFlow<Long?>(null)
-    private val courseOverGround = MutableStateFlow<Double?>(null)
-    private var courseBaselineFix: GeoPoint? = null
+
+    /**
+     * Куда повёрнут телефон по компасу — ОСНОВНОЙ источник направления для панели навигации;
+     * [courseOverGround] ниже остался запасным. Сглажен, см. [HEADING_SMOOTHING_FACTOR].
+     *
+     * `null` — компаса на устройстве нет, либо панель навигации закрыта (подписка гейтится, см.
+     * init): датчик не должен работать, пока его показания некому смотреть.
+     */
+    private val compassHeading = MutableStateFlow<Double?>(null)
+
+    /**
+     * Курс над землёй, как его посчитал сам приёмник (доплер) — [LocationFix.courseDegrees],
+     * пропущенный через порог [MIN_SPEED_FOR_GPS_COURSE] и срок годности
+     * [GPS_COURSE_VALIDITY]. `null` — доверять нечему, направление берётся с компаса.
+     *
+     * Заменил самодельный азимут между двумя фиксами, который стоял здесь до 2026-09-17. Тот при
+     * базе 3 м и ошибке координаты 5–11 м под пологом давал порядка 45° — был худшим из трёх
+     * источников, а вовсе не «направлением по GPS». Разбор величин — KDoc [LocationFix].
+     */
+    private val gpsCourse = MutableStateFlow<Double?>(null)
+
+    /**
+     * Снимает [gpsCourse] по истечении [GPS_COURSE_VALIDITY]. Без этого курс залипал бы навсегда:
+     * фиксы приходят не по времени, а по пройденному расстоянию ([LOCATION_MIN_DISTANCE_METERS]),
+     * поэтому у остановившегося человека НОВЫХ фиксов не будет вовсе — и пересчитать скорость,
+     * чтобы признать курс недействительным, будет не на чем. Стрелка так и показывала бы
+     * направление, в котором он шёл до остановки, перебивая компас именно в том случае, ради
+     * которого компас и заведён.
+     */
+    private var gpsCourseExpiryJob: Job? = null
 
     // Runs first, in its own launch rather than queued behind ensureDefaultCategories/
     // ensureDefaultCollections below (those upsert 30+ rows and can be slow right after
@@ -339,6 +413,21 @@ class RecordViewModel(
             settingsRepository.observeResetMushroomOrderOnWalkFinish().collect { resetOrderOnWalkFinish = it }
         }
         viewModelScope.launch {
+            // Сначала восстановление, и только потом подписка на запись: в обратном порядке
+            // первое же собранное значение (пустой стартовый список) затёрло бы в хранилище
+            // накопленный порядок ещё до того, как его успели прочитать.
+            val persisted = settingsRepository.observeMushroomTileOrder().first()
+            // `update` с проверкой на пустоту, а не присваивание: между запуском этой корутины и
+            // текущей строкой пользователь мог успеть нажать плитку, и его нажатие важнее
+            // вчерашнего порядка.
+            categoryOrder.update { current -> current.ifEmpty { persisted } }
+            // Без `drop(1)`: первым сюда придёт только что восстановленное значение, и запись
+            // его же обратно — no-op по смыслу, зато между двумя строками не может проскочить
+            // незаписанное изменение. Частых записей тут не бывает — перестановки ленты и так
+            // копятся окном тишины (TILE_REORDER_QUIET_WINDOW), а не идут на каждое нажатие.
+            categoryOrder.collect { settingsRepository.setMushroomTileOrder(it) }
+        }
+        viewModelScope.launch {
             settingsRepository.observeFreezeMushroomOrder().collect { freeze ->
                 freezeOrder = freeze
                 _uiState.update { it.copy(tileOrderFollowsRecency = !freeze) }
@@ -418,21 +507,10 @@ class RecordViewModel(
                     _uiState.update { it.copy(locationUnavailable = needed && !locationTracker.isAvailable()) }
                 }
                 .flatMapLatest { needed -> if (needed) locationTracker.track() else emptyFlow() }
-                .collect { point ->
+                .collect { fix ->
+                    val point = fix.point
                     _uiState.update { it.copy(currentLocation = point, locationUnavailable = false) }
-                    val baseline = courseBaselineFix
-                    if (baseline == null) {
-                        courseBaselineFix = point
-                    } else {
-                        val moved = haversineMeters(baseline.lat, baseline.lon, point.lat, point.lon)
-                        if (moved >= MIN_COURSE_FIX_DISTANCE_METERS) {
-                            courseOverGround.value = bearingDegrees(baseline.lat, baseline.lon, point.lat, point.lon)
-                            courseBaselineFix = point
-                        }
-                        // else: leave both courseBaselineFix and courseOverGround untouched — jitter
-                        // accumulates against the same baseline instead of resetting it every fix, so
-                        // slow drift while nearly stationary doesn't produce a new noisy bearing.
-                    }
+                    publishGpsCourse(fix)
                     val currentWalkId = walkId
                     if (currentWalkId != null && _uiState.value.isRecording && !_uiState.value.isPaused) {
                         val delta = recordTrackPoint(currentWalkId, point, trackSequence, lastPersistedPoint)
@@ -445,10 +523,39 @@ class RecordViewModel(
                 }
         }
         viewModelScope.launch {
+            // Компас включается только при открытой панели навигации и только пока экран перед
+            // пользователем — тем же приёмом и по той же причине, что и GPS выше: магнитометр
+            // работающим без зрителя держать незачем.
+            combine(
+                navigationTargetId.map { it != null }.distinctUntilChanged(),
+                isRecordScreenResumed,
+            ) { navigating, resumed -> navigating && resumed }
+                .distinctUntilChanged()
+                // Сброс при закрытии панели обязателен: иначе при следующем открытии первым делом
+                // покажется курс, с которым её закрыли, — и до первого события датчика стрелка
+                // будет уверенно показывать в сторону, где человек стоял в прошлый раз.
+                .onEach { needed -> if (!needed) compassHeading.value = null }
+                .flatMapLatest { needed -> if (needed) headingProvider.heading() else emptyFlow() }
+                .collect { raw ->
+                    compassHeading.value = smoothAngleDegrees(compassHeading.value, raw, HEADING_SMOOTHING_FACTOR)
+                }
+        }
+        viewModelScope.launch {
             val navigationSources = uiState
                 .map { NavigationSourceSnapshot(it.currentLocation, it.marks, it.historicalPlaces) }
                 .distinctUntilChanged()
-            combine(navigationSources, navigationTargetId, courseOverGround) { sources, targetId, course ->
+            // Два источника, и выбор между ними — по тому, есть ли движение.
+            //
+            // В движении впереди идёт курс приёмника: он точнее компаса (доплер против
+            // магнитометра, см. KDoc LocationFix), ему безразличны магнитные помехи и то, как
+            // человек держит телефон. Стоя на месте курса не существует по определению — там
+            // остаётся только компас, и он же страхует устройства без магнитометра, на которых
+            // compassHeading всегда null.
+            //
+            // Оба могут оказаться null (нет магнитометра И человек стоит) — тогда панель просто
+            // не показывает направление, как и до появления компаса.
+            val heading = combine(gpsCourse, compassHeading) { course, compass -> course ?: compass }
+            combine(navigationSources, navigationTargetId, heading) { sources, targetId, course ->
                 if (targetId == null) return@combine null
                 val target = (sources.marks + sources.historicalPlaces)
                     .find { it.id == targetId && it.type == MarkType.POI } ?: return@combine null
@@ -793,6 +900,26 @@ class RecordViewModel(
                     if (newCount > 0) counts[categoryId] = newCount else counts.remove(categoryId)
                     state.copy(mushroomCounts = counts, marks = state.marks.filter { it.id != removed.id })
                 }
+            }
+        }
+    }
+
+    /**
+     * Принимает курс очередного фикса, если ему есть основания доверять, и заводит срок годности.
+     *
+     * Курс приёмника при недостаточной скорости обнуляется, а не игнорируется: устаревшее значение
+     * обязано уступить компасу, иначе остановившийся человек продолжал бы видеть направление, в
+     * котором шёл (см. [gpsCourseExpiryJob]).
+     */
+    private fun publishGpsCourse(fix: LocationFix) {
+        val trusted = fix.courseDegrees
+            ?.takeIf { (fix.speedMetersPerSecond ?: 0.0) >= MIN_SPEED_FOR_GPS_COURSE }
+        gpsCourse.value = trusted
+        gpsCourseExpiryJob?.cancel()
+        if (trusted != null) {
+            gpsCourseExpiryJob = viewModelScope.launch {
+                delay(GPS_COURSE_VALIDITY)
+                gpsCourse.value = null
             }
         }
     }

@@ -7,7 +7,19 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 private const val EARTH_RADIUS_METERS = 6_371_000.0
-private const val AHEAD_THRESHOLD_DEGREES = 3.0
+/**
+ * Полоса, внутри которой рекомендация — «прямо».
+ *
+ * Было 3°, стало 12°, и подняли её не на глаз. Пока направление бралось из GPS, оно обновлялось
+ * раз в несколько метров пути — редко и крупными шагами, и узкая полоса ничем не мешала. Компас
+ * отдаёт направление непрерывно и вместе с рукой: человек, идущий «прямо», качает телефоном на
+ * добрый десяток градусов просто при ходьбе, и с полосой в 3° панель переключалась бы между
+ * «прямо», «левее» и «правее» по нескольку раз в секунду. Двенадцать градусов — примерно то, во
+ * что человек умеет выдерживать направление на ходу, и заведомо меньше той ошибки, которая
+ * уведёт мимо места: на тридцати метрах до цели 12° — это меньше семи метров вбок, то есть
+ * ближе, чем [ARRIVAL_THRESHOLD_METERS].
+ */
+private const val AHEAD_THRESHOLD_DEGREES = 12.0
 
 private fun degToRad(deg: Double): Double = deg * PI / 180.0
 private fun radToDeg(rad: Double): Double = rad * 180.0 / PI
@@ -61,4 +73,32 @@ fun turnRecommendation(courseBearingDegrees: Double, targetBearingDegrees: Doubl
         delta < 0 -> TurnRecommendation(TurnDirection.LEFT, -delta)
         else -> TurnRecommendation(TurnDirection.RIGHT, delta)
     }
+}
+
+/** Приводит угол к диапазону [0, 360). */
+fun normalizeDegrees(degrees: Double): Double = ((degrees % 360.0) + 360.0) % 360.0
+
+/**
+ * Кратчайший угол между двумя направлениями, 0..180 — без знака, только величина.
+ * Нужен там, где важно «насколько изменилось», а не «в какую сторону».
+ */
+fun angleDeltaDegrees(from: Double, to: Double): Double {
+    val delta = normalizeDegrees(to - from)
+    return if (delta > 180.0) 360.0 - delta else delta
+}
+
+/**
+ * Экспоненциальное сглаживание направления: [factor] — доля нового значения (1.0 — без
+ * сглаживания вовсе).
+ *
+ * Считается через кратчайший поворот, а не по самим числам, и это здесь всё содержание функции:
+ * усреднить 359° и 1° как числа — получить 180°, то есть стрелку, показывающую строго назад
+ * каждый раз, когда человек пересекает север. Первое значение ([previous] == `null`) принимается
+ * как есть — сглаживать его не с чем, а стартовать с нуля означало бы демонстративно провернуть
+ * стрелку от севера при появлении панели.
+ */
+fun smoothAngleDegrees(previous: Double?, next: Double, factor: Double): Double {
+    if (previous == null) return normalizeDegrees(next)
+    val shortestTurn = ((next - previous + 540.0) % 360.0) - 180.0 // (-180, 180]
+    return normalizeDegrees(previous + shortestTurn * factor)
 }

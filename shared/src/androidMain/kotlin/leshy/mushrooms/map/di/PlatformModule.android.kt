@@ -10,6 +10,7 @@ import leshy.mushrooms.map.data.local.LeshyDatabase
 import leshy.mushrooms.map.data.platform.AndroidArchiveFileReader
 import leshy.mushrooms.map.data.platform.AndroidBackgroundRecordingController
 import leshy.mushrooms.map.data.platform.AndroidHttpTextFetcher
+import leshy.mushrooms.map.data.platform.AndroidHeadingProvider
 import leshy.mushrooms.map.data.platform.AndroidLocationTracker
 import leshy.mushrooms.map.data.platform.AndroidMapStyleStorage
 import leshy.mushrooms.map.data.platform.AndroidPhotoStorage
@@ -18,6 +19,7 @@ import leshy.mushrooms.map.data.platform.AndroidPinnedStyleInterceptor
 import leshy.mushrooms.map.data.platform.ArchiveFileReader
 import leshy.mushrooms.map.data.platform.BackgroundRecordingController
 import leshy.mushrooms.map.data.platform.HttpTextFetcher
+import leshy.mushrooms.map.data.platform.HeadingProvider
 import leshy.mushrooms.map.data.platform.LocationTracker
 import leshy.mushrooms.map.data.platform.MapStyleStorage
 import leshy.mushrooms.map.data.platform.PhotoStorage
@@ -42,6 +44,7 @@ actual val platformModule: Module = module {
         )
     }
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
+    single<HeadingProvider> { AndroidHeadingProvider(androidContext()) }
     single<BackgroundRecordingController> { AndroidBackgroundRecordingController(androidContext(), get()) }
     single<WalkThumbnailRenderer> { AndroidWalkThumbnailRenderer(androidContext(), get()) }
     single<PhotoStorage> { AndroidPhotoStorage(androidContext()) }
