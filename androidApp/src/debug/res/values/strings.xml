@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ярлык debug-сборки: она ставится рядом с play-версией (applicationIdSuffix ".dev", см.
+     build.gradle.kts), и без своего имени в лаунчере оказались бы два одинаковых значка.
+     Без переводов намеренно — сборка не пользовательская, а проверочная. -->
+<resources>
+    <string name="app_name">Леший dev</string>
+</resources>
