@@ -33,4 +33,21 @@ interface SettingsRepository {
      */
     fun observeFreezeMushroomOrder(): Flow<Boolean>
     suspend fun setFreezeMushroomOrder(freeze: Boolean)
+
+    /**
+     * Сам накопленный порядок ленты плиток «Записи» — id видов, самый свежий первым.
+     *
+     * Единственное здесь, что не является выбором пользователя, и живёт тут всё равно: это
+     * состояние, которым управляют две соседние настройки выше
+     * ([observeResetMushroomOrderOnWalkFinish] и [observeFreezeMushroomOrder]), и разносить
+     * данные и правила их применения по разным хранилищам не за что.
+     *
+     * До появления этих методов порядок жил только в памяти `RecordViewModel` — то есть
+     * обещание «порядок переносится в следующую прогулку» (см. KDoc
+     * [observeResetMushroomOrderOnWalkFinish]) держалось лишь до закрытия приложения, и
+     * наутро лента возвращалась к алфавиту при выключенной галочке сброса. Репорт с
+     * устройства, 2026-09-17.
+     */
+    fun observeMushroomTileOrder(): Flow<List<Long>>
+    suspend fun setMushroomTileOrder(order: List<Long>)
 }

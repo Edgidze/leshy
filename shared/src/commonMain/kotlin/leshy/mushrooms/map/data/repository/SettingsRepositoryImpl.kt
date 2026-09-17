@@ -21,6 +21,7 @@ private val THEME_MODE_KEY = stringPreferencesKey("theme_mode")
 private val MUSHROOM_MARKER_SIZE_SCALE_KEY = floatPreferencesKey("mushroom_marker_size_scale")
 private val RESET_MUSHROOM_ORDER_ON_WALK_FINISH_KEY = booleanPreferencesKey("reset_mushroom_order_on_walk_finish")
 private val FREEZE_MUSHROOM_ORDER_KEY = booleanPreferencesKey("freeze_mushroom_order")
+private val MUSHROOM_TILE_ORDER_KEY = stringPreferencesKey("mushroom_tile_order")
 
 class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
@@ -77,5 +78,23 @@ class SettingsRepositoryImpl(
 
     override suspend fun setFreezeMushroomOrder(freeze: Boolean) {
         dataStore.edit { prefs -> prefs[FREEZE_MUSHROOM_ORDER_KEY] = freeze }
+    }
+
+    // Одной строкой через запятую, а не `stringSetPreferencesKey`: множество не хранит порядок,
+    // а здесь ровно порядок и есть всё содержимое значения.
+    //
+    // `mapNotNull(String::toLongOrNull)` — не перестраховка: id вида, которого больше нет
+    // (пользовательский вид удалён, откат на сборку с меньшим каталогом), приведёт сюда же
+    // мусорную строку, и уронить чтение настроек она не должна. Несуществующие id безвредны и
+    // дальше: `applyRecencyOrder` отбирает их через `byId[...]`, не найденное просто выпадает.
+    override fun observeMushroomTileOrder(): Flow<List<Long>> = dataStore.data.map { prefs ->
+        prefs[MUSHROOM_TILE_ORDER_KEY]
+            ?.split(',')
+            ?.mapNotNull(String::toLongOrNull)
+            ?: emptyList()
+    }
+
+    override suspend fun setMushroomTileOrder(order: List<Long>) {
+        dataStore.edit { prefs -> prefs[MUSHROOM_TILE_ORDER_KEY] = order.joinToString(",") }
     }
 }
