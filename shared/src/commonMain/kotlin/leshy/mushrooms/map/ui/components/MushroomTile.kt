@@ -96,17 +96,23 @@ private val MUSHROOM_PHOTO_INSET = 4.dp
 val RECORD_TILE_HEIGHT = MUSHROOM_COUNT_BUTTON_SIZE + RECORD_MUSHROOM_TILE_WIDTH / MUSHROOM_PHOTO_ASPECT_RATIO
 
 /**
- * @param onBulkAdd действие двухсекундного удержания «+». `null` — удержание не считается вовсе:
- *   ни таймера, ни заливки-индикатора, ни отклика. Так и передаётся, пока прогулка не начата —
- *   массовому добавлению до старта не на чем сработать, а индикатор, за которым ничего не
- *   происходит, хуже отсутствующего.
+ * @param onAdd короткое нажатие «+» ИЛИ по картинке гриба. **Возвращает, записана ли находка на
+ *   самом деле** — только тогда плитка проигрывает перелив. Отказать вызывающему есть от чего:
+ *   прогулка ещё не начата, нет GPS-фикса (тогда он показывает сообщение вместо записи). Зелёный
+ *   перелив в ответ на отказ соврал бы, что гриб отмечен, — а это ровно то, ради чего перелив и
+ *   заводился.
+ * @param onRemove короткое нажатие «−», с тем же смыслом возвращаемого значения.
+ * @param onBulkAdd действие двухсекундного удержания «+» или картинки. `null` — удержание не
+ *   считается вовсе: ни таймера, ни заливки-индикатора, ни отклика. Так и передаётся, пока
+ *   прогулка не начата — массовому добавлению до старта не на чем сработать, а индикатор, за
+ *   которым ничего не происходит, хуже отсутствующего.
  */
 @Composable
 fun MushroomTile(
     category: Category,
     count: Int,
-    onAdd: () -> Unit,
-    onRemove: () -> Unit,
+    onAdd: () -> Boolean,
+    onRemove: () -> Boolean,
     modifier: Modifier = Modifier,
     onBulkAdd: (() -> Unit)? = null,
 ) {
@@ -115,6 +121,12 @@ fun MushroomTile(
     // не видно, а плитка из-под него торчит. Читается как «эта плитка набирает заряд» — то есть
     // ровно то, чем массовое добавление и является.
     var holdProgress by remember { mutableFloatStateOf(0f) }
+    val tapFlash = rememberTapFlash()
+    // Обёртки, а не голые onAdd/onRemove по месту: оба действия вызываются из двух мест каждое
+    // («+» и картинка — для добавления), и решение «перелив только если действие принято» обязано
+    // быть одним на все точки вызова.
+    val add = { if (onAdd()) tapFlash.flash(TapFlashDirection.UP) }
+    val remove = { if (onRemove()) tapFlash.flash(TapFlashDirection.DOWN) }
 
     Card(
         modifier = modifier
@@ -123,6 +135,15 @@ fun MushroomTile(
                 shape = CardDefaults.shape,
                 color = MaterialTheme.colorScheme.primary,
                 progress = { holdProgress },
+            )
+            // Оба перелива — на всей плитке, а не на нажатой кнопке: см. комментарий к
+            // holdProgress выше, палец закрывает кнопку целиком. Цвета из темы, не литералы, —
+            // иначе в тёмной теме зелёный и красный поплыли бы по контрасту.
+            .tapFlashWipe(
+                shape = CardDefaults.shape,
+                upColor = MaterialTheme.colorScheme.primary,
+                downColor = MaterialTheme.colorScheme.error,
+                state = tapFlash,
             ),
         border = BorderStroke(2.dp, outlineColor),
     ) {
@@ -135,7 +156,7 @@ fun MushroomTile(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 IconButton(
-                    onClick = onRemove,
+                    onClick = remove,
                     enabled = count > 0,
                     modifier = Modifier.size(MUSHROOM_COUNT_BUTTON_SIZE),
                 ) {
@@ -149,7 +170,7 @@ fun MushroomTile(
                     modifier = Modifier.width(28.dp),
                 )
                 MushroomAddButton(
-                    onClick = onAdd,
+                    onClick = add,
                     onLongHold = onBulkAdd,
                     enabled = count < MAX_MUSHROOM_FINDS_PER_WALK,
                     onHoldProgress = { holdProgress = it },
@@ -157,7 +178,27 @@ fun MushroomTile(
             }
             MushroomPhoto(
                 category = category,
-                modifier = Modifier.fillMaxWidth().aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO),
+                // Картинка — вторая, большая кнопка «+»: тот же жест с теми же порогами и тем же
+                // индикатором удержания. Кнопка 40dp под большим пальцем в лесу, в перчатке, на
+                // ходу — мелкая мишень; картинка занимает почти всю плитку и промахнуться по ней
+                // трудно. Модификатор навешивается здесь, а НЕ внутри MushroomPhoto: тот же
+                // composable переиспользует легенда донат-чарта на экране детализации
+                // (MushroomLegendTile), где нажимать не на что и нечего добавлять.
+                //
+                // Прокрутке ленты жест не мешает: tapOrHold ничего не потребляет, и протяжка по
+                // картинке уезжает в LazyRow, отменяя нажатие (waitForUpOrCancellation вернёт
+                // null) — ровно так же, как это уже работало у кнопки «+».
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO)
+                    .tapOrHold(
+                        holdDuration = MUSHROOM_BULK_ADD_HOLD_DURATION,
+                        onTap = add,
+                        onHold = { onBulkAdd?.invoke() },
+                        enabled = count < MAX_MUSHROOM_FINDS_PER_WALK,
+                        holdEnabled = onBulkAdd != null,
+                        onHoldProgress = { holdProgress = it },
+                    ),
             )
         }
     }
@@ -370,8 +411,8 @@ fun MushroomTilePreview(){
                 true,
             ),
             count = 0,
-            onAdd = {},
-            onRemove = {},
+            onAdd = { true },
+            onRemove = { true },
             modifier = Modifier
         )
     }

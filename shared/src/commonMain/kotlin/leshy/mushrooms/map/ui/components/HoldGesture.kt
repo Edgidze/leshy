@@ -1,14 +1,25 @@
 package leshy.mushrooms.map.ui.components
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -170,4 +181,94 @@ fun Modifier.holdProgressWipe(shape: Shape, color: Color, progress: () -> Float)
                 size = Size(size.width * fraction, size.height),
             )
         }
+    }
+
+/** Куда идёт перелив короткого нажатия: вверх — гриб добавлен, вниз — убавлен. */
+enum class TapFlashDirection { UP, DOWN }
+
+/**
+ * Длительность перелива короткого нажатия. Верхняя граница поставлена владельцем — «до секунды»;
+ * взято заметно меньше, и не из экономии. Плитку жмут очередями (нашёл поляну — десяток находок
+ * подряд), а перелив перезапускается с нуля на каждом нажатии: растяни его на секунду, и при
+ * частых нажатиях он бы никогда не доходил до конца — видна была бы только вечно растущая заливка
+ * без завершения, то есть ровно то, что читается как зависший индикатор, а не как отклик.
+ */
+private const val TAP_FLASH_DURATION_MILLIS = 600
+
+/**
+ * Какую долю длительности занимает рост заливки. Остаток — угасание уже полной: без него заливка,
+ * дойдя до края, пропадала бы скачком, и вместо «прошло насквозь» читалась бы оборванная
+ * анимация.
+ */
+private const val TAP_FLASH_GROW_FRACTION = 0.55f
+
+/** Доля непрозрачности заливки перелива — плотнее, чем у удержания: она живёт доли секунды,
+ * и при [HOLD_WIPE_ALPHA] её просто не успеваешь заметить. */
+private const val TAP_FLASH_ALPHA = 0.34f
+
+/**
+ * Состояние перелива: одно на объект, направление задаётся каждым вызовом [flash].
+ *
+ * Счётчик, а не `Boolean`: очередное нажатие обязано перезапускать анимацию с нуля, а не
+ * игнорироваться из-за того, что предыдущая ещё идёт (см. [TAP_FLASH_DURATION_MILLIS] — очереди
+ * нажатий тут обычное дело). Увеличенный счётчик перезапускает [LaunchedEffect] в
+ * [rememberTapFlash], тот отменяет прошлую анимацию и начинает новую.
+ */
+@Stable
+class TapFlashState internal constructor() {
+    internal val progress = Animatable(0f)
+    internal var direction by mutableStateOf(TapFlashDirection.UP)
+    internal var signal by mutableIntStateOf(0)
+        private set
+
+    fun flash(direction: TapFlashDirection) {
+        this.direction = direction
+        signal++
+    }
+}
+
+/** Заводит [TapFlashState] и держит его анимацию — см. [tapFlashWipe], который её рисует. */
+@Composable
+fun rememberTapFlash(): TapFlashState {
+    val state = remember { TapFlashState() }
+    LaunchedEffect(state.signal) {
+        // Нулевой сигнал — «ещё ни разу не нажимали»: без этой проверки перелив проигрывался бы
+        // сам собой при появлении плитки на экране.
+        if (state.signal == 0) return@LaunchedEffect
+        state.progress.snapTo(0f)
+        // Linear, а не умолчательный `FastOutSlowIn`: заливка изображает движение сквозь плитку с
+        // постоянной скоростью, а замедление к концу читалось бы как застревание.
+        state.progress.animateTo(1f, tween(TAP_FLASH_DURATION_MILLIS, easing = LinearEasing))
+    }
+    return state
+}
+
+/**
+ * Перелив короткого нажатия — заливка, проходящая по объекту снизу вверх ([TapFlashDirection.UP],
+ * добавление) или сверху вниз ([TapFlashDirection.DOWN], убавление) и угасающая к концу.
+ *
+ * Пара к [holdProgressWipe], и намеренно другая по всем трём осям сразу — ось, направление и
+ * скорость: удержание ползёт слева направо и стоит на месте, пока палец не отпустят, короткое
+ * нажатие проходит поперёк и само заканчивается. Спутать их нельзя даже краем глаза, а язык
+ * остаётся одним — заливка по объекту, а не значок поверх него (палец закрывает то, на что
+ * нажимает, — см. [holdProgressWipe]).
+ *
+ * Состояние читается в фазе ОТРИСОВКИ, как и у [holdProgressWipe]: кадры перелива перерисовывают
+ * плитку, но не рекомпозируют её. На «Записи» это обязательно — лента и так рекомпозируется на
+ * каждой GPS-точке.
+ */
+fun Modifier.tapFlashWipe(shape: Shape, upColor: Color, downColor: Color, state: TapFlashState): Modifier =
+    this.clip(shape).drawWithContent {
+        drawContent()
+        val elapsed = state.progress.value
+        if (elapsed <= 0f || elapsed >= 1f) return@drawWithContent
+        val grown = (elapsed / TAP_FLASH_GROW_FRACTION).coerceAtMost(1f)
+        val faded = ((elapsed - TAP_FLASH_GROW_FRACTION) / (1f - TAP_FLASH_GROW_FRACTION)).coerceIn(0f, 1f)
+        val up = state.direction == TapFlashDirection.UP
+        val filledHeight = size.height * grown
+        drawRect(
+            color = (if (up) upColor else downColor).copy(alpha = TAP_FLASH_ALPHA * (1f - faded)),
+            topLeft = Offset(0f, if (up) size.height - filledHeight else 0f),
+            size = Size(size.width, filledHeight),
+        )
     }
