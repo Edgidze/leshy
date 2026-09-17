@@ -15,17 +15,22 @@ internal val latvianHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Sēņu elementi apakšā ir tas, ar ko atzīmē atradumus: „+“ atzīmē atradumu jūsu pašreizējā punktā, " +
             "„−“ noņem pēdējo kļūdaino šīs sugas atzīmi. Ilgs „+“ nospiediens atver vairāku gabalu ievadi " +
-            "uzreiz; vairāk nekā 999 vienas sugas sēnes vienā pastaigā atzīmēt nevar.",
+            "uzreiz; vairāk nekā 999 vienas sugas sēnes vienā pastaigā atzīmēt nevar." +
+            " „+“ vietā var pieskarties arī pašam attēlam. Flīze atbild ar krāsas vilni: pievienojot zaļu, " +
+            "noņemot sarkanu.",
     HelpKey.RecordPlace to
         "Apaļā poga pa kreisi atzīmē vietu — ar nosaukumu, aprakstu un fotogrāfiju. Vieta tiek novietota " +
             "tur, kur pašlaik stāvat, un paliek kartē arī pēc pastaigas.",
     HelpKey.RecordNavigation to
         "Ilgs nospiediens uz vietas atzīmes ieslēdz navigāciju līdz tai: panelis augšā pa labi rāda " +
-            "virzienu un attālumu līdz mērķim. Krustiņš panelī navigāciju izslēdz.",
+            "virzienu un attālumu līdz mērķim. Krustiņš panelī navigāciju izslēdz." +
+            " Virziens tiek ņemts no tālruņa kompasa un atjaunojas, tiklīdz pagriežaties; turiet tālruni aptuveni " +
+            "horizontāli, kā karti.",
     HelpKey.RecordSearchAndOwn to
         "Lupa pa labi atrod sēni pēc nosaukuma un pārvieto tās elementu joslas sākumā — tā ir ātrāk, kad " +
             "ieslēgtas daudzas sugas. Pēdējais joslas elements ar plusu pievieno savu sugu, kuras " +
-            "katalogā nav.",
+            "katalogā nav." +
+            " Meklēšana saprot arī sugas otros, tautas nosaukumus, ne tikai galveno.",
     HelpKey.RecordFilters to
         "Poga „Filtri“ augšā pa kreisi nosaka, kuru sugu un kura laika atradumus rādīt kartē, bet " +
             "skaitlis uz tās — cik filtru pašlaik ieslēgts. Filtrs ir kopīgs ar „Atradumu karti“: " +

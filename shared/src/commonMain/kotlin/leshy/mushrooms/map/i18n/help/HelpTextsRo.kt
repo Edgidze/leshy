@@ -16,17 +16,21 @@ internal val romanianHelpTexts: Map<HelpKey, String> = mapOf(
         "Plăcile cu ciuperci de jos sunt cele cu care se marchează descoperirile: „+” marchează o " +
             "descoperire în punctul dumneavoastră curent, „−” șterge ultima marcare greșită a acelei " +
             "specii. Apăsarea lungă pe „+” deschide introducerea mai multor bucăți deodată; mai mult de " +
-            "999 de ciuperci identice într-o plimbare nu se pot marca.",
+            "999 de ciuperci identice într-o plimbare nu se pot marca." +
+            " Se poate atinge și imaginea în loc de „+”: valul verde înseamnă adăugare, cel roșu scădere.",
     HelpKey.RecordPlace to
         "Butonul rotund din stânga marchează un loc — cu nume, descriere și fotografie. Locul se pune " +
             "acolo unde vă aflați acum și rămâne pe hartă și după plimbare.",
     HelpKey.RecordNavigation to
         "Apăsarea lungă pe marcajul unui loc pornește navigarea până la el: panoul din dreapta sus arată " +
-            "direcția și distanța până la țintă. Crucea de pe panou oprește navigarea.",
+            "direcția și distanța până la țintă. Crucea de pe panou oprește navigarea." +
+            " Direcția este luată de la busola telefonului și se actualizează imediat ce vă întoarceți; țineți " +
+            "telefonul aproximativ orizontal, ca pe o hartă.",
     HelpKey.RecordSearchAndOwn to
         "Lupa din dreapta găsește ciuperca după nume și îi mută placa la începutul benzii — așa e mai " +
             "rapid când sunt activate multe specii. Ultima placă a benzii, cea cu plus, adaugă o specie " +
-            "proprie, care nu există în catalog.",
+            "proprie, care nu există în catalog." +
+            " Căutarea înțelege și celelalte denumiri populare ale speciei, nu doar pe cea principală.",
     HelpKey.RecordFilters to
         "Butonul „Filtre” din stânga sus stabilește ce specii și din ce perioadă să apară pe hartă, iar " +
             "numărul de pe el arată câte filtre sunt active acum. Filtrul este comun cu „Harta " +

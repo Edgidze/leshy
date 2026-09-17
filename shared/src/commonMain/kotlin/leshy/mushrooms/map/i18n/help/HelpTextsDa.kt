@@ -15,17 +15,22 @@ internal val danishHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Svampefelterne nederst er dem, fund markeres med: «+» sætter et fund i dit nuværende punkt, «−» " +
             "fjerner den seneste forkerte markering af den art. Langt tryk på «+» åbner indtastning af " +
-            "flere stykker på én gang; mere end 999 ens svampe på én tur kan ikke markeres.",
+            "flere stykker på én gang; mere end 999 ens svampe på én tur kan ikke markeres." +
+            " I stedet for «+» kan man trykke på selve billedet. Feltet svarer med en farvebølge: grøn ved " +
+            "tilføjelse, rød ved fjernelse.",
     HelpKey.RecordPlace to
         "Den runde knap til venstre markerer et sted — med navn, beskrivelse og foto. Stedet placeres " +
             "dér, hvor du står nu, og bliver på kortet også efter turen.",
     HelpKey.RecordNavigation to
         "Langt tryk på en stedmarkering starter navigation dertil: panelet øverst til højre viser retning " +
-            "og afstand til målet. Krydset på panelet slår navigationen fra.",
+            "og afstand til målet. Krydset på panelet slår navigationen fra." +
+            " Retningen kommer fra telefonens kompas og opdateres, så snart du drejer dig; hold telefonen " +
+            "nogenlunde vandret, som et kort.",
     HelpKey.RecordSearchAndOwn to
         "Forstørrelsesglasset til højre finder svampen på navn og flytter dens felt forrest i rækken — " +
             "det er hurtigere, når mange arter er slået til. Rækkens sidste felt, med plus, tilføjer din " +
-            "egen art, som ikke findes i kataloget.",
+            "egen art, som ikke findes i kataloget." +
+            " Søgningen forstår også artens andre folkelige navne, ikke kun det primære.",
     HelpKey.RecordFilters to
         "Knappen «Filtre» øverst til venstre bestemmer, hvilke arters fund og fra hvilken periode der " +
             "vises på kortet, og tallet på den siger, hvor mange filtre der er slået til. Filteret deles " +

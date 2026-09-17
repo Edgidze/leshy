@@ -14,17 +14,22 @@ internal val turkishHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Alttaki mantar kutucukları bulguların işaretlendiği yerdir: «+» bulunduğunuz noktaya bir bulgu " +
             "ekler, «−» o türün son yanlış işaretini kaldırır. «+» düğmesine uzun basmak birden çok adedi " +
-            "aynı anda girmeyi açar; bir yürüyüşte aynı mantardan 999’dan fazlası işaretlenemez.",
+            "aynı anda girmeyi açar; bir yürüyüşte aynı mantardan 999’dan fazlası işaretlenemez." +
+            " «+» yerine resmin kendisine de dokunulabilir. Kart bir renk dalgasıyla yanıt verir: eklerken yeşil, " +
+            "çıkarırken kırmızı.",
     HelpKey.RecordPlace to
         "Soldaki yuvarlak düğme bir yer işaretler — ad, açıklama ve fotoğrafla. Yer, şu anda durduğunuz " +
             "noktaya konur ve yürüyüşten sonra da haritada kalır.",
     HelpKey.RecordNavigation to
         "Bir yer işaretine uzun basmak oraya yönlendirmeyi açar: sağ üstteki panel hedefe yönü ve " +
-            "uzaklığı gösterir. Paneldeki çarpı yönlendirmeyi kapatır.",
+            "uzaklığı gösterir. Paneldeki çarpı yönlendirmeyi kapatır." +
+            " Yön telefonun pusulasından alınır ve siz döner dönmez güncellenir; telefonu harita gibi, yaklaşık " +
+            "yatay tutun.",
     HelpKey.RecordSearchAndOwn to
         "Sağdaki büyüteç mantarı adıyla bulur ve kutucuğunu şeridin başına taşır — çok sayıda tür açıkken " +
             "bu daha hızlıdır. Şeridin artı işaretli son kutucuğu, katalogda olmayan kendi türünüzü " +
-            "ekler.",
+            "ekler." +
+            " Arama, türün yalnızca ana adını değil, ikinci halk adlarını da anlar.",
     HelpKey.RecordFilters to
         "Sol üstteki «Filtreler» düğmesi hangi türlerin ve hangi dönemin bulgularının haritada " +
             "görüneceğini belirler; üzerindeki sayı şu anda kaç filtrenin açık olduğunu söyler. Filtre " +

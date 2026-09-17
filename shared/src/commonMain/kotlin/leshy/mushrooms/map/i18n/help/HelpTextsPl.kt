@@ -16,17 +16,22 @@ internal val polishHelpTexts: Map<HelpKey, String> = mapOf(
         "Kafelki grzybów na dole służą do oznaczania znalezisk: „+” zapisuje znalezisko w twoim bieżącym " +
             "punkcie, „−” usuwa ostatnie błędne oznaczenie tego gatunku. Długie przytrzymanie „+” otwiera " +
             "wpisanie kilku sztuk naraz; więcej niż 999 takich samych grzybów w jednym spacerze zaznaczyć " +
-            "się nie da.",
+            "się nie da." +
+            " Zamiast „+” można nacisnąć sam obrazek. Kafelek odpowiada falą koloru: zieloną przy dodaniu, " +
+            "czerwoną przy odjęciu.",
     HelpKey.RecordPlace to
         "Okrągły przycisk po lewej oznacza miejsce — z nazwą, opisem i zdjęciem. Miejsce trafia tam, " +
             "gdzie właśnie stoisz, i zostaje na mapie po spacerze.",
     HelpKey.RecordNavigation to
         "Długie przytrzymanie znacznika miejsca włącza nawigację do niego: panel w prawym górnym rogu " +
-            "pokazuje kierunek i odległość do celu. Krzyżyk na panelu wyłącza nawigację.",
+            "pokazuje kierunek i odległość do celu. Krzyżyk na panelu wyłącza nawigację." +
+            " Kierunek pochodzi z kompasu telefonu i odświeża się, gdy tylko się obrócisz; trzymaj telefon mniej " +
+            "więcej poziomo, jak mapę.",
     HelpKey.RecordSearchAndOwn to
         "Lupa po prawej znajduje grzyba po nazwie i przesuwa jego kafelek na początek paska — tak jest " +
             "szybciej, gdy włączonych jest wiele gatunków. Ostatni kafelek paska, z plusem, dodaje własny " +
-            "gatunek, którego nie ma w katalogu.",
+            "gatunek, którego nie ma w katalogu." +
+            " Wyszukiwanie rozumie także drugie, ludowe nazwy gatunku, nie tylko główną.",
     HelpKey.RecordFilters to
         "Przycisk „Filtry” w lewym górnym rogu określa, znaleziska których gatunków i z jakiego okresu " +
             "pokazywać na mapie, a liczba na nim mówi, ile filtrów jest teraz włączonych. Filtr jest " +

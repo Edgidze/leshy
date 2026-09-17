@@ -16,18 +16,22 @@ internal val italianHelpTexts: Map<HelpKey, String> = mapOf(
         "Le caselle dei funghi in basso servono a segnare i ritrovamenti: «+» registra un ritrovamento " +
             "nel punto in cui ti trovi, «−» toglie l'ultima segnalazione errata di quella specie. La " +
             "pressione prolungata su «+» apre l'inserimento di più pezzi insieme; oltre 999 funghi uguali " +
-            "per uscita non si possono segnare.",
+            "per uscita non si possono segnare." +
+            " Anche l'immagine sostituisce «+»: l'onda verde segnala un'aggiunta, quella rossa una rimozione.",
     HelpKey.RecordPlace to
         "Il pulsante rotondo a sinistra segna un luogo — con nome, descrizione e foto. Il luogo viene " +
             "messo dove ti trovi ora e resta sulla mappa anche dopo l'uscita.",
     HelpKey.RecordNavigation to
         "La pressione prolungata sul segnaposto di un luogo avvia la navigazione verso di esso: il " +
             "pannello in alto a destra mostra direzione e distanza dalla meta. La crocetta sul pannello " +
-            "spegne la navigazione.",
+            "spegne la navigazione." +
+            " La direzione viene dalla bussola del telefono e si aggiorna appena vi girate; tenete il telefono " +
+            "più o meno in piano, come una mappa.",
     HelpKey.RecordSearchAndOwn to
         "La lente a destra trova un fungo per nome e porta la sua casella all'inizio della fila — è più " +
             "rapido quando sono attive molte specie. L'ultima casella della fila, con il più, aggiunge " +
-            "una tua specie che il catalogo non ha.",
+            "una tua specie che il catalogo non ha." +
+            " La ricerca capisce anche i secondi nomi popolari di una specie, non solo quello principale.",
     HelpKey.RecordFilters to
         "Il pulsante «Filtri» in alto a sinistra stabilisce quali specie e quale periodo mostrare sulla " +
             "mappa, mentre il numero sopra indica quanti filtri sono attivi. Il filtro è comune con la " +

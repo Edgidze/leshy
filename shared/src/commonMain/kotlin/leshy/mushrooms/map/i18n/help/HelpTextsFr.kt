@@ -16,18 +16,22 @@ internal val frenchHelpTexts: Map<HelpKey, String> = mapOf(
         "Les tuiles de champignons en bas servent à noter les trouvailles : « + » place une trouvaille à " +
             "votre position actuelle, « − » retire la dernière marque erronée de cette espèce. Un appui " +
             "long sur « + » ouvre la saisie de plusieurs pièces à la fois ; plus de 999 champignons " +
-            "identiques par promenade, c'est impossible.",
+            "identiques par promenade, c'est impossible." +
+            " L'image elle-même remplace « + » : une vague verte signale un ajout, rouge un retrait.",
     HelpKey.RecordPlace to
         "Le bouton rond à gauche marque un lieu — avec un nom, une description et une photo. Le lieu se " +
             "pose là où vous vous tenez et reste sur la carte après la promenade.",
     HelpKey.RecordNavigation to
         "Un appui long sur le repère d'un lieu lance la navigation vers lui : le panneau en haut à droite " +
             "indique la direction et la distance jusqu'à la cible. La croix du panneau coupe la " +
-            "navigation.",
+            "navigation." +
+            " La direction vient de la boussole du téléphone et se met à jour dès que vous tournez ; tenez le " +
+            "téléphone à peu près à plat, comme une carte.",
     HelpKey.RecordSearchAndOwn to
         "La loupe à droite trouve un champignon par son nom et place sa tuile en tête de la bande — c'est " +
             "plus rapide quand beaucoup d'espèces sont activées. La dernière tuile de la bande, celle " +
-            "avec un plus, ajoute votre propre espèce absente du catalogue.",
+            "avec un plus, ajoute votre propre espèce absente du catalogue." +
+            " La recherche comprend aussi les seconds noms populaires d'une espèce, pas seulement le principal.",
     HelpKey.RecordFilters to
         "Le bouton « Filtres » en haut à gauche définit les espèces et la période dont les trouvailles " +
             "s'affichent sur la carte ; le nombre dessus indique combien de filtres sont actifs. Le " +

@@ -14,17 +14,22 @@ internal val norwegianHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Soppflisene nederst er det funn merkes med: «+» setter et funn i punktet du står i nå, «−» " +
             "fjerner den siste feilaktige merkingen av den arten. Langt trykk på «+» åpner inntasting av " +
-            "flere stykker samtidig; mer enn 999 like sopper på én tur kan ikke merkes.",
+            "flere stykker samtidig; mer enn 999 like sopper på én tur kan ikke merkes." +
+            " I stedet for «+» kan man trykke på selve bildet. Ruten svarer med en fargebølge: grønn ved tillegg, " +
+            "rød ved fjerning.",
     HelpKey.RecordPlace to
         "Den runde knappen til venstre merker et sted — med navn, beskrivelse og bilde. Stedet plasseres " +
             "der du står nå, og blir liggende på kartet også etter turen.",
     HelpKey.RecordNavigation to
         "Langt trykk på en stedsmarkør slår på navigasjon dit: panelet øverst til høyre viser retning og " +
-            "avstand til målet. Krysset på panelet slår av navigasjonen.",
+            "avstand til målet. Krysset på panelet slår av navigasjonen." +
+            " Retningen hentes fra telefonens kompass og oppdateres straks du snur deg; hold telefonen omtrent " +
+            "vannrett, som et kart.",
     HelpKey.RecordSearchAndOwn to
         "Forstørrelsesglasset til høyre finner soppen på navn og flytter flisen fremst i raden — det går " +
             "raskere når mange arter er slått på. Radens siste flis, med pluss, legger til din egen art " +
-            "som ikke finnes i katalogen.",
+            "som ikke finnes i katalogen." +
+            " Søket forstår også artens andre folkelige navn, ikke bare hovednavnet.",
     HelpKey.RecordFilters to
         "Knappen «Filtre» øverst til venstre bestemmer hvilke arters funn og fra hvilken periode som " +
             "vises på kartet, og tallet på den sier hvor mange filtre som er på nå. Filteret deles med " +

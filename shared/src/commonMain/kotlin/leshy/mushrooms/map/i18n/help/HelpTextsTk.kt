@@ -16,17 +16,22 @@ internal val turkmenHelpTexts: Map<HelpKey, String> = mapOf(
         "Aşakdaky kömelek plitkalary tapyndylary bellemek üçin: «+» häzirki nokadyňyzda tapyndy goýýar, " +
             "«−» şol görnüşiň soňky ýalňyş bellikini aýyrýar. «+» düwmesine uzak basmak birnäçesini " +
             "birbada girizmegi açýar; bir gezelençde birmeňzeş kömelekden 999-dan köpüsini bellemek " +
-            "bolmaýar.",
+            "bolmaýar." +
+            " «+» ýerine suratyň özüne hem basyp bolýar. Plitka reňk tolkuny bilen jogap berýär: goşulanda ýaşyl, " +
+            "aýrylanda gyzyl.",
     HelpKey.RecordPlace to
         "Çepdäki tegelek düwme ýeri belleýär — ady, beýany we suraty bilen. Ýer häzir duran nokadyňyza " +
             "goýulýar we gezelençden soň hem kartada galýar.",
     HelpKey.RecordNavigation to
         "Ýer bellikine uzak basmak şoňa tarap ugrukdyrmany açýar: sag ýokardaky panel ugry we maksada " +
-            "çenli aralygy görkezýär. Paneldäki haç ugrukdyrmany öçürýär.",
+            "çenli aralygy görkezýär. Paneldäki haç ugrukdyrmany öçürýär." +
+            " Ugur telefonyň kompasyndan alynýar we siz öwrülen badyňyza täzelenýär; telefony karta ýaly, " +
+            "takmynan keseligine tutuň.",
     HelpKey.RecordSearchAndOwn to
         "Sagdaky lupa kömelegi ady boýunça tapýar we onuň plitkasyny lentanyň başyna geçirýär — köp " +
             "görnüş açyk bolanda bu çaltrak. Lentanyň plýusly soňky plitkasy katalogda ýok öz görnüşiňizi " +
-            "goşýar.",
+            "goşýar." +
+            " Gözleg görnüşiň esasy adyndan başga ikinji, halk atlaryna hem düşünýär.",
     HelpKey.RecordFilters to
         "Çep ýokardaky «Filtrler» düwmesi haýsy görnüşleriň we haýsy döwrüň tapyndylarynyň kartada " +
             "görünjegini kesgitleýär, üstündäki san bolsa häzir näçe filtriň açykdygyny görkezýär. Filtr " +

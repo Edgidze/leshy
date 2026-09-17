@@ -16,17 +16,22 @@ internal val swedishHelpTexts: Map<HelpKey, String> = mapOf(
         "Svamprutorna längst ned är det man markerar fynd med: ”+” lägger ett fynd på din nuvarande " +
             "punkt, ”−” tar bort den senaste felaktiga markeringen av den arten. Långt tryck på ”+” " +
             "öppnar inmatning av flera stycken samtidigt; fler än 999 likadana svampar under en promenad " +
-            "går inte att markera.",
+            "går inte att markera." +
+            " I stället för ”+” kan man trycka på själva bilden. Rutan svarar med en färgvåg: grönt vid tillägg, " +
+            "rött vid borttagning.",
     HelpKey.RecordPlace to
         "Den runda knappen till vänster markerar en plats — med namn, beskrivning och foto. Platsen " +
             "hamnar där du står just nu och blir kvar på kartan även efter promenaden.",
     HelpKey.RecordNavigation to
         "Långt tryck på en platsmarkering startar navigering dit: panelen uppe till höger visar riktning " +
-            "och avstånd till målet. Krysset på panelen stänger av navigeringen.",
+            "och avstånd till målet. Krysset på panelen stänger av navigeringen." +
+            " Riktningen hämtas från telefonens kompass och uppdateras så fort du vänder dig; håll telefonen " +
+            "ungefär vågrätt, som en karta.",
     HelpKey.RecordSearchAndOwn to
         "Förstoringsglaset till höger hittar svampen på namn och flyttar dess ruta först i raden — det " +
             "går snabbare när många arter är påslagna. Radens sista ruta, med ett plus, lägger till en " +
-            "egen art som inte finns i katalogen.",
+            "egen art som inte finns i katalogen." +
+            " Sökningen förstår även artens andra folkliga namn, inte bara huvudnamnet.",
     HelpKey.RecordFilters to
         "Knappen ”Filter” uppe till vänster bestämmer vilka arters fynd och från vilken tid som visas på " +
             "kartan, och siffran på den säger hur många filter som är på. Filtret delas med ”Fyndkarta”: " +
