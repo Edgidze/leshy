@@ -8,6 +8,7 @@ import leshy.mushrooms.map.domain.repository.MapFilterRepository
 import leshy.mushrooms.map.domain.repository.SettingsRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
 import leshy.mushrooms.map.domain.usecase.MISC_CATEGORY_NAME_KEY
+import leshy.mushrooms.map.domain.usecase.ObserveFrequentSpeciesKeysUseCase
 import leshy.mushrooms.map.domain.util.MILLIS_PER_DAY
 import leshy.mushrooms.map.presentation.sortCategories
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +22,7 @@ class MapFilterViewModel(
     private val categoryRepository: CategoryRepository,
     private val mapFilterRepository: MapFilterRepository,
     private val settingsRepository: SettingsRepository,
+    observeFrequentSpeciesKeys: ObserveFrequentSpeciesKeysUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MapFilterUiState())
@@ -33,7 +35,8 @@ class MapFilterViewModel(
                 categoryRepository.observeFilterEligible(),
                 mapFilterRepository.observeFilter(),
                 settingsRepository.observeLanguage(),
-            ) { walks, categories, filter, language ->
+                observeFrequentSpeciesKeys(),
+            ) { walks, categories, filter, language, frequentKeys ->
                 val starts = walks.map { it.startTime }
                 // isPicked DESC, otherwise the normal sort order — "inherited" species (finds
                 // exist but the collection was un-picked) sink to the bottom instead of vanishing,
@@ -41,6 +44,7 @@ class MapFilterViewModel(
                 val eligible = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY },
                     language,
+                    frequentKeys,
                 )
                 val (picked, inherited) = eligible.partition { it.isPicked }
                 MapFilterUiState(

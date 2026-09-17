@@ -17,7 +17,7 @@ val presentationModule = module {
     viewModel {
         RecordViewModel(
             get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),
-            get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),
+            get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),
         )
     }
     viewModel { ArchiveViewModel(get(), get(), get(), get(), get()) }
@@ -29,7 +29,7 @@ val presentationModule = module {
     viewModel {
         SpeciesViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get())
     }
-    viewModel { MapFilterViewModel(get(), get(), get(), get()) }
+    viewModel { MapFilterViewModel(get(), get(), get(), get(), get()) }
     viewModel { DataViewModel(get(), get(), get(), get(), get()) }
     viewModel { PreparationViewModel(get()) }
     viewModel { OnboardingViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }

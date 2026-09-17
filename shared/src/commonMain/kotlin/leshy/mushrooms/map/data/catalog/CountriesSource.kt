@@ -16,6 +16,17 @@ data class CountryEntry(
     val code: String,
     val langs: List<String>,
     val keys: List<String>,
+    /**
+     * Виды, которые в этой стране реально встречаются часто (роль `common_encounter` в дампе) —
+     * отсюда берётся «вперёд частотные» в порядке ленты по умолчанию.
+     *
+     * **`null`, а не пустой список, у стран без этих данных** — это 22 подборки партий
+     * post-soviet и europe-15, собранные исследованиями, у которых ролей в источнике нет.
+     * Разница существенная: пустой список означал бы «здесь ничего не часто», а `null` —
+     * «данных нет», и порядок для такой страны падает на глобальный `CatalogEntry.importance`
+     * вместо того, чтобы уводить всю подборку в один ряд.
+     */
+    val common: List<String>? = null,
 )
 
 /** Prefix all per-country [leshy.mushrooms.map.domain.model.Collection.nameKey]s share — the only
@@ -47,4 +58,19 @@ class CountriesSource {
     /** Fingerprint of the bundled `countries.json`, used to gate `EnsureDefaultCollectionsUseCase`'s
      * reseeding diff — same reasoning as [CatalogSource.version]. */
     val version: Int get() = parsed.version
+
+    /**
+     * Объединение списков [CountryEntry.common] по кодам [countryCodes] — виды, частотные хотя бы
+     * в одной из выбранных пользователем стран.
+     *
+     * Объединение, а не пересечение: человек, отметивший Россию и Финляндию, ходит и там, и там, и
+     * вид, обычный хотя бы в одной из них, ему нужен под рукой. Страны без страновых данных
+     * (`common == null`) в объединение просто ничего не вносят — их виды упорядочатся по
+     * глобальному `importance`, см. `sortCategories`.
+     */
+    fun commonKeysFor(countryCodes: Set<String>): Set<String> =
+        entries.asSequence()
+            .filter { it.code in countryCodes }
+            .flatMap { it.common.orEmpty().asSequence() }
+            .toSet()
 }

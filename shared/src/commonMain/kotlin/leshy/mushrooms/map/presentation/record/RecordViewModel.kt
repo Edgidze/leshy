@@ -35,6 +35,7 @@ import leshy.mushrooms.map.domain.usecase.EnsureDefaultCollectionsUseCase
 import leshy.mushrooms.map.domain.usecase.FinishWalkUseCase
 import leshy.mushrooms.map.domain.usecase.HealOrphanedWalksUseCase
 import leshy.mushrooms.map.domain.usecase.MISC_CATEGORY_NAME_KEY
+import leshy.mushrooms.map.domain.usecase.ObserveFrequentSpeciesKeysUseCase
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
 import leshy.mushrooms.map.domain.usecase.RecordTrackPointUseCase
 import leshy.mushrooms.map.domain.usecase.RemoveLastMushroomMarkUseCase
@@ -160,6 +161,7 @@ class RecordViewModel(
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
+    private val observeFrequentSpeciesKeys: ObserveFrequentSpeciesKeysUseCase,
     private val startWalk: StartWalkUseCase,
     private val finishWalk: FinishWalkUseCase,
     private val healOrphanedWalks: HealOrphanedWalksUseCase,
@@ -299,20 +301,24 @@ class RecordViewModel(
             recalculateFilterEligibility()
         }
         viewModelScope.launch {
+            // Три «настройки сортировки» одним входом: у combine ниже уже пять источников, а
+            // это его потолок по типизированным перегрузкам.
             val sortSettings = combine(
                 settingsRepository.observeLanguage(),
                 categoryOrder,
-            ) { language, order -> language to order }
+                observeFrequentSpeciesKeys(),
+            ) { language, order, frequentKeys -> Triple(language, order, frequentKeys) }
             combine(
                 walkRepository.observeAll(),
                 fieldMarkRepository.observeAll(),
                 categoryRepository.observeAll(),
                 mapFilterRepository.observeFilter(),
                 sortSettings,
-            ) { walks, marks, categories, filter, (language, order) ->
+            ) { walks, marks, categories, filter, (language, order, frequentKeys) ->
                 val sortedCategories = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
                     language,
+                    frequentKeys,
                 )
                 // "Unknown mushroom" defaults to the end of the feed (ahead of AddSpeciesTile),
                 // but only as a starting position — applyRecencyOrder below still bumps it to the

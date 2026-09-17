@@ -6,7 +6,7 @@
     "color": "#b59971",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "amanita_phalloides",
@@ -15,7 +15,7 @@
     "color": "#aa9659",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "boletus_edulis",
@@ -24,7 +24,7 @@
     "color": "#b37549",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "macrolepiota_procera",
@@ -33,7 +33,7 @@
     "color": "#be9f74",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pleurotus_ostreatus",
@@ -42,7 +42,7 @@
     "color": "#c0a47d",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cantharellus_cibarius",
@@ -51,7 +51,7 @@
     "color": "#bd8942",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "coprinus_comatus",
@@ -60,7 +60,7 @@
     "color": "#5d7612",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_pantherina",
@@ -69,7 +69,7 @@
     "color": "#9d7558",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "lactarius_deliciosus",
@@ -78,7 +78,7 @@
     "color": "#c56e30",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "marasmius_oreades",
@@ -87,7 +87,7 @@
     "color": "#c69a5d",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "armillaria_mellea",
@@ -96,7 +96,7 @@
     "color": "#c59756",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "morchella_esculenta",
@@ -105,7 +105,7 @@
     "color": "#b98f55",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hydnum_repandum",
@@ -114,7 +114,7 @@
     "color": "#cca56d",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "galerina_marginata",
@@ -123,7 +123,7 @@
     "color": "#b06631",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "craterellus_cornucopioides",
@@ -132,7 +132,7 @@
     "color": "#6b7311",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hypholoma_fasciculare",
@@ -141,7 +141,7 @@
     "color": "#9b6821",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "amanita_virosa",
@@ -150,7 +150,7 @@
     "color": "#6b7311",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "calocybe_gambosa",
@@ -159,7 +159,7 @@
     "color": "#c6a77c",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "paxillus_involutus",
@@ -168,7 +168,7 @@
     "color": "#a35f2e",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "leccinum_scabrum",
@@ -177,7 +177,7 @@
     "color": "#a88c65",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "calvatia_gigantea",
@@ -186,7 +186,7 @@
     "color": "#6b7311",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "gyromitra_esculenta",
@@ -195,7 +195,7 @@
     "color": "#73221b",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "suillus_luteus",
@@ -204,7 +204,7 @@
     "color": "#aa7935",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "flammulina_velutipes",
@@ -213,7 +213,7 @@
     "color": "#985322",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "imleria_badia",
@@ -222,7 +222,7 @@
     "color": "#8e3c20",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tylopilus_felleus",
@@ -231,7 +231,7 @@
     "color": "#b6794d",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_xanthodermus",
@@ -240,7 +240,7 @@
     "color": "#734d32",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "rubroboletus_satanas",
@@ -249,7 +249,7 @@
     "color": "#ae2b1f",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "cortinarius_caperatus",
@@ -258,7 +258,7 @@
     "color": "#c8a574",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "laetiporus_sulphureus",
@@ -267,7 +267,7 @@
     "color": "#73411e",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hygrophoropsis_aurantiaca",
@@ -276,7 +276,7 @@
     "color": "#c6641e",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "agaricus_campestris",
@@ -285,7 +285,7 @@
     "color": "#734434",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "kuehneromyces_mutabilis",
@@ -294,7 +294,7 @@
     "color": "#9d5725",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_cyanoxantha",
@@ -303,7 +303,7 @@
     "color": "#9c835f",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactifluus_volemus",
@@ -312,7 +312,7 @@
     "color": "#c87133",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tricholoma_portentosum",
@@ -321,7 +321,7 @@
     "color": "#978162",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_rubescens",
@@ -330,7 +330,7 @@
     "color": "#bb8a67",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "suillellus_luridus",
@@ -339,7 +339,7 @@
     "color": "#a95e29",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_cyanoxantha__2",
@@ -348,7 +348,7 @@
     "color": "#6c731c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tricholoma_equestre",
@@ -357,7 +357,7 @@
     "color": "#ccaa45",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "agaricus_campestris__2",
@@ -366,7 +366,7 @@
     "color": "#6b7317",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_torminosus",
@@ -375,7 +375,7 @@
     "color": "#cc7659",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "leccinum_aurantiacum",
@@ -384,7 +384,7 @@
     "color": "#b47a50",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_caesarea",
@@ -393,7 +393,7 @@
     "color": "#be832f",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lepista_nuda",
@@ -402,7 +402,7 @@
     "color": "#926296",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "sparassis_crispa",
@@ -411,7 +411,7 @@
     "color": "#cca165",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cortinarius_orellanus",
@@ -420,7 +420,7 @@
     "color": "#8c3315",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "craterellus_tubaeformis",
@@ -429,7 +429,7 @@
     "color": "#a27330",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "entoloma_sinuatum",
@@ -438,7 +438,7 @@
     "color": "#ccab7e",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "lactifluus_piperatus",
@@ -447,7 +447,7 @@
     "color": "#b89d77",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_virescens",
@@ -456,7 +456,7 @@
     "color": "#707535",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "chlorophyllum_rhacodes",
@@ -465,7 +465,7 @@
     "color": "#bca17a",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "omphalotus_olearius",
@@ -474,7 +474,7 @@
     "color": "#c9651e",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "cerioporus_squamosus",
@@ -483,7 +483,7 @@
     "color": "#b79462",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_emetica",
@@ -492,7 +492,7 @@
     "color": "#cc4134",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "suillus_luteus__2",
@@ -501,7 +501,7 @@
     "color": "#a88f44",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "collybia_nuda",
@@ -510,7 +510,7 @@
     "color": "#6b7311",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "grifola_frondosa",
@@ -519,7 +519,7 @@
     "color": "#a08661",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "coprinopsis_atramentaria",
@@ -528,7 +528,7 @@
     "color": "#957761",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "fistulina_hepatica",
@@ -537,7 +537,7 @@
     "color": "#a22e24",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "albatrellus_ovinus",
@@ -546,7 +546,7 @@
     "color": "#ccae85",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_verna",
@@ -555,7 +555,7 @@
     "color": "#6c731e",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "suillus_granulatus",
@@ -564,7 +564,7 @@
     "color": "#b16127",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "suillus_variegatus",
@@ -573,7 +573,7 @@
     "color": "#af5c21",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "xerocomus_subtomentosus",
@@ -582,7 +582,7 @@
     "color": "#b4833e",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_arvensis",
@@ -591,7 +591,7 @@
     "color": "#845f45",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "leccinum_aurantiacum__2",
@@ -600,7 +600,7 @@
     "color": "#cc4d23",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "gomphidius_glutinosus",
@@ -609,7 +609,7 @@
     "color": "#947661",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cortinarius_rubellus",
@@ -618,7 +618,7 @@
     "color": "#8a381d",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "auricularia_auricula_judae",
@@ -627,7 +627,7 @@
     "color": "#ac4725",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "suillus_grevillei",
@@ -636,7 +636,7 @@
     "color": "#9a6317",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "scleroderma_citrinum",
@@ -645,7 +645,7 @@
     "color": "#c79f66",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "clitopilus_prunulus",
@@ -654,7 +654,7 @@
     "color": "#ad9470",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lycoperdon_perlatum",
@@ -663,7 +663,7 @@
     "color": "#c4a880",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_vesca",
@@ -672,7 +672,7 @@
     "color": "#cc4752",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tricholoma_terreum",
@@ -681,7 +681,7 @@
     "color": "#6b7314",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_rufus",
@@ -690,7 +690,7 @@
     "color": "#982e24",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_deterrimus",
@@ -699,7 +699,7 @@
     "color": "#c88e3c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_delica",
@@ -708,7 +708,7 @@
     "color": "#caad84",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "morchella_esculenta__2",
@@ -717,7 +717,7 @@
     "color": "#a45720",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "neoboletus_erythropus",
@@ -726,7 +726,7 @@
     "color": "#814632",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "suillus_bovinus",
@@ -735,7 +735,7 @@
     "color": "#c38835",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "xerocomellus_chrysenteron",
@@ -744,7 +744,7 @@
     "color": "#937722",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tuber_aestivum",
@@ -753,7 +753,7 @@
     "color": "#735a49",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lycoperdon_perlatum__2",
@@ -762,7 +762,7 @@
     "color": "#c4a77f",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_citrina",
@@ -771,7 +771,7 @@
     "color": "#ccb981",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "craterellus_lutescens",
@@ -780,7 +780,7 @@
     "color": "#cc841f",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactifluus_vellereus",
@@ -789,7 +789,7 @@
     "color": "#c4a67d",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pleurotus_eryngii",
@@ -798,7 +798,7 @@
     "color": "#ae936e",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "infundibulicybe_geotropa",
@@ -807,7 +807,7 @@
     "color": "#c6a981",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_foetens",
@@ -816,7 +816,7 @@
     "color": "#c4985b",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "fomes_fomentarius",
@@ -825,7 +825,7 @@
     "color": "#9b7e55",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "phallus_impudicus",
@@ -834,7 +834,7 @@
     "color": "#a18764",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_vaginata",
@@ -843,7 +843,7 @@
     "color": "#937d5f",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "clitocybe_nebularis",
@@ -852,7 +852,7 @@
     "color": "#b79c77",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "gyroporus_cyanescens",
@@ -861,7 +861,7 @@
     "color": "#c9a169",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "boletus_aereus",
@@ -870,7 +870,7 @@
     "color": "#935d37",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "boletus_pinophilus",
@@ -879,7 +879,7 @@
     "color": "#b45839",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "boletus_reticulatus",
@@ -888,7 +888,7 @@
     "color": "#a55e2c",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "inosperma_erubescens",
@@ -897,7 +897,7 @@
     "color": "#caa570",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "inonotus_obliquus",
@@ -906,7 +906,7 @@
     "color": "#754a2c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_trivialis",
@@ -915,7 +915,7 @@
     "color": "#ae744a",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ramaria_botrytis",
@@ -924,7 +924,7 @@
     "color": "#cc5146",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tricholoma_matsutake",
@@ -933,7 +933,7 @@
     "color": "#9b6c4b",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hypholoma_lateritium",
@@ -942,7 +942,7 @@
     "color": "#b7441e",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "russula_aeruginea",
@@ -951,7 +951,7 @@
     "color": "#b69b76",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "chlorophyllum_molybdites",
@@ -960,7 +960,7 @@
     "color": "#b8996f",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "gyromitra_esculenta__2",
@@ -969,7 +969,7 @@
     "color": "#73241c",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "pleurocybella_porrigens",
@@ -978,7 +978,7 @@
     "color": "#6b7311",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "scleroderma_sp",
@@ -987,7 +987,7 @@
     "color": "#b78744",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "tricholoma_pardinum",
@@ -996,7 +996,7 @@
     "color": "#ba9f79",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "tuber_melanosporum",
@@ -1005,7 +1005,7 @@
     "color": "#735b4b",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "trametes_versicolor",
@@ -1014,7 +1014,7 @@
     "color": "#875430",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hericium_erinaceus",
@@ -1023,7 +1023,7 @@
     "color": "#ccae85",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "clitocybe_rivulosa",
@@ -1032,7 +1032,7 @@
     "color": "#c0a47d",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "cyclocybe_cylindracea",
@@ -1041,7 +1041,7 @@
     "color": "#c89e62",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "neoboletus_luridiformis",
@@ -1050,7 +1050,7 @@
     "color": "#9a5b2d",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "verpa_bohemica",
@@ -1059,7 +1059,7 @@
     "color": "#bf9252",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "chroogomphus_rutilus",
@@ -1068,7 +1068,7 @@
     "color": "#ac5d42",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "gyroporus_castaneus",
@@ -1077,7 +1077,7 @@
     "color": "#bc8a44",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_thyinos",
@@ -1086,7 +1086,7 @@
     "color": "#cc671f",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "leccinum_versipelle",
@@ -1095,7 +1095,7 @@
     "color": "#bf8359",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_sylvaticus",
@@ -1104,7 +1104,7 @@
     "color": "#be9273",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_regalis",
@@ -1113,7 +1113,7 @@
     "color": "#c4a375",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "auricularia_americana",
@@ -1122,7 +1122,7 @@
     "color": "#b3502e",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hydnum_rufescens",
@@ -1131,7 +1131,7 @@
     "color": "#c17036",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hygrophorus_russula",
@@ -1140,7 +1140,7 @@
     "color": "#cc6c74",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "leccinellum_pseudoscabrum",
@@ -1149,7 +1149,7 @@
     "color": "#af8a57",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lepista_personata",
@@ -1158,7 +1158,7 @@
     "color": "#ccae85",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_paludosa",
@@ -1167,7 +1167,7 @@
     "color": "#cc2e20",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_bisporigera",
@@ -1176,7 +1176,7 @@
     "color": "#af9570",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "clitocybe_dealbata",
@@ -1185,7 +1185,7 @@
     "color": "#6b7311",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "entoloma_rhodopolium",
@@ -1194,7 +1194,7 @@
     "color": "#6b7317",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "hebeloma_aminophilum",
@@ -1203,7 +1203,7 @@
     "color": "#c09d6c",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "hypomyces_lactifluorum",
@@ -1212,7 +1212,7 @@
     "color": "#c1461d",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_resimus",
@@ -1221,7 +1221,7 @@
     "color": "#c0a175",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hydnum_sp",
@@ -1230,7 +1230,7 @@
     "color": "#caa673",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_necator",
@@ -1239,7 +1239,7 @@
     "color": "#927a57",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "lactarius_salmonicolor",
@@ -1248,7 +1248,7 @@
     "color": "#cc783c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_turpis",
@@ -1257,7 +1257,7 @@
     "color": "#7d6646",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_scrobiculatus",
@@ -1266,7 +1266,7 @@
     "color": "#c39658",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ramaria_flava",
@@ -1275,7 +1275,7 @@
     "color": "#ccaa44",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "sarcodon_imbricatus",
@@ -1284,7 +1284,7 @@
     "color": "#85664f",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lyophyllum_decastes",
@@ -1293,7 +1293,7 @@
     "color": "#96735a",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "fomitopsis_betulina",
@@ -1302,7 +1302,7 @@
     "color": "#b19773",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "laccaria_amethystina",
@@ -1311,7 +1311,7 @@
     "color": "#8f5495",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lentinula_edodes",
@@ -1320,7 +1320,7 @@
     "color": "#a76739",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "laccaria_laccata",
@@ -1329,7 +1329,7 @@
     "color": "#c36c2d",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lepiota_brunneoincarnata",
@@ -1338,7 +1338,7 @@
     "color": "#9d7254",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "lepiota_cristata",
@@ -1347,7 +1347,7 @@
     "color": "#bea27c",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "tricholoma_ustale",
@@ -1356,7 +1356,7 @@
     "color": "#bb522f",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "tuber_magnatum",
@@ -1365,7 +1365,7 @@
     "color": "#cca36a",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "entoloma_clypeatum",
@@ -1374,7 +1374,7 @@
     "color": "#a18969",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hericium_coralloides",
@@ -1383,7 +1383,7 @@
     "color": "#ccae85",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hygrophorus_marzuolus",
@@ -1392,7 +1392,7 @@
     "color": "#736249",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pleurotus_pulmonarius",
@@ -1401,7 +1401,7 @@
     "color": "#ccae84",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_decolorans",
@@ -1410,7 +1410,7 @@
     "color": "#cc7538",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "sarcodon_squamosus",
@@ -1419,7 +1419,7 @@
     "color": "#7a5941",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tremella_mesenterica",
@@ -1428,7 +1428,7 @@
     "color": "#cb831e",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_helvus",
@@ -1437,7 +1437,7 @@
     "color": "#c27b48",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "russula_xerampelina",
@@ -1446,7 +1446,7 @@
     "color": "#772d3f",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_pantherinoides",
@@ -1455,7 +1455,7 @@
     "color": "#cca46c",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "amanita_smithiana",
@@ -1464,7 +1464,7 @@
     "color": "#6b731b",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "amanita_subjunquillea",
@@ -1473,7 +1473,7 @@
     "color": "#cba73a",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "armillaria_borealis",
@@ -1482,7 +1482,7 @@
     "color": "#a06133",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "chlorophyllum_brunneum",
@@ -1491,7 +1491,7 @@
     "color": "#bfa37c",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "ileodictyon_cibarium",
@@ -1500,7 +1500,7 @@
     "color": "#b5986f",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_indigo",
@@ -1509,7 +1509,7 @@
     "color": "#4b609e",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_sanguifluus",
@@ -1518,7 +1518,7 @@
     "color": "#b16b3a",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lepiota_subincarnata",
@@ -1527,7 +1527,7 @@
     "color": "#bc9e75",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "russula_subnigricans",
@@ -1536,7 +1536,7 @@
     "color": "#783731",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "sarcodon_aspratus",
@@ -1545,7 +1545,7 @@
     "color": "#7b5940",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "terfezia_boudieri",
@@ -1554,7 +1554,7 @@
     "color": "#98623c",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "trichoderma_cornu_damae",
@@ -1563,7 +1563,7 @@
     "color": "#c32b1d",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "tricholoma_murrillianum",
@@ -1572,7 +1572,7 @@
     "color": "#bd9e72",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "anthracophyllum_archeri",
@@ -1581,7 +1581,7 @@
     "color": "#bc3f34",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "aseroe_rubra",
@@ -1590,7 +1590,7 @@
     "color": "#972117",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "chalciporus_piperatus",
@@ -1599,7 +1599,7 @@
     "color": "#b2741c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "craterellus_fallax",
@@ -1608,7 +1608,7 @@
     "color": "#6b7316",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ganoderma_tsugae",
@@ -1617,7 +1617,7 @@
     "color": "#a23e1d",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pleurotus_australis",
@@ -1626,7 +1626,7 @@
     "color": "#9e7e52",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ramaria_formosa",
@@ -1635,7 +1635,7 @@
     "color": "#cc584d",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "schizophyllum_commune",
@@ -1644,7 +1644,7 @@
     "color": "#2d5ea2",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "sparassis_latifolia",
@@ -1653,7 +1653,7 @@
     "color": "#c7a575",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "sparassis_spathulata",
@@ -1662,7 +1662,7 @@
     "color": "#c9a778",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "caloboletus_calopus",
@@ -1671,7 +1671,7 @@
     "color": "#bd955d",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "hygrophorus_camarophyllus",
@@ -1680,7 +1680,7 @@
     "color": "#867051",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pleurotus_citrinopileatus",
@@ -1689,7 +1689,7 @@
     "color": "#b67e30",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_claroflava",
@@ -1698,7 +1698,7 @@
     "color": "#ccae52",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_aurea",
@@ -1707,7 +1707,7 @@
     "color": "#bb873e",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hypholoma_capnoides",
@@ -1716,7 +1716,7 @@
     "color": "#c5934c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tricholoma_populinum",
@@ -1725,7 +1725,7 @@
     "color": "#b97e53",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "sarcoscypha_austriaca",
@@ -1734,7 +1734,7 @@
     "color": "#c92c1e",
     "breadth": "mid",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_bisporus",
@@ -1743,7 +1743,7 @@
     "color": "#b48461",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ganoderma_applanatum",
@@ -1752,7 +1752,7 @@
     "color": "#a87550",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_volemus",
@@ -1761,7 +1761,7 @@
     "color": "#bc6629",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tuber_macrosporum",
@@ -1770,7 +1770,7 @@
     "color": "#73554b",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_augustus",
@@ -1779,7 +1779,7 @@
     "color": "#935f3b",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_fulva",
@@ -1788,7 +1788,7 @@
     "color": "#bea177",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "coprinellus_micaceus",
@@ -1797,7 +1797,7 @@
     "color": "#915c36",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "desarmillaria_tabescens",
@@ -1806,7 +1806,7 @@
     "color": "#a06032",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hygrocybe_conica",
@@ -1815,7 +1815,7 @@
     "color": "#b47925",
     "breadth": "broad",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hygrophorus_hypothejus",
@@ -1824,7 +1824,7 @@
     "color": "#c78323",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "phaeolepiota_aurea",
@@ -1833,7 +1833,7 @@
     "color": "#cc8829",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "stropharia_rugosoannulata",
@@ -1842,7 +1842,7 @@
     "color": "#946949",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tricholoma_sejunctum",
@@ -1851,7 +1851,7 @@
     "color": "#a7814c",
     "breadth": "broad",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_subrufescens",
@@ -1860,7 +1860,7 @@
     "color": "#80422e",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "auricularia_cornea",
@@ -1869,7 +1869,7 @@
     "color": "#73464a",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "inocybe_erubescens",
@@ -1878,7 +1878,7 @@
     "color": "#c09d6c",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "pleurotus_djamor",
@@ -1887,7 +1887,7 @@
     "color": "#cc4b3f",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tuber_aestivum__2",
@@ -1896,7 +1896,7 @@
     "color": "#735845",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ustilago_maydis",
@@ -1905,7 +1905,7 @@
     "color": "#6b7311",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "volvariella_bombycina",
@@ -1914,7 +1914,7 @@
     "color": "#6b7311",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_ovoidea",
@@ -1923,7 +1923,7 @@
     "color": "#ac9370",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "cantharellus_pallens",
@@ -1932,7 +1932,7 @@
     "color": "#b37e33",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "clathrus_archeri",
@@ -1941,7 +1941,7 @@
     "color": "#c12330",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cyclocybe_aegerita",
@@ -1950,7 +1950,7 @@
     "color": "#9b5e33",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "entoloma_sepium",
@@ -1959,7 +1959,7 @@
     "color": "#c5a77d",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "gomphus_clavatus",
@@ -1968,7 +1968,7 @@
     "color": "#b77787",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hypsizygus_marmoreus",
@@ -1977,7 +1977,7 @@
     "color": "#ccab7d",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hypsizygus_ulmarius",
@@ -1986,7 +1986,7 @@
     "color": "#c9ac83",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "polyporus_squamosus",
@@ -1995,7 +1995,7 @@
     "color": "#cca46c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tremella_fuciformis",
@@ -2004,7 +2004,7 @@
     "color": "#b0a173",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_bitorquis",
@@ -2013,7 +2013,7 @@
     "color": "#c4a77f",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_silvicola",
@@ -2022,7 +2022,7 @@
     "color": "#9b815d",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "bovista_plumbea",
@@ -2031,7 +2031,7 @@
     "color": "#8a765a",
     "breadth": "broad",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "collybia_personata",
@@ -2040,7 +2040,7 @@
     "color": "#bfa37b",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "coprinus_sp",
@@ -2049,7 +2049,7 @@
     "color": "#927a59",
     "breadth": "broad",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cortinarius_mucosus",
@@ -2058,7 +2058,7 @@
     "color": "#ac6532",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cuphophyllus_pratensis",
@@ -2067,7 +2067,7 @@
     "color": "#ca9b5a",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "entoloma_abortivum",
@@ -2076,7 +2076,7 @@
     "color": "#a48c6a",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_camphoratus",
@@ -2085,7 +2085,7 @@
     "color": "#be5e3e",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pseudohydnum_gelatinosum",
@@ -2094,7 +2094,7 @@
     "color": "#6b7316",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_heterophylla",
@@ -2103,7 +2103,7 @@
     "color": "#8a8f53",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_nigricans",
@@ -2112,7 +2112,7 @@
     "color": "#735b4b",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_olivacea",
@@ -2121,7 +2121,7 @@
     "color": "#b69261",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_arvensis__2",
@@ -2130,7 +2130,7 @@
     "color": "#ab916c",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_macrosporus",
@@ -2139,7 +2139,7 @@
     "color": "#c09678",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "agaricus_xanthoderma",
@@ -2148,7 +2148,7 @@
     "color": "#a68c67",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "amanita_amerivirosa",
@@ -2157,7 +2157,7 @@
     "color": "#6b7316",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "amanita_basii",
@@ -2166,7 +2166,7 @@
     "color": "#b17e37",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_chrysoblema",
@@ -2175,7 +2175,7 @@
     "color": "#bc9c6f",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "amanita_ponderosa",
@@ -2184,7 +2184,7 @@
     "color": "#bea27b",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "boletaceae",
@@ -2193,7 +2193,7 @@
     "color": "#8a6449",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "boletus_aestivalis",
@@ -2202,7 +2202,7 @@
     "color": "#ad6d3f",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cantharellus_enelensis",
@@ -2211,7 +2211,7 @@
     "color": "#bd7a1c",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cantharellus_phasmatis",
@@ -2220,7 +2220,7 @@
     "color": "#bf7b1d",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cyclocybe_parasitica",
@@ -2229,7 +2229,7 @@
     "color": "#8b3b20",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "entoloma_hochstetteri",
@@ -2238,7 +2238,7 @@
     "color": "#1c5db8",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "entoloma_sarcopum",
@@ -2247,7 +2247,7 @@
     "color": "#a38b69",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "helvella_lacunosa",
@@ -2256,7 +2256,7 @@
     "color": "#8b7658",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hericium_novae_zealandiae",
@@ -2265,7 +2265,7 @@
     "color": "#ccae85",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "laetiporus_cincinnatus",
@@ -2274,7 +2274,7 @@
     "color": "#95592f",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lampteromyces_japonicus",
@@ -2283,7 +2283,7 @@
     "color": "#c2621d",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "leccinum_leucopodium",
@@ -2292,7 +2292,7 @@
     "color": "#b16935",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "leccinum_rufum",
@@ -2301,7 +2301,7 @@
     "color": "#c1461d",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "leucocybe_candicans",
@@ -2310,7 +2310,7 @@
     "color": "#c4a77f",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "lyophyllum_shimeji",
@@ -2319,7 +2319,7 @@
     "color": "#9f6d49",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "morchella_septentrionalis",
@@ -2328,7 +2328,7 @@
     "color": "#734f36",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "omphalotus_illudens",
@@ -2337,7 +2337,7 @@
     "color": "#ba5e1c",
     "breadth": "mid",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "omphalotus_japonicus",
@@ -2346,7 +2346,7 @@
     "color": "#b96223",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "omphalotus_nidiformis",
@@ -2355,7 +2355,7 @@
     "color": "#ccae85",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "paralepistopsis_acromelalga",
@@ -2364,7 +2364,7 @@
     "color": "#c7a87b",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "pholiota_microspora",
@@ -2373,7 +2373,7 @@
     "color": "#c08635",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_brevipes",
@@ -2382,7 +2382,7 @@
     "color": "#c59a5c",
     "breadth": "broad",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "sarcomyxa_edulis",
@@ -2391,7 +2391,7 @@
     "color": "#c68831",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tricholoma_anatolicum",
@@ -2400,7 +2400,7 @@
     "color": "#a78f6d",
     "breadth": "narrow",
     "importance": 5.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_arocheae",
@@ -2409,7 +2409,7 @@
     "color": "#917c5e",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "amanita_australis",
@@ -2418,7 +2418,7 @@
     "color": "#bda27b",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "amanita_austroviridis",
@@ -2427,7 +2427,7 @@
     "color": "#98914a",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_caesareoides",
@@ -2436,7 +2436,7 @@
     "color": "#af7625",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_hemibapha",
@@ -2445,7 +2445,7 @@
     "color": "#b98946",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_novinupta",
@@ -2454,7 +2454,7 @@
     "color": "#cca285",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_xanthocephala",
@@ -2463,7 +2463,7 @@
     "color": "#ba9055",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "anthurus_archeri",
@@ -2472,7 +2472,7 @@
     "color": "#b41e2a",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "armillaria_luteobubalina",
@@ -2481,7 +2481,7 @@
     "color": "#c98c37",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "armillaria_novae_zelandiae",
@@ -2490,7 +2490,7 @@
     "color": "#9c5624",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "astraeus_hygrometricus",
@@ -2499,7 +2499,7 @@
     "color": "#b1956e",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "boletellus_obscurecoccineus",
@@ -2508,7 +2508,7 @@
     "color": "#c83642",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "boletus_sp",
@@ -2517,7 +2517,7 @@
     "color": "#c5a880",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "bovista_nigrescens",
@@ -2526,7 +2526,7 @@
     "color": "#6b7315",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "calostoma_fuscum",
@@ -2535,7 +2535,7 @@
     "color": "#735641",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "calvatia_cyathiformis",
@@ -2544,7 +2544,7 @@
     "color": "#734541",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "chlorophyllum_neomastoideum",
@@ -2553,7 +2553,7 @@
     "color": "#ad9470",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "claustula_fischeri",
@@ -2562,7 +2562,7 @@
     "color": "#947a56",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "clitocybe_gibba",
@@ -2571,7 +2571,7 @@
     "color": "#ccae85",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "clitocybe_nuda",
@@ -2580,7 +2580,7 @@
     "color": "#976ba5",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "collybia_nuda__2",
@@ -2589,7 +2589,7 @@
     "color": "#a374b2",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "conocybe_filaris",
@@ -2598,7 +2598,7 @@
     "color": "#b06129",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "cordyceps_militaris",
@@ -2607,7 +2607,7 @@
     "color": "#c0611d",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cortinarius_austrovenetus",
@@ -2616,7 +2616,7 @@
     "color": "#c0a44e",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cortinarius_porphyroideus",
@@ -2625,7 +2625,7 @@
     "color": "#814a93",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cortinarius_rotundisporus",
@@ -2634,7 +2634,7 @@
     "color": "#7b674a",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cortinarius_sp",
@@ -2643,7 +2643,7 @@
     "color": "#c59d66",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "cruentomycena_viscidocruenta",
@@ -2652,7 +2652,7 @@
     "color": "#b41b28",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cyptotrama_aspratum",
@@ -2661,7 +2661,7 @@
     "color": "#b28240",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cyttaria_gunnii",
@@ -2670,7 +2670,7 @@
     "color": "#cc974e",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "drechmeria_gunnii",
@@ -2679,7 +2679,7 @@
     "color": "#5a7311",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "echinoderma_asperum",
@@ -2688,7 +2688,7 @@
     "color": "#c4a77f",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "favolaschia_claudopus",
@@ -2697,7 +2697,7 @@
     "color": "#cc671f",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "fomitopsis_mounceae",
@@ -2706,7 +2706,7 @@
     "color": "#9e3e1d",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ganoderma_lingzhi",
@@ -2715,7 +2715,7 @@
     "color": "#792922",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "geastrum_fornicatum",
@@ -2724,7 +2724,7 @@
     "color": "#73533c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "gliophorus_sp",
@@ -2733,7 +2733,7 @@
     "color": "#6d7512",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "gymnopilus_junonius",
@@ -2742,7 +2742,7 @@
     "color": "#cc841f",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hebeloma_crustuliniforme",
@@ -2751,7 +2751,7 @@
     "color": "#bc9e74",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "hericium_americanum",
@@ -2760,7 +2760,7 @@
     "color": "#c3a67f",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hygrophorus_latitabundus",
@@ -2769,7 +2769,7 @@
     "color": "#866c48",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ileodictyon_gracile",
@@ -2778,7 +2778,7 @@
     "color": "#6b7311",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "inocybe_sp",
@@ -2787,7 +2787,7 @@
     "color": "#8a6b3e",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "inosperma_adaequatum",
@@ -2796,7 +2796,7 @@
     "color": "#a98062",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "laccocephalum_hartmannii",
@@ -2805,7 +2805,7 @@
     "color": "#b8662b",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "laccocephalum_mylittae",
@@ -2814,7 +2814,7 @@
     "color": "#c7aa81",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_hatsudake",
@@ -2823,7 +2823,7 @@
     "color": "#a55135",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_laeticolorus",
@@ -2832,7 +2832,7 @@
     "color": "#b06b39",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_pyrogalus",
@@ -2841,7 +2841,7 @@
     "color": "#a68960",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_rubidus",
@@ -2850,7 +2850,7 @@
     "color": "#cc4a1f",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_vinosus",
@@ -2859,7 +2859,7 @@
     "color": "#cc9166",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "laetiporus_portentosus",
@@ -2868,7 +2868,7 @@
     "color": "#c7a575",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "leccinum_pseudoscabrum",
@@ -2877,7 +2877,7 @@
     "color": "#aa724a",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lentinula_novae_zelandiae",
@@ -2886,7 +2886,7 @@
     "color": "#824f2b",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lyophyllum_fumosum",
@@ -2895,7 +2895,7 @@
     "color": "#987861",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "macrolepiota_mastoidea",
@@ -2904,7 +2904,7 @@
     "color": "#a2795b",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "marasmius_elegans",
@@ -2913,7 +2913,7 @@
     "color": "#b86f3a",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "mattirolomyces_terfezioides",
@@ -2922,7 +2922,7 @@
     "color": "#9a8464",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "morchella_steppicola",
@@ -2931,7 +2931,7 @@
     "color": "#9a5c2f",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "mycena_interrupta",
@@ -2940,7 +2940,7 @@
     "color": "#3b96b4",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "mycoleptodonoides_aitchisonii",
@@ -2949,7 +2949,7 @@
     "color": "#ccae85",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "neolentiporus_maculatissimus",
@@ -2958,7 +2958,7 @@
     "color": "#cc974c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "omphalotus_illudens__2",
@@ -2967,7 +2967,7 @@
     "color": "#cc671f",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "panellus_serotinus",
@@ -2976,7 +2976,7 @@
     "color": "#757036",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "panus_fasciatus",
@@ -2985,7 +2985,7 @@
     "color": "#b98f54",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "panus_rudis",
@@ -2994,7 +2994,7 @@
     "color": "#ca8168",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "phallus_indusiatus",
@@ -3003,7 +3003,7 @@
     "color": "#74492a",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pholiota_lubrica",
@@ -3012,7 +3012,7 @@
     "color": "#ad632f",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "piptoporus_australiensis",
@@ -3021,7 +3021,7 @@
     "color": "#b55c1c",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pleurotus_opuntiae",
@@ -3030,7 +3030,7 @@
     "color": "#c6a26f",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pleurotus_parsonsiae",
@@ -3039,7 +3039,7 @@
     "color": "#ccae83",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "podaxis_pistillaris",
@@ -3048,7 +3048,7 @@
     "color": "#735845",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "podoserpula_pusio",
@@ -3057,7 +3057,7 @@
     "color": "#cba775",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "polyozellus_multiplex",
@@ -3066,7 +3066,7 @@
     "color": "#6b731b",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pseudosperma_rimosum",
@@ -3075,7 +3075,7 @@
     "color": "#c5a375",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "psilocybe_caerulescens",
@@ -3084,7 +3084,7 @@
     "color": "#b89d78",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "psilocybe_cubensis",
@@ -3093,7 +3093,7 @@
     "color": "#bd9e72",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "psilocybe_mexicana",
@@ -3102,7 +3102,7 @@
     "color": "#b18952",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "psilocybe_subaeruginosa",
@@ -3111,7 +3111,7 @@
     "color": "#b18b55",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "ramaria_aurea",
@@ -3120,7 +3120,7 @@
     "color": "#cca328",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ramaria_flava__2",
@@ -3129,7 +3129,7 @@
     "color": "#b77b28",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_rosea",
@@ -3138,7 +3138,7 @@
     "color": "#cc535d",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "sanghuangporus_sanghuang",
@@ -3147,7 +3147,7 @@
     "color": "#734524",
     "breadth": "broad",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "sutorius_venenatus",
@@ -3156,7 +3156,7 @@
     "color": "#b37c30",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "tricholoma_bakamatsutake",
@@ -3165,7 +3165,7 @@
     "color": "#95623e",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "tricholoma_muscarium",
@@ -3174,7 +3174,7 @@
     "color": "#a7875a",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "tricholoma_sciodes",
@@ -3183,7 +3183,7 @@
     "color": "#7b6250",
     "breadth": "mid",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "tuber_borchii",
@@ -3192,7 +3192,7 @@
     "color": "#8e5d3a",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "turbinellus_floccosus",
@@ -3201,7 +3201,7 @@
     "color": "#c87c46",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "umbilicaria_esculenta",
@@ -3210,7 +3210,7 @@
     "color": "#6d7332",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "volvariella_volvacea",
@@ -3219,7 +3219,7 @@
     "color": "#b09672",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "wolfiporia_cocos",
@@ -3228,7 +3228,7 @@
     "color": "#c8aa80",
     "breadth": "narrow",
     "importance": 4.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "amanita_gemmata",
@@ -3237,7 +3237,7 @@
     "color": "#cba672",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": true
+    "sortLast": true
   },
   {
     "key": "boletopsis_leucomelaena",
@@ -3246,7 +3246,7 @@
     "color": "#9a8464",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "bovista_sp",
@@ -3255,7 +3255,7 @@
     "color": "#b29874",
     "breadth": "broad",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "bovistella_utriformis",
@@ -3264,7 +3264,7 @@
     "color": "#6b7311",
     "breadth": "mid",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "cantharellus_cinnabarinus",
@@ -3273,7 +3273,7 @@
     "color": "#cc4a1f",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "catathelasma_ventricosum",
@@ -3282,7 +3282,7 @@
     "color": "#b89d77",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "clavariadelphus_truncatus",
@@ -3291,7 +3291,7 @@
     "color": "#cc964b",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "clavogaster_virescens",
@@ -3300,7 +3300,7 @@
     "color": "#65a39e",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "clavulinopsis_sulcata",
@@ -3309,7 +3309,7 @@
     "color": "#b75f1f",
     "breadth": "mid",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "crucibulum_simile",
@@ -3318,7 +3318,7 @@
     "color": "#923516",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "entoloma_canoconicum",
@@ -3327,7 +3327,7 @@
     "color": "#735947",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "ganoderma_oerstedii",
@@ -3336,7 +3336,7 @@
     "color": "#76231b",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "geastrum_fimbriatum",
@@ -3345,7 +3345,7 @@
     "color": "#bc9763",
     "breadth": "broad",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "guepinia_helvelloides",
@@ -3354,7 +3354,7 @@
     "color": "#cc4d22",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "gymnopus_dryophilus",
@@ -3363,7 +3363,7 @@
     "color": "#b86c36",
     "breadth": "mid",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hydnopolyporus_fimbriatus",
@@ -3372,7 +3372,7 @@
     "color": "#ccae85",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hygrophorus_chrysodon",
@@ -3381,7 +3381,7 @@
     "color": "#c7b16f",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hygrophorus_eburneus",
@@ -3390,7 +3390,7 @@
     "color": "#6b7318",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "hygrophorus_gliocyclus",
@@ -3399,7 +3399,7 @@
     "color": "#b28a52",
     "breadth": "mid",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "infundibulicybe_gibba",
@@ -3408,7 +3408,7 @@
     "color": "#cba775",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_flexuosus",
@@ -3417,7 +3417,7 @@
     "color": "#cc9f7e",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_lignyotus",
@@ -3426,7 +3426,7 @@
     "color": "#735b4b",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_pubescens",
@@ -3435,7 +3435,7 @@
     "color": "#c29371",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_repraesentaneus",
@@ -3444,7 +3444,7 @@
     "color": "#b27f37",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lactarius_semisanguifluus",
@@ -3453,7 +3453,7 @@
     "color": "#c19a64",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lentinus_crinitus",
@@ -3462,7 +3462,7 @@
     "color": "#ba9663",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "lentinus_sp",
@@ -3471,7 +3471,7 @@
     "color": "#9d825c",
     "breadth": "broad",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "leratiomyces_erythrocephalus",
@@ -3480,7 +3480,7 @@
     "color": "#be2e21",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "leucoagaricus_americanus",
@@ -3489,7 +3489,7 @@
     "color": "#b98f72",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "leucocoprinus_leucothites",
@@ -3498,7 +3498,7 @@
     "color": "#a88a61",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "neoboletus_luridiformis__2",
@@ -3507,7 +3507,7 @@
     "color": "#9d5b2c",
     "breadth": "mid",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "neolentinus_lepideus",
@@ -3516,7 +3516,7 @@
     "color": "#b29266",
     "breadth": "broad",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "nidula_niveotomentosa",
@@ -3525,7 +3525,7 @@
     "color": "#956340",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "phellodon_sinclairii",
@@ -3534,7 +3534,7 @@
     "color": "#5c7316",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pleurotus_albidus",
@@ -3543,7 +3543,7 @@
     "color": "#b69c76",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "pleurotus_cornucopiae",
@@ -3552,7 +3552,7 @@
     "color": "#cc9f60",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "rhodocollybia_butyracea",
@@ -3561,7 +3561,7 @@
     "color": "#be8258",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "rossbeevera_pachydermis",
@@ -3570,7 +3570,7 @@
     "color": "#6b7313",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "rugiboletus_extremiorientalis",
@@ -3579,7 +3579,7 @@
     "color": "#a44322",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_adusta",
@@ -3588,7 +3588,7 @@
     "color": "#733925",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_alutacea",
@@ -3597,7 +3597,7 @@
     "color": "#b08f62",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_chloroides",
@@ -3606,7 +3606,7 @@
     "color": "#aa916f",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_risigallina",
@@ -3615,7 +3615,7 @@
     "color": "#c39350",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "russula_vinosa",
@@ -3624,7 +3624,7 @@
     "color": "#8a453e",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "trichoglossum_sp",
@@ -3633,7 +3633,7 @@
     "color": "#6b7311",
     "breadth": "broad",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "turbinellus_kauffmanii",
@@ -3642,7 +3642,7 @@
     "color": "#be8a42",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "xylaria_hypoxylon",
@@ -3651,7 +3651,7 @@
     "color": "#5c7317",
     "breadth": "narrow",
     "importance": 3.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "fomitiporia_robusta",
@@ -3660,7 +3660,7 @@
     "color": "#77553d",
     "breadth": "narrow",
     "importance": 2.0,
-    "dangerous": false
+    "sortLast": false
   },
   {
     "key": "laccaria_ochropurpurea",
@@ -3669,6 +3669,6 @@
     "color": "#c5a579",
     "breadth": "narrow",
     "importance": 2.0,
-    "dangerous": false
+    "sortLast": false
   }
 ]

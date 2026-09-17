@@ -527,7 +527,13 @@ def run_full(recompute_colors: bool = False) -> None:
             "color": colors[c["key"]],
             "breadth": c["breadth"],
             "importance": c["importance"],
-            "dangerous": c["flags"]["dangerous"],
+            # Нейтральное имя поля — требование владельца (2026-09-17), и оно про
+            # смысл, а не про стиль: приложение официально не определяет съедобность
+            # (её понятие убрано из него целиком миграцией Room v9->v10), и данные не
+            # должны заявлять того, чего не заявляет продукт. В дампе флаг называется
+            # `dangerous`; здесь он означает ровно «по умолчанию этот вид уезжает в
+            # конец ленты», и ничего кроме.
+            "sortLast": c["flags"]["dangerous"],
         })
 
     FILES_CATALOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -549,11 +555,30 @@ def run_full(recompute_colors: bool = False) -> None:
         if cc == "RU":
             ids = [i for i in ids if i not in RU_PRESET_REMOVE] + RU_PRESET_ADD
         keys = [categories_by_id[i]["key"] for i in ids]
-        countries_out.append({
+        entry = {
             "code": cc,
             "langs": preset["languages"],
             "keys": keys,
-        })
+        }
+        # `common` — виды, которые в этой стране реально встречаются часто (роль
+        # `common_encounter` в дампе). Отсюда берётся «вперёд частотные» в порядке
+        # ленты по умолчанию.
+        #
+        # Поле ОТСУТСТВУЕТ, а не пусто, у стран без ролей в источнике — это 22
+        # подборки партий post-soviet и europe-15, собранные исследованиями
+        # (`load_extra_presets` строит items без `roles`). Разница существенная:
+        # пустой список означал бы «здесь ничего не часто», а отсутствие поля —
+        # «данных нет», и приложение в этом случае откатывается на глобальный
+        # `importance` вместо того, чтобы уводить всю страну в один ряд.
+        common = [
+            categories_by_id[it["id"]]["key"]
+            for it in items
+            if "common_encounter" in (it.get("roles") or [])
+            and it["id"] in ids
+        ]
+        if any(it.get("roles") for it in items):
+            entry["common"] = common
+        countries_out.append(entry)
         country_distinct_colors.append(len({colors_by_id[i] for i in ids}))
 
     (FILES_CATALOG_DIR / "countries.json").write_text(
