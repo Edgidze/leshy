@@ -109,7 +109,7 @@ fun AddPlaceDialog(
     ) {
         val outsideFocusRequester = remember { FocusRequester() }
         Surface(
-            modifier = Modifier.fillMaxWidth(0.92f).fillMaxHeight(0.88f).imePadding(),
+            modifier = Modifier.dialogWidth().fillMaxHeight(0.88f).imePadding(),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 4.dp,
         ) {

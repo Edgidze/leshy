@@ -37,6 +37,7 @@ import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.data.DataMode
 import leshy.mushrooms.map.presentation.data.DataUiState
 import leshy.mushrooms.map.presentation.data.DataViewModel
+import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.WalksPickerDialog
 import leshy.mushrooms.map.ui.components.walksSelectedButtonLabel
@@ -95,7 +96,7 @@ fun DataScreen(
         uiState.importProblem?.takeIf { uiState.importProblemDialogVisible }?.let { problem ->
             AlertDialog(
                 onDismissRequest = viewModel::dismissImportProblem,
-                modifier = Modifier.fillMaxWidth(0.9f),
+                modifier = Modifier.dialogWidth(),
                 properties = DialogProperties(usePlatformDefaultWidth = false),
                 title = { Text(stringResource(StringKey.DataImportRejectedTitle)) },
                 text = { Text(stringResource(importProblemStringKey(problem))) },

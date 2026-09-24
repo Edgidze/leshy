@@ -56,6 +56,7 @@ import leshy.mushrooms.map.domain.util.estimateOfflineRegion
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.preparation.PreparationViewModel
+import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.map.RegionPickerMap
 import leshy.mushrooms.map.ui.util.formatKilometersExtent
@@ -225,7 +226,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     if (uiState.showNameDialog) {
         AlertDialog(
             onDismissRequest = viewModel::onNameDialogDismissed,
-            modifier = Modifier.fillMaxWidth(0.9f).imePadding(),
+            modifier = Modifier.dialogWidth().imePadding(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.PreparationRegionNameDialogTitle)) },
             text = {
@@ -269,7 +270,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     if (uiState.regionPendingDelete != null) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteDismissed,
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.dialogWidth(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.PreparationDeleteConfirmTitle)) },
             text = { Text(stringResource(StringKey.PreparationDeleteConfirmMessage)) },

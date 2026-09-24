@@ -46,6 +46,7 @@ import leshy.mushrooms.map.i18n.regionsUnitLabel
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.settings.SettingsViewModel
 import leshy.mushrooms.map.ui.components.CategoryIcon
+import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.PrivacyPolicyLink
 import leshy.mushrooms.map.ui.map.MUSHROOM_MARKER_BASE_SIZE
@@ -182,7 +183,7 @@ fun SettingsScreen(
     if (uiState.showUpdateMapDataConfirm) {
         AlertDialog(
             onDismissRequest = viewModel::onUpdateMapDataDismiss,
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.dialogWidth(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.SettingsMapDataUpdateConfirmTitle)) },
             text = { Text(stringResource(StringKey.SettingsMapDataUpdateConfirmMessage)) },
@@ -202,7 +203,7 @@ fun SettingsScreen(
     if (uiState.showClearMapCacheConfirm) {
         AlertDialog(
             onDismissRequest = viewModel::onClearMapCacheDismiss,
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.dialogWidth(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.SettingsClearMapCacheConfirmTitle)) },
             text = { Text(stringResource(StringKey.SettingsClearMapCacheConfirmMessage)) },

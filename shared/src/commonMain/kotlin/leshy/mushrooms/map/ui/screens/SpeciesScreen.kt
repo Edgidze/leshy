@@ -49,6 +49,7 @@ import leshy.mushrooms.map.presentation.UserSpeciesGroup
 import leshy.mushrooms.map.presentation.species.SpeciesViewModel
 import leshy.mushrooms.map.ui.components.CategoryIcon
 import leshy.mushrooms.map.ui.components.CollectionPicker
+import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MushroomImageDisclaimerBanner
 import leshy.mushrooms.map.ui.components.SpeciesFormDialog
@@ -161,7 +162,7 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
     if (pendingDelete != null) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteSpeciesDismiss,
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.dialogWidth(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.SpeciesDeleteConfirmTitle)) },
             text = { Text(stringResource(StringKey.SpeciesDeleteConfirmMessage)) },

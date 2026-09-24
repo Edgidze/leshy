@@ -32,6 +32,7 @@ import androidx.compose.ui.window.DialogProperties
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.archive.ArchiveViewModel
+import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.LoadingState
 import leshy.mushrooms.map.ui.components.NoWalksYetState
@@ -62,7 +63,7 @@ fun ArchiveScreen(
     if (uiState.showDeleteConfirmation) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteDismiss,
-            modifier = Modifier.fillMaxWidth(0.9f).border(
+            modifier = Modifier.dialogWidth().border(
                 BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
                 shape = AlertDialogDefaults.shape,
             ),

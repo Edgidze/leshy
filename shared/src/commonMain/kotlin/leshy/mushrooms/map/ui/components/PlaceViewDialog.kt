@@ -66,7 +66,7 @@ fun PlaceViewDialog(
         properties = addPlaceDialogProperties(),
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(0.92f).fillMaxHeight(0.88f),
+            modifier = Modifier.dialogWidth().fillMaxHeight(0.88f),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 4.dp,
         ) {
@@ -159,7 +159,7 @@ fun PlaceViewDialog(
 fun DeletePlaceConfirmDialog(onConfirm: () -> Unit, onDismissRequest: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth(0.9f),
+        modifier = Modifier.dialogWidth(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.PlaceDeleteConfirmTitle)) },
         text = { Text(stringResource(StringKey.PlaceDeleteConfirmMessage)) },

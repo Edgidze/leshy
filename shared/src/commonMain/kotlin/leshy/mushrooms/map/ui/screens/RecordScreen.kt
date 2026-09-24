@@ -96,6 +96,7 @@ import leshy.mushrooms.map.presentation.record.NavigationOverlayState
 import leshy.mushrooms.map.ui.components.AddPlaceDialog
 import leshy.mushrooms.map.ui.components.AddSpeciesTile
 import leshy.mushrooms.map.ui.components.DeletePlaceConfirmDialog
+import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MapFilterButton
 import leshy.mushrooms.map.ui.components.MapFilterDialog
@@ -903,7 +904,7 @@ private fun WalkNameDialog(onConfirm: (String) -> Unit, onDismissRequest: () -> 
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth(0.9f).imePadding(),
+        modifier = Modifier.dialogWidth().imePadding(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.RecordSetWalkNameTitle)) },
         text = {
@@ -1007,7 +1008,7 @@ private fun MushroomBulkAddDialog(
     ) {
         // imePadding() here (not just inside the Column) so maxHeight below already excludes the
         // keyboard — that's what compactPhoto and the Surface's height cap both need to react to.
-        BoxWithConstraints(modifier = Modifier.fillMaxWidth(0.92f).imePadding()) {
+        BoxWithConstraints(modifier = Modifier.dialogWidth().imePadding()) {
             val compactPhoto = maxHeight < BULK_ADD_COMPACT_HEIGHT_THRESHOLD
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight),
@@ -1109,7 +1110,7 @@ private fun MushroomBulkAddDialog(
 private fun NoLocationDialog(onDismissRequest: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth(0.9f),
+        modifier = Modifier.dialogWidth(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         text = { Text(stringResource(StringKey.RecordLocationUnknownMessage)) },
         confirmButton = {
@@ -1125,7 +1126,7 @@ private fun NoLocationDialog(onDismissRequest: () -> Unit) {
 private fun MushroomBulkAddLimitDialog(onDismissRequest: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth(0.9f),
+        modifier = Modifier.dialogWidth(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         text = { Text(stringResource(StringKey.RecordBulkAddLimitMessage)) },
         confirmButton = {
@@ -1162,7 +1163,7 @@ private fun MushroomSearchDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(0.92f).imePadding(),
+            modifier = Modifier.dialogWidth().imePadding(),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 4.dp,
         ) {

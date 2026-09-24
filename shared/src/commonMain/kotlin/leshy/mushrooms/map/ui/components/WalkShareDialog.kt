@@ -279,7 +279,7 @@ fun WalkShareDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = !isPreparing),
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(0.92f),
+            modifier = Modifier.dialogWidth(),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 4.dp,
         ) {

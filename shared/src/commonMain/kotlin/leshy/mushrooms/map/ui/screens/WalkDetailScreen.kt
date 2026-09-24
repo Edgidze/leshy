@@ -75,6 +75,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.mushroomsUnitLabel
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.archive.WalkDetailViewModel
+import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.FindTilesGrid
 import leshy.mushrooms.map.ui.components.FindsEmptyBlock
 import leshy.mushrooms.map.ui.components.MetricCard
@@ -169,7 +170,7 @@ fun WalkDetailScreen(
     if (uiState.showDeleteConfirmation) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteDismiss,
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.dialogWidth(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.WalkDetailDeleteConfirmTitle)) },
             text = { Text(stringResource(StringKey.WalkDetailDeleteConfirmMessage)) },
@@ -615,7 +616,7 @@ private fun WalkNameEditDialog(initialName: String, onConfirm: (String) -> Unit,
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth(0.9f).imePadding(),
+        modifier = Modifier.dialogWidth().imePadding(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.WalkDetailEditWalkNameTitle)) },
         text = {

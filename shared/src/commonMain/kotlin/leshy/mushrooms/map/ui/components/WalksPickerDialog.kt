@@ -68,7 +68,7 @@ fun WalksPickerDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(0.92f).fillMaxHeight(0.88f),
+            modifier = Modifier.dialogWidth().fillMaxHeight(0.88f),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 4.dp,
         ) {

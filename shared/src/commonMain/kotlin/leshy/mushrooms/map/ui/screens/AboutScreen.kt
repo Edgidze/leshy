@@ -39,6 +39,7 @@ import leshy.mushrooms.map.APP_VERSION_CODE
 import leshy.mushrooms.map.APP_VERSION_NAME
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.shared.generated.resources.Res
 
 /**
@@ -201,7 +202,7 @@ private fun LibraryRow(library: Library, onClick: () -> Unit) {
 private fun LicenseDialog(library: Library, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        modifier = Modifier.fillMaxWidth(0.95f),
+        modifier = Modifier.dialogWidth(),
         title = { Text(library.name) },
         text = {
             Column(

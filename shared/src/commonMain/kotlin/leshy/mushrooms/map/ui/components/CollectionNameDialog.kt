@@ -97,7 +97,7 @@ fun CollectionNameDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(0.92f).imePadding(),
+            modifier = Modifier.dialogWidth().imePadding(),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 4.dp,
         ) {
