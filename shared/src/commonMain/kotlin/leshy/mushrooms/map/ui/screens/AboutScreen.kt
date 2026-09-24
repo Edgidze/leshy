@@ -116,6 +116,15 @@ fun AboutScreen(
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
+                    // Уведомление о правах, а не строка интерфейса: имя и год одинаковы на всех
+                    // языках, переводить нечего — поэтому без StringKey, рядом с версией, которая
+                    // хардкодится по той же причине. Полные условия — site/fingerprints.txt и
+                    // подвалы страниц сайта.
+                    Text(
+                        text = "© 2026 Fradkin Fedor",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
 
