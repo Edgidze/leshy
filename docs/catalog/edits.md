@@ -36,6 +36,59 @@ docs/catalog/leshy_core_app.json` и есть полная история «чт
 Опасность при этом остаётся на отдельных плитках: `agaricus_xanthodermus`
 (38 подборок), `amanita_phalloides` и прочие настоящие поганки.
 
+## 2026-09-24 — родовая латынь у широких плиток
+
+Продолжение случая с рогатиками, по всему каталогу. У плитки, которая по
+названиям означает род («Сыроежка», «Russules», «Puffball», «Маслёнок»),
+латынь конкретного вида — неверно применённое имя: она утверждает
+определение, которого плитка не делает. Отображаемые названия при этом не
+меняются вовсе — они уже родовые; меняется только то, что видит человек с
+языком, для которого названия нет, и такие плитки и раньше показывались
+латынью в самом хвосте ленты.
+
+Решение принималось не по флагу `breadth` (он в выгрузке проставлен неровно), а
+по тому, что реально написано на плитке в большинстве языков.
+
+| ключ | было | стало | подборок |
+|---|---|---|---|
+| `morchella_esculenta` | Morchella esculenta | `Morchella sp.` | 44 |
+| `russula_cyanoxantha` | Russula cyanoxantha | `Russula sp.` | 23 |
+| `agaricus_campestris` | Agaricus campestris | `Agaricus sp.` | 19 |
+| `lycoperdon_perlatum` | Lycoperdon perlatum | `Lycoperdon sp.` | 19 |
+| `suillus_luteus__2` | Suillus luteus | `Suillus sp.` | 11 |
+| `terfezia_boudieri` | Terfezia boudieri | `Terfezia sp.` | 9 |
+| `gyromitra_esculenta__2` | Gyromitra esculenta | `Gyromitra sp.` | 7 |
+| `auricularia_americana` | Auricularia americana | `Auricularia sp.` | 3 |
+| `lactarius_thyinos` | Lactarius thyinos | `Lactarius sp.` | 2 |
+| `sparassis_spathulata` | Sparassis spathulata | `Sparassis sp.` | 2 |
+| `tricholoma_sejunctum` | Tricholoma sejunctum | `Tricholoma sp.` | 1 |
+| `hygrocybe_conica` | Hygrocybe conica | `Hygrocybe sp.` | 1 |
+| `geastrum_fimbriatum` | Geastrum fimbriatum | `Geastrum sp.` | 1 |
+| `tuber_aestivum__2` | Tuber aestivum | `Tuber sp.` | 1 |
+
+Заодно с `gyromitra_esculenta__2` снят флаг «в конец»: это тот же концепт
+строчка, что и узкая плитка, с которой флаг сняли решением владельца, и держать
+одну помеченной, а другую нет — рассинхрон.
+
+**Что оставлено видовым и почему** (широкие по флагу, но не по сути):
+
+- `amanita_bisporigera` — в подборках CA и US это конкретный неарктический вид,
+  и «Destroying angel» — его настоящее имя. Родовые ru «Мухоморы» и et
+  «Kärbseseened» на нём — наследие эстонской ошибки; эстонское имя теперь
+  мёртвое (вид из подборки убран), русское стоит поправить отдельно;
+- `bovista_nigrescens` — `Bovista sp.` уже занята ключом `bovista_sp`, две
+  плитки с одной латынью были бы хуже видовой;
+- `bovista_plumbea`, `calvatia_cyathiformis` — половина названий видовые
+  («Порховка свинцово-серая», «Головач лиловый»);
+- `russula_brevipes` — мексиканское «Blanco» это именно этот вид;
+- `agaricus_subrufescens`, `hebeloma_aminophilum`, `sanghuangporus_sanghuang`,
+  `neolentinus_lepideus` — видовые концепты, названия не родовые.
+
+Побочно: четырнадцать плиток вышли из-под `tools/check_ranges.py` (он пропускает
+`sp.` и `ceae`) — для родового концепта проверка ареала и не имеет смысла. Из-за
+этого же перестала числиться «задвоенной» сербская пара сморчков: теперь одна
+плитка родовая, вторая видовая, и это два разных концепта уже по данным.
+
 ## 2026-09-24 — широкая плитка рогатиков: снят флаг и латынь заменена на родовую
 
 `ramaria_flava` — это широкий концепт, а не вид: es «Escobeta», ru «Рогатики»,

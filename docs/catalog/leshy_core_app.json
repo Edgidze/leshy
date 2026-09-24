@@ -1816,7 +1816,7 @@
      "Mazorquita"
     ]
    },
-   "sci": "Morchella esculenta",
+   "sci": "Morchella sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -3565,7 +3565,7 @@
      "Sombrillita"
     ]
    },
-   "sci": "Agaricus campestris",
+   "sci": "Agaricus sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -3712,7 +3712,7 @@
      "Hongo manalco"
     ]
    },
-   "sci": "Russula cyanoxantha",
+   "sci": "Russula sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -5199,7 +5199,7 @@
      "Cobataya"
     ]
    },
-   "sci": "Suillus luteus",
+   "sci": "Suillus sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -6069,7 +6069,7 @@
      "Čertov tabak"
     ]
    },
-   "sci": "Lycoperdon perlatum",
+   "sci": "Lycoperdon sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -7629,11 +7629,11 @@
      "Gyromitre"
     ]
    },
-   "sci": "Gyromitra esculenta",
+   "sci": "Gyromitra sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
-    "dangerous": true,
+    "dangerous": false,
     "lookalike": true,
     "iconic": true
    },
@@ -8094,7 +8094,7 @@
      "Lactaire orangé"
     ]
    },
-   "sci": "Lactarius thyinos",
+   "sci": "Lactarius sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -8226,7 +8226,7 @@
      "흑목이"
     ]
    },
-   "sci": "Auricularia americana",
+   "sci": "Auricularia sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -9768,7 +9768,7 @@
      "Patata de tierra"
     ]
    },
-   "sci": "Terfezia boudieri",
+   "sci": "Terfezia sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -10116,7 +10116,7 @@
      "Champignon chou-fleur"
     ]
    },
-   "sci": "Sparassis spathulata",
+   "sci": "Sparassis sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -10589,7 +10589,7 @@
      "Witch’s hat"
     ]
    },
-   "sci": "Hygrocybe conica",
+   "sci": "Hygrocybe sp.",
    "breadth": "broad",
    "flags": {
     "collected": false,
@@ -10715,7 +10715,7 @@
      "Cola de rata"
     ]
    },
-   "sci": "Tricholoma sejunctum",
+   "sci": "Tricholoma sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -10866,7 +10866,7 @@
      "Tartufi"
     ]
    },
-   "sci": "Tuber aestivum",
+   "sci": "Tuber sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
@@ -14844,7 +14844,7 @@
      "Earthstars"
     ]
    },
-   "sci": "Geastrum fimbriatum",
+   "sci": "Geastrum sp.",
    "breadth": "broad",
    "flags": {
     "collected": false,

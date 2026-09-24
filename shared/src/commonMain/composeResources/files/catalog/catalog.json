@@ -100,7 +100,7 @@
   },
   {
     "key": "morchella_esculenta",
-    "sci": "Morchella esculenta",
+    "sci": "Morchella sp.",
     "image": "morchella_esculenta",
     "color": "#b98f55",
     "breadth": "broad",
@@ -280,7 +280,7 @@
   },
   {
     "key": "agaricus_campestris",
-    "sci": "Agaricus campestris",
+    "sci": "Agaricus sp.",
     "image": "agaricus_campestris",
     "color": "#734434",
     "breadth": "broad",
@@ -298,7 +298,7 @@
   },
   {
     "key": "russula_cyanoxantha",
-    "sci": "Russula cyanoxantha",
+    "sci": "Russula sp.",
     "image": "russula_cyanoxantha",
     "color": "#9c835f",
     "breadth": "broad",
@@ -496,7 +496,7 @@
   },
   {
     "key": "suillus_luteus__2",
-    "sci": "Suillus luteus",
+    "sci": "Suillus sp.",
     "image": "suillus_luteus_2",
     "color": "#a88f44",
     "breadth": "broad",
@@ -658,7 +658,7 @@
   },
   {
     "key": "lycoperdon_perlatum",
-    "sci": "Lycoperdon perlatum",
+    "sci": "Lycoperdon sp.",
     "image": "lycoperdon_perlatum",
     "color": "#c4a880",
     "breadth": "broad",
@@ -964,12 +964,12 @@
   },
   {
     "key": "gyromitra_esculenta__2",
-    "sci": "Gyromitra esculenta",
+    "sci": "Gyromitra sp.",
     "image": "gyromitra_esculenta_2",
     "color": "#73241c",
     "breadth": "broad",
     "importance": 5.0,
-    "sortLast": true
+    "sortLast": false
   },
   {
     "key": "pleurocybella_porrigens",
@@ -1081,7 +1081,7 @@
   },
   {
     "key": "lactarius_thyinos",
-    "sci": "Lactarius thyinos",
+    "sci": "Lactarius sp.",
     "image": "lactarius_thyinos",
     "color": "#cc671f",
     "breadth": "broad",
@@ -1117,7 +1117,7 @@
   },
   {
     "key": "auricularia_americana",
-    "sci": "Auricularia americana",
+    "sci": "Auricularia sp.",
     "image": "auricularia_americana",
     "color": "#b3502e",
     "breadth": "broad",
@@ -1549,7 +1549,7 @@
   },
   {
     "key": "terfezia_boudieri",
-    "sci": "Terfezia boudieri",
+    "sci": "Terfezia sp.",
     "image": "terfezia_boudieri",
     "color": "#98623c",
     "breadth": "broad",
@@ -1657,7 +1657,7 @@
   },
   {
     "key": "sparassis_spathulata",
-    "sci": "Sparassis spathulata",
+    "sci": "Sparassis sp.",
     "image": "sparassis_spathulata",
     "color": "#c9a778",
     "breadth": "broad",
@@ -1810,7 +1810,7 @@
   },
   {
     "key": "hygrocybe_conica",
-    "sci": "Hygrocybe conica",
+    "sci": "Hygrocybe sp.",
     "image": "hygrocybe_conica",
     "color": "#b47925",
     "breadth": "broad",
@@ -1846,7 +1846,7 @@
   },
   {
     "key": "tricholoma_sejunctum",
-    "sci": "Tricholoma sejunctum",
+    "sci": "Tricholoma sp.",
     "image": "tricholoma_sejunctum",
     "color": "#a7814c",
     "breadth": "broad",
@@ -1891,7 +1891,7 @@
   },
   {
     "key": "tuber_aestivum__2",
-    "sci": "Tuber aestivum",
+    "sci": "Tuber sp.",
     "image": "tuber_aestivum_2",
     "color": "#735845",
     "breadth": "broad",
@@ -3340,7 +3340,7 @@
   },
   {
     "key": "geastrum_fimbriatum",
-    "sci": "Geastrum fimbriatum",
+    "sci": "Geastrum sp.",
     "image": "geastrum_fimbriatum",
     "color": "#bc9763",
     "breadth": "broad",
