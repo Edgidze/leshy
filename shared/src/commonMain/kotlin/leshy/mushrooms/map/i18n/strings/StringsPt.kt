@@ -135,6 +135,7 @@ internal val portugueseStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryUnknownMushroom to "Cogumelo desconhecido",
     StringKey.CollectionOtherName to "Outros",
     StringKey.CollectionPickerSearchHint to "Procurar coleção ou cogumelo",
+    StringKey.CollectionPickerSearchClear to "Limpar pesquisa",
     StringKey.CollectionPickerMoreMatches to "Nem todos os resultados são mostrados — refine a pesquisa",
     StringKey.LanguagePickerSearchHint to "Procurar idioma",
     StringKey.LanguagePickerBackContentDescription to "Voltar",

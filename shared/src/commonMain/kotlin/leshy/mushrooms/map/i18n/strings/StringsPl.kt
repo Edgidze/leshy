@@ -144,6 +144,7 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Pozostałe",
     StringKey.CollectionPickerSearchHint to "Szukaj zestawu lub grzyba",
+    StringKey.CollectionPickerSearchClear to "Wyczyść wyszukiwanie",
     StringKey.CollectionPickerMoreMatches to "Nie pokazano wszystkich wyników — doprecyzuj zapytanie",
 
     StringKey.LanguagePickerSearchHint to "Szukaj języka",

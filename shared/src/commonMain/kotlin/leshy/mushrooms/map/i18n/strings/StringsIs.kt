@@ -133,6 +133,7 @@ internal val icelandicStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryUnknownMushroom to "Óþekktur sveppur",
     StringKey.CollectionOtherName to "Annað",
     StringKey.CollectionPickerSearchHint to "Leita að safni eða sveppi",
+    StringKey.CollectionPickerSearchClear to "Hreinsa leit",
     StringKey.CollectionPickerMoreMatches to "Ekki eru allar niðurstöður sýndar — afmarkaðu leitina",
     StringKey.LanguagePickerSearchHint to "Leita að tungumáli",
     StringKey.LanguagePickerBackContentDescription to "Til baka",

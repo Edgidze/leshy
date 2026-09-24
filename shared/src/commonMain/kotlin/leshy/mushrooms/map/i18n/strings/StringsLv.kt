@@ -148,6 +148,7 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Citas",
     StringKey.CollectionPickerSearchHint to "Meklēt kolekciju vai sēni",
+    StringKey.CollectionPickerSearchClear to "Notīrīt meklēšanu",
     StringKey.CollectionPickerMoreMatches to "Netiek rādītas visas atbilstības — precizējiet vaicājumu",
 
     StringKey.LanguagePickerSearchHint to "Meklēt valodu",

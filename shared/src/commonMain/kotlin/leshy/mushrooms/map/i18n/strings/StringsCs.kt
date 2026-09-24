@@ -144,6 +144,7 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Ostatní",
     StringKey.CollectionPickerSearchHint to "Hledat sbírku nebo houbu",
+    StringKey.CollectionPickerSearchClear to "Vymazat hledání",
     StringKey.CollectionPickerMoreMatches to "Nezobrazují se všechny shody — upřesněte dotaz",
 
     StringKey.LanguagePickerSearchHint to "Hledat jazyk",

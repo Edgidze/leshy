@@ -103,6 +103,7 @@ enum class StringKey {
 
     CollectionOtherName,
     CollectionPickerSearchHint,
+    CollectionPickerSearchClear,
     CollectionPickerMoreMatches,
 
     LanguagePickerSearchHint,

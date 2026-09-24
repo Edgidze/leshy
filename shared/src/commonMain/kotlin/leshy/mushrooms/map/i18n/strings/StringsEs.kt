@@ -146,6 +146,7 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Otras",
     StringKey.CollectionPickerSearchHint to "Buscar colección o seta",
+    StringKey.CollectionPickerSearchClear to "Borrar búsqueda",
     StringKey.CollectionPickerMoreMatches to "No se muestran todas las coincidencias: precisa la búsqueda",
 
     StringKey.LanguagePickerSearchHint to "Buscar idioma",

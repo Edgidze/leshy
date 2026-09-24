@@ -151,6 +151,7 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Druge",
     StringKey.CollectionPickerSearchHint to "Iskanje zbirke ali gobe",
+    StringKey.CollectionPickerSearchClear to "Počisti iskanje",
     StringKey.CollectionPickerMoreMatches to "Niso prikazani vsi zadetki — natančneje določite iskanje",
 
     StringKey.LanguagePickerSearchHint to "Iskanje jezika",

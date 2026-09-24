@@ -144,6 +144,7 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Остале",
     StringKey.CollectionPickerSearchHint to "Претрага збирки или гљива",
+    StringKey.CollectionPickerSearchClear to "Обриши претрагу",
     StringKey.CollectionPickerMoreMatches to "Нису приказана сва подударања — прецизирајте упит",
 
     StringKey.LanguagePickerSearchHint to "Претрага језика",

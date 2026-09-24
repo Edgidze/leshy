@@ -142,6 +142,7 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Diğerleri",
     StringKey.CollectionPickerSearchHint to "Koleksiyon veya mantar ara",
+    StringKey.CollectionPickerSearchClear to "Aramayı temizle",
     StringKey.CollectionPickerMoreMatches to "Tüm sonuçlar gösterilmiyor — aramayı daraltın",
 
     StringKey.LanguagePickerSearchHint to "Dil ara",

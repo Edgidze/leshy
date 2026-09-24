@@ -129,6 +129,7 @@ internal val norwegianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryUnknownMushroom to "Ukjent sopp",
     StringKey.CollectionOtherName to "Andre",
     StringKey.CollectionPickerSearchHint to "Søk etter samling eller sopp",
+    StringKey.CollectionPickerSearchClear to "Tøm søk",
     StringKey.CollectionPickerMoreMatches to "Ikke alle treff vises — presiser søket",
     StringKey.LanguagePickerSearchHint to "Søk etter språk",
     StringKey.LanguagePickerBackContentDescription to "Tilbake",

@@ -137,6 +137,7 @@ internal val albanianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryUnknownMushroom to "Kërpudhë e panjohur",
     StringKey.CollectionOtherName to "Të tjera",
     StringKey.CollectionPickerSearchHint to "Kërko përmbledhjen ose kërpudhën",
+    StringKey.CollectionPickerSearchClear to "Pastro kërkimin",
     StringKey.CollectionPickerMoreMatches to "Nuk shfaqen të gjitha përputhjet — saktësoni kërkimin",
     StringKey.LanguagePickerSearchHint to "Kërko gjuhën",
     StringKey.LanguagePickerBackContentDescription to "Mbrapa",

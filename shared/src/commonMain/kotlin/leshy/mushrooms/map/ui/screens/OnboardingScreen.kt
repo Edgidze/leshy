@@ -34,6 +34,7 @@ import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.onboarding.OnboardingStep
 import leshy.mushrooms.map.presentation.onboarding.OnboardingViewModel
 import leshy.mushrooms.map.ui.components.CollectionPicker
+import leshy.mushrooms.map.ui.components.CollectionSearchField
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MushroomImageDisclaimerBanner
 import org.koin.compose.viewmodel.koinViewModel
@@ -134,10 +135,17 @@ private fun CollectionsStep(viewModel: OnboardingViewModel, modifier: Modifier =
             // поиск, вводную часть он уже прочитал — и она уходит вверх, освобождая под список весь
             // экран между шапкой и клавиатурой. Пока пикер владел прокруткой сам, поле стояло в её
             // начале и подтягивать его было некуда.
+            // Поле поиска теперь рисуется хостом отдельно от пикера (см. `CollectionSearchField`).
+            // Здесь оно остаётся ровно над списком, как и было: блок на этом шаге один, фильтровать
+            // ему нечего, кроме него самого.
+            CollectionSearchField(
+                query = collectionQuery,
+                onQueryChange = { collectionQuery = it },
+                modifier = Modifier.padding(bottom = 8.dp),
+            )
             CollectionPicker(
                 items = uiState.collectionPickerItems,
                 query = collectionQuery,
-                onQueryChange = { collectionQuery = it },
                 onToggleCollection = viewModel::toggleCollection,
                 onToggleCategory = viewModel::setCategoryPicked,
             )

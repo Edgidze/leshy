@@ -146,6 +146,7 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Інші",
     StringKey.CollectionPickerSearchHint to "Пошук підбірки або гриба",
+    StringKey.CollectionPickerSearchClear to "Очистити пошук",
     StringKey.CollectionPickerMoreMatches to "Показано не всі збіги — уточніть запит",
 
     StringKey.LanguagePickerSearchHint to "Пошук мови",

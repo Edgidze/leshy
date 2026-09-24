@@ -146,6 +146,7 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Altri",
     StringKey.CollectionPickerSearchHint to "Cerca collezione o fungo",
+    StringKey.CollectionPickerSearchClear to "Cancella ricerca",
     StringKey.CollectionPickerMoreMatches to "Non tutti i risultati sono mostrati — affina la ricerca",
 
     StringKey.LanguagePickerSearchHint to "Cerca lingua",
