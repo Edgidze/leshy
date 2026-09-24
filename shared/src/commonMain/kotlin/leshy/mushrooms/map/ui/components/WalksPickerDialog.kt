@@ -1,11 +1,11 @@
 package leshy.mushrooms.map.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.toggleable
@@ -67,46 +67,50 @@ fun WalksPickerDialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnBackPress = true),
     ) {
-        Surface(
-            modifier = Modifier.dialogWidth().fillMaxHeight(0.88f),
-            shape = RoundedCornerShape(24.dp),
-            tonalElevation = 4.dp,
-        ) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
-                    IconButton(onClick = onDismiss) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(StringKey.DataWalksBackContentDescription),
-                        )
-                    }
-                    Text(
-                        text = stringResource(StringKey.DataChooseWalksTitle),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
-                    )
-                    IconButton(onClick = { onConfirm(selectedIds) }) {
-                        Icon(
-                            imageVector = Icons.Filled.Check,
-                            contentDescription = stringResource(StringKey.DataWalksConfirmContentDescription),
-                        )
-                    }
-                }
-                HorizontalDivider()
-
-                LazyColumn(modifier = Modifier.weight(1f).padding(horizontal = 16.dp)) {
-                    groups.forEach { group ->
-                        item(key = "${group.year}-${group.month}") {
-                            WalksPickerGroupSection(
-                                group = group,
-                                onToggleGroup = { include ->
-                                    val groupIds = group.walks.map { it.id }.toSet()
-                                    selectedIds = if (include) selectedIds + groupIds else selectedIds - groupIds
-                                },
-                                onToggleWalk = { walkId, include ->
-                                    selectedIds = if (include) selectedIds + walkId else selectedIds - walkId
-                                },
+        // BoxWithConstraints, чтобы получить доступную высоту: потолок диалога — её доля,
+        // см. [DIALOG_HEIGHT_FRACTION] (там же — почему потолок, а не высота).
+        BoxWithConstraints(modifier = Modifier.dialogWidth()) {
+            Surface(
+                modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight * DIALOG_HEIGHT_FRACTION),
+                shape = RoundedCornerShape(24.dp),
+                tonalElevation = 4.dp,
+            ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
+                        IconButton(onClick = onDismiss) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(StringKey.DataWalksBackContentDescription),
                             )
+                        }
+                        Text(
+                            text = stringResource(StringKey.DataChooseWalksTitle),
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
+                        )
+                        IconButton(onClick = { onConfirm(selectedIds) }) {
+                            Icon(
+                                imageVector = Icons.Filled.Check,
+                                contentDescription = stringResource(StringKey.DataWalksConfirmContentDescription),
+                            )
+                        }
+                    }
+                    HorizontalDivider()
+
+                    LazyColumn(modifier = Modifier.weight(1f, fill = false).padding(horizontal = 16.dp)) {
+                        groups.forEach { group ->
+                            item(key = "${group.year}-${group.month}") {
+                                WalksPickerGroupSection(
+                                    group = group,
+                                    onToggleGroup = { include ->
+                                        val groupIds = group.walks.map { it.id }.toSet()
+                                        selectedIds = if (include) selectedIds + groupIds else selectedIds - groupIds
+                                    },
+                                    onToggleWalk = { walkId, include ->
+                                        selectedIds = if (include) selectedIds + walkId else selectedIds - walkId
+                                    },
+                                )
+                            }
                         }
                     }
                 }

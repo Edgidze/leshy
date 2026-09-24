@@ -4,14 +4,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -108,134 +109,138 @@ fun AddPlaceDialog(
         properties = addPlaceDialogProperties(),
     ) {
         val outsideFocusRequester = remember { FocusRequester() }
-        Surface(
-            modifier = Modifier.dialogWidth().fillMaxHeight(0.88f).imePadding(),
-            shape = RoundedCornerShape(24.dp),
-            tonalElevation = 4.dp,
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize().padding(16.dp).pointerInput(Unit) {
-                    detectTapGestures(onTap = { outsideFocusRequester.requestFocus() })
-                },
+        // BoxWithConstraints, чтобы получить доступную высоту: потолок диалога — её доля,
+        // см. [DIALOG_HEIGHT_FRACTION] (там же — почему потолок, а не высота).
+        BoxWithConstraints(modifier = Modifier.dialogWidth().imePadding()) {
+            Surface(
+                modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight * DIALOG_HEIGHT_FRACTION),
+                shape = RoundedCornerShape(24.dp),
+                tonalElevation = 4.dp,
             ) {
-                // Focus sink for the tap-outside-to-dismiss-keyboard gesture above. Moving focus here
-                // (rather than focusManager.clearFocus()) is required: clearing focus directly on the
-                // multiline description field below reliably fails to release the IME in this Dialog
-                // (Compose foundation 1.11.2) — moving focus to a real, if invisible, target does not.
-                Box(modifier = Modifier.size(1.dp).focusRequester(outsideFocusRequester).focusTarget())
-                Text(
-                    text = stringResource(if (isEditing) StringKey.AddPlaceEditTitle else StringKey.AddPlaceTitle),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Column(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {
-                    OutlinedTextField(
-                        value = name,
-                        onValueChange = {
-                            name = it
-                            nameTouched = true
-                        },
-                        label = { Text(stringResource(StringKey.AddPlaceNameHint)) },
-                        singleLine = true,
-                        textStyle = LocalTextStyle.current.copy(
-                            color = if (nameTouched) {
-                                MaterialTheme.colorScheme.onSurface
-                            } else {
-                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                            },
-                        ),
-                        modifier = Modifier.fillMaxWidth().onFocusChanged { focusState ->
-                            if (focusState.isFocused && !nameTouched) {
-                                name = ""
-                                nameTouched = true
-                            }
-                        },
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(16.dp).pointerInput(Unit) {
+                        detectTapGestures(onTap = { outsideFocusRequester.requestFocus() })
+                    },
+                ) {
+                    // Focus sink for the tap-outside-to-dismiss-keyboard gesture above. Moving focus here
+                    // (rather than focusManager.clearFocus()) is required: clearing focus directly on the
+                    // multiline description field below reliably fails to release the IME in this Dialog
+                    // (Compose foundation 1.11.2) — moving focus to a real, if invisible, target does not.
+                    Box(modifier = Modifier.size(1.dp).focusRequester(outsideFocusRequester).focusTarget())
+                    Text(
+                        text = stringResource(if (isEditing) StringKey.AddPlaceEditTitle else StringKey.AddPlaceTitle),
+                        style = MaterialTheme.typography.titleMedium,
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    PlacePhotoBox(photoPath = photoPath, onClick = requestPhoto, modifier = Modifier.fillMaxWidth())
-                    if (cameraDenied) {
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = stringResource(StringKey.CameraPermissionDenied),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.error,
+                    Column(modifier = Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
+                        OutlinedTextField(
+                            value = name,
+                            onValueChange = {
+                                name = it
+                                nameTouched = true
+                            },
+                            label = { Text(stringResource(StringKey.AddPlaceNameHint)) },
+                            singleLine = true,
+                            textStyle = LocalTextStyle.current.copy(
+                                color = if (nameTouched) {
+                                    MaterialTheme.colorScheme.onSurface
+                                } else {
+                                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                                },
+                            ),
+                            modifier = Modifier.fillMaxWidth().onFocusChanged { focusState ->
+                                if (focusState.isFocused && !nameTouched) {
+                                    name = ""
+                                    nameTouched = true
+                                }
+                            },
                         )
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Text(
-                        text = stringResource(StringKey.AddPlaceDescriptionTitle),
-                        style = MaterialTheme.typography.titleSmall,
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = description,
-                        onValueChange = { description = it },
-                        label = { Text(stringResource(StringKey.AddPlaceDescriptionHint)) },
-                        // Genuinely multiline (real Enter key, not an IME "Done" action): a programmatic
-                        // focusManager.clearFocus() on THIS field — whether from a keyboardActions.onDone
-                        // or triggered externally — reliably fails to release the real IME here (confirmed
-                        // on-device via ImeTracker logs), while the exact same call on the singleLine name
-                        // field above works every time. Root cause not fully pinned down (Compose
-                        // foundation 1.11.2); closing the keyboard is instead handled by the tap-outside
-                        // gesture above, which moves focus to a dummy sink rather than clearing it.
-                        minLines = 3,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-
-                    if (coordinatesText != null) {
                         Spacer(modifier = Modifier.height(16.dp))
+
+                        PlacePhotoBox(photoPath = photoPath, onClick = requestPhoto, modifier = Modifier.fillMaxWidth())
+                        if (cameraDenied) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = stringResource(StringKey.CameraPermissionDenied),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+
                         Text(
-                            text = stringResource(StringKey.AddPlaceCoordinatesTitle),
+                            text = stringResource(StringKey.AddPlaceDescriptionTitle),
                             style = MaterialTheme.typography.titleSmall,
                         )
-                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = description,
+                            onValueChange = { description = it },
+                            label = { Text(stringResource(StringKey.AddPlaceDescriptionHint)) },
+                            // Genuinely multiline (real Enter key, not an IME "Done" action): a programmatic
+                            // focusManager.clearFocus() on THIS field — whether from a keyboardActions.onDone
+                            // or triggered externally — reliably fails to release the real IME here (confirmed
+                            // on-device via ImeTracker logs), while the exact same call on the singleLine name
+                            // field above works every time. Root cause not fully pinned down (Compose
+                            // foundation 1.11.2); closing the keyboard is instead handled by the tap-outside
+                            // gesture above, which moves focus to a dummy sink rather than clearing it.
+                            minLines = 3,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+
+                        if (coordinatesText != null) {
+                            Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = coordinatesText,
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.weight(1f),
+                                text = stringResource(StringKey.AddPlaceCoordinatesTitle),
+                                style = MaterialTheme.typography.titleSmall,
                             )
-                            IconButton(
-                                onClick = {
-                                    coroutineScope.launch {
-                                        clipboard.setClipEntry(plainTextClipEntry(coordinatesText))
-                                    }
-                                },
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.ContentCopy,
-                                    contentDescription =
-                                        stringResource(StringKey.AddPlaceCopyCoordinatesContentDescription),
+                            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                                Text(
+                                    text = coordinatesText,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.weight(1f),
                                 )
+                                IconButton(
+                                    onClick = {
+                                        coroutineScope.launch {
+                                            clipboard.setClipEntry(plainTextClipEntry(coordinatesText))
+                                        }
+                                    },
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ContentCopy,
+                                        contentDescription =
+                                            stringResource(StringKey.AddPlaceCopyCoordinatesContentDescription),
+                                    )
+                                }
                             }
                         }
                     }
-                }
 
-                HorizontalDivider()
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    IconButton(onClick = onDismissRequest) {
-                        Icon(
-                            imageVector = Icons.Filled.Close,
-                            contentDescription = stringResource(StringKey.AddPlaceDiscardContentDescription),
-                            tint = MaterialTheme.colorScheme.error,
-                        )
-                    }
-                    IconButton(
-                        onClick = {
-                            onSave(name.ifBlank { defaultName }, description, photoPath)
-                            onDismissRequest()
-                        },
+                    HorizontalDivider()
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Icon(
-                            imageVector = Icons.Filled.Check,
-                            contentDescription = stringResource(StringKey.AddPlaceSaveContentDescription),
-                        )
+                        IconButton(onClick = onDismissRequest) {
+                            Icon(
+                                imageVector = Icons.Filled.Close,
+                                contentDescription = stringResource(StringKey.AddPlaceDiscardContentDescription),
+                                tint = MaterialTheme.colorScheme.error,
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                onSave(name.ifBlank { defaultName }, description, photoPath)
+                                onDismissRequest()
+                            },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Check,
+                                contentDescription = stringResource(StringKey.AddPlaceSaveContentDescription),
+                            )
+                        }
                     }
                 }
             }

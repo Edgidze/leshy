@@ -1,14 +1,15 @@
 package leshy.mushrooms.map.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -65,86 +66,90 @@ fun PlaceViewDialog(
         onDismissRequest = onDismissRequest,
         properties = addPlaceDialogProperties(),
     ) {
-        Surface(
-            modifier = Modifier.dialogWidth().fillMaxHeight(0.88f),
-            shape = RoundedCornerShape(24.dp),
-            tonalElevation = 4.dp,
-        ) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    IconButton(onClick = onDismissRequest) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
-                    }
-                    Row {
-                        IconButton(onClick = onEditClick) {
-                            Icon(
-                                imageVector = Icons.Filled.Edit,
-                                contentDescription = stringResource(StringKey.PlaceViewEditContentDescription),
-                            )
+        // BoxWithConstraints, чтобы получить доступную высоту: потолок диалога — её доля,
+        // см. [DIALOG_HEIGHT_FRACTION] (там же — почему потолок, а не высота).
+        BoxWithConstraints(modifier = Modifier.dialogWidth()) {
+            Surface(
+                modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight * DIALOG_HEIGHT_FRACTION),
+                shape = RoundedCornerShape(24.dp),
+                tonalElevation = 4.dp,
+            ) {
+                Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        IconButton(onClick = onDismissRequest) {
+                            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                         }
-                        IconButton(onClick = onDeleteClick) {
-                            Icon(
-                                imageVector = Icons.Filled.Close,
-                                contentDescription = stringResource(StringKey.PlaceViewDeleteContentDescription),
-                                tint = MaterialTheme.colorScheme.error,
-                            )
+                        Row {
+                            IconButton(onClick = onEditClick) {
+                                Icon(
+                                    imageVector = Icons.Filled.Edit,
+                                    contentDescription = stringResource(StringKey.PlaceViewEditContentDescription),
+                                )
+                            }
+                            IconButton(onClick = onDeleteClick) {
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    contentDescription = stringResource(StringKey.PlaceViewDeleteContentDescription),
+                                    tint = MaterialTheme.colorScheme.error,
+                                )
+                            }
                         }
                     }
-                }
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                Column(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {
-                    Text(text = mark.name.orEmpty(), style = MaterialTheme.typography.titleMedium)
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Column(modifier = Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
+                        Text(text = mark.name.orEmpty(), style = MaterialTheme.typography.titleMedium)
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    if (mark.photoPath != null) {
-                        Card(modifier = Modifier.fillMaxWidth().aspectRatio(1.2f)) {
-                            AsyncImage(
-                                model = "file://${mark.photoPath}",
-                                contentDescription = stringResource(StringKey.AddPlacePhotoContentDescription),
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier.fillMaxSize(),
-                            )
+                        if (mark.photoPath != null) {
+                            Card(modifier = Modifier.fillMaxWidth().aspectRatio(1.2f)) {
+                                AsyncImage(
+                                    model = "file://${mark.photoPath}",
+                                    contentDescription = stringResource(StringKey.AddPlacePhotoContentDescription),
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.fillMaxSize(),
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(20.dp))
                         }
-                        Spacer(modifier = Modifier.height(20.dp))
-                    }
 
-                    if (!mark.description.isNullOrBlank()) {
+                        if (!mark.description.isNullOrBlank()) {
+                            Text(
+                                text = stringResource(StringKey.AddPlaceDescriptionTitle),
+                                style = MaterialTheme.typography.titleSmall,
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(text = mark.description, style = MaterialTheme.typography.bodyMedium)
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+
                         Text(
-                            text = stringResource(StringKey.AddPlaceDescriptionTitle),
+                            text = stringResource(StringKey.AddPlaceCoordinatesTitle),
                             style = MaterialTheme.typography.titleSmall,
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = mark.description, style = MaterialTheme.typography.bodyMedium)
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
-
-                    Text(
-                        text = stringResource(StringKey.AddPlaceCoordinatesTitle),
-                        style = MaterialTheme.typography.titleSmall,
-                    )
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = coordinatesText,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.weight(1f),
-                        )
-                        IconButton(
-                            onClick = {
-                                coroutineScope.launch {
-                                    clipboard.setClipEntry(plainTextClipEntry(coordinatesText))
-                                }
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.ContentCopy,
-                                contentDescription =
-                                    stringResource(StringKey.AddPlaceCopyCoordinatesContentDescription),
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                            Text(
+                                text = coordinatesText,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.weight(1f),
                             )
+                            IconButton(
+                                onClick = {
+                                    coroutineScope.launch {
+                                        clipboard.setClipEntry(plainTextClipEntry(coordinatesText))
+                                    }
+                                },
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.ContentCopy,
+                                    contentDescription =
+                                        stringResource(StringKey.AddPlaceCopyCoordinatesContentDescription),
+                                )
+                            }
                         }
                     }
                 }
