@@ -38,6 +38,60 @@
 для имён-синонимов — по ключу самого имени, иначе GBIF прячет ошибку в ареале
 принятого вида.
 
+## Путаница в ключах Agaricus — разобрано 2026-09-24, НЕ исправлено
+
+Поднято новозеландской исследовательской сессией и подтверждено по данным. Ниже
+факты и предлагаемый дифф; правок в данных пока нет — ждут решения владельца.
+
+| ключ | латынь | breadth | `sortLast` | en | ru / de | подборок |
+|---|---|---|---|---|---|---|
+| `agaricus_campestris` | Agaricus campestris | broad | **да** | **Yellow stainers** | Шампиньон / Champignons | 20 |
+| `agaricus_campestris__2` | Agaricus campestris | narrow | нет | Field mushroom | Шампиньон обыкновенный / Wiesenchampignon | 27 |
+| `agaricus_subrufescens` | Agaricus subrufescens | broad | нет | **Field mushrooms** | — (только en + mi) | 1 (NZ) |
+| `agaricus_xanthodermus` | Agaricus xanthodermus | narrow | да | Yellow stainer | Шампиньон желтокожий / Karbolchampignon | 38 |
+| `agaricus_xanthoderma` | Agaricus xanthoderma | narrow | да | — | — (только cs) | 1 (CZ) |
+
+**Что тут на самом деле не так.** Латынь у ключей верная, перепутаны английские
+названия:
+
+1. **`agaricus_campestris` — это широкий народный концепт «шампиньоны»**, и все
+   языки, кроме английского, подписывают его нейтрально: «Шампиньон»,
+   «Champignons», «Šampinjonid» (эстонское — во множественном числе),
+   «Pieczarka polna». Английское же «Yellow stainers» называет ядовитую половину
+   группы. Настоящий желтокожий шампиньон — отдельный ключ
+   `agaricus_xanthodermus`, он на месте, ни с чем не слит, и его английское имя
+   «Yellow stainer» в единственном числе.
+2. **`agaricus_subrufescens` подписан «Field mushrooms»**, хотя по латыни это
+   миндальный (тепличный) вид. Луговой шампиньон Новой Зеландии — это
+   `Agaricus campestris`.
+3. **Флаг `sortLast` у `agaricus_campestris`** приходит из дампа
+   (`flags.dangerous: true`) и для группового концепта, куда попадают и
+   желтокожие, объясним как «осторожно». Но цена высока: в двадцати подборках
+   обычная плитка «шампиньон» уезжает в хвост ленты, и она же даёт шестнадцать
+   предупреждений проверки частотности. Противоречие внутри самих данных:
+   `flags.collected: true` и `flags.dangerous: true` одновременно.
+4. **`agaricus_xanthoderma`** — ключ-двойник `agaricus_xanthodermus` (та же
+   латынь в старом написании), живёт в одной чешской подборке и несёт ровно одно
+   название против двадцати девяти у канонического.
+
+**Предлагаемый дифф** (каждый пункт независим):
+
+- `name_overrides.json`: `agaricus_campestris` en «Yellow stainers» →
+  «Field mushrooms» — название приводится в согласие с остальными языками и с
+  латынью;
+- `name_overrides.json`: `agaricus_subrufescens` en «Field mushrooms» →
+  «Almond mushroom»;
+- снять `sortLast` с `agaricus_campestris`. Флаг берётся из дампа, поэтому
+  потребуется новый слой-переопределение (`flag_overrides.json`) — дамп не
+  правим. Опасность при этом не теряется: её несут `agaricus_xanthodermus` и
+  `amanita_phalloides`, оба есть почти во всех тех же подборках;
+- `preset_patches.json`: в `CZ` заменить `agaricus_xanthoderma` на канонический
+  `agaricus_xanthodermus`;
+- `preset_patches.json`: в `NZ` заменить широкий `agaricus_campestris` на узкий
+  `agaricus_campestris__2` — тогда у новозеландцев останется съедобный луговой
+  шампиньон с правильной подписью, а `agaricus_subrufescens` (после правки
+  имени) станет тем, чем является, — миндальным шампиньоном.
+
 ## Правки поверх источника, зашитые в скрипт (не JSON-конфиг)
 
 - Состав `RU`-подборки в `countries.json` отличается от присланного
