@@ -15,6 +15,17 @@
 сезон Северного полушария. Поэтому в заявке указан диапазон дат, а описание построено так, чтобы
 приложение оставалось интересным редакции и вне сезонного повода.
 
+**Два решения по формулировкам (2026-09-24).**
+
+- **Пример с именами — английский, а не русский.** Сначала стояли «обабок» и «красный»; владелец
+  справедливо заметил, что редактору из другой страны они ничего не говорят. Заменены на
+  `porcini / cep / penny bun` — это реальные синонимы `boletus_edulis` из
+  `composeResources/files/catalog/aliases/en.json` (основное имя там `Porcini`), то есть пример
+  проверяем по данным приложения и понятен без перевода.
+- **Сравнение со спортивными трекерами — без имён.** Идея владельца: у бегунов такой дневник есть,
+  а у грибников нет. Довод сильный, но конкретное приложение не названо намеренно — фраза работает
+  и без бренда, а упоминание конкурента в тексте, уходящем в Apple, лишний риск без выигрыша.
+
 **Чего в тексте намеренно нет.** Первая версия утверждала, что языки, подборки и иллюстрации
 сделаны вручную одним человеком. Это неправда — работа шла с помощью ИИ, и часть результата
 владелец не может проверить лично. Заявление убрано целиком, а не смягчено: Apple читает такие
@@ -105,8 +116,8 @@ https://leshy-mapper.github.io/mushrooms-map/privacy.html,https://leshy-mapper.g
 No
 ```
 
-## Helpful Details (486/500)
+## Helpful Details (487/500)
 
 ```
-What sets it apart is the vocabulary, not the tracking. The catalogue is organised by country — what people there actually gather — and every species is shown under its local common name in 42 languages rather than a Latin binomial. Search knows the informal names foragers really use: in Russian a birch bolete is looked up as "обабок", an aspen bolete as "красный". And the app refuses the one thing people expect of a mushroom app: it will not tell you whether a find is safe to eat.
+Runners and cyclists have had a proper logbook for years. People who go to the forest have had a paper notebook and their memory. That gap is the app. What sets it apart is the vocabulary: the catalogue is organised by country — what people there gather, not a taxonomy — and species carry the names foragers use. Search finds the same mushroom whether you call it porcini, cep or penny bun. It refuses what people expect of a mushroom app: it will not say whether a find is safe to eat.
 ```
