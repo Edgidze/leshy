@@ -121,8 +121,8 @@ https://leshy-mapper.github.io/mushrooms-map/privacy.html,https://leshy-mapper.g
 No
 ```
 
-## Helpful Details (508/500)
+## Helpful Details (464/500)
 
 ```
-Runners and cyclists have had a proper logbook for years. People who go to the forest have had a paper notebook and their memory. That gap is the app. Logging a find is one tap on its tile: species, place and time saved on the spot, and it works from the notification shade with the phone locked. All 408 species come with their own illustration, and the catalogue is organised by country — what people gather there, not a taxonomy — under the names foragers use: porcini, cep and penny bun are one mushroom.
+Runners and cyclists have had a proper logbook for years. People who go to the forest have had a paper notebook and their memory. That gap is the app. What sets it apart is the vocabulary: the catalogue is organised by country — what people there gather, not a taxonomy — and species carry the names foragers use. Search finds the same mushroom whether you call it porcini, cep or penny bun. Organising and visualising your forest finds has never been this simple.
 ```
