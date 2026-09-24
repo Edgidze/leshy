@@ -1,0 +1,26 @@
+{
+  "country": "FI",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "craterellus_tubaeformis",
+    "lactarius_trivialis",
+    "lactarius_rufus",
+    "leccinum_versipelle",
+    "lactarius_torminosus",
+    "russula_decolorans",
+    "gyromitra_esculenta",
+    "albatrellus_ovinus",
+    "suillus_luteus",
+    "lactarius_deterrimus",
+    "craterellus_cornucopioides",
+    "cortinarius_caperatus",
+    "hydnum_repandum",
+    "russula_paludosa",
+    "russula_claroflava",
+    "suillus_variegatus",
+    "macrolepiota_procera",
+    "armillaria_borealis"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "country": "AU",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "lactarius_deliciosus",
+    "suillus_luteus",
+    "agaricus_campestris__2",
+    "coprinus_comatus",
+    "lepista_nuda",
+    "marasmius_oreades",
+    "pleurotus_australis",
+    "amanita_muscaria",
+    "omphalotus_nidiformis",
+    "armillaria_luteobubalina",
+    "gymnopilus_junonius",
+    "schizophyllum_commune"
+  ],
+  "confidence": "low"
+}

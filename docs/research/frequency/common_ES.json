@@ -1,0 +1,26 @@
+{
+  "country": "ES",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "lactarius_deliciosus",
+    "lactarius_sanguifluus",
+    "boletus_edulis",
+    "boletus_aereus",
+    "boletus_pinophilus",
+    "boletus_reticulatus",
+    "cantharellus_cibarius",
+    "macrolepiota_procera",
+    "pleurotus_eryngii",
+    "calocybe_gambosa",
+    "amanita_caesarea",
+    "craterellus_lutescens",
+    "craterellus_cornucopioides",
+    "hydnum_repandum",
+    "marasmius_oreades",
+    "agaricus_campestris__2",
+    "tricholoma_terreum",
+    "cyclocybe_cylindracea",
+    "coprinus_comatus",
+    "pleurotus_ostreatus"
+  ]
+}

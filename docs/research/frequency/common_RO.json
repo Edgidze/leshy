@@ -1,0 +1,26 @@
+{
+  "country": "RO",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "boletus_aereus",
+    "imleria_badia",
+    "suillus_luteus",
+    "suillus_granulatus",
+    "xerocomus_subtomentosus",
+    "leccinum_scabrum",
+    "leccinum_aurantiacum__2",
+    "cantharellus_cibarius",
+    "craterellus_cornucopioides",
+    "amanita_caesarea",
+    "agaricus_campestris__2",
+    "agaricus_arvensis",
+    "macrolepiota_procera",
+    "russula_cyanoxantha__2",
+    "russula_virescens",
+    "lactarius_deliciosus",
+    "lactifluus_piperatus",
+    "armillaria_mellea",
+    "pleurotus_ostreatus"
+  ]
+}

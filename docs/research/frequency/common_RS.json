@@ -1,0 +1,26 @@
+{
+  "country": "RS",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "boletus_aereus",
+    "boletus_reticulatus",
+    "boletus_pinophilus",
+    "cantharellus_cibarius",
+    "macrolepiota_procera",
+    "craterellus_cornucopioides",
+    "pleurotus_ostreatus",
+    "armillaria_mellea",
+    "agaricus_arvensis",
+    "agaricus_macrosporus",
+    "calocybe_gambosa",
+    "lactarius_deliciosus",
+    "lactarius_deterrimus",
+    "hydnum_repandum",
+    "marasmius_oreades",
+    "russula_cyanoxantha",
+    "russula_virescens",
+    "cyclocybe_aegerita",
+    "amanita_caesarea"
+  ]
+}

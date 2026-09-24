@@ -1,0 +1,25 @@
+{
+  "country": "KR",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "cantharellus_cibarius",
+    "ramaria_botrytis",
+    "polyozellus_multiplex",
+    "amanita_hemibapha",
+    "lentinula_edodes",
+    "pleurotus_ostreatus",
+    "flammulina_velutipes",
+    "hypholoma_lateritium",
+    "panellus_serotinus",
+    "lactarius_volemus",
+    "leccinum_aurantiacum",
+    "suillus_luteus__2",
+    "boletus_sp",
+    "macrolepiota_procera",
+    "coprinus_comatus",
+    "lycoperdon_perlatum__2",
+    "agaricus_arvensis",
+    "tricholoma_bakamatsutake"
+  ],
+  "confidence": "low"
+}

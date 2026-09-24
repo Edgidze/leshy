@@ -1,0 +1,26 @@
+{
+  "country": "US",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "morchella_esculenta",
+    "morchella_septentrionalis",
+    "cantharellus_phasmatis",
+    "cantharellus_cinnabarinus",
+    "craterellus_fallax",
+    "craterellus_tubaeformis",
+    "hydnum_sp",
+    "grifola_frondosa",
+    "laetiporus_cincinnatus",
+    "pleurotus_ostreatus",
+    "hericium_erinaceus",
+    "boletus_edulis",
+    "hypomyces_lactifluorum",
+    "lactarius_rubidus",
+    "sparassis_spathulata",
+    "calvatia_gigantea",
+    "coprinus_comatus",
+    "collybia_nuda",
+    "armillaria_mellea",
+    "cerioporus_squamosus"
+  ]
+}

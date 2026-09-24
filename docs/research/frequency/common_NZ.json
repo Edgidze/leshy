@@ -1,0 +1,21 @@
+{
+  "country": "NZ",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "cyclocybe_parasitica",
+    "auricularia_cornea",
+    "armillaria_novae_zelandiae",
+    "agaricus_campestris",
+    "lactarius_deliciosus",
+    "suillus_luteus",
+    "leccinum_scabrum",
+    "coprinus_comatus",
+    "clitocybe_nuda",
+    "marasmius_oreades",
+    "calvatia_gigantea",
+    "flammulina_velutipes",
+    "pleurotus_pulmonarius",
+    "amanita_muscaria"
+  ],
+  "confidence": "low"
+}

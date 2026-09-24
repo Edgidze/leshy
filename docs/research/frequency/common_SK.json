@@ -1,0 +1,26 @@
+{
+  "country": "SK",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "neoboletus_luridiformis",
+    "imleria_badia",
+    "xerocomus_subtomentosus",
+    "leccinum_scabrum",
+    "leccinum_aurantiacum",
+    "suillus_luteus__2",
+    "cantharellus_cibarius",
+    "lactarius_deliciosus",
+    "armillaria_mellea",
+    "macrolepiota_procera",
+    "agaricus_campestris",
+    "pleurotus_ostreatus",
+    "calocybe_gambosa",
+    "tricholoma_portentosum",
+    "marasmius_oreades",
+    "collybia_nuda",
+    "hydnum_repandum",
+    "craterellus_cornucopioides",
+    "calvatia_gigantea"
+  ]
+}

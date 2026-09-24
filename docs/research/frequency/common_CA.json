@@ -1,0 +1,26 @@
+{
+  "country": "CA",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "cantharellus_enelensis",
+    "craterellus_tubaeformis",
+    "craterellus_fallax",
+    "morchella_esculenta",
+    "hypomyces_lactifluorum",
+    "boletus_edulis",
+    "hydnum_repandum",
+    "pleurotus_ostreatus",
+    "laetiporus_sulphureus",
+    "armillaria_mellea",
+    "grifola_frondosa",
+    "hericium_americanum",
+    "leccinum_aurantiacum",
+    "suillus_luteus__2",
+    "lactarius_thyinos",
+    "calvatia_gigantea",
+    "coprinus_comatus",
+    "collybia_nuda",
+    "marasmius_oreades",
+    "russula_cyanoxantha"
+  ]
+}

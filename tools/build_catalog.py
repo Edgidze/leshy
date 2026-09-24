@@ -66,6 +66,10 @@ APP_LANGUAGE_KT = (
 # that is what the research prompts, the TSV handed to them, and the app itself
 # all speak; a `GC` id means nothing in any of those three places.
 EXTRA_PRESETS_JSON = REPO_ROOT / "docs" / "catalog" / "extra_country_presets.json"
+# Частотность 33 подборок дампа, пересобранная по критерию «корзина обычного выхода» с потолком
+# в 20 позиций (`tools/apply_frequency_common.py`, обоснование — `docs/research/frequency/`).
+# Роль `common_encounter` самого дампа при этом остаётся нетронутой: дамп — входной артефакт.
+COMMON_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "common_overrides.json"
 EXTRA_CATEGORIES_JSON = REPO_ROOT / "docs" / "catalog" / "extra_categories.json"
 EXTRA_NAMES_DIR = REPO_ROOT / "docs" / "catalog" / "extra_names"
 # Ручной слой поверх `alt_names` источника — см. `write_aliases`. Тоже по catalog
@@ -567,6 +571,7 @@ def run_full(recompute_colors: bool = False) -> None:
     print(f"catalog.json: {len(catalog_entries)} entries, {distinct_colors} distinct colors")
 
     # ---- countries.json -----------------------------------------------------
+    common_overrides = load_optional_json(COMMON_OVERRIDES_JSON, {})
     countries_out = []
     country_distinct_colors = []
     colors_by_id = {c["id"]: e["color"] for c, e in zip(categories, catalog_entries)}
@@ -592,14 +597,20 @@ def run_full(recompute_colors: bool = False) -> None:
         # пустой список означал бы «здесь ничего не часто», а отсутствие поля —
         # «данных нет», и приложение в этом случае откатывается на глобальный
         # `importance` вместо того, чтобы уводить всю страну в один ряд.
-        common = [
-            categories_by_id[it["id"]]["key"]
-            for it in items
-            if "common_encounter" in (it.get("roles") or [])
-            and it["id"] in ids
-        ]
-        if any(it.get("roles") for it in items):
-            entry["common"] = common
+        override = common_overrides.get(cc)
+        if override is not None:
+            # Пересобранный список уже проверен на принадлежность подборке и на потолок в 20
+            # позиций; порядок берётся от подборки, как и у роли ниже.
+            entry["common"] = [k for k in keys if k in set(override)]
+        else:
+            common = [
+                categories_by_id[it["id"]]["key"]
+                for it in items
+                if "common_encounter" in (it.get("roles") or [])
+                and it["id"] in ids
+            ]
+            if any(it.get("roles") for it in items):
+                entry["common"] = common
         countries_out.append(entry)
         country_distinct_colors.append(len({colors_by_id[i] for i in ids}))
 

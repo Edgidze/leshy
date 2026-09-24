@@ -1,0 +1,27 @@
+{
+  "country": "MX",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "amanita_basii",
+    "amanita_novinupta",
+    "amanita_fulva",
+    "boletus_edulis",
+    "neoboletus_luridiformis__2",
+    "suillus_luteus__2",
+    "cantharellus_cibarius",
+    "turbinellus_floccosus",
+    "clavariadelphus_truncatus",
+    "ramaria_flava",
+    "helvella_lacunosa",
+    "morchella_esculenta",
+    "russula_brevipes",
+    "lactarius_indigo",
+    "lactarius_deliciosus",
+    "hypomyces_lactifluorum",
+    "lyophyllum_decastes",
+    "laccaria_laccata",
+    "agaricus_campestris",
+    "ustilago_maydis"
+  ],
+  "confidence": "low"
+}

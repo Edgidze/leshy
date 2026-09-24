@@ -1,0 +1,26 @@
+{
+  "country": "LV",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "leccinum_aurantiacum",
+    "leccinum_scabrum",
+    "suillus_luteus",
+    "lactarius_deliciosus",
+    "russula_cyanoxantha",
+    "lactarius_rufus",
+    "lactarius_necator",
+    "lactifluus_vellereus",
+    "lactarius_torminosus",
+    "imleria_badia",
+    "suillus_variegatus",
+    "xerocomellus_chrysenteron",
+    "macrolepiota_procera",
+    "agaricus_campestris",
+    "armillaria_mellea",
+    "flammulina_velutipes",
+    "pleurotus_ostreatus",
+    "lycoperdon_perlatum"
+  ]
+}

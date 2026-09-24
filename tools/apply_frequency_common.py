@@ -17,11 +17,18 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 FREQ_DIR = REPO / "docs" / "research" / "frequency"
 PRESETS = REPO / "docs" / "catalog" / "extra_country_presets.json"
+DUMP = REPO / "docs" / "catalog" / "leshy_core_app.json"
+# Переопределение частотности для 33 подборок исходного дампа. Отдельным файлом, а не правкой
+# самого дампа: дамп — входной артефакт, его не редактируют (см. `tools/build_catalog.py`).
+OVERRIDES = REPO / "docs" / "catalog" / "common_overrides.json"
 
 # Доля подборки, которую разумно считать частотной. Решение владельца 2026-09-24: «корзина
 # обычного выхода», 10–20 позиций из полусотни. Коридор задан долей, а не числом, потому что
 # подборки разного размера (CY — 39 позиций, IS — 34, GR — 53).
 MIN_SHARE, MAX_SHARE = 0.18, 0.45
+# Жёсткий потолок, решение владельца 2026-09-24: больше двадцати частотных — это уже не
+# «корзина обычного выхода», а половина подборки, и сортировка перестаёт что-либо значить.
+MAX_COMMON = 20
 
 
 def print_review() -> int:
@@ -48,17 +55,27 @@ def main() -> int:
     if "--review" in sys.argv:
         return print_review()
     presets = json.loads(PRESETS.read_text(encoding="utf-8"))
+    dump = json.loads(DUMP.read_text(encoding="utf-8"))
+    key_by_id = {c["id"]: c["key"] for c in dump["categories"]}
+    dump_keys = {
+        cc: [key_by_id[i["id"]] for i in sorted(preset["items"], key=lambda i: i["order"])]
+        for cc, preset in dump["country_presets"].items()
+    }
+    overrides = {}
     errors, warnings = [], []
     applied = 0
 
     for path in sorted(FREQ_DIR.glob("common_*.json")):
         data = json.loads(path.read_text(encoding="utf-8"))
         cc = data["country"]
-        if cc not in presets:
-            errors.append(f"{path.name}: страны {cc} нет в {PRESETS.name}")
+        from_dump = cc not in presets
+        if from_dump and cc not in dump_keys:
+            errors.append(f"{path.name}: страны {cc} нет ни в {PRESETS.name}, ни в дампе")
             continue
-        keys = presets[cc]["keys"]
+        keys = dump_keys[cc] if from_dump else presets[cc]["keys"]
         common = data["common"]
+        if len(common) > MAX_COMMON:
+            errors.append(f"{cc}: {len(common)} частотных, потолок — {MAX_COMMON}")
 
         unknown = [k for k in common if k not in keys]
         if unknown:
@@ -77,7 +94,11 @@ def main() -> int:
         if not unknown and not duplicates:
             # Порядок — как в подборке: внутри частотных лента всё равно сортируется по
             # `importance`, а стабильный порядок делает дифф генератора читаемым.
-            presets[cc]["common"] = [k for k in keys if k in set(common)]
+            ordered = [k for k in keys if k in set(common)]
+            if from_dump:
+                overrides[cc] = ordered
+            else:
+                presets[cc]["common"] = ordered
             applied += 1
 
     for w in warnings:
@@ -88,7 +109,14 @@ def main() -> int:
         return 1
 
     PRESETS.write_text(json.dumps(presets, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"{PRESETS.name}: `common` проставлен у {applied} стран")
+    OVERRIDES.write_text(
+        json.dumps(dict(sorted(overrides.items())), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    print(
+        f"{PRESETS.name}: `common` у {applied - len(overrides)} подборок исследований; "
+        f"{OVERRIDES.name}: переопределение у {len(overrides)} подборок дампа"
+    )
     return 0
 
 

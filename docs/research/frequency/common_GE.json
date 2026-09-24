@@ -1,0 +1,26 @@
+{
+  "country": "GE",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "leccinum_scabrum",
+    "leccinum_aurantiacum__2",
+    "neoboletus_erythropus",
+    "suillellus_luridus",
+    "cantharellus_cibarius",
+    "craterellus_cornucopioides",
+    "lactarius_deliciosus",
+    "lactifluus_piperatus",
+    "lactifluus_vellereus",
+    "russula_virescens",
+    "russula_cyanoxantha__2",
+    "russula_delica",
+    "pleurotus_ostreatus",
+    "macrolepiota_procera",
+    "agaricus_campestris",
+    "coprinus_comatus",
+    "marasmius_oreades",
+    "collybia_nuda__2",
+    "armillaria_mellea"
+  ]
+}

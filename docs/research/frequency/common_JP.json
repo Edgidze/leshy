@@ -1,0 +1,27 @@
+{
+  "country": "JP",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "lentinula_edodes",
+    "pholiota_microspora",
+    "pleurotus_ostreatus",
+    "flammulina_velutipes",
+    "armillaria_mellea",
+    "sarcomyxa_edulis",
+    "hypholoma_lateritium",
+    "suillus_grevillei",
+    "suillus_bovinus",
+    "suillus_luteus",
+    "lactarius_hatsudake",
+    "lactarius_laeticolorus",
+    "lactifluus_volemus",
+    "sarcodon_aspratus",
+    "hygrophorus_russula",
+    "cortinarius_caperatus",
+    "lyophyllum_decastes",
+    "lyophyllum_fumosum",
+    "entoloma_sarcopum",
+    "grifola_frondosa"
+  ],
+  "confidence": "low"
+}

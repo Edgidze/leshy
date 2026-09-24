@@ -1,0 +1,26 @@
+{
+  "country": "PL",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "imleria_badia",
+    "cantharellus_cibarius",
+    "suillus_luteus",
+    "leccinum_aurantiacum",
+    "leccinum_scabrum",
+    "macrolepiota_procera",
+    "armillaria_mellea",
+    "lactarius_deliciosus",
+    "tricholoma_portentosum",
+    "russula_cyanoxantha",
+    "agaricus_campestris",
+    "suillus_bovinus",
+    "suillus_variegatus",
+    "suillus_grevillei",
+    "xerocomus_subtomentosus",
+    "gyroporus_cyanescens",
+    "cortinarius_caperatus",
+    "marasmius_oreades",
+    "hydnum_repandum"
+  ]
+}
