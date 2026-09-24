@@ -6,10 +6,20 @@
 Заявка **необязательна** и на ревью никак не влияет: подавать после отправки версии, не
 задерживая её. Поля и лимиты — по справке Apple («Nominations template»), проверены 2026-09-24.
 
+**Текст в блоках ниже намеренно НЕ переносится по строкам.** Поля в консоли однострочные, и
+перенос из markdown копируется в форму как жёсткий разрыв — приходится вычищать руками.
+Абзацы в описании разделены пустой строкой, это единственные разрывы, которые нужны.
+
 **Честная оговорка про сроки.** Apple рекомендует подавать заявку **не позже чем за три недели**
 до запуска. У нас этого запаса нет — релиз готовится сейчас, потому что заканчивается грибной
 сезон Северного полушария. Поэтому в заявке указан диапазон дат, а описание построено так, чтобы
 приложение оставалось интересным редакции и вне сезонного повода.
+
+**Чего в тексте намеренно нет.** Первая версия утверждала, что языки, подборки и иллюстрации
+сделаны вручную одним человеком. Это неправда — работа шла с помощью ИИ, и часть результата
+владелец не может проверить лично. Заявление убрано целиком, а не смягчено: Apple читает такие
+тексты как заявления о факте. Вместо него — то, что проверяемо и при этом сильнее: каталог
+устроен по странам и народным именам, а не по таксономии.
 
 ---
 
@@ -25,23 +35,16 @@ Mushroom Map from Leshy — App Launch, autumn 2026
 App Launch
 ```
 
-## Nomination Description (977/1000)
+## Nomination Description (986/1000)
 
 ```
-Mushroom Map from Leshy is an offline field notebook for mushroom foraging. It records the walk
-as you walk it — the GPS track, every find with its species, coordinates and time, and the
-landmarks worth coming back to. By next season the map already knows where to go.
+An offline field notebook for mushroom foraging. It records the walk as you walk it: the GPS track, every find with its species, coordinates and time, and the landmarks worth going back to. By next season the map knows where to go.
 
-Built for a place with no reception. Maps are downloaded in advance, every find is written to
-storage the instant it is tapped, and a walk survives a flat battery or an app killed mid-forest.
-Finds can be logged from the notification shade without unlocking the phone.
+Built for a place with no reception. Maps are downloaded in advance, every find is written to storage the instant it is tapped, and a walk survives a flat battery or an app killed mid-forest. Finds can be logged from the notification shade, phone still locked.
 
-There are no accounts, no ads, no analytics and no trackers. Nothing leaves the device: not to the
-developer, not to anyone. The app deliberately does not identify mushrooms or tell edible from
-poisonous — it is a logbook, not a field guide, and it says so plainly.
+No accounts, no ads, no analytics, no trackers. Nothing leaves the device — not to the developer, not to anyone.
 
-The catalogue holds 408 species in 55 collections by country, so the row of tiles holds what
-actually grows where you walk. The interface is translated into 42 languages.
+The catalogue holds 408 species in 55 collections by country — what people there actually gather, not a taxonomy. Species appear under their local common names in 42 languages, and search knows the informal names foragers use, not just the field-guide ones. Whatever the catalogue lacks, you add yourself: your own name, colour and photo, cropped and cleaned up inside the app.
 ```
 
 ## Publish Date (Start)
@@ -61,11 +64,8 @@ actually grows where you walk. The interface is translated into 42 languages.
 
 ## Relevant Countries or Regions
 
-Все 55 стран, для которых в приложении есть подборки видов (`countries.json`):
-
-```
-ALB,ARM,AUT,AUS,AZE,BIH,BEL,BGR,BLR,CAN,CHE,CYP,CZE,DEU,DNK,EST,ESP,FIN,FRA,GBR,GEO,GRC,HRV,HUN,IRL,ISL,ITA,JPN,KGZ,KOR,KAZ,LTU,LUX,LVA,MDA,MNE,MKD,MEX,NLD,NOR,NZL,POL,PRT,ROU,SRB,RUS,SWE,SVN,SVK,TJK,TKM,TUR,UKR,USA,UZB
-```
+**Оставлять «All».** Поле про то, где заявка релевантна; приложение доступно везде, а грибники
+есть и за пределами тех 55 стран, для которых собраны подборки видов. Сужать охват заявки незачем.
 
 ## Do you plan to launch in certain markets first?
 
@@ -105,13 +105,8 @@ https://leshy-mapper.github.io/mushrooms-map/privacy.html,https://leshy-mapper.g
 No
 ```
 
-## Helpful Details (488/500)
+## Helpful Details (486/500)
 
 ```
-Built by one person, as a hobby, with no plan to make money from it: no ads, no purchases, no
-donations, no analytics. The 42 interface languages, the 55 country collections and the 408
-catalogue entries were researched and translated one by one, not machine-translated, and
-every mushroom illustration was drawn for this app. The hardest part was not the tracking but
-deciding what the app must refuse to do: it will not tell you whether a mushroom is safe to eat,
-and never pretends to.
+What sets it apart is the vocabulary, not the tracking. The catalogue is organised by country — what people there actually gather — and every species is shown under its local common name in 42 languages rather than a Latin binomial. Search knows the informal names foragers really use: in Russian a birch bolete is looked up as "обабок", an aspen bolete as "красный". And the app refuses the one thing people expect of a mushroom app: it will not tell you whether a find is safe to eat.
 ```
