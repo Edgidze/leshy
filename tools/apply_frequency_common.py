@@ -84,6 +84,14 @@ def main() -> int:
         if duplicates:
             errors.append(f"{cc}: повторы: {duplicates}")
 
+        # У результата исследовательской сессии обоснование обязано быть на каждой позиции —
+        # иначе список нечем проверить, а именно ради проверяемости сессию и заказывали.
+        if data.get("method") == "research-session":
+            evidence = data.get("evidence") or {}
+            missing = [k for k in common if not evidence.get(k)]
+            if missing:
+                warnings.append(f"{cc}: позиции без обоснования в `evidence`: {missing}")
+
         share = len(common) / len(keys)
         if not MIN_SHARE <= share <= MAX_SHARE:
             warnings.append(
