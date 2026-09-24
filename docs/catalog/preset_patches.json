@@ -1,0 +1,16 @@
+{
+  "EE": {
+    "replace": [
+      {
+        "from": "lactarius_thyinos",
+        "to": "lactarius_deterrimus",
+        "why": "Lactarius thyinos — североамериканский вид туевых болот: 883 находки в Северной Америке и ноль в Европе (GBIF, проверено 2026-09-24). В подборку он попал, вероятно, через синонимику GBIF, где имя сведено к европейскому L. salmonicolor. Настоящий эстонский рыжик еловых лесов — Lactarius deterrimus, kuuseriisikas, 233 находки в Эстонии."
+      },
+      {
+        "from": "amanita_bisporigera",
+        "to": "craterellus_tubaeformis",
+        "why": "Amanita bisporigera — неарктическая белая мухоморка: 3284 находки в Северной Америке и ноль в Европе (GBIF). Её европейский аналог Amanita virosa в подборке уже есть, а эстонское имя у bisporigera стояло родовое — «Kärbseseened» (мухоморы во множественном числе). Место отдано Craterellus tubaeformis (lehter-kukeseen): 783 находки в Эстонии и место в подборках всех четырёх соседей — FI, LV, RU, SE."
+      }
+    ]
+  }
+}

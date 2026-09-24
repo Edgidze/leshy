@@ -74,3 +74,6 @@ tools/.pydeps/
 *.log
 *.hprof
 .env
+
+# ============ Инструменты ============
+tools/.gbif-range-cache.json

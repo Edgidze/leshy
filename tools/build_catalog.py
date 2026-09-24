@@ -70,6 +70,10 @@ EXTRA_PRESETS_JSON = REPO_ROOT / "docs" / "catalog" / "extra_country_presets.jso
 # в 20 позиций (`tools/apply_frequency_common.py`, обоснование — `docs/research/frequency/`).
 # Роль `common_encounter` самого дампа при этом остаётся нетронутой: дамп — входной артефакт.
 COMMON_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "common_overrides.json"
+# Точечные замены позиций в подборках дампа — для видов, попавших туда ошибочно (ареал не
+# покрывает страну). Каждая замена несёт своё обоснование с числами; проверка ареала —
+# `tools/check_ranges.py`. Дамп, как и всегда, не правится.
+PRESET_PATCHES_JSON = REPO_ROOT / "docs" / "catalog" / "preset_patches.json"
 EXTRA_CATEGORIES_JSON = REPO_ROOT / "docs" / "catalog" / "extra_categories.json"
 EXTRA_NAMES_DIR = REPO_ROOT / "docs" / "catalog" / "extra_names"
 # Ручной слой поверх `alt_names` источника — см. `write_aliases`. Тоже по catalog
@@ -279,6 +283,48 @@ def load_extra_categories(categories: list) -> list:
             "labels": entry.get("labels", {}),
         })
     return out
+
+
+def apply_preset_patches(presets: dict, categories: list) -> None:
+    """`docs/catalog/preset_patches.json` — точечные замены позиций в подборках исходного дампа.
+
+    Нужны, когда в подборку страны попал вид, которого там нет: `lactarius_thyinos` (вид
+    североамериканских туевых болот) в эстонской подборке и подобные. Правится не дамп, а этот
+    файл: дамп — входной артефакт, и его редактирование лишило бы нас возможности отличить
+    «так было в источнике» от «мы поправили».
+
+    Замена сохраняет позицию в порядке подборки и роли исходной позиции: меняется только вид,
+    а не его место в ленте.
+    """
+    patches = load_optional_json(PRESET_PATCHES_JSON, {})
+    if not patches:
+        return
+
+    id_by_key = {c["key"]: c["id"] for c in categories}
+    applied = 0
+    for cc, patch in patches.items():
+        if cc not in presets:
+            raise ValueError(f"{PRESET_PATCHES_JSON.name}: страны {cc} нет в дампе")
+        by_id = {it["id"]: it for it in presets[cc]["items"]}
+        for rule in patch.get("replace", []):
+            src, dst = rule["from"], rule["to"]
+            for key in (src, dst):
+                if key not in id_by_key:
+                    raise ValueError(f"{PRESET_PATCHES_JSON.name}: {cc} ссылается на ключ вне каталога: {key}")
+            src_id, dst_id = id_by_key[src], id_by_key[dst]
+            if src_id not in by_id:
+                raise ValueError(f"{PRESET_PATCHES_JSON.name}: {cc} не содержит {src}")
+            if dst_id in by_id:
+                raise ValueError(f"{PRESET_PATCHES_JSON.name}: {cc} уже содержит {dst}")
+            item = by_id.pop(src_id)
+            item["id"] = dst_id
+            # Имя из дампа принадлежало прежнему виду — новое приходит из `names/<lang>.json`.
+            item["names"] = {}
+            item.pop("display_name", None)
+            by_id[dst_id] = item
+            applied += 1
+        presets[cc]["items"] = sorted(by_id.values(), key=lambda it: it["order"])
+    print(f"preset_patches: {applied} замен в подборках дампа")
 
 
 def load_extra_presets(categories: list) -> dict:
@@ -521,6 +567,7 @@ def run_full(recompute_colors: bool = False) -> None:
     overrides = json.loads(OVERRIDES_JSON.read_text(encoding="utf-8"))
     categories = data["categories"]
     presets = data["country_presets"]
+    apply_preset_patches(presets, categories)
 
     # Manual layers (`.claude/plans/post-soviet-countries.md` §5). Appended
     # rather than interleaved so that every existing category keeps its index —

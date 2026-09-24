@@ -21,6 +21,9 @@ DUMP = REPO / "docs" / "catalog" / "leshy_core_app.json"
 # Переопределение частотности для 33 подборок исходного дампа. Отдельным файлом, а не правкой
 # самого дампа: дамп — входной артефакт, его не редактируют (см. `tools/build_catalog.py`).
 OVERRIDES = REPO / "docs" / "catalog" / "common_overrides.json"
+# Замены позиций в подборках дампа — их надо учесть, иначе частотность сверяется с составом
+# до правки (`tools/build_catalog.py`, `apply_preset_patches`).
+PATCHES = REPO / "docs" / "catalog" / "preset_patches.json"
 
 # Доля подборки, которую разумно считать частотной. Решение владельца 2026-09-24: «корзина
 # обычного выхода», 10–20 позиций из полусотни. Коридор задан долей, а не числом, потому что
@@ -61,6 +64,10 @@ def main() -> int:
         cc: [key_by_id[i["id"]] for i in sorted(preset["items"], key=lambda i: i["order"])]
         for cc, preset in dump["country_presets"].items()
     }
+    patches = json.loads(PATCHES.read_text(encoding="utf-8")) if PATCHES.exists() else {}
+    for cc, patch in patches.items():
+        swap = {r["from"]: r["to"] for r in patch.get("replace", [])}
+        dump_keys[cc] = [swap.get(k, k) for k in dump_keys.get(cc, [])]
     overrides = {}
     errors, warnings = [], []
     applied = 0

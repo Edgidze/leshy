@@ -7,6 +7,7 @@
     "russula_decolorans",
     "russula_aeruginea",
     "russula_delica",
+    "lactarius_deterrimus",
     "lactarius_deliciosus",
     "lactarius_necator",
     "lactarius_rufus",
@@ -20,7 +21,6 @@
     "cantharellus_cibarius",
     "craterellus_cornucopioides",
     "macrolepiota_procera",
-    "albatrellus_ovinus",
-    "hydnum_repandum"
+    "craterellus_tubaeformis"
   ]
 }
