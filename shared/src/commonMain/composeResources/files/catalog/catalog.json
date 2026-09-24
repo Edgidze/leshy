@@ -285,7 +285,7 @@
     "color": "#734434",
     "breadth": "broad",
     "importance": 5.0,
-    "sortLast": true
+    "sortLast": false
   },
   {
     "key": "kuehneromyces_mutabilis",

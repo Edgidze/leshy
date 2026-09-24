@@ -74,11 +74,19 @@ COMMON_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "common_overrides.json"
 # покрывает страну). Каждая замена несёт своё обоснование с числами; проверка ареала —
 # `tools/check_ranges.py`. Дамп, как и всегда, не правится.
 PRESET_PATCHES_JSON = REPO_ROOT / "docs" / "catalog" / "preset_patches.json"
+# Переопределение флагов каталога (пока только `sortLast`) — для позиций, где флаг дампа
+# противоречит смыслу плитки. Ключ -> {"sortLast": bool, "why": "..."}.
+FLAG_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "flag_overrides.json"
 EXTRA_CATEGORIES_JSON = REPO_ROOT / "docs" / "catalog" / "extra_categories.json"
 EXTRA_NAMES_DIR = REPO_ROOT / "docs" / "catalog" / "extra_names"
 # Ручной слой поверх `alt_names` источника — см. `write_aliases`. Тоже по catalog
 # `key`, а не по `GC####`, по той же причине, что и слои выше.
 ALIAS_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "alias_overrides.json"
+# Точечное удаление синонимов — для имён, приписанных не тому виду. Слой намеренно узкий:
+# многозначность народных имён («Грузди» у нескольких млечников, «Kazlėkas» у нескольких маслят)
+# — это НЕ ошибка, ради неё поиск по вторым названиям и заведён. Ключ -> {lang: [имя, ...]},
+# служебные поля с ведущим подчёркиванием игнорируются.
+ALIAS_REMOVALS_JSON = REPO_ROOT / "docs" / "catalog" / "alias_removals.json"
 
 # Section 3.3: RU preset gained/lost these categories relative to what the
 # source dump shipped, per the project owner's decisions.
@@ -456,10 +464,15 @@ def write_aliases(categories: list, out_dir: Path) -> None:
     иначе просто ничего бы не сделала, и заметили бы это через месяц в лесу.
     """
     overrides = load_optional_json(ALIAS_OVERRIDES_JSON, {})
+    removals = load_optional_json(ALIAS_REMOVALS_JSON, {})
     by_key = {c["key"]: c for c in categories}
     unknown = sorted(set(overrides) - set(by_key))
     if unknown:
         raise ValueError(f"alias_overrides.json: неизвестные ключи каталога: {unknown}")
+    unknown_removals = sorted(set(removals) - set(by_key))
+    if unknown_removals:
+        raise ValueError(f"alias_removals.json: неизвестные ключи каталога: {unknown_removals}")
+    dropped = 0
 
     out_dir.mkdir(parents=True, exist_ok=True)
     written = 0
@@ -475,9 +488,15 @@ def write_aliases(categories: list, out_dir: Path) -> None:
             seen = set()
             aliases = []
             source_aliases = (category.get("alt_names") or {}).get(lang) or []
+            drop = {
+                a.casefold() for a in removals.get(key, {}).get(lang, [])
+            } if not lang.startswith("_") else set()
             for alias in list(source_aliases) + list(overrides.get(key, {}).get(lang, [])):
                 alias = (alias or "").strip()
                 folded = alias.casefold()
+                if folded in drop:
+                    dropped += 1
+                    continue
                 if not alias or folded == main or folded in seen:
                     continue
                 seen.add(folded)
@@ -488,7 +507,14 @@ def write_aliases(categories: list, out_dir: Path) -> None:
             json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
         )
         written += 1
-    print(f"aliases/: {written} files written")
+    expected = sum(len(v) for key, langs in removals.items() for lang, v in langs.items()
+                   if not lang.startswith("_"))
+    if dropped != expected:
+        raise ValueError(
+            f"alias_removals.json: снято {dropped} синонимов из {expected} — значит имя в файле "
+            f"написано не так, как в данных, и правка молча ничего не сделала"
+        )
+    print(f"aliases/: {written} files written, {dropped} synonyms dropped")
 
 
 def write_country_names(presets: dict, out_dir: Path) -> None:
@@ -592,6 +618,10 @@ def run_full(recompute_colors: bool = False) -> None:
     # ---- catalog.json -----------------------------------------------------
     colors = resolve_colors(categories, recompute_colors)
     catalog_entries = []
+    flag_overrides = load_optional_json(FLAG_OVERRIDES_JSON, {})
+    unknown_flags = sorted(set(flag_overrides) - {c["key"] for c in categories})
+    if unknown_flags:
+        raise ValueError(f"{FLAG_OVERRIDES_JSON.name}: ключи вне каталога: {unknown_flags}")
     for c in categories:
         catalog_entries.append({
             "key": c["key"],
@@ -606,7 +636,10 @@ def run_full(recompute_colors: bool = False) -> None:
             # должны заявлять того, чего не заявляет продукт. В дампе флаг называется
             # `dangerous`; здесь он означает ровно «по умолчанию этот вид уезжает в
             # конец ленты», и ничего кроме.
-            "sortLast": c["flags"]["dangerous"],
+            # `flag_overrides.json` — точечные правки там, где флаг дампа противоречит смыслу
+            # плитки (широкий концепт «шампиньоны» нёс `dangerous: true` и `collected: true`
+            # одновременно). Обоснование каждой правки лежит в самом файле.
+            "sortLast": flag_overrides.get(c["key"], {}).get("sortLast", c["flags"]["dangerous"]),
         })
 
     FILES_CATALOG_DIR.mkdir(parents=True, exist_ok=True)
