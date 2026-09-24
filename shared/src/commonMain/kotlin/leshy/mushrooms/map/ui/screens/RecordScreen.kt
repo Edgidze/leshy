@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -99,6 +100,7 @@ import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MapFilterButton
 import leshy.mushrooms.map.ui.components.MapFilterDialog
 import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
+import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_MAX_WIDTH
 import leshy.mushrooms.map.ui.components.MushroomPhoto
 import leshy.mushrooms.map.ui.components.MushroomTile
 import leshy.mushrooms.map.ui.components.NavigationOverlayPanel
@@ -1050,7 +1052,21 @@ private fun MushroomBulkAddDialog(
                         // высотой почти во всю ширину экрана, и на невысоком телефоне поле ввода числа
                         // ушло бы под клавиатуру — а без него диалог бесполезен. Боковые поля картинки тут
                         // не жалко: фото и так крупное, это опознавательный снимок, а не компактная плитка.
-                        MushroomPhoto(category = category, modifier = Modifier.fillMaxWidth().aspectRatio(1.5f))
+                        //
+                        // Ширина ограничена потолком и картинка стоит по центру: 92% экрана — это доля, а
+                        // не размер, и на планшете она давала площадку под 900dp, в которую 242-пиксельная
+                        // иллюстрация каталога растягивалась вчетверо и полностью разваливалась (найдено на
+                        // эмуляторе планшета). Потолок — общий для всего приложения, см.
+                        // [MUSHROOM_PHOTO_MAX_WIDTH]; на телефоне он не срабатывает вовсе (там на площадку
+                        // приходится 300–330dp) и вертикальной раскладки не касается.
+                        MushroomPhoto(
+                            category = category,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .widthIn(max = MUSHROOM_PHOTO_MAX_WIDTH)
+                                .fillMaxWidth()
+                                .aspectRatio(1.5f),
+                        )
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(

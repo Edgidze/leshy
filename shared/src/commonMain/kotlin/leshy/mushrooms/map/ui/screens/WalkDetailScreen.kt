@@ -119,6 +119,19 @@ private val MUSHROOM_TOAST_DURATION = 3000.milliseconds
  */
 private val HERO_CORNER_RADIUS = 16.dp
 
+/**
+ * Потолок ширины заставки. Снимок маршрута — растр фиксированного разрешения
+ * (`WALK_THUMBNAIL_WIDTH_PX`, 960px), снятый один раз на «Финише», и тянуть его во всю ширину
+ * чего угодно значит в какой-то момент показывать чистую интерполяцию.
+ *
+ * 480dp — ровно та ширина, на которой снимок ложится пиксель в пиксель при плотности 2.0, то есть
+ * при той, с какой сделано подавляющее большинство планшетов. На телефоне потолок не срабатывает
+ * никогда: там на заставку приходится 330–400dp, и заставка остаётся во всю ширину, как и была.
+ * При плотности 3 потолок даёт растяжение в 1.5 раза — примерно то же, что телефон получает и
+ * сейчас (см. обоснование числа 960 у `WALK_THUMBNAIL_WIDTH_PX`), то есть проверенно приемлемое.
+ */
+private val HERO_MAX_WIDTH = 480.dp
+
 private val PLACE_THUMBNAIL_SIZE = 64.dp
 
 @Composable
@@ -348,49 +361,55 @@ private fun WalkHero(walk: Walk, track: List<GeoPoint>, findLocations: List<GeoP
     val thumbnailPath = walk.thumbnailPath
     val hasGeodata = track.isNotEmpty() || findLocations.isNotEmpty()
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(WALK_THUMBNAIL_ASPECT_RATIO)
-            .clip(RoundedCornerShape(HERO_CORNER_RADIUS))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .then(if (hasGeodata) Modifier.clickable(onClick = onClick) else Modifier),
-    ) {
-        if (thumbnailPath == null || loadFailed) {
-            WalkRouteThumbnail(
-                track = track,
-                findLocations = findLocations,
-                modifier = Modifier.fillMaxSize(),
-            )
-        } else {
-            AsyncImage(
-                model = "file://$thumbnailPath",
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-                onError = { loadFailed = true },
-            )
-        }
+    // Внешний Box — только чтобы поставить заставку по центру, когда сработал потолок ширины
+    // [HERO_MAX_WIDTH]: на широком экране она иначе прижалась бы к левому краю, а под ней идут
+    // показатели во всю ширину, и сдвинутая влево картинка читалась бы как сбитая вёрстка.
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier
+                .widthIn(max = HERO_MAX_WIDTH)
+                .fillMaxWidth()
+                .aspectRatio(WALK_THUMBNAIL_ASPECT_RATIO)
+                .clip(RoundedCornerShape(HERO_CORNER_RADIUS))
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .then(if (hasGeodata) Modifier.clickable(onClick = onClick) else Modifier),
+        ) {
+            if (thumbnailPath == null || loadFailed) {
+                WalkRouteThumbnail(
+                    track = track,
+                    findLocations = findLocations,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            } else {
+                AsyncImage(
+                    model = "file://$thumbnailPath",
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                    onError = { loadFailed = true },
+                )
+            }
 
-        // Подложка у подписи непрозрачная: она ложится на карту, где под ней может оказаться что
-        // угодно — от светлого поля до тёмного леса.
-        if (hasGeodata) {
-            Surface(
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.surface,
-                modifier = Modifier.align(Alignment.BottomEnd).padding(12.dp),
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+            // Подложка у подписи непрозрачная: она ложится на карту, где под ней может оказаться что
+            // угодно — от светлого поля до тёмного леса.
+            if (hasGeodata) {
+                Surface(
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier.align(Alignment.BottomEnd).padding(12.dp),
                 ) {
-                    Icon(Icons.Filled.Map, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = stringResource(StringKey.WalkDetailViewMap),
-                        style = MaterialTheme.typography.labelLarge,
-                        maxLines = 1,
-                    )
+                    Row(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(Icons.Filled.Map, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = stringResource(StringKey.WalkDetailViewMap),
+                            style = MaterialTheme.typography.labelLarge,
+                            maxLines = 1,
+                        )
+                    }
                 }
             }
         }
