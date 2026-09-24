@@ -8787,11 +8787,11 @@
      "Patita de pájaro"
     ]
    },
-   "sci": "Ramaria flava",
+   "sci": "Ramaria sp.",
    "breadth": "broad",
    "flags": {
     "collected": true,
-    "dangerous": true,
+    "dangerous": false,
     "lookalike": true,
     "iconic": false
    },

@@ -1270,12 +1270,12 @@
   },
   {
     "key": "ramaria_flava",
-    "sci": "Ramaria flava",
+    "sci": "Ramaria sp.",
     "image": "ramaria_flava",
     "color": "#ccaa44",
     "breadth": "broad",
     "importance": 5.0,
-    "sortLast": true
+    "sortLast": false
   },
   {
     "key": "sarcodon_imbricatus",
