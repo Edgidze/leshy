@@ -303,7 +303,6 @@
       "pleurotus_ostreatus",
       "armillaria_mellea",
       "boletus_reticulatus",
-      "amanita_muscaria",
       "boletus_pinophilus",
       "calocybe_gambosa",
       "russula_cyanoxantha"
@@ -378,16 +377,12 @@
       "pleurotus_ostreatus",
       "craterellus_tubaeformis",
       "neoboletus_erythropus",
-      "amanita_muscaria",
       "leccinum_scabrum",
       "armillaria_mellea",
       "auricularia_auricula_judae",
       "suillus_luteus",
       "russula_cyanoxantha__2",
-      "marasmius_oreades",
-      "amanita_citrina",
-      "hypholoma_fasciculare",
-      "scleroderma_citrinum"
+      "marasmius_oreades"
     ]
   },
   "CH": {
@@ -463,7 +458,6 @@
       "neoboletus_erythropus",
       "craterellus_tubaeformis",
       "lactarius_deliciosus",
-      "amanita_muscaria",
       "amanita_rubescens",
       "calocybe_gambosa",
       "leccinum_scabrum",
@@ -756,7 +750,6 @@
       "coprinus_comatus",
       "marasmius_oreades",
       "macrolepiota_procera",
-      "amanita_muscaria",
       "armillaria_mellea",
       "lycoperdon_perlatum",
       "imleria_badia",
@@ -824,7 +817,6 @@
       "agaricus_arvensis",
       "russula_aeruginea",
       "russula_xerampelina",
-      "paxillus_involutus",
       "lactarius_torminosus"
     ]
   },
@@ -1046,7 +1038,6 @@
       "armillaria_mellea",
       "craterellus_tubaeformis",
       "leccinum_scabrum",
-      "amanita_muscaria",
       "neoboletus_erythropus",
       "coprinus_comatus",
       "agaricus_campestris__2",
@@ -1278,21 +1269,17 @@
       "cantharellus_cibarius",
       "macrolepiota_procera",
       "pleurotus_ostreatus",
-      "amanita_muscaria",
       "leccinum_scabrum",
       "auricularia_auricula_judae",
       "coprinus_comatus",
       "armillaria_mellea",
       "suillus_luteus",
-      "amanita_citrina",
-      "scleroderma_citrinum",
       "flammulina_velutipes",
       "lepista_nuda",
       "lycoperdon_perlatum",
       "marasmius_oreades",
       "russula_cyanoxantha__2",
-      "amanita_rubescens",
-      "phallus_impudicus"
+      "amanita_rubescens"
     ]
   },
   "NO": {
@@ -1365,12 +1352,10 @@
       "leccinum_scabrum",
       "suillus_luteus",
       "albatrellus_ovinus",
-      "amanita_muscaria",
       "suillus_variegatus",
       "lactarius_deliciosus",
       "coprinus_comatus",
       "russula_decolorans",
-      "paxillus_involutus",
       "imleria_badia",
       "agaricus_arvensis",
       "marasmius_oreades",

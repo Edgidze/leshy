@@ -1,16 +1,13 @@
 {
   "country": "MX",
-  "method": "recalibrated-from-dump-order",
+  "method": "research-session",
   "common": [
     "amanita_basii",
     "amanita_novinupta",
-    "amanita_fulva",
     "boletus_edulis",
-    "neoboletus_luridiformis__2",
     "suillus_luteus__2",
     "cantharellus_cibarius",
     "turbinellus_floccosus",
-    "clavariadelphus_truncatus",
     "ramaria_flava",
     "helvella_lacunosa",
     "morchella_esculenta",
@@ -19,9 +16,46 @@
     "lactarius_deliciosus",
     "hypomyces_lactifluorum",
     "lyophyllum_decastes",
+    "clitocybe_gibba",
     "laccaria_laccata",
-    "agaricus_campestris",
     "ustilago_maydis"
   ],
-  "confidence": "low"
+  "evidence": {
+    "amanita_basii": "«Amarillo / yema de huevo», эндемик, массово собирается в дождевой сезон в Эстадо-де-Мехико, Тласкале, Пуэбле, Идальго; комплекс caesarea — самый предпочитаемый вид на рынках центра и Оахаки (recetasmexas/CONABIO; Acaxochitlán, Rev. Etnobiología; Oaxaca Valles Centrales, Rev. Mex. Cienc. Agríc.)",
+    "amanita_novinupta": "«Mantecadas», регулярный рыночный вид Валье-де-Толука: непрерывно присутствует в тиангисе Акауалко, PRET 0.56 (San Antonio Acahualco, Polibotánica 59, 2025, табл. 1–2)",
+    "boletus_edulis": "«Pancita / panza / pante», наивысшая частота цитирования собирателями (CIS 0.92), один из базовых видов рынков центра и Тласкалы (Acahualco, Polibotánica 59; Hongos silvestres de Tlaxcala, Arqueología Mexicana)",
+    "suillus_luteus__2": "«Viejitas / esquite», в приложении под Suillus идёт местный S. pungens — по данным продавцов «самый продаваемый гриб» на ряде рынков Оси Вулканика; присутствует в тиангисе Акауалко (simbiosis «Hongosto»; Acahualco, Polibotánica 59)",
+    "cantharellus_cibarius": "«Duraznillo / flor de calabaza», один из чаще всего продаваемых видов и в центре, и в Оахаке (Acahualco, Polibotánica 59; Oaxaca Valles Centrales, Rev. Mex. Cienc. Agríc. 2013)",
+    "turbinellus_floccosus": "«Corneta roja», топ по присутствию в тиангисе Акауалко (PRET 0.65), собирается и продаётся весь сезон (San Antonio Acahualco, Polibotánica 59, 2025)",
+    "ramaria_flava": "⚠ в каталоге, но в Мексике «escobeta / patita de pájaro» — один из массово собираемых и продаваемых родов (7 видов Ramaria в Оахаке; топ-4 по присутствию в Акауалко, PRET 0.63). Именно съедобный сбор, а не «поганка» (Acahualco, Polibotánica 59; Oaxaca Valles Centrales, Rev. Mex. Cienc. Agríc.)",
+    "helvella_lacunosa": "«Gachupín», наивысший индекс культурной значимости в Акауалко (CIS 1.25), собирается свежим и сушится (San Antonio Acahualco, Polibotánica 59, 2025)",
+    "morchella_esculenta": "«Mazorca / colmenilla», узнаваемый собираемый вид сосновых лесов центра (Эстадо-де-Мехико, Тласкала); идёт и на рынок, и перекупщикам/рестораны (Acahualco, Polibotánica 59, 2025)",
+    "russula_brevipes": "«Oreja / blanco», первое место по присутствию в тиангисе Акауалко все 4 месяца (PRET 0.83) при низкой цене и высокой доступности в лесу (San Antonio Acahualco, Polibotánica 59, 2025)",
+    "lactarius_indigo": "«Añil / azul / orejas azules», иконический синий млечник, продаётся в центре как «orejas azules», в Оахаке узнаётся и едят локально — регулярная добыча (Acahualco, Polibotánica 59; Cuexcomate, Sierra Norte de Oaxaca)",
+    "lactarius_deliciosus": "«Enchilado», первое место по началу и длительности присутствия в тиангисе Акауалко, три пика за сезон (San Antonio Acahualco, Polibotánica 59, 2025)",
+    "hypomyces_lactifluorum": "«Trompa de puerco / langosta / barroso», паразитированная руссула, один из самых массовых продаваемых видов и в центре, и в Оахаке (Oaxaca Valles Centrales, Rev. Mex. Cienc. Agríc.; «Los hongos en Oaxaca», Arqueología Mexicana)",
+    "lyophyllum_decastes": "«Clavito / xolete / cholete», наивысшая частота цитирования собирателями (CFR 0.91, CIS 0.92) в Валье-де-Толука; растёт «матами», короткий сезон (Acahualco, Polibotánica 59; Hongos de Tlaxcala)",
+    "clitocybe_gibba": "«Tejamanilero / oreja», высокий CIS 0.83 и регулярное присутствие в тиангисе Акауалко (San Antonio Acahualco, Polibotánica 59, 2025)",
+    "laccaria_laccata": "«Corralito / chocuyul», присутствует на рынке Акауалко, в Оахаке род Laccaria — среди чаще продаваемых (Acahualco, Polibotánica 59, табл. 2; Oaxaca Valles Centrales, Rev. Mex. Cienc. Agríc.)",
+    "ustilago_maydis": "«Cuitlacoche / huitlacoche», кукурузная головня с милпы — повсеместно едят и продают по всей стране, в т.ч. на рынках Толуки; милпа как место сбора у 58% собирателей (meganoticias Toluca; Acahualco, Polibotánica 59)"
+  },
+  "not_common": {
+    "amanita_muscaria": "⚠ «Matamoscas / citlalnanácatl» — очень часто попадается в сосновых лесах и легко узнаётся, но по уточнению задачи частотность несобираемых поганок не учитываем: как правило не берут (есть маргинальная обработка для еды). В натуралистической культуре попал бы в частотные, в мексиканской заготовительной — нет",
+    "psilocybe_mexicana": "«Pajarito», сакральный/энтеогенный вид (Мария Сабина): за ним идут целенаправленно в известные места для церемоний, это не обычная пищевая добыча — по критерию «нет», несмотря на культовую известность",
+    "psilocybe_cubensis": "«San Isidro», энтеогенный, привязан к навозу/скоту в конкретных точках и ищется специально; не встречается как рядовая находка обычного выхода",
+    "marasmius_oreades": "«Corralitos» — европейский луговой опёнок-«ведьмины кольца»; в Мексике собирается лишь маргинально. Классический кандидат на ошибочный перенос из европейского набора",
+    "agaricus_campestris": "⚠ «Hongo de tierra / llanero» — съедобен и местами собирается на лугах, но в лесной этномикологии центра значимость низкая (CIS 0.17) и вид ⚠; не основная находка обычного лесного выхода",
+    "calvatia_cyathiformis": "Дождевики («bolitas / terneritas») в целом популярны на рынках центра, но массовые — в основном лесные Lycoperdon; именно эта луговая Calvatia видо-специфично не подтверждена как массовая — оставлено вне частотных до уточнения"
+  },
+  "sources": [
+    "https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S1405-27682025000100329",
+    "https://link.springer.com/article/10.1007/s12231-008-9043-6",
+    "https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S2007-09342013000200002",
+    "https://simbiosisboutique.com/blogs/el-micelio/hongosto-la-temporada-que-convierte-los-bosques-mexicanos-en-mercado",
+    "https://arqueologiamexicana.mx/mexico-antiguo/los-hongos-en-oaxaca",
+    "https://arqueologiamexicana.mx/mexico-antiguo/los-hongos-silvestres-de-tlaxcala",
+    "https://recetasmexas.com/es-mx/guia/yema-de-huevo",
+    "https://www.meganoticias.mx/toluca/noticia/comienza-temporada-de-hongos-silvestres-un-festin-para-los-mexiquenses/629447",
+    "http://www.cuexcomate.com/2024/07/tlaloc-anuncia-la-llegada-de-los-hongos.html"
+  ]
 }

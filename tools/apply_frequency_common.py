@@ -28,7 +28,10 @@ PATCHES = REPO / "docs" / "catalog" / "preset_patches.json"
 # Доля подборки, которую разумно считать частотной. Решение владельца 2026-09-24: «корзина
 # обычного выхода», 10–20 позиций из полусотни. Коридор задан долей, а не числом, потому что
 # подборки разного размера (CY — 39 позиций, IS — 34, GR — 53).
-MIN_SHARE, MAX_SHARE = 0.18, 0.45
+# Нижняя граница низкая намеренно: честный короткий список — нормальный результат. У Австралии
+# исследовательская сессия оставила шесть позиций из пятидесяти, и это не брак, а вывод: съедобная
+# корзина страны завязана на посадки интродуцированной сосны и коротка.
+MIN_SHARE, MAX_SHARE = 0.10, 0.45
 # Жёсткий потолок, решение владельца 2026-09-24: больше двадцати частотных — это уже не
 # «корзина обычного выхода», а половина подборки, и сортировка перестаёт что-либо значить.
 MAX_COMMON = 20
@@ -57,6 +60,11 @@ def print_review() -> int:
 def main() -> int:
     if "--review" in sys.argv:
         return print_review()
+    catalog = {
+        c["key"]: c for c in json.loads(
+            (REPO / "shared" / "src" / "commonMain" / "composeResources" / "files" / "catalog"
+             / "catalog.json").read_text(encoding="utf-8"))
+    }
     presets = json.loads(PRESETS.read_text(encoding="utf-8"))
     dump = json.loads(DUMP.read_text(encoding="utf-8"))
     key_by_id = {c["id"]: c["key"] for c in dump["categories"]}
@@ -98,6 +106,14 @@ def main() -> int:
             missing = [k for k in common if not evidence.get(k)]
             if missing:
                 warnings.append(f"{cc}: позиции без обоснования в `evidence`: {missing}")
+
+        # `sortLast` — флаг «по умолчанию ниже», а не «не собирают»: волнушка, чёрный груздь,
+        # строчок и зеленушка помечены им и при этом массово собираются. Поэтому предупреждение, а
+        # не ошибка: глазами проверяется, что вид действительно берут, — частотность по решению
+        # владельца 2026-09-24 означает «частотное И потенциально собираемое».
+        flagged = [k for k in common if catalog.get(k, {}).get("sortLast")]
+        if flagged:
+            warnings.append(f"{cc}: частотные с флагом «в конец» — проверить, что их собирают: {flagged}")
 
         share = len(common) / len(keys)
         if not MIN_SHARE <= share <= MAX_SHARE:

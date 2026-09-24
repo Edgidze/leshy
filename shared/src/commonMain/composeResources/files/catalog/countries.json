@@ -166,7 +166,7 @@
       "leccinum_scabrum",
       "sparassis_crispa",
       "imleria_badia",
-      "agaricus_campestris",
+      "auricularia_auricula_judae",
       "agaricus_campestris__2",
       "morchella_esculenta__2",
       "lactifluus_volemus",
@@ -294,15 +294,9 @@
       "lactarius_deliciosus",
       "suillus_luteus",
       "agaricus_campestris__2",
-      "amanita_muscaria",
-      "omphalotus_nidiformis",
       "coprinus_comatus",
       "lepista_nuda",
-      "marasmius_oreades",
-      "pleurotus_australis",
-      "armillaria_luteobubalina",
-      "gymnopilus_junonius",
-      "schizophyllum_commune"
+      "armillaria_luteobubalina"
     ]
   },
   {
@@ -455,7 +449,6 @@
       "pleurotus_ostreatus",
       "armillaria_mellea",
       "boletus_reticulatus",
-      "amanita_muscaria",
       "boletus_pinophilus",
       "calocybe_gambosa",
       "russula_cyanoxantha"
@@ -530,16 +523,12 @@
       "pleurotus_ostreatus",
       "craterellus_tubaeformis",
       "neoboletus_erythropus",
-      "amanita_muscaria",
       "leccinum_scabrum",
       "armillaria_mellea",
       "auricularia_auricula_judae",
       "suillus_luteus",
       "russula_cyanoxantha__2",
-      "marasmius_oreades",
-      "amanita_citrina",
-      "hypholoma_fasciculare",
-      "scleroderma_citrinum"
+      "marasmius_oreades"
     ]
   },
   {
@@ -857,7 +846,6 @@
       "neoboletus_erythropus",
       "craterellus_tubaeformis",
       "lactarius_deliciosus",
-      "amanita_muscaria",
       "amanita_rubescens",
       "calocybe_gambosa",
       "leccinum_scabrum",
@@ -1867,7 +1855,7 @@
       "paxillus_involutus",
       "cortinarius_orellanus",
       "inocybe_sp",
-      "hebeloma_aminophilum"
+      "coprinus_comatus"
     ],
     "common": [
       "boletus_edulis",
@@ -1882,7 +1870,6 @@
       "russula_cyanoxantha",
       "craterellus_cornucopioides",
       "lepista_nuda",
-      "clitocybe_nebularis",
       "pleurotus_eryngii",
       "pleurotus_ostreatus",
       "imleria_badia",
@@ -1955,7 +1942,6 @@
       "coprinus_comatus",
       "marasmius_oreades",
       "macrolepiota_procera",
-      "amanita_muscaria",
       "armillaria_mellea",
       "lycoperdon_perlatum",
       "imleria_badia",
@@ -2023,7 +2009,6 @@
       "agaricus_arvensis",
       "russula_aeruginea",
       "russula_xerampelina",
-      "paxillus_involutus",
       "lactarius_torminosus"
     ]
   },
@@ -2165,11 +2150,6 @@
       "chlorophyllum_molybdites"
     ],
     "common": [
-      "lentinula_edodes",
-      "pholiota_microspora",
-      "grifola_frondosa",
-      "pleurotus_ostreatus",
-      "flammulina_velutipes",
       "armillaria_mellea",
       "sarcomyxa_edulis",
       "hypholoma_lateritium",
@@ -2178,13 +2158,10 @@
       "suillus_luteus",
       "lactarius_hatsudake",
       "lactarius_laeticolorus",
-      "lactifluus_volemus",
-      "sarcodon_aspratus",
       "hygrophorus_russula",
       "cortinarius_caperatus",
-      "lyophyllum_decastes",
-      "lyophyllum_fumosum",
-      "entoloma_sarcopum"
+      "entoloma_sarcopum",
+      "amanita_caesareoides"
     ]
   },
   {
@@ -2320,14 +2297,10 @@
     "common": [
       "lentinula_edodes",
       "pleurotus_ostreatus",
-      "flammulina_velutipes",
       "ramaria_botrytis",
       "hypholoma_lateritium",
-      "polyozellus_multiplex",
       "cantharellus_cibarius",
-      "tricholoma_bakamatsutake",
       "amanita_hemibapha",
-      "panellus_serotinus",
       "macrolepiota_procera",
       "coprinus_comatus",
       "lactarius_volemus",
@@ -2563,7 +2536,6 @@
       "armillaria_mellea",
       "craterellus_tubaeformis",
       "leccinum_scabrum",
-      "amanita_muscaria",
       "neoboletus_erythropus",
       "coprinus_comatus",
       "agaricus_campestris__2",
@@ -2927,7 +2899,7 @@
       "lactarius_deliciosus",
       "hypomyces_lactifluorum",
       "lyophyllum_decastes",
-      "hebeloma_aminophilum",
+      "coprinus_comatus",
       "clitocybe_gibba",
       "laccaria_laccata",
       "gymnopus_dryophilus",
@@ -2959,13 +2931,10 @@
     "common": [
       "amanita_basii",
       "amanita_novinupta",
-      "amanita_fulva",
       "boletus_edulis",
-      "neoboletus_luridiformis__2",
       "suillus_luteus__2",
       "cantharellus_cibarius",
       "turbinellus_floccosus",
-      "clavariadelphus_truncatus",
       "ramaria_flava",
       "helvella_lacunosa",
       "morchella_esculenta",
@@ -2974,8 +2943,8 @@
       "lactarius_deliciosus",
       "hypomyces_lactifluorum",
       "lyophyllum_decastes",
+      "clitocybe_gibba",
       "laccaria_laccata",
-      "agaricus_campestris",
       "ustilago_maydis"
     ]
   },
@@ -3042,21 +3011,17 @@
       "cantharellus_cibarius",
       "macrolepiota_procera",
       "pleurotus_ostreatus",
-      "amanita_muscaria",
       "leccinum_scabrum",
       "auricularia_auricula_judae",
       "coprinus_comatus",
       "armillaria_mellea",
       "suillus_luteus",
-      "amanita_citrina",
-      "scleroderma_citrinum",
       "flammulina_velutipes",
       "lepista_nuda",
       "lycoperdon_perlatum",
       "marasmius_oreades",
       "russula_cyanoxantha__2",
-      "amanita_rubescens",
-      "phallus_impudicus"
+      "amanita_rubescens"
     ]
   },
   {
@@ -3129,12 +3094,10 @@
       "leccinum_scabrum",
       "suillus_luteus",
       "albatrellus_ovinus",
-      "amanita_muscaria",
       "suillus_variegatus",
       "lactarius_deliciosus",
       "coprinus_comatus",
       "russula_decolorans",
-      "paxillus_involutus",
       "imleria_badia",
       "agaricus_arvensis",
       "marasmius_oreades",
@@ -3158,7 +3121,7 @@
       "coprinus_comatus",
       "calvatia_gigantea",
       "hericium_novae_zealandiae",
-      "clitocybe_nuda",
+      "lepista_nuda",
       "morchella_esculenta",
       "pleurotus_pulmonarius",
       "pleurotus_parsonsiae",
@@ -3181,7 +3144,7 @@
       "crucibulum_simile",
       "nidula_niveotomentosa",
       "fomitiporia_robusta",
-      "ganoderma_tsugae",
+      "gymnopilus_junonius",
       "rossbeevera_pachydermis",
       "phellodon_sinclairii",
       "anthracophyllum_archeri",
@@ -3200,19 +3163,14 @@
       "laetiporus_portentosus"
     ],
     "common": [
-      "cyclocybe_parasitica",
       "auricularia_cornea",
       "lactarius_deliciosus",
       "suillus_luteus",
       "leccinum_scabrum",
       "coprinus_comatus",
       "calvatia_gigantea",
-      "clitocybe_nuda",
-      "pleurotus_pulmonarius",
-      "flammulina_velutipes",
-      "marasmius_oreades",
+      "trametes_versicolor",
       "armillaria_novae_zelandiae",
-      "amanita_muscaria",
       "agaricus_campestris"
     ]
   },
