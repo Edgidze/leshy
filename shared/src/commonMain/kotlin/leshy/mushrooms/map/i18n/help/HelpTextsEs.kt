@@ -15,18 +15,23 @@ internal val spanishHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Las fichas de setas de abajo son con lo que se marcan los hallazgos: «+» anota un hallazgo en tu " +
             "punto actual, «−» quita la última marca errónea de esa especie. Mantener pulsado «+» abre la " +
-            "entrada de varias a la vez; más de 999 setas iguales por paseo no se pueden marcar.",
+            "entrada de varias a la vez; más de 999 setas iguales por paseo no se pueden marcar." +
+            " En lugar de «+» se puede tocar la propia imagen. La ficha responde con una onda de color: verde al " +
+            "añadir, roja al quitar.",
     HelpKey.RecordPlace to
         "El botón redondo de la izquierda marca un lugar — con nombre, descripción y foto. El lugar se " +
             "coloca donde estás ahora y permanece en el mapa después del paseo.",
     HelpKey.RecordNavigation to
         "Mantener pulsada la marca de un lugar activa la navegación hacia él: el panel de arriba a la " +
             "derecha muestra la dirección y la distancia al destino. La cruz del panel apaga la " +
-            "navegación.",
+            "navegación." +
+            " La dirección se toma de la brújula del teléfono y se actualiza en cuanto usted gira; sostenga el " +
+            "teléfono más o menos horizontal, como un mapa.",
     HelpKey.RecordSearchAndOwn to
         "La lupa de la derecha encuentra una seta por su nombre y lleva su ficha al principio de la fila " +
             "— así es más rápido cuando hay muchas especies activadas. La última ficha de la fila, con un " +
-            "más, añade una especie propia que no está en el catálogo.",
+            "más, añade una especie propia que no está en el catálogo." +
+            " La búsqueda también entiende los segundos nombres populares de la especie, no solo el principal.",
     HelpKey.RecordFilters to
         "El botón «Filtros» de arriba a la izquierda decide de qué especies y de qué periodo se muestran " +
             "los hallazgos en el mapa, y el número que lleva indica cuántos filtros están activos. El " +

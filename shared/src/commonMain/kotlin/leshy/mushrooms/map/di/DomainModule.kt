@@ -15,6 +15,7 @@ import leshy.mushrooms.map.domain.usecase.FinishWalkUseCase
 import leshy.mushrooms.map.domain.usecase.HealOrphanedWalksUseCase
 import leshy.mushrooms.map.domain.usecase.ImportDataUseCase
 import leshy.mushrooms.map.domain.usecase.ValidateImportArchiveUseCase
+import leshy.mushrooms.map.domain.usecase.ObserveFrequentSpeciesKeysUseCase
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
 import leshy.mushrooms.map.domain.usecase.RecordTrackPointUseCase
 import leshy.mushrooms.map.domain.usecase.RefreshMapDataUseCase
@@ -34,6 +35,7 @@ val domainModule = module {
     factory { EnsureDefaultCategoriesUseCase(get(), get(), get()) }
     factory { EnsureDefaultCollectionsUseCase(get(), get(), get(), get()) }
     factory { RecalculateFilterEligibilityUseCase(get(), get()) }
+    factory { ObserveFrequentSpeciesKeysUseCase(get(), get(), get()) }
     factory { SetCollectionPickedUseCase(get(), get(), get()) }
     factory { SetCategoryPickedUseCase(get(), get()) }
     factory { SaveCategoryIconUseCase(get(), get()) }

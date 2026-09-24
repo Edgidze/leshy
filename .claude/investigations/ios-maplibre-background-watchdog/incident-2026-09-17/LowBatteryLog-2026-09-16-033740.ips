@@ -1,0 +1,18 @@
+{"timestamp":"2026-09-16 03:37:40.00 +0300","bug_type":"120","os_version":"iPhone OS 15.8.8 (19H422)","incident_id":"6E5FE700-A5C1-4536-9898-70416C1021D4"}
+{"bug_type":"120","os_version":"iPhone OS 15.8.8 (19H422)"}
+Incident Identifier: 40418E5D-4457-435A-BE7F-98023D36299A
+CrashReporter Key:   488b3dc6941dd80999624eafdf9f048b5a0344e8
+Date:                2026-09-16 03:37:37.023 +0300
+OS Version:          iPhone OS 15.8.8 (19H422)
+
+apsd: com.apple.apsd-connectionestablish-push.apple.com-WWAN	NoIdleSleepAssertion == 255, held for 00:00:15
+
+Screen Brightness: 0.000000
+Hardware Model: N69uAP
+Awake Time: 06:31:07 (23466)
+Standby Time: 41:54:54 (150894)
+Partial Charge: 0
+Capacity: 18
+Voltage: 3253 mV
+Voltage Droop Time: 10181035784
+Voltage Droop Transitions: 110

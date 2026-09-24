@@ -1,0 +1,26 @@
+{
+  "country": "EE",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "russula_cyanoxantha",
+    "russula_paludosa",
+    "russula_decolorans",
+    "russula_aeruginea",
+    "russula_delica",
+    "lactarius_deterrimus",
+    "lactarius_deliciosus",
+    "lactarius_necator",
+    "lactarius_rufus",
+    "boletus_edulis",
+    "leccinum_aurantiacum__2",
+    "suillus_luteus",
+    "cortinarius_caperatus",
+    "cortinarius_mucosus",
+    "armillaria_mellea",
+    "kuehneromyces_mutabilis",
+    "cantharellus_cibarius",
+    "craterellus_cornucopioides",
+    "macrolepiota_procera",
+    "craterellus_tubaeformis"
+  ]
+}

@@ -16,17 +16,22 @@ internal val portugueseHelpTexts: Map<HelpKey, String> = mapOf(
         "Os mosaicos de cogumelos em baixo são com o que se marcam os achados: «+» regista um achado no " +
             "seu ponto atual, «−» retira a última marcação errada dessa espécie. Manter «+» premido abre " +
             "a introdução de vários de uma vez; mais de 999 cogumelos iguais por caminhada não é possível " +
-            "marcar.",
+            "marcar." +
+            " Em vez de «+» pode tocar-se na própria imagem. O cartão responde com uma onda de cor: verde ao " +
+            "adicionar, vermelha ao retirar.",
     HelpKey.RecordPlace to
         "O botão redondo à esquerda marca um local — com nome, descrição e fotografia. O local fica onde " +
             "está neste momento e permanece no mapa depois da caminhada.",
     HelpKey.RecordNavigation to
         "Manter premido o marcador de um local liga a navegação até ele: o painel no canto superior " +
-            "direito mostra a direção e a distância ao destino. A cruz no painel desliga a navegação.",
+            "direito mostra a direção e a distância ao destino. A cruz no painel desliga a navegação." +
+            " A direção vem da bússola do telemóvel e atualiza-se assim que se vira; segure o telemóvel mais ou " +
+            "menos na horizontal, como um mapa.",
     HelpKey.RecordSearchAndOwn to
         "A lupa à direita encontra o cogumelo pelo nome e leva o seu mosaico para o início da fila — é " +
             "mais rápido quando há muitas espécies ativas. O último mosaico da fila, com um mais, " +
-            "acrescenta uma espécie sua que não existe no catálogo.",
+            "acrescenta uma espécie sua que não existe no catálogo." +
+            " A pesquisa também entende os segundos nomes populares da espécie, não apenas o principal.",
     HelpKey.RecordFilters to
         "O botão «Filtros» no canto superior esquerdo define que espécies e de que período aparecem no " +
             "mapa, e o número nele indica quantos filtros estão ativos. O filtro é comum com o «Mapa de " +

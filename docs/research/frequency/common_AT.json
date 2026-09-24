@@ -1,0 +1,26 @@
+{
+  "country": "AT",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "macrolepiota_procera",
+    "leccinum_aurantiacum",
+    "leccinum_scabrum",
+    "sparassis_crispa",
+    "imleria_badia",
+    "agaricus_campestris__2",
+    "coprinus_comatus",
+    "hydnum_repandum",
+    "kuehneromyces_mutabilis",
+    "amanita_rubescens",
+    "neoboletus_erythropus",
+    "suillus_grevillei",
+    "suillus_luteus",
+    "xerocomus_subtomentosus",
+    "cortinarius_caperatus",
+    "marasmius_oreades",
+    "armillaria_mellea",
+    "craterellus_cornucopioides"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "country": "ME",
+  "method": "derived-from-notes+neighbour-RS",
+  "common": [
+    "boletus_edulis",
+    "boletus_aereus",
+    "boletus_reticulatus",
+    "cantharellus_cibarius",
+    "amanita_caesarea",
+    "amanita_rubescens",
+    "craterellus_cornucopioides",
+    "hydnum_repandum",
+    "lactarius_deliciosus",
+    "macrolepiota_procera",
+    "armillaria_mellea",
+    "pleurotus_ostreatus",
+    "suillus_luteus",
+    "suillus_granulatus",
+    "agaricus_campestris__2",
+    "russula_cyanoxantha",
+    "russula_virescens",
+    "calocybe_gambosa"
+  ]
+}

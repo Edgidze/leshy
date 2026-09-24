@@ -1,0 +1,22 @@
+{
+  "country": "NL",
+  "method": "derived-from-notes",
+  "common": [
+    "boletus_edulis",
+    "imleria_badia",
+    "cantharellus_cibarius",
+    "macrolepiota_procera",
+    "pleurotus_ostreatus",
+    "leccinum_scabrum",
+    "auricularia_auricula_judae",
+    "coprinus_comatus",
+    "armillaria_mellea",
+    "suillus_luteus",
+    "flammulina_velutipes",
+    "lepista_nuda",
+    "lycoperdon_perlatum",
+    "marasmius_oreades",
+    "russula_cyanoxantha__2",
+    "amanita_rubescens"
+  ]
+}

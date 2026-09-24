@@ -1,0 +1,26 @@
+{
+  "country": "GB",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "cantharellus_cibarius",
+    "boletus_edulis",
+    "agaricus_campestris__2",
+    "agaricus_arvensis",
+    "hydnum_repandum",
+    "calvatia_gigantea",
+    "macrolepiota_procera",
+    "coprinus_comatus",
+    "lepista_nuda",
+    "lepista_personata",
+    "lycoperdon_perlatum",
+    "laetiporus_sulphureus",
+    "fistulina_hepatica",
+    "pleurotus_ostreatus",
+    "imleria_badia",
+    "sparassis_crispa",
+    "auricularia_auricula_judae",
+    "marasmius_oreades",
+    "craterellus_tubaeformis",
+    "armillaria_mellea"
+  ]
+}

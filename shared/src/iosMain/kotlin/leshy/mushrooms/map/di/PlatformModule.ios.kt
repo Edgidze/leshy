@@ -13,11 +13,13 @@ import leshy.mushrooms.map.data.platform.HttpTextFetcher
 import leshy.mushrooms.map.data.platform.IosArchiveFileReader
 import leshy.mushrooms.map.data.platform.IosBackgroundRecordingController
 import leshy.mushrooms.map.data.platform.IosHttpTextFetcher
+import leshy.mushrooms.map.data.platform.IosHeadingProvider
 import leshy.mushrooms.map.data.platform.IosLocationTracker
 import leshy.mushrooms.map.data.platform.IosMapStyleStorage
 import leshy.mushrooms.map.data.platform.IosPhotoStorage
 import leshy.mushrooms.map.data.platform.IosPinnedStyleInterceptor
 import leshy.mushrooms.map.data.platform.IosWalkThumbnailRenderer
+import leshy.mushrooms.map.data.platform.HeadingProvider
 import leshy.mushrooms.map.data.platform.LocationTracker
 import leshy.mushrooms.map.data.platform.MapStyleStorage
 import leshy.mushrooms.map.data.platform.PhotoStorage
@@ -55,6 +57,7 @@ actual val platformModule: Module = module {
     }
     single { IosLocationTracker() }
     single<LocationTracker> { get<IosLocationTracker>() }
+    single<HeadingProvider> { IosHeadingProvider() }
     single<BackgroundRecordingController> { IosBackgroundRecordingController(get()) }
     single<WalkThumbnailRenderer> { IosWalkThumbnailRenderer(get()) }
     single<PhotoStorage> { IosPhotoStorage() }

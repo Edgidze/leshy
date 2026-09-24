@@ -1,0 +1,50 @@
+{
+  "country": "NZ",
+  "method": "research-session",
+  "common": [
+    "lactarius_deliciosus",
+    "suillus_luteus",
+    "leccinum_scabrum",
+    "coprinus_comatus",
+    "calvatia_gigantea",
+    "agaricus_campestris__2",
+    "auricularia_cornea",
+    "armillaria_novae_zelandiae",
+    "trametes_versicolor"
+  ],
+  "evidence": {
+    "lactarius_deliciosus": "Рыжик — классическая массовая добыча в сосновых посадках NZ (март–июнь); в отчётах о сборе идёт как базовый вид «found throughout» (ourwayoflife.co.nz, fungiatlas.com).",
+    "suillus_luteus": "Маслёнок под соснами по всей стране — «found throughout NZ», «slippery jacks can be found up and down the country»; один из первых видов, что называет сборщик (ourwayoflife.co.nz, thespinoff.co.nz).",
+    "leccinum_scabrum": "Подберёзовик под интродуцированной берёзой; «found throughout NZ», «pop up in most of our urban centres» — берёзы обычны в парках и на улицах, вид входит в базовую осеннюю пятёрку сбора (ourwayoflife.co.nz, mycologic.nz).",
+    "coprinus_comatus": "Навозник белый — массово вдоль дорог и на нарушенных газонах, растёт кластерами («once you've spotted one you'll see others»), собираемый вид в базовом осеннем наборе (ourwayoflife.co.nz, rnz.co.nz).",
+    "calvatia_gigantea": "Гигантский дождевик — обычен и собираем на выпасах и парковых лугах после дождей; в списке самых частых и безопасных видов для новичка вместе с hakeke и луговым шампиньоном (sanctuary.org.nz, fungiatlas.com).",
+    "auricularia_cornea": "Hakeke — обычен и собираем на нативных деревьях и садовых стволах; исторически заготавливался промышленно (экспорт в Китай в 1880-х), в тройке самых частых видов для сбора (teara.govt.nz, sanctuary.org.nz, rnz.co.nz).",
+    "armillaria_novae_zelandiae": "Harore — «very common in the New Zealand bush», массовый сапротроф нативного леса и садовых пней, традиционно широко собирался и употреблялся маори (nzgeo.com, teara.govt.nz).",
+    "trametes_versicolor": "Траметес разноцветный (turkey tail) — обычный космополитный трутовик по большинству регионов NZ, легко узнаётся; собирается как лекарственный/чайный вид, не пищевой. Если частотность нужна только для пищевого сбора — можно убрать (Wikipedia, Landcare virtualmycota).",
+    "agaricus_campestris__2": "Луговой шампиньон — массовая добыча: «found in pastures all around New Zealand», «often seen in large numbers in heavily fertilised grassy areas in cities, as well as on farms», собирается поколениями (teara.govt.nz, Landcare fungalguide, Wikipedia «Fungi of NZ»). ВНИМАНИЕ: в подборке этот ключ подписан «Yellow stainers» и помечен ⚠ — подпись, похоже, перепутана с agaricus_subrufescens; настоящий yellow stainer — A. xanthodermus, не A. campestris."
+  },
+  "not_common": {
+    "boletus_edulis": "Белый гриб культово важен (знач. 5), но в NZ локален: восточное побережье Южного острова (Крайстчёрч, Данидин) и нижний Северный (Веллингтон), медленно расползается. За ним едут в известные места под дубами — «worth making an effort to find it». Трофейно-локальный, не рядовая встреча (ourwayoflife.co.nz, trufflesandmushrooms.co.nz, thespinoff.co.nz).",
+    "agaricus_subrufescens": "Подписан «Field mushrooms» — из-за чего выглядит очевидным кандидатом в частотные. Но по латыни A. subrufescens — это миндальный/тепличный вид («almond mushroom», культивируемый), а НЕ массовый дикий луговой гриб NZ. Массовый луговой — A. campestris (ключ agaricus_campestris). Подписи двух ключей, похоже, перепутаны местами (practicalselfreliance.com, патент USPTO PP19313).",
+    "cyclocybe_parasitica": "Tawaka культово важен, съедобен и вкусен (знач. 5), но это кластерная находка на конкретных лиственных (tawa, hoheria, тополь/платан): «once you find a tawaka spot, you're feeling pretty lucky» — везение, а не рядовой сезонный выход (rnz.co.nz, nzgeo.com).",
+    "morchella_esculenta": "Сморчок знаменит и собираем (знач. 5), но в NZ спорадичен и локален — единичные вспышки в городской щепе; типичная охота «пока не набьёшь глаз», а не рядовая встреча (fungiatlas.com, rnz.co.nz).",
+    "stropharia_rugosoannulata": "Винная шляпка в NZ фигурирует в основном как культивируемый/щеповой вид в списках выращиваемых грибов, а не как рядовая дикая добыча сезонного выхода (mycologic.nz).",
+    "hericium_novae_zealandiae": "Pekepeke-kiore, нативный ежовик (знач. 5) — съедобный и культово важный, но редкая специальная находка; вид на стадии изучения и попыток реинтродукции, а не то, что собирают за прогулку (nzgeo.com, mycologic.nz)."
+  },
+  "sources": [
+    "https://ourwayoflife.co.nz/5-mushrooms-to-forage-in-autumn/",
+    "https://thespinoff.co.nz/kai/24-04-2021/finding-fungi-a-beginners-guide-to-mushroom-foraging-season",
+    "https://sanctuary.org.nz/fungi-foraging-in-native-forests/",
+    "https://fungiatlas.com/mushrooms-in-new-zealand/",
+    "https://teara.govt.nz/en/fungi/print",
+    "https://teara.govt.nz/en/mushrooms-and-other-cultivated-fungi/print",
+    "https://www.nzgeo.com/stories/the-underground-forest/",
+    "https://fungalguide.landcareresearch.co.nz/WebForms/FG_Genus.aspx?Group=Agaricus&pk=24396",
+    "https://en.wikipedia.org/wiki/Fungi_of_New_Zealand",
+    "https://www.mycologic.nz/post/wild-edible-mushrooms-of-new-zealand",
+    "https://www.mycologic.nz/commonly-cultivated-species",
+    "https://www.rnz.co.nz/national/programmes/saturday/audio/2018889967/liv-sisson-aotearoa-s-fascinating-and-freaky-fungi",
+    "http://www.trufflesandmushrooms.co.nz/Boletus%20edulis%20s.pdf",
+    "https://practicalselfreliance.com/agaricus-mushrooms/"
+  ]
+}

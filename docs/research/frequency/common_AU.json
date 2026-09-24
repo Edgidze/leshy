@@ -1,0 +1,54 @@
+{
+  "country": "AU",
+  "method": "research-session",
+  "common": [
+    "lactarius_deliciosus",
+    "suillus_luteus",
+    "agaricus_campestris__2",
+    "coprinus_comatus",
+    "lepista_nuda",
+    "armillaria_luteobubalina"
+  ],
+  "evidence": {
+    "lactarius_deliciosus": "Главный собираемый вид: рыжик массово берут в сосняках Pinus radiata (Vic, NSW, SA) осенью, март–май; один из двух самых собираемых грибов Австралии (Alison Pouliot / Organic Gardener; VisitNSW/Oberon).",
+    "suillus_luteus": "Второй из двух самых собираемых видов Австралии, те же сосновые плантации, в корзину вместе с рыжиком (Alison Pouliot / Organic Gardener; коммерческие туры сбора NSW/Southern Highlands).",
+    "agaricus_campestris__2": "Луговой шампиньон — классическая съедобная добыча на пастбищах и городских газонах умеренного SE (RBG Victoria; описание страны в задаче).",
+    "coprinus_comatus": "Навозник белый / lawyer's wig — молодым отличный съедобный, собирается; в Австралии достаточно обычен (в 1981 попал на марку Australia Post), на газонах, обочинах и пустырях (iNaturalist/Boa 2014; bushfoodforager).",
+    "lepista_nuda": "Wood blewit — интродуцированный съедобный, активно собирается; в Австралии 'становится обычнее', на листовом/эвкалиптовом опаде прохладного SE (Wikipedia; Foraging Course Co.). Оговорка: осторожность из-за ядовитых пурпурных двойников Cortinarius.",
+    "armillaria_luteobubalina": "Австралийский опёнок — съедобен после проварки, наиболее патогенный и широко распространённый из шести видов; осенние сростки у оснований деревьев в лесах, парках и садах юга и востока (Wikipedia; DBCA). Оговорка: краевой пищевой вид, горчит."
+  },
+  "not_common": {
+    "amanita_muscaria": "Мухомор массов и заметен под соснами и берёзами, но ядовит и не собирается — по пищевому критерию не частотный (ANBG; отчёты о сборе).",
+    "amanita_phalloides": "Бледная поганка на виду под городскими дубами и на слуху, но смертельна и не берётся; к тому же локальна (только под интродуцированными дубами) (RBG Victoria; MJA 1999).",
+    "agaricus_xanthodermus": "Жёлтоокрашивающийся шампиньон обычен на газонах, но ядовит — главный несобираемый двойник лугового шампиньона, частая причина отравлений (RBG Victoria).",
+    "chlorophyllum_molybdites": "Зеленоспоровый зонтик очень обычен на газонах и в клумбах, но ядовит и несобираем (Queensland Health).",
+    "omphalotus_nidiformis": "Призрачный гриб обычен и заметен (топ по наблюдениям), но несъедобен — светящийся дереворазрушитель, его фотографируют, а не собирают (Friends of Warwick Bushland).",
+    "cyttaria_gunnii": "'Beech orange' съедобен и культово-узнаваем, но облигатный паразит южного бука Nothofagus — только прохладные леса Vic/Tas, редко на обычном маршруте (Wikipedia; Peterson & Pfister 2010).",
+    "laccocephalum_mylittae": "'Хлеб аборигенов' съедобен, но это подземный склероций, плодоносит лишь после пожара — за ним копают специально, случайно не собирают (Wikipedia; DBCA).",
+    "podaxis_pistillaris": "'Black powderpuff' съедобен молодым, но это вид аридных и пустынных зон (Улуру, Алис-Спрингс), а не заселённого умеренного SE, где идут прогулки (Wikipedia; Ausemade)."
+  },
+  "sources": [
+    "https://www.organicgardener.com.au/?p=13448",
+    "https://fungiatlas.com/mushrooms-in-australia/",
+    "https://www.bathurstregion.com.au/things-to-do/get-outdoors/mushroom-foraging-in-bathurst/",
+    "https://www.oberonaustralia.com.au/visitor-information/things-to-see-do/mushroom-picking/",
+    "https://rbg.vic.gov.au/science/herbarium/yellow-staining-mushroom",
+    "https://en.wikipedia.org/wiki/Coprinus_comatus",
+    "https://www.inaturalist.org/guide_taxa/1416134",
+    "https://redlist.info/iucn/species_view/148667",
+    "https://en.wikipedia.org/wiki/Collybia_nuda",
+    "https://www.foragingcoursecompany.co.uk/foraging-guide-wood-blewit",
+    "https://en.wikipedia.org/wiki/Armillaria_luteobubalina",
+    "https://www.dbca.wa.gov.au/sites/default/files/2022-11/Armillaria%20Profile%20APPS.pdf",
+    "https://anbg.gov.au/fungi/mycogeography-imports.html",
+    "https://rbg.vic.gov.au/science/herbarium/death-cap",
+    "https://www.mja.com.au/journal/1999/171/5/poisoning-amanita-phalloides-deathcap-mushrooms-australian-capital-territory",
+    "https://poisonsinfo.health.qld.gov.au/plants-and-mushrooms/green-spored-parasol-chlorophyllum-molybdites",
+    "https://friendsofwarwickbushland.com/portfolio-item/fungi/",
+    "https://en.wikipedia.org/wiki/Cyttaria_gunnii",
+    "https://en.wikipedia.org/wiki/Laccocephalum_mylittae",
+    "https://library.dbca.wa.gov.au/FullTextFiles/PAM09179.pdf",
+    "https://en.wikipedia.org/wiki/Podaxis_pistillaris",
+    "https://ausemade.com.au/?p=93525"
+  ]
+}

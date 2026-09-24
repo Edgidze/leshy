@@ -762,17 +762,28 @@ private fun RecordScreenContent(
                         MushroomTile(
                             category = category,
                             count = uiState.mushroomCounts[category.id] ?: 0,
+                            // Обе лямбды возвращают, принято ли нажатие: по этому плитка решает,
+                            // играть ли перелив (см. MushroomTile). Отказ здесь — не
+                            // исключительный случай, а два обычных: нет фикса (показываем
+                            // сообщение) и прогулка ещё не начата (RecordViewModel.addMushroom
+                            // молча выходит по `walkId ?: return`). Тот же предикат уже стоит
+                            // ниже у onBulkAdd и у тактильного отклика — он здесь не новый.
                             onAdd = {
                                 if (!hasLocation) {
                                     showNoLocationDialog = true
+                                    false
                                 } else {
                                     if (uiState.isRecording) haptics.findAdded()
                                     onAddMushroom(category.id)
+                                    uiState.isRecording
                                 }
                             },
                             onRemove = {
                                 haptics.findRemoved()
                                 onRemoveMushroom(category.id)
+                                // Кнопка «−» доступна только при count > 0, а ненулевой счётчик
+                                // бывает лишь у идущей прогулки — отказать тут нечему.
+                                true
                             },
                             // null до старта прогулки и без координат — тогда у плитки нет ни
                             // таймера удержания, ни заливки-индикатора, ни отклика на взятый

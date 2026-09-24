@@ -1,0 +1,190 @@
+{
+  "agaricus_campestris": [
+    "Champignon"
+  ],
+  "agaricus_campestris__2": [
+    "Wiesenegerling",
+    "Wiesen-Champignon"
+  ],
+  "agaricus_sylvaticus": [
+    "Waldchampignon"
+  ],
+  "agaricus_xanthodermus": [
+    "Giftchampignon",
+    "Karbol-Egerling"
+  ],
+  "amanita_muscaria": [
+    "Roter Fliegenpilz"
+  ],
+  "amanita_pantherina": [
+    "Pantherwulstling"
+  ],
+  "amanita_virosa": [
+    "Weißer Knollenblätterpilz",
+    "Kegeliger Knollenblätterpilz",
+    "Spitzhütiger Knollenblätterpilz"
+  ],
+  "boletus_edulis": [
+    "Herrenpilz",
+    "Fichten-Steinpilz",
+    "Gemeiner Steinpilz"
+  ],
+  "calocybe_gambosa": [
+    "Georgsritterling",
+    "Maipilz"
+  ],
+  "cantharellus_cibarius": [
+    "Eierschwammerl",
+    "Eierschwamm",
+    "Nagerl",
+    "Gemeiner Pfifferling"
+  ],
+  "coprinus_comatus": [
+    "Tintenschöpfling",
+    "Schopf-Tintling"
+  ],
+  "cortinarius_caperatus": [
+    "Zigeuner"
+  ],
+  "cortinarius_orellanus": [
+    "Orangefuchsiger Schleierling"
+  ],
+  "craterellus_cornucopioides": [
+    "Totentrompete"
+  ],
+  "craterellus_tubaeformis": [
+    "Trompetenpfifferling"
+  ],
+  "flammulina_velutipes": [
+    "Winterpilz",
+    "Gemeiner Samtfußrübling"
+  ],
+  "galerina_marginata": [
+    "Nadelholzhäubling",
+    "Nadelholz-Häubling"
+  ],
+  "gomphidius_glutinosus": [
+    "Kuhmaul"
+  ],
+  "grifola_frondosa": [
+    "Klapperschwamm"
+  ],
+  "gyromitra_esculenta": [
+    "Stockmorchel",
+    "Giftlorchel"
+  ],
+  "hydnum_repandum": [
+    "Semmelstacheling",
+    "Semmel-Stoppelpilz"
+  ],
+  "hygrophoropsis_aurantiaca": [
+    "Orangegelber Gabelblättling"
+  ],
+  "hypholoma_capnoides": [
+    "Graublättriger Schwefelkopf"
+  ],
+  "imleria_badia": [
+    "Maronenröhrling",
+    "Braunkappe",
+    "Braunhäuptchen",
+    "Maronen-Röhrling"
+  ],
+  "kuehneromyces_mutabilis": [
+    "Gemeines Stockschwämmchen"
+  ],
+  "lactarius_deliciosus": [
+    "Edelreizker",
+    "Kiefernreizker",
+    "Edel-Reizker"
+  ],
+  "lactarius_deterrimus": [
+    "Fichtenreizker"
+  ],
+  "lactifluus_volemus": [
+    "Milchbrätling",
+    "Brotpilz"
+  ],
+  "leccinum_aurantiacum": [
+    "Rotkapperl"
+  ],
+  "leccinum_leucopodium": [
+    "Rotkappen"
+  ],
+  "leccinum_scabrum": [
+    "Brauner Birkenpilz",
+    "Birkenpilze"
+  ],
+  "macrolepiota_procera": [
+    "Riesenschirmling",
+    "Großer Riesenschirmling"
+  ],
+  "marasmius_oreades": [
+    "Feldschwindling",
+    "Veilchenpilz"
+  ],
+  "morchella_esculenta": [
+    "Morcheln"
+  ],
+  "phallus_impudicus": [
+    "Gemeine Stinkmorchel"
+  ],
+  "pleurotus_ostreatus": [
+    "Austernpilz",
+    "Austern-Seitling"
+  ],
+  "ramaria_flava": [
+    "Ziegenbart"
+  ],
+  "rubroboletus_satanas": [
+    "Satanspilz"
+  ],
+  "russula_cyanoxantha__2": [
+    "Frauen-Täubling"
+  ],
+  "russula_emetica": [
+    "Speitäublinge"
+  ],
+  "russula_vesca": [
+    "Fleischroter Speisetäubling"
+  ],
+  "scleroderma_citrinum": [
+    "Kartoffelpilz"
+  ],
+  "scleroderma_sp": [
+    "Kartoffelboviste"
+  ],
+  "sparassis_crispa": [
+    "Burgschwamm",
+    "Fette Henne"
+  ],
+  "suillellus_luridus": [
+    "Hexenröhrling"
+  ],
+  "suillus_bovinus": [
+    "Kuhröhrling"
+  ],
+  "suillus_granulatus": [
+    "Körnchen-Röhrling"
+  ],
+  "suillus_grevillei": [
+    "Gold-Röhrling",
+    "Lärchen-Röhrling"
+  ],
+  "suillus_variegatus": [
+    "Sandpilz",
+    "Semmelpilz",
+    "Sand-Röhrling"
+  ],
+  "tylopilus_felleus": [
+    "Bitterling",
+    "Bitterpilz"
+  ],
+  "xerocomellus_chrysenteron": [
+    "Echter Rotfußröhrling",
+    "Rotfüßchen",
+    "Rotfußröhrlinge"
+  ],
+  "xerocomus_subtomentosus": [
+    "Filzröhrling"
+  ]
+}

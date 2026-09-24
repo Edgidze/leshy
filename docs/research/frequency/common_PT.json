@@ -1,0 +1,22 @@
+{
+  "country": "PT",
+  "method": "derived-from-notes",
+  "common": [
+    "lactarius_deliciosus",
+    "lactarius_sanguifluus",
+    "boletus_edulis",
+    "boletus_aereus",
+    "amanita_ponderosa",
+    "macrolepiota_procera",
+    "cantharellus_cibarius",
+    "tricholoma_equestre",
+    "tricholoma_terreum",
+    "tricholoma_portentosum",
+    "amanita_caesarea",
+    "hydnum_repandum",
+    "pleurotus_ostreatus",
+    "craterellus_cornucopioides",
+    "fistulina_hepatica",
+    "agaricus_campestris__2"
+  ]
+}

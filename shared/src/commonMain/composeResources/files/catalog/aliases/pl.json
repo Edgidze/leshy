@@ -1,0 +1,383 @@
+{
+  "agaricus_campestris": [
+    "Pieczarka",
+    "Dzika pieczarka",
+    "Pieczarka łąkowa"
+  ],
+  "agaricus_xanthodermus": [
+    "Trująca pieczarka"
+  ],
+  "amanita_citrina": [
+    "Muchomor żółty"
+  ],
+  "amanita_fulva": [
+    "Czubek",
+    "Żydówka",
+    "Czubajka",
+    "Wyskoczek"
+  ],
+  "amanita_muscaria": [
+    "Muchomor",
+    "Muchar",
+    "Muchomor pstry",
+    "Muchar czerwony",
+    "Muchomor pospolity",
+    "Muchomor kropkowaty"
+  ],
+  "amanita_phalloides": [
+    "Sromotnik",
+    "Muchomor zielonawy",
+    "Sromotniak",
+    "Muchomor szary",
+    "Muchar sromotnik",
+    "Muchomor zielony",
+    "Muchomor sromotny"
+  ],
+  "amanita_virosa": [
+    "Muchomor biały",
+    "Muchar białawy"
+  ],
+  "armillaria_mellea": [
+    "Opieńka miodowa",
+    "Podpinka",
+    "Opieniek",
+    "Podpieńka",
+    "Podpieniek",
+    "Opieńka żółta"
+  ],
+  "boletus_edulis": [
+    "Borowik",
+    "Borowik szlachetny",
+    "Grzyb prawdziwy",
+    "Prawdziwy grzyb",
+    "Prawy",
+    "Prawus",
+    "Prawiak",
+    "Prawuszek",
+    "Grzyb prawy"
+  ],
+  "boletus_reticulatus": [
+    "Prawdziwek biały",
+    "Prawdziwek jasny",
+    "Prawdziwy dębowy"
+  ],
+  "bovista_sp": [
+    "Purchawki",
+    "Bycze jaja"
+  ],
+  "calocybe_gambosa": [
+    "Majówka wiosenna",
+    "Gąska biała"
+  ],
+  "calvatia_gigantea": [
+    "Purchawa",
+    "Purchawiec"
+  ],
+  "cantharellus_cibarius": [
+    "Pieprznik jadalny",
+    "Gąska",
+    "Kurek",
+    "Liska",
+    "Lisiczka",
+    "Kurzajka",
+    "Kurza stopka",
+    "Lisica",
+    "Lisiec",
+    "Kurka żółta",
+    "Pieprznik gąska",
+    "Stroczek lisica",
+    "Pieprzyk jadalny",
+    "Stągiewka jadalna",
+    "Pieprznik pospolity"
+  ],
+  "collybia_nuda": [
+    "Gąsówka naga",
+    "Gąska fioletowa"
+  ],
+  "coprinus_comatus": [
+    "Czernidłak"
+  ],
+  "cortinarius_caperatus": [
+    "Kołpak",
+    "Turek",
+    "Niemka",
+    "Płachcianka"
+  ],
+  "craterellus_cornucopioides": [
+    "Cholewa",
+    "Cholewka",
+    "Czarna kurka",
+    "Fioletowa trąba"
+  ],
+  "galerina_marginata": [
+    "Hełmówka obrzeżona"
+  ],
+  "gyromitra_esculenta": [
+    "Piestrzenica",
+    "Babie uszy"
+  ],
+  "gyroporus_castaneus": [
+    "Prawdziwek piaskowiec"
+  ],
+  "gyroporus_cyanescens": [
+    "Siniak",
+    "Modrak",
+    "Modrzak",
+    "Modrzewiak",
+    "Piasecznik",
+    "Piaskowiec"
+  ],
+  "hydnum_repandum": [
+    "Kolczak",
+    "Sarenka"
+  ],
+  "hygrophoropsis_aurantiaca": [
+    "Trująca kurka",
+    "Fałszywa gąska",
+    "Fałszywa kurka",
+    "Pieprznik jadowity"
+  ],
+  "hygrophorus_hypothejus": [
+    "Tłuszczka",
+    "Listopadka",
+    "Cienka łydka",
+    "Przylaszczka"
+  ],
+  "imleria_badia": [
+    "Podgrzybek",
+    "Siniak",
+    "Podgrzyb",
+    "Podgrzybka",
+    "Półgrzybek",
+    "Czarny łepek",
+    "Podgrzybnica",
+    "Podprawdziwek",
+    "Półprawdziwek"
+  ],
+  "lactarius_deliciosus": [
+    "Mleczaj rydz"
+  ],
+  "lactarius_deterrimus": [
+    "Rydz żółty"
+  ],
+  "lactarius_torminosus": [
+    "Wełnianka",
+    "Trujący rydz",
+    "Trująca krowia morda"
+  ],
+  "lactifluus_vellereus": [
+    "Gruzd",
+    "Chrząszcz"
+  ],
+  "lactifluus_volemus": [
+    "Krówka",
+    "Dójka",
+    "Krowa",
+    "Krówski rydz"
+  ],
+  "leccinum_aurantiacum": [
+    "Osak",
+    "Olszak",
+    "Olszyn",
+    "Pamfil",
+    "Kowalik",
+    "Krawiec",
+    "Osiniak",
+    "Pociech",
+    "Szewiec",
+    "Zapałka",
+    "Pociecha",
+    "Stołyngwa",
+    "Czerwoniak",
+    "Czerwonołepek",
+    "Czerwony łepek",
+    "Kozak czerwony",
+    "Czerwona główka",
+    "Czerwonogłowiec",
+    "Koźlak czerwony",
+    "Koźlar czerwony"
+  ],
+  "leccinum_scabrum": [
+    "Kozak szary",
+    "Kozak",
+    "Siwek",
+    "Kozioł",
+    "Koźlak",
+    "Koźlarz",
+    "Koziołek",
+    "Brzeźniak",
+    "Brzozowiak",
+    "Kowal siwy",
+    "Koźlar szary",
+    "Podbrzeźniak",
+    "Koźlarz szary"
+  ],
+  "leccinum_versipelle": [
+    "Czerwoniak"
+  ],
+  "macrolepiota_procera": [
+    "Czubajka kania",
+    "Gapa",
+    "Sowa",
+    "Baran",
+    "Czubak",
+    "Drapka",
+    "Czubajka",
+    "Kania polna"
+  ],
+  "marasmius_oreades": [
+    "Przydróżka",
+    "Psiak",
+    "Tańcowniczka",
+    "Twardzioszek",
+    "Murawka",
+    "Gromadka",
+    "Rzędówka",
+    "Podróżnik",
+    "Tanecznik",
+    "Tańcownik",
+    "Tańcownica",
+    "Podróżniczek",
+    "Przydrożniak",
+    "Przydróżniczek",
+    "Wywieruszka",
+    "Zawieruszka"
+  ],
+  "morchella_esculenta": [
+    "Smardze",
+    "Smarż"
+  ],
+  "paxillus_involutus": [
+    "Olszówka",
+    "Krowiak",
+    "Świńska olszówka"
+  ],
+  "pleurotus_ostreatus": [
+    "Boczniak"
+  ],
+  "ramaria_flava": [
+    "Kozia broda",
+    "Kozia bródka"
+  ],
+  "rubroboletus_satanas": [
+    "Szatanista",
+    "Borowik szatan"
+  ],
+  "russula_aeruginea": [
+    "Betka siwa",
+    "Betka zielona",
+    "Gołąbek zielony"
+  ],
+  "russula_cyanoxantha": [
+    "Gołąbki",
+    "Betka",
+    "Surojadka",
+    "Surojeżka",
+    "Serowiatka",
+    "Surowiatka",
+    "Syrowiatka",
+    "Jarząbek"
+  ],
+  "russula_emetica": [
+    "Betka czerwona",
+    "Czerwona siwka",
+    "Trujący gołąbek",
+    "Gołąbek czerwony",
+    "Surowiatka trująca"
+  ],
+  "sarcodon_squamosus": [
+    "Krowia morda",
+    "Sarenka",
+    "Wola morda",
+    "Woli morda",
+    "Bycze serce",
+    "Krowia gęba",
+    "Wołowy język"
+  ],
+  "scleroderma_citrinum": [
+    "Trufla",
+    "Bycze jajka"
+  ],
+  "sparassis_crispa": [
+    "Kozia broda",
+    "Jarosz"
+  ],
+  "suillus_bovinus": [
+    "Sitarz",
+    "Sitak",
+    "Sitek",
+    "Sitka",
+    "Sitarek",
+    "Sitawka",
+    "Sitowiak",
+    "Podgrzybek sitarz"
+  ],
+  "suillus_granulatus": [
+    "Maślak jasny",
+    "Maślak wczesny"
+  ],
+  "suillus_grevillei": [
+    "Maślak żółty",
+    "Modrzewiak",
+    "Maśluk modrzewiowy"
+  ],
+  "suillus_luteus": [
+    "Maślak zwyczajny",
+    "Pępek",
+    "Maśluk",
+    "Pampek",
+    "Ślimak"
+  ],
+  "suillus_variegatus": [
+    "Bagniak",
+    "Jakubek",
+    "Twardak",
+    "Błotniak",
+    "Miodziak",
+    "Miodówka",
+    "Twardziak",
+    "Błotniczek",
+    "Podgrzybek żółty"
+  ],
+  "tricholoma_equestre": [
+    "Zielonka",
+    "Gąska zielona",
+    "Gąska żółta",
+    "Pecłonka zielona",
+    "Prośnianka żółta",
+    "Prośnianka zielona",
+    "Prośnianka zielonkawa"
+  ],
+  "tricholoma_portentosum": [
+    "Siwka",
+    "Gąska szara",
+    "Podzielonka",
+    "Gąska ciemna",
+    "Pecłonka szara",
+    "Prośnianka siwa",
+    "Prośnianka szara",
+    "Prośnianka seledynowa"
+  ],
+  "tuber_aestivum": [
+    "Trufla"
+  ],
+  "tylopilus_felleus": [
+    "Szatan",
+    "Goryczak",
+    "Gorzki",
+    "Gorzkówka",
+    "Gorzkowiec",
+    "Podgorzelec",
+    "Piołun gorzkowiec",
+    "Prawdziwek szatan",
+    "Prawdziwek trujak",
+    "Szatan podgrzybek"
+  ],
+  "xerocomus_subtomentosus": [
+    "Zajączek",
+    "Zając",
+    "Zajęczak",
+    "Podgrzybnica",
+    "Podgrzybniczka"
+  ]
+}

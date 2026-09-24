@@ -1,0 +1,26 @@
+{
+  "country": "FR",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "craterellus_cornucopioides",
+    "hydnum_repandum",
+    "macrolepiota_procera",
+    "craterellus_tubaeformis",
+    "boletus_aestivalis",
+    "boletus_aereus",
+    "boletus_pinophilus",
+    "agaricus_campestris__2",
+    "calocybe_gambosa",
+    "imleria_badia",
+    "neoboletus_erythropus",
+    "craterellus_lutescens",
+    "lactarius_deliciosus",
+    "lepista_nuda",
+    "tricholoma_terreum",
+    "marasmius_oreades",
+    "coprinus_comatus",
+    "russula_cyanoxantha__2"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "agaricus_campestris": [
+    "Šampinjoni"
+  ],
+  "boletus_edulis": [
+    "Baravikas"
+  ],
+  "cantharellus_cibarius": [
+    "Gailene"
+  ],
+  "flammulina_velutipes": [
+    "Ziemas celmenes"
+  ],
+  "gyromitra_esculenta__2": [
+    "Bisītes"
+  ],
+  "hygrophoropsis_aurantiaca": [
+    "Negailene"
+  ],
+  "imleria_badia": [
+    "Poļu beka"
+  ],
+  "lactarius_deliciosus": [
+    "Rudmieses"
+  ],
+  "lactarius_scrobiculatus": [
+    "Dzeltenā krimilde"
+  ],
+  "lactarius_torminosus": [
+    "Vilnītis"
+  ],
+  "lactifluus_vellereus": [
+    "Krimildes"
+  ],
+  "leccinum_aurantiacum": [
+    "Lācīši",
+    "Apškundziņš"
+  ],
+  "leccinum_scabrum": [
+    "Bērzubekas"
+  ],
+  "morchella_esculenta": [
+    "Lāčpurnis"
+  ],
+  "phallus_impudicus": [
+    "Zemestauki"
+  ],
+  "pleurotus_ostreatus": [
+    "Sānause"
+  ],
+  "russula_cyanoxantha": [
+    "Bērzlapes"
+  ],
+  "suillus_luteus": [
+    "Sviesta bekas"
+  ],
+  "suillus_variegatus": [
+    "Makovice"
+  ],
+  "tricholoma_equestre": [
+    "Parastā smiltene"
+  ],
+  "verpa_bohemica": [
+    "Ķēvpups"
+  ]
+}

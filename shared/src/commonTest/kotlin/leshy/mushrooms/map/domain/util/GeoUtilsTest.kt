@@ -50,6 +50,41 @@ class GeoUtilsTest {
     }
 
     @Test
+    fun turnRecommendationReportsATurnJustPastTheThreshold() {
+        val result = turnRecommendation(courseBearingDegrees = 0.0, targetBearingDegrees = 20.0)
+        assertEquals(TurnDirection.RIGHT, result.direction)
+        assertEquals(20.0, result.degrees, EPSILON)
+    }
+
+    @Test
+    fun normalizeDegreesWrapsBothWays() {
+        assertEquals(10.0, normalizeDegrees(370.0), EPSILON)
+        assertEquals(350.0, normalizeDegrees(-10.0), EPSILON)
+        assertEquals(0.0, normalizeDegrees(720.0), EPSILON)
+    }
+
+    @Test
+    fun angleDeltaDegreesTakesTheShortWayAroundNorth() {
+        assertEquals(20.0, angleDeltaDegrees(350.0, 10.0), EPSILON)
+        assertEquals(20.0, angleDeltaDegrees(10.0, 350.0), EPSILON)
+        assertEquals(180.0, angleDeltaDegrees(0.0, 180.0), EPSILON)
+    }
+
+    /** Ровно тот случай, ради которого сглаживание считается через кратчайший поворот, а не по
+     * самим числам: среднее 359 и 1 как чисел — 180°, то есть стрелка назад на каждом пересечении
+     * севера. */
+    @Test
+    fun smoothAngleDegreesCrossesNorthWithoutFlipping() {
+        assertEquals(1.0, smoothAngleDegrees(previous = 359.0, next = 3.0, factor = 0.5), EPSILON)
+        assertEquals(359.0, smoothAngleDegrees(previous = 3.0, next = 355.0, factor = 0.5), EPSILON)
+    }
+
+    @Test
+    fun smoothAngleDegreesTakesTheFirstReadingAsIs() {
+        assertEquals(123.0, smoothAngleDegrees(previous = null, next = 123.0, factor = 0.25), EPSILON)
+    }
+
+    @Test
     fun hasArrivedWithinThreshold() {
         assertTrue(hasArrived(0.0))
         assertTrue(hasArrived(15.0))

@@ -1,0 +1,26 @@
+{
+  "country": "BG",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "agaricus_arvensis__2",
+    "macrolepiota_procera",
+    "lactarius_deliciosus",
+    "suillus_luteus",
+    "marasmius_oreades",
+    "armillaria_mellea",
+    "amanita_caesarea",
+    "amanita_rubescens",
+    "pleurotus_ostreatus",
+    "calocybe_gambosa",
+    "coprinus_comatus",
+    "craterellus_cornucopioides",
+    "cuphophyllus_pratensis",
+    "fistulina_hepatica",
+    "russula_virescens",
+    "russula_cyanoxantha__2",
+    "leccinum_scabrum",
+    "leccinum_aurantiacum__2"
+  ]
+}

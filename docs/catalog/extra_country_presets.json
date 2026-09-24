@@ -57,6 +57,23 @@
       "agaricus_xanthodermus",
       "hygrophoropsis_aurantiaca",
       "gyromitra_esculenta"
+    ],
+    "common": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "amanita_caesarea",
+      "craterellus_cornucopioides",
+      "macrolepiota_procera",
+      "lactarius_deliciosus",
+      "pleurotus_ostreatus",
+      "armillaria_mellea",
+      "hydnum_repandum",
+      "agaricus_campestris__2",
+      "pleurotus_eryngii",
+      "coprinus_comatus",
+      "marasmius_oreades",
+      "russula_cyanoxantha",
+      "lactarius_sanguifluus"
     ]
   },
   "AM": {
@@ -119,6 +136,21 @@
       "scleroderma_citrinum",
       "tylopilus_felleus",
       "fomes_fomentarius"
+    ],
+    "common": [
+      "agaricus_campestris",
+      "pleurotus_eryngii",
+      "pleurotus_ostreatus",
+      "lepista_personata",
+      "suillus_granulatus",
+      "calocybe_gambosa",
+      "marasmius_oreades",
+      "armillaria_mellea",
+      "lactarius_deliciosus",
+      "morchella_esculenta",
+      "collybia_nuda",
+      "tricholoma_terreum",
+      "cantharellus_cibarius"
     ]
   },
   "AZ": {
@@ -180,6 +212,22 @@
       "lepiota_brunneoincarnata",
       "pseudosperma_rimosum",
       "chlorophyllum_rhacodes"
+    ],
+    "common": [
+      "morchella_esculenta",
+      "boletus_edulis",
+      "agaricus_campestris",
+      "terfezia_boudieri",
+      "suillus_luteus",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "armillaria_mellea",
+      "pleurotus_ostreatus",
+      "boletus_aereus",
+      "boletus_reticulatus",
+      "leccinellum_pseudoscabrum",
+      "lactarius_deliciosus",
+      "suillus_granulatus"
     ]
   },
   "BA": {
@@ -240,6 +288,24 @@
       "cortinarius_orellanus",
       "inosperma_erubescens",
       "chlorophyllum_rhacodes"
+    ],
+    "common": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "craterellus_cornucopioides",
+      "hydnum_repandum",
+      "lactarius_deliciosus",
+      "amanita_caesarea",
+      "macrolepiota_procera",
+      "boletus_aereus",
+      "marasmius_oreades",
+      "agaricus_campestris__2",
+      "pleurotus_ostreatus",
+      "armillaria_mellea",
+      "boletus_reticulatus",
+      "boletus_pinophilus",
+      "calocybe_gambosa",
+      "russula_cyanoxantha"
     ]
   },
   "BE": {
@@ -300,6 +366,23 @@
       "calvatia_gigantea",
       "leccinum_aurantiacum",
       "clitopilus_prunulus"
+    ],
+    "common": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "imleria_badia",
+      "agaricus_campestris__2",
+      "coprinus_comatus",
+      "pleurotus_ostreatus",
+      "craterellus_tubaeformis",
+      "neoboletus_erythropus",
+      "leccinum_scabrum",
+      "armillaria_mellea",
+      "auricularia_auricula_judae",
+      "suillus_luteus",
+      "russula_cyanoxantha__2",
+      "marasmius_oreades"
     ]
   },
   "CH": {
@@ -363,6 +446,25 @@
       "inosperma_erubescens",
       "lepiota_brunneoincarnata",
       "omphalotus_olearius"
+    ],
+    "common": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "imleria_badia",
+      "armillaria_mellea",
+      "macrolepiota_procera",
+      "craterellus_cornucopioides",
+      "hydnum_repandum",
+      "neoboletus_erythropus",
+      "craterellus_tubaeformis",
+      "lactarius_deliciosus",
+      "amanita_rubescens",
+      "calocybe_gambosa",
+      "leccinum_scabrum",
+      "suillus_luteus",
+      "marasmius_oreades",
+      "lepista_nuda",
+      "cortinarius_caperatus"
     ]
   },
   "CY": {
@@ -411,6 +513,19 @@
       "inocybe_sp",
       "lepiota_brunneoincarnata",
       "clitocybe_rivulosa"
+    ],
+    "common": [
+      "lactarius_deliciosus",
+      "russula_delica",
+      "tricholoma_anatolicum",
+      "pleurotus_eryngii",
+      "agaricus_campestris__2",
+      "suillus_granulatus",
+      "suillus_luteus",
+      "coprinus_comatus",
+      "pleurotus_ostreatus",
+      "tricholoma_terreum",
+      "marasmius_oreades"
     ]
   },
   "DK": {
@@ -469,6 +584,27 @@
       "tricholoma_equestre",
       "entoloma_sinuatum",
       "clitocybe_rivulosa"
+    ],
+    "common": [
+      "cantharellus_cibarius",
+      "boletus_edulis",
+      "imleria_badia",
+      "craterellus_tubaeformis",
+      "hydnum_repandum",
+      "leccinum_scabrum",
+      "pleurotus_ostreatus",
+      "auricularia_auricula_judae",
+      "coprinus_comatus",
+      "agaricus_campestris__2",
+      "leccinum_versipelle",
+      "suillus_luteus",
+      "kuehneromyces_mutabilis",
+      "lepista_nuda",
+      "marasmius_oreades",
+      "lactarius_deterrimus",
+      "russula_cyanoxantha__2",
+      "flammulina_velutipes",
+      "calocybe_gambosa"
     ]
   },
   "GR": {
@@ -530,6 +666,25 @@
       "clitocybe_rivulosa",
       "lepiota_brunneoincarnata",
       "paxillus_involutus"
+    ],
+    "common": [
+      "boletus_edulis",
+      "lactarius_deliciosus",
+      "cantharellus_cibarius",
+      "amanita_caesarea",
+      "craterellus_cornucopioides",
+      "macrolepiota_procera",
+      "pleurotus_eryngii",
+      "pleurotus_ostreatus",
+      "hydnum_repandum",
+      "agaricus_campestris__2",
+      "lactarius_salmonicolor",
+      "armillaria_mellea",
+      "russula_cyanoxantha",
+      "lactarius_sanguifluus",
+      "coprinus_comatus",
+      "marasmius_oreades",
+      "lepista_nuda"
     ]
   },
   "IE": {
@@ -585,6 +740,27 @@
       "amanita_pantherina",
       "cortinarius_rubellus",
       "caloboletus_calopus"
+    ],
+    "common": [
+      "agaricus_campestris__2",
+      "hydnum_repandum",
+      "cantharellus_cibarius",
+      "craterellus_tubaeformis",
+      "boletus_edulis",
+      "coprinus_comatus",
+      "marasmius_oreades",
+      "macrolepiota_procera",
+      "armillaria_mellea",
+      "lycoperdon_perlatum",
+      "imleria_badia",
+      "lactarius_deliciosus",
+      "suillus_grevillei",
+      "suillus_luteus",
+      "leccinum_scabrum",
+      "russula_cyanoxantha__2",
+      "pleurotus_ostreatus",
+      "auricularia_auricula_judae",
+      "laccaria_amethystina"
     ]
   },
   "IS": {
@@ -626,6 +802,21 @@
       "inocybe_sp",
       "cortinarius_sp",
       "coprinopsis_atramentaria",
+      "lactarius_torminosus"
+    ],
+    "common": [
+      "suillus_grevillei",
+      "leccinum_scabrum",
+      "suillus_luteus",
+      "bovista_nigrescens",
+      "xerocomus_subtomentosus",
+      "gomphidius_glutinosus",
+      "coprinus_comatus",
+      "cuphophyllus_pratensis",
+      "agaricus_campestris__2",
+      "agaricus_arvensis",
+      "russula_aeruginea",
+      "russula_xerampelina",
       "lactarius_torminosus"
     ]
   },
@@ -684,6 +875,22 @@
       "coprinopsis_atramentaria",
       "amanita_verna",
       "tylopilus_felleus"
+    ],
+    "common": [
+      "morchella_esculenta",
+      "pleurotus_eryngii",
+      "agaricus_campestris",
+      "lepista_personata",
+      "russula_delica",
+      "pleurotus_ostreatus",
+      "leccinum_scabrum",
+      "suillus_luteus__2",
+      "armillaria_mellea",
+      "lactarius_deterrimus",
+      "cantharellus_cibarius",
+      "verpa_bohemica",
+      "lactarius_deliciosus",
+      "agaricus_arvensis"
     ]
   },
   "KZ": {
@@ -743,6 +950,24 @@
       "inonotus_obliquus",
       "cerioporus_squamosus",
       "lactarius_scrobiculatus"
+    ],
+    "common": [
+      "pleurotus_eryngii",
+      "lactarius_resimus",
+      "leccinum_scabrum",
+      "boletus_edulis",
+      "leccinum_aurantiacum",
+      "suillus_luteus__2",
+      "agaricus_campestris",
+      "armillaria_mellea",
+      "morchella_esculenta",
+      "lepista_personata",
+      "lactarius_torminosus",
+      "pleurotus_ostreatus",
+      "cantharellus_cibarius",
+      "lactarius_deliciosus",
+      "tricholoma_populinum",
+      "coprinus_comatus"
     ]
   },
   "LU": {
@@ -802,6 +1027,26 @@
       "inosperma_erubescens",
       "clitocybe_rivulosa",
       "scleroderma_citrinum"
+    ],
+    "common": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "craterellus_cornucopioides",
+      "hydnum_repandum",
+      "imleria_badia",
+      "macrolepiota_procera",
+      "armillaria_mellea",
+      "craterellus_tubaeformis",
+      "leccinum_scabrum",
+      "neoboletus_erythropus",
+      "coprinus_comatus",
+      "agaricus_campestris__2",
+      "marasmius_oreades",
+      "lepista_nuda",
+      "xerocomellus_chrysenteron",
+      "russula_cyanoxantha__2",
+      "lactarius_deterrimus",
+      "calocybe_gambosa"
     ]
   },
   "ME": {
@@ -860,6 +1105,26 @@
       "clitocybe_dealbata",
       "inosperma_erubescens",
       "cortinarius_orellanus"
+    ],
+    "common": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "amanita_caesarea",
+      "boletus_aereus",
+      "craterellus_cornucopioides",
+      "boletus_reticulatus",
+      "hydnum_repandum",
+      "lactarius_deliciosus",
+      "macrolepiota_procera",
+      "armillaria_mellea",
+      "pleurotus_ostreatus",
+      "amanita_rubescens",
+      "suillus_granulatus",
+      "suillus_luteus",
+      "agaricus_campestris__2",
+      "calocybe_gambosa",
+      "russula_cyanoxantha",
+      "russula_virescens"
     ]
   },
   "MK": {
@@ -919,6 +1184,26 @@
       "agaricus_xanthodermus",
       "gyromitra_esculenta",
       "lepiota_brunneoincarnata"
+    ],
+    "common": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "amanita_caesarea",
+      "lactarius_deliciosus",
+      "craterellus_cornucopioides",
+      "boletus_aereus",
+      "armillaria_mellea",
+      "pleurotus_ostreatus",
+      "hydnum_repandum",
+      "agaricus_campestris__2",
+      "marasmius_oreades",
+      "calocybe_gambosa",
+      "amanita_rubescens",
+      "lactarius_deterrimus",
+      "suillus_granulatus",
+      "suillus_luteus",
+      "russula_cyanoxantha"
     ]
   },
   "NL": {
@@ -977,6 +1262,24 @@
       "pseudosperma_rimosum",
       "morchella_esculenta",
       "phallus_impudicus"
+    ],
+    "common": [
+      "boletus_edulis",
+      "imleria_badia",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "pleurotus_ostreatus",
+      "leccinum_scabrum",
+      "auricularia_auricula_judae",
+      "coprinus_comatus",
+      "armillaria_mellea",
+      "suillus_luteus",
+      "flammulina_velutipes",
+      "lepista_nuda",
+      "lycoperdon_perlatum",
+      "marasmius_oreades",
+      "russula_cyanoxantha__2",
+      "amanita_rubescens"
     ]
   },
   "NO": {
@@ -1037,6 +1340,26 @@
       "hygrophorus_camarophyllus",
       "cortinarius_orellanus",
       "entoloma_sinuatum"
+    ],
+    "common": [
+      "cantharellus_cibarius",
+      "boletus_edulis",
+      "craterellus_tubaeformis",
+      "hydnum_repandum",
+      "leccinum_versipelle",
+      "craterellus_cornucopioides",
+      "cortinarius_caperatus",
+      "leccinum_scabrum",
+      "suillus_luteus",
+      "albatrellus_ovinus",
+      "suillus_variegatus",
+      "lactarius_deliciosus",
+      "coprinus_comatus",
+      "russula_decolorans",
+      "imleria_badia",
+      "agaricus_arvensis",
+      "marasmius_oreades",
+      "lactarius_trivialis"
     ]
   },
   "PT": {
@@ -1095,6 +1418,24 @@
       "amanita_gemmata",
       "amanita_ovoidea",
       "scleroderma_citrinum"
+    ],
+    "common": [
+      "lactarius_deliciosus",
+      "boletus_edulis",
+      "amanita_ponderosa",
+      "macrolepiota_procera",
+      "cantharellus_cibarius",
+      "tricholoma_equestre",
+      "amanita_caesarea",
+      "boletus_aereus",
+      "craterellus_cornucopioides",
+      "hydnum_repandum",
+      "pleurotus_ostreatus",
+      "agaricus_campestris__2",
+      "lactarius_sanguifluus",
+      "tricholoma_portentosum",
+      "tricholoma_terreum",
+      "fistulina_hepatica"
     ]
   },
   "TJ": {
@@ -1151,6 +1492,20 @@
       "infundibulicybe_geotropa",
       "fomes_fomentarius",
       "trametes_versicolor"
+    ],
+    "common": [
+      "morchella_esculenta",
+      "pleurotus_eryngii",
+      "agaricus_campestris",
+      "coprinus_comatus",
+      "pleurotus_ostreatus",
+      "lycoperdon_perlatum",
+      "armillaria_mellea",
+      "lepista_nuda",
+      "calvatia_gigantea",
+      "marasmius_oreades",
+      "bovista_plumbea",
+      "agaricus_bitorquis"
     ]
   },
   "TM": {
@@ -1203,6 +1558,19 @@
       "chlorophyllum_brunneum",
       "scleroderma_citrinum",
       "pseudosperma_rimosum"
+    ],
+    "common": [
+      "terfezia_boudieri",
+      "agaricus_campestris__2",
+      "pleurotus_eryngii",
+      "pleurotus_ostreatus",
+      "morchella_esculenta",
+      "agaricus_bitorquis",
+      "morchella_steppicola",
+      "calvatia_gigantea",
+      "agaricus_arvensis",
+      "coprinus_comatus",
+      "lycoperdon_perlatum"
     ]
   },
   "UZ": {
@@ -1259,6 +1627,21 @@
       "grifola_frondosa",
       "fomitopsis_betulina",
       "schizophyllum_commune"
+    ],
+    "common": [
+      "pleurotus_eryngii",
+      "morchella_esculenta",
+      "morchella_steppicola",
+      "agaricus_campestris",
+      "agaricus_bitorquis",
+      "pleurotus_ostreatus",
+      "lepista_personata",
+      "calvatia_gigantea",
+      "marasmius_oreades",
+      "coprinus_comatus",
+      "calocybe_gambosa",
+      "cyclocybe_cylindracea",
+      "lycoperdon_perlatum"
     ]
   }
 }

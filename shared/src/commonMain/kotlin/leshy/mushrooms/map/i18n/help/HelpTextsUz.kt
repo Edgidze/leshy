@@ -16,17 +16,21 @@ internal val uzbekHelpTexts: Map<HelpKey, String> = mapOf(
         "Pastdagi qoʻziqorin kataklari topilmalarni belgilash uchun: «+» hozirgi nuqtangizda topilma " +
             "qoʻyadi, «−» shu turning oxirgi notoʻgʻri belgisini olib tashlaydi. «+» tugmasini uzoq " +
             "bosish bir nechtasini birdan kiritishni ochadi; bitta sayrda bir xil qoʻziqorindan 999 tadan " +
-            "koʻpini belgilab boʻlmaydi.",
+            "koʻpini belgilab boʻlmaydi." +
+            " Rasmning o'zi ham «+» o'rnini bosadi: yashil to'lqin qo'shishni, qizil olib tashlashni bildiradi.",
     HelpKey.RecordPlace to
         "Chapdagi dumaloq tugma joyni belgilaydi — nomi, tavsifi va surati bilan. Joy hozir turgan " +
             "nuqtangizga qoʻyiladi va sayrdan keyin ham xaritada qoladi.",
     HelpKey.RecordNavigation to
         "Joy belgisini uzoq bosish oʻsha yoqqa navigatsiyani yoqadi: oʻng yuqoridagi panel yoʻnalish va " +
-            "manzilgacha masofani koʻrsatadi. Paneldagi krestcha navigatsiyani oʻchiradi.",
+            "manzilgacha masofani koʻrsatadi. Paneldagi krestcha navigatsiyani oʻchiradi." +
+            " Yo'nalish telefon kompasidan olinadi va siz burilishingiz bilan yangilanadi; telefonni xarita kabi, " +
+            "taxminan gorizontal tuting.",
     HelpKey.RecordSearchAndOwn to
         "Oʻngdagi lupa qoʻziqorinni nomi boʻyicha topadi va uning katakchasini lentaning boshiga " +
             "oʻtkazadi — turlar koʻp yoqilgan boʻlsa, shu tezroq. Lentaning plyusli oxirgi katakchasi " +
-            "katalogda yoʻq oʻz turingizni qoʻshadi.",
+            "katalogda yoʻq oʻz turingizni qoʻshadi." +
+            " Qidiruv turning asosiy nomidan tashqari ikkinchi, xalq nomlarini ham tushunadi.",
     HelpKey.RecordFilters to
         "Chap yuqoridagi «Filtrlar» tugmasi qaysi turlarning va qaysi davrning topilmalari xaritada " +
             "koʻrinishini belgilaydi, ustidagi raqam esa hozir nechta filtr yoqilganini bildiradi. Filtr " +

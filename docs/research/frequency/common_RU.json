@@ -1,0 +1,26 @@
+{
+  "country": "RU",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "leccinum_scabrum",
+    "leccinum_aurantiacum",
+    "suillus_luteus__2",
+    "suillus_bovinus",
+    "xerocomus_subtomentosus",
+    "imleria_badia",
+    "cantharellus_cibarius",
+    "lactarius_deliciosus",
+    "lactarius_resimus",
+    "lactarius_turpis",
+    "lactarius_torminosus",
+    "lactarius_rufus",
+    "lactarius_trivialis",
+    "lactifluus_vellereus",
+    "russula_delica",
+    "russula_cyanoxantha",
+    "russula_foetens",
+    "armillaria_borealis",
+    "kuehneromyces_mutabilis"
+  ]
+}

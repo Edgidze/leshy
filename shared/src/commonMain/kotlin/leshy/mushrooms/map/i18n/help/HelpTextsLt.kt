@@ -15,17 +15,22 @@ internal val lithuanianHelpTexts: Map<HelpKey, String> = mapOf(
         "Grybų kortelės apačioje — tai, kuo žymimi radiniai: „+“ pažymi radinį jūsų dabartiniame taške, " +
             "„−“ pašalina paskutinę klaidingą šios rūšies žymę. Ilgas „+“ paspaudimas atveria kelių " +
             "vienetų įvedimą iš karto; daugiau nei 999 tos pačios rūšies grybų per vieną žygį pažymėti " +
-            "negalima.",
+            "negalima." +
+            " Vietoj „+“ galima paliesti ir patį paveikslėlį. Plytelė atsako spalvos banga: pridedant žalia, " +
+            "atimant raudona.",
     HelpKey.RecordPlace to
         "Apvalus mygtukas kairėje pažymi vietą — su pavadinimu, aprašymu ir nuotrauka. Vieta padedama " +
             "ten, kur dabar stovite, ir lieka žemėlapyje po žygio.",
     HelpKey.RecordNavigation to
         "Ilgas paspaudimas ant vietos žymės įjungia navigaciją iki jos: skydelis viršuje dešinėje rodo " +
-            "kryptį ir atstumą iki tikslo. Kryželis skydelyje navigaciją išjungia.",
+            "kryptį ir atstumą iki tikslo. Kryželis skydelyje navigaciją išjungia." +
+            " Kryptis imama iš telefono kompaso ir atsinaujina vos tik pasisukus; laikykite telefoną maždaug " +
+            "horizontaliai, kaip žemėlapį.",
     HelpKey.RecordSearchAndOwn to
         "Didinamasis stiklas dešinėje suranda grybą pagal pavadinimą ir perkelia jo kortelę į juostos " +
             "pradžią — taip greičiau, kai įjungta daug rūšių. Paskutinė juostos kortelė su pliusu prideda " +
-            "savo rūšį, kurios kataloge nėra.",
+            "savo rūšį, kurios kataloge nėra." +
+            " Paieška supranta ir antruosius liaudiškus rūšies pavadinimus, ne tik pagrindinį.",
     HelpKey.RecordFilters to
         "Mygtukas „Filtrai“ viršuje kairėje nustato, kurių rūšių ir kurio laikotarpio radinius rodyti " +
             "žemėlapyje, o skaičius ant jo — kiek filtrų dabar įjungta. Filtras bendras su „Radinių " +

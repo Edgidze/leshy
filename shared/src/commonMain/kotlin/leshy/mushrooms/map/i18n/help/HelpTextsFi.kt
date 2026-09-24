@@ -16,17 +16,22 @@ internal val finnishHelpTexts: Map<HelpKey, String> = mapOf(
         "Alalaidan sienilaatoilla merkitään löydöt: ”+” merkitsee löydön nykyiseen sijaintiisi, ”−” " +
             "poistaa lajin viimeisen virheellisen merkinnän. Pitkä painallus ”+”-painikkeella avaa " +
             "useamman kappaleen syötön kerralla; samaa sientä voi merkitä yhdellä retkellä enintään 999 " +
-            "kappaletta.",
+            "kappaletta." +
+            " ”+” sijasta voi napauttaa myös itse kuvaa. Ruutu vastaa värin aallolla: vihreä lisättäessä, " +
+            "punainen poistettaessa.",
     HelpKey.RecordPlace to
         "Vasemmalla oleva pyöreä painike merkitsee paikan — nimen, kuvauksen ja valokuvan kanssa. Paikka " +
             "asettuu siihen, missä nyt seisot, ja jää kartalle retken jälkeenkin.",
     HelpKey.RecordNavigation to
         "Pitkä painallus paikkamerkinnän päällä käynnistää navigoinnin sinne: oikean yläkulman paneeli " +
-            "näyttää suunnan ja etäisyyden kohteeseen. Paneelin rasti sammuttaa navigoinnin.",
+            "näyttää suunnan ja etäisyyden kohteeseen. Paneelin rasti sammuttaa navigoinnin." +
+            " Suunta tulee puhelimen kompassista ja päivittyy heti kun käännyt; pidä puhelinta suunnilleen " +
+            "vaakasuorassa, kuin karttaa.",
     HelpKey.RecordSearchAndOwn to
         "Oikean reunan suurennuslasi etsii sienen nimellä ja siirtää sen laatan rivin alkuun — se on " +
             "nopeampaa, kun lajeja on valittuna paljon. Rivin viimeinen laatta, jossa on plus, lisää oman " +
-            "lajin, jota luettelossa ei ole.",
+            "lajin, jota luettelossa ei ole." +
+            " Haku ymmärtää myös lajin toiset kansanomaiset nimet, ei vain päänimeä.",
     HelpKey.RecordFilters to
         "Vasemman ylälaidan painike ”Suodattimet” määrää, minkä lajien ja miltä ajalta löydöt näkyvät " +
             "kartalla, ja painikkeen luku kertoo, montako suodatinta on nyt päällä. Suodatin on yhteinen " +

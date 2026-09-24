@@ -1,0 +1,61 @@
+{
+  "agaricus_bisporus": [
+    "양송이버섯"
+  ],
+  "amanita_hemibapha": [
+    "달걀광대버섯"
+  ],
+  "auricularia_americana": [
+    "목이",
+    "흑목이"
+  ],
+  "chlorophyllum_neomastoideum": [
+    "흰독큰갓버섯"
+  ],
+  "flammulina_velutipes": [
+    "팽이",
+    "팽나무버섯"
+  ],
+  "ganoderma_lingzhi": [
+    "불로초"
+  ],
+  "hericium_erinaceus": [
+    "노루궁뎅이버섯"
+  ],
+  "hypholoma_fasciculare": [
+    "노란다발"
+  ],
+  "hypholoma_lateritium": [
+    "밤버섯"
+  ],
+  "hypsizygus_marmoreus": [
+    "만가닥버섯"
+  ],
+  "lentinula_edodes": [
+    "표고버섯"
+  ],
+  "pleurotus_eryngii": [
+    "새송이",
+    "새송이버섯"
+  ],
+  "pleurotus_ostreatus": [
+    "느타리버섯"
+  ],
+  "sanghuangporus_sanghuang": [
+    "상황",
+    "목질진흙버섯"
+  ],
+  "sarcodon_aspratus": [
+    "향버섯",
+    "능이버섯"
+  ],
+  "sparassis_latifolia": [
+    "넓은꽃송이버섯"
+  ],
+  "tricholoma_matsutake": [
+    "송이버섯"
+  ],
+  "umbilicaria_esculenta": [
+    "석이"
+  ]
+}

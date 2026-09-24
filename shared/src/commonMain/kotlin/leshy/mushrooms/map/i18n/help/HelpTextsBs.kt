@@ -14,17 +14,22 @@ internal val bosnianHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Pločice gljiva pri dnu služe za bilježenje nalaza: „+“ bilježi nalaz na vašoj trenutnoj tački, " +
             "„−“ uklanja posljednju pogrešnu oznaku te vrste. Dugi pritisak na „+“ otvara unos više " +
-            "komada odjednom; više od 999 istih gljiva u jednoj šetnji nije moguće označiti.",
+            "komada odjednom; više od 999 istih gljiva u jednoj šetnji nije moguće označiti." +
+            " Umjesto „+“ može se dodirnuti i sama slika. Pločica odgovara prelivom: zeleno pri dodavanju, crveno " +
+            "pri uklanjanju.",
     HelpKey.RecordPlace to
         "Okruglo dugme lijevo označava mjesto — s nazivom, opisom i fotografijom. Mjesto se postavlja " +
             "tamo gdje trenutno stojite i ostaje na karti i nakon šetnje.",
     HelpKey.RecordNavigation to
         "Dugi pritisak na oznaku mjesta uključuje navigaciju do njega: panel gore desno pokazuje smjer i " +
-            "udaljenost do cilja. Krstić na panelu isključuje navigaciju.",
+            "udaljenost do cilja. Krstić na panelu isključuje navigaciju." +
+            " Smjer se uzima s kompasa telefona i osvježava se čim se okrenete; držite telefon približno " +
+            "vodoravno, kao kartu.",
     HelpKey.RecordSearchAndOwn to
         "Lupa desno pronalazi gljivu po nazivu i premješta njenu pločicu na početak trake — tako je brže " +
             "kada je uključeno mnogo vrsta. Posljednja pločica trake, s plusom, dodaje vašu vrstu koje " +
-            "nema u katalogu.",
+            "nema u katalogu." +
+            " Pretraga razumije i druge narodne nazive vrste, ne samo osnovni.",
     HelpKey.RecordFilters to
         "Dugme „Filteri“ gore lijevo određuje nalaze kojih vrsta i iz kojeg perioda prikazivati na karti, " +
             "a broj na njemu govori koliko je filtera trenutno uključeno. Filter je zajednički s „Kartom " +

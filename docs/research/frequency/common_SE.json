@@ -1,0 +1,26 @@
+{
+  "country": "SE",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "cantharellus_cibarius",
+    "craterellus_tubaeformis",
+    "boletus_edulis",
+    "cantharellus_pallens",
+    "boletus_reticulatus",
+    "boletus_pinophilus",
+    "imleria_badia",
+    "suillus_luteus",
+    "suillus_variegatus",
+    "leccinum_scabrum",
+    "leccinum_versipelle",
+    "leccinum_aurantiacum__2",
+    "hydnum_repandum",
+    "hydnum_rufescens",
+    "craterellus_cornucopioides",
+    "craterellus_lutescens",
+    "albatrellus_ovinus",
+    "macrolepiota_procera",
+    "russula_aeruginea",
+    "cortinarius_caperatus"
+  ]
+}

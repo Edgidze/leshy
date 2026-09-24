@@ -64,6 +64,25 @@ android {
         }
     }
     buildTypes {
+        // Debug-сборка ставится РЯДОМ с той, что пришла из Play, а не поверх неё. Без суффикса
+        // это невозможно в принципе: подписи разные, и система требует сначала удалить
+        // установленное приложение — то есть стереть все прогулки, чтобы проверить правку.
+        // С суффиксом на телефоне живут два независимых приложения, каждое со своими данными.
+        //
+        // Правило «applicationIdSuffix не использовать» (androidApp/CLAUDE.md) касается
+        // flavor'ов play/rustore — те обязаны иметь ОДИН applicationId. Сборочного типа debug
+        // оно не касается и никогда не касалось: в магазины он не попадает, а applicationId
+        // релизных сборок остаётся ровно `leshy.mushrooms.map`.
+        //
+        // На applicationId в проекте завязан только FileProvider
+        // (`${applicationId}.fileprovider` в манифесте — подставляется сам), так что суффикс
+        // ничего не ломает. Ярлык тоже отличается — иначе в лаунчере два одинаковых значка;
+        // он переопределён ресурсом в src/debug/res, а не `resValue`: `app_name` уже лежит в
+        // src/main/res (и переведён на сорок локалей), и `resValue` столкнулся бы с ним
+        // дублем ресурса, тогда как source set сборочного типа штатно перекрывает main.
+        getByName("debug") {
+            applicationIdSuffix = ".dev"
+        }
         getByName("release") {
             if (hasReleaseSigningConfig) {
                 signingConfig = signingConfigs.getByName("release")

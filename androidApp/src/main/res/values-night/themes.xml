@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Тёмный вариант Theme.Leshy — см. комментарий в values/themes.xml. -->
+<resources>
+    <style name="Theme.Leshy" parent="@android:style/Theme.Material.NoActionBar" />
+</resources>

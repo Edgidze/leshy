@@ -1,0 +1,295 @@
+{
+  "agaricus_augustus": [
+    "Kara mantar"
+  ],
+  "agaricus_bisporus": [
+    "Beyaz şapkalı"
+  ],
+  "agaricus_campestris__2": [
+    "Çayır mantarı",
+    "Çayır",
+    "Ak mantar",
+    "Çimen",
+    "Döbelen",
+    "Pösteki",
+    "Söbelek",
+    "Söbelem",
+    "Söbelen",
+    "Mürekkep"
+  ],
+  "amanita_caesarea": [
+    "İmparator",
+    "Yumurta mantarı",
+    "Sezar mantarı",
+    "Gelingöbeği",
+    "Gelin",
+    "Padişah",
+    "Gelincik",
+    "Sarı göbelek",
+    "Altın yumurta",
+    "Yumurta sarısı",
+    "Geyik göbeği"
+  ],
+  "amanita_phalloides": [
+    "Köy göçüren",
+    "Evcik kıran"
+  ],
+  "auricularia_auricula_judae": [
+    "Yahuda’nın kulağı",
+    "Ağaç kulağı"
+  ],
+  "boletus_edulis": [
+    "Ayı",
+    "Bolet",
+    "Fesleğen",
+    "Çörek",
+    "Feslek",
+    "Feslik",
+    "Pestik",
+    "Taş mantarı",
+    "Ayköşkü",
+    "Ayı boku"
+  ],
+  "calocybe_gambosa": [
+    "Cincile mantarı",
+    "Kokarca"
+  ],
+  "cantharellus_cibarius": [
+    "Balkadın",
+    "Kaz ayağı",
+    "Tavuk ayağı",
+    "Horoz mantarı",
+    "Tavuk kirmiti",
+    "Tavuk bacağı",
+    "Tavuk mantarı",
+    "Yumurta mantarı",
+    "Cüce kız",
+    "Sarı kız",
+    "Horoz ibiği",
+    "Meşe kızılı",
+    "Hakiki horoz",
+    "Meşe mantarı"
+  ],
+  "chroogomphus_rutilus": [
+    "Geyiksütü",
+    "Geyik mantarı"
+  ],
+  "collybia_nuda": [
+    "Mavi cincile",
+    "Mor cincile mantarı",
+    "Mor mantar",
+    "Mavi kanlıca"
+  ],
+  "collybia_personata": [
+    "Mor bacak",
+    "Mavi bacak"
+  ],
+  "coprinus_comatus": [
+    "Pösteki mantarı"
+  ],
+  "craterellus_cornucopioides": [
+    "Borazan",
+    "Huni",
+    "Hunihoroz"
+  ],
+  "craterellus_tubaeformis": [
+    "Civciv bacağı"
+  ],
+  "fomes_fomentarius": [
+    "Toynak mantarı"
+  ],
+  "hericium_coralloides": [
+    "Sakal mantarı",
+    "Mercan mantarı",
+    "Tellice"
+  ],
+  "hydnum_repandum": [
+    "Dana dili",
+    "Sığır dili",
+    "Bıyıklı mantar",
+    "Beyaz pos mantarı"
+  ],
+  "infundibulicybe_geotropa": [
+    "Bal kadın",
+    "Kurtkulağı",
+    "Kalburcuk",
+    "Etçe",
+    "İbişge",
+    "Malkadın",
+    "Melkadın",
+    "Et melkisi",
+    "Tohum mantarı"
+  ],
+  "lactarius_deliciosus": [
+    "Melki",
+    "Çıntar",
+    "Çam mantarı",
+    "Çam kanlıcası",
+    "Al kanlıca",
+    "Kara kanlıca",
+    "Köknar mantarı",
+    "Küner kanlıcası"
+  ],
+  "lactarius_pyrogalus": [
+    "Fındık kirmiti",
+    "Ebişek",
+    "Elicek"
+  ],
+  "lactarius_vinosus": [
+    "Kara çam"
+  ],
+  "lactifluus_piperatus": [
+    "Koçak",
+    "Beyaz dağ kirmiti",
+    "Koç",
+    "Kirmit",
+    "Sütlüce",
+    "Ak mantar",
+    "Acılı",
+    "Biberli",
+    "Ak melki",
+    "Biberlice",
+    "Sütlü koç",
+    "Ak kanlıca",
+    "Beyaz mantar",
+    "Kıtirik",
+    "Deliibram",
+    "Hacı mantar"
+  ],
+  "lactifluus_volemus": [
+    "Tirmit",
+    "Geyik sütü",
+    "Geyik mantarı",
+    "Timrit",
+    "Sütliyen",
+    "Geyik sütü kirmiti",
+    "Geyiksırası"
+  ],
+  "laetiporus_sulphureus": [
+    "Kükürt mantarı",
+    "Ağaç mantarı"
+  ],
+  "lyophyllum_decastes": [
+    "Öbek cincile",
+    "Öbek mantarı"
+  ],
+  "macrolepiota_procera": [
+    "Dede",
+    "Aladana tirmiti",
+    "Dedebör",
+    "Dedebelik",
+    "Dedebörük",
+    "Turna bacağı",
+    "Dedemen",
+    "Dedebört",
+    "Şalvarlı",
+    "Dede Guli",
+    "Dedebölkü",
+    "Dedebölük",
+    "Dedebörtü",
+    "Kadın memesi"
+  ],
+  "marasmius_oreades": [
+    "Mıhbaşı mantarı",
+    "Cicil mantarı",
+    "Cincile",
+    "Mıhlıca",
+    "Mıh tepesi",
+    "Mıh mantarı",
+    "Mık tepe"
+  ],
+  "morchella_esculenta": [
+    "Göbelek",
+    "Kuzu göbeği mantarı",
+    "Göbek",
+    "Göbelen",
+    "Höbelen",
+    "Kuzu kulağı",
+    "Kuzu mantarı"
+  ],
+  "pleurotus_eryngii": [
+    "Heliz",
+    "Çakşır",
+    "Çakşır mantarı",
+    "Göbek",
+    "Çaşur",
+    "Çaşır",
+    "Mendik",
+    "Göbelek",
+    "Kırkor"
+  ],
+  "pleurotus_ostreatus": [
+    "Kavak",
+    "Kayın",
+    "İstiridye",
+    "Gürgen",
+    "Kütük mantarı",
+    "Kaya",
+    "Midye",
+    "Yaprak",
+    "Karakulak",
+    "Kültür mantarı"
+  ],
+  "ramaria_botrytis": [
+    "Halı saçağı",
+    "Gelin tırnağı",
+    "Saçak mantarı",
+    "Saçaklı mantar",
+    "Erişte",
+    "Teltel",
+    "Telteli",
+    "Hanımeli",
+    "Gelin teli",
+    "Keçi sakalı",
+    "Kedi tırnağı",
+    "Enişte",
+    "Tiltil",
+    "Sakallı saçak"
+  ],
+  "rhodocollybia_butyracea": [
+    "Gövertek mantarı"
+  ],
+  "russula_delica": [
+    "Sütsüz mantar",
+    "Koç",
+    "Ak mantar",
+    "Ak çıntar"
+  ],
+  "sarcodon_imbricatus": [
+    "Kiremit balaban",
+    "Pos",
+    "Ayı kulağı",
+    "Kara kulak",
+    "Geyik sırtı",
+    "Aba"
+  ],
+  "suillus_luteus": [
+    "Sünger mantarı"
+  ],
+  "terfezia_boudieri": [
+    "Domalan",
+    "Kemi",
+    "Dobalan",
+    "Dolaman",
+    "Topalak",
+    "Tombalak",
+    "Kumi",
+    "Döbelan",
+    "Duvberon",
+    "Dümbelek"
+  ],
+  "tricholoma_terreum": [
+    "Karakız",
+    "Karacaoğlan",
+    "Karakulak",
+    "Karaca",
+    "Karacakulak",
+    "Kız",
+    "Karaböcü",
+    "Karagöce",
+    "Karagörece"
+  ],
+  "verpa_bohemica": [
+    "Sahte göbek"
+  ]
+}

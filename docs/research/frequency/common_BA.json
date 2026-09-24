@@ -1,0 +1,22 @@
+{
+  "country": "BA",
+  "method": "derived-from-notes",
+  "common": [
+    "boletus_edulis",
+    "boletus_aereus",
+    "boletus_reticulatus",
+    "boletus_pinophilus",
+    "cantharellus_cibarius",
+    "craterellus_cornucopioides",
+    "hydnum_repandum",
+    "lactarius_deliciosus",
+    "amanita_caesarea",
+    "macrolepiota_procera",
+    "marasmius_oreades",
+    "agaricus_campestris__2",
+    "pleurotus_ostreatus",
+    "armillaria_mellea",
+    "calocybe_gambosa",
+    "russula_cyanoxantha"
+  ]
+}

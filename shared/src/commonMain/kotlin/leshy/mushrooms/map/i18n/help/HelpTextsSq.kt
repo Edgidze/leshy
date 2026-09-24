@@ -16,17 +16,21 @@ internal val albanianHelpTexts: Map<HelpKey, String> = mapOf(
         "Pllakëzat e kërpudhave poshtë janë ato me të cilat shënohen gjetjet: «+» shënon një gjetje në " +
             "pikën tuaj aktuale, «−» heq shënimin e fundit të gabuar të asaj lloji. Shtypja e gjatë mbi " +
             "«+» hap futjen e disa copëve njëherësh; më shumë se 999 kërpudha të njëjta në një shëtitje " +
-            "nuk mund të shënohen.",
+            "nuk mund të shënohen." +
+            " Edhe vetë figura zëvendëson «+»: vala e gjelbër do të thotë shtim, e kuqja heqje.",
     HelpKey.RecordPlace to
         "Butoni i rrumbullakët majtas shënon një vend — me emër, përshkrim dhe fotografi. Vendi vendoset " +
             "aty ku ndodheni tani dhe mbetet në hartë edhe pas shëtitjes.",
     HelpKey.RecordNavigation to
         "Shtypja e gjatë mbi shenjën e një vendi ndez navigimin drejt tij: paneli lart djathtas tregon " +
-            "drejtimin dhe distancën deri te objektivi. Kryqi në panel e fik navigimin.",
+            "drejtimin dhe distancën deri te objektivi. Kryqi në panel e fik navigimin." +
+            " Drejtimi merret nga busulla e telefonit dhe përditësohet sapo ktheheni; mbajeni telefonin afërsisht " +
+            "horizontalisht, si një hartë.",
     HelpKey.RecordSearchAndOwn to
         "Lupa djathtas gjen kërpudhën sipas emrit dhe e vendos pllakëzën e saj në fillim të rreshtit — " +
             "kështu është më shpejt kur janë ndezur shumë lloje. Pllakëza e fundit, me plus, shton llojin " +
-            "tuaj që nuk gjendet në katalog.",
+            "tuaj që nuk gjendet në katalog." +
+            " Kërkimi kupton edhe emrat e dytë popullorë të llojit, jo vetëm atë kryesor.",
     HelpKey.RecordFilters to
         "Butoni «Filtrat» lart majtas cakton gjetjet e cilave lloje dhe të cilës periudhë të shfaqen në " +
             "hartë, ndërsa numri mbi të tregon sa filtra janë ndezur tani. Filtri është i përbashkët me " +

@@ -14,17 +14,22 @@ internal val icelandicHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Sveppareitirnir neðst eru það sem fundir eru merktir með: „+“ skráir fund á núverandi stað " +
             "þínum, „−“ fjarlægir síðustu röngu merkingu þeirrar tegundar. Langur smellur á „+“ opnar " +
-            "innslátt margra í einu; ekki er hægt að merkja fleiri en 999 eins sveppi í einni ferð.",
+            "innslátt margra í einu; ekki er hægt að merkja fleiri en 999 eins sveppi í einni ferð." +
+            " Í stað „+“ má ýta á myndina sjálfa. Reiturinn svarar með litabylgju: grænni við viðbót, rauðri við " +
+            "brottnám.",
     HelpKey.RecordPlace to
         "Kringlótti hnappurinn til vinstri merkir stað — með heiti, lýsingu og ljósmynd. Staðurinn fer " +
             "þangað sem þú stendur núna og verður áfram á kortinu eftir ferðina.",
     HelpKey.RecordNavigation to
         "Langur smellur á staðarmerki kveikir á leiðsögn þangað: spjaldið efst til hægri sýnir stefnu og " +
-            "fjarlægð að markinu. Krossinn á spjaldinu slekkur á leiðsögninni.",
+            "fjarlægð að markinu. Krossinn á spjaldinu slekkur á leiðsögninni." +
+            " Stefnan kemur úr áttavita símans og uppfærist um leið og þú snýrð þér; haltu símanum nokkurn veginn " +
+            "láréttum, eins og korti.",
     HelpKey.RecordSearchAndOwn to
         "Stækkunarglerið til hægri finnur sveppinn eftir heiti og færir reitinn hans fremst í röðina — " +
             "það er fljótlegra þegar margar tegundir eru virkar. Síðasti reiturinn, með plús, bætir við " +
-            "þinni eigin tegund sem er ekki í skránni.",
+            "þinni eigin tegund sem er ekki í skránni." +
+            " Leitin skilur líka önnur alþýðuheiti tegundarinnar, ekki aðeins aðalheitið.",
     HelpKey.RecordFilters to
         "Hnappurinn „Síur“ efst til vinstri ræður hvaða tegundir og hvaða tímabil birtast á kortinu, og " +
             "talan á honum segir hve margar síur eru virkar núna. Sían er sameiginleg með „Korti yfir " +

@@ -1,0 +1,26 @@
+{
+  "country": "TR",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "morchella_esculenta",
+    "lactarius_deliciosus",
+    "lactarius_vinosus",
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "hydnum_repandum",
+    "amanita_caesarea",
+    "macrolepiota_procera",
+    "agaricus_campestris__2",
+    "calocybe_gambosa",
+    "marasmius_oreades",
+    "infundibulicybe_geotropa",
+    "craterellus_cornucopioides",
+    "craterellus_tubaeformis",
+    "lactifluus_volemus",
+    "russula_delica",
+    "collybia_nuda",
+    "tricholoma_terreum",
+    "coprinus_comatus",
+    "ramaria_botrytis"
+  ]
+}

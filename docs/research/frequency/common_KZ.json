@@ -1,0 +1,22 @@
+{
+  "country": "KZ",
+  "method": "derived-from-notes",
+  "common": [
+    "pleurotus_eryngii",
+    "lactarius_resimus",
+    "leccinum_scabrum",
+    "leccinum_aurantiacum",
+    "boletus_edulis",
+    "suillus_luteus__2",
+    "agaricus_campestris",
+    "armillaria_mellea",
+    "morchella_esculenta",
+    "lepista_personata",
+    "tricholoma_populinum",
+    "coprinus_comatus",
+    "pleurotus_ostreatus",
+    "cantharellus_cibarius",
+    "lactarius_deliciosus",
+    "lactarius_torminosus"
+  ]
+}

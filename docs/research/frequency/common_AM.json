@@ -1,0 +1,19 @@
+{
+  "country": "AM",
+  "method": "derived-from-notes",
+  "common": [
+    "agaricus_campestris",
+    "pleurotus_eryngii",
+    "pleurotus_ostreatus",
+    "lepista_personata",
+    "suillus_granulatus",
+    "calocybe_gambosa",
+    "marasmius_oreades",
+    "armillaria_mellea",
+    "lactarius_deliciosus",
+    "morchella_esculenta",
+    "collybia_nuda",
+    "tricholoma_terreum",
+    "cantharellus_cibarius"
+  ]
+}

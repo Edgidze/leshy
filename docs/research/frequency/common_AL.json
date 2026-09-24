@@ -1,0 +1,21 @@
+{
+  "country": "AL",
+  "method": "derived-from-notes+neighbour-GR",
+  "common": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "amanita_caesarea",
+    "craterellus_cornucopioides",
+    "lactarius_deliciosus",
+    "lactarius_sanguifluus",
+    "macrolepiota_procera",
+    "pleurotus_eryngii",
+    "pleurotus_ostreatus",
+    "hydnum_repandum",
+    "agaricus_campestris__2",
+    "armillaria_mellea",
+    "russula_cyanoxantha",
+    "coprinus_comatus",
+    "marasmius_oreades"
+  ]
+}

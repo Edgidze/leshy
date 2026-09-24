@@ -40,7 +40,7 @@ class IosLocationTracker : LocationTracker {
     }
 
     @OptIn(ExperimentalForeignApi::class)
-    override fun track(): Flow<GeoPoint> = callbackFlow {
+    override fun track(): Flow<LocationFix> = callbackFlow {
         val manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyBest
         // Без этого действует умолчание kCLDistanceFilterNone — «присылать каждый фикс», примерно
@@ -52,13 +52,7 @@ class IosLocationTracker : LocationTracker {
         val delegate = object : NSObject(), CLLocationManagerDelegateProtocol {
             override fun locationManager(manager: CLLocationManager, didUpdateLocations: List<*>) {
                 val location = didUpdateLocations.lastOrNull() as? CLLocation ?: return
-                val point = GeoPoint(
-                    lat = location.coordinate.useContents { latitude },
-                    lon = location.coordinate.useContents { longitude },
-                    elevation = location.altitude,
-                    timestamp = currentTimeMillis(),
-                )
-                trySend(point)
+                trySend(location.toFix())
             }
 
             override fun locationManager(manager: CLLocationManager, didFailWithError: NSError) {
@@ -75,16 +69,7 @@ class IosLocationTracker : LocationTracker {
         // startUpdatingLocation() usually redelivers a recent fix quickly via the delegate, but
         // emit the already-cached location right away too, so the map doesn't sit on the default
         // (0,0) point in the meantime (e.g. before a walk is even started).
-        manager.location?.let { location ->
-            trySend(
-                GeoPoint(
-                    lat = location.coordinate.useContents { latitude },
-                    lon = location.coordinate.useContents { longitude },
-                    elevation = location.altitude,
-                    timestamp = currentTimeMillis(),
-                ),
-            )
-        }
+        manager.location?.let { location -> trySend(location.toFix()) }
 
         awaitClose {
             manager.stopUpdatingLocation()
@@ -116,6 +101,39 @@ class IosLocationTracker : LocationTracker {
     @OptIn(ExperimentalForeignApi::class)
     private fun applyBackgroundUpdates(manager: CLLocationManager, enabled: Boolean) {
         manager.allowsBackgroundLocationUpdates = enabled
-        manager.pausesLocationUpdatesAutomatically = !enabled
+        // Автопауза выключена ВСЕГДА, а не «пока идёт запись» — было `!enabled`, и это был баг.
+        //
+        // Поток фиксов живёт с момента открытия экрана «Запись» (`isRecording ||
+        // isRecordScreenResumed` в RecordViewModel), а не с момента старта прогулки, и при старте
+        // мы лишь переставляем свойство у уже работающего менеджера. Если iOS к этому моменту
+        // успела приостановить доставку — телефон полежал неподвижно на открытом экране, самое
+        // обычное дело перед выходом, — сама она её не возобновляет: нужен повторный
+        // `startUpdatingLocation()`. Прогулка начиналась бы без фиксов.
+        //
+        // Смысла в автопаузе здесь нет и по существу: приложение записывает пешую прогулку,
+        // остановки в ней — часть маршрута, а не повод перестать слушать GPS. Своей паузой
+        // управляет пользователь кнопкой на экране.
+        manager.pausesLocationUpdatesAutomatically = false
     }
 }
+
+/**
+ * Отрицательное значение — договор CoreLocation для «величина недоступна»: у неподвижного или
+ * слишком медленно идущего телефона `course` и `speed` приходят равными −1. Проверка именно на
+ * знак, а не на ноль: ноль здесь — законная величина (курс строго на север, нулевая скорость).
+ *
+ * `courseAccuracy` (с iOS 13.4, цель сборки — 15.0) сознательно не читается: порог по скорости в
+ * `RecordViewModel` перекрывает главную причину плохого курса, а лишнее поле пришлось бы
+ * проводить через общий `LocationFix` ради величины, которой у Android до API 26 всё равно нет.
+ */
+@OptIn(ExperimentalForeignApi::class)
+private fun CLLocation.toFix(): LocationFix = LocationFix(
+    point = GeoPoint(
+        lat = coordinate.useContents { latitude },
+        lon = coordinate.useContents { longitude },
+        elevation = altitude,
+        timestamp = currentTimeMillis(),
+    ),
+    courseDegrees = course.takeIf { it >= 0 },
+    speedMetersPerSecond = speed.takeIf { it >= 0 },
+)

@@ -15,17 +15,22 @@ internal val czechHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Dlaždice hub dole slouží k označování nálezů: „+“ zapíše nález ve vašem aktuálním bodě, „−“ " +
             "odebere poslední chybné označení tohoto druhu. Dlouhé podržení „+“ otevře zadání několika " +
-            "kusů najednou; víc než 999 stejných hub za jednu procházku označit nelze.",
+            "kusů najednou; víc než 999 stejných hub za jednu procházku označit nelze." +
+            " Místo „+“ lze klepnout i na samotný obrázek. Dlaždice odpoví přelivem: zeleně při přidání, červeně " +
+            "při ubrání.",
     HelpKey.RecordPlace to
         "Kulaté tlačítko vlevo označí místo — s názvem, popisem a fotografií. Místo se umístí tam, kde " +
             "právě stojíte, a na mapě zůstane i po procházce.",
     HelpKey.RecordNavigation to
         "Dlouhé podržení značky místa zapne navigaci k němu: panel vpravo nahoře ukazuje směr a " +
-            "vzdálenost k cíli. Křížek na panelu navigaci vypne.",
+            "vzdálenost k cíli. Křížek na panelu navigaci vypne." +
+            " Směr se bere z kompasu telefonu a obnoví se hned, jakmile se otočíte; držte telefon přibližně " +
+            "vodorovně, jako mapu.",
     HelpKey.RecordSearchAndOwn to
         "Lupa vpravo najde houbu podle názvu a přesune její dlaždici na začátek pásu — to je rychlejší, " +
             "když máte zapnuto hodně druhů. Poslední dlaždice pásu, s plusem, přidá vlastní druh, který v " +
-            "katalogu není.",
+            "katalogu není." +
+            " Hledání rozumí i druhým lidovým názvům druhu, nejen tomu hlavnímu.",
     HelpKey.RecordFilters to
         "Tlačítko „Filtry“ vlevo nahoře určuje, nálezy kterých druhů a za jaké období se na mapě ukážou, " +
             "a číslo na něm říká, kolik filtrů je právě zapnutých. Filtr je společný s „Mapou nálezů“: co " +

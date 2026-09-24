@@ -1,0 +1,401 @@
+{
+  "agaricus_bisporus": [
+    "Table mushroom"
+  ],
+  "agaricus_campestris__2": [
+    "Meadow mushroom"
+  ],
+  "agaricus_xanthodermus": [
+    "Yellow-staining mushroom"
+  ],
+  "amanita_australis": [
+    "Straw flycap"
+  ],
+  "amanita_austroviridis": [
+    "Western green-gilled Amanita"
+  ],
+  "amanita_bisporigera": [
+    "Destroying angels"
+  ],
+  "amanita_chrysoblema": [
+    "Fly agarics"
+  ],
+  "amanita_muscaria": [
+    "Scarlet flycap"
+  ],
+  "amanita_pantherinoides": [
+    "Panther mushroom",
+    "Ringless panther"
+  ],
+  "amanita_rubescens": [
+    "The blusher"
+  ],
+  "amanita_xanthocephala": [
+    "Pretty grisette"
+  ],
+  "anthracophyllum_archeri": [
+    "Orange fan brackets"
+  ],
+  "anthurus_archeri": [
+    "Devil’s fingers",
+    "Red flower fungus"
+  ],
+  "armillaria_luteobubalina": [
+    "Honey fungus"
+  ],
+  "armillaria_mellea": [
+    "Honey mushrooms"
+  ],
+  "armillaria_novae_zelandiae": [
+    "Lemon honey mushroom",
+    "Honey mushroom"
+  ],
+  "aseroe_rubra": [
+    "Anemone fungus",
+    "Sea anemone fungus"
+  ],
+  "auricularia_americana": [
+    "Jelly ear"
+  ],
+  "auricularia_auricula_judae": [
+    "Wood ear",
+    "Jew’s ear"
+  ],
+  "auricularia_cornea": [
+    "Hakeke",
+    "Ear fungus"
+  ],
+  "boletellus_obscurecoccineus": [
+    "Tall red and yellow bolete"
+  ],
+  "boletus_edulis": [
+    "King bolete",
+    "Cep",
+    "Porcino",
+    "Ceps",
+    "Penny buns",
+    "King boletes"
+  ],
+  "calvatia_gigantea": [
+    "Giant puffball mushroom"
+  ],
+  "cantharellus_enelensis": [
+    "Golden chanterelle",
+    "Pacific golden chanterelle"
+  ],
+  "cantharellus_phasmatis": [
+    "Chanterelles"
+  ],
+  "cerioporus_squamosus": [
+    "Pheasant back"
+  ],
+  "chlorophyllum_molybdites": [
+    "False parasol",
+    "Green Lepiota",
+    "Green-spored lepiota",
+    "Green gill"
+  ],
+  "chlorophyllum_rhacodes": [
+    "Shaggy parasols"
+  ],
+  "clathrus_archeri": [
+    "Starfish fungus"
+  ],
+  "claustula_fischeri": [
+    "Egg fungus"
+  ],
+  "clitocybe_nuda": [
+    "Wood blewits"
+  ],
+  "clitocybe_rivulosa": [
+    "Sweating mushroom"
+  ],
+  "collybia_nuda": [
+    "Wood blewit"
+  ],
+  "coprinopsis_atramentaria": [
+    "Tippler’s bane",
+    "Inky cap"
+  ],
+  "coprinus_comatus": [
+    "Lawyer’s wig",
+    "Shaggy manes"
+  ],
+  "cortinarius_austrovenetus": [
+    "Australian green skinhead"
+  ],
+  "cortinarius_porphyroideus": [
+    "King’s pouch"
+  ],
+  "cortinarius_rotundisporus": [
+    "Elegant blue cort"
+  ],
+  "cortinarius_rubellus": [
+    "Deadly webcaps"
+  ],
+  "craterellus_fallax": [
+    "Trumpet of the dead",
+    "Black trumpet mushrooms"
+  ],
+  "craterellus_tubaeformis": [
+    "Yellowfoot",
+    "Funnel chanterelle",
+    "Yellowfoot chanterelles",
+    "Yellowfeet"
+  ],
+  "crucibulum_simile": [
+    "Bird’s nest fungus"
+  ],
+  "cruentomycena_viscidocruenta": [
+    "Tiny slimy red bonnet"
+  ],
+  "cyclocybe_parasitica": [
+    "Poplar mushroom"
+  ],
+  "drechmeria_gunnii": [
+    "Common caterpillar fungus"
+  ],
+  "entoloma_abortivum": [
+    "Abortive entoloma",
+    "Aborted entoloma"
+  ],
+  "entoloma_hochstetteri": [
+    "Werewere-kōkako"
+  ],
+  "fistulina_hepatica": [
+    "Ox tongue fungus",
+    "Beefsteak mushroom"
+  ],
+  "flammulina_velutipes": [
+    "Enoki",
+    "Velvet foot"
+  ],
+  "fomes_fomentarius": [
+    "Tinder conk",
+    "Tinder bracket"
+  ],
+  "fomitopsis_betulina": [
+    "Razorstrop fungus"
+  ],
+  "ganoderma_tsugae": [
+    "Varnished conk",
+    "Native artist’s conk"
+  ],
+  "geastrum_fimbriatum": [
+    "Earthstars"
+  ],
+  "gliophorus_sp": [
+    "Waxcaps"
+  ],
+  "gomphus_clavatus": [
+    "Violet chanterelle"
+  ],
+  "grifola_frondosa": [
+    "Maitake"
+  ],
+  "gymnopilus_junonius": [
+    "Giant gold caps"
+  ],
+  "gyromitra_esculenta__2": [
+    "False morels"
+  ],
+  "hericium_americanum": [
+    "Lion’s mane"
+  ],
+  "hericium_erinaceus": [
+    "Tree hedgehog fungus",
+    "Hedgehog mushroom"
+  ],
+  "hericium_novae_zealandiae": [
+    "Pekepeke-kiore",
+    "NZ lion’s mane",
+    "Icicle fungus",
+    "Fungus icicles",
+    "Stalactite fungus"
+  ],
+  "hydnum_repandum": [
+    "Hedgehog mushroom",
+    "Sweet tooth"
+  ],
+  "hydnum_sp": [
+    "Sweet tooth mushroom"
+  ],
+  "hygrocybe_conica": [
+    "Waxcap",
+    "Waxcap fungi",
+    "Witch’s hat"
+  ],
+  "hypomyces_lactifluorum": [
+    "Lobster mushrooms"
+  ],
+  "ileodictyon_cibarium": [
+    "Lattice fungus",
+    "White basket fungus"
+  ],
+  "ileodictyon_gracile": [
+    "Cage fungus"
+  ],
+  "laccocephalum_hartmannii": [
+    "Hartman’s chestnut polypore"
+  ],
+  "lactarius_deliciosus": [
+    "Pine mushroom",
+    "Saffies"
+  ],
+  "lactarius_indigo": [
+    "Indigo milk caps"
+  ],
+  "lactarius_rubidus": [
+    "Candy caps"
+  ],
+  "lactarius_thyinos": [
+    "Saffron milkcap",
+    "Saffron milk caps"
+  ],
+  "laetiporus_cincinnatus": [
+    "Sulfur shelf",
+    "Chicken mushroom"
+  ],
+  "laetiporus_sulphureus": [
+    "Sulphur shelf"
+  ],
+  "leccinum_aurantiacum": [
+    "Scaber-stalk boletes"
+  ],
+  "lentinula_novae_zelandiae": [
+    "Native New Zealand shiitake"
+  ],
+  "lepiota_subincarnata": [
+    "Small deadly Lepiota"
+  ],
+  "lycoperdon_perlatum": [
+    "Common puffball"
+  ],
+  "macrolepiota_procera": [
+    "Parasol mushroom"
+  ],
+  "marasmius_elegans": [
+    "Velvet Marasmius"
+  ],
+  "marasmius_oreades": [
+    "Fairy-ring mushroom",
+    "Fairy ring mushrooms"
+  ],
+  "morchella_esculenta": [
+    "True morel",
+    "Common morel",
+    "Morels",
+    "Black morel",
+    "Common morels",
+    "Yellow morel",
+    "Blonde morels"
+  ],
+  "mycena_interrupta": [
+    "Blue pixie parasol"
+  ],
+  "neolentiporus_maculatissimus": [
+    "Scaly polypore"
+  ],
+  "omphalotus_illudens": [
+    "Jack-o’-lantern mushroom"
+  ],
+  "panus_fasciatus": [
+    "Hairy roll-rim"
+  ],
+  "paxillus_involutus": [
+    "Common rollrim",
+    "Roll rim",
+    "Brown roll-rims"
+  ],
+  "phaeolepiota_aurea": [
+    "Alaskan gold"
+  ],
+  "phallus_impudicus": [
+    "Common stinkhorn"
+  ],
+  "phallus_indusiatus": [
+    "Yellow net stinkhorn"
+  ],
+  "pleurotus_australis": [
+    "Australian oyster mushroom"
+  ],
+  "pleurotus_ostreatus": [
+    "Pearl oyster",
+    "Blue oyster",
+    "Oyster mushrooms"
+  ],
+  "pleurotus_pulmonarius": [
+    "Phoenix oyster"
+  ],
+  "podaxis_pistillaris": [
+    "Tall desert black-head"
+  ],
+  "polyporus_squamosus": [
+    "Pheasant back"
+  ],
+  "pseudohydnum_gelatinosum": [
+    "False-tooth jelly tongue"
+  ],
+  "psilocybe_subaeruginosa": [
+    "Magic mushrooms",
+    "Subs"
+  ],
+  "ramaria_flava": [
+    "Coral mushrooms"
+  ],
+  "russula_cyanoxantha": [
+    "Russula",
+    "Brittlegills"
+  ],
+  "sarcodon_squamosus": [
+    "Scaly hedgehog"
+  ],
+  "sarcoscypha_austriaca": [
+    "Ruby elf cup"
+  ],
+  "schizophyllum_commune": [
+    "Split gill"
+  ],
+  "scleroderma_citrinum": [
+    "Pigskin puffball"
+  ],
+  "scleroderma_sp": [
+    "Earthballs",
+    "False puffball"
+  ],
+  "sparassis_spathulata": [
+    "Cauliflower mushrooms"
+  ],
+  "stropharia_rugosoannulata": [
+    "King Stropharia",
+    "Wine caps",
+    "Burgundy mushroom",
+    "Wine-red stropharia"
+  ],
+  "suillus_luteus": [
+    "Slippery Jacks"
+  ],
+  "trametes_versicolor": [
+    "Rainbow bracket"
+  ],
+  "tremella_fuciformis": [
+    "White brain jelly"
+  ],
+  "tremella_mesenterica": [
+    "Yellow brain jelly",
+    "Witch’s butter"
+  ],
+  "trichoglossum_sp": [
+    "Earth tongues",
+    "Hairy earth tongue"
+  ],
+  "tricholoma_murrillianum": [
+    "Pine mushroom"
+  ],
+  "ustilago_maydis": [
+    "Corn smut"
+  ],
+  "volvariella_volvacea": [
+    "Straw mushroom"
+  ]
+}

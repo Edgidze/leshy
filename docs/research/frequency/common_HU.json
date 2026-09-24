@@ -1,0 +1,25 @@
+{
+  "country": "HU",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "marasmius_oreades",
+    "cantharellus_cibarius",
+    "macrolepiota_procera",
+    "lactarius_deliciosus",
+    "calvatia_gigantea",
+    "agaricus_campestris",
+    "armillaria_mellea",
+    "suillus_granulatus",
+    "leccinellum_pseudoscabrum",
+    "russula_cyanoxantha",
+    "craterellus_cornucopioides",
+    "lepista_nuda",
+    "pleurotus_eryngii",
+    "pleurotus_ostreatus",
+    "laetiporus_sulphureus",
+    "imleria_badia",
+    "hydnum_repandum",
+    "auricularia_auricula_judae"
+  ]
+}

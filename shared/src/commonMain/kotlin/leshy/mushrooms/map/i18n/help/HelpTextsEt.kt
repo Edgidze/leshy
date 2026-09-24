@@ -14,17 +14,22 @@ internal val estonianHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Seenepaanid all on see, millega leide märgitakse: „+“ märgib leiu teie praeguses punktis, „−“ " +
             "eemaldab selle liigi viimase eksliku märke. Pikk vajutus „+“ peal avab mitme tüki korraga " +
-            "sisestamise; rohkem kui 999 sama liigi seent ühe matka kohta märkida ei saa.",
+            "sisestamise; rohkem kui 999 sama liigi seent ühe matka kohta märkida ei saa." +
+            " „+“ asemel võib puudutada ka pilti ennast. Plaat vastab värvilainega: lisamisel roheline, " +
+            "eemaldamisel punane.",
     HelpKey.RecordPlace to
         "Ümmargune nupp vasakul märgib koha — nime, kirjelduse ja fotoga. Koht pannakse sinna, kus te " +
             "parasjagu seisate, ja jääb kaardile ka pärast matka.",
     HelpKey.RecordNavigation to
         "Pikk vajutus koha tähisel lülitab sisse navigatsiooni selleni: paneel üleval paremal näitab " +
-            "suunda ja kaugust sihtkohani. Rist paneelil lülitab navigatsiooni välja.",
+            "suunda ja kaugust sihtkohani. Rist paneelil lülitab navigatsiooni välja." +
+            " Suund tuleb telefoni kompassist ja uueneb kohe, kui te pöörate; hoidke telefoni umbes rõhtsalt, " +
+            "nagu kaarti.",
     HelpKey.RecordSearchAndOwn to
         "Luup paremal leiab seene nime järgi ja viib selle paani riba algusesse — nii on kiirem, kui " +
             "liike on sisse lülitatud palju. Riba viimane paan, plussiga, lisab oma liigi, mida " +
-            "kataloogis pole.",
+            "kataloogis pole." +
+            " Otsing mõistab ka liigi teisi rahvapäraseid nimesid, mitte ainult põhinime.",
     HelpKey.RecordFilters to
         "Nupp „Filtrid“ üleval vasakul määrab, milliste liikide ja millise aja leide kaardil näidata, " +
             "ning number sellel ütleb, mitu filtrit on praegu sees. Filter on ühine „Leidude kaardiga“: " +

@@ -14,17 +14,22 @@ internal val slovenianHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Ploščice gob spodaj so tisto, s čimer se beležijo najdbe: „+“ zabeleži najdbo na vaši trenutni " +
             "točki, „−“ odstrani zadnjo napačno oznako te vrste. Dolg pritisk na „+“ odpre vnos več kosov " +
-            "hkrati; več kot 999 enakih gob v enem sprehodu ni mogoče označiti.",
+            "hkrati; več kot 999 enakih gob v enem sprehodu ni mogoče označiti." +
+            " Namesto „+“ se lahko dotaknete tudi same slike. Ploščica odgovori z valom barve: zeleno ob " +
+            "dodajanju, rdeče ob odvzemu.",
     HelpKey.RecordPlace to
         "Okrogli gumb levo označi kraj — z imenom, opisom in fotografijo. Kraj se postavi tam, kjer " +
             "trenutno stojite, in ostane na zemljevidu tudi po sprehodu.",
     HelpKey.RecordNavigation to
         "Dolg pritisk na oznako kraja vklopi navigacijo do njega: plošča zgoraj desno kaže smer in " +
-            "razdaljo do cilja. Križec na plošči navigacijo izklopi.",
+            "razdaljo do cilja. Križec na plošči navigacijo izklopi." +
+            " Smer se vzame iz kompasa telefona in se osveži takoj, ko se obrnete; telefon držite približno " +
+            "vodoravno, kot zemljevid.",
     HelpKey.RecordSearchAndOwn to
         "Lupa desno poišče gobo po imenu in postavi njeno ploščico na začetek traku — tako je hitreje, " +
             "kadar je vklopljenih veliko vrst. Zadnja ploščica traku, s plusom, doda vašo vrsto, ki je v " +
-            "katalogu ni.",
+            "katalogu ni." +
+            " Iskanje razume tudi druga ljudska imena vrste, ne le glavnega.",
     HelpKey.RecordFilters to
         "Gumb „Filtri“ zgoraj levo določa, najdbe katerih vrst in iz katerega obdobja naj se kažejo na " +
             "zemljevidu, številka na njem pa pove, koliko filtrov je zdaj vklopljenih. Filter je skupen z " +

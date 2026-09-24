@@ -66,8 +66,16 @@ APP_LANGUAGE_KT = (
 # that is what the research prompts, the TSV handed to them, and the app itself
 # all speak; a `GC` id means nothing in any of those three places.
 EXTRA_PRESETS_JSON = REPO_ROOT / "docs" / "catalog" / "extra_country_presets.json"
+# Частотность 33 подборок дампа, пересобранная по критерию «корзина обычного выхода» с потолком
+# в 20 позиций (`tools/apply_frequency_common.py`, обоснование — `docs/research/frequency/`).
+# Роль `common_encounter` в самой выгрузке при этом не трогается: это производные данные, их
+# пересобирает `tools/apply_frequency_common.py` из `docs/research/frequency/`.
+COMMON_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "common_overrides.json"
 EXTRA_CATEGORIES_JSON = REPO_ROOT / "docs" / "catalog" / "extra_categories.json"
 EXTRA_NAMES_DIR = REPO_ROOT / "docs" / "catalog" / "extra_names"
+# Ручной слой поверх `alt_names` источника — см. `write_aliases`. Тоже по catalog
+# `key`, а не по `GC####`, по той же причине, что и слои выше.
+ALIAS_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "alias_overrides.json"
 
 # Section 3.3: RU preset gained/lost these categories relative to what the
 # source dump shipped, per the project owner's decisions.
@@ -283,6 +291,13 @@ def load_extra_presets(categories: list) -> dict:
     everything downstream stays unaware there are two sources. `names` is left
     empty on purpose — species names for these countries come from
     `extra_names/<lang>.json`, never from the preset.
+
+    Необязательное поле `common` — частотные виды страны, выведенные из `notes` тех же
+    исследований (`tools/apply_frequency_common.py`, обоснование —
+    `docs/research/frequency/README.md`). Здесь оно превращается в роль `common_encounter`,
+    единственную из ролей дампа, которую читает приложение: так `countries.json` получает
+    `common` одинаково для обоих источников, а пресет без этого поля по-прежнему остаётся
+    «данных нет» (см. комментарий у `entry["common"]` ниже).
     """
     extras = load_optional_json(EXTRA_PRESETS_JSON, {})
     if not extras:
@@ -303,11 +318,26 @@ def load_extra_presets(categories: list) -> dict:
             raise ValueError(f"{EXTRA_PRESETS_JSON.name}: {cc} names keys outside the catalog: {unknown}")
         if not preset["languages"]:
             raise ValueError(f"{EXTRA_PRESETS_JSON.name}: {cc} has an empty `languages`")
+        common = preset.get("common")
+        unknown_common = [k for k in common or [] if k not in keys]
+        if unknown_common:
+            raise ValueError(
+                f"{EXTRA_PRESETS_JSON.name}: {cc} marks keys outside its own collection "
+                f"as common: {unknown_common}"
+            )
+        common_keys = set(common or [])
         out[cc] = {
             "country": preset["country"],
             "languages": preset["languages"],
             "items": [
-                {"order": i, "id": id_by_key[key], "names": {}}
+                {
+                    "order": i,
+                    "id": id_by_key[key],
+                    "names": {},
+                    # Роль ставится только когда у страны вообще есть данные о частотности:
+                    # пустой `roles` у всех позиций и есть признак «данных нет».
+                    **({"roles": ["common_encounter"]} if key in common_keys else {}),
+                }
                 for i, key in enumerate(keys, start=1)
             ],
         }
@@ -360,6 +390,62 @@ def resolve_colors(categories: list, recompute: bool) -> dict:
     return colors
 
 
+def write_aliases(categories: list, out_dir: Path) -> None:
+    """`aliases/<lang>.json` (`{key: [имя, ...]}`) — вторые названия видов для ПОИСКА.
+
+    Источник — поле `alt_names` каждой категории дампа (121 запись у `en`, 68 у
+    `ru`, есть ещё у двух десятков языков). До 2026-09-17 оно не выгружалось
+    вовсе: генератор писал в `names/<lang>.json` только основное имя, и поиск
+    по ленте плиток ранжировал по одной строке. Народных синонимов у грибов
+    больше, чем основных названий, и «подосиновик» ищут как «красный», а
+    «подберёзовик» как «обабок».
+
+    Показывается по-прежнему ТОЛЬКО основное имя — это поисковый индекс, а не
+    второй набор названий. Поэтому синоним, совпавший с основным именем,
+    отбрасывается: в `names/<lang>.json` он уже есть, и дублировать его в
+    индексе незачем.
+
+    Ручной слой `alias_overrides.json` (`{key: {lang: [имя, ...]}}`) ДОПОЛНЯЕТ
+    список, а не заменяет его: у слоя ровно одна задача — дописать то, чего в
+    дампе нет. Неизвестный ключ — ошибка, а не тихий пропуск: опечатка в нём
+    иначе просто ничего бы не сделала, и заметили бы это через месяц в лесу.
+    """
+    overrides = load_optional_json(ALIAS_OVERRIDES_JSON, {})
+    by_key = {c["key"]: c for c in categories}
+    unknown = sorted(set(overrides) - set(by_key))
+    if unknown:
+        raise ValueError(f"alias_overrides.json: неизвестные ключи каталога: {unknown}")
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    written = 0
+    for lang in app_language_codes():
+        # Основные имена этого языка нужны, чтобы отбросить совпадающие синонимы.
+        # Читаются с диска, а не из памяти: секция гоняется и отдельным флагом
+        # `--only-aliases`, когда остальной конвейер не выполнялся.
+        names_path = FILES_CATALOG_DIR / "names" / f"{lang}.json"
+        names = json.loads(names_path.read_text(encoding="utf-8")) if names_path.exists() else {}
+        result = {}
+        for key, category in by_key.items():
+            main = (names.get(key) or "").strip().casefold()
+            seen = set()
+            aliases = []
+            source_aliases = (category.get("alt_names") or {}).get(lang) or []
+            for alias in list(source_aliases) + list(overrides.get(key, {}).get(lang, [])):
+                alias = (alias or "").strip()
+                folded = alias.casefold()
+                if not alias or folded == main or folded in seen:
+                    continue
+                seen.add(folded)
+                aliases.append(alias)
+            if aliases:
+                result[key] = aliases
+        (out_dir / f"{lang}.json").write_text(
+            json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
+        )
+        written += 1
+    print(f"aliases/: {written} files written")
+
+
 def write_country_names(presets: dict, out_dir: Path) -> None:
     codes = sorted(presets)
     languages = app_language_codes()
@@ -403,12 +489,23 @@ def main() -> None:
         help="Regenerate countries/<lang>.json only — the cheap section, no images touched.",
     )
     parser.add_argument(
+        "--only-aliases", action="store_true",
+        help="Regenerate aliases/<lang>.json only — reads names/<lang>.json from disk, "
+             "touches no images.",
+    )
+    parser.add_argument(
         "--recompute-colors", action="store_true",
         help="Re-derive every dominant colour from the images instead of reusing the ones "
              "catalog.json already stores. Changes ~298 of 408 values, 12 of them visibly — "
              "see the module docstring before using this.",
     )
     args = parser.parse_args()
+
+    if args.only_aliases:
+        data = json.loads(SOURCE_JSON.read_text(encoding="utf-8"))
+        categories = data["categories"] + load_extra_categories(data["categories"])
+        write_aliases(categories, FILES_CATALOG_DIR / "aliases")
+        return
 
     if args.only_country_names:
         data = json.loads(SOURCE_JSON.read_text(encoding="utf-8"))
@@ -457,7 +554,13 @@ def run_full(recompute_colors: bool = False) -> None:
             "color": colors[c["key"]],
             "breadth": c["breadth"],
             "importance": c["importance"],
-            "dangerous": c["flags"]["dangerous"],
+            # Нейтральное имя поля — требование владельца (2026-09-17), и оно про
+            # смысл, а не про стиль: приложение официально не определяет съедобность
+            # (её понятие убрано из него целиком миграцией Room v9->v10), и данные не
+            # должны заявлять того, чего не заявляет продукт. В дампе флаг называется
+            # `dangerous`; здесь он означает ровно «по умолчанию этот вид уезжает в
+            # конец ленты», и ничего кроме.
+            "sortLast": c["flags"]["dangerous"],
         })
 
     FILES_CATALOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -469,6 +572,7 @@ def run_full(recompute_colors: bool = False) -> None:
     print(f"catalog.json: {len(catalog_entries)} entries, {distinct_colors} distinct colors")
 
     # ---- countries.json -----------------------------------------------------
+    common_overrides = load_optional_json(COMMON_OVERRIDES_JSON, {})
     countries_out = []
     country_distinct_colors = []
     colors_by_id = {c["id"]: e["color"] for c, e in zip(categories, catalog_entries)}
@@ -479,11 +583,36 @@ def run_full(recompute_colors: bool = False) -> None:
         if cc == "RU":
             ids = [i for i in ids if i not in RU_PRESET_REMOVE] + RU_PRESET_ADD
         keys = [categories_by_id[i]["key"] for i in ids]
-        countries_out.append({
+        entry = {
             "code": cc,
             "langs": preset["languages"],
             "keys": keys,
-        })
+        }
+        # `common` — виды, которые в этой стране реально встречаются часто (роль
+        # `common_encounter` в дампе). Отсюда берётся «вперёд частотные» в порядке
+        # ленты по умолчанию.
+        #
+        # Поле ОТСУТСТВУЕТ, а не пусто, у стран без ролей в источнике — это 22
+        # подборки партий post-soviet и europe-15, собранные исследованиями
+        # (`load_extra_presets` строит items без `roles`). Разница существенная:
+        # пустой список означал бы «здесь ничего не часто», а отсутствие поля —
+        # «данных нет», и приложение в этом случае откатывается на глобальный
+        # `importance` вместо того, чтобы уводить всю страну в один ряд.
+        override = common_overrides.get(cc)
+        if override is not None:
+            # Пересобранный список уже проверен на принадлежность подборке и на потолок в 20
+            # позиций; порядок берётся от подборки, как и у роли ниже.
+            entry["common"] = [k for k in keys if k in set(override)]
+        else:
+            common = [
+                categories_by_id[it["id"]]["key"]
+                for it in items
+                if "common_encounter" in (it.get("roles") or [])
+                and it["id"] in ids
+            ]
+            if any(it.get("roles") for it in items):
+                entry["common"] = common
+        countries_out.append(entry)
         country_distinct_colors.append(len({colors_by_id[i] for i in ids}))
 
     (FILES_CATALOG_DIR / "countries.json").write_text(
@@ -523,6 +652,9 @@ def run_full(recompute_colors: bool = False) -> None:
             json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
         )
     print(f"names/: {len(all_langs)} files written ({len(extra_names)} of them fed by extra_names/)")
+
+    # ---- aliases/<lang>.json ---------------------------------------------------
+    write_aliases(categories, FILES_CATALOG_DIR / "aliases")
 
     # ---- images -----------------------------------------------------
     DRAWABLE_DIR.mkdir(parents=True, exist_ok=True)

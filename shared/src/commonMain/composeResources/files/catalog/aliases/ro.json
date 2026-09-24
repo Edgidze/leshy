@@ -1,0 +1,168 @@
+{
+  "agaricus_arvensis": [
+    "Ciuperca de câmp",
+    "Champignonul oilor"
+  ],
+  "agaricus_campestris": [
+    "Șampinioane"
+  ],
+  "agaricus_campestris__2": [
+    "Ciuperca de gunoi",
+    "Ciuperca de bălegar"
+  ],
+  "amanita_caesarea": [
+    "Crăițe",
+    "Crăiță",
+    "Crăițele"
+  ],
+  "amanita_muscaria": [
+    "Buretele muștelor",
+    "Pălăria șarpelui"
+  ],
+  "armillaria_mellea": [
+    "Ghebe de toamnă",
+    "Opintici",
+    "Opinticile de toamnă",
+    "Gheba de brad",
+    "Gheba de deal",
+    "Gheba de gorun",
+    "Gheba de munte",
+    "Gheba de câmpie",
+    "Gheba de stejar"
+  ],
+  "auricularia_auricula_judae": [
+    "Ciuperca de soc"
+  ],
+  "boletus_aereus": [
+    "Pitarcă",
+    "Pitoancă"
+  ],
+  "boletus_edulis": [
+    "Hribii",
+    "Mânătărci",
+    "Mănătarcă",
+    "Hrib cenușiu"
+  ],
+  "calocybe_gambosa": [
+    "Buretele de spin"
+  ],
+  "calvatia_gigantea": [
+    "Bășica porcului"
+  ],
+  "cantharellus_cibarius": [
+    "Bureți galbeni",
+    "Gălbiorul"
+  ],
+  "cerioporus_squamosus": [
+    "Păstrăvul de ulm",
+    "Păstrăv"
+  ],
+  "coprinus_comatus": [
+    "Buretele de cerneală"
+  ],
+  "entoloma_sinuatum": [
+    "Entolomă curbată"
+  ],
+  "fistulina_hepatica": [
+    "Păstrăv de stejar"
+  ],
+  "grifola_frondosa": [
+    "Grifolă"
+  ],
+  "hydnum_repandum": [
+    "Flocoșei"
+  ],
+  "hypholoma_fasciculare": [
+    "Ghebe false"
+  ],
+  "imleria_badia": [
+    "Hribul murg"
+  ],
+  "lactarius_deliciosus": [
+    "Râșcovi",
+    "Bureții dulci",
+    "Pâinea pădurii",
+    "Râșcovi de brad"
+  ],
+  "lactifluus_piperatus": [
+    "Bureții iuți",
+    "Buretele lăptos"
+  ],
+  "lactifluus_volemus": [
+    "Buretele roșu",
+    "Lăptuca dulce",
+    "Râșcovul lăptos"
+  ],
+  "leccinum_aurantiacum__2": [
+    "Pitarcuță"
+  ],
+  "leccinum_scabrum": [
+    "Pitărcuțe",
+    "Pitărcuțile",
+    "Burete călugăresc",
+    "Chitarcă"
+  ],
+  "macrolepiota_procera": [
+    "Pălăria șarpelui",
+    "Parasolul",
+    "Piciorul căprioarei"
+  ],
+  "marasmius_oreades": [
+    "Bureciori",
+    "Bureți de pajiște"
+  ],
+  "morchella_esculenta": [
+    "Pupi",
+    "Ciuciulete",
+    "Ciuciuleți"
+  ],
+  "pleurotus_ostreatus": [
+    "Păstrăv",
+    "Negrișori",
+    "Burete de fag",
+    "Păstrăv de fag"
+  ],
+  "ramaria_aurea": [
+    "Togmăgiorii"
+  ],
+  "ramaria_botrytis": [
+    "Ramurele",
+    "Creasta cocoșului"
+  ],
+  "russula_aurea": [
+    "Vinețelele"
+  ],
+  "russula_cyanoxantha": [
+    "Vinețelele"
+  ],
+  "russula_cyanoxantha__2": [
+    "Hulubiță"
+  ],
+  "russula_vesca": [
+    "Pâinea pământului"
+  ],
+  "russula_virescens": [
+    "Oiță"
+  ],
+  "suillellus_luridus": [
+    "Pitarcă"
+  ],
+  "suillus_granulatus": [
+    "Pitaștele"
+  ],
+  "suillus_grevillei": [
+    "Hrib de zadă"
+  ],
+  "suillus_luteus": [
+    "Turta vacii"
+  ],
+  "tuber_aestivum": [
+    "Trufă văratică"
+  ],
+  "tuber_magnatum": [
+    "Trufă de toamnă"
+  ],
+  "tuber_melanosporum": [
+    "Perla neagră"
+  ]
+}

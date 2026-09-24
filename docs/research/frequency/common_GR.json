@@ -1,0 +1,23 @@
+{
+  "country": "GR",
+  "method": "derived-from-notes",
+  "common": [
+    "boletus_edulis",
+    "lactarius_deliciosus",
+    "lactarius_sanguifluus",
+    "lactarius_salmonicolor",
+    "cantharellus_cibarius",
+    "macrolepiota_procera",
+    "pleurotus_eryngii",
+    "pleurotus_ostreatus",
+    "hydnum_repandum",
+    "agaricus_campestris__2",
+    "armillaria_mellea",
+    "russula_cyanoxantha",
+    "coprinus_comatus",
+    "marasmius_oreades",
+    "amanita_caesarea",
+    "craterellus_cornucopioides",
+    "lepista_nuda"
+  ]
+}

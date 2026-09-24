@@ -14,17 +14,22 @@ internal val azerbaijaniHelpTexts: Map<HelpKey, String> = mapOf(
     HelpKey.RecordTiles to
         "Aşağıdakı göbələk lövhəcikləri tapıntıların qeyd olunduğu yerdir: «+» indiki nöqtənizdə tapıntı " +
             "qoyur, «−» həmin növün son səhv qeydini götürür. «+» üzərinə uzun basmaq bir neçə ədədi " +
-            "birdən daxil etməyi açır; bir gəzintidə eyni göbələkdən 999-dan çoxunu qeyd etmək olmaz.",
+            "birdən daxil etməyi açır; bir gəzintidə eyni göbələkdən 999-dan çoxunu qeyd etmək olmaz." +
+            " Göbələyin şəklinə də «+» əvəzinə toxunmaq olar. Xana rəng dalğası ilə cavab verir: əlavəyə yaşıl, " +
+            "silməyə qırmızı.",
     HelpKey.RecordPlace to
         "Soldakı dairəvi düymə yer qeyd edir — ad, təsvir və fotoşəkil ilə. Yer indi durduğunuz nöqtəyə " +
             "qoyulur və gəzintidən sonra da xəritədə qalır.",
     HelpKey.RecordNavigation to
         "Yer nişanına uzun basmaq ora naviqasiyanı işə salır: sağ yuxarıdakı panel hədəfə istiqaməti və " +
-            "məsafəni göstərir. Paneldəki çarpaz naviqasiyanı söndürür.",
+            "məsafəni göstərir. Paneldəki çarpaz naviqasiyanı söndürür." +
+            " İstiqamət telefonun kompasından götürülür və siz dönən kimi yenilənir; telefonu xəritə kimi, " +
+            "təxminən üfüqi tutun.",
     HelpKey.RecordSearchAndOwn to
         "Sağdakı lupa göbələyi adına görə tapır və lövhəciyini lentin əvvəlinə keçirir — çox növ açıq " +
             "olanda bu daha sürətlidir. Lentin artı işarəli son lövhəciyi kataloqda olmayan öz növünüzü " +
-            "əlavə edir.",
+            "əlavə edir." +
+            " Axtarış növün əsas adından başqa ikinci, xalq adlarını da başa düşür.",
     HelpKey.RecordFilters to
         "Sol yuxarıdakı «Filtrlər» düyməsi hansı növlərin və hansı dövrün tapıntılarının xəritədə " +
             "görünəcəyini müəyyən edir, üzərindəki rəqəm isə indi neçə filtrin açıq olduğunu bildirir. " +

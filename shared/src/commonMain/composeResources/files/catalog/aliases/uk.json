@@ -1,0 +1,119 @@
+{
+  "agaricus_campestris": [
+    "Шампіньйони"
+  ],
+  "armillaria_mellea": [
+    "Опеньок осінній",
+    "Підпеньки"
+  ],
+  "auricularia_auricula_judae": [
+    "Аурикулярія вухоподібна"
+  ],
+  "boletus_edulis": [
+    "Боровик",
+    "Правдивий гриб",
+    "Білас",
+    "Біляк",
+    "Щиряк",
+    "Війт"
+  ],
+  "calocybe_gambosa": [
+    "Підвишні",
+    "Підсадки",
+    "Підсливки",
+    "Вишняки"
+  ],
+  "calvatia_gigantea": [
+    "Головач гігантський"
+  ],
+  "cantharellus_cibarius": [
+    "Лисичка звичайна"
+  ],
+  "coprinus_comatus": [
+    "Гнойовик чубатий"
+  ],
+  "craterellus_cornucopioides": [
+    "Лійочник ріжковидний",
+    "Лійка",
+    "Лисичка сіра"
+  ],
+  "grifola_frondosa": [
+    "Бараняча голова"
+  ],
+  "imleria_badia": [
+    "Панський гриб",
+    "Бебка"
+  ],
+  "lactarius_deliciosus": [
+    "Рижик ялиновий",
+    "Рижик звичайний"
+  ],
+  "lactarius_resimus": [
+    "Груздь перцевий"
+  ],
+  "lactifluus_piperatus": [
+    "Груздь перцевий"
+  ],
+  "laetiporus_sulphureus": [
+    "Курка",
+    "Куліна",
+    "Відьміна сірка"
+  ],
+  "leccinum_aurantiacum": [
+    "Червоноголовець",
+    "Червонюк",
+    "Червоняк",
+    "Красноголовець"
+  ],
+  "leccinum_scabrum": [
+    "Козарі"
+  ],
+  "lepista_nuda": [
+    "Лепіста фіолетова"
+  ],
+  "lycoperdon_perlatum__2": [
+    "Порхавки"
+  ],
+  "macrolepiota_procera": [
+    "Гриб-зонтик великий",
+    "Парасольки"
+  ],
+  "paxillus_involutus": [
+    "Свинушка тонка",
+    "Свиняк",
+    "Корбан бурий"
+  ],
+  "phallus_impudicus": [
+    "Панна"
+  ],
+  "pleurotus_ostreatus": [
+    "Глива звичайна",
+    "Вешенки"
+  ],
+  "rubroboletus_satanas": [
+    "Боровик сатанинський"
+  ],
+  "russula_cyanoxantha": [
+    "Голубінки",
+    "Сивулька"
+  ],
+  "suillellus_luridus": [
+    "Дубовики"
+  ],
+  "suillus_luteus": [
+    "Маслюк звичайний"
+  ],
+  "tricholoma_equestre": [
+    "Рядовка зелена"
+  ],
+  "tricholoma_populinum": [
+    "Тополевий гриб"
+  ],
+  "tylopilus_felleus": [
+    "Гірчак"
+  ],
+  "xerocomellus_chrysenteron": [
+    "Моховики",
+    "Під’яєчник"
+  ]
+}

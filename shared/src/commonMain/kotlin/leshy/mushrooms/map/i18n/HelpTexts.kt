@@ -142,7 +142,8 @@ private fun russianHelpTexts(key: HelpKey): String = when (key) {
         "Плитки грибов внизу — то, чем отмечаются находки: «+» ставит находку в вашей текущей " +
             "точке, «−» убирает последнюю ошибочную отметку этого вида. Долгое нажатие на «+» " +
             "открывает ввод сразу нескольких штук; больше 999 одинаковых грибов за одну прогулку " +
-            "отметить нельзя."
+            "отметить нельзя. Вместо «+» можно нажимать саму картинку гриба. Плитка отвечает " +
+            "переливом: зелёным на добавление, красным на убавление."
 
     HelpKey.RecordPlace ->
         "Круглая кнопка слева отмечает место — с названием, описанием и фотографией. Место " +
@@ -150,12 +151,15 @@ private fun russianHelpTexts(key: HelpKey): String = when (key) {
 
     HelpKey.RecordNavigation ->
         "Долгое нажатие на метку места включает навигацию к нему: панель справа сверху показывает " +
-            "направление и расстояние до цели. Крестик на панели выключает навигацию."
+            "направление и расстояние до цели. Крестик на панели выключает навигацию. Направление " +
+            "берётся с компаса телефона и обновляется сразу, как только вы повернулись; держите " +
+            "телефон приблизительно горизонтально, как карту."
 
     HelpKey.RecordSearchAndOwn ->
         "Лупа справа находит нужный гриб по названию и ставит его плитку в начало ленты — так " +
-            "быстрее, когда видов включено много. Последняя плитка ленты, с плюсом, добавляет свой " +
-            "вид, которого нет в каталоге."
+            "быстрее, когда видов включено много. Поиск понимает и вторые народные названия вида, " +
+            "не только основное. Последняя плитка ленты, с плюсом, добавляет свой вид, которого " +
+            "нет в каталоге."
 
     HelpKey.RecordFilters ->
         "Кнопка «Фильтры» слева сверху задаёт, находки каких видов и за какое время показывать на " +
@@ -348,7 +352,8 @@ private fun englishHelpTexts(key: HelpKey): String = when (key) {
         "The mushroom tiles along the bottom are what finds are logged with: “+” logs a find at " +
             "your current position, “−” removes the last mistaken find of that species. Holding " +
             "“+” opens an input for several at once; one walk can hold at most 999 finds of the " +
-            "same species."
+            "same species. The picture itself can be tapped instead of “+”. The tile answers with " +
+            "a colour sweep: green to add, red to remove."
 
     HelpKey.RecordPlace ->
         "The round button on the left marks a place — with a name, a description and a photo. The " +
@@ -357,11 +362,13 @@ private fun englishHelpTexts(key: HelpKey): String = when (key) {
     HelpKey.RecordNavigation ->
         "Long-pressing a place marker starts navigation to it: the panel in the top right shows " +
             "the direction and the distance to the target. The cross on the panel turns " +
-            "navigation off."
+            "navigation off. The direction comes from the phone's compass and updates the moment " +
+            "you turn; hold the phone roughly level, the way you would hold a map."
 
     HelpKey.RecordSearchAndOwn ->
         "The magnifier on the right finds a mushroom by name and moves its tile to the front of " +
-            "the row — quicker than scrolling when many species are switched on. The last tile in " +
+            "the row — quicker than scrolling when many species are switched on. Search also " +
+            "understands a species' second, folk names, not just the main one. The last tile in " +
             "the row, with a plus on it, adds a species of your own that the catalog doesn't have."
 
     HelpKey.RecordFilters ->

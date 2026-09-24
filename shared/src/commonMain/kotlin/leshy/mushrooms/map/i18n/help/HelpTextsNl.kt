@@ -16,17 +16,21 @@ internal val dutchHelpTexts: Map<HelpKey, String> = mapOf(
         "Met de paddenstoeltegels onderaan markeer je vondsten: “+” zet een vondst op je huidige punt, " +
             "“−” haalt de laatste foutieve markering van die soort weg. Lang drukken op “+” opent de " +
             "invoer van meerdere stuks tegelijk; meer dan 999 dezelfde paddenstoelen per wandeling kunnen " +
-            "niet worden gemarkeerd.",
+            "niet worden gemarkeerd." +
+            " De afbeelding vervangt “+”: een groene golf betekent toevoegen, een rode weghalen.",
     HelpKey.RecordPlace to
         "De ronde knop links markeert een plek — met naam, beschrijving en foto. De plek komt waar je nu " +
             "staat en blijft na de wandeling op de kaart staan.",
     HelpKey.RecordNavigation to
         "Lang drukken op een plekmarkering start de navigatie ernaartoe: het paneel rechtsboven toont de " +
-            "richting en de afstand tot het doel. Het kruisje op het paneel zet de navigatie uit.",
+            "richting en de afstand tot het doel. Het kruisje op het paneel zet de navigatie uit." +
+            " De richting komt van het kompas van de telefoon en wordt bijgewerkt zodra u zich omdraait; houd de " +
+            "telefoon ongeveer horizontaal, als een kaart.",
     HelpKey.RecordSearchAndOwn to
         "Het vergrootglas rechts zoekt een paddenstoel op naam en zet de tegel vooraan in de rij — dat " +
             "gaat sneller als er veel soorten aanstaan. De laatste tegel van de rij, met een plus, voegt " +
-            "een eigen soort toe die niet in de catalogus staat.",
+            "een eigen soort toe die niet in de catalogus staat." +
+            " Het zoeken begrijpt ook de tweede, volkse namen van een soort, niet alleen de hoofdnaam.",
     HelpKey.RecordFilters to
         "De knop “Filters” linksboven bepaalt welke soorten en welke periode op de kaart verschijnen; het " +
             "getal erop zegt hoeveel filters nu aanstaan. Het filter is gedeeld met de “Vondstenkaart”: " +

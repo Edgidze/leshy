@@ -1,0 +1,118 @@
+{
+  "agaricus_campestris": [
+    "Печурыцы"
+  ],
+  "amanita_muscaria": [
+    "Мухамора звычайная"
+  ],
+  "armillaria_mellea": [
+    "Апенькі"
+  ],
+  "boletus_edulis": [
+    "Белы грыб",
+    "Добры грыб",
+    "Шчыры грыб",
+    "Праўдзівы грыб",
+    "Справядлівы грыб"
+  ],
+  "cantharellus_cibarius": [
+    "Лісіца"
+  ],
+  "chalciporus_piperatus": [
+    "Горкі масьляк"
+  ],
+  "coprinus_comatus": [
+    "Навознік",
+    "Благушка"
+  ],
+  "cortinarius_caperatus": [
+    "Курочка"
+  ],
+  "gyroporus_cyanescens": [
+    "Сіняк"
+  ],
+  "hygrophoropsis_aurantiaca": [
+    "Сплоень",
+    "Лісічка атрутная"
+  ],
+  "hypholoma_fasciculare": [
+    "Апёнка несапраўдная"
+  ],
+  "kuehneromyces_mutabilis": [
+    "Апенка вадкая"
+  ],
+  "lactarius_deliciosus": [
+    "Рыжок"
+  ],
+  "lactarius_resimus": [
+    "Хрушч"
+  ],
+  "lactarius_rufus": [
+    "Гаркуха"
+  ],
+  "lactarius_torminosus": [
+    "Валнушка",
+    "Валамянка"
+  ],
+  "lactarius_trivialis": [
+    "Падмлечнік"
+  ],
+  "lactifluus_volemus": [
+    "Паддубень",
+    "Падарэшнік"
+  ],
+  "leccinum_aurantiacum__2": [
+    "Асавік",
+    "Краснагаловік",
+    "Падасінавік",
+    "Чырвоная бабка"
+  ],
+  "leccinum_scabrum": [
+    "Абабак",
+    "Бабка чорная"
+  ],
+  "lycoperdon_perlatum": [
+    "Порхаўка",
+    "Чортава табака"
+  ],
+  "morchella_esculenta__2": [
+    "Смаржок",
+    "Смаршчок"
+  ],
+  "phallus_impudicus": [
+    "Чортава яйка",
+    "Смаршчок смярдзючы"
+  ],
+  "pleurotus_ostreatus": [
+    "Вешанка",
+    "Дрэўнавушка"
+  ],
+  "russula_cyanoxantha": [
+    "Сыраежкі"
+  ],
+  "russula_delica": [
+    "Сухар",
+    "Малачай"
+  ],
+  "suillellus_luridus": [
+    "Паддубень"
+  ],
+  "suillus_bovinus": [
+    "Казляк звычайны",
+    "Жоўцік"
+  ],
+  "suillus_luteus": [
+    "Маслякі"
+  ],
+  "tricholoma_equestre": [
+    "Зялёнка"
+  ],
+  "tricholoma_sejunctum": [
+    "Радоўка"
+  ],
+  "xerocomellus_chrysenteron": [
+    "Імшарнікі",
+    "Махавікі",
+    "Рашэтнікі"
+  ]
+}

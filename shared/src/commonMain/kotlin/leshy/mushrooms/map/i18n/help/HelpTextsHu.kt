@@ -16,17 +16,22 @@ internal val hungarianHelpTexts: Map<HelpKey, String> = mapOf(
         "Az alsó gombacsempék szolgálnak a leletek jelölésére: a „+” a jelenlegi pontján rögzít leletet, " +
             "a „−” törli az adott faj utolsó téves jelölését. A „+” hosszú nyomva tartása több darab " +
             "egyszerre való megadását nyitja meg; egy sétán belül ugyanabból a gombából legfeljebb 999 " +
-            "jelölhető.",
+            "jelölhető." +
+            " A „+” helyett a képre is lehet koppintani. A csempe színhullámmal válaszol: hozzáadáskor zöld, " +
+            "elvételkor piros.",
     HelpKey.RecordPlace to
         "A bal oldali kerek gomb helyet jelöl — névvel, leírással és fényképpel. A hely oda kerül, ahol " +
             "éppen áll, és a séta után is a térképen marad.",
     HelpKey.RecordNavigation to
         "A helyjelölő hosszú nyomva tartása navigációt indít oda: a jobb felső panel mutatja az irányt és " +
-            "a távolságot a célig. A panelen lévő kereszt kikapcsolja a navigációt.",
+            "a távolságot a célig. A panelen lévő kereszt kikapcsolja a navigációt." +
+            " Az irány a telefon iránytűjéből származik, és azonnal frissül, amint megfordul; tartsa a telefont " +
+            "nagyjából vízszintesen, mint egy térképet.",
     HelpKey.RecordSearchAndOwn to
         "A jobb oldali nagyító név szerint keresi meg a gombát, és a csempéjét a sor elejére teszi — így " +
             "gyorsabb, ha sok faj van bekapcsolva. A sor utolsó, pluszos csempéje saját fajt ad hozzá, " +
-            "amely nincs meg a katalógusban.",
+            "amely nincs meg a katalógusban." +
+            " A keresés a faj második, népi neveit is érti, nemcsak a fő nevet.",
     HelpKey.RecordFilters to
         "A bal felső „Szűrők” gomb állítja be, mely fajok és mely időszak leletei jelenjenek meg a " +
             "térképen, a rajta lévő szám pedig azt, hány szűrő aktív éppen. A szűrő közös a „Leletek " +

@@ -1,0 +1,26 @@
+{
+  "country": "IT",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "amanita_caesarea",
+    "cantharellus_cibarius",
+    "armillaria_mellea",
+    "macrolepiota_procera",
+    "calocybe_gambosa",
+    "tricholoma_terreum",
+    "hydnum_repandum",
+    "lactarius_deliciosus",
+    "leccinum_aurantiacum",
+    "cyclocybe_cylindracea",
+    "craterellus_cornucopioides",
+    "craterellus_lutescens",
+    "russula_virescens",
+    "russula_cyanoxantha__2",
+    "agaricus_campestris__2",
+    "calvatia_gigantea",
+    "coprinus_comatus",
+    "cortinarius_caperatus",
+    "pleurotus_ostreatus"
+  ]
+}

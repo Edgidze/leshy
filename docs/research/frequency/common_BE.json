@@ -1,0 +1,21 @@
+{
+  "country": "BE",
+  "method": "derived-from-notes",
+  "common": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "imleria_badia",
+    "macrolepiota_procera",
+    "craterellus_tubaeformis",
+    "neoboletus_erythropus",
+    "leccinum_scabrum",
+    "suillus_luteus",
+    "armillaria_mellea",
+    "pleurotus_ostreatus",
+    "auricularia_auricula_judae",
+    "coprinus_comatus",
+    "marasmius_oreades",
+    "agaricus_campestris__2",
+    "russula_cyanoxantha__2"
+  ]
+}

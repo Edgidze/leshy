@@ -1,0 +1,26 @@
+{
+  "country": "MD",
+  "method": "recalibrated-from-dump-order",
+  "common": [
+    "boletus_edulis",
+    "suillus_granulatus",
+    "leccinum_scabrum",
+    "leccinum_aurantiacum",
+    "neoboletus_erythropus",
+    "xerocomellus_chrysenteron",
+    "cantharellus_cibarius",
+    "armillaria_mellea",
+    "agaricus_campestris",
+    "macrolepiota_procera",
+    "russula_cyanoxantha",
+    "lactarius_deliciosus",
+    "lactifluus_piperatus",
+    "calvatia_gigantea",
+    "pleurotus_ostreatus",
+    "tricholoma_portentosum",
+    "calocybe_gambosa",
+    "marasmius_oreades",
+    "hydnum_repandum",
+    "coprinus_comatus"
+  ]
+}

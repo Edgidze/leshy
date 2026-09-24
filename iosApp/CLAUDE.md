@@ -255,3 +255,118 @@ Build settings (Debug+Release): `OTHER_LDFLAGS = (-framework Shared,
 - `MXMetricPayload` сохраняется наравне с диагностикой намеренно: в нём
   `cpuMetrics.cumulativeCPUTime` за сутки реального пользования — то самое
   измерение расхода CPU из шага 1 плана, но в поле, а не в Instruments.
+
+## Публикация в App Store: что живёт в проекте, а что в консоли
+
+Полная инструкция по релизу — `docs/release/ios-app-store-setup.md`. Здесь
+только то, что нужно знать, редактируя файлы этого каталога.
+
+- **`CURRENT_PROJECT_VERSION` — аналог `versionCode`, но со своей логикой:**
+  обязан расти на каждую загрузку **в пределах одного `MARKETING_VERSION`**.
+  Иначе App Store Connect отвечает «The bundle version must be higher than
+  the previously uploaded version». Живёт в `Configuration/Config.xcconfig`
+  вместе с `MARKETING_VERSION`, который держится равным
+  `leshy.versionName` из `gradle.properties` — одна версия приложения в обоих
+  магазинах.
+- **`ITSAppUsesNonExemptEncryption = false` в `Info.plist`** — экспортное
+  соответствие. Без ключа билд в TestFlight висит со статусом Missing
+  Compliance и **тестировщикам не раздаётся**, а вопрос задаётся руками на
+  каждой загрузке.
+- **`PrivacyInfo.xcprivacy` — не анкета App Privacy.** Анкета заполняется в
+  консоли и к бандлу отношения не имеет; этот файл — машиночитаемая
+  декларация внутри `.app`, её проверяет автоматика Apple при загрузке.
+  Категории в нём — гипотеза по составу зависимостей (`okio`/DataStore/Room
+  дают файловые таймстемпы, офлайн-паки — проверку свободного места). Если
+  придёт письмо **ITMS-91053**, оно называет конкретный API и категорию:
+  дописать и загрузить следующий билд. У `MapLibre.framework` свой манифест,
+  дублировать не нужно.
+- **`TARGETED_DEVICE_FAMILY = "1"` (только iPhone) — решение, а не упущение.**
+  Расширение до `"1,2"` после релиза безболезненно; обратное направление
+  лишает уже установивших iPad-пользователей обновлений. Включение iPad
+  потребует комплекта скриншотов 13" и проверки раскладки в окне
+  произвольного размера (iPadOS 26 делает окна приложений ресайзимыми).
+- **Число папок `<язык>.lproj` обязано совпадать с числом языков в
+  `AppLanguage.kt`.** В них лежит только `CFBundleDisplayName` — короткий
+  ярлык под иконкой («Грибная карта», «Pilzkarte»), не полное
+  `StringKey.AppName` («Грибная карта от Лешего»). Причина держать их в
+  синхроне не косметическая: **список языков на странице приложения в App
+  Store выводится из локализаций бандла**, а не из локализаций листинга, —
+  язык без своей `.lproj` в карточке магазина не появится. Парная правка на
+  Android — `androidApp/src/main/res/values-<язык>/strings.xml`, то же
+  значение.
+
+## Файлы в таргет добавлять не надо — папка синхронизирована
+
+`project.pbxproj` — формат Xcode 16 (`objectVersion = 77`), каталог
+`iosApp/iosApp` подключён как `PBXFileSystemSynchronizedRootGroup`. То есть
+**явного списка файлов в проекте нет вообще**: всё, что лежит в каталоге на
+диске, автоматически принадлежит таргету. Единственное исключение прописано
+для `Info.plist` (`PBXFileSystemSynchronizedBuildFileExceptionSet`) — он не
+ресурс, а манифест.
+
+Практические следствия:
+
+- новый ресурс (`PrivacyInfo.xcprivacy`, новая `<язык>.lproj`, картинка)
+  достаточно положить в каталог — перетаскивать в Xcode и править
+  `project.pbxproj` не нужно, а значит и известная ловушка с обнулением
+  `PRODUCT_NAME` не провоцируется лишний раз;
+- `knownRegions` в проекте уже перечисляет все 42 языка, так что новая
+  локализация подхватывается без правки настроек;
+- проверять результат надо по собранному бандлу, а не по дереву проекта:
+
+```bash
+xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -configuration Debug \
+  -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+  -derivedDataPath /tmp/dd build
+ls -d /tmp/dd/Build/Products/Debug-iphonesimulator/leshy.app/*.lproj | wc -l   # 42
+ls /tmp/dd/Build/Products/Debug-iphonesimulator/leshy.app/PrivacyInfo.xcprivacy
+```
+
+Проверено 12.09.2026 этим же прогоном: 42 локализации, манифест в корне
+`.app`, `ITSAppUsesNonExemptEncryption = false` в собранном `Info.plist`.
+
+## `CODE_SIGN_IDENTITY = "Apple Development"` в Release — так и надо
+
+Выглядит как недосмотр («релиз подписывается сертификатом разработчика?»),
+но при `CODE_SIGN_STYLE = Automatic` это штатное значение: distribution-
+сертификат Xcode подставляет сам на этапе Distribute App, в build settings он
+не прописывается.
+
+Попытка «исправить» на `"Apple Distribution"` ломает архив сразу на старте
+(проверено 12.09.2026, первый заход на Product → Archive):
+
+```
+iosApp has conflicting provisioning settings. iosApp is automatically signed for
+development, but a conflicting code signing identity Apple Distribution has been
+manually specified.
+```
+
+Прописывать distribution-идентичность руками имеет смысл только вместе с
+переходом на ручную подпись (`CODE_SIGN_STYLE = Manual` плюс свой
+provisioning profile) — то есть это другое решение целиком, а не правка одной
+строки.
+
+## Purpose-строки в `Info.plist` требуются и за чужой код
+
+`ITMS-90683` на первой загрузке (13.09.2026) потребовал
+`NSLocationAlwaysAndWhenInUseUsageDescription`, хотя приложение просит только
+`requestWhenInUseAuthorization` (`IosLocationTracker.kt`). Причина — символ
+`requestAlwaysAuthorization` внутри `MapLibre.framework`: статический анализатор
+Apple смотрит бандл целиком, включая чужие фреймворки, и на исполняемые пути не
+смотрит вовсе.
+
+Отсюда правило: **новая зависимость может потребовать purpose-строку, которой
+не соответствует ни одна строка нашего кода.** Проверять так:
+
+```bash
+strings <путь к .app>/Frameworks/<Имя>.framework/<Имя> | grep -iE "requestAlways|AuthorizationStatus"
+nm -u <путь к .app>/<бинарник> | grep -iE "PHPhotoLibrary|UIImagePicker|AVCaptureDevice"
+```
+
+Строки добавляются **по факту требования**, а не на опережение: в `Info.plist`
+лежит то, что Apple назвала в письме или что просит наш код, и ничего сверх.
+Ближайший кандидат на будущее — `NSPhotoLibraryUsageDescription`:
+`UIImagePickerController` из `CameraLauncher.ios.kt` в бинарнике есть, но
+открывается он только с `sourceType = Camera`, и Apple строку не потребовала.
+Появится путь с `sourceType = photoLibrary` — строка станет обязательной сразу,
+без неё система убивает приложение в момент обращения к библиотеке.

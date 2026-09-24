@@ -16,17 +16,22 @@ internal val germanHelpTexts: Map<HelpKey, String> = mapOf(
         "Mit den Pilzkacheln unten werden Funde markiert: „+“ setzt einen Fund an Ihrer aktuellen " +
             "Position, „−“ entfernt die letzte falsche Markierung dieser Art. Langes Drücken auf „+“ " +
             "öffnet die Eingabe mehrerer Stück auf einmal; mehr als 999 gleiche Pilze pro Spaziergang " +
-            "lassen sich nicht markieren.",
+            "lassen sich nicht markieren." +
+            " Statt „+“ kann auch das Bild getippt werden. Die Kachel antwortet mit Farbe: grün beim Hinzufügen, " +
+            "rot beim Entfernen.",
     HelpKey.RecordPlace to
         "Die runde Taste links markiert einen Ort — mit Namen, Beschreibung und Foto. Der Ort entsteht " +
             "dort, wo Sie gerade stehen, und bleibt auch nach dem Spaziergang auf der Karte.",
     HelpKey.RecordNavigation to
         "Langes Drücken auf eine Ortsmarkierung startet die Navigation dorthin: Die Leiste oben rechts " +
-            "zeigt Richtung und Entfernung zum Ziel. Das Kreuz auf der Leiste beendet die Navigation.",
+            "zeigt Richtung und Entfernung zum Ziel. Das Kreuz auf der Leiste beendet die Navigation." +
+            " Die Richtung kommt vom Kompass des Telefons und aktualisiert sich, sobald Sie sich drehen; halten " +
+            "Sie das Telefon etwa waagerecht, wie eine Karte.",
     HelpKey.RecordSearchAndOwn to
         "Die Lupe rechts findet einen Pilz über den Namen und schiebt seine Kachel an den Anfang der " +
             "Reihe — das ist schneller, wenn viele Arten aktiviert sind. Die letzte Kachel der Reihe, mit " +
-            "dem Plus, fügt eine eigene Art hinzu, die der Katalog nicht kennt.",
+            "dem Plus, fügt eine eigene Art hinzu, die der Katalog nicht kennt." +
+            " Die Suche versteht auch die zweiten, volkstümlichen Namen einer Art, nicht nur den Hauptnamen.",
     HelpKey.RecordFilters to
         "Die Taste „Filter“ oben links legt fest, Funde welcher Arten und aus welchem Zeitraum auf der " +
             "Karte erscheinen; die Zahl darauf sagt, wie viele Filter gerade aktiv sind. Der Filter gilt " +

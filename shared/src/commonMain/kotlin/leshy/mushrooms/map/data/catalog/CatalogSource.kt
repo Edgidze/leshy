@@ -19,7 +19,14 @@ data class CatalogEntry(
     val color: String,
     val breadth: String,
     val importance: Double,
-    val dangerous: Boolean,
+    /**
+     * «По умолчанию этот вид уезжает в конец ленты» — и ничего кроме. Имя поля нейтральное
+     * намеренно (требование владельца 2026-09-17): приложение официально не определяет
+     * съедобность, само её понятие убрано из него целиком миграцией Room v9->v10, и данные не
+     * должны заявлять того, чего не заявляет продукт. В исходном дампе флаг называется
+     * `dangerous`; переименование живёт в `tools/build_catalog.py`.
+     */
+    val sortLast: Boolean,
 )
 
 /**
@@ -53,4 +60,17 @@ class CatalogSource {
      * key like `category_misc`, or — until Phase 2's Room migration — a pre-migration legacy
      * `category_*` key). */
     fun scientificName(key: String): String? = byKey[key]?.sci
+
+    /**
+     * Уезжает ли вид в конец ленты по умолчанию ([CatalogEntry.sortLast]). Не каталожный ключ —
+     * `false`: пользовательские виды человек завёл сам, прятать их в хвост не за что.
+     */
+    fun sortsLast(key: String): Boolean = byKey[key]?.sortLast == true
+
+    /**
+     * Насколько вид вообще значим — 2..5 из дампа каталога, величина глобальная, без привязки к
+     * стране. Используется как запасной признак частотности там, где страновых данных нет
+     * (`CountryEntry.common` заполнен у 33 подборок из 55). Не каталожный ключ — `null`.
+     */
+    fun importance(key: String): Double? = byKey[key]?.importance
 }
