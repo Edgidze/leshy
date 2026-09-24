@@ -2731,7 +2731,7 @@
    "breadth": "narrow",
    "flags": {
     "collected": true,
-    "dangerous": true,
+    "dangerous": false,
     "lookalike": true,
     "iconic": true
    },
@@ -3486,7 +3486,7 @@
   {
    "id": "GC0032",
    "key": "agaricus_campestris",
-   "label": "Yellow stainers",
+   "label": "Field mushrooms",
    "label_lang": "en",
    "label_ru": "Шампиньон",
    "labels": {
@@ -3498,7 +3498,7 @@
     "be": "Пячурыцы",
     "de": "Champignons",
     "lv": "Atmatenes",
-    "en": "Yellow stainers",
+    "en": "Field mushrooms",
     "sl": "Kukmaki",
     "ro": "Ciuperci de câmp",
     "lt": "Pievagrybis",
@@ -3526,9 +3526,6 @@
     ],
     "lv": [
      "Šampinjoni"
-    ],
-    "en": [
-     "Stinky Agaricus"
     ],
     "sl": [
      "Travniški kukmak"
@@ -3572,7 +3569,7 @@
    "breadth": "broad",
    "flags": {
     "collected": true,
-    "dangerous": true,
+    "dangerous": false,
     "lookalike": true,
     "iconic": false
    },
@@ -4200,7 +4197,7 @@
    "breadth": "narrow",
    "flags": {
     "collected": true,
-    "dangerous": true,
+    "dangerous": false,
     "lookalike": true,
     "iconic": true
    },
@@ -4369,7 +4366,7 @@
    "breadth": "narrow",
    "flags": {
     "collected": true,
-    "dangerous": true,
+    "dangerous": false,
     "lookalike": true,
     "iconic": true
    },
@@ -7532,7 +7529,7 @@
    "breadth": "narrow",
    "flags": {
     "collected": true,
-    "dangerous": true,
+    "dangerous": false,
     "lookalike": true,
     "iconic": false
    },
@@ -8644,7 +8641,7 @@
    "breadth": "narrow",
    "flags": {
     "collected": true,
-    "dangerous": true,
+    "dangerous": false,
     "lookalike": true,
     "iconic": false
    },
@@ -10732,19 +10729,15 @@
   {
    "id": "GC0207",
    "key": "agaricus_subrufescens",
-   "label": "Field mushrooms",
+   "label": "Almond mushroom",
    "label_lang": "en",
    "label_ru": null,
    "labels": {
     "mi": "Whareatua",
-    "en": "Field mushrooms",
+    "en": "Almond mushroom",
     "ko": "신령주름버섯"
    },
-   "alt_names": {
-    "en": [
-     "Champignons"
-    ]
-   },
+   "alt_names": {},
    "sci": "Agaricus subrufescens",
    "breadth": "broad",
    "flags": {
@@ -15825,14 +15818,11 @@
     },
     {
      "order": 8,
-     "id": "GC0032",
+     "id": "GC0070",
      "status": "CORE",
-     "display_name": "Champignon",
      "display_lang": "de",
      "needs_name": false,
-     "names": {
-      "de": "Champignon"
-     },
+     "names": {},
      "importance": 4.0,
      "roles": [
       "common_encounter",
@@ -20597,14 +20587,11 @@
     },
     {
      "order": 45,
-     "id": "GC0239",
+     "id": "GC0027",
      "status": "CORE",
-     "display_name": "Pečárka zápašná",
      "display_lang": "cs",
      "needs_name": false,
-     "names": {
-      "cs": "Pečárka zápašná"
-     },
+     "names": {},
      "importance": 5.0,
      "roles": [
       "dangerous",
@@ -21628,15 +21615,11 @@
     },
     {
      "order": 7,
-     "id": "GC0121",
+     "id": "GC0078",
      "status": "CORE",
-     "display_name": "Riisikad",
      "display_lang": "et",
      "needs_name": false,
-     "names": {
-      "et": "Riisikad",
-      "ru": "Млечники"
-     },
+     "names": {},
      "importance": 5.0,
      "roles": [
       "collected",
@@ -21819,15 +21802,11 @@
     },
     {
      "order": 18,
-     "id": "GC0131",
+     "id": "GC0048",
      "status": "CORE",
-     "display_name": "Kärbseseened",
      "display_lang": "et",
      "needs_name": false,
-     "names": {
-      "et": "Kärbseseened",
-      "ru": "Мухоморы"
-     },
+     "names": {},
      "importance": 5.0,
      "roles": [
       "common_encounter",
@@ -28172,14 +28151,11 @@
     },
     {
      "order": 50,
-     "id": "GC0134",
+     "id": "GC0007",
      "status": "CORE",
-     "display_name": "Fakógombák",
      "display_lang": "hu",
      "needs_name": false,
-     "names": {
-      "hu": "Fakógombák"
-     },
+     "names": {},
      "importance": 4.0,
      "roles": [
       "dangerous",
@@ -33555,14 +33531,11 @@
     },
     {
      "order": 23,
-     "id": "GC0134",
+     "id": "GC0007",
      "status": "CORE",
-     "display_name": "Cholete de ocote",
      "display_lang": "es",
      "needs_name": false,
-     "names": {
-      "es": "Cholete de ocote"
-     },
+     "names": {},
      "importance": 5.0,
      "roles": [
       "collected",
@@ -34072,11 +34045,11 @@
      "order": 3,
      "id": "GC0207",
      "status": "CORE",
-     "display_name": "Field mushrooms",
+     "display_name": "Almond mushroom",
      "display_lang": "en",
      "needs_name": false,
      "names": {
-      "en": "Field mushrooms",
+      "en": "Almond mushroom",
       "mi": "Whareatua"
      },
      "importance": 5.0,
@@ -34204,14 +34177,11 @@
     },
     {
      "order": 11,
-     "id": "GC0287",
+     "id": "GC0045",
      "status": "CORE",
-     "display_name": "Wood blewit",
      "display_lang": "en",
      "needs_name": false,
-     "names": {
-      "en": "Wood blewit"
-     },
+     "names": {},
      "importance": 4.0,
      "roles": [
       "collected",
@@ -34577,14 +34547,11 @@
     },
     {
      "order": 34,
-     "id": "GC0180",
+     "id": "GC0305",
      "status": "CORE",
-     "display_name": "Artist’s bracket",
      "display_lang": "en",
      "needs_name": false,
-     "names": {
-      "en": "Artist’s bracket"
-     },
+     "names": {},
      "importance": 3.0,
      "roles": [
       "common_encounter",
@@ -34788,14 +34755,11 @@
     },
     {
      "order": 47,
-     "id": "GC0032",
+     "id": "GC0041",
      "status": "CORE",
-     "display_name": "Yellow stainers",
      "display_lang": "en",
      "needs_name": false,
-     "names": {
-      "en": "Yellow stainers"
-     },
+     "names": {},
      "importance": 5.0,
      "roles": [
       "dangerous",

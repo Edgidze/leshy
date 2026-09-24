@@ -195,7 +195,7 @@
     "color": "#73221b",
     "breadth": "narrow",
     "importance": 5.0,
-    "sortLast": true
+    "sortLast": false
   },
   {
     "key": "suillus_luteus",
@@ -357,7 +357,7 @@
     "color": "#ccaa45",
     "breadth": "narrow",
     "importance": 4.0,
-    "sortLast": true
+    "sortLast": false
   },
   {
     "key": "agaricus_campestris__2",
@@ -375,7 +375,7 @@
     "color": "#cc7659",
     "breadth": "narrow",
     "importance": 4.0,
-    "sortLast": true
+    "sortLast": false
   },
   {
     "key": "leccinum_aurantiacum",
@@ -942,7 +942,7 @@
     "color": "#b7441e",
     "breadth": "narrow",
     "importance": 4.0,
-    "sortLast": true
+    "sortLast": false
   },
   {
     "key": "russula_aeruginea",
@@ -1239,7 +1239,7 @@
     "color": "#927a57",
     "breadth": "narrow",
     "importance": 4.0,
-    "sortLast": true
+    "sortLast": false
   },
   {
     "key": "lactarius_salmonicolor",
