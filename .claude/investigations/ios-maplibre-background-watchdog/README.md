@@ -1398,6 +1398,14 @@ kernel-кадра над ним нет.
 1. **Собрать и погонять Release** (⌘< → Run → Build Configuration → Release,
    либо `xcodebuild -configuration Release`). Самая дешёвая проверка, и она
    же самая вероятная причина разницы.
+   **Сделано 2026-09-24:** Release собран (`xcodebuild -configuration Release
+   -destination "platform=iOS,id=<UDID>"`, подпись `Apple Development`, команда
+   `6UHK58SAU6`) и стоит на iPhone SE вместо Debug. Установка — только ⌘R из Xcode:
+   `devicectl` отвечает `device was not found`, потому что CoreDevice работает с iOS 17+,
+   а `ideviceinstaller`/`ios-deploy` на машине нет и поставить их нечем (DNS не
+   резолвится). Запускать приложение после установки надо с домашнего экрана, а не
+   оставлять под отладчиком: с присоединённым отладчиком watchdog не срабатывает и
+   зависание в этом режиме не воспроизводится. Наблюдение идёт — повторится ли.
 2. **Посчитать, откуда 13 потоков `Dispatchers.Default`.** На двух ядрах
    столько мутаторов — это чистый расход на каждую сборку мусора. Искать, кто
    их порождает; кандидат — `withContext(Dispatchers.Default)` в горячих
