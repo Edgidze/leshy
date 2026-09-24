@@ -1,0 +1,27 @@
+Mushroom Map from Leshy — data fingerprints
+(«Грибная карта от Лешего»)
+
+Each line below is the SHA-256 of a snapshot of the app's catalogue data — which species
+are in which country preset and in what order, which synonym was chosen as the display
+name, tile colours, image hashes — as of the stated date. The snapshot itself is not
+published; only its hash, which reveals nothing yet is bound to the exact content. The
+purpose of this record is to establish that the data existed in that exact form on that
+date.
+
+Verification:  shasum -a 256 <snapshot file>  →  the line below.
+
+---
+
+2026-09-24  catalog v1  sha256:6a84a425e4ef6d068a6717768975b8a7c45390ce253eb95df0aa07d6caf2d3cd
+            species=408 countries=55 country-positions=2729 name-languages=52
+            names=2867 aliases=889 alias-variants=2519 images=415
+
+---
+
+© 2026 Fradkin Fedor. All rights in the Mushroom Map from Leshy application, its data,
+texts and images are reserved. Their use in other products, commercial or otherwise —
+including copying the catalogue data corpus in whole or in part — is not permitted. No
+licence is granted, expressly or by implication: these pages are published to satisfy app
+store requirements and transfer no rights.
+
+Contact: fefradkin@gmail.com

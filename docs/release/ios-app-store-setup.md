@@ -274,7 +274,8 @@ find iosApp/build -name PrivacyInfo.xcprivacy -path "*leshy.app/*" -not -path "*
 **Исполнитель: агент пишет страницу, владелец публикует.** **Модель: Sonnet.**
 
 **Страница написана 12.09.2026** (`site/support.html`, `site/README.md` обновлён).
-Осталось владельцу: `git subtree push --prefix site site main`.
+Осталось владельцу: загрузить `support.html` в `leshy-mapper/mushrooms-map` через
+веб-интерфейс GitHub (Add file → Upload files), порядок — `site/README.md`.
 
 App Store Connect требует **Support URL** — обязательное поле; у Google Play аналога нет,
 поэтому в комплекте его не существует. Страница должна открываться без авторизации и
@@ -288,7 +289,8 @@ App Store Connect требует **Support URL** — обязательное п
    задачи 10), ссылка на политику конфиденциальности.
 2. Агент дописывает `site/README.md`: вторая страница, тот же способ публикации, и адрес
    `https://leshy-mapper.github.io/mushrooms-map/support.html` идёт в App Store Connect.
-3. Владелец публикует: `git subtree push --prefix site site main`.
+3. Владелец публикует: Add file → Upload files в `leshy-mapper/mushrooms-map`
+   (ручная загрузка через браузер — предпочтение владельца, см. `site/README.md`).
 
 **Критерий приёмки:** страница открывается по своему URL, с выключенным JavaScript показывает
 все четыре языковые версии подряд и не теряет ни одного адреса; файл в репозитории совпадает
