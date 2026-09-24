@@ -1,0 +1,25 @@
+{
+  "country": "DK",
+  "method": "derived-from-notes",
+  "common": [
+    "cantharellus_cibarius",
+    "boletus_edulis",
+    "imleria_badia",
+    "craterellus_tubaeformis",
+    "hydnum_repandum",
+    "leccinum_scabrum",
+    "leccinum_versipelle",
+    "suillus_luteus",
+    "coprinus_comatus",
+    "auricularia_auricula_judae",
+    "pleurotus_ostreatus",
+    "flammulina_velutipes",
+    "kuehneromyces_mutabilis",
+    "marasmius_oreades",
+    "lepista_nuda",
+    "lactarius_deterrimus",
+    "russula_cyanoxantha__2",
+    "calocybe_gambosa",
+    "agaricus_campestris__2"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "country": "CH",
+  "method": "derived-from-notes",
+  "common": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "imleria_badia",
+    "armillaria_mellea",
+    "macrolepiota_procera",
+    "craterellus_cornucopioides",
+    "craterellus_tubaeformis",
+    "hydnum_repandum",
+    "neoboletus_erythropus",
+    "lactarius_deliciosus",
+    "amanita_rubescens",
+    "calocybe_gambosa",
+    "leccinum_scabrum",
+    "suillus_luteus",
+    "marasmius_oreades",
+    "lepista_nuda",
+    "cortinarius_caperatus",
+    "amanita_muscaria"
+  ]
+}

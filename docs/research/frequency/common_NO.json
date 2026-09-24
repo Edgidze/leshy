@@ -1,0 +1,26 @@
+{
+  "country": "NO",
+  "method": "derived-from-notes",
+  "common": [
+    "cantharellus_cibarius",
+    "boletus_edulis",
+    "craterellus_tubaeformis",
+    "hydnum_repandum",
+    "leccinum_versipelle",
+    "leccinum_scabrum",
+    "cortinarius_caperatus",
+    "craterellus_cornucopioides",
+    "imleria_badia",
+    "suillus_variegatus",
+    "suillus_luteus",
+    "albatrellus_ovinus",
+    "russula_decolorans",
+    "coprinus_comatus",
+    "agaricus_arvensis",
+    "marasmius_oreades",
+    "lactarius_deliciosus",
+    "lactarius_trivialis",
+    "amanita_muscaria",
+    "paxillus_involutus"
+  ]
+}

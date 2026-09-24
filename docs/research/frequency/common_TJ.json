@@ -1,0 +1,18 @@
+{
+  "country": "TJ",
+  "method": "derived-from-notes+neighbour-UZ",
+  "common": [
+    "morchella_esculenta",
+    "pleurotus_eryngii",
+    "agaricus_campestris",
+    "agaricus_bitorquis",
+    "coprinus_comatus",
+    "pleurotus_ostreatus",
+    "armillaria_mellea",
+    "lycoperdon_perlatum",
+    "calvatia_gigantea",
+    "bovista_plumbea",
+    "marasmius_oreades",
+    "lepista_nuda"
+  ]
+}

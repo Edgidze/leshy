@@ -1,0 +1,17 @@
+{
+  "country": "CY",
+  "method": "derived-from-notes",
+  "common": [
+    "lactarius_deliciosus",
+    "russula_delica",
+    "tricholoma_anatolicum",
+    "pleurotus_eryngii",
+    "agaricus_campestris__2",
+    "suillus_granulatus",
+    "suillus_luteus",
+    "tricholoma_terreum",
+    "marasmius_oreades",
+    "coprinus_comatus",
+    "pleurotus_ostreatus"
+  ]
+}

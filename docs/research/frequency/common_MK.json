@@ -1,0 +1,24 @@
+{
+  "country": "MK",
+  "method": "derived-from-notes",
+  "common": [
+    "boletus_edulis",
+    "boletus_aereus",
+    "cantharellus_cibarius",
+    "macrolepiota_procera",
+    "amanita_caesarea",
+    "amanita_rubescens",
+    "lactarius_deliciosus",
+    "lactarius_deterrimus",
+    "craterellus_cornucopioides",
+    "armillaria_mellea",
+    "pleurotus_ostreatus",
+    "hydnum_repandum",
+    "agaricus_campestris__2",
+    "marasmius_oreades",
+    "calocybe_gambosa",
+    "suillus_granulatus",
+    "suillus_luteus",
+    "russula_cyanoxantha"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "country": "IS",
+  "method": "derived-from-notes",
+  "common": [
+    "suillus_grevillei",
+    "leccinum_scabrum",
+    "suillus_luteus",
+    "xerocomus_subtomentosus",
+    "gomphidius_glutinosus",
+    "bovista_nigrescens",
+    "coprinus_comatus",
+    "cuphophyllus_pratensis",
+    "agaricus_campestris__2",
+    "agaricus_arvensis",
+    "russula_aeruginea",
+    "russula_xerampelina",
+    "lactarius_torminosus",
+    "paxillus_involutus"
+  ]
+}

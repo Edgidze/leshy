@@ -286,6 +286,13 @@ def load_extra_presets(categories: list) -> dict:
     everything downstream stays unaware there are two sources. `names` is left
     empty on purpose — species names for these countries come from
     `extra_names/<lang>.json`, never from the preset.
+
+    Необязательное поле `common` — частотные виды страны, выведенные из `notes` тех же
+    исследований (`tools/apply_frequency_common.py`, обоснование —
+    `docs/research/frequency/README.md`). Здесь оно превращается в роль `common_encounter`,
+    единственную из ролей дампа, которую читает приложение: так `countries.json` получает
+    `common` одинаково для обоих источников, а пресет без этого поля по-прежнему остаётся
+    «данных нет» (см. комментарий у `entry["common"]` ниже).
     """
     extras = load_optional_json(EXTRA_PRESETS_JSON, {})
     if not extras:
@@ -306,11 +313,26 @@ def load_extra_presets(categories: list) -> dict:
             raise ValueError(f"{EXTRA_PRESETS_JSON.name}: {cc} names keys outside the catalog: {unknown}")
         if not preset["languages"]:
             raise ValueError(f"{EXTRA_PRESETS_JSON.name}: {cc} has an empty `languages`")
+        common = preset.get("common")
+        unknown_common = [k for k in common or [] if k not in keys]
+        if unknown_common:
+            raise ValueError(
+                f"{EXTRA_PRESETS_JSON.name}: {cc} marks keys outside its own collection "
+                f"as common: {unknown_common}"
+            )
+        common_keys = set(common or [])
         out[cc] = {
             "country": preset["country"],
             "languages": preset["languages"],
             "items": [
-                {"order": i, "id": id_by_key[key], "names": {}}
+                {
+                    "order": i,
+                    "id": id_by_key[key],
+                    "names": {},
+                    # Роль ставится только когда у страны вообще есть данные о частотности:
+                    # пустой `roles` у всех позиций и есть признак «данных нет».
+                    **({"roles": ["common_encounter"]} if key in common_keys else {}),
+                }
                 for i, key in enumerate(keys, start=1)
             ],
         }

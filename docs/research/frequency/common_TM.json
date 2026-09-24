@@ -1,0 +1,17 @@
+{
+  "country": "TM",
+  "method": "derived-from-notes+neighbour-UZ",
+  "common": [
+    "agaricus_campestris__2",
+    "agaricus_bitorquis",
+    "agaricus_arvensis",
+    "pleurotus_eryngii",
+    "pleurotus_ostreatus",
+    "morchella_esculenta",
+    "morchella_steppicola",
+    "terfezia_boudieri",
+    "calvatia_gigantea",
+    "lycoperdon_perlatum",
+    "coprinus_comatus"
+  ]
+}

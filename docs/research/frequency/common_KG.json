@@ -1,0 +1,20 @@
+{
+  "country": "KG",
+  "method": "derived-from-notes",
+  "common": [
+    "morchella_esculenta",
+    "pleurotus_eryngii",
+    "russula_delica",
+    "agaricus_campestris",
+    "agaricus_arvensis",
+    "lepista_personata",
+    "leccinum_scabrum",
+    "suillus_luteus__2",
+    "armillaria_mellea",
+    "cantharellus_cibarius",
+    "lactarius_deterrimus",
+    "lactarius_deliciosus",
+    "pleurotus_ostreatus",
+    "verpa_bohemica"
+  ]
+}

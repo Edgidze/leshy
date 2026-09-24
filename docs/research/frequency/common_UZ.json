@@ -1,0 +1,19 @@
+{
+  "country": "UZ",
+  "method": "derived-from-notes",
+  "common": [
+    "pleurotus_eryngii",
+    "morchella_esculenta",
+    "morchella_steppicola",
+    "agaricus_campestris",
+    "agaricus_bitorquis",
+    "pleurotus_ostreatus",
+    "lepista_personata",
+    "marasmius_oreades",
+    "coprinus_comatus",
+    "lycoperdon_perlatum",
+    "calvatia_gigantea",
+    "calocybe_gambosa",
+    "cyclocybe_cylindracea"
+  ]
+}

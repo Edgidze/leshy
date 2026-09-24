@@ -1,0 +1,26 @@
+{
+  "country": "IE",
+  "method": "derived-from-notes",
+  "common": [
+    "hydnum_repandum",
+    "craterellus_tubaeformis",
+    "cantharellus_cibarius",
+    "laccaria_amethystina",
+    "armillaria_mellea",
+    "russula_cyanoxantha__2",
+    "imleria_badia",
+    "lycoperdon_perlatum",
+    "lactarius_deliciosus",
+    "boletus_edulis",
+    "agaricus_campestris__2",
+    "coprinus_comatus",
+    "marasmius_oreades",
+    "auricularia_auricula_judae",
+    "suillus_grevillei",
+    "suillus_luteus",
+    "leccinum_scabrum",
+    "macrolepiota_procera",
+    "pleurotus_ostreatus",
+    "amanita_muscaria"
+  ]
+}

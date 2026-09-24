@@ -1,0 +1,25 @@
+{
+  "country": "LU",
+  "method": "derived-from-notes",
+  "common": [
+    "boletus_edulis",
+    "cantharellus_cibarius",
+    "craterellus_cornucopioides",
+    "craterellus_tubaeformis",
+    "hydnum_repandum",
+    "imleria_badia",
+    "macrolepiota_procera",
+    "armillaria_mellea",
+    "leccinum_scabrum",
+    "neoboletus_erythropus",
+    "xerocomellus_chrysenteron",
+    "coprinus_comatus",
+    "agaricus_campestris__2",
+    "marasmius_oreades",
+    "lepista_nuda",
+    "russula_cyanoxantha__2",
+    "lactarius_deterrimus",
+    "calocybe_gambosa",
+    "amanita_muscaria"
+  ]
+}

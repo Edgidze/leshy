@@ -1,0 +1,20 @@
+{
+  "country": "AZ",
+  "method": "derived-from-notes",
+  "common": [
+    "morchella_esculenta",
+    "suillus_luteus",
+    "suillus_granulatus",
+    "boletus_edulis",
+    "boletus_aereus",
+    "boletus_reticulatus",
+    "leccinellum_pseudoscabrum",
+    "agaricus_campestris",
+    "terfezia_boudieri",
+    "cantharellus_cibarius",
+    "macrolepiota_procera",
+    "armillaria_mellea",
+    "pleurotus_ostreatus",
+    "lactarius_deliciosus"
+  ]
+}
