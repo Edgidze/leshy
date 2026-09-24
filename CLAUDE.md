@@ -184,5 +184,9 @@ Android + iOS. Каталог с тех пор вырос до 408 видов, �
 
 Перед финальным шагом публикации (Google Play / App Store) — обязателен supply-chain аудит
 зависимостей. Полный чеклист — навык `pre-release-audit`
-(`.claude/skills/pre-release-audit/SKILL.md`), последний прогон и что он оставил на решение
-владельца — `docs/release/dependency-audit-2026-09.md`.
+(`.claude/skills/pre-release-audit/SKILL.md`). Последний прогон —
+`docs/release/pre-release-audit-2026-09-24.md` (версия 1.0, Android `versionCode 5`,
+iOS build 3): в поставке обеих платформ уязвимостей нет, публиковать можно, три пункта
+оставлены на решение владельца. Полный разбор графа, побайтовая сверка с апстримом и
+происхождение каждой зависимости — в предыдущем прогоне,
+`docs/release/dependency-audit-2026-09.md`; состав зависимостей с тех пор не менялся.
