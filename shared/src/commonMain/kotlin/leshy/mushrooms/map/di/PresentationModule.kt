@@ -31,6 +31,6 @@ val presentationModule = module {
     }
     viewModel { MapFilterViewModel(get(), get(), get(), get(), get()) }
     viewModel { DataViewModel(get(), get(), get(), get(), get()) }
-    viewModel { PreparationViewModel(get()) }
+    viewModel { PreparationViewModel(get(), get()) }
     viewModel { OnboardingViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }

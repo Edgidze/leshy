@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import leshy.mushrooms.map.domain.model.OfflineRegionInfo
 import leshy.mushrooms.map.domain.model.OfflineRegionStatus
 import leshy.mushrooms.map.domain.util.boundsExtentMeters
@@ -69,7 +70,26 @@ import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.spatialk.geojson.BoundingBox
 import org.maplibre.spatialk.geojson.Position
 
+/**
+ * Куда смотрит карта, пока неизвестно, где пользователь. Обзор мира — честный ответ «не знаю»;
+ * наводить камеру наугад некуда, а street-level вид нулевого острова в Гвинейском заливе уже
+ * однажды ловили на «Записи» (см. `NO_LOCATION_ZOOM` в `LiveTrackMap.kt`).
+ */
 private val WORLD_VIEW_ZOOM = 2.0
+
+/**
+ * Зум, на который встаёт камера, когда координата известна.
+ *
+ * Участок для скачивания — это РОВНО то, что видно на экране (`visibleBoundsFromScreen`), поэтому
+ * зум здесь напрямую задаёт размер того, что человек скачает одним нажатием, и подобран по двум
+ * границам сразу. Снизу: на z13 в кадр влезает пара километров, то есть «моя улица», — а участок
+ * должен покрывать поездку за грибами, а не двор. Сверху: на широте ~55° полная детализация (z14)
+ * сохраняется примерно до участка 90×90 км, дальше `estimateOfflineRegion` начинает срезать
+ * глубину (см. `ui/map/CLAUDE.md`, «Глубина зума и вес офлайн-участка»). На z11 телефон
+ * показывает порядка 50 км поперёк — это уже «район вокруг меня», и запас до срезки детализации
+ * ещё есть.
+ */
+private val AREA_PICK_ZOOM = 11.0
 
 private val REGION_CHIP_WIDTH = 140.dp
 private val STRIP_BACKGROUND_ALPHA = 0.92f
@@ -80,6 +100,26 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     val cameraState = rememberCameraState(
         firstPosition = CameraPosition(target = Position(0.0, 0.0), zoom = WORLD_VIEW_ZOOM),
     )
+    // Приёмник держится только пока экран открыт — гейт в PreparationViewModel, тем же приёмом,
+    // что на «Записи».
+    LifecycleResumeEffect(viewModel) {
+        viewModel.onScreenResumed()
+        onPauseOrDispose { viewModel.onScreenPaused() }
+    }
+    // Наведение на пользователя — РОВНО ОДИН раз, на первом фиксе. Не на каждом: участок выбирают
+    // панорамированием, и камера, возвращающаяся к человеку на каждом обновлении координаты,
+    // отбирала бы у него карту прямо во время выбора. Дальнейшие фиксы двигают только саму точку.
+    var hasFramedLocation by remember { mutableStateOf(false) }
+    LaunchedEffect(uiState.currentLocation) {
+        val location = uiState.currentLocation
+        if (location != null && !hasFramedLocation) {
+            hasFramedLocation = true
+            cameraState.position = CameraPosition(
+                target = Position(location.lon, location.lat),
+                zoom = AREA_PICK_ZOOM,
+            )
+        }
+    }
     val coroutineScope = rememberCoroutineScope()
     val density = LocalDensity.current
     var isSelectingArea by remember { mutableStateOf(false) }
@@ -109,7 +149,12 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
         )
 
         Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
-            RegionPickerMap(cameraState = cameraState, regions = uiState.regions, modifier = Modifier.fillMaxSize())
+            RegionPickerMap(
+                cameraState = cameraState,
+                regions = uiState.regions,
+                modifier = Modifier.fillMaxSize(),
+                currentLocation = uiState.currentLocation,
+            )
 
             // Reading the camera position (not just the projection, which is a stable object
             // reference that doesn't change on pan/zoom) subscribes this recomposition scope to

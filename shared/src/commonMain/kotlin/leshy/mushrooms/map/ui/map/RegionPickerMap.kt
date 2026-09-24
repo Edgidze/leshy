@@ -17,17 +17,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.data.repository.MapStyleCacheRepository
+import leshy.mushrooms.map.domain.model.GeoPoint
 import leshy.mushrooms.map.domain.model.OfflineRegionInfo
 import leshy.mushrooms.map.domain.model.OfflineRegionStatus
 import leshy.mushrooms.map.ui.components.MapLoadFailedBanner
 import org.koin.compose.koinInject
 import org.maplibre.compose.camera.CameraState
 import org.maplibre.compose.expressions.dsl.const
+import org.maplibre.compose.layers.CircleLayer
 import org.maplibre.compose.layers.LineLayer
 import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
+import org.maplibre.spatialk.geojson.Point
 import org.maplibre.spatialk.geojson.Polygon
 import org.maplibre.spatialk.geojson.Position
 
@@ -45,6 +48,9 @@ fun RegionPickerMap(
     cameraState: CameraState,
     regions: List<OfflineRegionInfo>,
     modifier: Modifier = Modifier,
+    // Точка «ты здесь». На этом экране она не навигационная, а опорная: участок выбирают вокруг
+    // себя, и без отметки непонятно, попал ты в кадр или нет. `null` — фикса нет, точки нет.
+    currentLocation: GeoPoint? = null,
     // Overridable so a caller with its own bottom-anchored controls can keep the tile-load-failed
     // banner clear of them instead of it defaulting to the top.
     bannerAlignment: Alignment = Alignment.TopCenter,
@@ -85,6 +91,24 @@ fun RegionPickerMap(
                         width = const(2.dp),
                     )
                 }
+            }
+
+            // Последней — поверх рамок участков: скачанный участок почти всегда охватывает
+            // пользователя, и точка, уехавшая под его рамку, потерялась бы ровно там, где нужна.
+            // Вид и размеры те же, что у точки на «Записи» (`LiveTrackMap`) — одна и та же вещь на
+            // двух картах обязана выглядеть одинаково.
+            currentLocation?.let { location ->
+                val currentLocationSource = rememberGeoJsonSource(
+                    GeoJsonData.Features(Point(Position(location.lon, location.lat))),
+                )
+                CircleLayer(
+                    id = "preparation-current-location",
+                    source = currentLocationSource,
+                    color = const(overlayColors.currentLocation),
+                    radius = const(7.dp),
+                    strokeColor = const(Color.White),
+                    strokeWidth = const(2.dp),
+                )
             }
         }
         tileHost.bannerMessage?.let { message ->

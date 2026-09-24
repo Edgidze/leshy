@@ -2,20 +2,34 @@ package leshy.mushrooms.map.presentation.preparation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import leshy.mushrooms.map.data.platform.LocationTracker
 import leshy.mushrooms.map.domain.repository.OfflineRegionRepository
 import leshy.mushrooms.map.domain.util.estimateOfflineRegion
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class PreparationViewModel(
     private val repository: OfflineRegionRepository,
+    private val locationTracker: LocationTracker,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PreparationUiState())
     val uiState: StateFlow<PreparationUiState> = _uiState.asStateFlow()
+
+    /**
+     * Гейт подписки на GPS — ровно тот же приём и по той же причине, что на «Записи»: приёмник
+     * работает, пока экран перед пользователем, и не работает, когда его показания некому смотреть.
+     * Здесь это даже строже: у «Подготовки» нет случая «запись идёт в фоне», ради которого там
+     * сделано исключение, — уйти с этого экрана значит перестать нуждаться в координате совсем.
+     */
+    private val isScreenResumed = MutableStateFlow(false)
 
     init {
         viewModelScope.launch {
@@ -23,6 +37,23 @@ class PreparationViewModel(
                 _uiState.update { it.copy(regions = regions) }
             }
         }
+        viewModelScope.launch {
+            isScreenResumed
+                .flatMapLatest { resumed -> if (resumed) locationTracker.track() else emptyFlow() }
+                // Экрану нужна ТОЛЬКО координата: ни курс, ни скорость здесь не рисуются, а
+                // приходят они в том же объекте фикса и меняются на каждом. Без этого камера и
+                // точка пересобирались бы на каждый фикс неподвижного телефона.
+                .distinctUntilChanged { old, new -> old.point == new.point }
+                .collect { fix -> _uiState.update { it.copy(currentLocation = fix.point) } }
+        }
+    }
+
+    fun onScreenResumed() {
+        isScreenResumed.value = true
+    }
+
+    fun onScreenPaused() {
+        isScreenResumed.value = false
     }
 
     // Detail (zoom range) is never something the user chooses or sees — see PreparationScreen.kt.
