@@ -229,11 +229,25 @@ fun FindTilesGrid(counts: List<CategoryCount>) {
         val columns = ceil(
             (maxWidth + FIND_TILE_SPACING) / (FIND_TILE_MAX_WIDTH + FIND_TILE_SPACING),
         ).toInt().coerceAtLeast(FIND_TILE_MIN_COLUMNS)
-        val tileWidth = (maxWidth - FIND_TILE_SPACING * (columns - 1)) / columns
+        // Ширина плитки делится В ПИКСЕЛЯХ, целочисленно, а не в Dp — и это не придирка к точности,
+        // а единственный способ, чтобы ряд вообще собрался. Меряет FlowRow в пикселях: и ширину
+        // плитки, и отбивку он получает через `roundToPx()`, каждую округляя ОТДЕЛЬНО. При дробной
+        // плотности экрана сумма округлений вылезает на пиксель за ширину ряда — и FlowRow, честно
+        // увидев переполнение, переносит вторую плитку вниз. Получается колонка половинных плиток
+        // посреди пустого экрана. Наблюдалось на Android с плотностью 2.8125: отбивка 8dp = 22.5px
+        // округляется вверх до 23, а плитка считалась в Dp ИСХОДЯ из ровных 22.5 — ряду не хватало
+        // ровно одного пикселя. На iPhone с целой плотностью 2.0 того же экрана всё сходилось, и
+        // две колонки стояли как задумано.
+        val tileWidth = with(LocalDensity.current) {
+            val spacingPx = FIND_TILE_SPACING.roundToPx()
+            // Деление нацело: остаток (меньше пикселя на плитку) достаётся отбивке, а не наоборот.
+            ((constraints.maxWidth - spacingPx * (columns - 1)) / columns).toDp()
+        }
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(FIND_TILE_SPACING, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(FIND_TILE_SPACING),
+            maxItemsInEachRow = columns,
         ) {
             counts.forEach { entry ->
                 FindTile(category = entry.category, count = entry.count, width = tileWidth)
