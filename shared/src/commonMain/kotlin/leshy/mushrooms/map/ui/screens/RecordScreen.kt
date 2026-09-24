@@ -111,6 +111,7 @@ import leshy.mushrooms.map.ui.components.SpeciesFormDialog
 import leshy.mushrooms.map.ui.map.LiveTrackMap
 import leshy.mushrooms.map.ui.map.MapMarker
 import leshy.mushrooms.map.ui.map.PlaceMarker
+import leshy.mushrooms.map.ui.map.TrackEndpoints
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.mushrooms.map.ui.util.formatDateOnly
 import leshy.shared.generated.resources.Res
@@ -197,6 +198,9 @@ fun RecordScreen(
     // restart scope, not here — reading it in this composable would put the once-a-second
     // invalidation straight back onto the whole screen. See RecordViewModel.elapsedMillis.
     val elapsedMillisState = viewModel.elapsedMillis.collectAsState()
+    // Без `by` по той же причине и с теми же последствиями, что и строкой выше, только частота
+    // выше секундной: компас присылает до 16 событий в секунду. См. RecordViewModel.deviceHeading.
+    val deviceHeadingState = viewModel.deviceHeading.collectAsState()
     var showFilterDialog by remember { mutableStateOf(false) }
     var showAddPlaceDialog by remember { mutableStateOf(false) }
     var showSearchDialog by remember { mutableStateOf(false) }
@@ -226,6 +230,7 @@ fun RecordScreen(
     RecordScreenContent(
         uiState = uiState,
         elapsedMillis = { elapsedMillisState.value },
+        deviceHeading = { deviceHeadingState.value },
         onStartWalk = { name ->
             viewModel.setWalkName(name)
             viewModel.onStartOrPauseClick()
@@ -360,6 +365,8 @@ private fun RecordScreenContent(
     uiState: RecordUiState,
     /** Deferred read — see [ElapsedTimeStat]; never a plain `Long` parameter. */
     elapsedMillis: () -> Long,
+    /** Отложенное чтение по той же причине — см. `LocationHeadingLayer`; никогда не `Double?`. */
+    deviceHeading: () -> Double? = { null },
     onStartWalk: (String) -> Unit,
     onPauseOrResumeClick: () -> Unit,
     onFinishClick: () -> Unit,
@@ -632,7 +639,11 @@ private fun RecordScreenContent(
                     currentLocation = uiState.currentLocation,
                     navigationTargetLat = uiState.navigationTarget?.targetLat,
                     navigationTargetLon = uiState.navigationTarget?.targetLon,
+                    headingDegrees = deviceHeading,
                     modifier = Modifier.fillMaxSize(),
+                    // Только старт: финиша у идущей прогулки ещё нет, его место занимает точка
+                    // геолокации.
+                    trackEndpoints = TrackEndpoints.StartOnly,
                     bannerAlignment = Alignment.BottomCenter,
                     bannerPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = bottomControlsHeight + 8.dp),
                 )

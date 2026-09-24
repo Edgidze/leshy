@@ -16,6 +16,7 @@ import leshy.mushrooms.map.ui.components.PlaceMarkDialogs
 import leshy.mushrooms.map.ui.map.LiveTrackMap
 import leshy.mushrooms.map.ui.map.MapMarker
 import leshy.mushrooms.map.ui.map.PlaceMarker
+import leshy.mushrooms.map.ui.map.TrackEndpoints
 
 @Composable
 fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
@@ -42,6 +43,7 @@ fun WalkMapScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit) {
             onPlaceClick = { id -> selectedPlaceId = id },
             currentLocation = null,
             modifier = Modifier.fillMaxSize(),
+            trackEndpoints = TrackEndpoints.StartAndFinish,
             ornamentOptions = ornamentOptions,
             bannerAlignment = Alignment.BottomCenter,
             bannerPadding = bannerPadding,

@@ -63,6 +63,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -72,6 +73,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.sample
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -115,6 +118,23 @@ private val GPS_COURSE_VALIDITY = 8.seconds
  * движение.
  */
 private const val HEADING_SMOOTHING_FACTOR = 0.25
+
+/**
+ * Как часто сглаженный курс доходит до карты — [RecordViewModel.deviceHeading].
+ *
+ * Датчик через `SENSOR_DELAY_UI` и порог `HEADING_MIN_CHANGE_DEGREES` даёт до шестнадцати событий
+ * в секунду, и КАЖДОЕ опубликованное значение стоит синхронной мутации нативного стиля MapLibre
+ * (поворот сектора направления взгляда). Двухъядерный iPhone SE — устройство, на котором
+ * голодание по CPU уже доказанно заканчивалось зависанием главного потока внутри MapLibre
+ * (`.claude/investigations/ios-maplibre-background-watchdog/`), поэтому даром такую частоту отдавать
+ * нельзя.
+ *
+ * 200 мс выбраны как потолок заметности: сектор — грубый указатель стороны, пять обновлений в
+ * секунду человек от шестнадцати не отличает, а нативных вызовов втрое меньше. Сглаживание
+ * остаётся на полной частоте датчика (см. [HEADING_SMOOTHING_FACTOR]) — прореживается только
+ * публикация, поэтому промежуточные значения не теряются, а усредняются.
+ */
+private val HEADING_PUBLISH_INTERVAL = 200.milliseconds
 
 /** How long the tile feed must sit idle (no +/-, no manual scroll) before a pending "bring to
  * front" actually reorders the feed — see [RecordViewModel.scheduleFrontBump]. */
@@ -261,8 +281,8 @@ class RecordViewModel(
      * Куда повёрнут телефон по компасу — ОСНОВНОЙ источник направления для панели навигации;
      * [courseOverGround] ниже остался запасным. Сглажен, см. [HEADING_SMOOTHING_FACTOR].
      *
-     * `null` — компаса на устройстве нет, либо панель навигации закрыта (подписка гейтится, см.
-     * init): датчик не должен работать, пока его показания некому смотреть.
+     * `null` — компаса на устройстве нет, либо экран «Запись» не перед пользователем (подписка
+     * гейтится, см. init): датчик не должен работать, пока его показания некому смотреть.
      */
     private val compassHeading = MutableStateFlow<Double?>(null)
 
@@ -286,6 +306,35 @@ class RecordViewModel(
      * которого компас и заведён.
      */
     private var gpsCourseExpiryJob: Job? = null
+
+    /**
+     * Куда повёрнут телефон — то, что рисует сектор направления взгляда на карте
+     * (`ui/map/LocationHeadingLayer.kt`). `null` — направление неизвестно, сектор не рисуется.
+     *
+     * Приоритет ОБРАТЕН панели навигации, и это не описка. Панели нужно направление движения, и в
+     * движении курс приёмника точнее компаса, поэтому там `gpsCourse ?: compassHeading`. Сектору
+     * нужно направление ВЗГЛЯДА, а его знает только компас: идущий боком или спиной вперёд по
+     * GPS-курсу неотличим от идущего лицом. Поэтому компас первым, а курс приёмника — лишь
+     * подпорка для устройств без магнитометра (у них [compassHeading] всегда `null`) и для первых
+     * секунд после захода на экран, пока датчик не прислал ни одного события.
+     *
+     * Отдельным потоком, а НЕ полем [RecordUiState]: значение меняется до 16 раз в секунду
+     * (`SENSOR_DELAY_UI` + порог [HEADING_MIN_CHANGE_DEGREES]), и в составе uiState оно
+     * перекомпоновывало бы весь экран «Запись» с этой частотой — тот самый экран, чья цена входа
+     * уже разбиралась в `ui/map/CLAUDE.md` («Стоимость слоя»). Экран читает его лямбдой внутрь
+     * слоя карты, поэтому перекомпоновка ограничена одним слоем.
+     *
+     * Сверх того — [HEADING_PUBLISH_INTERVAL]: каждое опубликованное значение стоит синхронной
+     * мутации нативного стиля MapLibre (`iconRotate` у слоя сектора), а на двухъядерном iPhone SE
+     * именно голодание по CPU — установленный механизм зависаний, ради которого заведено
+     * `.claude/investigations/ios-maplibre-background-watchdog/`. Сглаживание при этом идёт по
+     * КАЖДОМУ событию датчика (чистая арифметика, нативного вызова не стоит) — прореживается
+     * только публикация, поэтому сектор не дёргается ступеньками.
+     */
+    val deviceHeading: StateFlow<Double?> =
+        combine(compassHeading, gpsCourse) { compass, course -> compass ?: course }
+            .sample(HEADING_PUBLISH_INTERVAL)
+            .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     // Runs first, in its own launch rather than queued behind ensureDefaultCategories/
     // ensureDefaultCollections below (those upsert 30+ rows and can be slow right after
@@ -552,17 +601,20 @@ class RecordViewModel(
                 }
         }
         viewModelScope.launch {
-            // Компас включается только при открытой панели навигации и только пока экран перед
-            // пользователем — тем же приёмом и по той же причине, что и GPS выше: магнитометр
-            // работающим без зрителя держать незачем.
-            combine(
-                navigationTargetId.map { it != null }.distinctUntilChanged(),
-                isRecordScreenResumed,
-            ) { navigating, resumed -> navigating && resumed }
-                .distinctUntilChanged()
-                // Сброс при закрытии панели обязателен: иначе при следующем открытии первым делом
-                // покажется курс, с которым её закрыли, — и до первого события датчика стрелка
-                // будет уверенно показывать в сторону, где человек стоял в прошлый раз.
+            // Гейт ровно тот же, что у GPS выше, и по той же причине: датчик работает, пока экран
+            // перед пользователем, и не работает, когда смотреть его показания некому.
+            //
+            // Раньше сюда входило ещё и условие «открыта панель навигации» — компас заводился
+            // только ради стрелки на цель. Сектор направления взгляда ([deviceHeading]) рисуется
+            // на карте всё время, пока экран открыт, поэтому условие снято. Цена — магнитометр
+            // работает всю прогулку, а не только в режиме навигации.
+            // `distinctUntilChanged` здесь не нужен и запрещён: `isRecordScreenResumed` —
+            // StateFlow, он уже схлопывает повторы сам.
+            isRecordScreenResumed
+                // Сброс при уходе с экрана обязателен: иначе при следующем заходе первым делом
+                // покажется курс, с которым экран покинули, — и до первого события датчика и
+                // стрелка, и сектор будут уверенно показывать в сторону, где человек стоял в
+                // прошлый раз.
                 .onEach { needed -> if (!needed) compassHeading.value = null }
                 .flatMapLatest { needed -> if (needed) headingProvider.heading() else emptyFlow() }
                 .collect { raw ->
