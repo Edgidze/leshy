@@ -25,6 +25,11 @@
 - **Сравнение со спортивными трекерами — без имён.** Идея владельца: у бегунов такой дневник есть,
   а у грибников нет. Довод сильный, но конкретное приложение не названо намеренно — фраза работает
   и без бренда, а упоминание конкурента в тексте, уходящем в Apple, лишний риск без выигрыша.
+- **В `Helpful Details` нет дисклеймера про съедобность, и это сознательно.** Он там был и убран по
+  замечанию владельца: поле спрашивает, чем приложение выделяется, а перечисление того, чего оно не
+  делает, тратит место на недостатки, которые читатель и сам найдёт. Дисклеймер при этом никуда не
+  делся — он стоит там, где действительно нужен: в `review-notes.md`, которые читает App Review, в
+  описании магазина и в самом приложении. Заявка уходит редакции, а не проверяющим.
 
 **Чего в тексте намеренно нет.** Первая версия утверждала, что языки, подборки и иллюстрации
 сделаны вручную одним человеком. Это неправда — работа шла с помощью ИИ, и часть результата
@@ -116,8 +121,8 @@ https://leshy-mapper.github.io/mushrooms-map/privacy.html,https://leshy-mapper.g
 No
 ```
 
-## Helpful Details (487/500)
+## Helpful Details (508/500)
 
 ```
-Runners and cyclists have had a proper logbook for years. People who go to the forest have had a paper notebook and their memory. That gap is the app. What sets it apart is the vocabulary: the catalogue is organised by country — what people there gather, not a taxonomy — and species carry the names foragers use. Search finds the same mushroom whether you call it porcini, cep or penny bun. It refuses what people expect of a mushroom app: it will not say whether a find is safe to eat.
+Runners and cyclists have had a proper logbook for years. People who go to the forest have had a paper notebook and their memory. That gap is the app. Logging a find is one tap on its tile: species, place and time saved on the spot, and it works from the notification shade with the phone locked. All 408 species come with their own illustration, and the catalogue is organised by country — what people gather there, not a taxonomy — under the names foragers use: porcini, cep and penny bun are one mushroom.
 ```
