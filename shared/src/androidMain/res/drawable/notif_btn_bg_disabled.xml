@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Та же пилюля и те же отступы, что у `notif_btn_bg`, но заглушённой заливкой — «−», когда находок
+  этого вида ноль. Геометрия обязана совпадать с включённым состоянием ровно: кнопка переключается
+  между двумя этими drawable прямо на глазах (`setBackgroundResource` из `WalkRecordingService`), и
+  любое расхождение в размере читалось бы как прыжок.
+
+  Отклика на нажатие нет — `shape` без `ripple`, — и это тоже часть сообщения: нажатие на нуле
+  безвредно (`RemoveLastMushroomMarkUseCase` не найдёт, что удалять), но кнопка должна говорить об
+  этом ДО нажатия.
+-->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+       android:insetLeft="6dp"
+       android:insetRight="6dp"
+       android:insetTop="5dp"
+       android:insetBottom="5dp">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/notif_action_bg_disabled"/>
+        <corners android:radius="17dp"/>
+    </shape>
+</inset>

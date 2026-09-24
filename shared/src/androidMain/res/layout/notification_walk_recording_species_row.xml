@@ -45,11 +45,11 @@
             android:layout_width="48dp"
             android:layout_height="44dp"
             android:layout_marginStart="4dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/notif_btn_bg"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/notif_ic_remove"
-            android:tint="@color/notification_action_color_filter"/>
+            android:tint="@color/notif_action_fg"/>
 
     <TextView
             android:id="@+id/species_count"
@@ -63,9 +63,9 @@
             android:id="@+id/species_add"
             android:layout_width="48dp"
             android:layout_height="44dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/notif_btn_bg"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/notif_ic_add"
-            android:tint="@color/notification_action_color_filter"/>
+            android:tint="@color/notif_action_fg"/>
 </LinearLayout>
