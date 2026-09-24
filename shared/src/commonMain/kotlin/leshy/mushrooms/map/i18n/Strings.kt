@@ -308,6 +308,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
 
     StringKey.CollectionOtherName -> "Другие"
     StringKey.CollectionPickerSearchHint -> "Поиск подборки или гриба"
+    StringKey.CollectionPickerSearchClear -> "Очистить поиск"
     StringKey.CollectionPickerMoreMatches -> "Показаны не все совпадения — уточните запрос"
 
     StringKey.LanguagePickerSearchHint -> "Поиск языка"
@@ -679,6 +680,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
 
     StringKey.CollectionOtherName -> "Other"
     StringKey.CollectionPickerSearchHint -> "Search collection or mushroom"
+    StringKey.CollectionPickerSearchClear -> "Clear search"
     StringKey.CollectionPickerMoreMatches -> "Not all matches are shown — refine your search"
 
     StringKey.LanguagePickerSearchHint -> "Search language"

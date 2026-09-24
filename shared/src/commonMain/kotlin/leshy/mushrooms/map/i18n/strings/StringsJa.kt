@@ -121,6 +121,7 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "その他",
     StringKey.CollectionPickerSearchHint to "コレクションまたはキノコを検索",
+    StringKey.CollectionPickerSearchClear to "検索をクリア",
     StringKey.CollectionPickerMoreMatches to "すべての一致は表示されていません — 検索条件を絞り込んでください",
 
     StringKey.LanguagePickerSearchHint to "言語を検索",

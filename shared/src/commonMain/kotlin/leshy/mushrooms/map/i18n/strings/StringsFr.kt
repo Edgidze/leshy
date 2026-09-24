@@ -150,6 +150,7 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Autres",
     StringKey.CollectionPickerSearchHint to "Rechercher une collection ou un champignon",
+    StringKey.CollectionPickerSearchClear to "Effacer la recherche",
     StringKey.CollectionPickerMoreMatches to "Tous les résultats ne sont pas affichés — affinez la recherche",
 
     StringKey.LanguagePickerSearchHint to "Rechercher une langue",

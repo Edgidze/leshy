@@ -300,10 +300,17 @@ class WalkRecordingService : Service() {
         row.setOnClickPendingIntent(R.id.species_remove, actionIntent(index, ACTION_REMOVE_MUSHROOM, species.categoryId))
         // Нажатие «−» на нуле безвредно (RemoveLastMushroomMarkUseCase не найдёт что удалять), но
         // кнопка должна говорить об этом до нажатия, а не после.
+        //
+        // Гасится и значок, и ПОДЛОЖКА. Раньше гасился только значок — с прежними кнопками без
+        // подложки этого хватало, а с пилюлей получилась бы полноценная яркая кнопка с бледным
+        // значком внутри, то есть ровно обратное тому, что надо сообщить. `setBackgroundResource`
+        // у `View` помечен `@RemotableViewMethod`, поэтому доступен через `setInt`.
+        val enabled = species.count > 0
+        row.setInt(R.id.species_remove, "setImageAlpha", if (enabled) ENABLED_BUTTON_ALPHA else DISABLED_BUTTON_ALPHA)
         row.setInt(
             R.id.species_remove,
-            "setImageAlpha",
-            if (species.count > 0) ENABLED_BUTTON_ALPHA else DISABLED_BUTTON_ALPHA,
+            "setBackgroundResource",
+            if (enabled) R.drawable.notif_btn_bg else R.drawable.notif_btn_bg_disabled,
         )
         return row
     }

@@ -137,6 +137,7 @@ internal val greekStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryUnknownMushroom to "Άγνωστο μανιτάρι",
     StringKey.CollectionOtherName to "Άλλα",
     StringKey.CollectionPickerSearchHint to "Αναζήτηση συλλογής ή μανιταριού",
+    StringKey.CollectionPickerSearchClear to "Εκκαθάριση αναζήτησης",
     StringKey.CollectionPickerMoreMatches to "Δεν εμφανίζονται όλα τα αποτελέσματα — περιορίστε την αναζήτηση",
     StringKey.LanguagePickerSearchHint to "Αναζήτηση γλώσσας",
     StringKey.LanguagePickerBackContentDescription to "Πίσω",

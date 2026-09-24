@@ -49,6 +49,7 @@ import leshy.mushrooms.map.presentation.UserSpeciesGroup
 import leshy.mushrooms.map.presentation.species.SpeciesViewModel
 import leshy.mushrooms.map.ui.components.CategoryIcon
 import leshy.mushrooms.map.ui.components.CollectionPicker
+import leshy.mushrooms.map.ui.components.CollectionSearchField
 import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MushroomImageDisclaimerBanner
@@ -73,22 +74,22 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
             .verticalScroll(rememberScrollState())
             .padding(16.dp),
     ) {
-        Text(
-            stringResource(StringKey.SpeciesCollectionsTitle),
-            modifier = Modifier.padding(bottom = 8.dp),
-        )
+        // Порядок блоков: предупреждение → поиск → свои грибы → страновые подборки.
+        //
+        // Поиск стоит ВЫШЕ обоих блоков, потому что фильтрует оба (см. `CollectionSearchField`):
+        // поле, стоящее над одним из двух, читалось бы как поиск только по нему. Свои грибы — выше
+        // подборок, потому что их единицы и это то, ради чего на экран заходят повторно, тогда как
+        // 45 страновых секций ищут полем, а не глазами.
         MushroomImageDisclaimerBanner(modifier = Modifier.padding(bottom = 8.dp))
-        CollectionPicker(
-            items = uiState.collectionPickerItems,
+        CollectionSearchField(
             query = uiState.collectionQuery,
             onQueryChange = viewModel::onCollectionQueryChange,
-            onToggleCollection = viewModel::toggleCollection,
-            onToggleCategory = viewModel::setCategoryPicked,
+            modifier = Modifier.padding(bottom = 8.dp),
         )
 
         Text(
             stringResource(StringKey.SpeciesMyMushroomsTitle),
-            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+            modifier = Modifier.padding(bottom = 8.dp),
         )
         // Пока база не ответила, «своих грибов нет» — неправда, а не факт: тот же случай, что у
         // Архива и Статистики, только заявление тут строкой, а не картинкой. Индикатор мелкий и
@@ -127,6 +128,20 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
             Icon(imageVector = Icons.Filled.Add, contentDescription = null)
             Text(stringResource(StringKey.SpeciesAddButton))
         }
+
+        // Кнопка «добавить» осталась при блоке своих грибов, а не уехала в самый низ экрана вслед
+        // за страновыми подборками: добавляют вид именно сюда, и от списка своих видов она отходить
+        // не должна.
+        Text(
+            stringResource(StringKey.SpeciesCollectionsTitle),
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+        )
+        CollectionPicker(
+            items = uiState.collectionPickerItems,
+            query = uiState.collectionQuery,
+            onToggleCollection = viewModel::toggleCollection,
+            onToggleCategory = viewModel::setCategoryPicked,
+        )
     }
 
     if (showCreateDialog) {

@@ -133,6 +133,7 @@ internal val macedonianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryUnknownMushroom to "Непозната печурка",
     StringKey.CollectionOtherName to "Други",
     StringKey.CollectionPickerSearchHint to "Пребарај збирка или габа",
+    StringKey.CollectionPickerSearchClear to "Исчисти пребарување",
     StringKey.CollectionPickerMoreMatches to "Не се прикажани сите совпаѓања — прецизирајте го барањето",
     StringKey.LanguagePickerSearchHint to "Пребарај јазик",
     StringKey.LanguagePickerBackContentDescription to "Назад",

@@ -133,6 +133,7 @@ internal val bosnianStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryUnknownMushroom to "Nepoznata gljiva",
     StringKey.CollectionOtherName to "Ostale",
     StringKey.CollectionPickerSearchHint to "Traži zbirku ili gljivu",
+    StringKey.CollectionPickerSearchClear to "Očisti pretragu",
     StringKey.CollectionPickerMoreMatches to "Nisu prikazana sva podudaranja — precizirajte upit",
     StringKey.LanguagePickerSearchHint to "Traži jezik",
     StringKey.LanguagePickerBackContentDescription to "Nazad",

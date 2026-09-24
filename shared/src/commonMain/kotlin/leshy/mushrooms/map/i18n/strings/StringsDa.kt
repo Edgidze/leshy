@@ -132,6 +132,7 @@ internal val danishStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryUnknownMushroom to "Ukendt svamp",
     StringKey.CollectionOtherName to "Andre",
     StringKey.CollectionPickerSearchHint to "Søg efter samling eller svamp",
+    StringKey.CollectionPickerSearchClear to "Ryd søgning",
     StringKey.CollectionPickerMoreMatches to "Ikke alle resultater vises — præcisér søgningen",
     StringKey.LanguagePickerSearchHint to "Søg efter sprog",
     StringKey.LanguagePickerBackContentDescription to "Tilbage",

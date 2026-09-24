@@ -13,11 +13,13 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -62,9 +64,10 @@ import leshy.mushrooms.map.presentation.sortCategories
  * All 45 country sections start collapsed by default (each section's own `expanded` state, below) —
  * with that many collections the search field is the primary way to find one, not scrolling.
  *
- * **Запрос поиска поднят к хосту** ([query]/[onQueryChange]): на «Моих грибах» тем же самым
- * запросом фильтруется ещё и блок пользовательских подборок ниже по экрану, а поле ввода на весь
- * экран одно. Онбординг держит это состояние у себя и никому больше его не показывает.
+ * **Само поле ввода живёт снаружи** — [CollectionSearchField], см. его KDoc про то, почему оно
+ * отделено. Сюда приходит готовый [query]; на «Моих грибах» тем же запросом фильтруется ещё и блок
+ * пользовательских подборок, стоящий на экране ВЫШЕ этого пикера. Онбординг держит состояние
+ * запроса у себя и никому больше его не показывает.
  *
  * **The search field looks up both countries and single species** ("Поиск подборки или гриба"):
  * matching countries come first as the same collapsed section headers, then the matching species
@@ -89,17 +92,78 @@ import leshy.mushrooms.map.presentation.sortCategories
  * (`OnFocusBehavior.DoNothing` в `MainViewController.kt` — он уводил под статус-бар шапку экрана,
  * репорт с iPhone SE 2026-09-07), и поле, оставленное под клавиатурой, так под ней и останется.
  */
+/**
+ * Поле поиска подборок и грибов. **Отдельно от [CollectionPicker], а не внутри него**, потому что
+ * на «Моих грибах» оно фильтрует ДВА блока сразу — страновые подборки и свои грибы, — а стоять
+ * обязано выше обоих. Пока поле жило внутри пикера, его место на экране было намертво связано с
+ * местом странового блока, и порядок «сначала свои грибы, потом страны» выразить было нельзя.
+ * Каждый хост теперь ставит поле сам, туда, где ему положено; пикер получает готовый [query].
+ *
+ * Крестик справа появляется только при непустом запросе. До него стереть набранное можно было
+ * только backspace'ом по букве — на запросе в слово это ощутимо, а на планшете с экранной
+ * клавиатурой ещё и неудобно.
+ *
+ * Подтяжка поля к верхней кромке при фокусе уехала сюда вместе с ним; **хост обязан отдавать полю
+ * прокручиваемую область, которая кончается над клавиатурой** — сам composable клавиатуру подвинуть
+ * не может, см. KDoc [CollectionPicker].
+ */
 @Composable
-fun CollectionPicker(
-    items: List<CollectionPickerItem>,
+fun CollectionSearchField(
     query: String,
     onQueryChange: (String) -> Unit,
-    onToggleCollection: (CollectionPickerItem) -> Unit,
-    onToggleCategory: (Category, Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var isSearchFocused by remember { mutableStateOf(false) }
     val searchFieldPosition = remember { BringIntoViewRequester() }
+
+    // Держим поле поиска у верхней кромки, пока оно в фокусе: иначе на коротком экране клавиатура
+    // закрывает как раз те строки, ради которых поиск и набирают. Запрашивается не прямоугольник
+    // поля, а полоса от его верха вниз на всю высоту окна — `BringIntoViewSpec` по умолчанию
+    // прокручивает на минимум, достаточный, чтобы прямоугольник стал видимым, и для полосы выше
+    // окна прокрутки этот минимум — совместить её ВЕРХ с верхом окна. Прямоугольник размером с
+    // само поле он бы вместо этого «подтянул» к нижней кромке, оставив список под клавиатурой.
+    // Второй заход — по появлению клавиатуры: в момент фокуса окно прокрутки ещё во всю высоту,
+    // после `imePadding` (см. `SpeciesScreen`) его надо выровнять заново.
+    val windowHeightPx = LocalWindowInfo.current.containerSize.height.toFloat()
+    val isKeyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+    LaunchedEffect(isSearchFocused, isKeyboardVisible) {
+        if (isSearchFocused) {
+            searchFieldPosition.bringIntoView(Rect(left = 0f, top = 0f, right = 1f, bottom = windowHeightPx))
+        }
+    }
+
+    OutlinedTextField(
+        value = query,
+        onValueChange = onQueryChange,
+        label = { Text(stringResource(StringKey.CollectionPickerSearchHint)) },
+        singleLine = true,
+        trailingIcon = if (query.isEmpty()) {
+            null
+        } else {
+            {
+                IconButton(onClick = { onQueryChange("") }) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = stringResource(StringKey.CollectionPickerSearchClear),
+                    )
+                }
+            }
+        },
+        modifier = modifier
+            .fillMaxWidth()
+            .bringIntoViewRequester(searchFieldPosition)
+            .onFocusChanged { isSearchFocused = it.isFocused },
+    )
+}
+
+@Composable
+fun CollectionPicker(
+    items: List<CollectionPickerItem>,
+    query: String,
+    onToggleCollection: (CollectionPickerItem) -> Unit,
+    onToggleCategory: (Category, Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val language = LocalAppLanguage.current
     val trimmedQuery = query.trim()
     val filteredItems = if (trimmedQuery.isEmpty()) {
@@ -121,34 +185,7 @@ fun CollectionPicker(
         }
     }
 
-    // Держим поле поиска у верхней кромки, пока оно в фокусе: иначе на коротком экране клавиатура
-    // закрывает как раз те строки, ради которых поиск и набирают. Запрашивается не прямоугольник
-    // поля, а полоса от его верха вниз на всю высоту окна — `BringIntoViewSpec` по умолчанию
-    // прокручивает на минимум, достаточный, чтобы прямоугольник стал видимым, и для полосы выше
-    // окна прокрутки этот минимум — совместить её ВЕРХ с верхом окна. Прямоугольник размером с
-    // само поле он бы вместо этого «подтянул» к нижней кромке, оставив список под клавиатурой.
-    // Второй заход — по появлению клавиатуры: в момент фокуса окно прокрутки ещё во всю высоту,
-    // после `imePadding` (см. `SpeciesScreen`) его надо выровнять заново.
-    val windowHeightPx = LocalWindowInfo.current.containerSize.height.toFloat()
-    val isKeyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
-    LaunchedEffect(isSearchFocused, isKeyboardVisible) {
-        if (isSearchFocused) {
-            searchFieldPosition.bringIntoView(Rect(left = 0f, top = 0f, right = 1f, bottom = windowHeightPx))
-        }
-    }
-
     Column(modifier = modifier.fillMaxWidth()) {
-        OutlinedTextField(
-            value = query,
-            onValueChange = onQueryChange,
-            label = { Text(stringResource(StringKey.CollectionPickerSearchHint)) },
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
-                .bringIntoViewRequester(searchFieldPosition)
-                .onFocusChanged { isSearchFocused = it.isFocused },
-        )
         filteredItems.forEach { item ->
             CollectionPickerSection(
                 item = item,

@@ -146,6 +146,7 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Andere",
     StringKey.CollectionPickerSearchHint to "Sammlung oder Pilz suchen",
+    StringKey.CollectionPickerSearchClear to "Suche löschen",
     StringKey.CollectionPickerMoreMatches to "Es werden nicht alle Treffer angezeigt — Suche eingrenzen",
 
     StringKey.LanguagePickerSearchHint to "Sprache suchen",

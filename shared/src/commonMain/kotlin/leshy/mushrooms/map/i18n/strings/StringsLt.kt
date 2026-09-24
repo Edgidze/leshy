@@ -148,6 +148,7 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Kiti",
     StringKey.CollectionPickerSearchHint to "Ieškoti rinkinio arba grybo",
+    StringKey.CollectionPickerSearchClear to "Išvalyti paiešką",
     StringKey.CollectionPickerMoreMatches to "Rodomi ne visi atitikmenys — patikslinkite užklausą",
 
     StringKey.LanguagePickerSearchHint to "Ieškoti kalbos",

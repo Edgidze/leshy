@@ -142,6 +142,7 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Övriga",
     StringKey.CollectionPickerSearchHint to "Sök samling eller svamp",
+    StringKey.CollectionPickerSearchClear to "Rensa sökning",
     StringKey.CollectionPickerMoreMatches to "Alla träffar visas inte — förfina sökningen",
 
     StringKey.LanguagePickerSearchHint to "Sök språk",

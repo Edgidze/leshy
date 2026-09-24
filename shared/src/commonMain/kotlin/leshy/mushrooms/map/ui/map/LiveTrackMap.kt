@@ -91,6 +91,9 @@ fun LiveTrackMap(
     markers: List<MapMarker>,
     currentLocation: GeoPoint?,
     modifier: Modifier,
+    // Бейджи начала/конца маршрута — только у СВОЕГО [track], не у фоновых [historicalTracks]:
+    // это разметка одной конкретной прогулки, а не общая легенда карты.
+    trackEndpoints: TrackEndpoints,
     // Finds of PAST walks, drawn small and clustered under the current walk's own [markers] — which
     // must not be repeated here: the same find in both layers shows up as a small icon peeking out
     // from under the big one (see RecordViewModel's `pastWalkIds`).
@@ -110,6 +113,9 @@ fun LiveTrackMap(
     // null whenever navigation isn't active, so no line is drawn.
     navigationTargetLat: Double? = null,
     navigationTargetLon: Double? = null,
+    // Куда повёрнут телефон, для сектора направления взгляда у точки местоположения. Лямбда, а не
+    // значение — см. KDoc [LocationHeadingLayer]; по умолчанию направление неизвестно и сектора нет.
+    headingDegrees: () -> Double? = { null },
     // Overridable only for screens that render this map full-bleed under the system status bar
     // (WalkMapScreen.kt) — those need extra top padding on the ornaments to clear it. Callers that
     // sit below a Scaffold/TopAppBar (RecordScreen.kt/MapScreen.kt) already start below the status
@@ -268,6 +274,11 @@ fun LiveTrackMap(
                 )
             }
 
+            // Поверх обеих линий (трека и линии навигации), но ПОД находками, местами и точкой
+            // геолокации: концы маршрута — разметка, находки — содержимое, и заслонять содержимое
+            // разметка не должна.
+            TrackEndpointsLayer(track, trackEndpoints, overlayColors.track)
+
             val (photoMarkers, mushroomMarkers) = markers.partition { it.icon == null }
 
             mushroomMarkers.groupBy { it.icon }.forEach { (icon, group) ->
@@ -303,6 +314,10 @@ fun LiveTrackMap(
             PlaceMarkersLayer(places, onPlaceClick, onPlaceLongPress = onPlaceLongPress)
 
             currentLocation?.let { location ->
+                // Перед самой точкой: вершина сектора совпадает с её центром, и точка должна
+                // остаться сверху цельным кружком.
+                LocationHeadingLayer(location, headingDegrees, overlayColors.currentLocation)
+
                 val currentLocationSource = rememberGeoJsonSource(
                     GeoJsonData.Features(Point(Position(location.lon, location.lat))),
                 )

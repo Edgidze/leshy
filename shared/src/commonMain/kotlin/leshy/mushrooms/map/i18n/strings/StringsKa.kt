@@ -146,6 +146,7 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "სხვები",
     StringKey.CollectionPickerSearchHint to "კრებულის ან სოკოს ძიება",
+    StringKey.CollectionPickerSearchClear to "ძიების გასუფთავება",
     StringKey.CollectionPickerMoreMatches to "ყველა შედეგი არ არის ნაჩვენები — დააზუსტეთ ძიება",
 
     StringKey.LanguagePickerSearchHint to "ენის ძიება",

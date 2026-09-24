@@ -146,6 +146,7 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Altele",
     StringKey.CollectionPickerSearchHint to "Caută colecția sau ciuperca",
+    StringKey.CollectionPickerSearchClear to "Șterge căutarea",
     StringKey.CollectionPickerMoreMatches to "Nu sunt afișate toate rezultatele — precizează căutarea",
 
     StringKey.LanguagePickerSearchHint to "Caută limba",

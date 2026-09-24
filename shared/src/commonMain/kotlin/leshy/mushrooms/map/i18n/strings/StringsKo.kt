@@ -126,6 +126,7 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "기타",
     StringKey.CollectionPickerSearchHint to "컬렉션 또는 버섯 검색",
+    StringKey.CollectionPickerSearchClear to "검색 지우기",
     StringKey.CollectionPickerMoreMatches to "모든 결과가 표시되지는 않습니다 — 검색어를 좁혀 주세요",
 
     StringKey.LanguagePickerSearchHint to "언어 검색",

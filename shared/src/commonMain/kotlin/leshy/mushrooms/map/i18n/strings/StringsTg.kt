@@ -145,6 +145,7 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Дигарҳо",
     StringKey.CollectionPickerSearchHint to "Ҷустуҷӯи маҷмӯа ё занбӯруғ",
+    StringKey.CollectionPickerSearchClear to "Ҷустуҷӯро тоза кунед",
     StringKey.CollectionPickerMoreMatches to "Ҳамаи мутобиқатҳо нишон дода нашудаанд — дархостро дақиқ кунед",
     StringKey.LanguagePickerSearchHint to "Ҷустуҷӯи забон",
     StringKey.LanguagePickerBackContentDescription to "Бозгашт",

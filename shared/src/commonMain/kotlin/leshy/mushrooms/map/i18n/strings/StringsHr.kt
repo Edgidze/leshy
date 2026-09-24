@@ -146,6 +146,7 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
 
     StringKey.CollectionOtherName to "Ostale",
     StringKey.CollectionPickerSearchHint to "Pretraživanje zbirki ili gljiva",
+    StringKey.CollectionPickerSearchClear to "Očisti pretragu",
     StringKey.CollectionPickerMoreMatches to "Nisu prikazana sva podudaranja — precizirajte upit",
 
     StringKey.LanguagePickerSearchHint to "Pretraživanje jezika",

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Подложка кнопки паузы в заголовке. Своя, а не общая со строками видов, потому что кнопка другой
+  высоты: 48×28 против 48×44. Отступы `notif_btn_bg` (5dp сверху и снизу) на 28dp оставили бы
+  пилюле 18dp высоты при значке в 20dp — значок вылез бы за её края.
+
+  По вертикали поэтому 1dp: у кнопки `padding="4dp"`, значку остаётся 20dp, и на пилюле высотой
+  26dp до её краёв 3dp. По горизонтали — те же полвины, что и у строк видов: было 14dp от края
+  значка до края пилюли, стало 7dp.
+
+  Соседей по вертикали у этой кнопки нет (заголовок один), так что стыковаться ей не с чем; отступ
+  здесь нужен только чтобы она выглядела той же кнопкой, что и «−»/«+» под ней.
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+        android:color="#40FFFFFF">
+    <item>
+        <inset android:insetLeft="7dp"
+               android:insetRight="7dp"
+               android:insetTop="1dp"
+               android:insetBottom="1dp">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/notif_action_bg"/>
+                <corners android:radius="13dp"/>
+            </shape>
+        </inset>
+    </item>
+</ripple>

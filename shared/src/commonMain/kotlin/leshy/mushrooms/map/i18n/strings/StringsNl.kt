@@ -136,6 +136,7 @@ internal val dutchStrings: Map<StringKey, String> = mapOf(
     StringKey.CategoryUnknownMushroom to "Onbekende paddenstoel",
     StringKey.CollectionOtherName to "Overige",
     StringKey.CollectionPickerSearchHint to "Collectie of paddenstoel zoeken",
+    StringKey.CollectionPickerSearchClear to "Zoekopdracht wissen",
     StringKey.CollectionPickerMoreMatches to "Niet alle resultaten worden getoond — verfijn de zoekopdracht",
     StringKey.LanguagePickerSearchHint to "Taal zoeken",
     StringKey.LanguagePickerBackContentDescription to "Terug",
