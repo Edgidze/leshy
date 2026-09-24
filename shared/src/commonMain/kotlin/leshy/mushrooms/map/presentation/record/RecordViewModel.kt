@@ -134,6 +134,21 @@ private const val HISTORICAL_TRACK_STRIDE = 4
 /** Ключ перезагрузки фоновых треков — см. комментарий у его collect в [RecordViewModel.init]. */
 private data class HistoricalTracksKey(val walkIds: Set<Long>, val visible: Boolean)
 
+/**
+ * Всё, что определяет порядок ленты плиток, одним значением — у `combine` ниже уже пять
+ * источников, а это его потолок по типизированным перегрузкам.
+ *
+ * [freezeOrder] здесь не ради полноты: пока настройка не участвовала в этом потоке, включение
+ * «неподвижного порядка грибов» не перерисовывало ленту вовсе — оно лишь переставало копить новые
+ * подъёмы, а накопленный порядок оставался применённым.
+ */
+private data class FeedOrder(
+    val language: AppLanguage,
+    val recencyOrder: List<Long>,
+    val frequentKeys: Set<String>,
+    val freezeOrder: Boolean,
+)
+
 private data class RecordFilterState(
     val categories: List<Category>,
     val historicalFinds: List<FieldMark>,
@@ -301,20 +316,21 @@ class RecordViewModel(
             recalculateFilterEligibility()
         }
         viewModelScope.launch {
-            // Три «настройки сортировки» одним входом: у combine ниже уже пять источников, а
+            // Четыре «настройки сортировки» одним входом: у combine ниже уже пять источников, а
             // это его потолок по типизированным перегрузкам.
             val sortSettings = combine(
                 settingsRepository.observeLanguage(),
                 categoryOrder,
                 observeFrequentSpeciesKeys(),
-            ) { language, order, frequentKeys -> Triple(language, order, frequentKeys) }
+                settingsRepository.observeFreezeMushroomOrder(),
+            ) { language, order, frequentKeys, freeze -> FeedOrder(language, order, frequentKeys, freeze) }
             combine(
                 walkRepository.observeAll(),
                 fieldMarkRepository.observeAll(),
                 categoryRepository.observeAll(),
                 mapFilterRepository.observeFilter(),
                 sortSettings,
-            ) { walks, marks, categories, filter, (language, order, frequentKeys) ->
+            ) { walks, marks, categories, filter, (language, order, frequentKeys, freezeOrder) ->
                 val sortedCategories = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
                     language,
@@ -326,7 +342,14 @@ class RecordViewModel(
                 val (unknownMushroom, restCategories) = sortedCategories
                     .partition { it.nameKey == UNKNOWN_MUSHROOM_NAME_KEY }
                 val defaultOrderCategories = restCategories + unknownMushroom
-                val tileCategories = applyRecencyOrder(defaultOrderCategories, order)
+                // При включённой «неподвижном порядке грибов» накопленный порядок НЕ применяется:
+                // настройка обещает («отключает это совсем», справка `SettingsMushroomOrder`), что
+                // лента вернётся к порядку по умолчанию — с частотными видами впереди. Сам список
+                // при этом сохраняется: снял галочку — свой порядок вернулся. До 2026-09-24 здесь
+                // замораживался накопленный порядок, то есть частотность у давнего пользователя не
+                // играла уже никогда, и вернуть её было нечем.
+                val tileCategories =
+                    applyRecencyOrder(defaultOrderCategories, if (freezeOrder) emptyList() else order)
                 val categoryById = categories.associateBy { it.id }
                 // ТОЛЬКО ЗАВЕРШЁННЫЕ прогулки — тем же правилом, по которому отбираются
                 // historicalTracks ниже. Раньше сюда попадала и текущая: её находки рисовались
@@ -854,7 +877,10 @@ class RecordViewModel(
      * the front by the time the user comes back.
      *
      * No-op while Settings' "неподвижный порядок грибов" (freeze order) is on — that setting
-     * means +/- taps must stop bumping tiles at all, not just delay the bump.
+     * means +/- taps must stop bumping tiles at all, not just delay the bump. Накопленный до
+     * включения порядок в этом случае ещё и не применяется (см. `applyRecencyOrder` в потоке
+     * состояния): настройка обещает порядок по умолчанию, а не заморозку сложившегося. Сам
+     * список сохраняется — снятая галочка возвращает его как был.
      */
     private fun scheduleFrontBump(categoryId: Long) {
         if (freezeOrder) return
