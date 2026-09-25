@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material3.Icon
@@ -19,6 +18,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 
 /**
  * Публичная страница политики конфиденциальности — тот же адрес, что уходит в Play Console и
@@ -46,7 +46,7 @@ fun PrivacyPolicyLink(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
+            .clip(LeshyTheme.tokens.shapeListRow)
             .clickable { uriHandler.openUri(PRIVACY_POLICY_URL) }
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,

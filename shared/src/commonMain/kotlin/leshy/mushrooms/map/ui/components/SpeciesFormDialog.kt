@@ -18,8 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -64,6 +62,7 @@ import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.util.colorToHex
 import leshy.mushrooms.map.ui.util.hueOf
 import leshy.mushrooms.map.ui.util.parseHexColor
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import leshy.shared.generated.resources.Res
@@ -246,7 +245,7 @@ fun SpeciesFormDialog(
     ) {
         Surface(
             modifier = Modifier.dialogWidth().imePadding(),
-            shape = RoundedCornerShape(24.dp),
+            shape = LeshyTheme.tokens.shapeDialog,
             tonalElevation = 4.dp,
         ) {
             Column(modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
@@ -270,7 +269,7 @@ fun SpeciesFormDialog(
                 Box(
                     modifier = Modifier
                         .size(PHOTO_PREVIEW_SIZE)
-                        .clip(RoundedCornerShape(12.dp))
+                        .clip(LeshyTheme.tokens.shapePhotoPreview)
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .clickable(enabled = canReopenEditor) {
                             val bytes = pendingIconBytes
@@ -348,9 +347,9 @@ fun SpeciesFormDialog(
                     Box(
                         modifier = Modifier
                             .size(COLOR_SWATCH_SIZE)
-                            .clip(CircleShape)
+                            .clip(LeshyTheme.tokens.shapeColorSwatch)
                             .background(parseHexColor(colorHex))
-                            .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
+                            .border(1.dp, MaterialTheme.colorScheme.outline, LeshyTheme.tokens.shapeColorSwatch),
                     )
                     Slider(
                         value = hue,
@@ -365,7 +364,7 @@ fun SpeciesFormDialog(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(SPECTRUM_TRACK_HEIGHT)
-                                    .clip(RoundedCornerShape(SPECTRUM_TRACK_HEIGHT / 2))
+                                    .clip(LeshyTheme.tokens.shapePill)
                                     .background(SPECTRUM_GRADIENT_BRUSH),
                             )
                         },
@@ -373,10 +372,10 @@ fun SpeciesFormDialog(
                             Box(
                                 modifier = Modifier
                                     .size(SPECTRUM_THUMB_SIZE)
-                                    .clip(CircleShape)
+                                    .clip(LeshyTheme.tokens.shapeColorSwatch)
                                     .background(Color.White)
                                     .padding(3.dp)
-                                    .clip(CircleShape)
+                                    .clip(LeshyTheme.tokens.shapeColorSwatch)
                                     .background(parseHexColor(colorHex)),
                             )
                         },

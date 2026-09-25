@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
@@ -54,6 +53,7 @@ import leshy.mushrooms.map.i18n.categoryDisplayName
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.mushrooms.map.ui.util.parseHexColor
+import leshy.mushrooms.map.domain.model.Edition
 import kotlin.time.Duration.Companion.seconds
 
 private val MUSHROOM_COUNT_BUTTON_SIZE = 40.dp
@@ -210,7 +210,7 @@ fun MushroomTile(
                 // null) — ровно так же, как это уже работало у кнопки «+».
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO)
+                    .aspectRatio(LeshyTheme.tokens.photoAspectRatio)
                     .tapOrHold(
                         holdDuration = MUSHROOM_BULK_ADD_HOLD_DURATION,
                         onTap = add,
@@ -282,7 +282,7 @@ private fun MushroomAddButton(
     Box(
         modifier = modifier
             .size(MUSHROOM_COUNT_BUTTON_SIZE)
-            .clip(CircleShape)
+            .clip(LeshyTheme.tokens.shapeCountButton)
             .indication(interactionSource, LocalIndication.current)
             .tapOrHold(
                 holdDuration = MUSHROOM_BULK_ADD_HOLD_DURATION,
@@ -420,7 +420,7 @@ fun MushroomOutlinedText(
 @Preview
 @Composable
 fun MushroomTilePreview(){
-    LeshyTheme {
+    LeshyTheme(edition = Edition.WORLD) {
         MushroomTile(
             category = Category(
                 1,

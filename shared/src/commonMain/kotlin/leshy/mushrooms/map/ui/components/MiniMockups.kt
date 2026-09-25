@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
@@ -38,9 +36,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Shape
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import org.jetbrains.compose.resources.painterResource
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 
 /**
  * Кирпичики, из которых собраны нарисованные (не снятые!) макеты экранов приложения — обзорная
@@ -75,7 +75,7 @@ internal fun MiniTextLine(
         modifier = modifier
             .fillMaxWidth(widthFraction)
             .height(thickness)
-            .clip(CircleShape)
+            .clip(LeshyTheme.tokens.shapePill)
             .background(color),
     )
 }
@@ -90,7 +90,7 @@ internal fun MiniMap(
     modifier: Modifier = Modifier,
     withTrack: Boolean,
     pastFinds: Boolean = false,
-    corner: Dp = 6.dp,
+    corner: Shape = LeshyTheme.tokens.shapeIllustrationTile,
 ) {
     val trackColor = MaterialTheme.colorScheme.primary
     val findColor = MaterialTheme.colorScheme.error
@@ -98,7 +98,7 @@ internal fun MiniMap(
     val gridColor = MaterialTheme.colorScheme.outlineVariant
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(corner))
+            .clip(corner)
             .background(MaterialTheme.colorScheme.surfaceVariant),
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
@@ -193,7 +193,7 @@ internal fun MiniWalkCard(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(6.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationTile)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(5.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -207,7 +207,7 @@ internal fun MiniWalkCard(
             modifier = Modifier
                 .fillMaxHeight()
                 .width(thumbnailWidth)
-                .clip(RoundedCornerShape(4.dp))
+                .clip(LeshyTheme.tokens.shapeIllustrationThumbnail)
                 .background(MaterialTheme.colorScheme.surfaceVariant),
         ) {
             drawMiniTrack(trackColor)
@@ -238,7 +238,7 @@ internal fun MiniMushroomTile(
 ) {
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(6.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationTile)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(3.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

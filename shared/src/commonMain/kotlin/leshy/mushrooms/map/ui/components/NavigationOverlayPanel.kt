@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
@@ -21,6 +20,7 @@ import leshy.mushrooms.map.domain.util.TurnDirection
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.record.NavigationOverlayState
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import kotlin.math.roundToInt
 
 private val PANEL_MIN_HEIGHT = 96.dp
@@ -37,7 +37,7 @@ fun NavigationOverlayPanel(state: NavigationOverlayState, onCloseClick: () -> Un
     Surface(
         modifier = modifier.fillMaxWidth(0.5f).defaultMinSize(minHeight = PANEL_MIN_HEIGHT),
         color = MaterialTheme.colorScheme.primaryContainer,
-        shape = RoundedCornerShape(bottomStart = 20.dp),
+        shape = LeshyTheme.tokens.shapeNavigationOverlay,
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(

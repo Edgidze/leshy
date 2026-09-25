@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.ui.map.mapOrnamentOptions
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import org.maplibre.compose.map.OrnamentOptions
 
 /** См. комментарий у ряда кнопок в [FullScreenMapScaffold] — столько занимает линейка масштаба. */
@@ -67,7 +68,7 @@ fun FullScreenMapScaffold(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Surface(
-                shape = MaterialTheme.shapes.large,
+                shape = LeshyTheme.tokens.shapeMapChrome,
                 color = MaterialTheme.colorScheme.surface,
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                 tonalElevation = 4.dp,

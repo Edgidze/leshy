@@ -27,8 +27,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -129,11 +127,11 @@ import leshy.mushrooms.map.ui.util.walkFinished
 import leshy.mushrooms.map.ui.util.walkPaused
 import leshy.mushrooms.map.ui.util.walkResumed
 import leshy.mushrooms.map.ui.util.walkStarted
+import leshy.mushrooms.map.domain.model.Edition
 import org.koin.compose.viewmodel.koinViewModel
 import kotlinx.coroutines.launch
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
-private val ACTION_BUTTON_SHAPE = RoundedCornerShape(20.dp)
 private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
 
 /**
@@ -701,7 +699,7 @@ private fun RecordScreenContent(
                                 )
                                 LeshyButton(
                                     onClick = { showNameDialog = true },
-                                    shape = ACTION_BUTTON_SHAPE,
+                                    shape = LeshyTheme.tokens.shapeActionButton,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(centerButtonWidth),
                                 ) {
                                     Text(stringResource(StringKey.RecordStart))
@@ -725,7 +723,7 @@ private fun RecordScreenContent(
                                         haptics.walkPaused()
                                         onPauseOrResumeClick()
                                     },
-                                    shape = ACTION_BUTTON_SHAPE,
+                                    shape = LeshyTheme.tokens.shapeActionButton,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(centerButtonWidth),
                                 ) {
                                     Text(stringResource(StringKey.RecordPause))
@@ -743,7 +741,7 @@ private fun RecordScreenContent(
                                         haptics.walkResumed()
                                         onPauseOrResumeClick()
                                     },
-                                    shape = ACTION_BUTTON_SHAPE,
+                                    shape = LeshyTheme.tokens.shapeActionButton,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
                                 ) {
                                     Text(stringResource(StringKey.RecordResume))
@@ -754,7 +752,7 @@ private fun RecordScreenContent(
                                         haptics.walkFinished()
                                         onFinishClick()
                                     },
-                                    shape = ACTION_BUTTON_SHAPE,
+                                    shape = LeshyTheme.tokens.shapeActionButton,
                                     modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
                                 ) {
                                     Text(stringResource(StringKey.RecordFinish))
@@ -882,9 +880,9 @@ private fun RecordSideButton(
             enabled = enabled,
             modifier = Modifier
                 .size(ACTION_BUTTON_HEIGHT)
-                .clip(CircleShape)
+                .clip(LeshyTheme.tokens.shapeRoundButton)
                 .background(MaterialTheme.colorScheme.secondaryContainer)
-                .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
+                .border(1.dp, MaterialTheme.colorScheme.outline, LeshyTheme.tokens.shapeRoundButton),
         ) {
             Icon(
                 imageVector = icon,
@@ -1023,7 +1021,7 @@ private fun MushroomBulkAddDialog(
             val compactPhoto = maxHeight < BULK_ADD_COMPACT_HEIGHT_THRESHOLD
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight),
-                shape = RoundedCornerShape(24.dp),
+                shape = LeshyTheme.tokens.shapeDialog,
                 tonalElevation = 4.dp,
             ) {
                 Column(modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
@@ -1056,7 +1054,7 @@ private fun MushroomBulkAddDialog(
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .width(TILE_WIDTH)
-                                .aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO),
+                                .aspectRatio(LeshyTheme.tokens.photoAspectRatio),
                         )
                     } else {
                         // Единственная площадка фото гриба, оставшаяся прямоугольной. Здесь квадрат не
@@ -1175,7 +1173,7 @@ private fun MushroomSearchDialog(
     ) {
         Surface(
             modifier = Modifier.dialogWidth().imePadding(),
-            shape = RoundedCornerShape(24.dp),
+            shape = LeshyTheme.tokens.shapeDialog,
             tonalElevation = 4.dp,
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -1212,13 +1210,14 @@ private fun MushroomSearchDialog(
 
 @Composable
 private fun SearchResultTile(category: Category, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val tokens = LeshyTheme.tokens
     Box(
         modifier = modifier
             // То же соотношение, что у площадки фото на плитке ленты — под пропорции обрезанных
             // изображений каталога, см. MUSHROOM_PHOTO_ASPECT_RATIO.
-            .aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO)
-            .clip(RoundedCornerShape(12.dp))
-            .border(2.dp, parseHexColor(category.colorHex), RoundedCornerShape(12.dp))
+            .aspectRatio(LeshyTheme.tokens.photoAspectRatio)
+            .clip(tokens.shapeSpeciesTile)
+            .border(tokens.widthSpeciesTileBorder, parseHexColor(category.colorHex), tokens.shapeSpeciesTile)
             .clickable(onClick = onClick),
     ) {
         MushroomPhoto(category = category, modifier = Modifier.fillMaxSize())
@@ -1241,7 +1240,7 @@ private val PREVIEW_NOOP: () -> Unit = {}
 @Composable
 @Preview
 private fun RecordScreenStartPreview() {
-    LeshyTheme {
+    LeshyTheme(edition = Edition.WORLD) {
         RecordScreenContent(
             uiState = RecordUiState(categories = PREVIEW_CATEGORIES),
             elapsedMillis = { 0L },
@@ -1258,7 +1257,7 @@ private fun RecordScreenStartPreview() {
 @Composable
 @Preview
 private fun RecordScreenRecordingPreview() {
-    LeshyTheme {
+    LeshyTheme(edition = Edition.WORLD) {
         RecordScreenContent(
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,
@@ -1280,7 +1279,7 @@ private fun RecordScreenRecordingPreview() {
 @Composable
 @Preview
 private fun RecordScreenNavigatingPreview() {
-    LeshyTheme {
+    LeshyTheme(edition = Edition.WORLD) {
         RecordScreenContent(
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,
@@ -1312,7 +1311,7 @@ private fun RecordScreenNavigatingPreview() {
 @Composable
 @Preview
 private fun RecordScreenArrivedPreview() {
-    LeshyTheme {
+    LeshyTheme(edition = Edition.WORLD) {
         RecordScreenContent(
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,
@@ -1344,7 +1343,7 @@ private fun RecordScreenArrivedPreview() {
 @Composable
 @Preview
 private fun RecordScreenPausedPreview() {
-    LeshyTheme {
+    LeshyTheme(edition = Edition.WORLD) {
         RecordScreenContent(
             uiState = RecordUiState(
                 categories = PREVIEW_CATEGORIES,

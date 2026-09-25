@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -67,6 +66,7 @@ import leshy.mushrooms.map.ui.map.LocalMushroomMarkerSizeScale
 import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDurationLabeled
 import leshy.mushrooms.map.ui.util.formatSpeedKmh
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 import okio.FileSystem
@@ -280,7 +280,7 @@ fun WalkShareDialog(
     ) {
         Surface(
             modifier = Modifier.dialogWidth(),
-            shape = RoundedCornerShape(24.dp),
+            shape = LeshyTheme.tokens.shapeDialog,
             tonalElevation = 4.dp,
         ) {
             Column(modifier = Modifier.padding(20.dp)) {

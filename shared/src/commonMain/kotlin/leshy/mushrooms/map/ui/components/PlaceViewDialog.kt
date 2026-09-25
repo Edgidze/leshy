@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -42,6 +41,7 @@ import leshy.mushrooms.map.domain.model.FieldMark
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.ui.util.formatCoordinates
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import kotlinx.coroutines.launch
 
 /**
@@ -71,7 +71,7 @@ fun PlaceViewDialog(
         BoxWithConstraints(modifier = Modifier.dialogWidth()) {
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight * DIALOG_HEIGHT_FRACTION),
-                shape = RoundedCornerShape(24.dp),
+                shape = LeshyTheme.tokens.shapeDialog,
                 tonalElevation = 4.dp,
             ) {
                 Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {

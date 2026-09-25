@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
@@ -58,6 +57,7 @@ import leshy.mushrooms.map.domain.model.GeoPoint
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.ui.util.formatCoordinates
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import kotlinx.coroutines.launch
 
 /**
@@ -114,7 +114,7 @@ fun AddPlaceDialog(
         BoxWithConstraints(modifier = Modifier.dialogWidth().imePadding()) {
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight * DIALOG_HEIGHT_FRACTION),
-                shape = RoundedCornerShape(24.dp),
+                shape = LeshyTheme.tokens.shapeDialog,
                 tonalElevation = 4.dp,
             ) {
                 Column(

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -44,6 +43,7 @@ import leshy.mushrooms.map.presentation.data.WalksPickerGroup
 import leshy.mushrooms.map.presentation.data.buildWalksPickerGroups
 import leshy.mushrooms.map.ui.util.formatDateOnly
 import leshy.mushrooms.map.ui.util.monthName
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 
 /**
  * Which walks go into the export archive — a modal sized like [MapFilterDialog], not a full
@@ -72,7 +72,7 @@ fun WalksPickerDialog(
         BoxWithConstraints(modifier = Modifier.dialogWidth()) {
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight * DIALOG_HEIGHT_FRACTION),
-                shape = RoundedCornerShape(24.dp),
+                shape = LeshyTheme.tokens.shapeDialog,
                 tonalElevation = 4.dp,
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {

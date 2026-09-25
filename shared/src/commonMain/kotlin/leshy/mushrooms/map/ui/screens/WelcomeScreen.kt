@@ -18,7 +18,6 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Language
@@ -48,6 +47,7 @@ import leshy.mushrooms.map.ui.components.HelpVignette
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MenuVignette
 import leshy.mushrooms.map.ui.components.RecordVignette
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.leshy_icon
 import org.jetbrains.compose.resources.painterResource
@@ -193,7 +193,7 @@ private fun Hero() {
         Image(
             painter = painterResource(Res.drawable.leshy_icon),
             contentDescription = null,
-            modifier = Modifier.size(112.dp).clip(RoundedCornerShape(APP_ICON_CORNER)),
+            modifier = Modifier.size(112.dp).clip(LeshyTheme.tokens.shapeAppIcon),
         )
         Text(
             text = stringResource(StringKey.OnboardingTitle),
@@ -209,9 +209,6 @@ private fun Hero() {
         )
     }
 }
-
-/** Скругление значка — примерно та же доля стороны (≈22%), с какой iOS скругляет иконки. */
-private val APP_ICON_CORNER = 25.dp
 
 /**
  * «Перед использованием» — три утверждения, с каждым из которых нужно согласиться галочкой, чтобы
@@ -275,7 +272,7 @@ private fun ConsentRow(checked: Boolean, onCheckedChange: (Boolean) -> Unit, tex
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
+            .clip(LeshyTheme.tokens.shapeListRow)
             .toggleable(value = checked, onValueChange = onCheckedChange, role = Role.Checkbox)
             .padding(vertical = 4.dp),
         verticalAlignment = Alignment.Top,

@@ -18,8 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -90,6 +88,7 @@ import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDurationLabeled
 import leshy.mushrooms.map.ui.util.formatSpeedKmh
 import leshy.mushrooms.map.ui.util.formatTimeOnly
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import leshy.shared.generated.resources.ic_route
@@ -118,8 +117,6 @@ private val MUSHROOM_TOAST_DURATION = 3000.milliseconds
  * снимок снимается сразу в этой пропорции (см. [WALK_THUMBNAIL_ASPECT_RATIO]), и показывается
  * целиком, ничего не теряя.
  */
-private val HERO_CORNER_RADIUS = 16.dp
-
 /**
  * Потолок ширины заставки. Снимок маршрута — растр фиксированного разрешения
  * (`WALK_THUMBNAIL_WIDTH_PX`, 960px), снятый один раз на «Финише», и тянуть его во всю ширину
@@ -371,7 +368,7 @@ private fun WalkHero(walk: Walk, track: List<GeoPoint>, findLocations: List<GeoP
                 .widthIn(max = HERO_MAX_WIDTH)
                 .fillMaxWidth()
                 .aspectRatio(WALK_THUMBNAIL_ASPECT_RATIO)
-                .clip(RoundedCornerShape(HERO_CORNER_RADIUS))
+                .clip(LeshyTheme.tokens.shapeHeroMap)
                 .background(MaterialTheme.colorScheme.surfaceVariant)
                 .then(if (hasGeodata) Modifier.clickable(onClick = onClick) else Modifier),
         ) {
@@ -395,7 +392,7 @@ private fun WalkHero(walk: Walk, track: List<GeoPoint>, findLocations: List<GeoP
             // угодно — от светлого поля до тёмного леса.
             if (hasGeodata) {
                 Surface(
-                    shape = CircleShape,
+                    shape = LeshyTheme.tokens.shapeMapBadge,
                     color = MaterialTheme.colorScheme.surface,
                     modifier = Modifier.align(Alignment.BottomEnd).padding(12.dp),
                 ) {
@@ -562,13 +559,13 @@ private fun PlaceListItem(place: FieldMark, onClick: () -> Unit) {
                     model = "file://${place.photoPath}",
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(PLACE_THUMBNAIL_SIZE).clip(RoundedCornerShape(8.dp)),
+                    modifier = Modifier.size(PLACE_THUMBNAIL_SIZE).clip(LeshyTheme.tokens.shapePlaceThumbnail),
                 )
             } else {
                 Box(
                     modifier = Modifier
                         .size(PLACE_THUMBNAIL_SIZE)
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(LeshyTheme.tokens.shapePlaceThumbnail)
                         .background(MaterialTheme.colorScheme.surfaceVariant),
                     contentAlignment = Alignment.Center,
                 ) {

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -45,6 +44,7 @@ import leshy.mushrooms.map.i18n.collectionDisplayName
 import leshy.mushrooms.map.i18n.collidesWithCountryName
 import leshy.mushrooms.map.i18n.isOtherCollectionName
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import kotlinx.coroutines.flow.map
 import org.koin.compose.koinInject
 
@@ -98,7 +98,7 @@ fun CollectionNameDialog(
     ) {
         Surface(
             modifier = Modifier.dialogWidth().imePadding(),
-            shape = RoundedCornerShape(24.dp),
+            shape = LeshyTheme.tokens.shapeDialog,
             tonalElevation = 4.dp,
         ) {
             Column(modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {

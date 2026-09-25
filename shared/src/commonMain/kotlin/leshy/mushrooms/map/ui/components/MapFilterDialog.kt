@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.HorizontalDivider
@@ -32,6 +31,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.categoryDisplayName
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.mapfilter.MapFilterViewModel
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.koin.compose.viewmodel.koinViewModel
@@ -54,7 +54,7 @@ fun MapFilterDialog(onDismissRequest: () -> Unit, viewModel: MapFilterViewModel 
         BoxWithConstraints(modifier = Modifier.dialogWidth()) {
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight * DIALOG_HEIGHT_FRACTION),
-                shape = RoundedCornerShape(24.dp),
+                shape = LeshyTheme.tokens.shapeDialog,
                 tonalElevation = 4.dp,
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {

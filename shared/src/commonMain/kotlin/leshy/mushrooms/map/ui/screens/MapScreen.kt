@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hiking
@@ -63,6 +61,7 @@ import leshy.mushrooms.map.ui.map.MapMarker
 import leshy.mushrooms.map.ui.map.mapOrnamentOptions
 import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDurationLabeled
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import leshy.shared.generated.resources.ic_route
@@ -75,7 +74,6 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.maplibre.compose.map.GestureOptions
 
 private val SCREEN_PADDING = 16.dp
-private val HERO_CORNER_RADIUS = 16.dp
 private val METRIC_SPACING = 8.dp
 
 /** Высота полосы «идёт пересчёт» — место под неё занято всегда, см. её место в [MapScreen]. */
@@ -227,7 +225,7 @@ private fun FindsMapHero(
             .fillMaxWidth()
             .padding(top = 12.dp)
             .aspectRatio(WALK_THUMBNAIL_ASPECT_RATIO)
-            .clip(RoundedCornerShape(HERO_CORNER_RADIUS))
+            .clip(LeshyTheme.tokens.shapeHeroMap)
             .background(MaterialTheme.colorScheme.surfaceVariant),
     ) {
         AggregatedFindsMap(
@@ -252,7 +250,7 @@ private fun FindsMapHero(
         // Подложка у подписи непрозрачная: она ложится на карту, где под ней может оказаться что
         // угодно — от светлого поля до тёмного леса. Ровно как на заставке прогулки.
         Surface(
-            shape = CircleShape,
+            shape = LeshyTheme.tokens.shapeMapBadge,
             color = MaterialTheme.colorScheme.surface,
             modifier = Modifier.align(Alignment.BottomEnd).padding(12.dp),
         ) {

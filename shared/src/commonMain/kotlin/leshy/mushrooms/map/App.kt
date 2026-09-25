@@ -41,6 +41,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import leshy.mushrooms.map.data.platform.currentDeviceLanguage
 import leshy.mushrooms.map.data.repository.MapStyleCacheRepository
+import leshy.mushrooms.map.domain.model.Edition
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_DEFAULT
 import leshy.mushrooms.map.domain.model.ThemeMode
 import leshy.mushrooms.map.domain.repository.OnboardingRepository
@@ -103,6 +104,10 @@ private val drawerNavEntries = listOf(
 fun App() {
     val settingsRepository = koinInject<SettingsRepository>()
     val onboardingRepository = koinInject<OnboardingRepository>()
+    // Редакцию объявляет хост при старте (`initKoin(edition)`), внутри shared она нигде не
+    // вычисляется — см. `Edition`. Достаётся здесь, в корне композиции, и дальше идёт вглубь
+    // композишн-локалом из `LeshyTheme`, а не запросами к Koin из каждого файла.
+    val edition = koinInject<Edition>()
     // Начальное значение — язык системы, а не EN: `initial` показывается ровно до первой эмиссии
     // DataStore, и на холодном старте это те кадры, в которых уже нарисован приветственный экран.
     // Тот же дефолт, что отдаёт сам репозиторий, когда язык ещё не выбран (SettingsRepositoryImpl).
@@ -124,7 +129,7 @@ fun App() {
         LocalMushroomMarkerSizeScale provides mushroomMarkerSizeScale,
     ) {
         val useDarkTheme = themeMode.isDark()
-        LeshyTheme(useDarkTheme = useDarkTheme) {
+        LeshyTheme(edition = edition, useDarkTheme = useDarkTheme) {
             // Выше `when (onboardingCompleted)`, а не в его ветках: системные панели должны
             // подхватывать тему и на онбординге, а не только после того, как он пройден.
             ApplySystemBarsAppearance(themeMode)

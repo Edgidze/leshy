@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -60,6 +58,7 @@ import leshy.mushrooms.map.i18n.HelpKey
 import leshy.mushrooms.map.i18n.LocalAppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import org.jetbrains.compose.resources.painterResource
@@ -142,8 +141,6 @@ fun HelpIllustration(key: HelpKey, modifier: Modifier = Modifier) {
 
 // ─── Общая рамка и кирпичики, из которых собраны картинки ───────────────────────────────────────
 
-private val FRAME_CORNER = 12.dp
-
 /**
  * Площадка картинки: подложка, обводка, отступы.
  *
@@ -157,12 +154,12 @@ private fun HelpFrame(modifier: Modifier = Modifier, content: @Composable Column
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(FRAME_CORNER))
+            .clip(LeshyTheme.tokens.shapeIllustrationFrame)
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant,
-                shape = RoundedCornerShape(FRAME_CORNER),
+                shape = LeshyTheme.tokens.shapeIllustrationFrame,
             )
             .padding(12.dp)
             .clearAndSetSemantics { },
@@ -198,9 +195,9 @@ private fun MockButton(
     }
     Row(
         modifier = modifier
-            .clip(CircleShape)
+            .clip(LeshyTheme.tokens.shapePill)
             .background(container)
-            .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape)
+            .border(1.dp, MaterialTheme.colorScheme.outline, LeshyTheme.tokens.shapePill)
             .padding(horizontal = 12.dp, vertical = 7.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -230,9 +227,9 @@ private fun MockRoundButton(icon: ImageVector, modifier: Modifier = Modifier, si
     Box(
         modifier = modifier
             .size(size)
-            .clip(CircleShape)
+            .clip(LeshyTheme.tokens.shapeRoundButton)
             .background(MaterialTheme.colorScheme.secondaryContainer)
-            .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
+            .border(1.dp, MaterialTheme.colorScheme.outline, LeshyTheme.tokens.shapeRoundButton),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
@@ -267,7 +264,7 @@ private fun MockField(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationCard)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(horizontal = 8.dp, vertical = 7.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -334,9 +331,9 @@ private fun MockSectionTitle(text: String, modifier: Modifier = Modifier) {
 private fun MockAddTile(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(6.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationTile)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(6.dp)),
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, LeshyTheme.tokens.shapeIllustrationTile),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
@@ -413,7 +410,7 @@ private fun PlaceButtonMock() {
 private fun PlaceCard(modifier: Modifier = Modifier, actions: Boolean = false) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationCard)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -421,7 +418,7 @@ private fun PlaceCard(modifier: Modifier = Modifier, actions: Boolean = false) {
         Box(
             modifier = Modifier
                 .size(34.dp)
-                .clip(RoundedCornerShape(6.dp))
+                .clip(LeshyTheme.tokens.shapeIllustrationTile)
                 .background(MaterialTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center,
         ) {
@@ -451,7 +448,7 @@ private fun NavigationPanelMock() {
                 .align(Alignment.TopEnd)
                 .padding(6.dp)
                 .fillMaxWidth(0.72f)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(LeshyTheme.tokens.shapeIllustrationCard)
                 .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                 .padding(horizontal = 8.dp, vertical = 7.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -528,7 +525,7 @@ private fun WalkDetailMock() {
 private fun StatBox(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationCard)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp),
@@ -638,7 +635,7 @@ private fun ClusterCanvas(modifier: Modifier = Modifier, clustered: Boolean) {
     val onFind = MaterialTheme.colorScheme.onError
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(6.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationTile)
             .background(MaterialTheme.colorScheme.surfaceVariant),
         contentAlignment = Alignment.Center,
     ) {
@@ -710,7 +707,7 @@ private fun FilterDialogMock() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationPanel)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(10.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -862,7 +859,7 @@ private fun RegionChipMock() {
 private fun RegionChip(modifier: Modifier = Modifier, compact: Boolean) {
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationCard)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -969,9 +966,9 @@ private fun PhoneMock(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .height(64.dp)
-            .clip(RoundedCornerShape(8.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationCard)
             .background(MaterialTheme.colorScheme.surfaceVariant)
-            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
+            .border(1.dp, MaterialTheme.colorScheme.outline, LeshyTheme.tokens.shapeIllustrationCard)
             .padding(5.dp),
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) { drawMiniTrack(trackColor) }
@@ -1000,8 +997,8 @@ private fun ModeSwitchMock(exportSelected: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(CircleShape)
-            .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
+            .clip(LeshyTheme.tokens.shapePill)
+            .border(1.dp, MaterialTheme.colorScheme.outline, LeshyTheme.tokens.shapePill),
     ) {
         ModeSwitchHalf(
             label = stringResource(StringKey.DataExportOption),

@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.List
@@ -32,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 
 /**
  * Крошечные макеты экранов приложения для обзорной страницы первого запуска
@@ -57,21 +56,18 @@ import androidx.compose.ui.unit.dp
 /** Общая высота площадки макета: одинаковая у всех четырёх, иначе колонка карточек «прыгает». */
 private val VIGNETTE_HEIGHT = 116.dp
 
-/** Скругление «экранчика» — заметно меньше, чем у настоящих карточек, ровно ради ощущения макета. */
-private val VIGNETTE_CORNER = 10.dp
-
 @Composable
 private fun VignetteFrame(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(VIGNETTE_HEIGHT)
-            .clip(RoundedCornerShape(VIGNETTE_CORNER))
+            .clip(LeshyTheme.tokens.shapeVignetteFrame)
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant,
-                shape = RoundedCornerShape(VIGNETTE_CORNER),
+                shape = LeshyTheme.tokens.shapeVignetteFrame,
             )
             .padding(6.dp),
     ) {
@@ -124,7 +120,7 @@ fun HelpVignette(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .clip(RoundedCornerShape(6.dp))
+                    .clip(LeshyTheme.tokens.shapeIllustrationTile)
                     .background(MaterialTheme.colorScheme.surfaceContainerHigh),
                 contentAlignment = Alignment.Center,
             ) {
@@ -152,7 +148,7 @@ fun MenuVignette(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(0.62f)
-                    .clip(RoundedCornerShape(6.dp))
+                    .clip(LeshyTheme.tokens.shapeIllustrationTile)
                     .background(MaterialTheme.colorScheme.surfaceContainerHigh)
                     .padding(vertical = 6.dp, horizontal = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(5.dp),
@@ -170,7 +166,7 @@ fun MenuVignette(modifier: Modifier = Modifier) {
                     .fillMaxHeight()
                     .weight(0.38f)
                     .padding(start = 4.dp)
-                    .clip(RoundedCornerShape(6.dp))
+                    .clip(LeshyTheme.tokens.shapeIllustrationTile)
                     .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.32f)),
             )
         }
@@ -182,7 +178,7 @@ private fun MiniTopBar(highlightHelp: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(6.dp))
+            .clip(LeshyTheme.tokens.shapeIllustrationTile)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(horizontal = 6.dp, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -204,7 +200,9 @@ private fun MiniTopBar(highlightHelp: Boolean) {
                 .size(if (highlightHelp) 18.dp else 14.dp)
                 .then(
                     if (highlightHelp) {
-                        Modifier.border(1.dp, MaterialTheme.colorScheme.primary, CircleShape).padding(2.dp)
+                        Modifier
+                            .border(1.dp, MaterialTheme.colorScheme.primary, LeshyTheme.tokens.shapeRoundButton)
+                            .padding(2.dp)
                     } else {
                         Modifier
                     },
@@ -218,7 +216,7 @@ private fun MiniMenuRow(icon: ImageVector, selected: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(CircleShape)
+            .clip(LeshyTheme.tokens.shapePill)
             .background(
                 if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
             )

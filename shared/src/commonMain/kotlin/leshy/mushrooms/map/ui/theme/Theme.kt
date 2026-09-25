@@ -6,8 +6,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import leshy.mushrooms.map.domain.model.Edition
 
 private val LeshyGreen = Color(0xFF1B4332)
 
@@ -99,12 +102,29 @@ private val DarkColors = darkColorScheme(
  * скаффолда не воспроизвёл то же самое заново.
  */
 @Composable
-fun LeshyTheme(useDarkTheme: Boolean = false, content: @Composable () -> Unit) {
+fun LeshyTheme(edition: Edition, useDarkTheme: Boolean = false, content: @Composable () -> Unit) {
     MaterialTheme(colorScheme = if (useDarkTheme) DarkColors else LightColors) {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background,
-            content = content,
-        )
+        CompositionLocalProvider(LocalLeshyTokens provides leshyTokensFor(edition)) {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background,
+                content = content,
+            )
+        }
     }
+}
+
+/**
+ * Доступ к набору величин редакции из любого места композиции — `LeshyTheme.tokens.shapeDialog`.
+ *
+ * Функция и объект с одним именем сосуществуют штатно (классификаторы и функции в Kotlin живут в
+ * разных пространствах имён); это тот же приём, которым сделан `MaterialTheme`, и здесь он взят
+ * ради того, чтобы обращение к своим величинам читалось рядом с `MaterialTheme.colorScheme` как
+ * такая же часть темы, а не как обращение к чужому синглтону.
+ */
+object LeshyTheme {
+    val tokens: LeshyTokens
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalLeshyTokens.current
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -20,6 +19,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.domain.model.GeoPoint
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import org.jetbrains.compose.resources.painterResource
@@ -53,7 +53,7 @@ fun WalkRouteThumbnail(track: List<GeoPoint>, findLocations: List<GeoPoint>, mod
 
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
+            .clip(LeshyTheme.tokens.shapeRouteThumbnail)
             .background(MaterialTheme.colorScheme.surfaceVariant),
     ) {
         val trackColor = MaterialTheme.colorScheme.primary
@@ -151,7 +151,7 @@ private const val NO_GEODATA_GLYPH_FRACTION = 0.5f
 private fun NoGeodataThumbnail(modifier: Modifier = Modifier) {
     BoxWithConstraints(
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
+            .clip(LeshyTheme.tokens.shapeRouteThumbnail)
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center,
     ) {

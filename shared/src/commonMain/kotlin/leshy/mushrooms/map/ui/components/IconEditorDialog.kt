@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Redo
@@ -78,6 +76,7 @@ import leshy.mushrooms.map.domain.usecase.CATEGORY_ICON_MAX_DIMENSION
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.ui.util.scaledToMaxDimension
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -365,7 +364,7 @@ fun IconEditorDialog(
                                 Box(
                                     modifier = Modifier
                                         .matchParentSize()
-                                        .clip(RoundedCornerShape(12.dp)),
+                                        .clip(LeshyTheme.tokens.shapePhotoPreview),
                                 ) {
                                     Box(
                                         modifier = Modifier
@@ -577,8 +576,8 @@ private fun MagnifierLoupe(
                 )
             }
             .size(MAGNIFIER_DIAMETER)
-            .clip(CircleShape)
-            .border(2.dp, Color.White, CircleShape),
+            .clip(LeshyTheme.tokens.shapeMagnifier)
+            .border(2.dp, Color.White, LeshyTheme.tokens.shapeMagnifier),
     ) {
         // Checkerboard and photo+strokes MUST be separate sibling layers, not one chained onto the
         // other — chaining `checkerboardBackground()`'s own `drawWithContent` directly onto this

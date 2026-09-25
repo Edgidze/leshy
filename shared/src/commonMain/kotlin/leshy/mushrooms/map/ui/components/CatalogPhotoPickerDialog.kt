@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -40,6 +39,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.searchOrderedCategories
 import leshy.mushrooms.map.ui.util.parseHexColor
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 
 private val GRID_TILE_MIN_SIZE = 100.dp
 private val GRID_MAX_HEIGHT = 360.dp
@@ -69,7 +69,7 @@ fun CatalogPhotoPickerDialog(
     ) {
         Surface(
             modifier = Modifier.dialogWidth().imePadding(),
-            shape = RoundedCornerShape(24.dp),
+            shape = LeshyTheme.tokens.shapeDialog,
             tonalElevation = 4.dp,
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -104,11 +104,12 @@ fun CatalogPhotoPickerDialog(
 
 @Composable
 private fun CatalogPhotoTile(category: Category, onClick: () -> Unit) {
+    val tokens = LeshyTheme.tokens
     Box(
         modifier = Modifier
             .aspectRatio(1f)
-            .clip(RoundedCornerShape(12.dp))
-            .border(2.dp, parseHexColor(category.colorHex), RoundedCornerShape(12.dp))
+            .clip(tokens.shapeSpeciesTile)
+            .border(tokens.widthSpeciesTileBorder, parseHexColor(category.colorHex), tokens.shapeSpeciesTile)
             .clickable(onClick = onClick),
     ) {
         MushroomPhoto(category = category, modifier = Modifier.fillMaxSize())

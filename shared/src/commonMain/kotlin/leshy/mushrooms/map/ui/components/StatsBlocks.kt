@@ -35,6 +35,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.archive.CategoryCount
 import leshy.mushrooms.map.ui.util.parseHexColor
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import org.jetbrains.compose.resources.painterResource
@@ -71,17 +72,6 @@ private val METRIC_CARD_MIN_HEIGHT = 116.dp
  */
 private val METRIC_VALUE_MIN_FONT_SIZE = 13.sp
 private val METRIC_VALUE_FONT_STEP = 1.sp
-
-/**
- * Наименьшее число плиток находок в ряду — оно же то, что получается на телефоне вертикально.
- *
- * Две, а не три. Плитка собрана из [MushroomPhoto], а у той подпись с названием вида лежит поверх
- * картинки блоком постоянной высоты (54dp, две строки по 20sp — размер выбран под ленту «Записи»,
- * где плитка шириной 120dp). При трёх колонках плитке достаётся 90–104dp, картинка становится
- * 72–83dp высотой, и подпись съедает три четверти её высоты. При двух колонках плитка выходит
- * 140–160dp, то есть не уже той, под которую подпись и рисовалась.
- */
-private const val FIND_TILE_MIN_COLUMNS = 2
 
 /**
  * Потолок ширины плитки. Из него, а не из постоянного числа колонок, считается сам ряд: на широком
@@ -228,7 +218,7 @@ fun FindTilesGrid(counts: List<CategoryCount>) {
         // потолок. Ряд при этом всегда закрывается целиком — лишняя ширина делится поровну.
         val columns = ceil(
             (maxWidth + FIND_TILE_SPACING) / (FIND_TILE_MAX_WIDTH + FIND_TILE_SPACING),
-        ).toInt().coerceAtLeast(FIND_TILE_MIN_COLUMNS)
+        ).toInt().coerceAtLeast(LeshyTheme.tokens.findTileMinColumns)
         // Ширина плитки делится В ПИКСЕЛЯХ, целочисленно, а не в Dp — и это не придирка к точности,
         // а единственный способ, чтобы ряд вообще собрался. Меряет FlowRow в пикселях: и ширину
         // плитки, и отбивку он получает через `roundToPx()`, каждую округляя ОТДЕЛЬНО. При дробной
@@ -272,7 +262,7 @@ private fun FindTile(category: Category, count: Int, width: Dp) {
         Box(modifier = Modifier.fillMaxWidth()) {
             MushroomPhoto(
                 category = category,
-                modifier = Modifier.fillMaxWidth().aspectRatio(MUSHROOM_PHOTO_ASPECT_RATIO),
+                modifier = Modifier.fillMaxWidth().aspectRatio(LeshyTheme.tokens.photoAspectRatio),
             )
             val countInkOverhang = with(LocalDensity.current) {
                 (FIND_TILE_COUNT_FONT_SIZE.toPx() * FIND_TILE_COUNT_INK_OVERHANG_EM).toDp()
