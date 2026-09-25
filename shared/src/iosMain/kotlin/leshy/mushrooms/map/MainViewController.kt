@@ -3,6 +3,7 @@ package leshy.mushrooms.map
 import androidx.compose.ui.uikit.OnFocusBehavior
 import androidx.compose.ui.window.ComposeUIViewController
 import leshy.mushrooms.map.di.initKoin
+import leshy.mushrooms.map.domain.model.Edition
 
 /**
  * Вызывается из `SceneDelegate.scene(_:willConnectTo:options:)` — то есть НЕ обязательно один
@@ -28,9 +29,9 @@ private var koinStarted = false
  * включает `ime`). Правило на будущее: **у любого нового поля ввода должен быть свой
  * `imePadding`** — подстраховки от рантайма больше нет.
  */
-fun MainViewController() = run {
+fun MainViewController(edition: Edition) = run {
     if (!koinStarted) {
-        initKoin()
+        initKoin(edition)
         koinStarted = true
     }
     ComposeUIViewController(configure = { onFocusBehavior = OnFocusBehavior.DoNothing }) { App() }

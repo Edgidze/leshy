@@ -16,7 +16,7 @@
 ## Хост — UIKit (`AppDelegate` + `UIWindow`), не SwiftUI
 
 `iOSApp.swift` — обычный `@main class AppDelegate: UIResponder,
-UIApplicationDelegate`, который кладёт `MainViewControllerKt.MainViewController()`
+UIApplicationDelegate`, который кладёт `MainViewControllerKt.MainViewController(edition:)`
 прямо корневым контроллером `UIWindow`. Раньше это был SwiftUI-шаблон
 (`WindowGroup { ContentView() }`, внутри — `UIViewControllerRepresentable`
 с `.ignoresSafeArea()`); `ContentView.swift` удалён.
@@ -73,6 +73,12 @@ UIKit-хост.** Причина: сборка генерирует `UIApplicati
   `UIApplicationSupportsMultipleScenes = true`, а приложение однооконное —
   второе окно на iPad подняло бы вторую Compose-сцену со своим сбором GPS и
   своей картой.
+- **Аргумент `edition:` — это объявление редакции продукта**, и передаёт его хост, а не
+  `shared`. Сейчас таргет один и передаёт `.world`; когда появится российский таргет, он
+  будет отличаться от этого ровно одним словом — bundle id, `Info.plist`, каталогом ассетов
+  и `.russia` здесь. Отдельного `Shared.framework` на редакцию не существует, поэтому
+  сборочной константы внутри `shared` взять неоткуда; разбор —
+  `docs/russia-edition/README.md`, раздел «Почему iOS откладывается».
 - **`MainViewController()` теперь идемпотентен по Koin.**
   `scene(_:willConnectTo:)` вызывается не обязательно один раз за жизнь
   процесса: система вправе отключить сцену у свёрнутого приложения и позже

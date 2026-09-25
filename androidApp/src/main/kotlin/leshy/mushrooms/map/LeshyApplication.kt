@@ -7,7 +7,7 @@ import org.koin.android.ext.koin.androidContext
 class LeshyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoin {
+        initKoin(HOST_EDITION) {
             androidContext(this@LeshyApplication)
         }
     }

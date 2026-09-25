@@ -43,8 +43,31 @@ android {
         versionCode = property("leshy.versionCode").toString().toInt()
         versionName = property("leshy.versionName").toString()
     }
-    flavorDimensions += "store"
+    // Два независимых измерения, и порядок в списке — это порядок слов в имени варианта:
+    // `worldPlayRelease`, `russiaRustoreRelease`. `edition` первым, потому что это РАЗНЫЕ
+    // продукты с разными applicationId, а `store` — всего лишь витрина одного продукта.
+    //
+    // Разница между измерениями принципиальна и объясняет, почему второго продукта нельзя
+    // было добиться флейвором `rustore`: у `play`/`rustore` applicationId ОДИН (правило
+    // androidApp/CLAUDE.md), то есть на телефоне это одно приложение, и пользователь с
+    // «Лешим» из Play получил бы из RuStore не второе приложение, а молчаливое обновление
+    // первого — с другой картой. Разбор — docs/russia-edition/README.md.
+    flavorDimensions += listOf("edition", "store")
     productFlavors {
+        // Мировой «Леший». Всё берётся из defaultConfig и не переопределяется здесь ничем:
+        // applicationId `leshy.mushrooms.map` и нумерация версий обязаны остаться ровно теми,
+        // что были до появления измерения.
+        create("world") { dimension = "edition" }
+        // «Грибные прогулки: карта России». Свой applicationId — после публикации он не
+        // меняется никогда, как и мировой.
+        create("russia") {
+            dimension = "edition"
+            applicationId = "ru.gribnyeprogulki.map"
+            // Своя нумерация, с единицы: это новое приложение в магазине, чужой versionCode
+            // ему не наследуется. Мировой `leshy.versionCode` продолжает жить своей жизнью.
+            versionCode = property("gribnye.versionCode").toString().toInt()
+            versionName = property("gribnye.versionName").toString()
+        }
         create("play") { dimension = "store" }
         create("rustore") { dimension = "store" }
     }

@@ -61,7 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = MainViewControllerKt.MainViewController()
+        window.rootViewController = MainViewControllerKt.MainViewController(edition: .world)
         // Не только показывает окно, но и делает его ключевым: `UIApplication.keyWindow`
         // (устаревшее, но всё ещё то, через что iosMain достаёт rootViewController для
         // камеры/шаринга/файловых пикеров) без этого остаётся nil.

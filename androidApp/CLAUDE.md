@@ -2,11 +2,58 @@
 
 ## Идентификаторы — не менять никогда
 
-- `applicationId` = `leshy.mushrooms.map`
-- `namespace` = `leshy.mushrooms.map`
+- `applicationId` мирового «Лешего» (флейвор `edition=world`) = `leshy.mushrooms.map`
+- `applicationId` «Грибных прогулок» (флейвор `edition=russia`) = `ru.gribnyeprogulki.map`
+- `namespace` = `leshy.mushrooms.map` — **один на оба продукта** (это пакет генерируемых `R`
+  и `BuildConfig`, к идентификатору в магазине отношения не имеет)
 
-Оба зафиксированы до первой публикации в Play и после неё неизменяемы. Если задача
-выглядит так, что требует их поменять — остановиться и спросить.
+Все зафиксированы до первой публикации и после неё неизменяемы. Если задача выглядит так,
+что требует их поменять — остановиться и спросить.
+
+## Два измерения флейворов: `edition` и `store`
+
+Порядок в `flavorDimensions` — это порядок слов в имени варианта: `worldPlayRelease`,
+`russiaRustoreRelease`.
+
+Измерения отвечают на разные вопросы, и путать их нельзя:
+
+- **`edition` (`world`/`russia`) — это РАЗНЫЕ продукты.** Свой `applicationId`, свой ярлык,
+  своя иконка, своя нумерация версий. На телефоне стоят одновременно и друг друга не
+  обновляют.
+- **`store` (`play`/`rustore`) — это витрины ОДНОГО продукта**, с обязательно одинаковым
+  `applicationId` (правило ниже). Второго приложения этим измерением не получить: пользователь
+  с «Лешим» из Play получил бы из RuStore не второе приложение, а молчаливое обновление
+  первого. Именно поэтому российская редакция — ось `edition`, а не флейвор `rustore`.
+
+**Что принадлежит редакции и обязано лежать во флейворном source set, а не в `src/main`:**
+
+- `app_name` со всеми переводами — `src/world/res/values*/` и `src/russia/res/values*/`.
+  В `src/main` его быть не должно **ни в одной локали**: флейвор перекрывает `main`
+  ПОКОНФИГУРАЦИОННО, поэтому `values/` из `src/russia` перебивает только значение по
+  умолчанию, а `values-de/` из `src/main` продолжало бы действовать. Живьём это дало
+  российскую сборку с ярлыком «Pilzkarte» на немецкой локали (поймано `aapt2 dump badging`
+  на первой релизной сборке 2026-09-25).
+- иконка — `src/russia/res/mipmap-*/` плюс `drawable/ic_launcher_background.xml`. Сами
+  `mipmap-anydpi-v26/ic_launcher*.xml` остаются в `src/main`: они лишь ссылаются на
+  `@mipmap/ic_launcher_foreground` и `@drawable/ic_launcher_background`, а те перекрыты.
+  Российская иконка генерируется `tools/generate_russia_app_icons.py` из `gribnye_icon.png`.
+- `HOST_EDITION` — `src/world/kotlin/…/HostEdition.kt` и `src/russia/kotlin/…/HostEdition.kt`.
+
+**Ярлык российской debug-сборки** лежит в `src/russiaPlayDebug/res` и `src/russiaRustoreDebug/res`
+— полными именами вариантов, дублем на два варианта. Source set «флейвор одного измерения +
+сборочный тип» при двух измерениях не существует, а вариант нужен ещё и по приоритету: он
+перебивает `src/debug/res`, иначе российская debug-сборка звалась бы «Леший dev».
+
+## Редакция — параметр хоста, а не `BuildConfig` внутри `shared`
+
+`LeshyApplication.onCreate` передаёт `HOST_EDITION` в `initKoin(edition)`, и это единственный
+канал. Внутри `shared` редакция нигде не вычисляется.
+
+Причина не в чистоте, а в переносимости: на iOS обе редакции стоят поверх ОДНОГО
+`Shared.framework`, отдельного фреймворка на редакцию не существует, и сборочной константы там
+взять неоткуда — роль `HostEdition.kt` играет аргумент `MainViewController(edition:)` из Swift.
+Способ через `BuildConfig` работает на Android и не переносится на iOS вообще. Разбор —
+`docs/russia-edition/README.md`, раздел «Почему iOS откладывается».
 
 ## Сборка
 
@@ -14,7 +61,9 @@
   с 31.08.2026)
 - формат публикации — AAB
 - `versionCode` берётся из `gradle.properties` и только увеличивается; использованные
-  значения не переиспользуются
+  значения не переиспользуются. **Нумерации две и они независимы:** `leshy.versionCode`/
+  `leshy.versionName` — мировой продукт, `gribnye.versionCode`/`gribnye.versionName` —
+  российский (начат с 1: это новое приложение, чужой `versionCode` ему не наследуется)
 - flavor'ы `play` и `rustore` имеют **одинаковый** `applicationId`, `applicationIdSuffix`
   у них не использовать
 - **исключение — сборочный тип `debug`**: у него `applicationIdSuffix = ".dev"`, чтобы
