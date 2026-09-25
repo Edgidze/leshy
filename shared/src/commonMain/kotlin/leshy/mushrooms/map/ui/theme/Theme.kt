@@ -2,6 +2,7 @@ package leshy.mushrooms.map.ui.theme
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -9,7 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.domain.model.Edition
 
 private val LeshyGreen = Color(0xFF1B4332)
@@ -103,7 +106,10 @@ private val DarkColors = darkColorScheme(
  */
 @Composable
 fun LeshyTheme(edition: Edition, useDarkTheme: Boolean = false, content: @Composable () -> Unit) {
-    MaterialTheme(colorScheme = if (useDarkTheme) DarkColors else LightColors) {
+    MaterialTheme(
+        colorScheme = colorSchemeFor(edition, useDarkTheme),
+        shapes = shapesFor(edition),
+    ) {
         CompositionLocalProvider(LocalLeshyTokens provides leshyTokensFor(edition)) {
             Surface(
                 modifier = Modifier.fillMaxSize(),
@@ -122,6 +128,40 @@ fun LeshyTheme(edition: Edition, useDarkTheme: Boolean = false, content: @Compos
  * ради того, чтобы обращение к своим величинам читалось рядом с `MaterialTheme.colorScheme` как
  * такая же часть темы, а не как обращение к чужому синглтону.
  */
+/**
+ * Палитра редакции. Вторая схема лежит отдельным файлом (`RussiaColors.kt`), а не ветвлением
+ * внутри него, — условие мержабельности из раздела 5 `.claude/plans/russia-edition.md`.
+ */
+private fun colorSchemeFor(edition: Edition, useDarkTheme: Boolean) = when (edition) {
+    Edition.WORLD -> if (useDarkTheme) DarkColors else LightColors
+    Edition.RUSSIA -> russiaColorScheme(useDarkTheme)
+}
+
+/**
+ * Формы компонентов Material — диалогов, карточек, полей ввода, меню.
+ *
+ * Дублирование `LeshyTokens`? Нет: токены — это формы, которые задаёт НАШ код, а сюда смотрят
+ * компоненты Material, до чьих скруглений наш код не дотягивается вовсе (`AlertDialog` берёт
+ * `extraLarge`, `Card` — `medium`, `TextField` и `DropdownMenu` — `extraSmall`). Без этой подмены
+ * российская редакция получила бы квадратные свои элементы вперемешку с закруглёнными чужими.
+ *
+ * Кнопки сюда НЕ входят и не могут: `ButtonDefaults.shape` приходит не из `MaterialTheme.shapes`,
+ * а из жёстко зашитого `CornerFull`. Их форму несёт токен `shapeButton`.
+ *
+ * У мировой редакции — `Shapes()`, то есть ровно дефолты Material: 4/8/12/16/28. Передать их явно
+ * и не передавать вовсе — одно и то же, `LeshyTheme` здесь корневая тема.
+ */
+private fun shapesFor(edition: Edition): Shapes = when (edition) {
+    Edition.WORLD -> Shapes()
+    Edition.RUSSIA -> Shapes(
+        extraSmall = RoundedCornerShape(2.dp),
+        small = RoundedCornerShape(3.dp),
+        medium = RoundedCornerShape(4.dp),
+        large = RoundedCornerShape(4.dp),
+        extraLarge = RoundedCornerShape(6.dp),
+    )
+}
+
 object LeshyTheme {
     val tokens: LeshyTokens
         @Composable

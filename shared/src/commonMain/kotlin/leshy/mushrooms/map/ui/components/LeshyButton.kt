@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 
 /** Толщина и цвет обводки — те же, что у круглых боковых кнопок «Записи» и у `MapFilterButton`. */
 private val BORDER_WIDTH = 1.dp
@@ -46,7 +47,7 @@ fun LeshyButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     dimmed: Boolean = false,
-    shape: Shape = ButtonDefaults.shape,
+    shape: Shape = LeshyTheme.tokens.shapeButton,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     content: @Composable RowScope.() -> Unit,
 ) {

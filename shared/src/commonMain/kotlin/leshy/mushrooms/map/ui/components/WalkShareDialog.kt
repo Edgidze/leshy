@@ -327,7 +327,11 @@ fun WalkShareDialog(
                     modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
                     horizontalArrangement = Arrangement.End,
                 ) {
-                    OutlinedButton(onClick = onDismiss, enabled = !isPreparing) {
+                    OutlinedButton(
+                        onClick = onDismiss,
+                        enabled = !isPreparing,
+                        shape = LeshyTheme.tokens.shapeButton,
+                    ) {
                         Text(stringResource(StringKey.WalkShareCancelButton))
                     }
                     LeshyButton(

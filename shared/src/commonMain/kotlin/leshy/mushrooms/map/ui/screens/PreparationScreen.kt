@@ -62,6 +62,7 @@ import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.map.RegionPickerMap
 import leshy.mushrooms.map.ui.util.formatKilometersExtent
 import leshy.mushrooms.map.ui.util.formatMegabytes
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.maplibre.compose.camera.CameraPosition
@@ -211,6 +212,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             OutlinedButton(
+                                shape = LeshyTheme.tokens.shapeButton,
                                 onClick = { isSelectingArea = false },
                                 modifier = Modifier.weight(1f),
                             ) {

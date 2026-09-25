@@ -41,6 +41,7 @@ import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.WalksPickerDialog
 import leshy.mushrooms.map.ui.components.walksSelectedButtonLabel
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -112,7 +113,11 @@ fun DataScreen(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
         ) {
-            OutlinedButton(onClick = viewModel::cancel, modifier = Modifier.weight(1f)) {
+            OutlinedButton(
+                onClick = viewModel::cancel,
+                modifier = Modifier.weight(1f),
+                shape = LeshyTheme.tokens.shapeButton,
+            ) {
                 Text(stringResource(StringKey.DataCancelButton))
             }
             val importDone = uiState.mode == DataMode.IMPORT && uiState.importResult != null
@@ -161,6 +166,7 @@ private fun ExportSection(uiState: DataUiState, viewModel: DataViewModel) {
         OutlinedButton(
             onClick = viewModel::openWalksPicker,
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+            shape = LeshyTheme.tokens.shapeButton,
         ) {
             Icon(Icons.Filled.Hiking, contentDescription = null)
             Text(
@@ -185,7 +191,11 @@ private fun ImportSection(uiState: DataUiState, viewModel: DataViewModel) {
     val pickFile = rememberImportFilePicker(onPicked = viewModel::onImportFilePicked)
 
     Column(modifier = Modifier.padding(top = 24.dp)) {
-        OutlinedButton(onClick = pickFile, modifier = Modifier.fillMaxWidth()) {
+        OutlinedButton(
+            onClick = pickFile,
+            modifier = Modifier.fillMaxWidth(),
+            shape = LeshyTheme.tokens.shapeButton,
+        ) {
             Icon(Icons.Filled.FileOpen, contentDescription = null)
             Text(stringResource(StringKey.DataChooseFileButton), modifier = Modifier.padding(start = 8.dp))
         }

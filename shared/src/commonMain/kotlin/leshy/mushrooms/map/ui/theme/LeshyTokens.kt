@@ -89,6 +89,16 @@ data class LeshyTokens(
     // ---- Скругления: кнопки -----------------------------------------------------------------
     /** Крупная кнопка действия на «Записи» («Старт», «Пауза», «Завершить»). */
     val shapeActionButton: Shape,
+    /**
+     * Обычная кнопка — заливная, контурная, текстовая.
+     *
+     * Единственный токен, чьё мировое значение **не** было написано в коде: кнопки брали форму из
+     * Material (`ButtonDefaults.shape`, то есть `CircleShape` — пилюля), и потому в подсчёте ста
+     * захардкоженных мест не участвовали. Токен заведён вместе с российским набором: подменой
+     * темы кнопку не расквадратить, `ButtonDefaults.shape` приходит не из `MaterialTheme.shapes`,
+     * а из жёстко зашитого `CornerFull`.
+     */
+    val shapeButton: Shape,
     /** Круглая кнопка-значок (навигация по карте, мокапы кнопок в подсказках). */
     val shapeRoundButton: Shape,
     /** Кнопка счётчика «+»/«−» на плитке вида. Главная круглая форма приложения. */
@@ -202,6 +212,8 @@ private val WorldTokens = LeshyTokens(
     shapeListRow = RoundedCornerShape(8.dp),
     shapeAppIcon = RoundedCornerShape(25.dp),
     shapeActionButton = RoundedCornerShape(20.dp),
+    // Ровно то, что отдаёт ButtonDefaults.shape, — проверено скриншот-дифом мировой сборки.
+    shapeButton = CircleShape,
     shapeRoundButton = CircleShape,
     shapeCountButton = CircleShape,
     shapePill = CircleShape,
@@ -226,16 +238,65 @@ private val WorldTokens = LeshyTokens(
 )
 
 /**
- * Набор редакции.
+ * Набор «Грибных прогулок»: **малые радиусы и прямые рамы** вместо 12–24dp и пилюль.
  *
- * **Российская ветка сознательно отдаёт мировой набор.** Введение слоя токенов — работа,
- * предшествующая оформлению, и она обязана не менять ни одного пикселя НИ В ОДНОЙ редакции:
- * иначе непонятно, что именно проверять глазами. Второй набор заводится отдельно, вместе с
- * палитрой, типографикой и рамами — `docs/russia-edition/design.md`, разделы 6 и 15.
+ * Именно квадратность вместе с рамой даёт главный сдвиг силуэта. У мирового приложения элементы
+ * растворяются в фоне; у российского каждый обрамлён — `docs/russia-edition/design.md`, раздел 6.
+ *
+ * Круглые формы уходят в квадратные все, включая кнопку счётчика «+»/«−» — это самая заметная
+ * круглая форма приложения, и оставить её круглой значило бы сохранить прежний силуэт там, где он
+ * виднее всего. Исключение ровно одно, [shapeMagnifier]: лупа редактора значка — оптический
+ * прибор, а не элемент управления, и квадратная лупа читалась бы как дефект.
+ *
+ * Иллюстрации следуют за интерфейсом, но вдвое мельче: они нарисованы в масштабе примерно
+ * четверти натуральной величины, и 4dp там выглядели бы как 16dp на настоящем экране.
+ *
+ * **Рамы и мат заданы, но пока нигде не рисуются** — обёртки поверхностей появятся отдельно
+ * (шаг 3 порядка работ раздела 15). Значения проставлены сразу, чтобы обёртке не пришлось
+ * приносить их с собой.
  */
+private val RussiaTokens = WorldTokens.copy(
+    shapeDialog = RoundedCornerShape(6.dp),
+    shapeHeroMap = RoundedCornerShape(4.dp),
+    shapeMapChrome = RoundedCornerShape(4.dp),
+    shapeMapBadge = RoundedCornerShape(4.dp),
+    shapeWalkCard = RoundedCornerShape(4.dp),
+    shapeRouteThumbnail = RoundedCornerShape(4.dp),
+    shapeSpeciesTile = RoundedCornerShape(4.dp),
+    shapePhotoPreview = RoundedCornerShape(4.dp),
+    shapePlaceThumbnail = RoundedCornerShape(4.dp),
+    shapeListRow = RoundedCornerShape(4.dp),
+    // Значок приложения внутри интерфейса пока мировой — свой растр у российской редакции
+    // появится вместе с остальным артом, и радиус придётся сверить с ним. До тех пор скругление
+    // остаётся прежним: клип на 4dp срезал бы у чужой картинки её собственные углы.
+    shapeAppIcon = RoundedCornerShape(25.dp),
+    shapeActionButton = RoundedCornerShape(4.dp),
+    shapeButton = RoundedCornerShape(4.dp),
+    shapeRoundButton = RoundedCornerShape(4.dp),
+    shapeCountButton = RoundedCornerShape(4.dp),
+    shapePill = RoundedCornerShape(4.dp),
+    shapeNavigationOverlay = RoundedCornerShape(bottomStart = 6.dp),
+    shapeColorSwatch = RoundedCornerShape(4.dp),
+    shapeIllustrationFrame = RoundedCornerShape(3.dp),
+    shapeVignetteFrame = RoundedCornerShape(3.dp),
+    shapeIllustrationPanel = RoundedCornerShape(2.dp),
+    shapeIllustrationCard = RoundedCornerShape(2.dp),
+    shapeIllustrationTile = RoundedCornerShape(2.dp),
+    shapeIllustrationThumbnail = RoundedCornerShape(1.dp),
+    frameWidth = 2.dp,
+    framePhotoWidth = 3.dp,
+    matPadding = 6.dp,
+    surfaceStyle = SurfaceStyle.FRAMED,
+    // Шкала кегля на ступень выше мировой: аудитория сбора грибов смещена к старшему возрасту, и
+    // это совпадает с требованием читаемости на солнце. Пока не читается никем — типографику
+    // редакция получит вместе со шрифтами (раздел 5 design.md), — но величина решена здесь же.
+    typeScaleStep = 1.1f,
+)
+
+/** Набор редакции. */
 fun leshyTokensFor(edition: Edition): LeshyTokens = when (edition) {
     Edition.WORLD -> WorldTokens
-    Edition.RUSSIA -> WorldTokens
+    Edition.RUSSIA -> RussiaTokens
 }
 
 /**

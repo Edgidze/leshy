@@ -303,13 +303,13 @@ fun SpeciesFormDialog(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    OutlinedButton(onClick = requestPhoto) {
+                    OutlinedButton(onClick = requestPhoto, shape = LeshyTheme.tokens.shapeButton) {
                         Text(stringResource(StringKey.SpeciesFormTakePhotoButton))
                     }
-                    OutlinedButton(onClick = pickFromGallery) {
+                    OutlinedButton(onClick = pickFromGallery, shape = LeshyTheme.tokens.shapeButton) {
                         Text(stringResource(StringKey.SpeciesFormPickPhotoButton))
                     }
-                    OutlinedButton(onClick = pickFromCatalog) {
+                    OutlinedButton(onClick = pickFromCatalog, shape = LeshyTheme.tokens.shapeButton) {
                         Text(stringResource(StringKey.SpeciesFormPickCatalogButton))
                     }
                 }
