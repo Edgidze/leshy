@@ -50,6 +50,25 @@ val LocalAppLanguage = compositionLocalOf { AppLanguage.EN }
 fun stringResource(key: StringKey): String = string(key, LocalAppLanguage.current)
 
 /**
+ * Маркер адреса тайл-хоста внутри перевода. Подставляется в рантайме — [stringResourceWithHost].
+ *
+ * Хост намеренно не входит ни в один перевод: у продуктов он разный, и вписанный в текст он
+ * размножился бы по числу языков, а при смене адреса менялся бы в стольких же местах. Тот же
+ * принцип, что у баннера «подложка не загрузилась», только там хвост дописывается в конец
+ * (`MapLoadFailedBanner`, см. `i18n/CLAUDE.md`), а здесь адрес стоит в середине фразы, и хвостом
+ * не обойтись.
+ *
+ * Перевод без маркера ничего не уронит, но потеряет адрес — за этим следит
+ * `UiTranslationCompletenessTest`.
+ */
+const val TILE_HOST_PLACEHOLDER = "{host}"
+
+/** Перевод с подставленным вместо [TILE_HOST_PLACEHOLDER] адресом тайл-хоста редакции. */
+@Composable
+fun stringResourceWithHost(key: StringKey, host: String): String =
+    stringResource(key).replace(TILE_HOST_PLACEHOLDER, host)
+
+/**
  * `ru`/`en` stay exhaustive `when` branches on [StringKey] — the compiler catches a forgotten
  * translation the moment a new key is added, which is the whole point of the enum
  * (`i18n/CLAUDE.md`). The other 40 languages go through [uiTranslations] instead: a generated
@@ -285,7 +304,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.LegalPrivacyText ->
         "Прогулки, отметки и фотографии остаются на вашем устройстве. Приложение не заводит аккаунтов и " +
             "никуда не передаёт ваши данные — в интернет уходят только запросы участков карты с " +
-            "openfreemap.org."
+            "{host}."
     StringKey.LegalPrivacyLink -> "Политика конфиденциальности"
 
     StringKey.AboutTitle -> "О приложении"
@@ -657,7 +676,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.LegalTitle -> "Privacy"
     StringKey.LegalPrivacyText ->
         "Your walks, marks and photos stay on your device. The app has no accounts and sends none of your " +
-            "data anywhere — the only thing that goes online is a request for map tiles from openfreemap.org."
+            "data anywhere — the only thing that goes online is a request for map tiles from {host}."
     StringKey.LegalPrivacyLink -> "Privacy policy"
 
     StringKey.AboutTitle -> "About"

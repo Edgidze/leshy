@@ -117,7 +117,7 @@ internal val albanianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Shëtitjet, shënimet dhe fotot tuaja mbeten në pajisjen tuaj. Aplikacioni nuk ka llogari " +
             "dhe nuk dërgon askund asnjë nga të dhënat tuaja — e vetmja gjë që shkon në internet " +
-            "është kërkesa për pllakëza harte te openfreemap.org.",
+            "është kërkesa për pllakëza harte te {host}.",
     StringKey.LegalPrivacyLink to "Politika e privatësisë",
     StringKey.AboutTitle to "Rreth aplikacionit",
     StringKey.AboutMapDataTitle to "Të dhënat e hartës",

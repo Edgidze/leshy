@@ -113,7 +113,7 @@ internal val macedonianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Вашите прошетки, ознаки и фотографии остануваат на вашиот уред. Апликацијата нема сметки " +
             "и не испраќа никаде ниту еден ваш податок — единственото што оди на интернет е барањето " +
-            "за плочки на картата од openfreemap.org.",
+            "за плочки на картата од {host}.",
     StringKey.LegalPrivacyLink to "Политика за приватност",
     StringKey.AboutTitle to "За апликацијата",
     StringKey.AboutMapDataTitle to "Податоци за картата",

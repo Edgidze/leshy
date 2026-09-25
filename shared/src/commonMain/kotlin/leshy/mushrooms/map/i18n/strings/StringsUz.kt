@@ -127,7 +127,7 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Maxfiylik",
     StringKey.LegalPrivacyText to
         "Sayrlaringiz, belgilaringiz va suratlaringiz qurilmangizda qoladi. Ilova hisob yaratmaydi va " +
-            "maʼlumotlaringizni hech qayerga yubormaydi — internetga faqat openfreemap.org dan xarita " +
+            "maʼlumotlaringizni hech qayerga yubormaydi — internetga faqat {host} dan xarita " +
             "boʻlaklari soʻrovi ketadi.",
     StringKey.LegalPrivacyLink to "Maxfiylik siyosati",
 

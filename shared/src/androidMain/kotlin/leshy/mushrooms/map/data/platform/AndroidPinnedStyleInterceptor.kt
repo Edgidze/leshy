@@ -1,7 +1,7 @@
 package leshy.mushrooms.map.data.platform
 
 import android.content.Context
-import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL
+import leshy.mushrooms.map.domain.model.EditionEndpoints
 import okhttp3.Dispatcher
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -18,7 +18,10 @@ import org.maplibre.android.module.http.HttpRequestUtil
  * `createdAtStart = true`, see `PlatformModule.android.kt`). See [PinnedStyleInterceptor]'s doc for
  * why this exists at all.
  */
-class AndroidPinnedStyleInterceptor(context: Context) : PinnedStyleInterceptor {
+class AndroidPinnedStyleInterceptor(
+    context: Context,
+    private val endpoints: EditionEndpoints,
+) : PinnedStyleInterceptor {
     @Volatile private var pinnedJson: String? = null
 
     init {
@@ -53,7 +56,7 @@ class AndroidPinnedStyleInterceptor(context: Context) : PinnedStyleInterceptor {
     private fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val pinned = pinnedJson
-        if (pinned != null && request.url.toString() == OPEN_FREE_MAP_STYLE_URL) {
+        if (pinned != null && request.url.toString() == endpoints.mapStyleUrl) {
             // Short-circuit: no real network call for the style resource at all, so the native
             // offline downloader always resolves it from the exact same bytes the live map uses.
             return Response.Builder()

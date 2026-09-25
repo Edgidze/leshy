@@ -121,7 +121,7 @@ internal val belarusianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Прагулкі, адзнакі і фатаграфіі застаюцца на вашай прыладзе. Праграма не заводзіць уліковых запісаў " +
             "і нікуды не перадае вашы даныя — у інтэрнэт ідуць толькі запыты ўчасткаў карты з " +
-            "openfreemap.org.",
+            "{host}.",
     StringKey.LegalPrivacyLink to "Палітыка прыватнасці",
 
     StringKey.AboutTitle to "Пра праграму",

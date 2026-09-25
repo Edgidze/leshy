@@ -29,6 +29,24 @@ class StringsTest {
         }
     }
 
+    /**
+     * Адрес тайл-хоста в тексте о приватности подставляется в рантайме
+     * ([stringResourceWithHost]) — у двух продуктов он разный. Перевод, потерявший маркер, ничего
+     * не уронит: он просто умолчит, куда именно уходят запросы, а это ровно то утверждение, ради
+     * которого абзац написан. Отсюда проверка — дешевле, чем заметить пропажу глазами на
+     * сорок втором языке.
+     */
+    @Test
+    fun everyTranslationOfThePrivacyTextCarriesTheHostPlaceholder() {
+        AppLanguage.entries.forEach { language ->
+            val text = string(StringKey.LegalPrivacyText, language)
+            assertTrue(
+                TILE_HOST_PLACEHOLDER in text,
+                "$language: в LegalPrivacyText нет маркера $TILE_HOST_PLACEHOLDER — «$text»",
+            )
+        }
+    }
+
     @Test
     fun everyTranslationMapIsCompleteAndNonBlank() {
         uiTranslations.forEach { (language, translations) ->

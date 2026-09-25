@@ -114,7 +114,7 @@ internal val bosnianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Vaše šetnje, oznake i fotografije ostaju na vašem uređaju. Aplikacija nema naloge i ne " +
             "šalje nigdje nijedan vaš podatak — jedino što ide na internet jeste zahtjev za pločice " +
-            "karte sa openfreemap.org.",
+            "karte sa {host}.",
     StringKey.LegalPrivacyLink to "Politika privatnosti",
     StringKey.AboutTitle to "O aplikaciji",
     StringKey.AboutMapDataTitle to "Podaci karte",

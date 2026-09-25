@@ -126,7 +126,7 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Vos sorties, vos marques et vos photos restent sur votre appareil. L’application ne crée aucun " +
             "compte et n’envoie aucune de vos données — seules des requêtes de tuiles de carte partent vers " +
-            "openfreemap.org.",
+            "{host}.",
     StringKey.LegalPrivacyLink to "Politique de confidentialité",
 
     StringKey.AboutTitle to "À propos",

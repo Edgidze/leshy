@@ -125,7 +125,7 @@ internal val lithuanianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Jūsų išvykos, žymos ir nuotraukos lieka jūsų įrenginyje. Programėlė nekuria paskyrų ir niekur " +
             "nesiunčia jūsų duomenų — į internetą keliauja tik žemėlapio fragmentų užklausos į " +
-            "openfreemap.org.",
+            "{host}.",
     StringKey.LegalPrivacyLink to "Privatumo politika",
 
     StringKey.AboutTitle to "Apie programėlę",

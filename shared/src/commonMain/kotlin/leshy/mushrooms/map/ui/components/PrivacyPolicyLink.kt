@@ -18,23 +18,20 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.domain.model.EditionEndpoints
 import leshy.mushrooms.map.ui.theme.LeshyTheme
+import org.koin.compose.koinInject
 
 /**
- * Публичная страница политики конфиденциальности — тот же адрес, что уходит в Play Console и
- * App Store Connect (оба магазина требуют URL в карточке приложения; Google, кроме того, требует
- * ссылку и внутри приложения для всего, что трогает геолокацию/камеру — отсюда две точки входа,
- * [PrivacyPolicyLink] в онбординге и в «Настройках»).
- *
- * Исходник страницы лежит в репозитории (`site/privacy.html`) и публикуется на GitHub Pages —
- * как именно, см. `site/README.md`. Поменяется хостинг — правится эта константа, больше нигде
- * адрес не встречается.
- */
-const val PRIVACY_POLICY_URL: String = "https://leshy-mapper.github.io/mushrooms-map/privacy.html"
-
-/**
- * Строка-ссылка «Политика конфиденциальности», открывающая [PRIVACY_POLICY_URL] во внешнем
+ * Строка-ссылка «Политика конфиденциальности», открывающая политику своей редакции во внешнем
  * браузере.
+ *
+ * Адрес — тот же, что уходит в консоль магазина (оба магазина требуют URL в карточке приложения;
+ * Google, кроме того, требует ссылку и внутри приложения для всего, что трогает
+ * геолокацию/камеру — отсюда две точки входа, [PrivacyPolicyLink] в онбординге и в «Настройках»).
+ * У каждого продукта он свой и живёт в `EditionEndpoints.privacyPolicyUrl`; исходник мировой
+ * страницы лежит в репозитории (`site/privacy.html`) и публикуется на GitHub Pages — как именно,
+ * см. `site/README.md`.
  *
  * `LocalUriHandler` — общий для Android и iOS (`UriHandler` в Compose Multiplatform поверх
  * `Intent.ACTION_VIEW`/`UIApplication.openURL`), поэтому никакого `expect`/`actual` под открытие
@@ -43,11 +40,12 @@ const val PRIVACY_POLICY_URL: String = "https://leshy-mapper.github.io/mushrooms
 @Composable
 fun PrivacyPolicyLink(modifier: Modifier = Modifier) {
     val uriHandler = LocalUriHandler.current
+    val privacyPolicyUrl = koinInject<EditionEndpoints>().privacyPolicyUrl
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clip(LeshyTheme.tokens.shapeListRow)
-            .clickable { uriHandler.openUri(PRIVACY_POLICY_URL) }
+            .clickable { uriHandler.openUri(privacyPolicyUrl) }
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

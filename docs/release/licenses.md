@@ -11,7 +11,7 @@ CC-BY-NC изображений) здесь не разбираются.
 ## 1. Атрибуция картографических данных (OSM / OpenFreeMap)
 
 - Источник тайлов — `https://tiles.openfreemap.org/styles/liberty`
-  (`OPEN_FREE_MAP_STYLE_URL`, `ui/map/MapStyle.kt`) — стиль на основе данных
+  (`EditionEndpoints.mapStyleUrl`, `domain/model/EditionEndpoints.kt`) — стиль на основе данных
   **OpenStreetMap**, распространяемых под **ODbL 1.0** (Open Database License).
   Условие лицензии: видимая атрибуция «© OpenStreetMap contributors» + указание, что
   данные доступны по ODbL (обычно ссылкой на `openstreetmap.org/copyright`).

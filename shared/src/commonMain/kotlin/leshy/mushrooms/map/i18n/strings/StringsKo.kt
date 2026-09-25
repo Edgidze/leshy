@@ -104,7 +104,7 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
 
     StringKey.LegalTitle to "개인정보",
     StringKey.LegalPrivacyText to
-        "산책과 표시, 사진은 사용자의 기기에 남습니다. 앱은 계정을 만들지 않고 데이터를 어디에도 보내지 않습니다. 네트워크로 나가는 것은 openfreemap.org에 보내는 지도 " +
+        "산책과 표시, 사진은 사용자의 기기에 남습니다. 앱은 계정을 만들지 않고 데이터를 어디에도 보내지 않습니다. 네트워크로 나가는 것은 {host}에 보내는 지도 " +
             "타일 요청뿐입니다.",
     StringKey.LegalPrivacyLink to "개인정보 처리방침",
 

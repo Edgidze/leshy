@@ -123,7 +123,7 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Privatnost",
     StringKey.LegalPrivacyText to
         "Vaše šetnje, oznake i fotografije ostaju na vašem uređaju. Aplikacija ne otvara račune i nikamo ne " +
-            "šalje vaše podatke — na internet odlaze samo zahtjevi za dijelove karte prema openfreemap.org.",
+            "šalje vaše podatke — na internet odlaze samo zahtjevi za dijelove karte prema {host}.",
     StringKey.LegalPrivacyLink to "Pravila o privatnosti",
 
     StringKey.AboutTitle to "O aplikaciji",

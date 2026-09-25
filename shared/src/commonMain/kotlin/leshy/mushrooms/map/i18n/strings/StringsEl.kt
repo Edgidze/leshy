@@ -117,7 +117,7 @@ internal val greekStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Οι εξορμήσεις, οι σημάνσεις και οι φωτογραφίες σας μένουν στη συσκευή σας. Η εφαρμογή " +
             "δεν έχει λογαριασμούς και δεν στέλνει πουθενά κανένα δεδομένο σας — το μόνο που φεύγει " +
-            "στο διαδίκτυο είναι το αίτημα για πλακίδια χάρτη από το openfreemap.org.",
+            "στο διαδίκτυο είναι το αίτημα για πλακίδια χάρτη από το {host}.",
     StringKey.LegalPrivacyLink to "Πολιτική απορρήτου",
     StringKey.AboutTitle to "Σχετικά με την εφαρμογή",
     StringKey.AboutMapDataTitle to "Δεδομένα χάρτη",

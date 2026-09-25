@@ -59,14 +59,14 @@ actual val platformModule: Module = module {
     single<LocationTracker> { get<IosLocationTracker>() }
     single<HeadingProvider> { IosHeadingProvider() }
     single<BackgroundRecordingController> { IosBackgroundRecordingController(get()) }
-    single<WalkThumbnailRenderer> { IosWalkThumbnailRenderer(get()) }
+    single<WalkThumbnailRenderer> { IosWalkThumbnailRenderer(get(), get()) }
     single<PhotoStorage> { IosPhotoStorage() }
     single<MapStyleStorage> { IosMapStyleStorage() }
     single<ArchiveFileReader> { IosArchiveFileReader() }
     single<HttpTextFetcher> { IosHttpTextFetcher() }
     // createdAtStart: must install itself into MapLibre's native HTTP client before anything below
     // (OfflineManager, any MLNMapView) makes its first network request — see PinnedStyleInterceptor.
-    single<PinnedStyleInterceptor>(createdAtStart = true) { IosPinnedStyleInterceptor() }
+    single<PinnedStyleInterceptor>(createdAtStart = true) { IosPinnedStyleInterceptor(get()) }
     single<OfflineManager> { getOfflineManager() }
     single<DataStore<Preferences>> {
         val settingsFilePath = documentsDirectoryPath() + "/" + SETTINGS_FILE_NAME

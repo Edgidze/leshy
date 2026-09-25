@@ -113,7 +113,7 @@ internal val danishStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Dine ture, markeringer og billeder bliver på din enhed. Appen har ingen konti og sender " +
             "ingen af dine data nogen steder hen — det eneste, der går online, er en forespørgsel om " +
-            "korttern fra openfreemap.org.",
+            "korttern fra {host}.",
     StringKey.LegalPrivacyLink to "Privatlivspolitik",
     StringKey.AboutTitle to "Om appen",
     StringKey.AboutMapDataTitle to "Kortdata",

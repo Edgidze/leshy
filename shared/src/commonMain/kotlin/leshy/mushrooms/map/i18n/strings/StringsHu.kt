@@ -128,7 +128,7 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "A séták, a jelölések és a fényképek az Ön készülékén maradnak. Az alkalmazás nem hoz létre fiókot, " +
             "és sehová nem küldi el az adatait — az internetre csak a térképszelvények kérése megy ki az " +
-            "openfreemap.org felé.",
+            "{host} felé.",
     StringKey.LegalPrivacyLink to "Adatvédelmi tájékoztató",
 
     StringKey.AboutTitle to "Az alkalmazásról",

@@ -121,7 +121,7 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Soukromí",
     StringKey.LegalPrivacyText to
         "Vaše procházky, značky a fotografie zůstávají ve vašem zařízení. Aplikace nezakládá účty a vaše " +
-            "data nikam neposílá — do sítě jdou jen dotazy na dlaždice mapy na openfreemap.org.",
+            "data nikam neposílá — do sítě jdou jen dotazy na dlaždice mapy na {host}.",
     StringKey.LegalPrivacyLink to "Zásady ochrany osobních údajů",
 
     StringKey.AboutTitle to "O aplikaci",

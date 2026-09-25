@@ -126,7 +126,7 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Tietosuoja",
     StringKey.LegalPrivacyText to
         "Retkesi, merkintäsi ja kuvasi pysyvät laitteessasi. Sovellus ei luo tilejä eikä lähetä tietojasi " +
-            "minnekään — verkkoon lähtevät vain karttaruutujen pyynnöt osoitteeseen openfreemap.org.",
+            "minnekään — verkkoon lähtevät vain karttaruutujen pyynnöt osoitteeseen {host}.",
     StringKey.LegalPrivacyLink to "Tietosuojakäytäntö",
 
     StringKey.AboutTitle to "Tietoja sovelluksesta",

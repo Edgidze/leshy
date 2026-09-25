@@ -121,7 +121,7 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Prywatność",
     StringKey.LegalPrivacyText to
         "Spacery, znaczniki i zdjęcia zostają na Twoim urządzeniu. Aplikacja nie zakłada kont i nigdzie nie " +
-            "wysyła Twoich danych — do sieci trafiają tylko zapytania o fragmenty mapy do openfreemap.org.",
+            "wysyła Twoich danych — do sieci trafiają tylko zapytania o fragmenty mapy do {host}.",
     StringKey.LegalPrivacyLink to "Polityka prywatności",
 
     StringKey.AboutTitle to "O aplikacji",

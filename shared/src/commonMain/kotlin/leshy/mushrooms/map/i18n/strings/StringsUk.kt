@@ -123,7 +123,7 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Прогулянки, позначки й фотографії залишаються на вашому пристрої. Застосунок не заводить облікових " +
             "записів і нікуди не передає ваші дані — в інтернет ідуть лише запити ділянок карти з " +
-            "openfreemap.org.",
+            "{host}.",
     StringKey.LegalPrivacyLink to "Політика конфіденційності",
 
     StringKey.AboutTitle to "Про застосунок",

@@ -128,7 +128,7 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Vaši sprehodi, oznake in fotografije ostanejo v vaši napravi. Aplikacija ne ustvarja računov in " +
             "vaših podatkov nikamor ne pošilja — v splet gredo le zahteve za ploščice zemljevida na " +
-            "openfreemap.org.",
+            "{host}.",
     StringKey.LegalPrivacyLink to "Politika zasebnosti",
 
     StringKey.AboutTitle to "O aplikaciji",

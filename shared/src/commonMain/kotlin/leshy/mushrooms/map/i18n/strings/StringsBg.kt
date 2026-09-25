@@ -122,7 +122,7 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Разходките, отметките и снимките остават на вашето устройство. Приложението не създава акаунти и " +
             "не изпраща никъде вашите данни — в интернет отиват само заявките за участъци от картата към " +
-            "openfreemap.org.",
+            "{host}.",
     StringKey.LegalPrivacyLink to "Политика за поверителност",
 
     StringKey.AboutTitle to "За приложението",

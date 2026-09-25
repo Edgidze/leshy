@@ -117,7 +117,7 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Құпиялық",
     StringKey.LegalPrivacyText to
         "Серуендер, белгілер және фотосуреттер құрылғыңызда қалады. Қолданба тіркелгі ашпайды және " +
-            "деректеріңізді ешқайда жібермейді — интернетке openfreemap.org сайтынан карта бөліктерін сұрау " +
+            "деректеріңізді ешқайда жібермейді — интернетке {host} сайтынан карта бөліктерін сұрау " +
             "ғана кетеді.",
     StringKey.LegalPrivacyLink to "Құпиялық саясаты",
 

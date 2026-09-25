@@ -116,7 +116,7 @@ internal val dutchStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Je wandelingen, markeringen en foto’s blijven op je apparaat. De app heeft geen accounts " +
             "en stuurt geen van je gegevens ergens heen — het enige wat online gaat is een verzoek om " +
-            "kaarttegels bij openfreemap.org.",
+            "kaarttegels bij {host}.",
     StringKey.LegalPrivacyLink to "Privacybeleid",
     StringKey.AboutTitle to "Over de app",
     StringKey.AboutMapDataTitle to "Kaartgegevens",

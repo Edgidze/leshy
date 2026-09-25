@@ -119,7 +119,7 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Dina turer, markeringar och foton stannar på din enhet. Appen skapar inga konton och skickar inga " +
             "av dina data någonstans — ut på nätet går bara förfrågningar om kartrutor till " +
-            "openfreemap.org.",
+            "{host}.",
     StringKey.LegalPrivacyLink to "Integritetspolicy",
 
     StringKey.AboutTitle to "Om appen",

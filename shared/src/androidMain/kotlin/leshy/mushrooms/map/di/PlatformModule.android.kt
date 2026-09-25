@@ -46,14 +46,14 @@ actual val platformModule: Module = module {
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
     single<HeadingProvider> { AndroidHeadingProvider(androidContext()) }
     single<BackgroundRecordingController> { AndroidBackgroundRecordingController(androidContext(), get()) }
-    single<WalkThumbnailRenderer> { AndroidWalkThumbnailRenderer(androidContext(), get()) }
+    single<WalkThumbnailRenderer> { AndroidWalkThumbnailRenderer(androidContext(), get(), get()) }
     single<PhotoStorage> { AndroidPhotoStorage(androidContext()) }
     single<MapStyleStorage> { AndroidMapStyleStorage(androidContext()) }
     single<ArchiveFileReader> { AndroidArchiveFileReader(androidContext()) }
     single<HttpTextFetcher> { AndroidHttpTextFetcher() }
     // createdAtStart: must install itself into MapLibre's native HTTP client before anything below
     // (OfflineManager, any MaplibreMap) makes its first network request — see PinnedStyleInterceptor.
-    single<PinnedStyleInterceptor>(createdAtStart = true) { AndroidPinnedStyleInterceptor(androidContext()) }
+    single<PinnedStyleInterceptor>(createdAtStart = true) { AndroidPinnedStyleInterceptor(androidContext(), get()) }
     // getOfflineManager(context) calls MapLibre.getInstance(context) internally on first use
     // (see AndroidOfflineManager) — no separate native-init step needed here.
     single<OfflineManager> { getOfflineManager(androidContext()) }

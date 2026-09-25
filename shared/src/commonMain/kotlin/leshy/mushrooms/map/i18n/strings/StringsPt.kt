@@ -116,7 +116,7 @@ internal val portugueseStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "As suas caminhadas, marcas e fotografias ficam no seu dispositivo. A aplicação não tem " +
             "contas e não envia nenhum dos seus dados para lado nenhum — a única coisa que vai à " +
-            "Internet é um pedido de mosaicos de mapa a openfreemap.org.",
+            "Internet é um pedido de mosaicos de mapa a {host}.",
     StringKey.LegalPrivacyLink to "Política de privacidade",
     StringKey.AboutTitle to "Acerca da aplicação",
     StringKey.AboutMapDataTitle to "Dados do mapa",

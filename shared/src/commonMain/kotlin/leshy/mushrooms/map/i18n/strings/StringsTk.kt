@@ -118,7 +118,7 @@ internal val turkmenStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Gizlinlik",
     StringKey.LegalPrivacyText to
         "Gezelençleriňiz, bellikleriňiz we suratlaryňyz enjamyňyzda galýar. Programma hasap açmaýar we " +
-            "maglumatlaryňyzy hiç ýere ibermeýär — internete diňe openfreemap.org salgysyndan karta " +
+            "maglumatlaryňyzy hiç ýere ibermeýär — internete diňe {host} salgysyndan karta " +
             "bölekleri üçin soraglar gidýär.",
     StringKey.LegalPrivacyLink to "Gizlinlik syýasaty",
 

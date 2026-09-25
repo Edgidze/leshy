@@ -9,7 +9,7 @@ import leshy.mushrooms.map.data.style.freezeStyleTileSources
 import leshy.mushrooms.map.data.style.localizeMapStyle
 import leshy.mushrooms.map.data.style.styleHasUnfrozenTileSources
 import leshy.mushrooms.map.domain.model.AppLanguage
-import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL
+import leshy.mushrooms.map.domain.model.EditionEndpoints
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.TimeSource
 import kotlinx.coroutines.Dispatchers
@@ -67,12 +67,13 @@ class MapStyleCacheRepository(
     private val storage: MapStyleStorage,
     private val httpTextFetcher: HttpTextFetcher,
     private val pinnedStyleInterceptor: PinnedStyleInterceptor,
+    private val endpoints: EditionEndpoints,
 ) {
     private val fileSystem = FileSystem.SYSTEM
     private val stylePath: Path get() = storage.resolvePath(STYLE_CACHE_FILE_NAME).toPath()
 
     /**
-     * Starts on the bundled [fallbackMapStyle] rather than on `BaseStyle.Uri(OPEN_FREE_MAP_STYLE_URL)`,
+     * Starts on the bundled [fallbackMapStyle] rather than on `BaseStyle.Uri(endpoints.mapStyleUrl)`,
      * which is what it used to be. Two things that fallback never did: it loads instantly and offline,
      * so the app's own layers (track, finds, location dot) have a style to attach to even on a first
      * launch with no network — see [fallbackMapStyle] for why that was the whole bug — and it costs no
@@ -128,7 +129,7 @@ class MapStyleCacheRepository(
 
     private suspend fun refreshFromNetworkLocked(): Result<Boolean> = runCatching {
         val previous = runCatching { fileSystem.read(stylePath) { readUtf8() } }.getOrNull()
-        val json = freezeStyleTileSources(httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL)) { url ->
+        val json = freezeStyleTileSources(httpTextFetcher.fetchText(endpoints.mapStyleUrl)) { url ->
             httpTextFetcher.fetchText(url)
         }
         fileSystem.createDirectories(stylePath.parent!!)
@@ -147,7 +148,7 @@ class MapStyleCacheRepository(
      *
      * Also re-arms [PinnedStyleInterceptor], so the native SDK — the offline downloader and both
      * platforms' archive-thumbnail snapshotters, which can only take a style URL — resolves
-     * [OPEN_FREE_MAP_STYLE_URL] to bytes localized the same way. Those bytes are always the LIGHT
+     * [endpoints.mapStyleUrl] to bytes localized the same way. Those bytes are always the LIGHT
      * ones, even in dark theme — see [publish] for why.
      */
     suspend fun setLabelLanguage(language: AppLanguage) {
@@ -234,7 +235,7 @@ class MapStyleCacheRepository(
     suspend fun probeTileHost(): TileHostStatus {
         val started = TimeSource.Monotonic.markNow()
         val result = withTimeoutOrNull(TILE_HOST_PROBE_TIMEOUT) {
-            runCatching { httpTextFetcher.fetchText(OPEN_FREE_MAP_STYLE_URL) }
+            runCatching { httpTextFetcher.fetchText(endpoints.mapStyleUrl) }
         }
         return when {
             result == null -> TileHostStatus.Slow

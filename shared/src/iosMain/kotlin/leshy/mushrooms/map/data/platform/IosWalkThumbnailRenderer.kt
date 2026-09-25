@@ -6,7 +6,7 @@ import MapLibre.MLNMapSnapshot
 import MapLibre.MLNMapSnapshotOptions
 import MapLibre.MLNMapSnapshotter
 import leshy.mushrooms.map.domain.model.GeoPoint
-import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL
+import leshy.mushrooms.map.domain.model.EditionEndpoints
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.convert
@@ -83,7 +83,10 @@ private const val FIND_RED = 0xB3 / 255.0
 private const val FIND_GREEN = 0x26 / 255.0
 private const val FIND_BLUE = 0x1E / 255.0 // Material3 baseline light colorScheme.error.
 
-class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThumbnailRenderer {
+class IosWalkThumbnailRenderer(
+    private val photoStorage: PhotoStorage,
+    private val endpoints: EditionEndpoints,
+) : WalkThumbnailRenderer {
 
     @OptIn(ExperimentalForeignApi::class)
     override suspend fun render(
@@ -146,7 +149,7 @@ class IosWalkThumbnailRenderer(private val photoStorage: PhotoStorage) : WalkThu
             )
 
             val options = MLNMapSnapshotOptions(
-                styleURL = NSURL(string = OPEN_FREE_MAP_STYLE_URL),
+                styleURL = NSURL(string = endpoints.mapStyleUrl),
                 camera = MLNMapCamera.camera(),
                 size = CGSizeMake(widthPoints, heightPoints),
             )

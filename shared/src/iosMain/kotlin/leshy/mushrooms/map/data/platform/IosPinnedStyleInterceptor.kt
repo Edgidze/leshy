@@ -1,6 +1,6 @@
 package leshy.mushrooms.map.data.platform
 
-import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL
+import leshy.mushrooms.map.domain.model.EditionEndpoints
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSCachedURLResponse
@@ -24,8 +24,12 @@ import MapLibre.MLNNetworkConfiguration
  * MLNOfflineStorage". See [PinnedStyleInterceptor]'s doc for why this exists at all.
  */
 @OptIn(ExperimentalForeignApi::class)
-class IosPinnedStyleInterceptor : PinnedStyleInterceptor {
+class IosPinnedStyleInterceptor(endpoints: EditionEndpoints) : PinnedStyleInterceptor {
     init {
+        // В файловую переменную, а не в поле: перехватывать запрос будет PinnedStyleURLProtocol, а
+        // его создаёт система, и до полей нашего экземпляра он не дотягивается — ровно та же
+        // причина, по которой там же живёт pinnedStyleJson.
+        pinnedStyleUrl = endpoints.mapStyleUrl
         // Apple docs: every access to .defaultSessionConfiguration returns a fresh, independently
         // mutable configuration object, not a shared singleton — safe to mutate in place, no need
         // to copy() it first.
@@ -47,6 +51,10 @@ class IosPinnedStyleInterceptor : PinnedStyleInterceptor {
 @OptIn(ExperimentalForeignApi::class)
 private var pinnedStyleJson: String? = null
 
+/** Адрес стиля текущей редакции — тот единственный URL, который перехватчик подменяет. */
+@OptIn(ExperimentalForeignApi::class)
+private var pinnedStyleUrl: String? = null
+
 @OptIn(ExperimentalForeignApi::class)
 private class PinnedStyleURLProtocol : NSURLProtocol {
     // NSURLProtocol has no zero-arg initializer — the URL Loading System always constructs
@@ -62,7 +70,7 @@ private class PinnedStyleURLProtocol : NSURLProtocol {
 
     companion object : NSURLProtocolMeta() {
         override fun canInitWithRequest(request: NSURLRequest): Boolean =
-            pinnedStyleJson != null && request.URL?.absoluteString == OPEN_FREE_MAP_STYLE_URL
+            pinnedStyleJson != null && request.URL?.absoluteString == pinnedStyleUrl
 
         override fun canonicalRequestForRequest(request: NSURLRequest): NSURLRequest = request
     }

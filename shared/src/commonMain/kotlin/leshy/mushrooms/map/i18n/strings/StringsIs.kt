@@ -113,7 +113,7 @@ internal val icelandicStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Ferðirnar þínar, merkingar og myndir verða áfram í tækinu þínu. Forritið er án aðganga " +
             "og sendir engin gögn þín neitt — það eina sem fer á netið er beiðni um kortareiti frá " +
-            "openfreemap.org.",
+            "{host}.",
     StringKey.LegalPrivacyLink to "Persónuverndarstefna",
     StringKey.AboutTitle to "Um forritið",
     StringKey.AboutMapDataTitle to "Kortagögn",

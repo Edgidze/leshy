@@ -121,7 +121,7 @@ internal val tajikStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Махфият",
     StringKey.LegalPrivacyText to
         "Сайрҳо, қайдҳо ва аксҳо дар дастгоҳи шумо мемонанд. Барнома ҳисоб намекушояд ва маълумоти шуморо " +
-            "ба ҳеҷ ҷо намефиристад — ба интернет танҳо дархостҳои қитъаҳои харита ба openfreemap.org " +
+            "ба ҳеҷ ҷо намефиристад — ба интернет танҳо дархостҳои қитъаҳои харита ба {host} " +
             "мераванд.",
     StringKey.LegalPrivacyLink to "Сиёсати махфият",
 

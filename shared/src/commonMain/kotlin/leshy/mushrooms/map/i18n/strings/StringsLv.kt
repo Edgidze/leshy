@@ -125,7 +125,7 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Privātums",
     StringKey.LegalPrivacyText to
         "Jūsu gājieni, atzīmes un fotoattēli paliek jūsu ierīcē. Lietotne neveido kontus un nekur nesūta " +
-            "jūsu datus — internetā aiziet tikai kartes fragmentu pieprasījumi uz openfreemap.org.",
+            "jūsu datus — internetā aiziet tikai kartes fragmentu pieprasījumi uz {host}.",
     StringKey.LegalPrivacyLink to "Privātuma politika",
 
     StringKey.AboutTitle to "Par lietotni",

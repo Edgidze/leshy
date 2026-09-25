@@ -121,7 +121,7 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Приватност",
     StringKey.LegalPrivacyText to
         "Ваше шетње, ознаке и фотографије остају на вашем уређају. Апликација не отвара налоге и никуда не " +
-            "шаље ваше податке — на интернет одлазе само захтеви за делове мапе ка openfreemap.org.",
+            "шаље ваше податке — на интернет одлазе само захтеви за делове мапе ка {host}.",
     StringKey.LegalPrivacyLink to "Политика приватности",
 
     StringKey.AboutTitle to "О апликацији",

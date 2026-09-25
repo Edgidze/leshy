@@ -123,7 +123,7 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "თქვენი გასეირნებები, აღნიშვნები და ფოტოები რჩება თქვენს მოწყობილობაზე. აპლიკაცია ანგარიშებს არ " +
             "ქმნის და თქვენს მონაცემებს არსად აგზავნის — ინტერნეტში მიდის მხოლოდ რუკის ფრაგმენტების " +
-            "მოთხოვნები openfreemap.org-ისკენ.",
+            "მოთხოვნები {host}-ისკენ.",
     StringKey.LegalPrivacyLink to "კონფიდენციალურობის პოლიტიკა",
 
     StringKey.AboutTitle to "აპლიკაციის შესახებ",

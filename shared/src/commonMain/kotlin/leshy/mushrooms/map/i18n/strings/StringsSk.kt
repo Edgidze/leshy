@@ -122,7 +122,7 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Súkromie",
     StringKey.LegalPrivacyText to
         "Vaše prechádzky, značky a fotografie zostávajú vo vašom zariadení. Aplikácia nezakladá účty a vaše " +
-            "údaje nikam neposiela — do siete idú len dopyty na dlaždice mapy na openfreemap.org.",
+            "údaje nikam neposiela — do siete idú len dopyty na dlaždice mapy na {host}.",
     StringKey.LegalPrivacyLink to "Zásady ochrany osobných údajov",
 
     StringKey.AboutTitle to "O aplikácii",

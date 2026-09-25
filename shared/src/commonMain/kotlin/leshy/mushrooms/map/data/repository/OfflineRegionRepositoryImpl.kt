@@ -4,7 +4,7 @@ import androidx.compose.runtime.snapshotFlow
 import leshy.mushrooms.map.domain.model.OfflineRegionInfo
 import leshy.mushrooms.map.domain.model.OfflineRegionStatus
 import leshy.mushrooms.map.domain.repository.OfflineRegionRepository
-import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL
+import leshy.mushrooms.map.domain.model.EditionEndpoints
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.maplibre.compose.offline.DownloadProgress
@@ -23,6 +23,7 @@ import org.maplibre.spatialk.geojson.BoundingBox
  */
 class OfflineRegionRepositoryImpl(
     private val offlineManager: OfflineManager,
+    private val endpoints: EditionEndpoints,
 ) : OfflineRegionRepository {
 
     override fun observeRegions(): Flow<List<OfflineRegionInfo>> =
@@ -46,7 +47,7 @@ class OfflineRegionRepositoryImpl(
         minZoom: Int,
         maxZoom: Int,
     ) {
-        // Passing OPEN_FREE_MAP_STYLE_URL, not a local file reference — MapLibre's native offline
+        // Passing the edition's style URL, not a local file reference — MapLibre's native offline
         // downloader can only resolve styleUrl through its own HTTP resource loader (`file://`
         // confirmed unsupported on-device: "Unable to parse resourceUrl file://..." from
         // Mbgl-HttpRequest, pack then silently never leaves 0 bytes). PinnedStyleInterceptor
@@ -55,7 +56,7 @@ class OfflineRegionRepositoryImpl(
         // this always resolves to the same style the live map uses — see its doc and
         // `ui/map/CLAUDE.md`'s "Перехват HTTP-клиента" section for the full mechanism.
         val definition = OfflinePackDefinition.TilePyramid(
-            styleUrl = OPEN_FREE_MAP_STYLE_URL,
+            styleUrl = endpoints.mapStyleUrl,
             bounds = BoundingBox(west = west, south = south, east = east, north = north),
             minZoom = minZoom,
             maxZoom = maxZoom,

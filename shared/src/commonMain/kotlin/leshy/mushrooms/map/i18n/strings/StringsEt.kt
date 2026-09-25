@@ -119,7 +119,7 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Privaatsus",
     StringKey.LegalPrivacyText to
         "Teie käigud, märked ja fotod jäävad teie seadmesse. Rakendus ei loo kontosid ega saada teie " +
-            "andmeid kuhugi — internetti lähevad vaid kaardiruutude päringud aadressile openfreemap.org.",
+            "andmeid kuhugi — internetti lähevad vaid kaardiruutude päringud aadressile {host}.",
     StringKey.LegalPrivacyLink to "Privaatsuspoliitika",
 
     StringKey.AboutTitle to "Rakendusest",

@@ -118,7 +118,7 @@ internal val turkishStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Gizlilik",
     StringKey.LegalPrivacyText to
         "Yürüyüşleriniz, işaretleriniz ve fotoğraflarınız cihazınızda kalır. Uygulama hesap açmaz ve " +
-            "verilerinizi hiçbir yere göndermez — internete yalnızca openfreemap.org adresinden harita " +
+            "verilerinizi hiçbir yere göndermez — internete yalnızca {host} adresinden harita " +
             "parçası istekleri gider.",
     StringKey.LegalPrivacyLink to "Gizlilik politikası",
 

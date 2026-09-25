@@ -100,7 +100,7 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
 
     StringKey.LegalTitle to "プライバシー",
     StringKey.LegalPrivacyText to
-        "散策・記録・写真はお使いの端末内にとどまります。アカウントは作成せず、データをどこにも送信しません。ネットワークに出るのは openfreemap.org への地図タイルの要求だけです。",
+        "散策・記録・写真はお使いの端末内にとどまります。アカウントは作成せず、データをどこにも送信しません。ネットワークに出るのは {host} への地図タイルの要求だけです。",
     StringKey.LegalPrivacyLink to "プライバシーポリシー",
 
     StringKey.AboutTitle to "このアプリについて",

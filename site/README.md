@@ -80,9 +80,10 @@ curl -s https://leshy-mapper.github.io/mushrooms-map/privacy.html | shasum -a 25
 shasum -a 256 site/privacy.html
 ```
 
-Первый адрес зашит в приложении — `PRIVACY_POLICY_URL`
-(`shared/src/commonMain/kotlin/leshy/mushrooms/map/ui/components/PrivacyPolicyLink.kt`),
-единственное место, где он встречается; изменится хостинг — правится там.
+Первый адрес зашит в приложении — `EditionEndpoints.privacyPolicyUrl`
+(`shared/src/commonMain/kotlin/leshy/mushrooms/map/domain/model/EditionEndpoints.kt`),
+единственное место, где он встречается; изменится хостинг — правится там. У российской редакции
+адрес свой (`https://gribnye-progulki.ru/privacy`), и эта страница к ней отношения не имеет.
 
 Тот же URL идёт в Play Console (App content → Privacy policy) и в App Store Connect
 (App Privacy → Privacy Policy URL); второй — в App Store Connect как Support URL. Обоим магазинам нужна страница, открывающаяся **без
@@ -115,7 +116,7 @@ shasum -a 256 site/privacy.html
 - название приложения — `StringKey.AppName`, в каждой языковой версии своё: «Грибная карта от
   Лешего», «Mushroom Map from Leshy», «Carte des champignons de Leshy», «Mapa de setas de Leshy»;
 - когда читается геопозиция — `RecordViewModel` (экран «Запись» открыт **или** идёт запись, больше нигде);
-- единственный сетевой адрес — `OPEN_FREE_MAP_STYLE_URL` (`ui/map/MapStyle.kt`) и тайлы оттуда же;
+- единственный сетевой адрес — `EditionEndpoints.mapStyleUrl` (`domain/model/EditionEndpoints.kt`) и тайлы оттуда же;
 - отсутствие аналитики/крашлитики — по списку зависимостей `composeResources/files/aboutlibraries.json`;
 - удаление прогулки уносит фотографии и миниатюру — `DeleteWalkUseCase`;
 - разрешения — `androidApp/src/main/AndroidManifest.xml` и `iosApp/iosApp/Info.plist`;

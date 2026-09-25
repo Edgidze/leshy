@@ -118,7 +118,7 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Məxfilik",
     StringKey.LegalPrivacyText to
         "Gəzintiləriniz, qeydləriniz və fotolarınız cihazınızda qalır. Tətbiq hesab açmır və " +
-            "məlumatlarınızı heç yerə göndərmir — internetə yalnız openfreemap.org ünvanından xəritə " +
+            "məlumatlarınızı heç yerə göndərmir — internetə yalnız {host} ünvanından xəritə " +
             "hissələri üçün sorğular gedir.",
     StringKey.LegalPrivacyLink to "Məxfilik siyasəti",
 

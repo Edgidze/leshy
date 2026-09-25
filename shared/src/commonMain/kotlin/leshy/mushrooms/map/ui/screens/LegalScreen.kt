@@ -21,10 +21,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import leshy.mushrooms.map.domain.model.EditionEndpoints
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.i18n.stringResourceWithHost
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.PrivacyPolicyLink
+import org.koin.compose.koinInject
 
 /**
  * Конфиденциальность — второй шаг онбординга, между обзорной страницей и выбором подборок
@@ -95,7 +98,10 @@ fun LegalScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
-                text = stringResource(StringKey.LegalPrivacyText),
+                text = stringResourceWithHost(
+                    StringKey.LegalPrivacyText,
+                    koinInject<EditionEndpoints>().mapHostInPrivacyText,
+                ),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 8.dp),

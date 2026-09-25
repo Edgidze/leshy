@@ -17,7 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
-import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_HOST
+import leshy.mushrooms.map.domain.model.EditionEndpoints
+import org.koin.compose.koinInject
 
 /**
  * Floating overlay shown on top of a map when MapLibre reports it failed to fully load the
@@ -29,7 +30,7 @@ import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_HOST
  * [message] differs by screen because the consequence does: on Record and a walk's map the recording
  * itself is unaffected and the banner says so, while on Preparation the very thing that screen is for
  * — downloading an area — is what cannot happen without the server. Every variant ends with a lead-in
- * for [OPEN_FREE_MAP_HOST], which is appended here so no translation has to carry the host itself.
+ * for the edition's tile host, which is appended here so no translation has to carry the host itself.
  *
  * It is no longer the only user-visible signal that something is off: since the bundled fallback
  * style (`data/style/FallbackMapStyle.kt`) the map underneath still draws the user's own track and
@@ -37,13 +38,14 @@ import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_HOST
  */
 @Composable
 fun MapLoadFailedBanner(message: StringKey, onDismiss: () -> Unit, modifier: Modifier = Modifier) {
+    val host = koinInject<EditionEndpoints>().mapHost
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
     ) {
         Box {
             Text(
-                text = "${stringResource(message)} $OPEN_FREE_MAP_HOST",
+                text = "${stringResource(message)} $host",
                 modifier = Modifier.padding(top = 12.dp, bottom = 12.dp, start = 12.dp, end = 40.dp),
                 color = MaterialTheme.colorScheme.onErrorContainer,
             )

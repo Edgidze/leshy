@@ -4,7 +4,7 @@ package leshy.mushrooms.map.data.platform
  * Feeds the app's currently pinned map style JSON (see
  * [leshy.mushrooms.map.data.repository.MapStyleCacheRepository]) straight into the platform's
  * native MapLibre HTTP client, short-circuiting any real network fetch of
- * [leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL] with these exact bytes instead.
+ * [leshy.mushrooms.map.domain.model.EditionEndpoints.mapStyleUrl] with these exact bytes instead.
  *
  * Why this exists: MapLibre's native offline downloader (`OfflinePackDefinition.styleUrl`) can only
  * resolve a style through its own real HTTP fetch — it has no API to hand it already-loaded bytes

@@ -11,7 +11,7 @@ import android.graphics.PointF
 import android.graphics.Rect
 import android.util.Log
 import leshy.mushrooms.map.domain.model.GeoPoint
-import leshy.mushrooms.map.ui.map.OPEN_FREE_MAP_STYLE_URL
+import leshy.mushrooms.map.domain.model.EditionEndpoints
 import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -70,7 +70,7 @@ private const val FIND_DOT_RADIUS_FRACTION = 6f / 240f
  * рисуются по очереди, каждая своей заливкой поверх обводки предыдущих, — и плотное место читается
  * чешуёй перекрывающихся кружков, то есть ровно тем, чем оно и является.
  *
- * Белая, потому что снимок всегда светлый: тайлы берутся по [OPEN_FREE_MAP_STYLE_URL] — светлому
+ * Белая, потому что снимок всегда светлый: тайлы берутся по [EditionEndpoints.mapStyleUrl] — светлому
  * стилю — независимо от темы приложения (снимок рисуется один раз, на «Финише», и переключение
  * темы его не перерисовывает, см. `MapStyleCacheRepository`).
  *
@@ -88,6 +88,7 @@ private const val FIND_COLOR = "#B3261E" // Material3 baseline light colorScheme
 class AndroidWalkThumbnailRenderer(
     private val context: Context,
     private val photoStorage: PhotoStorage,
+    private val endpoints: EditionEndpoints,
 ) : WalkThumbnailRenderer {
 
     override suspend fun render(
@@ -139,7 +140,7 @@ class AndroidWalkThumbnailRenderer(
                 // вписывание, а это всегда более тесная из двух.
                 val padding = (minOf(widthPx, heightPx) * SNAPSHOT_PADDING_FRACTION).roundToInt()
                 val options = MapSnapshotter.Options(widthPx, heightPx)
-                    .withStyleBuilder(Style.Builder().fromUri(OPEN_FREE_MAP_STYLE_URL))
+                    .withStyleBuilder(Style.Builder().fromUri(endpoints.mapStyleUrl))
                     .withRegion(region)
                     .withPadding(padding, padding, padding, padding)
 

@@ -122,7 +122,7 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalTitle to "Купуялык",
     StringKey.LegalPrivacyText to
         "Сейилдер, белгилер жана сүрөттөр түзмөгүңүздө калат. Колдонмо каттоо эсебин ачпайт жана " +
-            "маалыматыңызды эч жакка жөнөтпөйт — интернетке openfreemap.org сайтынан карта бөлүктөрүн суроо " +
+            "маалыматыңызды эч жакка жөнөтпөйт — интернетке {host} сайтынан карта бөлүктөрүн суроо " +
             "гана кетет.",
     StringKey.LegalPrivacyLink to "Купуялык саясаты",
 

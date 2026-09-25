@@ -122,7 +122,7 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Ihre Spaziergänge, Markierungen und Fotos bleiben auf Ihrem Gerät. Die App legt keine Konten an " +
             "und sendet keine Ihrer Daten irgendwohin – ins Netz gehen nur Anfragen nach Kartenausschnitten " +
-            "von openfreemap.org.",
+            "von {host}.",
     StringKey.LegalPrivacyLink to "Datenschutzerklärung",
 
     StringKey.AboutTitle to "Über die App",

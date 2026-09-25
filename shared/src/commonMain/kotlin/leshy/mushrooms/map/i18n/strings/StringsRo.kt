@@ -123,7 +123,7 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Plimbările, marcajele și fotografiile rămân pe dispozitivul dumneavoastră. Aplicația nu creează " +
             "conturi și nu trimite nicăieri datele dumneavoastră — pe internet pleacă doar cererile pentru " +
-            "porțiuni de hartă către openfreemap.org.",
+            "porțiuni de hartă către {host}.",
     StringKey.LegalPrivacyLink to "Politica de confidențialitate",
 
     StringKey.AboutTitle to "Despre aplicație",

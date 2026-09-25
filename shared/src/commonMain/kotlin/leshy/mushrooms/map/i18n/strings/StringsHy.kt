@@ -121,7 +121,7 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Ձեր զբոսանքները, նշումները և լուսանկարները մնում են ձեր սարքում։ Հավելվածը հաշիվներ չի ստեղծում և " +
             "ձեր տվյալները ոչ մի տեղ չի ուղարկում — համացանց են գնում միայն քարտեզի հատվածների հարցումները " +
-            "openfreemap.org հասցեին։",
+            "{host} հասցեին։",
     StringKey.LegalPrivacyLink to "Գաղտնիության քաղաքականություն",
 
     StringKey.AboutTitle to "Հավելվածի մասին",

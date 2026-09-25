@@ -110,7 +110,7 @@ internal val norwegianStrings: Map<StringKey, String> = mapOf(
     StringKey.LegalPrivacyText to
         "Turene, markeringene og bildene dine blir liggende på enheten din. Appen har ingen " +
             "kontoer og sender ingen av dataene dine noe sted — det eneste som går på nett, er en " +
-            "forespørsel om kartfliser fra openfreemap.org.",
+            "forespørsel om kartfliser fra {host}.",
     StringKey.LegalPrivacyLink to "Personvernerklæring",
     StringKey.AboutTitle to "Om appen",
     StringKey.AboutMapDataTitle to "Kartdata",
