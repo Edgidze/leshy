@@ -35,7 +35,7 @@ val dataModule = module {
     single { CatalogSource() }
     single { MushroomNames() }
     single { MushroomAliases() }
-    single { CountriesSource() }
+    single { CountriesSource(get()) }
     single { CountryNames() }
     single { getRoomDatabase(get<RoomDatabase.Builder<LeshyDatabase>>()) }
     single { get<LeshyDatabase>().categoryDao() }

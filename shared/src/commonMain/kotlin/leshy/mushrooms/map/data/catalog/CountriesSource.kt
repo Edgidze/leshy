@@ -3,6 +3,7 @@ package leshy.mushrooms.map.data.catalog
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import leshy.mushrooms.map.domain.model.Edition
 import leshy.shared.generated.resources.Res
 
 private const val COUNTRIES_PATH = "files/catalog/countries.json"
@@ -27,6 +28,22 @@ data class CountryEntry(
      * вместо того, чтобы уводить всю подборку в один ряд.
      */
     val common: List<String>? = null,
+
+    /**
+     * Расширенный набор — то, чем подборка страны заменяется в редакции, сделанной под эту
+     * страну. Есть ровно у одной записи, `RU`: 171 вид против 54, и все 117 добавленных уже
+     * имеют русские названия (в этом и критерий отбора — вид без имени на языке продукта
+     * показался бы латынью).
+     *
+     * **Лежит отдельным полем, а не заменяет [keys], потому что файл общий.**
+     * `composeResources` не знает о флейворах: `countries.json` попадает в обе сборки целиком.
+     * Перепиши мы [keys] — подборка «Россия» выросла бы втрое и у мирового «Лешего», то есть у
+     * людей, которые об этом не просили. Разрешает поле [CountriesSource], и только для своей
+     * редакции.
+     *
+     * `null` у остальных 54 стран — и это не пустота, а «расширять нечего»: у них набор один.
+     */
+    val extendedKeys: List<String>? = null,
 )
 
 /** Prefix all per-country [leshy.mushrooms.map.domain.model.Collection.nameKey]s share — the only
@@ -42,15 +59,33 @@ fun countryCodeForCollectionNameKey(nameKey: String): String? =
     nameKey.takeIf { it.startsWith(COUNTRY_COLLECTION_PREFIX) }?.removePrefix(COUNTRY_COLLECTION_PREFIX)
 
 /**
- * Parses `countries.json` (55 entries, ~81 KB) once and caches the result — Koin singleton
+ * Parses `countries.json` (55 entries, ~110 KB) once and caches the result — Koin singleton
  * (`di/DataModule.kt`), same shape and reasoning as [CatalogSource].
+ *
+ * **[edition] решает здесь ровно одно: какой набор видов у подборки страны.** Редакция, сделанная
+ * под конкретную страну, получает у неё [CountryEntry.extendedKeys], если те есть; все остальные
+ * страны и все остальные редакции — обычные [CountryEntry.keys]. Подмена делается один раз, при
+ * разборе, поэтому ниже по коду ветвления по редакции нет вообще: `EnsureDefaultCollectionsUseCase`
+ * видит просто список ключей.
  */
-class CountriesSource {
+class CountriesSource(private val edition: Edition) {
     private class Parsed(val entries: List<CountryEntry>, val version: Int)
 
     private val parsed: Parsed by lazy {
         val bytes = runBlocking { Res.readBytes(COUNTRIES_PATH) }
-        Parsed(CountriesJson.decodeFromString(bytes.decodeToString()), bytes.contentHashCode())
+        val entries: List<CountryEntry> = CountriesJson.decodeFromString(bytes.decodeToString())
+        Parsed(entries.map { withEditionKeys(it) }, bytes.contentHashCode())
+    }
+
+    /**
+     * Расширенный набор берётся, только если страна записи — «своя» для редакции. Отсюда и
+     * сравнение с кодом страны, а не просто «есть extendedKeys — взять»: российская редакция не
+     * должна раздувать подборку Финляндии, даже если у той однажды появится своё расширение.
+     */
+    private fun withEditionKeys(entry: CountryEntry): CountryEntry {
+        val extended = entry.extendedKeys?.takeIf { entry.code == edition.homeCountryCode }
+            ?: return entry
+        return entry.copy(keys = extended)
     }
 
     val entries: List<CountryEntry> get() = parsed.entries

@@ -18,10 +18,20 @@ package leshy.mushrooms.map.domain.model
  * а конкретное значение приходит из флейворного source set — `androidApp/src/world/kotlin` и
  * `androidApp/src/russia/kotlin`.
  */
-enum class Edition {
+enum class Edition(
+    /**
+     * Страна, под которую сделана редакция, кодом ISO 3166-1 alpha-2 — или `null` у той, что не
+     * сделана ни под какую.
+     *
+     * Нужна ровно для одного: у подборки этой страны берётся расширенный набор видов
+     * (`CountryEntry.extendedKeys`). Расширять чужие подборки редакция не должна, поэтому
+     * сравнение идёт по коду, а не по наличию расширения.
+     */
+    val homeCountryCode: String?,
+) {
     /** «Леший: карта грибов», `leshy.mushrooms.map`. Мировой продукт, OpenFreeMap, 42 языка. */
-    WORLD,
+    WORLD(homeCountryCode = null),
 
     /** «Грибные прогулки: карта России», `ru.gribnyeprogulki.map`. Свой тайл-хост, ru+en. */
-    RUSSIA,
+    RUSSIA(homeCountryCode = "RU"),
 }

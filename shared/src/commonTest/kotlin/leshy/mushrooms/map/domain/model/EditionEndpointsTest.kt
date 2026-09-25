@@ -46,3 +46,20 @@ class EditionEndpointsTest {
         assertEquals(hosts.size, hosts.toSet().size, "у редакций совпал тайл-хост: $hosts")
     }
 }
+
+/**
+ * Домашняя страна редакции — то, по чему `CountriesSource` решает, чью подборку расширять.
+ * Проверяется отдельно от адресов, потому что ошибка тут не видна нигде: подборка просто
+ * останется прежней, и понять это можно только пересчитав виды в приложении.
+ */
+class EditionHomeCountryTest {
+    @Test
+    fun worldHasNoHomeCountry() {
+        assertEquals(null, Edition.WORLD.homeCountryCode)
+    }
+
+    @Test
+    fun russiaIsHomeToRu() {
+        assertEquals("RU", Edition.RUSSIA.homeCountryCode)
+    }
+}
