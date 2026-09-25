@@ -48,7 +48,7 @@ val dataModule = module {
     single<WalkRepository> { WalkRepositoryImpl(get()) }
     single<FieldMarkRepository> { FieldMarkRepositoryImpl(get()) }
     single<TrackPointRepository> { TrackPointRepositoryImpl(get()) }
-    single<SettingsRepository> { SettingsRepositoryImpl(get()) }
+    single<SettingsRepository> { SettingsRepositoryImpl(get(), get()) }
     single<MapFilterRepository> { MapFilterRepositoryImpl(get()) }
     single { MapStyleCacheRepository(get(), get(), get(), get()) }
     single<OfflineRegionRepository> { OfflineRegionRepositoryImpl(get(), get()) }

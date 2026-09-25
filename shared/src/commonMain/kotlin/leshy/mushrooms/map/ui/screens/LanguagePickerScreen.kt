@@ -31,9 +31,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.domain.model.EditionLanguages
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.searchOrdered
+import org.koin.compose.koinInject
 
 /**
  * Full-screen radio list of all 26 [AppLanguage] values, replacing the old
@@ -67,7 +69,10 @@ fun LanguagePickerScreen(
     // translated.
     var selected by remember(currentLanguage) { mutableStateOf(currentLanguage) }
     var query by remember { mutableStateOf("") }
-    val filtered = searchOrdered(AppLanguage.entries, query) { "${it.endonym} ${it.englishName}" }
+    // Список — от редакции, а не весь AppLanguage: у российской он из двух строк
+    // (`EditionLanguages`).
+    val languages = koinInject<EditionLanguages>().available
+    val filtered = searchOrdered(languages, query) { "${it.endonym} ${it.englishName}" }
     val listState = rememberLazyListState()
     LaunchedEffect(query) { listState.scrollToItem(0) }
 

@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import leshy.mushrooms.map.data.platform.currentDeviceLanguage
 import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.domain.model.EditionLanguages
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_DEFAULT
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MAX
 import leshy.mushrooms.map.domain.model.MUSHROOM_MARKER_SIZE_SCALE_MIN
@@ -25,14 +26,16 @@ private val MUSHROOM_TILE_ORDER_KEY = stringPreferencesKey("mushroom_tile_order"
 
 class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
+    private val languages: EditionLanguages,
 ) : SettingsRepository {
     // Пока пользователь не выбрал язык сам (первый запуск — приветственный экран открывается ДО
     // экрана выбора языка, так что ключа в DataStore ещё нет), интерфейс идёт на языке системы —
     // см. [currentDeviceLanguage]. Незнакомый код в ключе (откат на версию с меньшим числом
-    // языков) приводит сюда же.
+    // языков) приводит сюда же — как и код языка, которого нет у ЭТОЙ редакции: хранилище
+    // переживает и перенос данных, и соседнюю сборку другого продукта.
     override fun observeLanguage(): Flow<AppLanguage> = dataStore.data.map { prefs ->
-        prefs[LANGUAGE_KEY]?.let { code -> AppLanguage.entries.find { it.code == code } }
-            ?: currentDeviceLanguage()
+        prefs[LANGUAGE_KEY]?.let { code -> languages.available.find { it.code == code } }
+            ?: currentDeviceLanguage(languages)
     }
 
     override suspend fun setLanguage(language: AppLanguage) {

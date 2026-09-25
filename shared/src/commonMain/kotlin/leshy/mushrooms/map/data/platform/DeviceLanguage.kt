@@ -2,10 +2,15 @@ package leshy.mushrooms.map.data.platform
 
 import androidx.compose.ui.text.intl.Locale
 import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.domain.model.EditionLanguages
 
 /**
  * Язык интерфейса, на котором приложение открывается, пока пользователь ничего не выбирал сам, —
- * язык системы, если он среди [AppLanguage], иначе английский.
+ * язык системы, если его предлагает редакция ([languages]), иначе английский.
+ *
+ * Набор передаётся, а не берётся из [AppLanguage] целиком: у российской редакции языков два, и
+ * телефон с немецкой локалью должен открыть её по-английски, а не на немецком, которого в
+ * переключателе нет (`EditionLanguages`).
  *
  * Без `expect`/`actual`, в отличие от соседнего [currentDeviceRegionCode]: `Locale.current`
  * (`androidx.compose.ui.text.intl`) — общий API Compose Multiplatform, и на Android, и на iOS он
@@ -17,13 +22,14 @@ import leshy.mushrooms.map.domain.model.AppLanguage
  * его отсутствие в DataStore и так означает первый запуск, а на первом запуске язык системы
  * поменяться посреди экрана не успевает.
  */
-fun currentDeviceLanguage(): AppLanguage {
+fun currentDeviceLanguage(languages: EditionLanguages): AppLanguage {
     // Locale.current.language — двухбуквенный код без региона и письменности ("sr" для "sr-Latn-RS"),
     // то есть ровно то, чем является AppLanguage.code. Регистр приводится на всякий случай: iOS
     // отдаёт язык как есть из NSLocale, и "ru_RU"-подобные значения с верхним регистром
     // исторически встречались на обеих платформах.
     val code = Locale.current.language.lowercase()
-    return AppLanguage.entries.find { it.code == code } ?: LEGACY_CODES[code] ?: AppLanguage.EN
+    val reported = AppLanguage.entries.find { it.code == code } ?: LEGACY_CODES[code] ?: AppLanguage.EN
+    return languages.nearest(reported)
 }
 
 /**

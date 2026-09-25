@@ -2,6 +2,7 @@ package leshy.mushrooms.map.di
 
 import leshy.mushrooms.map.domain.model.Edition
 import leshy.mushrooms.map.domain.model.editionEndpointsFor
+import leshy.mushrooms.map.domain.model.editionLanguagesFor
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -24,6 +25,7 @@ fun initKoin(edition: Edition, appDeclaration: KoinAppDeclaration? = null) {
             module {
                 single { edition }
                 single { editionEndpointsFor(edition) }
+                single { editionLanguagesFor(edition) }
             },
             platformModule,
             dataModule,
