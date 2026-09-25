@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Политика конфиденциальности — Грибные прогулки: карта России</title>
+<meta name="description" content="Политика конфиденциальности приложения «Грибные прогулки: карта России» / Privacy policy of the Mushroom Walks: map of Russia app">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f6ece0;
+    --surface: #fffdf7;
+    --text: #2a1f14;
+    --muted: #6b543c;
+    --line: #dcc6a4;
+    --accent: #0960a5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #211a12;
+      --surface: #2b231a;
+      --text: #ede2ce;
+      --muted: #b9a57f;
+      --line: #4a3b28;
+      --accent: #6bb6f0;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 1.25rem; margin-bottom: 1.5rem; }
+  .app { font-size: .95rem; color: var(--muted); letter-spacing: .02em; margin: 0 0 .35rem; }
+  h1 { font-size: 1.6rem; line-height: 1.25; margin: 0 0 .5rem; }
+  h2 { font-size: 1.1rem; margin: 2.2rem 0 .6rem; }
+  .date { color: var(--muted); font-size: .9rem; margin: 0; }
+  p, li { color: var(--text); }
+  ul { padding-left: 1.2rem; }
+  li { margin: .3rem 0; }
+  a { color: var(--accent); }
+  .lede {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: .5rem;
+    padding: .9rem 1.1rem;
+    margin: 1.5rem 0 0;
+  }
+  .lede p { margin: .4rem 0; }
+  .switch { float: right; display: flex; gap: .35rem; }
+  .switch button {
+    font: inherit; font-size: .85rem; cursor: pointer;
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--line); border-radius: .4rem; padding: .15rem .55rem;
+  }
+  .switch button[aria-pressed="true"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+  /* Разделитель между языковыми версиями: виден только когда JS не отработал
+     и все секции показаны подряд. */
+  section[data-section] + section[data-section] { margin-top: 4rem; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Переключатель бесполезен без JS, поэтому в разметке он скрыт
+       и раскрывается скриптом. Без скрипта страница показывает обе
+       языковые версии подряд — контакт и текст остаются читаемыми. -->
+  <div class="switch" hidden>
+    <button type="button" data-lang="ru" aria-pressed="true">Рус</button>
+    <button type="button" data-lang="en" aria-pressed="false">Eng</button>
+  </div>
+
+  <!-- ================================ РУССКИЙ ================================ -->
+  <section data-section="ru" lang="ru">
+    <header>
+      <p class="app">Грибные прогулки: карта России</p>
+      <h1>Политика конфиденциальности</h1>
+      <p class="date">Редакция от 26 сентября 2026 года</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>Коротко.</strong> Приложение не собирает о вас никаких данных и ничего не передаёт
+      разработчику. Прогулки, отметки находок, фотографии и настройки хранятся только на вашем
+      устройстве. Аккаунтов, регистрации, рекламы, аналитики и трекеров в приложении нет. В интернет
+      уходит единственное — запросы участков карты, чтобы её было чем нарисовать. Сервер, который их
+      отдаёт, принадлежит разработчику и <strong>не ведёт журналов обращений</strong>.</p>
+    </div>
+
+    <h2>1. Кто отвечает за приложение</h2>
+    <p>Приложение «Грибные прогулки: карта России» разрабатывает и распространяет частное лицо, далее
+    «разработчик». Связаться с ним можно по адресу
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a> — это рабочий канал, письма читаются.</p>
+    <p>Имя разработчика публикует магазин приложений в карточке «Грибные прогулки: карта России» и
+    проверяет эти сведения при регистрации. Дублировать их здесь незачем.</p>
+    <p>Приложение не передаёт разработчику никаких данных о вас. У разработчика при этом есть
+    собственный сервер карты (см. п. 4), и от него отличие от чужого сервиса ровно одно: IP-адрес
+    вашего устройства приходит не постороннему сервису, а разработчику. Он <strong>нигде не
+    записывается</strong>: журнал обращений на сервере выключен, учётных записей, cookie и
+    каких-либо идентификаторов у сервера нет, и связать запрос с человеком не с чем. Поэтому
+    разработчик не формирует базы персональных данных и не является ни оператором в смысле
+    Федерального закона № 152-ФЗ «О персональных данных», ни контролёром (controller) в смысле
+    европейского GDPR. Если это когда-нибудь изменится — например, если появится реклама или
+    статистика по адресам, — в этом пункте появятся имя и адрес оператора, а изменение будет
+    отмечено по правилам п. 9.</p>
+
+    <h2>2. Какие данные приложение создаёт и где хранит</h2>
+    <p>Всё перечисленное создаётся приложением на вашем устройстве и остаётся на нём:</p>
+    <ul>
+      <li>маршрут прогулки — последовательность координат, полученных от датчиков устройства, со временем;</li>
+      <li>отметки находок — координата, вид гриба, количество, время;</li>
+      <li>фотографии, снятые камерой или добавленные из галереи, и их привязка к находкам;</li>
+      <li>заметки и описания прогулок, ваши собственные виды грибов и значки к ним;</li>
+      <li>настройки: язык интерфейса, оформление, выбранные подборки, размер маркеров и прочее;</li>
+      <li>скачанные заранее участки карты, чтобы приложение работало без сети.</li>
+    </ul>
+    <p>Разработчик доступа к этим данным не имеет: приложение не отправляет их ни на какой сервер, не
+    заводит для вас учётной записи и не передаёт данные третьим лицам.</p>
+    <p>Единственное исключение — не приложение, а операционная система: если у вас включено штатное
+    резервное копирование (Android Backup), система может копировать данные приложения в ваше
+    собственное облачное хранилище. Это делает не приложение, копия принадлежит вам, а правила её
+    хранения задаёт политика того сервиса. Резервное копирование отключается в настройках самой
+    системы.</p>
+
+    <h2>3. Разрешения устройства и зачем они нужны</h2>
+    <ul>
+      <li><strong>Геолокация.</strong> Нужна, чтобы правильно вести маршрут прогулки и записывать
+      координаты находок. Во время записи координаты читаются и при погашенном экране, иначе трек
+      рвался бы; это сопровождается постоянным уведомлением.</li>
+      <li><strong>Камера.</strong> Нужна, чтобы сфотографировать находку.</li>
+      <li><strong>Уведомления.</strong> Нужны для уведомления о том, что запись идёт.</li>
+      <li><strong>Фотографии и файлы.</strong> Отдельного разрешения приложение не просит: снимок из
+      галереи выбирается системным выбором фотографий, файл экспорта или импорта — системным
+      выбором файлов. Приложение получает только то, что вы указали пальцем, а не доступ ко всей
+      галерее и не список файлов.</li>
+    </ul>
+    <p>Любое разрешение можно не дать или отозвать в настройках системы. Без геолокации не работает
+    запись прогулки, без камеры — съёмка находок; всё остальное продолжит работать.</p>
+
+    <h2>4. Что уходит в интернет</h2>
+    <p>Единственный сетевой обмен — загрузка самой карты. Приложение запрашивает векторные фрагменты
+    карты и сопутствующие ресурсы (описание стиля, шрифты подписей, значки) у
+    <code>tiles.gribnye-progulki.ru</code> — сервера, который держит сам разработчик на российском
+    хостинге. Никакого стороннего картографического сервиса и никакого CDN перед этим сервером
+    нет.</p>
+    <p>Как при любом обращении к сайту, серверу в момент запроса становятся известны IP-адрес вашего
+    устройства, координаты запрошенных фрагментов карты (то есть примерный район, который вы в этот
+    момент смотрите) и обычные заголовки запроса, которые отправляет любой клиент. <strong>Журнал
+    обращений (access-лог) на сервере выключен: ничего из перечисленного никуда не
+    записывается.</strong> Сервер не заводит учётных записей, не ставит cookie, не выдаёт
+    идентификаторов и не различает клиентов между собой; из статистики снимаются только сводные
+    числа — запросов в секунду и переданных байт, — без адресов.</p>
+    <p>Ни трек, ни отметки находок, ни фотографии, ни идентификаторы устройства туда не передаются:
+    приложению нечего передавать, у него нет ни учётной записи, ни ключа API. Если скачать нужный
+    участок карты заранее (раздел «Подготовка»), ходить с приложением можно вовсе без сети.</p>
+    <p>Никакой аналитики, рекламных модулей, счётчиков посещений, отчётов о сбоях и рекламных
+    идентификаторов в приложении нет — ни одного стороннего SDK, который бы что-то отправлял.
+    Отдельно отметим: магазин приложений может собирать собственную статистику установок и сбоев по
+    своим правилам. Это делает магазин, а не приложение; разработчик получает оттуда статистику
+    установок и отчёты о сбоях, но ни ваших прогулок, ни отметок, ни фотографий там нет.</p>
+
+    <h2>5. Экспорт, импорт и «Поделиться»</h2>
+    <p>Приложение умеет выгрузить дневник файлом и отправить прогулку через системное меню
+    «Поделиться». Это происходит только по вашей команде и ровно туда, куда вы сами укажете. После
+    того как данные покинули приложение — ушли в мессенджер, облако или файл на диске, — они
+    подчиняются правилам того сервиса, а не этой политике.</p>
+
+    <h2>6. Сколько данные хранятся и как их удалить</h2>
+    <p>Данные хранятся, пока вы их не удалите. Удаление прогулки в «Архиве» удаляет её трек, отметки
+    и связанные фотографии. Удаление приложения удаляет все его данные с устройства — кроме двух
+    вещей: файлов, которые вы выгрузили наружу сами, и копии в системном резервном копировании, если
+    оно у вас включено (см. п. 2). Такая копия лежит в вашем облаке и удаляется средствами самой
+    системы; иначе при переустановке приложения данные вернутся. Обращаться за удалением к
+    разработчику не нужно и бесполезно: у него ваших данных нет.</p>
+
+    <h2>7. Дети</h2>
+    <p>Приложение не адресовано детям и не собирает данные ни о них, ни о ком-либо ещё.</p>
+
+    <h2>8. Ваши права</h2>
+    <p>Законодательство о персональных данных — российский Федеральный закон № 152-ФЗ, европейский
+    GDPR и аналогичные законы других стран — даёт право на доступ к своим данным, их исправление,
+    удаление и перенос. Поскольку разработчик ваших данных не собирает и не хранит, все эти права вы
+    реализуете прямо в приложении и без чьего-либо участия: данные лежат на вашем устройстве,
+    редактируются, выгружаются файлом и удаляются вами.</p>
+    <p>Если вы считаете, что это не так, напишите на
+    <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a>. Вы также вправе подать жалобу в надзорный орган по защите
+    данных: в России — в Роскомнадзор, в других странах — в соответствующий национальный орган.</p>
+
+    <h2>9. Изменения этой политики</h2>
+    <p>Новая редакция публикуется на этой же странице с указанием даты. Если приложение когда-нибудь
+    начнёт что-то передавать наружу, если на сервере появится журнал обращений или если добавится
+    реклама, это будет отмечено и здесь, и в описании обновления в магазине приложений.</p>
+
+    <h2>10. Карта и её источники</h2>
+    <p>Карта построена на данных <a href="https://www.openstreetmap.org/copyright" rel="noreferrer">OpenStreetMap</a>,
+    распространяемых по лицензии
+    <a href="https://opendatacommons.org/licenses/odbl/" rel="noreferrer">ODbL</a>. Векторные тайлы
+    собраны по схеме OpenMapTiles и отдаются с собственного сервера разработчика. Атрибуция
+    источников карты выводится на самой карте в приложении и в разделе «О приложении».</p>
+
+    <h2>11. Контакты</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+  </section>
+
+  <!-- ================================ ENGLISH ================================ -->
+  <section data-section="en" lang="en">
+    <header>
+      <p class="app">Mushroom Walks: map of Russia</p>
+      <h1>Privacy policy</h1>
+      <p class="date">Version of 26 September 2026</p>
+    </header>
+
+    <div class="lede">
+      <p><strong>In short.</strong> The app collects no data about you and sends nothing to the
+      developer. Your walks, find marks, photos and settings are stored on your device only. There
+      are no accounts, no sign-up, no ads, no analytics and no trackers. The only thing that goes
+      online is a request for map tiles, so that there is something to draw the map from. The server
+      that answers those requests belongs to the developer and <strong>keeps no access log</strong>.</p>
+    </div>
+
+    <h2>1. Who is responsible for the app</h2>
+    <p>“Mushroom Walks: map of Russia” is developed and distributed by a private individual, referred
+    to below as “the developer”. Contact: <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a> — a working channel,
+    mail is read.</p>
+    <p>The developer’s name is published by the app store on the app’s listing and verified by the
+    store at registration. There is no point in duplicating it here.</p>
+    <p>The app sends the developer no data about you. The developer does, however, run the map server
+    himself (see section 4), and that changes exactly one thing compared with using someone else’s
+    service: your device’s IP address reaches the developer rather than a third party. It is
+    <strong>not recorded anywhere</strong>: the access log is switched off, the server has no
+    accounts, no cookies and no identifiers of any kind, and there is nothing to tie a request to a
+    person. The developer therefore builds no personal-data records and is neither an operator under
+    Russian Federal Law No. 152-FZ nor a controller under the EU GDPR. Should that ever change — if
+    ads or address-based statistics appear — this section will name the operator, and the change will
+    be announced as described in section 9.</p>
+
+    <h2>2. What data the app creates and where it is kept</h2>
+    <p>Everything below is created by the app on your device and stays there:</p>
+    <ul>
+      <li>the walk’s route — a sequence of coordinates from the device’s sensors, with timestamps;</li>
+      <li>find marks — coordinate, mushroom species, count, time;</li>
+      <li>photos taken with the camera or added from the gallery, and their link to finds;</li>
+      <li>notes and walk descriptions, your own mushroom species and their icons;</li>
+      <li>settings: interface language, appearance, chosen collections, marker size and so on;</li>
+      <li>map areas downloaded in advance so the app works without a network.</li>
+    </ul>
+    <p>The developer has no access to any of it: the app sends it to no server, creates no account for
+    you and shares nothing with third parties.</p>
+    <p>The one exception is not the app but the operating system: if you have the built-in backup
+    (Android Backup) enabled, the system may copy the app’s data into your own cloud storage. That is
+    done by the system, the copy belongs to you, and its retention is governed by that service’s
+    policy. Backup is turned off in the system settings.</p>
+
+    <h2>3. Device permissions and why they are needed</h2>
+    <ul>
+      <li><strong>Location.</strong> Needed to record the walk’s route correctly and to store the
+      coordinates of finds. While recording, coordinates are read with the screen off too, otherwise
+      the track would break up; this is accompanied by a persistent notification.</li>
+      <li><strong>Camera.</strong> Needed to photograph a find.</li>
+      <li><strong>Notifications.</strong> Needed for the “recording in progress” notification.</li>
+      <li><strong>Photos and files.</strong> The app asks for no separate permission: a gallery shot
+      is chosen through the system photo picker, an export or import file through the system file
+      picker. The app receives only what you pointed at, not access to the whole gallery and not a
+      list of files.</li>
+    </ul>
+    <p>Any permission may be withheld or revoked in the system settings. Without location, walk
+    recording does not work; without the camera, photographing finds does not. Everything else keeps
+    working.</p>
+
+    <h2>4. What goes online</h2>
+    <p>The only network exchange is loading the map itself. The app requests vector map tiles and the
+    resources that go with them (the style description, label fonts, icons) from
+    <code>tiles.gribnye-progulki.ru</code> — a server the developer runs himself on Russian hosting.
+    There is no third-party map service and no CDN in front of that server.</p>
+    <p>As with any request to any website, at the moment of the request the server learns your
+    device’s IP address, the coordinates of the requested tiles (that is, roughly the area you are
+    looking at) and the ordinary request headers any client sends. <strong>The access log on the
+    server is switched off: none of that is written down anywhere.</strong> The server creates no
+    accounts, sets no cookies, issues no identifiers and does not tell clients apart; the only
+    statistics taken are aggregate counts — requests per second and bytes served — with no
+    addresses.</p>
+    <p>No track, no find marks, no photos and no device identifiers are sent there: the app has
+    nothing to send, and has neither an account nor an API key. Download the area you need in advance
+    (the “Preparation” section) and you can walk with the app entirely offline.</p>
+    <p>There is no analytics, no ad module, no visit counter, no crash reporting and no advertising
+    identifier in the app — not a single third-party SDK that would send anything. Separately: the app
+    store may collect its own install and crash statistics under its own rules. That is the store, not
+    the app; the developer receives install statistics and crash reports from it, but none of your
+    walks, marks or photos are there.</p>
+
+    <h2>5. Export, import and “Share”</h2>
+    <p>The app can export the diary as a file and send a walk through the system “Share” menu. This
+    happens only on your command and exactly where you point it. Once data has left the app — into a
+    messenger, a cloud or a file on disk — it is governed by that service’s rules, not by this
+    policy.</p>
+
+    <h2>6. How long data is kept and how to delete it</h2>
+    <p>Data is kept until you delete it. Deleting a walk in “Archive” deletes its track, its marks and
+    the photos attached to them. Uninstalling the app deletes all of its data from the device — except
+    two things: files you exported yourself, and the copy in the system backup if you have it enabled
+    (see section 2). That copy lives in your own cloud and is deleted by the system’s own means;
+    otherwise the data returns when the app is reinstalled. There is no need to ask the developer for
+    deletion, and no point: he does not have your data.</p>
+
+    <h2>7. Children</h2>
+    <p>The app is not directed at children and collects no data about them or anyone else.</p>
+
+    <h2>8. Your rights</h2>
+    <p>Data-protection law — Russian Federal Law No. 152-FZ, the EU GDPR and similar laws elsewhere —
+    gives you the right to access, correct, delete and port your data. Since the developer neither
+    collects nor stores your data, you exercise all of those rights directly in the app and without
+    anyone’s involvement: the data is on your device, and you edit it, export it as a file and delete
+    it yourself.</p>
+    <p>If you believe otherwise, write to <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a>. You are also entitled to
+    lodge a complaint with a data-protection supervisory authority: in Russia, Roskomnadzor; elsewhere,
+    the relevant national authority.</p>
+
+    <h2>9. Changes to this policy</h2>
+    <p>A new version is published on this same page with its date. If the app ever starts sending
+    anything out, if an access log appears on the server, or if advertising is added, it will be noted
+    both here and in the store’s update description.</p>
+
+    <h2>10. The map and its sources</h2>
+    <p>The map is built on <a href="https://www.openstreetmap.org/copyright" rel="noreferrer">OpenStreetMap</a>
+    data, distributed under the <a href="https://opendatacommons.org/licenses/odbl/" rel="noreferrer">ODbL</a>
+    licence. Vector tiles are built to the OpenMapTiles schema and served from the developer’s own
+    server. Attribution for the map sources is shown on the map itself inside the app and in the
+    “About” section.</p>
+
+    <h2>11. Contact</h2>
+    <p><a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a></p>
+  </section>
+
+</div>
+
+<script>
+  // Скрипт — только удобство. Без него страница показывает обе языковые
+  // версии подряд: текст, контакт и ссылки остаются на месте.
+  var LANGS = ["ru", "en"];
+
+  var switcher = document.querySelector(".switch");
+  var buttons = document.querySelectorAll(".switch button");
+  var sections = document.querySelectorAll("section[data-section]");
+
+  var TITLES = {
+    ru: "Политика конфиденциальности — Грибные прогулки: карта России",
+    en: "Privacy policy — Mushroom Walks: map of Russia"
+  };
+
+  function show(lang) {
+    sections.forEach(function (s) { s.hidden = s.dataset.section !== lang; });
+    buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === lang)); });
+    document.documentElement.lang = lang;
+    document.title = TITLES[lang];
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener("click", function () {
+      show(b.dataset.lang);
+      history.replaceState(null, "", "#" + b.dataset.lang);
+    });
+  });
+
+  function preferred() {
+    // Язык по ссылке (#en) важнее языка браузера — приложение может привести сюда явно.
+    var hash = location.hash.replace("#", "").toLowerCase();
+    if (LANGS.indexOf(hash) !== -1) return hash;
+
+    var list = navigator.languages && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || "ru"];
+    for (var i = 0; i < list.length; i++) {
+      var tag = String(list[i]).toLowerCase().split("-")[0];
+      if (LANGS.indexOf(tag) !== -1) return tag;
+    }
+    return "ru";
+  }
+
+  switcher.hidden = false;
+  show(preferred());
+</script>
+</body>
+</html>
