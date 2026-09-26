@@ -32,6 +32,18 @@ import okio.Path.Companion.toPath
 private const val RENDER_TIMEOUT_MILLIS = 30_000L
 
 /**
+ * Сколько неудач подряд означает «дело не в прогулке, а в связи» — и проход прекращается.
+ *
+ * Потолок [RENDER_TIMEOUT_MILLIS] защищает от зависания на ОДНОЙ прогулке, но не от очереди из
+ * ста: без сети (или с недоступным сервером тайлов) каждая из них честно отстаивает свои тридцать
+ * секунд, и проход перемалывает почти час, создавая снапшоттер за снапшоттером — при том что
+ * исход известен уже после первых трёх. Ничего не теряется: непройденные прогулки остаются в
+ * списке, и следующий вход в архив начнёт с них же (см. KDoc класса — неудача намеренно не
+ * запоминается).
+ */
+private const val MAX_CONSECUTIVE_FAILURES = 3
+
+/**
  * One-shot repair pass for walks whose `thumbnailPath` is still null — either recorded before the
  * thumbnail feature existed (pre-v3 Room schema), or hit the now-fixed [WalkThumbnailRenderer] gap
  * where too few live track points at Finish time (short walks) permanently skipped rendering
@@ -72,9 +84,10 @@ class BackfillWalkThumbnailsUseCase(
 ) {
     suspend operator fun invoke() {
         val walksNeedingThumbnail = walkRepository.observeAll().first().filter { it.thumbnailPath.isStale() }
+        var consecutiveFailures = 0
         for (walk in walksNeedingThumbnail) {
-            try {
-                withTimeoutOrNull(RENDER_TIMEOUT_MILLIS) { backfill(walk) }
+            val rendered = try {
+                withTimeoutOrNull(RENDER_TIMEOUT_MILLIS) { backfill(walk) } ?: false
             } catch (e: CancellationException) {
                 // Отмена всего прохода (экран закрыт) — не «неудача прогулки», её нельзя гасить:
                 // проглоти её здесь, и цикл продолжил бы крутиться в уже мёртвой области.
@@ -83,6 +96,12 @@ class BackfillWalkThumbnailsUseCase(
                 // Сбой одной прогулки не имеет права остановить очередь — ровно тот же контракт,
                 // что у [RENDER_TIMEOUT_MILLIS] выше, только для исключения вместо зависания.
                 // Записи в базу тут нет, значит прогулка просто останется в списке на следующий раз.
+                false
+            }
+            if (rendered) {
+                consecutiveFailures = 0
+            } else if (++consecutiveFailures >= MAX_CONSECUTIVE_FAILURES) {
+                break
             }
         }
     }
@@ -90,7 +109,8 @@ class BackfillWalkThumbnailsUseCase(
     /** Нет снимка вовсе — или есть, но снятый в другой пропорции (см. [WALK_THUMBNAIL_VARIANT]). */
     private fun String?.isStale(): Boolean = this == null || !endsWith("$WALK_THUMBNAIL_VARIANT.png")
 
-    private suspend fun backfill(walk: Walk) {
+    /** `true`, если снимок нарисован и записан, — см. [MAX_CONSECUTIVE_FAILURES]. */
+    private suspend fun backfill(walk: Walk): Boolean {
         val track = trackPointRepository.observeByWalkId(walk.id).first()
             .sortedBy { it.sequence }
             .map { GeoPoint(it.lat, it.lon, it.elevation, it.timestamp) }
@@ -99,7 +119,7 @@ class BackfillWalkThumbnailsUseCase(
             .map { GeoPoint(it.lat, it.lon, null, it.timestamp) }
         val anchor = anchorOf(walk)
 
-        val thumbnailPath = walkThumbnailRenderer.render(walk.id, track, findLocations, anchor) ?: return
+        val thumbnailPath = walkThumbnailRenderer.render(walk.id, track, findLocations, anchor) ?: return false
         val replacedPath = walk.thumbnailPath
         updateWalkThumbnail(walk.id, thumbnailPath)
         // Снимок прежней геометрии лежит под другим именем и после замены на него уже никто не
@@ -110,6 +130,7 @@ class BackfillWalkThumbnailsUseCase(
         if (replacedPath != null && replacedPath != thumbnailPath) {
             runCatching { fileSystem.delete(replacedPath.toPath()) }
         }
+        return true
     }
 
     // walk.startLat/startLon default to (0.0, 0.0) when Start was pressed before GPS produced a

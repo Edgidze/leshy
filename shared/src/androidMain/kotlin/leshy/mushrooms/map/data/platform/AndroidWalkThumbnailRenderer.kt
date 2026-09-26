@@ -13,7 +13,9 @@ import android.util.Log
 import leshy.mushrooms.map.domain.model.GeoPoint
 import leshy.mushrooms.map.domain.model.EditionEndpoints
 import kotlin.math.roundToInt
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import org.maplibre.android.MapLibre
@@ -103,14 +105,59 @@ class AndroidWalkThumbnailRenderer(
         markerIconSizePx: Int,
     ): String? {
         if (track.isEmpty() && findLocations.isEmpty() && anchor == null) return null
+        // Снапшоттер держится здесь, а не внутри takeSnapshot, потому что отпустить его можно
+        // только ПОСЛЕ writeAnnotated: тот спрашивает у снимка `pixelForLatLng` на каждую точку
+        // маршрута, а это нативный вызов по указателю, живущему вместе со снапшоттером.
+        var snapshotter: MapSnapshotter? = null
         return try {
-            val snapshot = takeSnapshot(track, findLocations, anchor, widthPx, heightPx) ?: return null
+            val snapshot = takeSnapshot(track, findLocations, anchor, widthPx, heightPx) { snapshotter = it }
+                ?: return null
             withContext(Dispatchers.IO) {
                 writeAnnotated(walkId, snapshot, track, findLocations, anchor, variant, speciesMarkers, markerIconSizePx)
             }
+        } catch (e: CancellationException) {
+            // Отмену гасить нельзя: `CancellationException` — наследник `Exception`, и до
+            // 2026-09-26 её ловил `catch (e: Exception)` ниже, то есть истечение таймаута в
+            // `BackfillWalkThumbnailsUseCase` выглядело для вызывающего обычной неудачей отрисовки.
+            throw e
         } catch (e: Exception) {
             Log.w(LOG_TAG, "render($walkId) failed", e)
             null
+        } finally {
+            snapshotter?.let { release(it) }
+        }
+    }
+
+    /**
+     * Закрывает снапшоттер — обязательно и всегда, каким бы ни был исход отрисовки.
+     *
+     * **Что `cancel()` делает на самом деле** (проверено по исходнику MapLibre,
+     * `platform/android/MapLibreAndroid/src/cpp/snapshotter/map_snapshotter.cpp`): снимает
+     * незавершённый запрос (`snapshotter->cancel()`) и **отпускает файловый источник**
+     * (`deactivateFilesource`) — тот самый, что держит сетевой стек и кеш тайлов активными.
+     * Нативный рендерер он НЕ освобождает: это делает деструктор, а деструктор зовётся из
+     * нативного `finalize()`, то есть на сборке мусора и не раньше. Другого способа у класса нет.
+     *
+     * Отсюда и правило: раз детерминированно освободить нельзя, надо хотя бы не копить. До
+     * 2026-09-26 `cancel()` звался ровно в одном случае — при отмене корутины, — а на успешном и
+     * на ошибочном пути снапшоттер просто бросался с активным файловым источником. Одной прогулке
+     * это ничего не стоило, но проход по импортированному архиву делает снимок КАЖДОЙ прогулке
+     * подряд, и к концу прохода таких брошенных — по числу прогулок, каждый со своим нативным
+     * рендерером в ожидании финализатора.
+     *
+     * **На главном потоке и через `NonCancellable`.** `cancel()` начинается с `checkThread()`, а
+     * тот в debug-сборке (`ApplicationInfo.FLAG_DEBUGGABLE`) бросает
+     * `CalledFromWorkerThreadException` с любого потока, кроме главного. Раньше `cancel()` стоял в
+     * `invokeOnCancellation`, то есть выполнялся на том потоке, который отменяет, — а отменяет
+     * здесь `withTimeoutOrNull`, со своего. Исключение из обработчика отмены kotlinx заворачивает
+     * в `CompletionHandlerException` и отдаёт обработчику необработанных исключений потока, то
+     * есть роняет приложение. Срабатывало это ровно там, где таймаут и случается: у прогулок,
+     * чьи тайлы не пришли, — и именно debug-сборка у владельца на руках.
+     */
+    private suspend fun release(snapshotter: MapSnapshotter) {
+        withContext(NonCancellable + Dispatchers.Main) {
+            runCatching { snapshotter.cancel() }
+                .onFailure { Log.w(LOG_TAG, "MapSnapshotter release failed", it) }
         }
     }
 
@@ -121,6 +168,7 @@ class AndroidWalkThumbnailRenderer(
         anchor: GeoPoint?,
         widthPx: Int,
         heightPx: Int,
+        onCreated: (MapSnapshotter) -> Unit,
     ): MapSnapshot? =
         withContext(Dispatchers.Main) {
             suspendCancellableCoroutine { continuation ->
@@ -145,6 +193,9 @@ class AndroidWalkThumbnailRenderer(
                     .withPadding(padding, padding, padding, padding)
 
                 val snapshotter = MapSnapshotter(context, options)
+                // Отдаётся вызывающему СРАЗУ, ещё до start(): отпустить его обязан он, в своём
+                // finally (см. [release]) — в том числе когда отрисовку отменят прямо сейчас.
+                onCreated(snapshotter)
                 snapshotter.start(
                     { snapshot -> if (continuation.isActive) continuation.resume(snapshot) },
                     { error ->
@@ -152,7 +203,6 @@ class AndroidWalkThumbnailRenderer(
                         if (continuation.isActive) continuation.resume(null)
                     },
                 )
-                continuation.invokeOnCancellation { snapshotter.cancel() }
             }
         }
 

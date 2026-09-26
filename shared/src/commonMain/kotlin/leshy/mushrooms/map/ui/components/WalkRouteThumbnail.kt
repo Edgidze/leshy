@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,11 +20,13 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.domain.model.GeoPoint
+import leshy.mushrooms.map.domain.util.decimateTrack
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import org.jetbrains.compose.resources.painterResource
 import kotlin.math.PI
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.max
 
@@ -34,6 +37,26 @@ private const val MIN_LON_SCALE = 0.15
 
 /** Доля радиуса точки, уходящая в обводку, — та же, что у снимков с тайлами. */
 private const val FIND_DOT_OUTLINE_FRACTION = 0.15f
+
+/**
+ * Сколько точек трека вообще имеет смысл рисовать в силуэте.
+ *
+ * Точки пишутся примерно раз в секунду, то есть у трёхчасовой прогулки их около десяти тысяч, а
+ * силуэт — это 120dp в карточке архива (и ширина экрана на заставке детализации). Разницу между
+ * десятью тысячами отрезков и четырьмя сотнями там разглядеть нечем, а стоит она дорого: `Canvas`
+ * строит `Path` заново на КАЖДОЙ отрисовке, и при прокрутке списка это происходит у всех видимых
+ * карточек каждый кадр.
+ *
+ * Пока силуэт был запасным вариантом для редких прогулок, цена не замечалась. Импорт архива
+ * переворачивает картину: у приехавших прогулок `thumbnailPath` пуст по построению
+ * (`ImportDataUseCase`), снимки дорисовываются потом и по сети, и до тех пор силуэт рисуется
+ * КАЖДОЙ карточке списка. Отсюда и потолок — репорт владельца о зависании архива после импорта,
+ * 2026-09-26.
+ *
+ * Прореживание — [decimateTrack], тот же, которым экран «Запись» прореживает фоновые маршруты
+ * прошлых прогулок; он же гарантирует, что первая и последняя точки останутся на месте.
+ */
+private const val ROUTE_POINT_BUDGET = 400
 
 /**
  * A small, static, offline route silhouette for archive list cards — Strava-style thumbnail,
@@ -51,6 +74,13 @@ fun WalkRouteThumbnail(track: List<GeoPoint>, findLocations: List<GeoPoint>, mod
         return
     }
 
+    // Считается один раз на список точек, а не на каждую отрисовку: сам `Path` всё равно
+    // строится в draw-скоупе (он зависит от размера поля), но строить его есть смысл из четырёх
+    // сотен точек, а не из десяти тысяч.
+    val routePoints = remember(track) {
+        decimateTrack(track, stride = ceil(track.size.toFloat() / ROUTE_POINT_BUDGET).toInt().coerceAtLeast(1))
+    }
+
     Box(
         modifier = modifier
             .clip(LeshyTheme.tokens.shapeRouteThumbnail)
@@ -59,7 +89,7 @@ fun WalkRouteThumbnail(track: List<GeoPoint>, findLocations: List<GeoPoint>, mod
         val trackColor = MaterialTheme.colorScheme.primary
         val findColor = MaterialTheme.colorScheme.error
         Canvas(modifier = Modifier.matchParentSize()) {
-            val allPoints = track + findLocations
+            val allPoints = routePoints + findLocations
             // Longitude degrees shrink towards the poles relative to latitude degrees; scale by
             // cos(latitude) so the thumbnail isn't stretched east-west at higher latitudes.
             val avgLatRad = allPoints.map { it.lat }.average() * (PI / 180.0)
@@ -88,9 +118,9 @@ fun WalkRouteThumbnail(track: List<GeoPoint>, findLocations: List<GeoPoint>, mod
                 )
             }
 
-            if (track.size >= 2) {
+            if (routePoints.size >= 2) {
                 val path = Path().apply {
-                    track.forEachIndexed { index, point ->
+                    routePoints.forEachIndexed { index, point ->
                         val offset = toOffset(point)
                         if (index == 0) moveTo(offset.x, offset.y) else lineTo(offset.x, offset.y)
                     }
@@ -104,7 +134,7 @@ fun WalkRouteThumbnail(track: List<GeoPoint>, findLocations: List<GeoPoint>, mod
                 // Одной точки на линию не хватает — тогда она отмечается кружком, как и в снимке с
                 // настоящими тайлами. Раньше здесь стоял выход из функции целиком, и прогулка с
                 // одним фиксом теряла заодно и точки находок, которые нарисовать было можно.
-                track.firstOrNull()?.let { point ->
+                routePoints.firstOrNull()?.let { point ->
                     drawCircle(color = trackColor, radius = 3.dp.toPx(), center = toOffset(point))
                 }
             }

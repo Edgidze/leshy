@@ -12,14 +12,21 @@ import leshy.mushrooms.map.domain.repository.TrackPointRepository
 import leshy.mushrooms.map.domain.repository.WalkRepository
 import leshy.mushrooms.map.domain.usecase.BackfillWalkThumbnailsUseCase
 import leshy.mushrooms.map.domain.usecase.DeleteWalkUseCase
+import leshy.mushrooms.map.domain.util.decimateTrack
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
+
+/** См. `ui/components/WalkRouteThumbnail.kt`, `ROUTE_POINT_BUDGET` — число и причина там же. */
+private const val ARCHIVE_TRACK_POINT_BUDGET = 400
 
 private data class RawArchiveData(
     val walks: List<Walk>,
@@ -54,6 +61,18 @@ class ArchiveViewModel(
                 fieldMarkRepository.observeAll(),
             ) { walks, trackPoints, marks -> RawArchiveData(walks, trackPoints, marks) }
                 .map(::buildItems)
+                // Сборка — на фоновом потоке, и это не «на всякий случай». `observeAll()` у точек
+                // трека — это ВСЕ точки ВСЕХ прогулок (порядка тысячи на прогулку), а `buildItems`
+                // перегруппировывает их целиком на каждую эмиссию. Без `flowOn` всё это считалось
+                // в контексте сборщика, то есть на главном потоке.
+                //
+                // Что превращает это из «дороговато» в зависание: дорисовка снимков
+                // (`BackfillWalkThumbnailsUseCase`) пишет `thumbnailPath` ПО ОДНОЙ прогулке, и
+                // каждая такая запись заново поднимает `walkRepository.observeAll()` — то есть
+                // после импорта архива полная перегруппировка всех точек случается столько раз,
+                // сколько приехало прогулок. Репорт владельца 2026-09-26: архив после импорта
+                // намертво замирал и несколько раз закончился падением.
+                .flowOn(Dispatchers.Default)
 
             combine(itemsFlow, selectedWalkIds, showDeleteConfirmation) { items, selected, showConfirm ->
                 // Drops IDs for walks no longer present (e.g. deleted from another screen) so a
@@ -80,13 +99,21 @@ class ArchiveViewModel(
 
         // raw.walks is already ordered newest-first by the DAO query (ORDER BY startTime DESC).
         return raw.walks.map { walk ->
+            val track = tracksByWalk[walk.id].orEmpty()
             WalkArchiveItem(
                 walk = walk,
-                track = tracksByWalk[walk.id].orEmpty(),
+                // Прорежённый трек, а не полный: карточке архива он нужен ровно на силуэт
+                // маршрута в 120dp (`WalkRouteThumbnail`), где разницы не видно, — а состояние
+                // экрана иначе держит в памяти все точки всех прогулок разом.
+                track = decimateTrack(track, stride = trackStrideFor(track.size)),
                 findLocations = findsByWalk[walk.id].orEmpty(),
             )
         }
     }
+
+    /** Столько точек на силуэт — тот же потолок, что и у самого `WalkRouteThumbnail`. */
+    private fun trackStrideFor(size: Int): Int =
+        ceil(size.toFloat() / ARCHIVE_TRACK_POINT_BUDGET).toInt().coerceAtLeast(1)
 
     /**
      * Дорисовка недостающих снимков карты ([BackfillWalkThumbnailsUseCase]) — на КАЖДОМ входе на
