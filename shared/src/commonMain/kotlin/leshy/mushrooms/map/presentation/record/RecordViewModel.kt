@@ -914,18 +914,46 @@ class RecordViewModel(
     }
 
     /**
-     * Moves [categoryId]'s tile to the front of the feed without logging a find — used both by
-     * [addMushroom] and by the search dialog, where picking a result should surface its tile
-     * (per the user description) but not itself count as a find.
+     * Показывает плитку вида [categoryId] в ленте, не записывая находку — осознанный переход к
+     * конкретной плитке: выбор в диалоге поиска и создание своего вида со «Записи».
+     *
+     * **Каким именно способом показать — зависит от «неподвижного порядка грибов», и это
+     * единственное место, где настройка меняет не порядок, а поведение перехода.**
+     *
+     * Порядок живой — плитка переставляется в начало ленты, как было всегда. Это не только
+     * «показать»: начало ленты в этом режиме — её единственная адресуемая позиция (туда же лента
+     * возвращается при каждом открытии экрана, см. `LifecycleResumeEffect` в `RecordScreen`), и
+     * оттуда же добираются кнопки уведомления идущей записи ([refreshNotificationSlots]) — то
+     * есть найденный поиском вид попадает ещё и в уведомление. Прокрутка вместо перестановки
+     * обесценилась бы сама: первое же «+» по этой плитке всё равно уводит её в начало.
+     *
+     * Порядок заморожен — лента прокручивается к плитке на её месте ([FeedScrollTarget.Tile]),
+     * порядок не трогается вовсе. До 2026-09-26 здесь и в этом случае шла перестановка с
+     * прокруткой к началу — и не срабатывало НИ ОДНО из двух: перестановку гасил
+     * `applyRecencyOrder` (накопленный порядок при заморозке не применяется), а прокрутка
+     * уносила к алфавитному началу каталога. Лупа при заморозке не помогала ничем. Накопленный
+     * порядок при этом не пополняется — так же, как его не пополняет [scheduleFrontBump]:
+     * настройка обещает порядок по умолчанию, и подъёмы, которых человек на экране не видел, в
+     * него попадать не должны (снятая галочка вернула бы ленту с чужими следами).
      */
-    fun bringCategoryToFront(categoryId: Long) {
+    fun revealCategory(categoryId: Long) {
+        if (freezeOrder) {
+            signalFeedScroll(FeedScrollTarget.Tile(categoryId))
+            return
+        }
         categoryOrder.update { current -> listOf(categoryId) + current.filter { it != categoryId } }
-        _uiState.update { it.copy(scrollToStartSignal = it.scrollToStartSignal + 1, scrollToStartDurationMillis = null) }
+        signalFeedScroll(FeedScrollTarget.Front(durationMillis = null))
+    }
+
+    /** Адресат и сигнал — всегда одним обновлением состояния: читатель сигнала обязан увидеть
+     * адресата, предназначенного именно этому событию. */
+    private fun signalFeedScroll(target: FeedScrollTarget) {
+        _uiState.update { it.copy(feedScrollSignal = it.feedScrollSignal + 1, feedScrollTarget = target) }
     }
 
     /**
      * Queues [categoryId] to jump to the front of the feed, but not right away — tapping +/-
-     * used to call [bringCategoryToFront] directly, which reordered the tile out from under the
+     * used to call [revealCategory] directly, which reordered the tile out from under the
      * user's finger mid-tap. Instead this (re)starts a [TILE_REORDER_QUIET_WINDOW] countdown;
      * every further tap or manual scroll of the feed ([notifyTileFeedInteraction]) restarts it
      * again, and the reorder only actually happens once the feed has sat idle for the full
@@ -964,17 +992,12 @@ class RecordViewModel(
 
     private fun flushPendingFrontBumps() {
         if (pendingFrontBumps.isEmpty()) return
-        // Last-tapped ends up frontmost, same order bringCategoryToFront would produce if called
+        // Last-tapped ends up frontmost, same order revealCategory would produce if called
         // once per id in tap order.
         val front = pendingFrontBumps.asReversed().toList()
         pendingFrontBumps.clear()
         categoryOrder.update { current -> front + current.filter { it !in front } }
-        _uiState.update {
-            it.copy(
-                scrollToStartSignal = it.scrollToStartSignal + 1,
-                scrollToStartDurationMillis = TILE_REORDER_SCROLL_DURATION_MILLIS,
-            )
-        }
+        signalFeedScroll(FeedScrollTarget.Front(TILE_REORDER_SCROLL_DURATION_MILLIS))
     }
 
     fun removeMushroom(categoryId: Long) {
@@ -1076,7 +1099,7 @@ class RecordViewModel(
                 iconPngBytes,
                 collectionName,
             )
-            bringCategoryToFront(saved.id)
+            revealCategory(saved.id)
         }
     }
 

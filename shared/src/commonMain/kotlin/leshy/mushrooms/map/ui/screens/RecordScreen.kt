@@ -73,6 +73,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -87,6 +88,7 @@ import leshy.mushrooms.map.i18n.LocalAppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.i18n.mushroomsUnitLabel
+import leshy.mushrooms.map.presentation.record.FeedScrollTarget
 import leshy.mushrooms.map.presentation.record.RecordUiState
 import leshy.mushrooms.map.presentation.record.RecordViewModel
 import leshy.mushrooms.map.presentation.searchOrderedCategories
@@ -137,6 +139,7 @@ import kotlinx.coroutines.launch
 import leshy.mushrooms.map.ui.map.MAP_SCALE_BAR_CLEARANCE
 import leshy.mushrooms.map.ui.components.dialogFrame
 import leshy.mushrooms.map.ui.components.cardFrameBorder
+import kotlin.math.roundToInt
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
@@ -310,7 +313,7 @@ fun RecordScreen(
         MushroomSearchDialog(
             categories = uiState.categories,
             onSelect = { categoryId ->
-                viewModel.bringCategoryToFront(categoryId)
+                viewModel.revealCategory(categoryId)
                 showSearchDialog = false
             },
             onDismissRequest = { showSearchDialog = false },
@@ -427,26 +430,56 @@ private fun RecordScreenContent(
     val density = LocalDensity.current
     var bottomControlsHeight by remember { mutableStateOf(0.dp) }
 
-    LaunchedEffect(uiState.scrollToStartSignal) {
-        if (uiState.scrollToStartSignal == 0) return@LaunchedEffect
-        val slowDurationMillis = uiState.scrollToStartDurationMillis
-        if (slowDurationMillis == null) {
-            // Deliberate jump-to-tile (search-dialog selection, new-species creation) — snap to
-            // the front at the feed's usual scroll speed, no need to draw it out.
-            tileListState.animateScrollToItem(0)
-        } else {
-            // A settled +/- reorder — scroll to the front slowly over slowDurationMillis so the
-            // motion is actually observable instead of reading as a teleport (see
-            // RecordUiState.scrollToStartDurationMillis). All tiles share TILE_WIDTH, so the pixel
-            // distance to the front can be computed directly instead of needing off-screen items
-            // to already be laid out.
-            val tileExtentPx = with(density) { (TILE_WIDTH + TILE_SPACING).toPx() }
-            val distancePx = tileListState.firstVisibleItemIndex * tileExtentPx +
-                tileListState.firstVisibleItemScrollOffset
-            if (distancePx > 0f) {
-                tileListState.animateScrollBy(-distancePx, tween(slowDurationMillis))
+    LaunchedEffect(uiState.feedScrollSignal) {
+        if (uiState.feedScrollSignal == 0) return@LaunchedEffect
+        when (val target = uiState.feedScrollTarget) {
+            is FeedScrollTarget.Front -> {
+                val slowDurationMillis = target.durationMillis
+                if (slowDurationMillis == null) {
+                    // Deliberate jump-to-tile (search-dialog selection, new-species creation) —
+                    // snap to the front at the feed's usual scroll speed, no need to draw it out.
+                    tileListState.animateScrollToItem(0)
+                } else {
+                    // A settled +/- reorder — scroll to the front slowly over slowDurationMillis so
+                    // the motion is actually observable instead of reading as a teleport (see
+                    // FeedScrollTarget.Front). All tiles share TILE_WIDTH, so the pixel distance to
+                    // the front can be computed directly instead of needing off-screen items to
+                    // already be laid out.
+                    val tileExtentPx = with(density) { (TILE_WIDTH + TILE_SPACING).toPx() }
+                    val distancePx = tileListState.firstVisibleItemIndex * tileExtentPx +
+                        tileListState.firstVisibleItemScrollOffset
+                    if (distancePx > 0f) {
+                        tileListState.animateScrollBy(-distancePx, tween(slowDurationMillis))
+                    }
+                }
+            }
+            // «Неподвижный порядок грибов»: плитку показываем на её месте — см.
+            // RecordViewModel.revealCategory. Индекс берётся из того же списка, что кормит LazyRow
+            // ниже, так что он совпадает с индексом айтема (плитка «+ свой вид» идёт ПОСЛЕ всех
+            // категорий и на индексы не влияет).
+            is FeedScrollTarget.Tile -> {
+                val index = uiState.categories.indexOfFirst { it.id == target.categoryId }
+                if (index >= 0) {
+                    // Середина видимой части, а не её начало: у прокрученной в начало вьюпорта
+                    // плитки не видно, что она не первая, и человек не понимает, куда попал.
+                    // Отрицательное смещение = «доехать на столько-то пикселей меньше»; у краёв
+                    // ленты LazyList сам упирается в границу, доводя плитку настолько к середине,
+                    // насколько это вообще возможно.
+                    val viewportWidthPx = tileListState.layoutInfo.viewportSize.width
+                    val tileWidthPx = with(density) { TILE_WIDTH.toPx() }
+                    val centeringPx = ((viewportWidthPx - tileWidthPx) / 2f).coerceAtLeast(0f)
+                    tileListState.animateScrollToItem(index, -centeringPx.roundToInt())
+                }
             }
         }
+    }
+
+    // Анимация ПЕРЕСТАНОВКИ плитки — язык только перестановки, и длительность у неё та же, что у
+    // прокрутки, чтобы взлёт плитки к началу ленты и приезд ленты к ней заканчивались вместе.
+    // У прокрутки к плитке на её месте (FeedScrollTarget.Tile) порядок не меняется вовсе —
+    // анимировать нечего, spec остаётся null, как у мгновенной перестановки.
+    val tilePlacementSpec = remember(uiState.feedScrollTarget) {
+        (uiState.feedScrollTarget as? FeedScrollTarget.Front)?.durationMillis?.let { tween<IntOffset>(it) }
     }
 
     // Возврат на экран — из другого раздела или из фона — всегда открывает ленту с её начала,
@@ -828,11 +861,11 @@ private fun RecordScreenContent(
                                 null
                             },
                             // Only animates when a settled +/- reorder set a slow duration (see
-                            // the scrollToStartSignal LaunchedEffect above) — null placementSpec
-                            // means no placement animation, preserving the instant reorder that's
+                            // the feedScrollSignal LaunchedEffect above) — null placementSpec means
+                            // no placement animation, preserving the instant reorder that's
                             // deliberate for search-dialog selection / new-species creation.
                             modifier = Modifier.width(TILE_WIDTH)
-                                .animateItem(placementSpec = uiState.scrollToStartDurationMillis?.let { tween(it) }),
+                                .animateItem(placementSpec = tilePlacementSpec),
                         )
                     }
                     item {
@@ -1169,9 +1202,10 @@ private fun MushroomBulkAddLimitDialog(onDismissRequest: () -> Unit) {
 
 /**
  * Lets the user jump straight to a mushroom's tile in a long catalog by typing its name, instead
- * of scrolling the feed. Selecting a result just surfaces that tile at the front of the feed (via
- * [RecordViewModel.bringCategoryToFront]) — it does not itself log a find, unlike tapping the
- * tile's own + button back on the record screen.
+ * of scrolling the feed. Selecting a result surfaces that tile in the feed (via
+ * [RecordViewModel.revealCategory] — at the front, or scrolled to in place while the feed's order
+ * is frozen) — it does not itself log a find, unlike tapping the tile's own + button back on the
+ * record screen.
  */
 @Composable
 private fun MushroomSearchDialog(

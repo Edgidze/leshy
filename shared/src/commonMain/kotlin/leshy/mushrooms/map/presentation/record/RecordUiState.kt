@@ -18,6 +18,37 @@ data class NavigationOverlayState(
     val turnDegrees: Double?,
 )
 
+/**
+ * Куда лента плиток должна доехать по очередному [RecordUiState.feedScrollSignal].
+ *
+ * Отдельный тип, а не пара независимых полей рядом с сигналом: адресат прокрутки и манера
+ * движения связаны между собой, и до 2026-09-26 их связь держалась только комментарием «всегда
+ * обновлять вместе одним `copy`». Заодно появился адресат, которого в паре выразить было нечем —
+ * [Tile].
+ */
+sealed interface FeedScrollTarget {
+    /**
+     * К началу ленты — туда, куда плитка только что переставлена.
+     *
+     * [durationMillis] `null` — обычная скорость прокрутки: осознанный переход к плитке (выбор в
+     * поиске, создание своего вида), его незачем растягивать. Non-null (ставит
+     * [RecordViewModel.flushPendingFrontBumps]) — растянутая на столько миллисекунд прокрутка:
+     * перестановка от «+»/«−» должна читаться как наблюдаемое движение, а не как телепорт.
+     */
+    data class Front(val durationMillis: Int?) : FeedScrollTarget
+
+    /**
+     * К плитке вида [categoryId] — в середину видимой части ленты, не меняя порядок.
+     *
+     * Единственный возможный ответ поиска при включённом «неподвижном порядке грибов»:
+     * переставить плитку вперёд там нельзя (настройка ровно это и запрещает — см.
+     * [RecordViewModel.revealCategory]), а прокрутка к НАЧАЛУ ленты в этом режиме не показывала
+     * выбранный вид вовсе, а лишь уносила человека от него к алфавитному началу каталога. Лупа
+     * при этом не помогала ничем — репорт владельца с устройства, 2026-09-26.
+     */
+    data class Tile(val categoryId: Long) : FeedScrollTarget
+}
+
 data class RecordUiState(
     val walkName: String = "",
     val isRecording: Boolean = false,
@@ -43,18 +74,10 @@ data class RecordUiState(
     val filterCount: Int = 0,
     val navigationTarget: NavigationOverlayState? = null,
     val justFinished: Boolean = false,
-    /** Bumped each time a tile is moved to the front of the feed — see [RecordViewModel.bringCategoryToFront]. */
-    val scrollToStartSignal: Int = 0,
-    /**
-     * Null for an immediate, deliberate jump-to-tile ([RecordViewModel.bringCategoryToFront] —
-     * search-dialog selection, new-species creation): the feed snaps to the front at its usual
-     * scroll speed. Non-null (set by [RecordViewModel.flushPendingFrontBumps]) means this reorder
-     * came from a quiet +/- tap settling into place — the feed should instead scroll to the front
-     * over this many milliseconds, so the reorder reads as a deliberate, observable motion rather
-     * than a teleport. Always set together with [scrollToStartSignal] in the same state update, so
-     * a reader of the signal always sees the value meant for that specific event.
-     */
-    val scrollToStartDurationMillis: Int? = null,
+    /** Bumped each time the feed has somewhere to scroll — see [feedScrollTarget]. */
+    val feedScrollSignal: Int = 0,
+    /** Where the feed should scroll on the current [feedScrollSignal]. */
+    val feedScrollTarget: FeedScrollTarget = FeedScrollTarget.Front(null),
     /**
      * Whether the tile feed still reorders itself around recent finds — i.e. Settings'
      * «неподвижный порядок грибов» (freeze order) is OFF. While it does, the front of the feed is
