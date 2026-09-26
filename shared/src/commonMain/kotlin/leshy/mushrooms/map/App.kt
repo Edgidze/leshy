@@ -48,6 +48,7 @@ import leshy.mushrooms.map.domain.model.ThemeMode
 import leshy.mushrooms.map.domain.repository.OnboardingRepository
 import leshy.mushrooms.map.domain.repository.SettingsRepository
 import leshy.mushrooms.map.domain.usecase.RepairPhotoPathsUseCase
+import leshy.mushrooms.map.domain.usecase.RetireDroppedSpeciesUseCase
 import leshy.mushrooms.map.i18n.LocalAppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
@@ -165,6 +166,13 @@ fun App() {
                     // Two independent effects, not one sequential block — neither should wait on the
                     // other to start.
                     LaunchedEffect(Unit) { repairPhotoPaths() }
+                    // Уборка снятых дублей — такая же разовая починка состояния, как починка
+                    // путей к фото выше, и по той же причине здесь: это не часть посева, а
+                    // одноразовое действие над тем, что посев поправить не может (он ничего не
+                    // удаляет). См. RetireDroppedSpeciesUseCase — там же о том, кого оно не
+                    // трогает и почему не повторяется.
+                    val retireDroppedSpecies: RetireDroppedSpeciesUseCase = koinInject()
+                    LaunchedEffect(Unit) { retireDroppedSpecies() }
                     // Keyed on `language`, before ensureLoaded()'s effect: on a cold start this
                     // just records the language (nothing is pinned yet, so ensureLoaded() then
                     // publishes already-localized bytes), and on a later switch in Settings it

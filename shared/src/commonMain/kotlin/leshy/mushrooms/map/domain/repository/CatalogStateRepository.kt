@@ -16,4 +16,16 @@ interface CatalogStateRepository {
      * launch (`.claude/plans/countries-and-languages.md`, Phase 3). */
     suspend fun getSeededCountriesVersion(): Int?
     suspend fun setSeededCountriesVersion(version: Int)
+
+    /**
+     * Ключи видов, по которым разовая уборка снятых дублей уже проходила
+     * ([leshy.mushrooms.map.domain.usecase.RetireDroppedSpeciesUseCase]).
+     *
+     * Список ключей, а не «версия», и это условие: уборка снимает галочку, а человек вправе
+     * поставить её обратно — найдя вид поиском. Гейт по версии файла снял бы её снова при
+     * следующей же правке наборов, то есть приложение спорило бы с человеком. Отметка «по этому
+     * ключу мы уже прошли» такого спора не допускает по построению.
+     */
+    suspend fun getRetiredSpeciesKeys(): Set<String>
+    suspend fun addRetiredSpeciesKeys(keys: Set<String>)
 }

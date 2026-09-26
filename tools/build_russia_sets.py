@@ -174,6 +174,10 @@ def build() -> dict:
         "country": COUNTRY,
         "defaults": DEFAULT_SETS,
         "picked_fallback": PICKED_FALLBACK_SET,
+        # Ключи, объявленные ошибкой (дубли). Уезжают в приложение, чтобы обновление убрало их у
+        # того, у кого они уже отмечены: членства и галочки при досеве иначе не удаляются никогда,
+        # и починка доставалась бы только новым установкам. Разбор — docs/catalog/CLAUDE.md.
+        "dropped": sorted(DROPPED),
         "sets": [
             {"id": set_id, "name": {"ru": ru, "en": en}, "keys": members[set_id]}
             for set_id, ru, en in SETS

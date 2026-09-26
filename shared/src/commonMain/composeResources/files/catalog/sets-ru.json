@@ -4,6 +4,13 @@
     "base"
   ],
   "picked_fallback": "other",
+  "dropped": [
+    "collybia_nuda",
+    "cyclocybe_cylindracea",
+    "leccinum_aurantiacum__2",
+    "lycoperdon_perlatum__2",
+    "suillus_luteus"
+  ],
   "sets": [
     {
       "id": "base",

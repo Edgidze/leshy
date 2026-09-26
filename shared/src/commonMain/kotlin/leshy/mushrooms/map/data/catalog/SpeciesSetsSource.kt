@@ -26,6 +26,8 @@ private data class SpeciesSetsFile(
     /** Набор, принимающий вид, отмеченный поиском и не входящий больше никуда, — см.
      * [SpeciesSetsSource.pickedFallbackSetId]. */
     val picked_fallback: String? = null,
+    /** Ключи, объявленные ошибкой, — см. [SpeciesSetsSource.droppedKeys]. */
+    val dropped: List<String> = emptyList(),
     val sets: List<SpeciesSetEntry>,
 )
 
@@ -96,6 +98,17 @@ class SpeciesSetsSource(private val edition: Edition) {
      * решает разметка наборов, а не приложение.
      */
     val pickedFallbackSetId: String? get() = parsed.file?.picked_fallback
+
+    /**
+     * Ключи, которые разметка наборов объявила ошибкой, — дубли, стоявшие в ленте второй
+     * неразличимой плиткой (`DROPPED` в `tools/build_russia_sets.py`).
+     *
+     * Нужны в приложении, а не только генератору: досев данных ничего не удаляет, поэтому вид,
+     * убранный из набора, у уже установленного приложения остаётся и в наборе, и отмеченным —
+     * починку получали бы одни новые установки. Что с ними делает обновление и каких людей оно
+     * при этом не трогает — [leshy.mushrooms.map.domain.usecase.RetireDroppedSpeciesUseCase].
+     */
+    val droppedKeys: List<String> get() = parsed.file?.dropped.orEmpty()
 
     /** Отпечаток файла — тем же гейтом, что и у `countries.json`, сторожит пересев подборок. */
     val version: Int get() = parsed.version
