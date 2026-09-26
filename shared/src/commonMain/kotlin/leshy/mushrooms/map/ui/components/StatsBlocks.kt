@@ -273,8 +273,15 @@ private fun FindTile(category: Category, count: Int, width: Dp) {
     Card(
         modifier = Modifier.width(width),
         border = BorderStroke(2.dp, parseHexColor(category.colorHex)),
+        // Та же доска, что под плиткой вида на «Записи» и под блоками статистики: плитка находки
+        // на экранах детализации и сводной карты — такой же предмет, лежащий на земле, и
+        // выпадать из общего материала ей незачем.
+        colors = CardDefaults.cardColors(
+            containerColor = cardContainerColor(MaterialTheme.colorScheme.surfaceContainerLow),
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        ),
     ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
+        Box(modifier = Modifier.fillMaxWidth().cardBackground()) {
             MushroomPhoto(
                 category = category,
                 modifier = Modifier.fillMaxWidth().aspectRatio(LeshyTheme.tokens.photoAspectRatio),
