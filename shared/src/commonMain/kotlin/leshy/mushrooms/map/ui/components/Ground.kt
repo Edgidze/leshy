@@ -6,8 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import org.jetbrains.compose.resources.DrawableResource
@@ -44,8 +49,17 @@ fun GroundTexture(modifier: Modifier = Modifier) {
 /**
  * Доска фоном произвольной поверхности — общий механизм для всех текстур редакции.
  *
- * `Modifier.paint` рисуется ДО содержимого узла, то есть работает как фон; собственная заливка
- * поверхности при этом обязана быть прозрачной, иначе она ляжет поверх.
+ * **`Modifier.paint` для этого не годится, ни с каким значением его параметров.** Проверено на
+ * устройстве дважды (репорты владельца 2026-09-26): с `sizeToIntrinsics = true` (дефолт) узел
+ * получает размер САМОЙ КАРТИНКИ — лента видов на «Записи» раздулась до 1672 точек высоты доски и
+ * схлопнула карту в полоску; с `sizeToIntrinsics = false` тот же модификатор возвращает
+ * `minWidth = maxWidth, minHeight = maxHeight`, то есть заставляет узел занять ВСЁ доступное
+ * место — лента снова во весь экран, только по другой причине. Оба режима участвуют в измерении,
+ * а фону это запрещено по определению: его размер задаёт то, подо что он подложен.
+ *
+ * Поэтому здесь — [drawWithCache], который в измерении не участвует вовсе. Кадрирование
+ * ([ContentScale.Crop]) приходится считать руками: доска масштабируется до наибольшего из двух
+ * отношений сторон, центрируется и обрезается по узлу.
  *
  * [fallback] — чем закрашивается место, когда доски нет (мировая редакция, аварийно выключенная
  * текстура). `null` означает «не закрашивать ничем»: у поверхности уже есть свой фон, и второй
@@ -54,7 +68,29 @@ fun GroundTexture(modifier: Modifier = Modifier) {
 @Composable
 private fun Modifier.woodTexture(board: DrawableResource?, fallback: Color?): Modifier {
     if (board == null) return if (fallback != null) background(fallback) else this
-    return paint(painterResource(board), contentScale = ContentScale.Crop)
+    return croppedBehind(painterResource(board))
+}
+
+/** Отрисовка [painter] фоном узла с кадрированием по центру. Без участия в измерении. */
+private fun Modifier.croppedBehind(painter: Painter): Modifier = drawWithCache {
+    val intrinsic = painter.intrinsicSize
+    val scale = if (intrinsic.isSpecified && intrinsic.width > 0f && intrinsic.height > 0f) {
+        maxOf(size.width / intrinsic.width, size.height / intrinsic.height)
+    } else {
+        1f
+    }
+    val drawn = if (scale == 1f && !intrinsic.isSpecified) {
+        size
+    } else {
+        Size(intrinsic.width * scale, intrinsic.height * scale)
+    }
+    onDrawBehind {
+        clipRect {
+            translate(left = (size.width - drawn.width) / 2f, top = (size.height - drawn.height) / 2f) {
+                with(painter) { draw(drawn) }
+            }
+        }
+    }
 }
 
 /** Земля фоном поверхности, которой картинку передать нечем (`ModalDrawerSheet`, лента «Записи»). */

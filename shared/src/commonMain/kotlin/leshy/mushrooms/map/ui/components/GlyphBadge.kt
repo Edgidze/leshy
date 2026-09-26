@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -95,7 +95,11 @@ fun Modifier.glyphBadgeBackground(
         .clip(shape)
         .background(fallbackBackground)
         .let { if (fallbackBorder != null) it.border(1.dp, fallbackBorder, shape) else it }
-    return paint(painterResource(badge), contentScale = ContentScale.FillBounds)
+    // drawBehind, а не `Modifier.paint`: тот в любом режиме участвует в измерении и навязывает
+    // кнопке либо размер растра, либо всё доступное место — разбор в `Ground.kt`. Жетон
+    // растягивается по узлу целиком: он квадратный, и кнопки под ним тоже.
+    val painter = painterResource(badge)
+    return drawBehind { with(painter) { draw(size) } }
 }
 
 /** Цвет значка, лежащего на жетоне: белый, когда жетон есть, и [fallback] — когда его нет. */
