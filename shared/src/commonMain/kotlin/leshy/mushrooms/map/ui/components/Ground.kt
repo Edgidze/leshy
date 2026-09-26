@@ -3,6 +3,7 @@ package leshy.mushrooms.map.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -104,10 +106,24 @@ fun Modifier.groundBackground(fallback: Color? = null): Modifier =
 fun Modifier.cardBackground(fallback: Color? = null): Modifier =
     woodTexture(LeshyTheme.tokens.cardTexture, fallback)
 
-/** Доска заливных кнопок. */
+/**
+ * Доска заливных кнопок.
+ *
+ * **Вместе с доской кнопка получает минимальную высоту, и это не косметика.** `Button` у Material
+ * это `Surface(onClick)`, а тот оборачивает СЕБЯ в `minimumInteractiveComponentSize()`: при высоте
+ * содержимого 40dp узел выходит 48dp, поверхность с обводкой рисуется по центру, а наш фон — по
+ * всему узлу. Получалась доска, торчащая на 4dp выше и ниже обводки (репорт владельца
+ * 2026-09-26: «обводка идёт явно не по границе»). Задав узлу те же 48dp, мы делаем обёртку
+ * пустой операцией: поверхность занимает узел целиком, и обводка ложится ровно по краю доски.
+ */
 @Composable
-fun Modifier.buttonBackground(fallback: Color? = null): Modifier =
-    woodTexture(LeshyTheme.tokens.buttonTexture, fallback)
+fun Modifier.buttonBackground(fallback: Color? = null): Modifier {
+    if (LeshyTheme.tokens.buttonTexture == null) return woodTexture(null, fallback)
+    return heightIn(min = WOOD_BUTTON_MIN_HEIGHT).woodTexture(LeshyTheme.tokens.buttonTexture, fallback)
+}
+
+/** Минимальная область нажатия Material — она же теперь высота кнопки на доске. */
+private val WOOD_BUTTON_MIN_HEIGHT = 48.dp
 
 /**
  * Цвет полотна, поверх которого лежит земля: прозрачный, когда текстура есть, и [fallback] —
