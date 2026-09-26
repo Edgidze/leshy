@@ -16,6 +16,12 @@ data class SpeciesUiState(
     /** Те же виды, что в [userSpecies], разложенные по пользовательским подборкам — в этом виде
      * их и рисует экран (`.claude/plans/user-collections.md`). */
     val userGroups: List<UserSpeciesGroup> = emptyList(),
+    /**
+     * Каталожные виды, не входящие ни в одну подборку, — их достаёт только поиск (см.
+     * `CollectionPicker`, параметр `uncollectedSpecies`). В мировой редакции список пуст: там
+     * каждый каталожный вид состоит хоть в одной страновой подборке.
+     */
+    val uncollectedSpecies: List<Category> = emptyList(),
     /** Общий на весь экран запрос поиска: им фильтруются и страновые подборки сверху, и
      * пользовательские снизу — поле ввода одно, живёт в `CollectionPicker`. */
     val collectionQuery: String = "",

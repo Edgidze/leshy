@@ -156,6 +156,19 @@ fun CollectionSearchField(
     )
 }
 
+/**
+ * @param uncollectedSpecies каталожные виды, не входящие НИ В ОДНУ показанную подборку. Ищутся
+ * наравне с остальными, но собственной секции не имеют — показывать их списком негде и незачем.
+ *
+ * Пусто везде, кроме «Моих грибов» российской редакции, и ровно там же и нужно: у редакции со
+ * своими наборами страновых подборок нет вовсе (`EnsureDefaultCollectionsUseCase`), её
+ * одиннадцать наборов покрывают 168 видов из 409, и до остальных 241 на экране нельзя было
+ * добраться ничем — их не показывала ни одна секция, и поиск по видам их тоже не видел, потому
+ * что искал строго среди членов показанных подборок. Найдено владельцем на устройстве: импортировал
+ * прогулку с иностранными видами, виды в прогулке видны, а в «Моих грибах» их нет (2026-09-26).
+ * В мировом приложении каждый каталожный вид состоит хоть в одной стране, так что список пуст и
+ * поведение не меняется.
+ */
 @Composable
 fun CollectionPicker(
     items: List<CollectionPickerItem>,
@@ -163,6 +176,7 @@ fun CollectionPicker(
     onToggleCollection: (CollectionPickerItem) -> Unit,
     onToggleCategory: (Category, Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    uncollectedSpecies: List<Category> = emptyList(),
 ) {
     val language = LocalAppLanguage.current
     val trimmedQuery = query.trim()
@@ -173,11 +187,11 @@ fun CollectionPicker(
             collectionDisplayName(it.collection, language).contains(trimmedQuery, ignoreCase = true)
         }
     }
-    val matchedSpecies = remember(items, trimmedQuery, language) {
+    val matchedSpecies = remember(items, uncollectedSpecies, trimmedQuery, language) {
         if (trimmedQuery.isEmpty()) {
             emptyList()
         } else {
-            val everySpecies = items.flatMap { it.members }.distinctBy { it.id }
+            val everySpecies = (items.flatMap { it.members } + uncollectedSpecies).distinctBy { it.id }
             val matched = everySpecies.filter {
                 categoryDisplayName(it, language).contains(trimmedQuery, ignoreCase = true)
             }

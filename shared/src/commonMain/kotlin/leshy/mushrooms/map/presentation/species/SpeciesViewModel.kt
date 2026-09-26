@@ -11,6 +11,8 @@ import leshy.mushrooms.map.domain.repository.SettingsRepository
 import leshy.mushrooms.map.domain.usecase.CreateOrUpdateUserSpeciesUseCase
 import leshy.mushrooms.map.domain.usecase.DeleteUserSpeciesUseCase
 import leshy.mushrooms.map.domain.usecase.EnsureDefaultCategoriesUseCase
+import leshy.mushrooms.map.domain.usecase.MISC_CATEGORY_NAME_KEY
+import leshy.mushrooms.map.domain.usecase.UNKNOWN_MUSHROOM_NAME_KEY
 import leshy.mushrooms.map.domain.usecase.EnsureDefaultCollectionsUseCase
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
 import leshy.mushrooms.map.domain.usecase.SetCategoryPickedUseCase
@@ -72,9 +74,21 @@ class SpeciesViewModel(
                 // стоит в блоке «Подборки грибов по странам», а свои подборки — своим блоком
                 // ниже. Тот же пикер в онбординге тоже обязан остаться страновым.
                 val countries = collections.filter { it.source == CollectionSource.COUNTRY }
-                buildCollectionPickerItems(countries, categories, memberships, language)
-            }.collect { items ->
-                _uiState.update { it.copy(collectionPickerItems = items) }
+                val items = buildCollectionPickerItems(countries, categories, memberships, language)
+                // Каталожные виды, до которых не ведёт ни одна подборка. Считаются по ВСЕМ
+                // членствам, а не по членствам показанных подборок: вид, лежащий в своей
+                // пользовательской подборке, уже показан блоком «моих грибов» выше, и второй
+                // строкой в результатах поиска он был бы дублем.
+                val collected = memberships.mapTo(mutableSetOf()) { it.categoryId }
+                val uncollected = categories.filter {
+                    it.source == CategorySource.APP &&
+                        it.id !in collected &&
+                        it.nameKey != UNKNOWN_MUSHROOM_NAME_KEY &&
+                        it.nameKey != MISC_CATEGORY_NAME_KEY
+                }
+                items to uncollected
+            }.collect { (items, uncollected) ->
+                _uiState.update { it.copy(collectionPickerItems = items, uncollectedSpecies = uncollected) }
             }
         }
         viewModelScope.launch {
