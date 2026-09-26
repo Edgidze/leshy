@@ -240,17 +240,20 @@ fun leshyDrawerContainerColor(): Color = when (LocalEdition.current) {
  * пользователь и так на него смотрит, а подсветка в списке из семи пунктов притягивает взгляд к
  * тому, куда идти не нужно.
  *
- * Мировая редакция пока получает `NavigationDrawerItemDefaults.colors()`, то есть не меняется.
+ * **Обеим редакциям, а не только российской** — решение владельца, отдельным коммитом: в мировом
+ * приложении подсветка стоит ровно с тем же смыслом и так же не нужна. Поэтому здесь нет развилки
+ * по редакции: цвета подписи берутся из схемы и различаются сами собой.
  */
 @Composable
-fun leshyDrawerItemColors(): NavigationDrawerItemColors = when (LocalEdition.current) {
-    Edition.WORLD -> NavigationDrawerItemDefaults.colors()
-    Edition.RUSSIA -> NavigationDrawerItemDefaults.colors(
-        selectedContainerColor = Color.Transparent,
-        selectedTextColor = MaterialTheme.colorScheme.onBackground,
-        unselectedTextColor = MaterialTheme.colorScheme.onBackground,
-    )
-}
+fun leshyDrawerItemColors(): NavigationDrawerItemColors = NavigationDrawerItemDefaults.colors(
+    selectedContainerColor = Color.Transparent,
+    // Значок и подпись тоже перестают различаться: убрать заливку и оставить выбранному пункту
+    // свой оттенок текста значило бы поменять заметную пометку на невнятную, а не убрать её.
+    selectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+    selectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+)
 
 object LeshyTheme {
     val tokens: LeshyTokens
