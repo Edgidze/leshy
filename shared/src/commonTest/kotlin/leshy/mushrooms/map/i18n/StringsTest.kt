@@ -50,9 +50,51 @@ class StringsTest {
     @Test
     fun everyTranslationMapIsCompleteAndNonBlank() {
         uiTranslations.forEach { (language, translations) ->
-            val missing = StringKey.entries.toSet() - translations.keys
+            val missing = StringKey.entries.toSet() - translations.keys - EDITION_ONLY_KEYS
             assertTrue(missing.isEmpty(), "$language is missing translations for: $missing")
             translations.forEach { (key, value) -> assertTrue(value.isNotBlank(), "$language/$key is blank") }
+        }
+    }
+
+    /**
+     * Исключение из проверки выше — ровно те ключи, что показывает одна редакция, и ничего
+     * сверх. Проверка нужна, потому что исключение — дыра в единственной страховке от забытого
+     * перевода: попади туда обычный ключ, его пропажу на сорока языках не заметит никто.
+     *
+     * Сами `ru` и `en` у них проверяет компилятор — обе ветки `when` в [string] исчерпывающие.
+     */
+    @Test
+    fun onlyEditionSpecificKeysAreExemptFromCompleteness() {
+        assertEquals(
+            setOf(StringKey.AppNameRussia, StringKey.AboutMapDataTextSelfHosted),
+            EDITION_ONLY_KEYS,
+        )
+        EDITION_ONLY_KEYS.forEach { key ->
+            assertTrue(string(key, AppLanguage.RU).isNotBlank(), "$key без русского текста")
+            assertTrue(string(key, AppLanguage.EN).isNotBlank(), "$key без английского текста")
+        }
+    }
+
+    /**
+     * Язык без своего перевода ключа редакции обязан отдавать английский, а не пустоту: именно
+     * на этом стоит решение переводить их только на два языка.
+     */
+    @Test
+    fun anEditionKeyFallsBackToEnglishEverywhereElse() {
+        val other = AppLanguage.entries.filter { it != AppLanguage.RU && it != AppLanguage.EN }
+        other.forEach { language ->
+            EDITION_ONLY_KEYS.forEach { key ->
+                assertEquals(string(key, AppLanguage.EN), string(key, language), "$language/$key")
+            }
+        }
+    }
+
+    /** У абзаца «Данные карты» самораздающей редакции адрес подставляется в рантайме. */
+    @Test
+    fun theSelfHostedMapDataTextCarriesTheHostPlaceholder() {
+        listOf(AppLanguage.RU, AppLanguage.EN).forEach { language ->
+            val text = string(StringKey.AboutMapDataTextSelfHosted, language)
+            assertTrue(TILE_HOST_PLACEHOLDER in text, "$language: «$text»")
         }
     }
 }

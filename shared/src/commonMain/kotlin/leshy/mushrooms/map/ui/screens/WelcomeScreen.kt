@@ -51,6 +51,9 @@ import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.leshy_icon
 import org.jetbrains.compose.resources.painterResource
+import leshy.mushrooms.map.i18n.editionStringKeysFor
+import leshy.mushrooms.map.domain.model.Edition
+import org.koin.compose.koinInject
 
 /**
  * Самый первый экран свежей установки — обзор приложения: чем оно помогает и что в нём где лежит.
@@ -89,7 +92,7 @@ fun WelcomeScreen(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(StringKey.AppName)) },
+                title = { Text(stringResource(editionStringKeysFor(koinInject<Edition>()).appName)) },
                 actions = {
                     // Кнопка с текстом, а не голая иконка: подпись — эндоним текущего языка
                     // («Русский», «Türkçe»), и она же служит ответом на вопрос «а на каком языке

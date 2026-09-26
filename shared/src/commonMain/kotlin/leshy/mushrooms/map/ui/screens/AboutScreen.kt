@@ -41,6 +41,11 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.shared.generated.resources.Res
+import leshy.mushrooms.map.i18n.editionStringKeysFor
+import leshy.mushrooms.map.domain.model.Edition
+import org.koin.compose.koinInject
+import leshy.mushrooms.map.domain.model.EditionEndpoints
+import leshy.mushrooms.map.i18n.stringResourceWithHost
 
 /**
  * «О приложении» — версия, атрибуция карты и полный список зависимостей с текстами их лицензий.
@@ -81,6 +86,8 @@ fun AboutScreen(
             .build()
     }
     var licenseDialogFor by remember { mutableStateOf<Library?>(null) }
+    val editionKeys = editionStringKeysFor(koinInject<Edition>())
+    val endpoints = koinInject<EditionEndpoints>()
 
     Scaffold(
         modifier = modifier,
@@ -108,7 +115,7 @@ fun AboutScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = stringResource(StringKey.AppName),
+                        text = stringResource(editionKeys.appName),
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center,
                     )
@@ -132,7 +139,10 @@ fun AboutScreen(
             item {
                 Section(
                     heading = stringResource(StringKey.AboutMapDataTitle),
-                    body = stringResource(StringKey.AboutMapDataText),
+                    // Адрес своего сервера подставляется в текст — у редакции, раздающей тайлы
+                    // сама, он часть утверждения об источнике карты. У мировой маркера в строке
+                    // нет, и подстановка ничего не делает.
+                    body = stringResourceWithHost(editionKeys.aboutMapDataText, endpoints.mapHost),
                 )
             }
 

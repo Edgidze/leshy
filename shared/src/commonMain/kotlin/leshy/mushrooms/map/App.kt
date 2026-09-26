@@ -64,6 +64,7 @@ import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.mushrooms.map.ui.theme.isDark
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import leshy.mushrooms.map.i18n.editionStringKeysFor
 
 /**
  * [icon] — не `ImageVector`, а поставщик `Painter`: шесть пунктов берут значок из Material
@@ -192,7 +193,7 @@ fun App() {
                                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                                     }
                                     Text(
-                                        text = stringResource(StringKey.AppName),
+                                        text = stringResource(editionStringKeysFor(edition).appName),
                                         style = MaterialTheme.typography.titleSmall.copy(
                                             fontSize = MaterialTheme.typography.titleMedium.fontSize,
                                         ),

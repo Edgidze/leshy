@@ -193,6 +193,11 @@ fun regionsUnitLabel(count: Int): String = pluralLabel(regionsForms, count)
 
 private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.AppName -> "Грибная карта от Лешего"
+    StringKey.AppNameRussia -> "Грибные прогулки: карта России"
+    StringKey.AboutMapDataTextSelfHosted ->
+        "Карта построена на данных OpenStreetMap, распространяемых по лицензии ODbL. Векторные " +
+            "тайлы и стиль — OpenMapTiles; они собраны и раздаются с собственного сервера " +
+            "приложения, {host}."
     StringKey.NavRecord -> "Новая запись"
     StringKey.NavArchive -> "Архив прогулок"
     StringKey.NavData -> "Экспорт/Импорт"
@@ -566,6 +571,11 @@ private fun russianStrings(key: StringKey): String = when (key) {
 
 private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.AppName -> "Mushroom Map from Leshy"
+    StringKey.AppNameRussia -> "Mushroom Walks: map of Russia"
+    StringKey.AboutMapDataTextSelfHosted ->
+        "The map is built on OpenStreetMap data, distributed under the ODbL licence. Vector " +
+            "tiles and style follow OpenMapTiles; they are built and served from the app's own " +
+            "server, {host}."
     StringKey.NavRecord -> "New Entry"
     StringKey.NavArchive -> "Walk Archive"
     StringKey.NavData -> "Export/Import"

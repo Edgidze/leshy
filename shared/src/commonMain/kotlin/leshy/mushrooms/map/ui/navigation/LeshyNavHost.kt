@@ -36,6 +36,8 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import leshy.mushrooms.map.i18n.editionStringKeysFor
+import leshy.mushrooms.map.domain.model.Edition
 
 // The library default is a 700ms fade, which reads as sluggish for top-level tab switches and
 // also gives native map views (rendered outside normal Compose alpha compositing, see
@@ -64,7 +66,7 @@ fun LeshyNavHost(
             // Title is the app name (this is now the home screen), not "New Entry" — the drawer's
             // own row for this destination still reads NavRecord, see App.kt's drawerNavEntries.
             SectionScaffold(
-                title = StringKey.AppName,
+                title = editionStringKeysFor(koinInject<Edition>()).appName,
                 help = HelpTopic.RECORD,
                 onMenuClick = onMenuClick,
                 onHelpClick = onHelpClick,
