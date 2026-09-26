@@ -24,6 +24,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.helpResource
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.ui.components.HelpIllustration
+import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
 
 /**
  * Справка по одному разделу: то, что открывает кнопка «?» в шапке любого раздела
@@ -51,6 +52,7 @@ fun HelpScreen(
         modifier = modifier,
         topBar = {
             TopAppBar(
+                colors = leshyTopAppBarColors(),
                 title = { Text(stringResource(StringKey.HelpDialogTitle)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {

@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.i18n.HelpTopic
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
 
 /**
  * Top bar shared by every top-level section (the side-drawer entries) — hamburger on the left, `?`
@@ -38,6 +39,7 @@ fun SectionScaffold(
     Scaffold(
         topBar = {
             TopAppBar(
+                colors = leshyTopAppBarColors(),
                 title = { Text(stringResource(title)) },
                 navigationIcon = {
                     IconButton(onClick = onMenuClick) {

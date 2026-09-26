@@ -46,6 +46,7 @@ import leshy.mushrooms.map.domain.model.Edition
 import org.koin.compose.koinInject
 import leshy.mushrooms.map.domain.model.EditionEndpoints
 import leshy.mushrooms.map.i18n.stringResourceWithHost
+import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
 
 /**
  * «О приложении» — версия, атрибуция карты и полный список зависимостей с текстами их лицензий.
@@ -93,6 +94,7 @@ fun AboutScreen(
         modifier = modifier,
         topBar = {
             TopAppBar(
+                colors = leshyTopAppBarColors(),
                 title = { Text(stringResource(StringKey.AboutTitle)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {

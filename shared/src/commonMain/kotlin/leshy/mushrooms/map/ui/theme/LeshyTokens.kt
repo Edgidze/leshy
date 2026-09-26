@@ -1,6 +1,7 @@
 package leshy.mushrooms.map.ui.theme
 
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -99,6 +100,21 @@ data class LeshyTokens(
      * а из жёстко зашитого `CornerFull`.
      */
     val shapeButton: Shape,
+    /**
+     * Основа формы ряда-переключателя (`SingleChoiceSegmentedButtonRow`): из неё Material
+     * собирает скругления крайних сегментов.
+     *
+     * Второй токен формы кнопки нужен из-за типа: `SegmentedButtonDefaults.itemShape` принимает
+     * не `Shape`, а `CornerBasedShape` — ему нужно уметь обнулить внутренние углы. Мировое
+     * значение — `CircleShape`, то же, что отдаёт `SegmentedButtonDefaults.baseShape`
+     * (`CornerFull`).
+     */
+    val shapeSegmentBase: CornerBasedShape,
+    /**
+     * Подсветка выбранного пункта выдвижного меню. Мировое значение — `CircleShape`, дефолт
+     * параметра `NavigationDrawerItem`; из темы эта форма тоже не приходит.
+     */
+    val shapeDrawerItem: Shape,
     /** Круглая кнопка-значок (навигация по карте, мокапы кнопок в подсказках). */
     val shapeRoundButton: Shape,
     /** Кнопка счётчика «+»/«−» на плитке вида. Главная круглая форма приложения. */
@@ -214,6 +230,8 @@ private val WorldTokens = LeshyTokens(
     shapeActionButton = RoundedCornerShape(20.dp),
     // Ровно то, что отдаёт ButtonDefaults.shape, — проверено скриншот-дифом мировой сборки.
     shapeButton = CircleShape,
+    shapeSegmentBase = CircleShape,
+    shapeDrawerItem = CircleShape,
     shapeRoundButton = CircleShape,
     shapeCountButton = CircleShape,
     shapePill = CircleShape,
@@ -272,6 +290,8 @@ private val RussiaTokens = WorldTokens.copy(
     shapeAppIcon = RoundedCornerShape(25.dp),
     shapeActionButton = RoundedCornerShape(4.dp),
     shapeButton = RoundedCornerShape(4.dp),
+    shapeSegmentBase = RoundedCornerShape(4.dp),
+    shapeDrawerItem = RoundedCornerShape(4.dp),
     shapeRoundButton = RoundedCornerShape(4.dp),
     shapeCountButton = RoundedCornerShape(4.dp),
     shapePill = RoundedCornerShape(4.dp),

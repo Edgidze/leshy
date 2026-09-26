@@ -73,7 +73,7 @@ fun DataScreen(
                 SegmentedButton(
                     selected = uiState.mode == mode,
                     onClick = { viewModel.setMode(mode) },
-                    shape = SegmentedButtonDefaults.itemShape(index = index, count = DataMode.entries.size),
+                    shape = SegmentedButtonDefaults.itemShape(baseShape = LeshyTheme.tokens.shapeSegmentBase, index = index, count = DataMode.entries.size),
                 ) {
                     Text(
                         stringResource(

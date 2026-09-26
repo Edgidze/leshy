@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.archive.WalkDetailViewModel
+import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
 
 /**
  * A dedicated NavHost screen, not a Dialog — deliberately, to avoid the class of multiline-
@@ -45,6 +46,7 @@ fun WalkDescriptionEditScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit
     Scaffold(
         topBar = {
             TopAppBar(
+                colors = leshyTopAppBarColors(),
                 title = { Text(stringResource(StringKey.WalkDetailDescriptionTitle)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {

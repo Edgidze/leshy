@@ -54,6 +54,7 @@ import org.jetbrains.compose.resources.painterResource
 import leshy.mushrooms.map.i18n.editionStringKeysFor
 import leshy.mushrooms.map.domain.model.Edition
 import org.koin.compose.koinInject
+import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
 
 /**
  * Самый первый экран свежей установки — обзор приложения: чем оно помогает и что в нём где лежит.
@@ -92,6 +93,7 @@ fun WelcomeScreen(
         modifier = modifier,
         topBar = {
             TopAppBar(
+                colors = leshyTopAppBarColors(),
                 title = { Text(stringResource(editionStringKeysFor(koinInject<Edition>()).appName)) },
                 actions = {
                     // Кнопка с текстом, а не голая иконка: подпись — эндоним текущего языка

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Кнопки уведомления у «Грибных прогулок» квадратные, как и все кнопки редакции — 4dp, то же
+  значение, что у токена `shapeButton` (`ui/theme/LeshyTokens.kt`). Перекрывает
+  `shared/src/androidMain/res/values/dimens.xml`.
+-->
+<resources>
+    <dimen name="notif_action_radius">4dp</dimen>
+    <dimen name="notif_action_radius_header">4dp</dimen>
+</resources>

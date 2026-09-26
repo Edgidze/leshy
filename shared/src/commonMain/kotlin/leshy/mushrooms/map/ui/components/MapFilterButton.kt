@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.ui.theme.LeshyTheme
 
 /**
  * Плавающая кнопка «Фильтры: N» — на живой карте «Записи» и на полноэкранной сводной карте
@@ -27,7 +28,12 @@ import leshy.mushrooms.map.i18n.stringResource
  */
 @Composable
 fun MapFilterButton(filterCount: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    // Форма — токеном, как у всех кнопок: `FilledTonalButton` берёт её не из
+    // `MaterialTheme.shapes`, а из жёстко зашитого `CornerFull`, и подменой темы не
+    // расквадрачивается (в отличие от `FloatingActionButton`, который как раз читает
+    // `shapes.large` и потому обошёлся без правки).
     FilledTonalButton(
+        shape = LeshyTheme.tokens.shapeButton,
         onClick = onClick,
         modifier = modifier,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),

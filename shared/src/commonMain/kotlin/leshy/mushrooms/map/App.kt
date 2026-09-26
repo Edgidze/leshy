@@ -65,6 +65,7 @@ import leshy.mushrooms.map.ui.theme.isDark
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import leshy.mushrooms.map.i18n.editionStringKeysFor
+import leshy.mushrooms.map.ui.theme.leshyDrawerContainerColor
 
 /**
  * [icon] — не `ImageVector`, а поставщик `Painter`: шесть пунктов берут значок из Material
@@ -184,7 +185,11 @@ fun App() {
                         // opening is only ever through the hamburger button.
                         gesturesEnabled = false,
                         drawerContent = {
-                            ModalDrawerSheet {
+                            // Выдвижное меню — земля, как и шапка (design.md, раздел 3).
+                            // Мировая редакция получает свой прежний дефолт Material, см. KDoc.
+                            ModalDrawerSheet(
+                                drawerContainerColor = leshyDrawerContainerColor(),
+                            ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -205,6 +210,7 @@ fun App() {
                                         it.hasRoute(entry.destination::class)
                                     } == true
                                     NavigationDrawerItem(
+                                        shape = LeshyTheme.tokens.shapeDrawerItem,
                                         selected = selected,
                                         label = { Text(stringResource(entry.labelKey)) },
                                         icon = {

@@ -36,6 +36,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.searchOrdered
 import org.koin.compose.koinInject
+import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
 
 /**
  * Full-screen radio list of all 26 [AppLanguage] values, replacing the old
@@ -79,6 +80,7 @@ fun LanguagePickerScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                colors = leshyTopAppBarColors(),
                 title = { Text(stringResource(StringKey.SettingsLanguageTitle)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {

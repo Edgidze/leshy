@@ -486,7 +486,7 @@ fun IconEditorDialog(
                                     cropRect = CropRect.Default
                                 }
                             },
-                            shape = SegmentedButtonDefaults.itemShape(index = index, count = EditorTool.entries.size),
+                            shape = SegmentedButtonDefaults.itemShape(baseShape = LeshyTheme.tokens.shapeSegmentBase, index = index, count = EditorTool.entries.size),
                         ) {
                             Text(
                                 stringResource(
@@ -531,7 +531,7 @@ fun IconEditorDialog(
                             SegmentedButton(
                                 selected = cropShape == shape,
                                 onClick = { cropShape = shape },
-                                shape = SegmentedButtonDefaults.itemShape(index = index, count = CropShape.entries.size),
+                                shape = SegmentedButtonDefaults.itemShape(baseShape = LeshyTheme.tokens.shapeSegmentBase, index = index, count = CropShape.entries.size),
                             ) {
                                 Text(
                                     stringResource(

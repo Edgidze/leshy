@@ -130,6 +130,7 @@ import leshy.mushrooms.map.ui.util.walkStarted
 import leshy.mushrooms.map.domain.model.Edition
 import org.koin.compose.viewmodel.koinViewModel
 import kotlinx.coroutines.launch
+import leshy.mushrooms.map.ui.map.MAP_SCALE_BAR_CLEARANCE
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
@@ -652,7 +653,8 @@ private fun RecordScreenContent(
             MapFilterButton(
                 filterCount = uiState.filterCount,
                 onClick = onFilterClick,
-                modifier = Modifier.align(Alignment.TopStart).padding(top = 31.dp, start = 16.dp),
+                modifier = Modifier.align(Alignment.TopStart)
+                    .padding(top = MAP_SCALE_BAR_CLEARANCE, start = 16.dp),
             )
 
             uiState.navigationTarget?.let { navigationTarget ->

@@ -97,6 +97,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
 
 private val SCREEN_PADDING = 16.dp
 
@@ -192,6 +193,7 @@ fun WalkDetailScreen(
             // is taller than an icon button. Still a real TopAppBar rather than a hand-rolled Row,
             // so it keeps handling the status-bar inset itself under enableEdgeToEdge().
             TopAppBar(
+                colors = leshyTopAppBarColors(),
                 title = {},
                 expandedHeight = TOP_BAR_HEIGHT,
                 navigationIcon = {

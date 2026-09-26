@@ -1,14 +1,19 @@
 package leshy.mushrooms.map.ui.theme
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.DrawerDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
@@ -110,7 +115,10 @@ fun LeshyTheme(edition: Edition, useDarkTheme: Boolean = false, content: @Compos
         colorScheme = colorSchemeFor(edition, useDarkTheme),
         shapes = shapesFor(edition),
     ) {
-        CompositionLocalProvider(LocalLeshyTokens provides leshyTokensFor(edition)) {
+        CompositionLocalProvider(
+            LocalLeshyTokens provides leshyTokensFor(edition),
+            LocalEdition provides edition,
+        ) {
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background,
@@ -160,6 +168,55 @@ private fun shapesFor(edition: Edition): Shapes = when (edition) {
         large = RoundedCornerShape(4.dp),
         extraLarge = RoundedCornerShape(6.dp),
     )
+}
+
+/**
+ * Редакция, доступная из любого места композиции.
+ *
+ * Производная от того единственного значения, что положил хост в Koin (`initKoin(edition)`), — не
+ * второй источник правды, а способ не тащить `koinInject` в каждый файл, которому нужно выбрать
+ * строку или цвет. Репозитории и снапшоттеры по-прежнему берут редакцию из Koin: композиции они
+ * не видят.
+ */
+val LocalEdition = staticCompositionLocalOf<Edition> {
+    error("LocalEdition не предоставлен — композиция должна быть внутри LeshyTheme")
+}
+
+/**
+ * Цвета шапки экрана.
+ *
+ * У российской редакции шапка — это **земля**, а не мат: `background`, тот же охристый тон, что
+ * под карточками и в выдвижном меню (`design.md`, раздел 3 — «Земля … фон экрана под карточками,
+ * выдвижное меню, шапка»). Дефолт Material красит её в `surface`, то есть в почти белый мат, и на
+ * охряном фоне это читалось как чужая белая плашка сверху экрана (репорт владельца 2026-09-26).
+ *
+ * `scrolledContainerColor` тот же: у земли нет причины менять тон под прокруткой — она не
+ * поднимается над содержимым, содержимое лежит на ней.
+ *
+ * Мировая редакция получает ровно `TopAppBarDefaults.topAppBarColors()`, то есть не меняется.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun leshyTopAppBarColors(): TopAppBarColors = when (LocalEdition.current) {
+    Edition.WORLD -> TopAppBarDefaults.topAppBarColors()
+    Edition.RUSSIA -> TopAppBarDefaults.topAppBarColors(
+        containerColor = MaterialTheme.colorScheme.background,
+        scrolledContainerColor = MaterialTheme.colorScheme.background,
+    )
+}
+
+/**
+ * Цвет полотна выдвижного меню.
+ *
+ * У российской редакции это земля — тот же охристый `background`, что под карточками и в шапке
+ * (`design.md`, раздел 3). Мировая получает дефолт Material (`surfaceContainerLow`), и это НЕ то
+ * же самое, что `background`: у мировой схемы они разных тонов, и подстановка `background`
+ * «заодно» сдвинула бы мировое меню на полтона.
+ */
+@Composable
+fun leshyDrawerContainerColor(): Color = when (LocalEdition.current) {
+    Edition.WORLD -> DrawerDefaults.modalContainerColor
+    Edition.RUSSIA -> MaterialTheme.colorScheme.background
 }
 
 object LeshyTheme {

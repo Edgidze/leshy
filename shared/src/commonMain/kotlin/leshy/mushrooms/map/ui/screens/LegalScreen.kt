@@ -28,6 +28,7 @@ import leshy.mushrooms.map.i18n.stringResourceWithHost
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.PrivacyPolicyLink
 import org.koin.compose.koinInject
+import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
 
 /**
  * Конфиденциальность — второй шаг онбординга, между обзорной страницей и выбором подборок
@@ -63,6 +64,7 @@ fun LegalScreen(
         modifier = modifier,
         topBar = {
             TopAppBar(
+                colors = leshyTopAppBarColors(),
                 title = { Text(stringResource(StringKey.LegalTitle)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
