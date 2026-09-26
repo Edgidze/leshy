@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  То же с одной добавкой: с Android 12 системная заставка холодного старта рисуется всегда, и фон
+  ей задаёт `windowSplashScreenBackground` — ОТДЕЛЬНЫЙ атрибут, цвет окна она не наследует.
+
+  Значок на ней — иконка приложения, то есть у этой редакции деревянный медальон
+  (`tools/generate_russia_app_icons.py`): дерево на заставке появляется хотя бы так, а полотном
+  оно ложится следующим же кадром (`ui/components/LaunchSplash.kt`).
+
+  Отдельным каталогом `values-v31`, а не строкой в основном: стиль с тем же именем заменяет
+  базовый целиком, поэтому `windowBackground` здесь повторён — без него окно до Compose снова
+  стало бы белым.
+-->
+<resources>
+    <style name="Theme.Leshy" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_ground</item>
+        <item name="android:windowSplashScreenBackground">@color/window_ground</item>
+    </style>
+</resources>

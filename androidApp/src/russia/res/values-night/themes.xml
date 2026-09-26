@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Тёмный вариант: то же самое на мореной земле. Разбор — в `values/themes.xml`. -->
+<resources>
+    <style name="Theme.Leshy" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/window_ground</item>
+    </style>
+</resources>
