@@ -23,9 +23,10 @@ import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.ui.map.mapOrnamentOptions
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import org.maplibre.compose.map.OrnamentOptions
+import leshy.mushrooms.map.ui.map.MAP_SCALE_BAR_CLEARANCE
 
 /** См. комментарий у ряда кнопок в [FullScreenMapScaffold] — столько занимает линейка масштаба. */
-private val MAP_CHROME_TOP_OFFSET = 31.dp
+private val MAP_CHROME_TOP_OFFSET = MAP_SCALE_BAR_CLEARANCE
 
 /**
  * Карта во весь экран с кнопкой «назад» поверх неё — общая оправа двух экранов: карты одной

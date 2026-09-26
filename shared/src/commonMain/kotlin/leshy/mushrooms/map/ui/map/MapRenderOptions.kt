@@ -3,6 +3,7 @@ package leshy.mushrooms.map.ui.map
 import androidx.compose.ui.Alignment
 import org.maplibre.compose.map.OrnamentOptions
 import org.maplibre.compose.map.RenderOptions
+import androidx.compose.ui.unit.dp
 
 /**
  * SurfaceView (the library default) renders on its own compositor layer and ignores the
@@ -33,3 +34,16 @@ val mapOrnamentOptions = OrnamentOptions(
     compassAlignment = Alignment.TopEnd,
     scaleBarAlignment = Alignment.TopStart,
 )
+
+/**
+ * Сколько нужно отступить сверху, чтобы не наехать на линейку масштаба из [mapOrnamentOptions].
+ *
+ * Живёт рядом с самими орнаментами, потому что число выведено из них: линейка стоит в TopStart, и
+ * это её высота вместе с собственным фиксированным инсетом, который `OrnamentOptions` не даёт ни
+ * прочитать, ни обнулить (граблю про общий padding орнаментов см. в `ui/map/CLAUDE.md`).
+ *
+ * До 2026-09-26 число было переписано в трёх местах от руки, и в четвёртом — у баннера «карта не
+ * загрузилась» на «Подготовке» — его забыли: баннер садился поверх линейки (репорт владельца).
+ * Поэтому константа одна.
+ */
+val MAP_SCALE_BAR_CLEARANCE = 31.dp

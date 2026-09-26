@@ -70,6 +70,7 @@ import org.maplibre.compose.camera.CameraProjection
 import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.spatialk.geojson.BoundingBox
 import org.maplibre.spatialk.geojson.Position
+import leshy.mushrooms.map.ui.map.MAP_SCALE_BAR_CLEARANCE
 
 /**
  * Куда смотрит карта, пока неизвестно, где пользователь. Обзор мира — честный ответ «не знаю»;
@@ -155,6 +156,16 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
                 regions = uiState.regions,
                 modifier = Modifier.fillMaxSize(),
                 currentLocation = uiState.currentLocation,
+                // Баннер «карта не загрузилась» остаётся сверху — низ экрана занят своими
+                // элементами, — но опускается ниже линейки масштаба. Она стоит в том же верхнем углу, и с
+                // дефолтными 16.dp баннер садился прямо на неё (репорт владельца 2026-09-26).
+                // Уйти вниз, как сделали остальные карты, здесь нельзя: там кнопка выбора участка,
+                // оценка размера и подтверждение.
+                bannerPadding = PaddingValues(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = MAP_SCALE_BAR_CLEARANCE + 16.dp,
+                ),
             )
 
             // Reading the camera position (not just the projection, which is a stable object
