@@ -33,10 +33,15 @@
   умолчанию, а `values-de/` из `src/main` продолжало бы действовать. Живьём это дало
   российскую сборку с ярлыком «Pilzkarte» на немецкой локали (поймано `aapt2 dump badging`
   на первой релизной сборке 2026-09-25).
-- иконка — `src/russia/res/mipmap-*/` плюс `drawable/ic_launcher_background.xml`. Сами
-  `mipmap-anydpi-v26/ic_launcher*.xml` остаются в `src/main`: они лишь ссылаются на
-  `@mipmap/ic_launcher_foreground` и `@drawable/ic_launcher_background`, а те перекрыты.
-  Российская иконка генерируется `tools/generate_russia_app_icons.py` из `gribnye_icon.png`.
+- **иконка целиком, у обеих редакций** — `src/world/res/` и `src/russia/res/`, включая
+  `mipmap-anydpi-v26/ic_launcher*.xml`. Держать XML адаптивной иконки в `src/main` не вышло:
+  редакции ссылаются на РАЗНЫЕ типы ресурсов — у мировой фон векторный (`@drawable`), у
+  российской растровый (`@mipmap`, деревянное поле с волокном), — и один общий XML на оба
+  случая не написать. Побочная польза: мировой зелёный вектор больше не едет в российский APK
+  мёртвым грузом.
+  Российская иконка генерируется `tools/generate_russia_app_icons.py` из `gribnye_icon.png`
+  и `gribnye_wood.png`; **рама у неё — фоновый слой во всю площадь**, разбор почему — в KDoc
+  скрипта.
 - `HOST_EDITION` — `src/world/kotlin/…/HostEdition.kt` и `src/russia/kotlin/…/HostEdition.kt`.
 
 **Ярлык российской debug-сборки** лежит в `src/russiaPlayDebug/res` и `src/russiaRustoreDebug/res`

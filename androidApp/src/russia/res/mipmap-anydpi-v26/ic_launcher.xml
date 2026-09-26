@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Своя адаптивная иконка у российской редакции, а не перекрытие слоёв в XML из `src/main`.
+
+  Отличие от мировой ровно одно и оно принципиально: фон здесь РАСТР (`@mipmap`), а не векторная
+  заливка (`@drawable`), потому что это деревянное поле с волокном. Держать ссылку на `@drawable`
+  и подсовывать туда PNG по плотностям можно, но тогда правильный файл выбирался бы разрешением
+  ресурсов, а не написанным явно, — и мировой вектор всё время лежал бы рядом как запасной. Здесь
+  ссылка на нужный слой стоит прямо.
+
+  Зачем рама ушла в фон — в KDoc `tools/generate_russia_app_icons.py`: маска лаунчера режет
+  дерево, а не картинку, и край иконки сам становится рамой при любой форме маски.
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+</adaptive-icon>
