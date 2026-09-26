@@ -27,7 +27,13 @@ class EditionEndpointsTest {
         assertEquals("https://gribnye-progulki.ru/privacy", russia.privacyPolicyUrl)
     }
 
-    /** Хост выводится из адреса стиля — разойтись они не должны ни при какой правке. */
+    /**
+     * Хост выводится из адреса стиля — разойтись они не должны ни при какой правке.
+     *
+     * Проверка не формальная: до 2026-09-26 текст о приватности называл у мировой редакции
+     * `openfreemap.org`, а ходило приложение на `tiles.openfreemap.org`, и жило это расхождение
+     * незамеченным, потому что называлось отдельным полем.
+     */
     @Test
     fun hostIsAlwaysTheHostOfTheStyleUrl() {
         Edition.entries.forEach { edition ->

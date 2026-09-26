@@ -100,7 +100,7 @@ fun LegalScreen(
             Text(
                 text = stringResourceWithHost(
                     StringKey.LegalPrivacyText,
-                    koinInject<EditionEndpoints>().mapHostInPrivacyText,
+                    koinInject<EditionEndpoints>().mapHost,
                 ),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,

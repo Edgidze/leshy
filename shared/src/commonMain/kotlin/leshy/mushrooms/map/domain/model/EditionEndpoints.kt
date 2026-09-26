@@ -29,27 +29,22 @@ data class EditionEndpoints(
      */
     val mapStyleUrl: String,
 
-    /**
-     * Как хост называется в тексте о приватности («…уходят только запросы участков карты с ...»).
-     *
-     * Отдельно от [mapHost] по одной причине: у мирового приложения в этом тексте исторически
-     * стоит `openfreemap.org`, а фактический хост — `tiles.openfreemap.org`. Расхождение
-     * настоящее, и оно тут НЕ исправляется: перенос адресов обязан не менять мировое приложение
-     * ни на символ. Вопрос вынесен владельцу отдельно; если он решит сводить их в одно, поле
-     * исчезнет, а не станет равняться хосту молча.
-     */
-    val mapHostInPrivacyText: String,
-
     /** Адрес политики конфиденциальности — у каждого продукта в магазине свой. */
     val privacyPolicyUrl: String,
 ) {
     /**
-     * Хост из [mapStyleUrl] — для баннера «карта не загрузилась».
+     * Хост из [mapStyleUrl]. Показывается пользователю в двух местах: в баннере «карта не
+     * загрузилась» и в тексте о приватности («…уходят только запросы участков карты с ...»).
      *
      * Выводится, а не задаётся: разойтись с адресом, по которому приложение реально ходит, он не
      * должен ни при какой правке. Баннер называет хост намеренно — инцидент, ради которого он
      * существует, это блокировка конкретного хоста у провайдера, и диагностируется она, только
      * если приложение говорит, какого именно.
+     *
+     * До 2026-09-26 текст о приватности называл у мировой редакции `openfreemap.org`, а ходило
+     * приложение на `tiles.openfreemap.org`. Расхождение было настоящим — сведено решением
+     * владельца; отдельное поле под «имя в прозе» при этом исчезло, чтобы новое расхождение
+     * неоткуда было взяться.
      */
     val mapHost: String = mapStyleUrl.substringAfter("://").substringBefore('/')
 }
@@ -65,12 +60,10 @@ fun editionEndpointsFor(edition: Edition): EditionEndpoints = when (edition) {
         // тайлов tile.openstreetmap.org, которые community-сервис только для лёгкого
         // использования и вдобавок мылят на HiDPI (варианта @2x у них нет).
         mapStyleUrl = "https://tiles.openfreemap.org/styles/liberty",
-        mapHostInPrivacyText = "openfreemap.org",
         privacyPolicyUrl = "https://leshy-mapper.github.io/mushrooms-map/privacy.html",
     )
     Edition.RUSSIA -> EditionEndpoints(
         mapStyleUrl = "https://tiles.gribnye-progulki.ru/styles/liberty",
-        mapHostInPrivacyText = "tiles.gribnye-progulki.ru",
         privacyPolicyUrl = "https://gribnye-progulki.ru/privacy",
     )
 }
