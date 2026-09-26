@@ -13,6 +13,8 @@ import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
 import org.jetbrains.compose.resources.DrawableResource
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.badge_wood
+import leshy.shared.generated.resources.ground_dark
+import leshy.shared.generated.resources.ground_light
 
 /**
  * Оформительские величины интерфейса, вынесенные из мест применения в один набор на редакцию.
@@ -284,7 +286,7 @@ private val WorldTokens = LeshyTokens(
  * (шаг 3 порядка работ раздела 15). Значения проставлены сразу, чтобы обёртке не пришлось
  * приносить их с собой.
  */
-private val RussiaTokens = WorldTokens.copy(
+private val RussiaTokensLight = WorldTokens.copy(
     shapeDialog = RoundedCornerShape(6.dp),
     shapeHeroMap = RoundedCornerShape(4.dp),
     shapeMapChrome = RoundedCornerShape(4.dp),
@@ -323,12 +325,26 @@ private val RussiaTokens = WorldTokens.copy(
     // это совпадает с требованием читаемости на солнце. Пока не читается никем — типографику
     // редакция получит вместе со шрифтами (раздел 5 design.md), — но величина решена здесь же.
     typeScaleStep = 1.1f,
+    groundTexture = Res.drawable.ground_light,
 )
 
-/** Набор редакции. */
-fun leshyTokensFor(edition: Edition): LeshyTokens = when (edition) {
+/** Тот же набор с мореной землёй — единственное, чем тёмная тема отличается на уровне величин. */
+private val RussiaTokensDark = RussiaTokensLight.copy(groundTexture = Res.drawable.ground_dark)
+
+/**
+ * Набор редакции.
+ *
+ * [dark] нужен ровно одному токену — [LeshyTokens.groundTexture]: земля это картинка, и в тёмной
+ * теме она не перекрашивается, а заменяется на мореную (`design.md`, раздел 7). Остальные токены
+ * от темы не зависят — цвета живут в `colorScheme`, формы и отступы одинаковы в обеих темах.
+ *
+ * Оба варианта российского набора собраны заранее, а не через `copy` на каждый вызов: набор
+ * раздаётся через `staticCompositionLocalOf`, и новый экземпляр на каждую рекомпозицию темы
+ * означал бы перезапуск всей композиции под ней.
+ */
+fun leshyTokensFor(edition: Edition, dark: Boolean = false): LeshyTokens = when (edition) {
     Edition.WORLD -> WorldTokens
-    Edition.RUSSIA -> RussiaTokens
+    Edition.RUSSIA -> if (dark) RussiaTokensDark else RussiaTokensLight
 }
 
 /**

@@ -116,7 +116,7 @@ fun LeshyTheme(edition: Edition, useDarkTheme: Boolean = false, content: @Compos
         shapes = shapesFor(edition),
     ) {
         CompositionLocalProvider(
-            LocalLeshyTokens provides leshyTokensFor(edition),
+            LocalLeshyTokens provides leshyTokensFor(edition, useDarkTheme),
             LocalEdition provides edition,
         ) {
             Surface(
@@ -193,6 +193,11 @@ val LocalEdition = staticCompositionLocalOf<Edition> {
  * `scrolledContainerColor` тот же: у земли нет причины менять тон под прокруткой — она не
  * поднимается над содержимым, содержимое лежит на ней.
  *
+ * С появлением текстуры (`SectionScaffold`) оба цвета стали ПРОЗРАЧНЫМИ, а не охристыми: полотно
+ * земли рисуется под всем экраном разом, и непрозрачная шапка того же тона резала бы по нему
+ * границу — два куска дерева со своим рисунком встык. Прозрачность безопасна и без текстуры: под
+ * шапкой тогда тот же `background`, что стоял тут раньше.
+ *
  * Мировая редакция получает ровно `TopAppBarDefaults.topAppBarColors()`, то есть не меняется.
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -200,8 +205,8 @@ val LocalEdition = staticCompositionLocalOf<Edition> {
 fun leshyTopAppBarColors(): TopAppBarColors = when (LocalEdition.current) {
     Edition.WORLD -> TopAppBarDefaults.topAppBarColors()
     Edition.RUSSIA -> TopAppBarDefaults.topAppBarColors(
-        containerColor = MaterialTheme.colorScheme.background,
-        scrolledContainerColor = MaterialTheme.colorScheme.background,
+        containerColor = Color.Transparent,
+        scrolledContainerColor = Color.Transparent,
     )
 }
 

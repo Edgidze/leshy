@@ -67,6 +67,8 @@ import org.koin.compose.koinInject
 import leshy.mushrooms.map.i18n.editionStringKeysFor
 import leshy.mushrooms.map.ui.theme.leshyDrawerContainerColor
 import leshy.mushrooms.map.ui.components.GlyphBadge
+import leshy.mushrooms.map.ui.components.groundBackground
+import leshy.mushrooms.map.ui.components.groundContainerColor
 
 /**
  * [icon] — не `ImageVector`, а поставщик `Painter`: шесть пунктов берут значок из Material
@@ -186,7 +188,10 @@ fun App() {
                             // Выдвижное меню — земля, как и шапка (design.md, раздел 3).
                             // Мировая редакция получает свой прежний дефолт Material, см. KDoc.
                             ModalDrawerSheet(
-                                drawerContainerColor = leshyDrawerContainerColor(),
+                                // Земля и здесь — тем же полотном, что в разделах: меню это её
+                                // продолжение, а не отдельная поверхность (design.md, раздел 3).
+                                modifier = Modifier.groundBackground(),
+                                drawerContainerColor = groundContainerColor(leshyDrawerContainerColor()),
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,

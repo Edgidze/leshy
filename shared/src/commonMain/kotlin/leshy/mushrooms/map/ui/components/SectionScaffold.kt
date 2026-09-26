@@ -1,6 +1,8 @@
 package leshy.mushrooms.map.ui.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
@@ -27,6 +29,14 @@ import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
  * paragraphs of prose) — the reasoning is in `HelpScreen`'s own doc comment. Navigating is the
  * caller's business, hence [onHelpClick]: this composable has no `NavHostController` and is not
  * about to grow one, see the incidents in `ui/navigation/CLAUDE.md`.
+ *
+ * Отсюда же рисуется **земля** ([GroundTexture]) — здесь, а не в `LeshyTheme`, потому что земля
+ * принадлежит разделам верхнего уровня: диалоги, онбординг и экран помощи лежат НА ней своими
+ * поверхностями, а не показывают её сами.
+ *
+ * Текстура лежит под шапкой тоже — у российской редакции шапка это земля, а не отдельная плашка
+ * (`leshyTopAppBarColors`), поэтому её контейнер прозрачен и волокно проходит через весь экран
+ * единым полотном. Иначе на стыке шапки и содержимого была бы видна граница двух кусков дерева.
  */
 @Composable
 fun SectionScaffold(
@@ -36,30 +46,34 @@ fun SectionScaffold(
     onHelpClick: (HelpTopic) -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = leshyTopAppBarColors(),
-                title = { Text(stringResource(title)) },
-                navigationIcon = {
-                    IconButton(onClick = onMenuClick) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = stringResource(StringKey.NavMenuContentDescription),
-                            modifier = Modifier.size(36.dp),
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { onHelpClick(help) }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.HelpOutline,
-                            contentDescription = stringResource(StringKey.HelpContentDescription),
-                        )
-                    }
-                },
-            )
-        },
-        content = content,
-    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        GroundTexture()
+        Scaffold(
+            containerColor = groundContainerColor(),
+            topBar = {
+                TopAppBar(
+                    colors = leshyTopAppBarColors(),
+                    title = { Text(stringResource(title)) },
+                    navigationIcon = {
+                        IconButton(onClick = onMenuClick) {
+                            Icon(
+                                imageVector = Icons.Filled.Menu,
+                                contentDescription = stringResource(StringKey.NavMenuContentDescription),
+                                modifier = Modifier.size(36.dp),
+                            )
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { onHelpClick(help) }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.HelpOutline,
+                                contentDescription = stringResource(StringKey.HelpContentDescription),
+                            )
+                        }
+                    },
+                )
+            },
+            content = content,
+        )
+    }
 }
