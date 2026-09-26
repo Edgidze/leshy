@@ -18,12 +18,18 @@ import leshy.mushrooms.map.domain.repository.CollectionRepository
  * countries — `.claude/plans/countries-and-languages.md`, Phase 3). Replaces the old hardcoded
  * 3-bucket demo seeding; same batch/gate shape as `EnsureDefaultCategoriesUseCase`.
  *
- * **У редакции со своими наборами ([SpeciesSetsSource]) подборка её страны не заводится, а вместо
- * неё идут наборы.** Две сущности с одним и тем же содержимым (одна «Россия» на 171 вид рядом с
- * базовым набором и дополнениями, разбирающими те же 171) означали бы два способа отметить одно и
- * то же и вопрос «а чем они различаются» на экране, где различаться нечему. Строка страновой
- * подборки, если она осталась от прежней сборки, удаляется — вместе со своими членствами;
- * `Category.isPicked` при этом не трогается, то есть уже отмеченные виды остаются отмеченными.
+ * **У редакции со своими наборами ([SpeciesSetsSource]) страновых подборок не заводится ВОВСЕ —
+ * ни своей страны, ни чужих.** Своей — потому что две сущности с одним и тем же содержимым (одна
+ * «Россия» на 171 вид рядом с базовым набором и дополнениями, разбирающими те же 171) означали бы
+ * два способа отметить одно и то же и вопрос «а чем они различаются» на экране, где различаться
+ * нечему. Чужих — решение владельца от 2026-09-26: «карта России» не обещает ни карты, ни данных
+ * за пределами страны (тайлы лежат на своём сервере и других стран на нём не ожидается), а
+ * пятьдесят четыре страновые галочки под одиннадцатью наборами читались как обещание, которого
+ * продукт не даёт. Мировой редакции это не касается: там наборов нет, и страны заводятся все.
+ *
+ * Строки страновых подборок, оставшиеся от прежней сборки, удаляются — вместе со своими
+ * членствами; `Category.isPicked` при этом не трогается, то есть уже отмеченные виды остаются
+ * отмеченными (человек, отметивший что-то через страну, своих грибов не лишается).
  *
  * Membership is always re-inserted in full rather than diffed against what's already there —
  * `CollectionDao.insertMembers` uses `OnConflictStrategy.IGNORE`, so handing it the complete desired
@@ -41,10 +47,11 @@ class EnsureDefaultCollectionsUseCase(
 ) {
     suspend operator fun invoke() {
         val sets = speciesSetsSource.sets
-        // Страна, чью подборку заменяют наборы, выпадает из списка стран целиком — и из посева, и
-        // из членств ниже.
-        val replacedCountry = speciesSetsSource.countryCode.takeIf { sets.isNotEmpty() }
-        val countries = countriesSource.entries.filter { it.code != replacedCountry }
+        // Редакция со своими наборами: страны не заводятся ни одна — ни из посева, ни из членств
+        // ниже (см. KDoc класса). Сам `countries.json` при этом продолжает читаться — из него
+        // берётся частотность видов для ленты (`ObserveSpeciesPriorityUseCase`), это независимая
+        // от подборок работа.
+        val countries = if (sets.isEmpty()) countriesSource.entries else emptyList()
 
         // Fast path — see EnsureDefaultCategoriesUseCase for why the row-count check matters too.
         // Считаются именно страновые строки: с появлением пользовательских подборок
@@ -54,9 +61,16 @@ class EnsureDefaultCollectionsUseCase(
         // Версия — отпечаток обоих файлов разом: наборы живут в своём, и правка только его
         // обязана вызывать пересев так же, как правка `countries.json`.
         val seededVersion = countriesSource.version * 31 + speciesSetsSource.version
-        if (catalogStateRepository.getSeededCountriesVersion() == seededVersion &&
-            collectionRepository.countBySource(CollectionSource.COUNTRY) >= countries.size + sets.size
-        ) {
+        // Сверка числа строк у редакции с наборами — на РАВЕНСТВО, а не «не меньше»: лишние
+        // страновые строки от прежней сборки обязаны провалить гейт, иначе удалять их будет некому
+        // (отпечаток файлов от этого решения не меняется, и быстрый путь замкнул бы их навсегда).
+        // У мировой редакции остаётся «не меньше»: выпавшая из `countries.json` страна оставляет
+        // свою строку жить — тот же аддитивный принцип, что у членств ниже, — и равенство
+        // заставляло бы пересевать всё на каждом запуске.
+        val countryRows = collectionRepository.countBySource(CollectionSource.COUNTRY)
+        val rowsSettled =
+            if (sets.isEmpty()) countryRows >= countries.size else countryRows == sets.size
+        if (catalogStateRepository.getSeededCountriesVersion() == seededVersion && rowsSettled) {
             return
         }
 
@@ -112,11 +126,14 @@ class EnsureDefaultCollectionsUseCase(
         }
         if (memberships.isNotEmpty()) collectionRepository.addMembers(memberships)
 
-        // Подборка страны, которую заменили наборы, могла остаться от прежней сборки — тогда на
-        // экране стояли бы и она, и разбирающие её наборы.
-        if (replacedCountry != null) {
-            collectionRepository.getByNameKey(countryCollectionNameKey(replacedCountry))
-                ?.let { collectionRepository.delete(it) }
+        // Страновые подборки могли остаться от прежней сборки — тогда на экране стояли бы и они, и
+        // наборы, разбирающие ту же самую страну. Удаляются по разбору ключа, а не по источнику:
+        // `CollectionSource.COUNTRY` носят и наборы (они тоже подборки продукта, а не
+        // пользователя), а вот `country_`-ключ есть только у страны.
+        if (sets.isNotEmpty()) {
+            collectionRepository.getAll()
+                .filter { countryCodeForCollectionNameKey(it.nameKey) != null }
+                .forEach { collectionRepository.delete(it) }
         }
 
         catalogStateRepository.setSeededCountriesVersion(seededVersion)
