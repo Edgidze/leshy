@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		00D92C3828D74F0524E9D351 /* leshy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = leshy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1A0F2D14E7B93A5610D8402 /* gribnye.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gribnye.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -18,6 +19,13 @@
 			);
 			target = BB1FBBD5CC0D842530AF63EB /* iosApp */;
 		};
+		C1A0F2D14E7B93A5610D8405 /* Exceptions for "gribnye" folder in "gribnye" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C1A0F2D14E7B93A5610D8406 /* gribnye */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -27,6 +35,19 @@
 				5D37D7EECD30C8F12F65853B /* Exceptions for "iosApp" folder in "iosApp" target */,
 			);
 			path = iosApp;
+			sourceTree = "<group>";
+		};
+		C1A0F2D14E7B93A5610D8403 /* Sources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		C1A0F2D14E7B93A5610D8404 /* gribnye */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C1A0F2D14E7B93A5610D8405 /* Exceptions for "gribnye" folder in "gribnye" target */,
+			);
+			path = gribnye;
 			sourceTree = "<group>";
 		};
 		A9C11E233A5561ED0111DF5F /* Configuration */ = {
@@ -44,6 +65,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C1A0F2D14E7B93A5610D8409 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -51,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				00D92C3828D74F0524E9D351 /* leshy.app */,
+				C1A0F2D14E7B93A5610D8402 /* gribnye.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -59,7 +88,9 @@
 			isa = PBXGroup;
 			children = (
 				A9C11E233A5561ED0111DF5F /* Configuration */,
+				C1A0F2D14E7B93A5610D8403 /* Sources */,
 				0C548C1AB42F4A9038935AB0 /* iosApp */,
+				C1A0F2D14E7B93A5610D8404 /* gribnye */,
 				CBF4A827E03F078E33D350A6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,6 +113,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				C1A0F2D14E7B93A5610D8403 /* Sources */,
 				0C548C1AB42F4A9038935AB0 /* iosApp */,
 			);
 			name = iosApp;
@@ -89,6 +121,31 @@
 			);
 			productName = iosApp;
 			productReference = 00D92C3828D74F0524E9D351 /* leshy.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C1A0F2D14E7B93A5610D8406 /* gribnye */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C1A0F2D14E7B93A5610D840E /* Build configuration list for PBXNativeTarget "gribnye" */;
+			buildPhases = (
+				C1A0F2D14E7B93A5610D8407 /* Compile Kotlin Framework */,
+				C1A0F2D14E7B93A5610D8408 /* Sources */,
+				C1A0F2D14E7B93A5610D8409 /* Frameworks */,
+				C1A0F2D14E7B93A5610D840A /* Resources */,
+				C1A0F2D14E7B93A5610D840B /* Archive symbols for crash reports */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C1A0F2D14E7B93A5610D8403 /* Sources */,
+				C1A0F2D14E7B93A5610D8404 /* gribnye */,
+			);
+			name = gribnye;
+			packageProductDependencies = (
+			);
+			productName = gribnye;
+			productReference = C1A0F2D14E7B93A5610D8402 /* gribnye.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -102,6 +159,9 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					BB1FBBD5CC0D842530AF63EB = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					C1A0F2D14E7B93A5610D8406 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -162,12 +222,20 @@
 			projectRoot = "";
 			targets = (
 				BB1FBBD5CC0D842530AF63EB /* iosApp */,
+				C1A0F2D14E7B93A5610D8406 /* gribnye */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		51AEA86DB7267422E12CC55E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C1A0F2D14E7B93A5610D840A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -215,10 +283,55 @@
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/Scripts/archive-symbols.sh\"\n";
 		};
+		C1A0F2D14E7B93A5610D8407 /* Compile Kotlin Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Compile Kotlin Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+		};
+		C1A0F2D14E7B93A5610D840B /* Archive symbols for crash reports */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Archive symbols for crash reports";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/Scripts/archive-symbols.sh\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8FD7D0C90C155BB429E5F8F8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C1A0F2D14E7B93A5610D8408 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -419,6 +532,74 @@
 			};
 			name = Debug;
 		};
+		C1A0F2D14E7B93A5610D840C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A9C11E233A5561ED0111DF5F /* Configuration */;
+			baseConfigurationReferenceRelativePath = "Config-gribnye.xcconfig";
+			buildSettings = {
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6UHK58SAU6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = gribnye/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Shared,
+					"-framework",
+					MapLibre,
+				);
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		C1A0F2D14E7B93A5610D840D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A9C11E233A5561ED0111DF5F /* Configuration */;
+			baseConfigurationReferenceRelativePath = "Config-gribnye.xcconfig";
+			buildSettings = {
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6UHK58SAU6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = gribnye/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Shared,
+					"-framework",
+					MapLibre,
+				);
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -436,6 +617,15 @@
 			buildConfigurations = (
 				D6A587571359083BCB36472E /* Debug */,
 				6DF840F167A8A2A9DEBFCED6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C1A0F2D14E7B93A5610D840E /* Build configuration list for PBXNativeTarget "gribnye" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C1A0F2D14E7B93A5610D840C /* Debug */,
+				C1A0F2D14E7B93A5610D840D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

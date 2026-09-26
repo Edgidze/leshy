@@ -69,9 +69,22 @@
 срезанная шляпка читается как брак печати, а не как кадрирование, — и не набрать при этом пустого
 неба по краям.
 
-**Раскладка только под Android.** iOS-вариант этим скриптом не готовится: Apple накладывает маску
-сама, и ему нужен full-bleed квадрат без альфы (`design.md`, раздел 14). Второго таргета в
-`iosApp` сейчас нет, делать эту композицию вслепую нечего.
+## iOS: та же мысль, но медальон квадратный
+
+Apple накладывает маску сама и всегда ОДНУ И ТУ ЖЕ — squircle с радиусом ~22.4% стороны, — в
+отличие от Android, где форму выбирает лаунчер. Поэтому под iOS не нужно ни отдельного фонового
+слоя, ни круга: иконка собирается сразу готовой картинкой (`ios_icon`) — то же деревянное поле во
+всю площадь плюс медальон со сценой, но **со скруглённым квадратом вместо круга**. Круг здесь был
+бы даром отданной площадью: под известной заранее маской квадрат со скруглением не срезается, а
+грибов в него входит заметно больше.
+
+Медальон — [IOS_MEDALLION_RATIO] стороны, то есть до края иконки остаётся 11% ширины дерева: под
+маской это и есть видимая рама. Что скругление медальона не попадёт под нож маски, проверяется
+геометрией: крайняя точка его угловой дуги лежит в 219 точках от угла холста по диагонали, граница
+маски — в 95 (при стороне 1024).
+
+**Без альфа-канала** (`design.md`, раздел 14, и `.claude/rules/compose-resources.md`): прозрачность
+в иконке App Store Connect отклоняет на загрузке, поэтому результат сохраняется как RGB.
 
 Запуск:  python3 tools/generate_russia_app_icons.py
 """
@@ -89,6 +102,8 @@ SRC = os.path.join(ROOT, "gribnye_icon.png")
 # из бруска самой рамы (хуже, см. `wood_field`).
 WOOD_SRC = os.path.join(ROOT, "gribnye_wood.png")
 RES = os.path.join(ROOT, "androidApp", "src", "russia", "res")
+# Каталог ассетов российского таргета iOS (`iosApp/CLAUDE.md`, раздел про два таргета).
+IOS_ICONSET = os.path.join(ROOT, "iosApp", "gribnye", "Assets.xcassets", "AppIcon.appiconset")
 # Значок, нарисованный ВНУТРИ приложения (приветственный экран, заставка холодного старта), —
 # не иконка лаунчера, а обычный ресурс Compose. Пара к `leshy_icon.webp` мировой редакции.
 DRAWABLES = os.path.join(ROOT, "shared", "src", "commonMain", "composeResources", "drawable")
@@ -116,6 +131,13 @@ ADAPTIVE_SAFE_RADIUS_DP = 33.0
 # упёрлись бы в кромку.
 LEGACY_MEDALLION_RATIO = 0.80
 LEGACY_ROUND_MEDALLION_RATIO = 0.74
+
+# iOS: единственный файл 1024×1024, маску Apple накладывает сама.
+IOS_SIDE = 1024
+# Сторона медальона долей стороны иконки и радиус его скругления долей его собственной стороны.
+# Обоснование обоих чисел — в докстринге модуля, раздел про iOS.
+IOS_MEDALLION_RATIO = 0.78
+IOS_MEDALLION_RADIUS = 0.18
 
 # Центр кропа в долях сцены и его радиус в долях её ширины. Подобраны по раскладке четырёх
 # вариантов: круг обязан вместить обе шляпки целиком (срезанная шляпка читается как брак печати),
@@ -239,8 +261,8 @@ def scene_box(im: Image.Image) -> tuple[int, int, int, int]:
     return x0, y0, x1, y1
 
 
-def medallion_layer(im: Image.Image) -> Image.Image:
-    """Круглый кроп сцены, плотно по грибам — передний слой иконки. Разбор — в докстринге модуля."""
+def scene_square(im: Image.Image) -> Image.Image:
+    """Квадратный кроп сцены, плотно по грибам — из него делаются медальоны обеих платформ."""
     x0, y0, x1, y1 = scene_box(im)
     width, height = x1 - x0, y1 - y0
     cx = x0 + width * SCENE_CENTER_X
@@ -248,8 +270,12 @@ def medallion_layer(im: Image.Image) -> Image.Image:
     r = width * SCENE_RADIUS
     # Кроп не должен вылезти за сцену: иначе в медальон попадёт белый мат куском по краю.
     r = min(r, cx - x0, x1 - cx, cy - y0, y1 - cy)
-    scene = im.crop((int(cx - r), int(cy - r), int(cx + r), int(cy + r))).convert("RGB")
-    return circular(scene)
+    return im.crop((int(cx - r), int(cy - r), int(cx + r), int(cy + r))).convert("RGB")
+
+
+def medallion_layer(im: Image.Image) -> Image.Image:
+    """Круглый кроп сцены — передний слой адаптивной иконки Android. Разбор — в докстринге модуля."""
+    return circular(scene_square(im))
 
 
 def fitted(layer: Image.Image, canvas_px: int, content_px: float) -> Image.Image:
@@ -270,6 +296,35 @@ def circular(im: Image.Image) -> Image.Image:
     out = im.copy()
     out.putalpha(mask)
     return out
+
+
+def rounded(im: Image.Image, radius_fraction: float) -> Image.Image:
+    """[im] со скруглёнными углами — тот же приём, что в [circular], но маска не круг.
+
+    Маска рисуется в четырёхкратном размере и уменьшается: у `ImageDraw` нет сглаживания, и
+    нарисованная в натуральную величину дуга дала бы лестницу по краю медальона.
+    """
+    from PIL import ImageDraw
+
+    scale = 4
+    mask = Image.new("L", (im.width * scale, im.height * scale), 0)
+    ImageDraw.Draw(mask).rounded_rectangle(
+        (0, 0, mask.width - 1, mask.height - 1),
+        radius=int(min(mask.size) * radius_fraction),
+        fill=255,
+    )
+    out = im.copy()
+    out.putalpha(mask.resize(im.size, Image.LANCZOS))
+    return out
+
+
+def ios_icon(im: Image.Image, wood: Image.Image | None) -> Image.Image:
+    """Иконка iOS: деревянное поле во всю площадь плюс медальон со сценой. Разбор — в докстринге."""
+    canvas = wood_field(im, IOS_SIDE, wood).convert("RGBA")
+    medallion = rounded(scene_square(im), IOS_MEDALLION_RADIUS)
+    canvas.alpha_composite(fitted(medallion, IOS_SIDE, IOS_SIDE * IOS_MEDALLION_RATIO))
+    # Альфы в файле остаться не должно — на загрузке в App Store Connect она отклоняется.
+    return canvas.convert("RGB")
 
 
 def in_app_icon(im: Image.Image) -> Image.Image:
@@ -355,6 +410,11 @@ def main() -> None:
     print(f"бруски рамы: слева {left}, справа {right}, сверху {top}, снизу {bottom}")
     print(f"сцена внутри мата: x {x0}..{x1}, y {y0}..{y1}")
     print(f"медальон {medallion.size[0]}×{medallion.size[1]}")
+
+    os.makedirs(IOS_ICONSET, exist_ok=True)
+    ios_path = os.path.join(IOS_ICONSET, "app-icon-1024.png")
+    ios_icon(src, wood).save(ios_path)
+    print(f"iOS: app-icon-1024.png, {os.path.getsize(ios_path)} байт")
 
     in_app = in_app_icon(src)
     in_app_path = os.path.join(DRAWABLES, IN_APP_NAME)

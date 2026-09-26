@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Манифест российской редакции. Пара к iosApp/Info.plist мирового «Лешего»: отличия — только
+	     имя продукта в строках; всё остальное совпадает построчно, и расходиться не должно. -->
+	<!-- Ярлык под иконкой. Значение здесь — база (английская), её перекрывают
+	     <язык>.lproj/InfoPlist.strings; без ключа в самом Info.plist локализация
+	     не подхватывается вовсе, iOS взяла бы PRODUCT_NAME («gribnye»).
+	     ЯРЛЫК И НАЗВАНИЕ В МАГАЗИНЕ — РАЗНЫЕ СТРОКИ: здесь ярлык («Грибные прогулки»), название
+	     листинга — «Грибные прогулки: карта России». Пара к androidApp/src/russia/res. -->
+	<key>CFBundleDisplayName</key>
+	<string>Mushroom Walks</string>
+	<!-- Экспортное соответствие: приложение ходит только по HTTPS (свой тайл-хост) и системной
+	     криптографией не пользуется — это штатное исключение. Без ключа App Store Connect держит
+	     билд в статусе Missing Compliance (в TestFlight он не раздаётся) и задаёт вопрос руками
+	     при каждой загрузке. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<!-- Purpose-строки здесь английские, потому что это база; русские — в ru.lproj/InfoPlist.strings,
+	     и их-то и показывает система на русском телефоне. У мировой редакции русских нет вовсе:
+	     там сорок языков, и заводить сорок переводов ради трёх диалогов никто не стал. Здесь
+	     языков два, продукт русский, и английский текст в системном диалоге был бы виден сразу. -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Mushroom Walks records your route and mushroom finds during a walk.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Mushroom Walks keeps recording your route while the app is in the background or the screen is locked.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Mushroom Walks uses the camera to photograph mushrooms and landmarks during a walk.</string>
+	<!-- Объявлен здесь явно, а не сгенерирован сборкой
+	     (INFOPLIST_KEY_UIApplicationSceneManifest_Generation): генератор всегда ставит
+	     UIApplicationSupportsMultipleScenes = true, а приложение однооконное — второе окно на
+	     iPad подняло бы вторую Compose-сцену со своим сбором GPS и своей картой.
+	     UISceneConfigurations намеренно пуст: класс делегата сцены задаётся кодом, в
+	     AppDelegate.application(_:configurationForConnecting:options:), чтобы имя класса не
+	     жило строкой в plist в паре с именем Swift-модуля. -->
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict/>
+	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
+</dict>
+</plist>

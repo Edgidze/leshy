@@ -1,5 +1,67 @@
 # iosApp/ — Xcode-проект
 
+## Два таргета: `iosApp` (мировой) и `gribnye` (российский)
+
+Один проект, один `Shared.framework`, **три синхронизированные папки**:
+
+| Папка | Чья | Что внутри |
+|---|---|---|
+| `Sources/` | обоих таргетов | весь Swift-код (`iOSApp.swift`, `DiagnosticsArchive.swift`) и `PrivacyInfo.xcprivacy` |
+| `iosApp/` | мирового | `Info.plist`, `Assets.xcassets`, 42 × `<язык>.lproj`, `Preview Content`, `HostEdition.swift` |
+| `gribnye/` | российского | `Info.plist`, `Assets.xcassets`, `ru.lproj`+`en.lproj`, `HostEdition.swift` |
+
+Ровно та же раскладка, что у Android: `Sources/` ≈ `src/main`, `iosApp/` ≈
+`src/world`, `gribnye/` ≈ `src/russia`. Имя `iosApp` у мировой папки
+историческое — переименовывать не стали, чтобы не дёргать `INFOPLIST_FILE`,
+схемы и открытый у владельца Xcode.
+
+**Почему ресурсы разведены по папкам, а не сложены в одну с разными
+`Info.plist`.** Число `.lproj` в бандле — это список языков на странице
+приложения в App Store (раздел про публикацию ниже). Общая папка дала бы
+российскому продукту все 42, хотя интерфейс у него предлагает два
+(`EditionLanguages.kt`). Каталог ассетов разведён следом: держать две иконки
+в одном каталоге можно (`ASSETCATALOG_COMPILER_APPICON_NAME` у таргетов
+разный), но тогда каждый бандл несёт чужую иконку мегабайтом.
+
+**Редакцию объявляет таргет — файлом, а не `if`.** `Sources/iOSApp.swift`
+пишет `MainViewController(edition: hostEdition)`, а `hostEdition` объявлен
+в `HostEdition.swift` ПАПКИ ТАРГЕТА — по одной строке в каждой. Это iOS-пара
+к `androidApp/src/<флейвор>/kotlin/.../HostEdition.kt` и то же правило, что
+в `docs/russia-edition/README.md`: различия редакций — новые файлы, а не
+развилки в общем коде. Сборочной константы вроде `BuildConfig` здесь взять
+неоткуда в принципе — фреймворк один на оба таргета.
+
+**У российского таргета свой xcconfig, и он подключён на уровне ТАРГЕТА.**
+`Configuration/Config-gribnye.xcconfig` (`PRODUCT_NAME=gribnye`,
+`PRODUCT_BUNDLE_IDENTIFIER=ru.gribnyeprogulki.map`, своя нумерация версий с
+единицы) перекрывает проектный `Config.xcconfig`, который остаётся мировым:
+target-level xcconfig в порядке разрешения настроек стоит выше
+project-level. Поэтому мировые значения не пришлось никуда переносить —
+инвариант «`leshy.mushrooms.map` не меняется никогда» соблюдается тем, что
+файл мирового продукта эта задача не трогала вовсе.
+
+**Схемы обоих таргетов Xcode создаёт сам** и держит в `xcuserdata` (под git
+их нет, см. раздел про `PRODUCT_NAME`). `xcodebuild -list` показывает обе
+сразу после клонирования; собрать конкретную можно и без схемы —
+`-target gribnye`.
+
+**Проверка обеих сборок** (Kotlin-фреймворк собирается фазой каждой из них,
+так что первый прогон долгий):
+
+```bash
+xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp  -configuration Debug \
+  -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath /tmp/dd build
+xcodebuild -project iosApp/iosApp.xcodeproj -scheme gribnye -configuration Debug \
+  -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath /tmp/dd build
+ls -d /tmp/dd/Build/Products/Debug-iphonesimulator/gribnye.app/*.lproj | wc -l   # 2
+ls -d /tmp/dd/Build/Products/Debug-iphonesimulator/leshy.app/*.lproj   | wc -l   # 42
+```
+
+**Карты в российской сборке не будет, и это не дефект таргета:**
+`tiles.gribnye-progulki.ru` не заведён в DNS. Пустая карта с баннером «нет
+связи с сервером» — ожидаемое состояние до появления сервера
+(`docs/russia-edition/session-2026-09-26.md`).
+
 ## MapLibre через SPM, не CocoaPods
 
 Осознанный выбор (CocoaPods прекращает поддержку новых версий пакетов в
@@ -124,7 +186,9 @@ iPhone 17 и iPhone SE (2-го поколения), обе — iOS 26.5, до ф
 
 `PRODUCT_NAME=leshy`, `PRODUCT_BUNDLE_IDENTIFIER=leshy.mushrooms.map` и обе
 версии заданы в xcconfig, подключённом base configuration **на уровне
-проекта**; у таргета своих значений нет. Отсюда неочевидное следствие: если
+проекта**; у таргета своих значений нет. (У российского таргета — свой
+`Config-gribnye.xcconfig` на уровне таргета, см. первый раздел; всё
+написанное ниже относится к нему ровно так же.) Отсюда неочевидное следствие: если
 Xcode перечитает проект в момент, когда xcconfig не отдал значение,
 `PRODUCT_NAME` схлопывается в пустую строку — и это не остаётся вычислением
 на лету, Xcode записывает результат в файлы проекта:
@@ -216,6 +280,9 @@ Build settings (Debug+Release): `OTHER_LDFLAGS = (-framework Shared,
 каждой сборки в `~/Library/Developer/leshy-symbols/` (переопределяется
 `LESHY_SYMBOL_ARCHIVE`), последние 10 сборок.
 
+- **Архив общий у двух продуктов**, поэтому имя папки сборки начинается с
+  метки времени и `PRODUCT_NAME` (`…-gribnye-Debug-<uuid8>`), а ротация
+  `KEEP` считает сборки обеих редакций вместе.
 - **Только `PLATFORM_NAME = iphoneos`.** Симуляторная сборка на телефон не
   попадает, значит и в репорт с устройства тоже.
 - **Копируются только бинари, не `.app` целиком** — для `atos`/`dwarfdump`
@@ -291,8 +358,9 @@ Build settings (Debug+Release): `OTHER_LDFLAGS = (-framework Shared,
   лишает уже установивших iPad-пользователей обновлений. Включение iPad
   потребует комплекта скриншотов 13" и проверки раскладки в окне
   произвольного размера (iPadOS 26 делает окна приложений ресайзимыми).
-- **Число папок `<язык>.lproj` обязано совпадать с числом языков в
-  `AppLanguage.kt`.** В них лежит только `CFBundleDisplayName` — короткий
+- **Число папок `<язык>.lproj` у мирового таргета обязано совпадать с числом
+  языков в `AppLanguage.kt`** (у российского их два — `ru`+`en`, по составу
+  `editionLanguagesFor(Edition.RUSSIA)`).** В них лежит только `CFBundleDisplayName` — короткий
   ярлык под иконкой («Грибная карта», «Pilzkarte»), не полное
   `StringKey.AppName` («Грибная карта от Лешего»). Причина держать их в
   синхроне не косметическая: **список языков на странице приложения в App
@@ -303,12 +371,20 @@ Build settings (Debug+Release): `OTHER_LDFLAGS = (-framework Shared,
 
 ## Файлы в таргет добавлять не надо — папка синхронизирована
 
-`project.pbxproj` — формат Xcode 16 (`objectVersion = 77`), каталог
-`iosApp/iosApp` подключён как `PBXFileSystemSynchronizedRootGroup`. То есть
-**явного списка файлов в проекте нет вообще**: всё, что лежит в каталоге на
-диске, автоматически принадлежит таргету. Единственное исключение прописано
-для `Info.plist` (`PBXFileSystemSynchronizedBuildFileExceptionSet`) — он не
-ресурс, а манифест.
+`project.pbxproj` — формат Xcode 16 (`objectVersion = 77`), все три каталога
+(`Sources`, `iosApp`, `gribnye`) подключены как
+`PBXFileSystemSynchronizedRootGroup`. То есть **явного списка файлов в
+проекте нет вообще**: всё, что лежит в каталоге на диске, автоматически
+принадлежит таргетам, которым принадлежит сам каталог — а `Sources`
+принадлежит обоим (одна и та же группа перечислена в
+`fileSystemSynchronizedGroups` у каждого, Xcode это принимает; проверено
+сборкой обеих схем 2026-09-26). Исключения прописаны для каждого
+`Info.plist` (`PBXFileSystemSynchronizedBuildFileExceptionSet`, по одному на
+таргет) — он не ресурс, а манифест.
+
+**Куда положить новый файл — это и есть выбор его принадлежности:** общий
+Swift-код и общие ресурсы в `Sources/`, мировое в `iosApp/`, российское в
+`gribnye/`.
 
 Практические следствия:
 

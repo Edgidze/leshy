@@ -1,0 +1,18 @@
+// «Грибные прогулки: карта России» — российская редакция, второй таргет.
+// Пара к Config.xcconfig (мировой «Леший»); подключён базовой конфигурацией ТАРГЕТА gribnye,
+// а не проекта, и поэтому перекрывает проектные значения ровно этими четырьмя.
+//
+// PRODUCT_BUNDLE_IDENTIFIER после публикации не меняется никогда — как и мировой
+// leshy.mushrooms.map. Он же стоит в applicationId флейвора russia на Android.
+PRODUCT_NAME=gribnye
+PRODUCT_BUNDLE_IDENTIFIER=ru.gribnyeprogulki.map
+
+// Нумерация СВОЯ и начинается с единицы: это новое приложение в магазине, номера мирового
+// «Лешего» ему не наследуются.
+//
+// MARKETING_VERSION держится равным gribnye.versionName из gradle.properties — одна версия
+// приложения в обоих магазинах. CURRENT_PROJECT_VERSION с android-овским gribnye.versionCode
+// НЕ связан и совпадать с ним не обязан (у мирового они давно разошлись: 3 против 5): его
+// единственное правило — расти на каждую загрузку в пределах одного MARKETING_VERSION.
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0

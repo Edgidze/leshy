@@ -61,7 +61,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = MainViewControllerKt.MainViewController(edition: .world)
+        // Редакция приходит из `HostEdition.swift` ПАПКИ ТАРГЕТА — `iosApp/` у мирового «Лешего»,
+        // `gribnye/` у «Грибных прогулок». Этот файл общий обоим таргетам и о редакциях не знает.
+        window.rootViewController = MainViewControllerKt.MainViewController(edition: hostEdition)
         // Не только показывает окно, но и делает его ключевым: `UIApplication.keyWindow`
         // (устаревшее, но всё ещё то, через что iosMain достаёт rootViewController для
         // камеры/шаринга/файловых пикеров) без этого остаётся nil.

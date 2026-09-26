@@ -46,7 +46,10 @@ if grep -qs -- "$uuid" "$ARCHIVE_ROOT"/*/uuids.txt 2>/dev/null; then
     exit 0
 fi
 
-dest="$ARCHIVE_ROOT/$(date '+%Y%m%d-%H%M%S')-${CONFIGURATION}-$(printf '%s' "$uuid" | cut -c1-8)"
+# Имя продукта в имени папки — потому что архив ОБЩИЙ у двух таргетов (`leshy` и `gribnye`,
+# см. iosApp/CLAUDE.md): без него две редакции лежали бы вперемешку, и какая где — читалось бы
+# только по именам бинарей внутри uuids.txt. Ротация KEEP тоже общая на оба продукта.
+dest="$ARCHIVE_ROOT/$(date '+%Y%m%d-%H%M%S')-${PRODUCT_NAME:-app}-${CONFIGURATION}-$(printf '%s' "$uuid" | cut -c1-8)"
 mkdir -p "$dest/binaries" || exit 0
 
 # Копируем только Mach-O: ресурсы для символизации не нужны, а .app целиком
