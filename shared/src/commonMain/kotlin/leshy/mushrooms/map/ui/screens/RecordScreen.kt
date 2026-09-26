@@ -135,6 +135,8 @@ import leshy.mushrooms.map.domain.model.Edition
 import org.koin.compose.viewmodel.koinViewModel
 import kotlinx.coroutines.launch
 import leshy.mushrooms.map.ui.map.MAP_SCALE_BAR_CLEARANCE
+import leshy.mushrooms.map.ui.components.dialogFrame
+import leshy.mushrooms.map.ui.components.cardFrameBorder
 
 private val ACTION_BUTTON_HEIGHT = 56.dp
 private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
@@ -933,7 +935,7 @@ private fun WalkNameDialog(onConfirm: (String) -> Unit, onDismissRequest: () -> 
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.dialogWidth().imePadding(),
+        modifier = Modifier.dialogWidth().imePadding().dialogFrame(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.RecordSetWalkNameTitle)) },
         text = {
@@ -1042,6 +1044,7 @@ private fun MushroomBulkAddDialog(
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight),
                 shape = LeshyTheme.tokens.shapeDialog,
+                border = cardFrameBorder(),
                 tonalElevation = 4.dp,
             ) {
                 Column(modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
@@ -1139,7 +1142,7 @@ private fun MushroomBulkAddDialog(
 private fun NoLocationDialog(onDismissRequest: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.dialogWidth(),
+        modifier = Modifier.dialogWidth().dialogFrame(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         text = { Text(stringResource(StringKey.RecordLocationUnknownMessage)) },
         confirmButton = {
@@ -1155,7 +1158,7 @@ private fun NoLocationDialog(onDismissRequest: () -> Unit) {
 private fun MushroomBulkAddLimitDialog(onDismissRequest: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.dialogWidth(),
+        modifier = Modifier.dialogWidth().dialogFrame(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         text = { Text(stringResource(StringKey.RecordBulkAddLimitMessage)) },
         confirmButton = {
@@ -1194,6 +1197,7 @@ private fun MushroomSearchDialog(
         Surface(
             modifier = Modifier.dialogWidth().imePadding(),
             shape = LeshyTheme.tokens.shapeDialog,
+            border = cardFrameBorder(),
             tonalElevation = 4.dp,
         ) {
             Column(modifier = Modifier.padding(16.dp)) {

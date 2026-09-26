@@ -47,6 +47,8 @@ import org.koin.compose.koinInject
 import leshy.mushrooms.map.domain.model.EditionEndpoints
 import leshy.mushrooms.map.i18n.stringResourceWithHost
 import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
+import leshy.mushrooms.map.ui.components.dialogFrame
+import leshy.mushrooms.map.ui.components.groundContainerColor
 
 /**
  * «О приложении» — версия, атрибуция карты и полный список зависимостей с текстами их лицензий.
@@ -92,6 +94,7 @@ fun AboutScreen(
 
     Scaffold(
         modifier = modifier,
+        containerColor = groundContainerColor(),
         topBar = {
             TopAppBar(
                 colors = leshyTopAppBarColors(),
@@ -214,7 +217,7 @@ private fun LibraryRow(library: Library, onClick: () -> Unit) {
 private fun LicenseDialog(library: Library, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        modifier = Modifier.dialogWidth(),
+        modifier = Modifier.dialogWidth().dialogFrame(),
         title = { Text(library.name) },
         text = {
             Column(

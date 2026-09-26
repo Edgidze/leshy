@@ -20,6 +20,7 @@ import leshy.mushrooms.map.i18n.stringResource
 fun MushroomImageDisclaimerBanner(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
+        border = cardFrameBorder(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
     ) {
         Text(

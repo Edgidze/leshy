@@ -142,6 +142,7 @@ val SECTION_TOP_GAP = 24.dp
 fun MetricCard(icon: Painter, label: String, value: String, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
+        border = cardFrameBorder(),
         // Доска вместо заливки: блок статистики — такая же дощечка на земле, как карточка вида
         // (`design.md`, раздел 7). Цвет содержимого задаётся явно, потому что прозрачному
         // контейнеру Material подобрать его не из чего.

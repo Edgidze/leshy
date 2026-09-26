@@ -7,6 +7,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
@@ -15,12 +16,15 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.domain.model.Edition
+import leshy.mushrooms.map.ui.components.GroundTexture
 
 private val LeshyGreen = Color(0xFF1B4332)
 
@@ -116,6 +120,7 @@ fun LeshyTheme(edition: Edition, useDarkTheme: Boolean = false, content: @Compos
     MaterialTheme(
         colorScheme = colorSchemeFor(edition, useDarkTheme),
         shapes = shapesFor(edition),
+        typography = typographyFor(edition),
     ) {
         CompositionLocalProvider(
             LocalLeshyTokens provides leshyTokensFor(edition, useDarkTheme),
@@ -124,8 +129,23 @@ fun LeshyTheme(edition: Edition, useDarkTheme: Boolean = false, content: @Compos
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background,
-                content = content,
-            )
+            ) {
+                // Земля — здесь, под всем содержимым разом, а не в каждом экране по отдельности.
+                //
+                // Так было не всегда: сначала её рисовал `SectionScaffold`, то есть разделы
+                // верхнего уровня, а листовые экраны (помощь, онбординг, «О приложении», выбор
+                // языка, детализация прогулки) оставались на сплошной охре. На устройстве это
+                // выглядело ровно тем, чем было, — половина приложения на дереве, половина на
+                // заливке (репорт владельца 2026-09-26 про экраны инструкций).
+                //
+                // Условие, при котором это безопасно: экран, которому земля не нужна, закрывает её
+                // своей поверхностью сам (полноэкранная карта), а тот, кому нужна, обязан иметь
+                // ПРОЗРАЧНЫЙ контейнер — `groundContainerColor()` у своего `Scaffold`. Мировой
+                // редакции ни то ни другое не видно: у неё `groundTexture` пуст, и [GroundTexture]
+                // не рисует ничего.
+                GroundTexture()
+                content()
+            }
         }
     }
 }
@@ -171,6 +191,57 @@ private fun shapesFor(edition: Edition): Shapes = when (edition) {
         extraLarge = RoundedCornerShape(6.dp),
     )
 }
+
+/**
+ * Шкала кегля редакции — дефолтная шкала Material, умноженная на [LeshyTokens.typeScaleStep].
+ *
+ * **Зачем редакции свой размер.** Под текстом у неё дерево, и волокно, даже приглушённое до 8%
+ * разброса по светлоте, немного мешает читать (замечание владельца с устройства 2026-09-26). Плюс
+ * то, ради чего ступень и была заложена: аудитория сбора грибов смещена к старшему возрасту, а
+ * читают в лесу, на ходу, иногда на солнце (`design.md`, раздел 5).
+ *
+ * **Умножается вся шкала разом, а не правятся кегли по местам.** Пятнадцать стилей Material
+ * связаны между собой (заголовок крупнее подписи на известную долю), и подкрутка отдельных чисел
+ * эти отношения ломает; множитель их сохраняет. Межстрочное расстояние растёт вместе с кеглем —
+ * иначе крупный текст слипся бы в блок.
+ *
+ * Мировая редакция получает множитель 1 и вместе с ним ровно `Typography()`, то есть дефолт
+ * Material, который тема не переопределяла и раньше, — проверено скриншот-дифом.
+ *
+ * Чего это НЕ касается: кеглей, заданных в коде числом (подпись вида на плитке, счётчик находок,
+ * нижняя граница автоподбора в блоках статистики). Они живут поверх фотографий, а не поверх
+ * дерева, и шкале Material не принадлежат.
+ */
+@Composable
+private fun typographyFor(edition: Edition): Typography {
+    val step = leshyTokensFor(edition).typeScaleStep
+    if (step == 1f) return Typography()
+    return remember(step) { Typography().scaledBy(step) }
+}
+
+/** Все пятнадцать стилей шкалы, умноженные на [step]; трекинг не трогается — он в `em`. */
+private fun Typography.scaledBy(step: Float): Typography = Typography(
+    displayLarge = displayLarge.scaledBy(step),
+    displayMedium = displayMedium.scaledBy(step),
+    displaySmall = displaySmall.scaledBy(step),
+    headlineLarge = headlineLarge.scaledBy(step),
+    headlineMedium = headlineMedium.scaledBy(step),
+    headlineSmall = headlineSmall.scaledBy(step),
+    titleLarge = titleLarge.scaledBy(step),
+    titleMedium = titleMedium.scaledBy(step),
+    titleSmall = titleSmall.scaledBy(step),
+    bodyLarge = bodyLarge.scaledBy(step),
+    bodyMedium = bodyMedium.scaledBy(step),
+    bodySmall = bodySmall.scaledBy(step),
+    labelLarge = labelLarge.scaledBy(step),
+    labelMedium = labelMedium.scaledBy(step),
+    labelSmall = labelSmall.scaledBy(step),
+)
+
+private fun TextStyle.scaledBy(step: Float): TextStyle = copy(
+    fontSize = fontSize * step,
+    lineHeight = lineHeight * step,
+)
 
 /**
  * Редакция, доступная из любого места композиции.

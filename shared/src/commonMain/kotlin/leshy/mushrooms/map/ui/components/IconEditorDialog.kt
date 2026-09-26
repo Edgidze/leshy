@@ -487,6 +487,11 @@ fun IconEditorDialog(
                                 }
                             },
                             shape = SegmentedButtonDefaults.itemShape(baseShape = LeshyTheme.tokens.shapeSegmentBase, index = index, count = EditorTool.entries.size),
+                            colors = woodenSegmentColors(),
+                            modifier = Modifier.selectedSegmentBackground(
+                                selected = activeTool == tool,
+                                shape = SegmentedButtonDefaults.itemShape(baseShape = LeshyTheme.tokens.shapeSegmentBase, index = index, count = EditorTool.entries.size),
+                            ),
                         ) {
                             Text(
                                 stringResource(
@@ -532,6 +537,11 @@ fun IconEditorDialog(
                                 selected = cropShape == shape,
                                 onClick = { cropShape = shape },
                                 shape = SegmentedButtonDefaults.itemShape(baseShape = LeshyTheme.tokens.shapeSegmentBase, index = index, count = CropShape.entries.size),
+                                colors = woodenSegmentColors(),
+                                modifier = Modifier.selectedSegmentBackground(
+                                    selected = cropShape == shape,
+                                    shape = SegmentedButtonDefaults.itemShape(baseShape = LeshyTheme.tokens.shapeSegmentBase, index = index, count = CropShape.entries.size),
+                                ),
                             ) {
                                 Text(
                                     stringResource(

@@ -43,13 +43,13 @@ import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.ui.components.ArchiveVignette
+import leshy.mushrooms.map.ui.components.cardFrameBorder
+import leshy.mushrooms.map.ui.components.groundContainerColor
 import leshy.mushrooms.map.ui.components.HelpVignette
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MenuVignette
 import leshy.mushrooms.map.ui.components.RecordVignette
 import leshy.mushrooms.map.ui.theme.LeshyTheme
-import leshy.shared.generated.resources.Res
-import leshy.shared.generated.resources.leshy_icon
 import org.jetbrains.compose.resources.painterResource
 import leshy.mushrooms.map.i18n.editionStringKeysFor
 import leshy.mushrooms.map.domain.model.Edition
@@ -91,6 +91,8 @@ fun WelcomeScreen(
 
     Scaffold(
         modifier = modifier,
+        // Полотно земли рисует `LeshyTheme` под всем приложением — контейнер обязан его пропустить.
+        containerColor = groundContainerColor(),
         topBar = {
             TopAppBar(
                 colors = leshyTopAppBarColors(),
@@ -186,17 +188,17 @@ private fun Hero() {
         modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // Значок приложения — ровно тот, что пользователь только что нажал на домашнем экране
-        // (`leshy_icon.webp` — уменьшенная копия опубликованной иконки,
-        // `iosApp/.../AppIcon.appiconset/app-icon-1024.png`), а не старый логотип-рожица: первая
-        // страница обязана узнаваться тем же образом, каким приложение было открыто.
+        // Значок приложения — ровно тот, что пользователь только что нажал на домашнем экране, а
+        // не старый логотип-рожица: первая страница обязана узнаваться тем же образом, каким
+        // приложение было открыто. **Оттого он и берётся из набора величин редакции**: значок
+        // мирового «Лешего» на первой странице «Грибных прогулок» — тот самый остаток, который
+        // ищет задача 14 (`docs/russia-edition/track-app.md`).
         //
-        // Скругление накладывается здесь, а не запечено в файле: у ресурса углы залиты тем же
-        // тёмно-зелёным, что и весь фон значка, поэтому картинка остаётся честным квадратом и не
-        // тащит за собой ни альфа-канал, ни фиксированный радиус. Подложки под ней не нужно —
-        // значок несёт собственный непрозрачный фон и одинаково читается в обеих темах.
+        // Скругление — тоже токен, и у редакций оно разное не по вкусу: у мирового растра углы
+        // залиты фоном значка и срезаются клипом, у российского они прозрачны, и клипу резать
+        // нечего (см. `LeshyTokens.appIcon`).
         Image(
-            painter = painterResource(Res.drawable.leshy_icon),
+            painter = painterResource(LeshyTheme.tokens.appIcon),
             contentDescription = null,
             modifier = Modifier.size(112.dp).clip(LeshyTheme.tokens.shapeAppIcon),
         )
@@ -235,6 +237,7 @@ private fun ConsentCard(
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
+        border = cardFrameBorder(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
     ) {
         Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -296,6 +299,7 @@ private fun ConsentRow(checked: Boolean, onCheckedChange: (Boolean) -> Unit, tex
 private fun FeatureCard(title: String, text: String, vignette: @Composable () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
+        border = cardFrameBorder(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
     ) {
         Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {

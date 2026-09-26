@@ -89,6 +89,13 @@ SRC = os.path.join(ROOT, "gribnye_icon.png")
 # из бруска самой рамы (хуже, см. `wood_field`).
 WOOD_SRC = os.path.join(ROOT, "gribnye_wood.png")
 RES = os.path.join(ROOT, "androidApp", "src", "russia", "res")
+# Значок, нарисованный ВНУТРИ приложения (приветственный экран, заставка холодного старта), —
+# не иконка лаунчера, а обычный ресурс Compose. Пара к `leshy_icon.webp` мировой редакции.
+DRAWABLES = os.path.join(ROOT, "shared", "src", "commonMain", "composeResources", "drawable")
+IN_APP_NAME = "gribnye_icon.webp"
+# Та же сторона, что у `leshy_icon.webp`. Показывается в 112dp, то есть 336px на экране 3x, —
+# запас на растяжение остаётся даже на 4x.
+IN_APP_SIDE = 512
 
 # (каталог, сторона слоя адаптивной иконки 108dp, сторона legacy-иконки 48dp)
 DENSITIES = [
@@ -180,38 +187,7 @@ def center_square(im: Image.Image, side: int) -> Image.Image:
 
 def trimmed_board(wood: Image.Image) -> Image.Image:
     """Доска без белого поля вокруг и без фаски по периметру."""
-    w, h = wood.size
-    px = wood.load()
-    seen = bytearray(w * h)
-    q: deque[tuple[int, int]] = deque()
-
-    def push(x: int, y: int) -> None:
-        if 0 <= x < w and 0 <= y < h and not seen[y * w + x] and is_field(px[x, y]):
-            seen[y * w + x] = 1
-            q.append((x, y))
-
-    for x in range(w):
-        push(x, 0)
-        push(x, h - 1)
-    for y in range(h):
-        push(0, y)
-        push(w - 1, y)
-    while q:
-        x, y = q.popleft()
-        push(x + 1, y)
-        push(x - 1, y)
-        push(x, y + 1)
-        push(x, y - 1)
-
-    minx, miny, maxx, maxy = w, h, -1, -1
-    for y in range(h):
-        row = y * w
-        for x in range(w):
-            if not seen[row + x]:
-                minx = min(minx, x)
-                maxx = max(maxx, x)
-                miny = min(miny, y)
-                maxy = max(maxy, y)
+    _, (minx, miny, maxx, maxy) = field_flood(wood)
     inset = int(min(maxx - minx, maxy - miny) * WOOD_BEVEL_INSET)
     return wood.crop((minx + inset, miny + inset, maxx - inset + 1, maxy - inset + 1))
 
@@ -296,6 +272,70 @@ def circular(im: Image.Image) -> Image.Image:
     return out
 
 
+def in_app_icon(im: Image.Image) -> Image.Image:
+    """Значок для показа ВНУТРИ приложения: рама целиком, белое поле вокруг снято в прозрачность.
+
+    Отличается от всего остального в этом файле тем, что маски лаунчера здесь нет вовсе — значок
+    рисуется нашим же кодом на нашем же фоне. Поэтому композиция берётся исходная, со всей рамой:
+    она и есть то, чем редакция отличается, и срезать её незачем.
+
+    Поле вокруг рамы уходит в **альфу**, а не остаётся белым, по двум причинам сразу: на
+    приветственном экране и на заставке холодного старта значок лежит на деревянной земле, и белые
+    углы читались бы как вырезанный из бумаги квадрат; и скругление тогда не нужно повторять
+    клипом в Compose — растр несёт собственный силуэт, а клип с чужим радиусом срезал бы раму.
+    """
+    seen, (minx, miny, maxx, maxy) = field_flood(im)
+    w, _ = im.size
+    alpha = Image.new("L", im.size)
+    alpha.putdata([0 if seen[i] else 255 for i in range(len(seen))])
+    out = im.convert("RGB").copy()
+    out.putalpha(alpha)
+    out = out.crop((minx, miny, maxx + 1, maxy + 1))
+    # Квадрат, а не «как получилось»: рама нарисована от руки и на пару точек несимметрична, а
+    # значок показывается в квадратном слоте.
+    side = max(out.size)
+    square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    square.alpha_composite(out, ((side - out.width) // 2, (side - out.height) // 2))
+    return square.resize((IN_APP_SIDE, IN_APP_SIDE), Image.LANCZOS)
+
+
+def field_flood(im: Image.Image) -> tuple[bytearray, tuple[int, int, int, int]]:
+    """Заливка белого поля от краёв картинки: маска поля и рамка того, что в него не попало."""
+    w, h = im.size
+    px = im.load()
+    seen = bytearray(w * h)
+    q: deque[tuple[int, int]] = deque()
+
+    def push(x: int, y: int) -> None:
+        if 0 <= x < w and 0 <= y < h and not seen[y * w + x] and is_field(px[x, y]):
+            seen[y * w + x] = 1
+            q.append((x, y))
+
+    for x in range(w):
+        push(x, 0)
+        push(x, h - 1)
+    for y in range(h):
+        push(0, y)
+        push(w - 1, y)
+    while q:
+        x, y = q.popleft()
+        push(x + 1, y)
+        push(x - 1, y)
+        push(x, y + 1)
+        push(x, y - 1)
+
+    minx, miny, maxx, maxy = w, h, -1, -1
+    for y in range(h):
+        row = y * w
+        for x in range(w):
+            if not seen[row + x]:
+                minx = min(minx, x)
+                maxx = max(maxx, x)
+                miny = min(miny, y)
+                maxy = max(maxy, y)
+    return seen, (minx, miny, maxx, maxy)
+
+
 def main() -> None:
     src = Image.open(SRC).convert("RGB")
     wood = Image.open(WOOD_SRC).convert("RGB") if os.path.exists(WOOD_SRC) else None
@@ -315,6 +355,11 @@ def main() -> None:
     print(f"бруски рамы: слева {left}, справа {right}, сверху {top}, снизу {bottom}")
     print(f"сцена внутри мата: x {x0}..{x1}, y {y0}..{y1}")
     print(f"медальон {medallion.size[0]}×{medallion.size[1]}")
+
+    in_app = in_app_icon(src)
+    in_app_path = os.path.join(DRAWABLES, IN_APP_NAME)
+    in_app.save(in_app_path, "WEBP", quality=92, method=6)
+    print(f"{IN_APP_NAME}: {in_app.width}×{in_app.height}, {os.path.getsize(in_app_path)} байт")
 
     for folder, layer_px, legacy_px in DENSITIES:
         out_dir = os.path.join(RES, folder)

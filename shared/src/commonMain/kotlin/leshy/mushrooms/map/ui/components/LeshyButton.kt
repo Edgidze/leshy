@@ -65,7 +65,7 @@ fun LeshyButton(
         onClick = onClick,
         // clip перед доской обязателен: `Modifier.paint` не знает про форму кнопки и залил бы
         // прямоугольник целиком, вылезая деревом за скруглённые углы.
-        modifier = modifier.clip(shape).buttonBackground(),
+        modifier = modifier.clip(shape).buttonBackground(shape = shape),
         enabled = enabled,
         shape = shape,
         colors = if (dimmed) {

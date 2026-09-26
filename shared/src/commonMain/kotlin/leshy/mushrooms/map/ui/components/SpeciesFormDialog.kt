@@ -246,6 +246,7 @@ fun SpeciesFormDialog(
         Surface(
             modifier = Modifier.dialogWidth().imePadding(),
             shape = LeshyTheme.tokens.shapeDialog,
+            border = cardFrameBorder(),
             tonalElevation = 4.dp,
         ) {
             Column(modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {

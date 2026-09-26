@@ -115,6 +115,7 @@ fun AddPlaceDialog(
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight * DIALOG_HEIGHT_FRACTION),
                 shape = LeshyTheme.tokens.shapeDialog,
+                border = cardFrameBorder(),
                 tonalElevation = 4.dp,
             ) {
                 Column(
@@ -251,7 +252,7 @@ fun AddPlaceDialog(
 /** Very large tap target — a placeholder camera button until a photo is taken, then the photo itself (retake on tap). */
 @Composable
 private fun PlacePhotoBox(photoPath: String?, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Card(modifier = modifier.aspectRatio(1.2f)) {
+    Card(modifier = modifier.aspectRatio(1.2f), border = cardFrameBorder()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             if (photoPath == null) {
                 IconButton(onClick = onClick, modifier = Modifier.size(72.dp)) {

@@ -3,6 +3,7 @@ package leshy.mushrooms.map.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -66,27 +67,37 @@ fun EmptyState(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Icon(
-            painter = painterResource(Res.drawable.ic_mushrooms),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary.copy(alpha = GLYPH_ALPHA),
-            modifier = Modifier.size(GLYPH_SIZE),
-        )
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 24.dp).widthIn(max = TEXT_MAX_WIDTH),
-        )
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 8.dp).widthIn(max = TEXT_MAX_WIDTH),
-        )
-        if (action != null) {
-            Column(modifier = Modifier.padding(top = 24.dp)) { action() }
+        // Мат под текстом: пустое состояние лежит посреди пустого экрана, то есть у обрамлённой
+        // редакции — прямо на доске, а текст на текстуре запрещён (`design.md`, раздел 3). Гриб,
+        // заголовок, фраза и кнопка собираются на ОДНУ плашку, а не каждый на свою: это один блок,
+        // и четыре отдельные плашки читались бы как список. У мировой редакции плашки нет, и
+        // колонка остаётся ровно той, что была, вместе с центрированием.
+        MatSurface(
+            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.ic_mushrooms),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary.copy(alpha = GLYPH_ALPHA),
+                modifier = Modifier.size(GLYPH_SIZE),
+            )
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 24.dp).widthIn(max = TEXT_MAX_WIDTH),
+            )
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 8.dp).widthIn(max = TEXT_MAX_WIDTH),
+            )
+            if (action != null) {
+                Column(modifier = Modifier.padding(top = 24.dp)) { action() }
+            }
         }
     }
 }

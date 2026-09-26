@@ -41,7 +41,9 @@ import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.CategorySource
 import leshy.mushrooms.map.i18n.LocalAppLanguage
+import leshy.mushrooms.map.domain.model.Edition
 import leshy.mushrooms.map.i18n.StringKey
+import leshy.mushrooms.map.i18n.editionStringKeysFor
 import leshy.mushrooms.map.i18n.categoryDisplayName
 import leshy.mushrooms.map.i18n.collectionDisplayName
 import leshy.mushrooms.map.i18n.stringResource
@@ -54,7 +56,9 @@ import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MushroomImageDisclaimerBanner
 import leshy.mushrooms.map.ui.components.SpeciesFormDialog
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+import leshy.mushrooms.map.ui.components.dialogFrame
 
 @Composable
 fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = koinViewModel()) {
@@ -133,7 +137,7 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
         // за страновыми подборками: добавляют вид именно сюда, и от списка своих видов она отходить
         // не должна.
         Text(
-            stringResource(StringKey.SpeciesCollectionsTitle),
+            stringResource(editionStringKeysFor(koinInject<Edition>()).speciesCollectionsTitle),
             modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
         )
         CollectionPicker(
@@ -177,7 +181,7 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
     if (pendingDelete != null) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteSpeciesDismiss,
-            modifier = Modifier.dialogWidth(),
+            modifier = Modifier.dialogWidth().dialogFrame(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.SpeciesDeleteConfirmTitle)) },
             text = { Text(stringResource(StringKey.SpeciesDeleteConfirmMessage)) },

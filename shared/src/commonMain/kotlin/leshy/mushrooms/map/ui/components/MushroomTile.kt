@@ -367,6 +367,11 @@ fun MushroomPhoto(category: Category, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxSize().padding(MUSHROOM_PHOTO_INSET),
         )
 
+        // Белый текст с чёрной обводкой — у ОБЕИХ редакций. `design.md` (раздел 8) предлагал
+        // российской «табличку»: тёмную плашку со светлым текстом вместо обводки. Собрано и
+        // отвергнуто владельцем на устройстве (2026-09-26): «фон под надписями названий тут явно
+        // ни к чему». Там же отвергнуты белый мат и алая «картинная» рама вокруг фотографии —
+        // плитка остаётся ровно такой, какой была.
         MushroomOutlinedText(
             text = categoryDisplayName(category),
             modifier = Modifier

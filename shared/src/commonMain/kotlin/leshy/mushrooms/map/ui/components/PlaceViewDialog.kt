@@ -164,7 +164,7 @@ fun PlaceViewDialog(
 fun DeletePlaceConfirmDialog(onConfirm: () -> Unit, onDismissRequest: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.dialogWidth(),
+        modifier = Modifier.dialogWidth().dialogFrame(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.PlaceDeleteConfirmTitle)) },
         text = { Text(stringResource(StringKey.PlaceDeleteConfirmMessage)) },

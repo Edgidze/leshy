@@ -43,6 +43,14 @@ import leshy.mushrooms.map.ui.components.WalksPickerDialog
 import leshy.mushrooms.map.ui.components.walksSelectedButtonLabel
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import org.koin.compose.viewmodel.koinViewModel
+import leshy.mushrooms.map.ui.components.dialogFrame
+import leshy.mushrooms.map.ui.components.selectedSegmentBackground
+import leshy.mushrooms.map.ui.components.woodenSegmentColors
+import leshy.mushrooms.map.ui.components.GlyphBadge
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
+/** Сторона жетона, стоящего внутри кнопки: 40dp кнопки минус её собственные отбивки. */
+private val BUTTON_BADGE_SIZE = 28.dp
 
 @Composable
 fun DataScreen(
@@ -74,6 +82,11 @@ fun DataScreen(
                     selected = uiState.mode == mode,
                     onClick = { viewModel.setMode(mode) },
                     shape = SegmentedButtonDefaults.itemShape(baseShape = LeshyTheme.tokens.shapeSegmentBase, index = index, count = DataMode.entries.size),
+                    colors = woodenSegmentColors(),
+                    modifier = Modifier.selectedSegmentBackground(
+                        selected = uiState.mode == mode,
+                        shape = SegmentedButtonDefaults.itemShape(baseShape = LeshyTheme.tokens.shapeSegmentBase, index = index, count = DataMode.entries.size),
+                    ),
                 ) {
                     Text(
                         stringResource(
@@ -97,7 +110,7 @@ fun DataScreen(
         uiState.importProblem?.takeIf { uiState.importProblemDialogVisible }?.let { problem ->
             AlertDialog(
                 onDismissRequest = viewModel::dismissImportProblem,
-                modifier = Modifier.dialogWidth(),
+                modifier = Modifier.dialogWidth().dialogFrame(),
                 properties = DialogProperties(usePlatformDefaultWidth = false),
                 title = { Text(stringResource(StringKey.DataImportRejectedTitle)) },
                 text = { Text(stringResource(importProblemStringKey(problem))) },
@@ -168,7 +181,11 @@ private fun ExportSection(uiState: DataUiState, viewModel: DataViewModel) {
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
             shape = LeshyTheme.tokens.shapeButton,
         ) {
-            Icon(Icons.Filled.Hiking, contentDescription = null)
+            // Жетон под значком — тот же, что в боковом меню и на кнопках счёта: значок на
+            // дереве рядом со значком без подложки читался бы как два разных приложения
+            // (замечание владельца 2026-09-26). Размер меньше обычных 38dp: жетон стоит ВНУТРИ
+            // кнопки высотой 40dp, и полноразмерный распирал бы её.
+            GlyphBadge(painter = rememberVectorPainter(Icons.Filled.Hiking), size = BUTTON_BADGE_SIZE)
             Text(
                 walksSelectedButtonLabel(uiState.selectedWalkIds.size),
                 modifier = Modifier.padding(start = 8.dp),
@@ -196,7 +213,7 @@ private fun ImportSection(uiState: DataUiState, viewModel: DataViewModel) {
             modifier = Modifier.fillMaxWidth(),
             shape = LeshyTheme.tokens.shapeButton,
         ) {
-            Icon(Icons.Filled.FileOpen, contentDescription = null)
+            GlyphBadge(painter = rememberVectorPainter(Icons.Filled.FileOpen), size = BUTTON_BADGE_SIZE)
             Text(stringResource(StringKey.DataChooseFileButton), modifier = Modifier.padding(start = 8.dp))
         }
         Text(

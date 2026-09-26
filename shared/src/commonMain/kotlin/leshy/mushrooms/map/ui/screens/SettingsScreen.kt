@@ -51,6 +51,7 @@ import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.PrivacyPolicyLink
 import leshy.mushrooms.map.ui.map.MUSHROOM_MARKER_BASE_SIZE
 import org.koin.compose.viewmodel.koinViewModel
+import leshy.mushrooms.map.ui.components.dialogFrame
 
 @Composable
 fun SettingsScreen(
@@ -183,7 +184,7 @@ fun SettingsScreen(
     if (uiState.showUpdateMapDataConfirm) {
         AlertDialog(
             onDismissRequest = viewModel::onUpdateMapDataDismiss,
-            modifier = Modifier.dialogWidth(),
+            modifier = Modifier.dialogWidth().dialogFrame(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.SettingsMapDataUpdateConfirmTitle)) },
             text = { Text(stringResource(StringKey.SettingsMapDataUpdateConfirmMessage)) },
@@ -203,7 +204,7 @@ fun SettingsScreen(
     if (uiState.showClearMapCacheConfirm) {
         AlertDialog(
             onDismissRequest = viewModel::onClearMapCacheDismiss,
-            modifier = Modifier.dialogWidth(),
+            modifier = Modifier.dialogWidth().dialogFrame(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.SettingsClearMapCacheConfirmTitle)) },
             text = { Text(stringResource(StringKey.SettingsClearMapCacheConfirmMessage)) },

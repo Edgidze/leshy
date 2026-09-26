@@ -71,6 +71,8 @@ import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.spatialk.geojson.BoundingBox
 import org.maplibre.spatialk.geojson.Position
 import leshy.mushrooms.map.ui.map.MAP_SCALE_BAR_CLEARANCE
+import leshy.mushrooms.map.ui.components.cardFrameBorder
+import leshy.mushrooms.map.ui.components.dialogFrame
 
 /**
  * Куда смотрит карта, пока неизвестно, где пользователь. Обзор мира — честный ответ «не знаю»;
@@ -284,7 +286,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     if (uiState.showNameDialog) {
         AlertDialog(
             onDismissRequest = viewModel::onNameDialogDismissed,
-            modifier = Modifier.dialogWidth().imePadding(),
+            modifier = Modifier.dialogWidth().imePadding().dialogFrame(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.PreparationRegionNameDialogTitle)) },
             text = {
@@ -328,7 +330,7 @@ fun PreparationScreen(modifier: Modifier = Modifier, viewModel: PreparationViewM
     if (uiState.regionPendingDelete != null) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteDismissed,
-            modifier = Modifier.dialogWidth(),
+            modifier = Modifier.dialogWidth().dialogFrame(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.PreparationDeleteConfirmTitle)) },
             text = { Text(stringResource(StringKey.PreparationDeleteConfirmMessage)) },
@@ -401,7 +403,7 @@ private fun OfflineRegionChip(
     onRetryClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(onClick = onChipClick, modifier = modifier) {
+    Card(onClick = onChipClick, modifier = modifier, border = cardFrameBorder()) {
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
             Text(
                 region.name,

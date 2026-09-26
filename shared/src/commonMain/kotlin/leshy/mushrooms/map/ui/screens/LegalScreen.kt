@@ -26,9 +26,11 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.i18n.stringResourceWithHost
 import leshy.mushrooms.map.ui.components.LeshyButton
+import leshy.mushrooms.map.ui.components.MatSurface
 import leshy.mushrooms.map.ui.components.PrivacyPolicyLink
 import org.koin.compose.koinInject
 import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
+import leshy.mushrooms.map.ui.components.groundContainerColor
 
 /**
  * Конфиденциальность — второй шаг онбординга, между обзорной страницей и выбором подборок
@@ -62,6 +64,7 @@ fun LegalScreen(
 ) {
     Scaffold(
         modifier = modifier,
+        containerColor = groundContainerColor(),
         topBar = {
             TopAppBar(
                 colors = leshyTopAppBarColors(),
@@ -99,16 +102,20 @@ fun LegalScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            Text(
-                text = stringResourceWithHost(
-                    StringKey.LegalPrivacyText,
-                    koinInject<EditionEndpoints>().mapHost,
-                ),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 8.dp),
-            )
-            PrivacyPolicyLink()
+            // Мат под текстом: экран лежит на земле, а текста на текстуре у обрамлённой редакции
+            // быть не должно (`design.md`, раздел 3). У мировой [MatSurface] отдаёт содержимое как
+            // есть — ни подложки, ни отступов не появляется.
+            MatSurface(modifier = Modifier.padding(top = 8.dp)) {
+                Text(
+                    text = stringResourceWithHost(
+                        StringKey.LegalPrivacyText,
+                        koinInject<EditionEndpoints>().mapHost,
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                PrivacyPolicyLink()
+            }
         }
     }
 }

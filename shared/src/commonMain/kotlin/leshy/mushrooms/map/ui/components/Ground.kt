@@ -3,19 +3,34 @@ package leshy.mushrooms.map.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButtonColors
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.addOutline
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.findRootCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import org.jetbrains.compose.resources.DrawableResource
@@ -96,10 +111,66 @@ private fun Modifier.croppedBehind(painter: Painter): Modifier = drawWithCache {
     }
 }
 
-/** Земля фоном поверхности, которой картинку передать нечем (`ModalDrawerSheet`, лента «Записи»). */
+/**
+ * Земля фоном поверхности, которой картинку передать нечем (`ModalDrawerSheet`, лента «Записи»).
+ *
+ * **Кадрируется по окну, а не по узлу, и это не оптимизация, а единственный способ избежать шва.**
+ * Полотно земли рисует `LeshyTheme` на весь экран; поверхность, которая кладёт себе СВОЮ копию
+ * доски, кадрирует её по собственному размеру — рисунок волокна в ней не совпадает с тем, что
+ * идёт рядом, и на границе видно стык двух разных кусков дерева. Репорт владельца 2026-09-26:
+ * лента «Записи» не сходилась с землёй, видной ниже неё, в полосе системной навигации.
+ *
+ * Поэтому здесь доска растягивается и центрируется так, как если бы рисовалась во весь экран, и
+ * узел показывает ровно тот её кусок, что лежит под ним. Сколько бы поверхностей ни несли землю,
+ * все они — окна в одно и то же полотно.
+ *
+ * Досок карточек, кнопок и жетонов это НЕ касается (`cardBackground`, `buttonBackground`): те —
+ * отдельные предметы, и каждый показывает свой кусок дерева целиком. Общее полотно сделало бы
+ * две соседние карточки одной доской без края между ними.
+ */
 @Composable
-fun Modifier.groundBackground(fallback: Color? = null): Modifier =
-    woodTexture(LeshyTheme.tokens.groundTexture, fallback)
+fun Modifier.groundBackground(fallback: Color? = null): Modifier {
+    val board = LeshyTheme.tokens.groundTexture ?: return if (fallback != null) background(fallback) else this
+    val painter = painterResource(board)
+    var window by remember { mutableStateOf(WindowPlacement.Unknown) }
+    return this
+        .onGloballyPositioned { coordinates ->
+            val root = coordinates.findRootCoordinates()
+            window = WindowPlacement(
+                offset = root.localPositionOf(coordinates, Offset.Zero),
+                size = Size(root.size.width.toFloat(), root.size.height.toFloat()),
+            )
+        }
+        .drawWithCache {
+            val target = if (window.size.isSpecified && window.size.width > 0f) window.size else size
+            val intrinsic = painter.intrinsicSize
+            val scale = if (intrinsic.isSpecified && intrinsic.width > 0f && intrinsic.height > 0f) {
+                maxOf(target.width / intrinsic.width, target.height / intrinsic.height)
+            } else {
+                1f
+            }
+            val drawn = if (intrinsic.isSpecified) Size(intrinsic.width * scale, intrinsic.height * scale) else target
+            // Смещение узла внутри окна вычитается: узел рисует тот кусок полотна, который под ним.
+            val left = (target.width - drawn.width) / 2f - window.offset.x
+            val top = (target.height - drawn.height) / 2f - window.offset.y
+            onDrawBehind {
+                clipRect {
+                    translate(left = left, top = top) {
+                        with(painter) { draw(drawn) }
+                    }
+                }
+            }
+        }
+}
+
+/** Положение узла внутри окна — то, чем [groundBackground] превращает свой кусок в окно в полотно. */
+@Immutable
+private data class WindowPlacement(val offset: Offset, val size: Size) {
+    companion object {
+        /** До первого размещения окна ещё нет: узел кадрирует доску по себе, как делал раньше. */
+        val Unknown = WindowPlacement(Offset.Zero, Size.Unspecified)
+    }
+}
 
 /** Доска карточек — плитки видов, карточки прогулок. */
 @Composable
@@ -109,21 +180,107 @@ fun Modifier.cardBackground(fallback: Color? = null): Modifier =
 /**
  * Доска заливных кнопок.
  *
- * **Вместе с доской кнопка получает минимальную высоту, и это не косметика.** `Button` у Material
- * это `Surface(onClick)`, а тот оборачивает СЕБЯ в `minimumInteractiveComponentSize()`: при высоте
- * содержимого 40dp узел выходит 48dp, поверхность с обводкой рисуется по центру, а наш фон — по
- * всему узлу. Получалась доска, торчащая на 4dp выше и ниже обводки (репорт владельца
- * 2026-09-26: «обводка идёт явно не по границе»). Задав узлу те же 48dp, мы делаем обёртку
- * пустой операцией: поверхность занимает узел целиком, и обводка ложится ровно по краю доски.
+ * **Рисуется по ВИДИМОЙ плашке, а не по узлу, и это главное здесь.** `Button` у Material — это
+ * `Surface(onClick)`, обёрнутый в `minimumInteractiveComponentSize()`: область нажатия 48dp, сама
+ * кнопка 40dp ([ButtonDefaults.MinHeight]), поверхность с обводкой рисуется по центру узла. Фон,
+ * положенный на узел, торчал из-под обводки на 4dp сверху и снизу (репорты владельца 2026-09-26:
+ * сначала «обводка идёт явно не по границе», потом «Done другого размера относительно Cancel»).
+ *
+ * Первая попытка чинила это минимальной высотой узла в 48dp — и делала деревянную кнопку выше
+ * соседней контурной, то есть меняла одну несообразность на другую. Правильный путь обратный:
+ * узел остаётся областью нажатия, а доска обрезается по плашке.
  */
 @Composable
-fun Modifier.buttonBackground(fallback: Color? = null): Modifier {
-    if (LeshyTheme.tokens.buttonTexture == null) return woodTexture(null, fallback)
-    return heightIn(min = WOOD_BUTTON_MIN_HEIGHT).woodTexture(LeshyTheme.tokens.buttonTexture, fallback)
+fun Modifier.buttonBackground(
+    fallback: Color? = null,
+    shape: Shape = LeshyTheme.tokens.shapeButton,
+): Modifier {
+    val board = LeshyTheme.tokens.buttonTexture ?: return woodTexture(null, fallback)
+    return plateTexture(board, ButtonDefaults.MinHeight, shape)
 }
 
-/** Минимальная область нажатия Material — она же теперь высота кнопки на доске. */
-private val WOOD_BUTTON_MIN_HEIGHT = 48.dp
+/**
+ * Доска, обрезанная по плашке высотой [plateHeight], стоящей по центру узла.
+ *
+ * Общий механизм для всех мест, где Material разводит область нажатия и видимую поверхность:
+ * заливные кнопки ([buttonBackground]) и выбранный сегмент переключателя
+ * ([selectedSegmentBackground]). Узел выше плашки — доска обрезается; узел равен плашке (кнопка с
+ * длинной подписью в две строки) — обрезать нечего, и модификатор ведёт себя как обычный фон.
+ */
+@Composable
+private fun Modifier.plateTexture(board: DrawableResource, plateHeight: Dp, shape: Shape): Modifier {
+    val painter = painterResource(board)
+    return drawWithCache {
+        val visibleHeight = minOf(size.height, maxOf(plateHeight.toPx(), 0f))
+        val top = (size.height - visibleHeight) / 2f
+        val visible = Size(size.width, visibleHeight)
+        val clip = Path().apply {
+            addOutline(shape.createOutline(visible, layoutDirection, this@drawWithCache))
+            translate(Offset(0f, top))
+        }
+        val intrinsic = painter.intrinsicSize
+        val scale = if (intrinsic.isSpecified && intrinsic.width > 0f && intrinsic.height > 0f) {
+            maxOf(visible.width / intrinsic.width, visible.height / intrinsic.height)
+        } else {
+            1f
+        }
+        val drawn = if (intrinsic.isSpecified) Size(intrinsic.width * scale, intrinsic.height * scale) else visible
+        onDrawBehind {
+            clipPath(clip) {
+                translate(
+                    left = (visible.width - drawn.width) / 2f,
+                    top = top + (visible.height - drawn.height) / 2f,
+                ) {
+                    with(painter) { draw(drawn) }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Доска под ВЫБРАННЫМ сегментом ряда-переключателя («Экспорт»/«Импорт», инструменты редактора
+ * значка).
+ *
+ * Выбранное положение Material красит сплошным `secondaryContainer` — на экране, где всё
+ * остальное деревянное, это единственная плоская заливка, и владелец попросил заменить её на ту
+ * же доску, что у заливных кнопок (2026-09-26).
+ *
+ * **Собственной минимальной высоты, в отличие от [buttonBackground], здесь нет.** Ряд
+ * переключателя выравнивает сегменты по одной высоте, и 48dp у выбранного против 40dp у соседних
+ * разорвали бы ряд.
+ *
+ * Невыбранные сегменты и мировая редакция получают модификатор неизменным: там заливки и не было.
+ */
+@Composable
+fun Modifier.selectedSegmentBackground(selected: Boolean, shape: Shape): Modifier {
+    val board = LeshyTheme.tokens.buttonTexture
+    if (!selected || board == null) return this
+    // Та же грабля, что у кнопок, и то же лечение: `SegmentedButton` тоже оборачивает себя в
+    // `minimumInteractiveComponentSize()`, а высоту плашки держит своей приватной константой.
+    return plateTexture(board, SEGMENT_CONTAINER_HEIGHT, shape)
+}
+
+/** Высота плашки сегмента у Material — своя константа, потому что чужая приватна. */
+private val SEGMENT_CONTAINER_HEIGHT = 40.dp
+
+/**
+ * Цвета ряда-переключателя: у выбранного сегмента контейнер прозрачен (доску рисует
+ * [selectedSegmentBackground], а Material закрасил бы её своим цветом поверх), подпись светлая —
+ * доска тёмная в обеих темах.
+ *
+ * Без доски возвращается ровно `SegmentedButtonDefaults.colors()`, то есть мировая редакция
+ * остаётся при своём.
+ */
+@Composable
+fun woodenSegmentColors(): SegmentedButtonColors {
+    val defaults = SegmentedButtonDefaults.colors()
+    if (LeshyTheme.tokens.buttonTexture == null) return defaults
+    return SegmentedButtonDefaults.colors(
+        activeContainerColor = Color.Transparent,
+        activeContentColor = WOOD_CONTENT_COLOR,
+    )
+}
 
 /**
  * Цвет полотна, поверх которого лежит земля: прозрачный, когда текстура есть, и [fallback] —

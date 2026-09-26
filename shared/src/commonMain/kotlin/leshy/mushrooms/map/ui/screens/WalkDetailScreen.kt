@@ -98,6 +98,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
+import leshy.mushrooms.map.ui.components.cardFrameBorder
+import leshy.mushrooms.map.ui.components.dialogFrame
+import leshy.mushrooms.map.ui.components.groundContainerColor
 
 private val SCREEN_PADDING = 16.dp
 
@@ -168,7 +171,7 @@ fun WalkDetailScreen(
     if (uiState.showDeleteConfirmation) {
         AlertDialog(
             onDismissRequest = viewModel::onDeleteDismiss,
-            modifier = Modifier.dialogWidth(),
+            modifier = Modifier.dialogWidth().dialogFrame(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             title = { Text(stringResource(StringKey.WalkDetailDeleteConfirmTitle)) },
             text = { Text(stringResource(StringKey.WalkDetailDeleteConfirmMessage)) },
@@ -186,6 +189,7 @@ fun WalkDetailScreen(
     }
 
     Scaffold(
+        containerColor = groundContainerColor(),
         topBar = {
             // The name moved out of the bar and onto its own row below (see WalkHeading), so the
             // bar carries no title at all any more — which is also why it can be shorter than the
@@ -506,6 +510,7 @@ private fun DescriptionCard(description: String?, onClick: () -> Unit) {
     val text = description?.ifBlank { null }
     Card(
         modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        border = cardFrameBorder(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
     ) {
         Text(
@@ -550,6 +555,7 @@ private fun LabeledAction(icon: ImageVector, label: String, onClick: () -> Unit)
 private fun PlaceListItem(place: FieldMark, onClick: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp).clickable(onClick = onClick),
+        border = cardFrameBorder(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
     ) {
         Row(
@@ -615,7 +621,7 @@ private fun WalkNameEditDialog(initialName: String, onConfirm: (String) -> Unit,
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = Modifier.dialogWidth().imePadding(),
+        modifier = Modifier.dialogWidth().imePadding().dialogFrame(),
         properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(stringResource(StringKey.WalkDetailEditWalkNameTitle)) },
         text = {

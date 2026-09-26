@@ -29,7 +29,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.unit.dp
+import leshy.mushrooms.map.domain.model.Edition
 import leshy.mushrooms.map.i18n.StringKey
+import leshy.mushrooms.map.i18n.editionStringKeysFor
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.onboarding.OnboardingStep
 import leshy.mushrooms.map.presentation.onboarding.OnboardingViewModel
@@ -37,6 +39,7 @@ import leshy.mushrooms.map.ui.components.CollectionPicker
 import leshy.mushrooms.map.ui.components.CollectionSearchField
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MushroomImageDisclaimerBanner
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 /**
@@ -101,7 +104,10 @@ private fun CollectionsStep(viewModel: OnboardingViewModel, modifier: Modifier =
     Column(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing).padding(16.dp)) {
         // Заголовок — единственное, что на этом шаге стоит на месте: всё остальное содержимое, а не
         // один только список подборок, уезжает под него при прокрутке (см. колонку ниже).
-        Text(text = stringResource(StringKey.SpeciesCollectionsTitle), style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = stringResource(editionStringKeysFor(koinInject<Edition>()).speciesCollectionsTitle),
+            style = MaterialTheme.typography.headlineSmall,
+        )
 
         Column(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {
             // Та же кнопка языка, что и на обзорной странице, и с тем же смыслом: названия стран

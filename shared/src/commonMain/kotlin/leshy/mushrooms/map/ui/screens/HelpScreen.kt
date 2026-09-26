@@ -1,7 +1,6 @@
 package leshy.mushrooms.map.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,8 +22,12 @@ import leshy.mushrooms.map.i18n.HelpTopic
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.helpResource
 import leshy.mushrooms.map.i18n.stringResource
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import leshy.mushrooms.map.ui.components.HelpIllustration
+import leshy.mushrooms.map.ui.components.MatSurface
 import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
+import leshy.mushrooms.map.ui.components.groundContainerColor
 
 /**
  * Справка по одному разделу: то, что открывает кнопка «?» в шапке любого раздела
@@ -50,6 +53,10 @@ fun HelpScreen(
 ) {
     Scaffold(
         modifier = modifier,
+        // Полотно земли рисует `LeshyTheme` под всем приложением; контейнер обязан быть
+        // прозрачным, иначе `Scaffold` закрасит его своим цветом. У мировой редакции
+        // `groundContainerColor()` возвращает ровно прежний `background`.
+        containerColor = groundContainerColor(),
         topBar = {
             TopAppBar(
                 colors = leshyTopAppBarColors(),
@@ -80,16 +87,21 @@ fun HelpScreen(
                 )
             }
             items(topic.blocks) { block ->
-                Column(
+                // Блок справки — картинка макета плюс абзац про неё — у обрамлённой редакции
+                // становится матом с рамой: до этого абзацы лежали текстом прямо на доске, то
+                // есть ровно так, как правило запрещает. У мировой редакции [MatSurface] отдаёт
+                // содержимое как есть, и экран остаётся прежним.
+                MatSurface(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    HelpIllustration(block)
-                    Text(
-                        text = helpResource(block),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
+                    content = {
+                        HelpIllustration(block)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = helpResource(block),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    },
+                )
             }
         }
     }

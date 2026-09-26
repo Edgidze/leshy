@@ -128,7 +128,11 @@ fun WalkCard(
             ),
             contentColor = MaterialTheme.colorScheme.onSurface,
         ),
-        border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
+        // Рама редакции под выбранным состоянием: у обрамлённой редакции карточка обведена
+        // всегда, а выбранная — своим цветом, и второе главнее (см. `cardFrameBorder`).
+        border = cardFrameBorder(
+            selected = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
+        ),
     ) {
         // Выравнивания у строки нет — то есть дети прижаты к верху, и это главное здесь.
         // Миниатюра обязана стоять в верхнем левом углу: тогда пустота, остающаяся когда текст

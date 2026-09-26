@@ -25,6 +25,7 @@ import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.archive.WalkDetailViewModel
 import leshy.mushrooms.map.ui.theme.leshyTopAppBarColors
+import leshy.mushrooms.map.ui.components.groundContainerColor
 
 /**
  * A dedicated NavHost screen, not a Dialog — deliberately, to avoid the class of multiline-
@@ -44,6 +45,7 @@ fun WalkDescriptionEditScreen(viewModel: WalkDetailViewModel, onBack: () -> Unit
     var description by remember { mutableStateOf(uiState.walk?.description.orEmpty()) }
 
     Scaffold(
+        containerColor = groundContainerColor(),
         topBar = {
             TopAppBar(
                 colors = leshyTopAppBarColors(),

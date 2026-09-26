@@ -68,6 +68,7 @@ import leshy.mushrooms.map.i18n.editionStringKeysFor
 import leshy.mushrooms.map.ui.theme.leshyDrawerContainerColor
 import leshy.mushrooms.map.ui.theme.leshyDrawerItemColors
 import leshy.mushrooms.map.ui.components.GlyphBadge
+import leshy.mushrooms.map.ui.components.LaunchSplash
 import leshy.mushrooms.map.ui.components.groundBackground
 import leshy.mushrooms.map.ui.components.groundContainerColor
 
@@ -139,7 +140,9 @@ fun App() {
             // подхватывать тему и на онбординге, а не только после того, как он пройден.
             ApplySystemBarsAppearance(themeMode)
             when (onboardingCompleted) {
-                null -> Unit
+                // Пока флаг читается из хранилища, экрана ещё нет — и этот кадр закрывает
+                // заставка редакции (у мировой она пуста, см. `LaunchSplash`).
+                null -> LaunchSplash()
                 false -> OnboardingScreen()
                 true -> {
                     val navController = rememberNavController()

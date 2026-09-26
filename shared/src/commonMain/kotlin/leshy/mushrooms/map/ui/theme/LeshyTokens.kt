@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -16,8 +17,10 @@ import leshy.shared.generated.resources.badge_wood
 import leshy.shared.generated.resources.button_wood
 import leshy.shared.generated.resources.card_dark
 import leshy.shared.generated.resources.card_light
+import leshy.shared.generated.resources.gribnye_icon
 import leshy.shared.generated.resources.ground_dark
 import leshy.shared.generated.resources.ground_light
+import leshy.shared.generated.resources.leshy_icon
 
 /**
  * Оформительские величины интерфейса, вынесенные из мест применения в один набор на редакцию.
@@ -166,12 +169,14 @@ data class LeshyTokens(
      * Рама вокруг карточки. **У мировой редакции её нет — 0.dp**, и это не заглушка, а факт:
      * её элементы «растворяются» в фоне. Российская редакция обрамляет каждый элемент, и
      * различие силуэта делает именно рама вместе с малыми радиусами.
+     *
+     * Рамы вокруг ФОТОГРАФИИ здесь нет, хотя `design.md` (раздел 6) её описывал: собрана и
+     * отвергнута владельцем на устройстве 2026-09-26 — на плитке 120dp алая линия шла в паре
+     * миллиметров от рамки цвета вида и спорила с ней. Вместе с ней отвергнут белый мат вокруг
+     * фотографии и «табличка» под подписями. Токенов под них поэтому нет: величина, которую не
+     * читает ни один composable, — это не задел, а обещание, которое некому исполнить.
      */
     val frameWidth: Dp,
-    /** То же для фотографии: у обрамлённой редакции рама фотографии толще рамы карточки. */
-    val framePhotoWidth: Dp,
-    /** Белый мат между фотографией и её рамой. У мировой редакции его нет. */
-    val matPadding: Dp,
 
     // ---- Не-геометрические токены -----------------------------------------------------------
     /** Как рисуется поверхность под содержимым. */
@@ -190,6 +195,33 @@ data class LeshyTokens(
      * даёт сдвиг восприятия ценой одного файла на всё приложение.
      */
     val iconBadge: DrawableResource?,
+    /**
+     * Значок приложения, нарисованный ВНУТРИ интерфейса — приветственный экран и заставка
+     * холодного старта.
+     *
+     * Токен, а не константа в экране: значок — это первое, по чему человек узнаёт, какое
+     * приложение он открыл, и «Леший» на первой странице продукта, поданного как другое
+     * приложение, — ровно тот остаток мировой редакции, который ищет задача 14
+     * (`docs/russia-edition/track-app.md`).
+     *
+     * Растр каждой редакции несёт СОБСТВЕННЫЙ силуэт: у мирового значка углы залиты его же
+     * фоном и обрезаются клипом [shapeAppIcon], у российского они прозрачны, и клипу там резать
+     * нечего. Поэтому форма идёт отдельным токеном, а не выводится из картинки.
+     */
+    val appIcon: DrawableResource,
+    /**
+     * Чем накрыт кадр холодного старта, пока из хранилища ещё не прочитано, показывать
+     * онбординг или граф навигации (`App.kt`, `onboardingCompleted == null`).
+     *
+     * `null` — не рисуется ничего, и кадр остаётся пустым, как был всегда: **мировая редакция
+     * заставки не получает**, это её прежнее поведение, а не упущение. У обрамлённой редакции
+     * заставка осмысленна ровно потому, что ей есть что показать — землю, на которой лежит весь
+     * остальной интерфейс.
+     *
+     * Второй токен на ту же картинку, что [appIcon], не дублирование: один отвечает на вопрос
+     * «какой значок у этого продукта», второй — «показывает ли редакция заставку вообще».
+     */
+    val splashLogo: DrawableResource?,
     /**
      * Доска карточек — плитки видов, карточки прогулок, полка под лентой «Записи».
      *
@@ -276,11 +308,11 @@ private val WorldTokens = LeshyTokens(
     shapeIllustrationThumbnail = RoundedCornerShape(4.dp),
     widthSpeciesTileBorder = 2.dp,
     frameWidth = 0.dp,
-    framePhotoWidth = 0.dp,
-    matPadding = 0.dp,
     surfaceStyle = SurfaceStyle.FLAT,
     groundTexture = null,
     iconBadge = null,
+    appIcon = Res.drawable.leshy_icon,
+    splashLogo = null,
     cardTexture = null,
     buttonTexture = null,
     findTileMinColumns = 2,
@@ -317,10 +349,14 @@ private val RussiaTokensLight = WorldTokens.copy(
     shapePhotoPreview = RoundedCornerShape(4.dp),
     shapePlaceThumbnail = RoundedCornerShape(4.dp),
     shapeListRow = RoundedCornerShape(4.dp),
-    // Значок приложения внутри интерфейса пока мировой — свой растр у российской редакции
-    // появится вместе с остальным артом, и радиус придётся сверить с ним. До тех пор скругление
-    // остаётся прежним: клип на 4dp срезал бы у чужой картинки её собственные углы.
-    shapeAppIcon = RoundedCornerShape(25.dp),
+    // Свой значок несёт собственный силуэт: поле вокруг рамы снято в прозрачность
+    // (`tools/generate_russia_app_icons.py`, `in_app_icon`), скруглены сами бруски рамы. Клипу
+    // здесь резать нечего, а клип с любым другим радиусом срезал бы у рамы углы.
+    shapeAppIcon = RectangleShape,
+    appIcon = Res.drawable.gribnye_icon,
+    // Заставка холодного старта — та же картинка на земле; разбор, зачем она редакции нужна и
+    // почему мировая остаётся без неё, — в KDoc токена.
+    splashLogo = Res.drawable.gribnye_icon,
     shapeActionButton = RoundedCornerShape(4.dp),
     shapeButton = RoundedCornerShape(4.dp),
     shapeSegmentBase = RoundedCornerShape(4.dp),
@@ -337,8 +373,6 @@ private val RussiaTokensLight = WorldTokens.copy(
     shapeIllustrationTile = RoundedCornerShape(2.dp),
     shapeIllustrationThumbnail = RoundedCornerShape(1.dp),
     frameWidth = 2.dp,
-    framePhotoWidth = 3.dp,
-    matPadding = 6.dp,
     surfaceStyle = SurfaceStyle.FRAMED,
     iconBadge = Res.drawable.badge_wood,
     buttonTexture = Res.drawable.button_wood,

@@ -281,6 +281,7 @@ fun WalkShareDialog(
         Surface(
             modifier = Modifier.dialogWidth(),
             shape = LeshyTheme.tokens.shapeDialog,
+            border = cardFrameBorder(),
             tonalElevation = 4.dp,
         ) {
             Column(modifier = Modifier.padding(20.dp)) {

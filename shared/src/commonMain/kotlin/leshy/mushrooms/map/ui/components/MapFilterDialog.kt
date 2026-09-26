@@ -55,6 +55,7 @@ fun MapFilterDialog(onDismissRequest: () -> Unit, viewModel: MapFilterViewModel 
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(max = maxHeight * DIALOG_HEIGHT_FRACTION),
                 shape = LeshyTheme.tokens.shapeDialog,
+                border = cardFrameBorder(),
                 tonalElevation = 4.dp,
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {

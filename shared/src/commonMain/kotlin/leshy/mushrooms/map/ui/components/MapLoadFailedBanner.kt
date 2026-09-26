@@ -41,6 +41,7 @@ fun MapLoadFailedBanner(message: StringKey, onDismiss: () -> Unit, modifier: Mod
     val host = koinInject<EditionEndpoints>().mapHost
     Card(
         modifier = modifier,
+        border = cardFrameBorder(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
     ) {
         Box {
