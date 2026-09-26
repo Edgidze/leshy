@@ -145,6 +145,27 @@ fun cardContainerColor(fallback: Color): Color =
     if (LeshyTheme.tokens.cardTexture != null) Color.Transparent else fallback
 
 /**
+ * Пометка выбранной карточки ПОВЕРХ доски.
+ *
+ * Своей заливкой (`secondaryContainer`) карточка пометить себя больше не может: доска рисуется
+ * позже контейнера и закрывает его. Поэтому выбранное состояние — притенение самой доски, тем же
+ * приёмом, что был у пункта меню: полупрозрачный `onSurface` темнит дерево в светлой теме и
+ * высветляет в тёмной, оставляя волокно видимым.
+ *
+ * Без доски не делает ничего: там метку по-прежнему несёт заливка контейнера, и вторая поверх неё
+ * была бы двойной.
+ */
+@Composable
+fun Modifier.cardSelectionTint(selected: Boolean): Modifier {
+    if (!selected || LeshyTheme.tokens.cardTexture == null) return this
+    return background(MaterialTheme.colorScheme.onSurface.copy(alpha = CARD_SELECTED_ALPHA))
+}
+
+/** Насколько притеняется доска под выбранной карточкой: видно с расстояния вытянутой руки и мало,
+ * чтобы волокно не пропало. */
+private const val CARD_SELECTED_ALPHA = 0.14f
+
+/**
  * Цвета заливной кнопки, лежащей на доске: контейнер прозрачен (иначе Material закрасит доску
  * своим цветом ПОВЕРХ неё), подпись светлая, выключенное состояние гасится той же долей, что
  * гасит содержимое сам Material.

@@ -113,17 +113,30 @@ fun WalkCard(
                 onHold = onLongPress,
                 onHoldProgress = { holdProgress = it },
             ),
-        colors = if (isSelected) {
-            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
-        } else {
-            CardDefaults.cardColors()
-        },
+        // Доска карточки — та же, что у плитки вида и блоков статистики. Выбранное состояние
+        // при этом переезжает с заливки на притенение доски (`cardSelectionTint` ниже): доска
+        // рисуется позже контейнера и закрыла бы его цвет.
+        colors = CardDefaults.cardColors(
+            containerColor = cardContainerColor(
+                if (isSelected) {
+                    MaterialTheme.colorScheme.secondaryContainer
+                } else {
+                    CardDefaults.cardColors().containerColor
+                },
+            ),
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        ),
         border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
     ) {
         // Выравнивания у строки нет — то есть дети прижаты к верху, и это главное здесь.
         // Миниатюра обязана стоять в верхнем левом углу: тогда пустота, остающаяся когда текст
         // выше картинки, собирается под картинкой одним полем.
-        Row(modifier = Modifier.padding(WALK_CARD_PADDING)) {
+        Row(
+            modifier = Modifier
+                .cardBackground()
+                .cardSelectionTint(isSelected)
+                .padding(WALK_CARD_PADDING),
+        ) {
             WalkThumbnail(
                 thumbnailPath = walk.thumbnailPath,
                 track = track,
