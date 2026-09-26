@@ -3,6 +3,7 @@ package leshy.mushrooms.map.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -126,6 +127,27 @@ fun groundContainerColor(fallback: Color = MaterialTheme.colorScheme.background)
 @Composable
 fun cardContainerColor(fallback: Color): Color =
     if (LeshyTheme.tokens.cardTexture != null) Color.Transparent else fallback
+
+/**
+ * Цвета заливной кнопки, лежащей на доске: контейнер прозрачен (иначе Material закрасит доску
+ * своим цветом ПОВЕРХ неё), подпись светлая, выключенное состояние гасится той же долей, что
+ * гасит содержимое сам Material.
+ *
+ * Без доски [base] возвращается как есть — вызывающий получает ровно то, что передал.
+ */
+@Composable
+fun woodenButtonColors(base: ButtonColors): ButtonColors {
+    if (LeshyTheme.tokens.buttonTexture == null) return base
+    return base.copy(
+        containerColor = Color.Transparent,
+        contentColor = WOOD_CONTENT_COLOR,
+        disabledContainerColor = Color.Transparent,
+        disabledContentColor = WOOD_CONTENT_COLOR.copy(alpha = WOOD_DISABLED_ALPHA),
+    )
+}
+
+/** Доля, которой гасится подпись выключенной кнопки на доске — та же, что у Material. */
+const val WOOD_DISABLED_ALPHA = 0.38f
 
 /**
  * Цвет содержимого на доске.

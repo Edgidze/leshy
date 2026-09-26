@@ -101,6 +101,7 @@ import leshy.mushrooms.map.ui.components.MapFilterDialog
 import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
 import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_MAX_WIDTH
 import leshy.mushrooms.map.ui.components.MushroomPhoto
+import leshy.mushrooms.map.ui.components.GlyphBadge
 import leshy.mushrooms.map.ui.components.MushroomTile
 import leshy.mushrooms.map.ui.components.glyphBadgeBackground
 import leshy.mushrooms.map.ui.components.glyphBadgeContentColor
@@ -145,6 +146,10 @@ private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
  * это число и есть видимая высота значка, без скрытых полей внутри файла.
  */
 private val STAT_ICON_SIZE = 30.dp
+
+/** Сторона жетона под значком показателя. Глиф внутри выходит около 25dp — мельче прежних 30dp,
+ * зато три пары «жетон + значение» по-прежнему помещаются в строку на узком экране. */
+private val STAT_BADGE_SIZE = 40.dp
 private val STAT_ICON_GAP = 6.dp
 
 /** Поля строки показателей. Уже прежних 20.dp: три показателя вместо двух, и запас по ширине
@@ -314,7 +319,11 @@ fun RecordScreen(
 /** Значок показателя вместе с отбивкой до значения — три места в строке, одинаковые до знака. */
 @Composable
 private fun StatIcon(icon: Painter, contentDescription: String) {
-    Icon(painter = icon, contentDescription = contentDescription, modifier = Modifier.size(STAT_ICON_SIZE))
+    // Жетон вместо голого значка — та же подложка, что под пунктами меню и кнопками счёта.
+    // Размер жетона, а не значка: сам глиф внутри него выходит чуть мельче прежних 30dp, и это
+    // сознательно — три жетона в одну строку с тремя значениями должны помещаться и на узком
+    // экране. Без жетона (мировая редакция) рисуется прежний значок прежнего размера.
+    GlyphBadge(painter = icon, size = STAT_BADGE_SIZE)
     Spacer(modifier = Modifier.width(STAT_ICON_GAP))
 }
 

@@ -199,7 +199,15 @@ fun MushroomTile(
                 // подложкой «−» вышла заметно крупнее «+» (репорт владельца 2026-09-26). Теперь
                 // подложка лежит на своих 40dp, а 48dp остаются тем, чем и были, — областью
                 // нажатия.
-                IconButton(onClick = remove, enabled = count > 0) {
+                // shape — токеном: `IconButton` КЛИПУЕТ своё содержимое собственной формой, а она
+                // по умолчанию круглая, и квадратный жетон под «−» приезжал обрезанным в круг
+                // (репорт владельца 2026-09-26). У «+» этой беды нет: он не `IconButton`, а свой
+                // `Box` с той же формой из токена.
+                IconButton(
+                    onClick = remove,
+                    enabled = count > 0,
+                    shape = LeshyTheme.tokens.shapeCountButton,
+                ) {
                     Box(
                         modifier = Modifier
                             .size(MUSHROOM_COUNT_BUTTON_SIZE)

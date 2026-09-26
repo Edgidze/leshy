@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
@@ -32,10 +34,15 @@ fun MapFilterButton(filterCount: Int, onClick: () -> Unit, modifier: Modifier = 
     // `MaterialTheme.shapes`, а из жёстко зашитого `CornerFull`, и подменой темы не
     // расквадрачивается (в отличие от `FloatingActionButton`, который как раз читает
     // `shapes.large` и потому обошёлся без правки).
+    // Доска под ней — та же, что у остальных заливных кнопок: «Фильтры» висит на карте рядом с
+    // боковыми кнопками на жетонах, и без доски осталась бы единственной крашеной плашкой среди
+    // деревянных (требование владельца 2026-09-26). clip перед доской обязателен, иначе дерево
+    // вылезет за скруглённые углы — тот же разбор, что в `LeshyButton`.
     FilledTonalButton(
         shape = LeshyTheme.tokens.shapeButton,
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier.clip(LeshyTheme.tokens.shapeButton).buttonBackground(),
+        colors = woodenButtonColors(ButtonDefaults.filledTonalButtonColors()),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
     ) {
         Icon(imageVector = Icons.Filled.FilterList, contentDescription = null, modifier = Modifier.size(18.dp))
