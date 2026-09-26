@@ -263,10 +263,7 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(
-            walks, trackPoints, fieldMarks, sourceCategories, FakeCollectionRepository(),
-            FakePhotoStorage(), sourceFs,
-        )
+        val exportUseCase = ExportDataUseCase(walks, trackPoints, fieldMarks, sourceCategories, FakeCollectionRepository(), FakePhotoStorage(), fileSystem = sourceFs)
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -282,8 +279,14 @@ class ExportImportRoundTripTest {
         val destFieldMarks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            destWalks, destTrackPoints, destFieldMarks, destCategories, FakeCollectionRepository(),
-            FakePhotoStorage(), destFs,
+            destWalks,
+            destTrackPoints,
+            destFieldMarks,
+            destCategories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(destCategories, destFieldMarks),
+            FakePhotoStorage(),
+            destFs,
         )
 
         val result = importUseCase(archiveBytes, "(импорт)")
@@ -340,10 +343,7 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, categories, FakeCollectionRepository(),
-            FakePhotoStorage(), sourceFs,
-        )
+        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, categories, FakeCollectionRepository(), FakePhotoStorage(), fileSystem = sourceFs)
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -351,9 +351,14 @@ class ExportImportRoundTripTest {
         val destFieldMarks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), destFieldMarks,
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            destFieldMarks,
             FakeCategoryRepository(listOf(category(1, BOLETUS_NAME_KEY), category(2, MISC_CATEGORY_NAME_KEY))),
-            FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(FakeCategoryRepository(listOf(category(1, BOLETUS_NAME_KEY), category(2, MISC_CATEGORY_NAME_KEY))), destFieldMarks),
+            FakePhotoStorage(),
+            FakeFileSystem(),
         )
         importUseCase(archiveBytes, "")
 
@@ -372,8 +377,14 @@ class ExportImportRoundTripTest {
         val categories = FakeCategoryRepository(listOf(category(1, MISC_CATEGORY_NAME_KEY)))
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            categories, FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            FakeFieldMarkRepository(),
+            categories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(categories, FakeFieldMarkRepository()),
+            FakePhotoStorage(),
+            FakeFileSystem(),
         )
 
         assertFailsWith<IllegalArgumentException> { importUseCase(sink.readByteArray(), "") }
@@ -400,8 +411,14 @@ class ExportImportRoundTripTest {
 
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            categories, FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            FakeFieldMarkRepository(),
+            categories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(categories, FakeFieldMarkRepository()),
+            FakePhotoStorage(),
+            FakeFileSystem(),
         )
         val result = importUseCase(sink.readByteArray(), "")
 
@@ -434,10 +451,7 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(),
-            FakePhotoStorage(), sourceFs,
-        )
+        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(), FakePhotoStorage(), fileSystem = sourceFs)
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -447,8 +461,14 @@ class ExportImportRoundTripTest {
         val destFieldMarks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), destFieldMarks, destCategories,
-            FakeCollectionRepository(), FakePhotoStorage(), destFs,
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            destFieldMarks,
+            destCategories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(destCategories, destFieldMarks),
+            FakePhotoStorage(),
+            destFs,
         )
         importUseCase(archiveBytes, "")
 
@@ -495,10 +515,7 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(),
-            FakePhotoStorage(), sourceFs,
-        )
+        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(), FakePhotoStorage(), fileSystem = sourceFs)
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -513,8 +530,14 @@ class ExportImportRoundTripTest {
         val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY), existingLocal))
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            destCategories, FakeCollectionRepository(), FakePhotoStorage(), destFs,
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            FakeFieldMarkRepository(),
+            destCategories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(destCategories, FakeFieldMarkRepository()),
+            FakePhotoStorage(),
+            destFs,
         )
         importUseCase(archiveBytes, "")
 
@@ -549,10 +572,7 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(),
-            FakePhotoStorage(), sourceFs,
-        )
+        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(), FakePhotoStorage(), fileSystem = sourceFs)
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -563,8 +583,14 @@ class ExportImportRoundTripTest {
         val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY), existingLocal))
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            destCategories, FakeCollectionRepository(), FakePhotoStorage(), destFs,
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            FakeFieldMarkRepository(),
+            destCategories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(destCategories, FakeFieldMarkRepository()),
+            FakePhotoStorage(),
+            destFs,
         )
         importUseCase(archiveBytes, "")
 
@@ -595,10 +621,7 @@ class ExportImportRoundTripTest {
             ),
         )
 
-        val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(),
-            FakePhotoStorage(), sourceFs,
-        )
+        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, sourceCategories, FakeCollectionRepository(), FakePhotoStorage(), fileSystem = sourceFs)
         val sink = Buffer()
         exportUseCase(sink)
         val archiveBytes = sink.readByteArray()
@@ -607,8 +630,14 @@ class ExportImportRoundTripTest {
         val destWalks = FakeWalkRepository()
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            destWalks, FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            destCategories, FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
+            destWalks,
+            FakeTrackPointRepository(),
+            FakeFieldMarkRepository(),
+            destCategories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(destCategories, FakeFieldMarkRepository()),
+            FakePhotoStorage(),
+            FakeFileSystem(),
         )
         importUseCase(archiveBytes, "")
         importUseCase(archiveBytes, "")
@@ -636,8 +665,14 @@ class ExportImportRoundTripTest {
 
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(),
-            categories, FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            FakeFieldMarkRepository(),
+            categories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(categories, FakeFieldMarkRepository()),
+            FakePhotoStorage(),
+            FakeFileSystem(),
         )
         val result = importUseCase(sink.readByteArray(), "")
 
@@ -747,8 +782,14 @@ class ExportImportRoundTripTest {
         val marks = FakeFieldMarkRepository()
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            walks, FakeTrackPointRepository(), marks, categories, FakeCollectionRepository(),
-            FakePhotoStorage(), FakeFileSystem(),
+            walks,
+            FakeTrackPointRepository(),
+            marks,
+            categories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(categories, marks),
+            FakePhotoStorage(),
+            FakeFileSystem(),
         )
 
         // Валидный манифест и валидная секция видов, но НИ ОДНОЙ читаемой прогулки: без
@@ -784,8 +825,14 @@ class ExportImportRoundTripTest {
         )
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            walks, FakeTrackPointRepository(), FakeFieldMarkRepository(), categories,
-            FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
+            walks,
+            FakeTrackPointRepository(),
+            FakeFieldMarkRepository(),
+            categories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(categories, FakeFieldMarkRepository()),
+            FakePhotoStorage(),
+            FakeFileSystem(),
         )
         val archive = archiveOf(manifestEntry(), goodWalkEntry(1))
 
@@ -804,8 +851,14 @@ class ExportImportRoundTripTest {
         val categories = FakeCategoryRepository(listOf(category(2, MISC_CATEGORY_NAME_KEY), catalogRow))
         val importUseCase = ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(), categories,
-            FakeCollectionRepository(), FakePhotoStorage(), FakeFileSystem(),
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            FakeFieldMarkRepository(),
+            categories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(categories, FakeFieldMarkRepository()),
+            FakePhotoStorage(),
+            FakeFileSystem(),
         )
         // Архив, выгруженный этим приложением, каталожных видов не содержит — но nameKey в JSON
         // всего лишь строка, и правленый/битый архив может назвать каталожный ключ своим.
@@ -820,6 +873,73 @@ class ExportImportRoundTripTest {
         importUseCase(archive, "")
 
         assertEquals(catalogRow, categories.getByNameKey(BOLETUS_NAME_KEY))
+    }
+
+    /**
+     * Каталожный вид, которого у приёмника НЕТ, приезжает в архиве отдельной строкой — иначе
+     * находка на него молча села бы в «Прочее» и вид потерялся бы навсегда.
+     *
+     * Сценарий не выдуманный: каталог пополняется, а приложения у людей разных версий, и архив из
+     * нового приложения рано или поздно откроют в старом (или наоборот — в другой редакции,
+     * отставшей по версии). Разбор правила — `docs/catalog/CLAUDE.md`, «Правила изменения
+     * каталога».
+     */
+    @Test
+    fun catalogSpeciesUnknownToTheImporterArrivesWithTheArchive() = runBlocking {
+        val sourceCategories = FakeCategoryRepository(
+            listOf(
+                category(1, MISC_CATEGORY_NAME_KEY),
+                category(2, BOLETUS_NAME_KEY).copy(
+                    source = CategorySource.APP,
+                    colorHex = "#8B5A2B",
+                    scientificName = "Boletus edulis",
+                ),
+            ),
+        )
+        val walks = FakeWalkRepository()
+        val walkId = walks.insert(
+            Walk(
+                id = 0, name = "Прогулка", startTime = 1000, endTime = 2000, distanceMeters = 0.0,
+                avgSpeed = 0.0, startLat = 55.7, startLon = 37.6, endLat = null, endLon = null,
+                mushroomCount = 1, thumbnailPath = null, description = null,
+            ),
+        )
+        val sourceMarks = FakeFieldMarkRepository()
+        sourceMarks.addMark(
+            FieldMark(
+                0, walkId, categoryId = 2, lat = 55.701, lon = 37.601, timestamp = 1200,
+                type = MarkType.MUSHROOM, photoPath = null, name = null, description = null,
+            ),
+        )
+        val sink = Buffer()
+        ExportDataUseCase(
+            walks, FakeTrackPointRepository(), sourceMarks, sourceCategories, FakeCollectionRepository(),
+            FakePhotoStorage(),
+            catalogDisplayNames = { mapOf("ru" to "Белый гриб", "en" to "Penny bun") },
+            fileSystem = FakeFileSystem(),
+        )(sink)
+
+        // Приёмник знает только служебные строки — каталога с этим ключом у него нет.
+        val destCategories = FakeCategoryRepository(listOf(category(10, MISC_CATEGORY_NAME_KEY)))
+        val destMarks = FakeFieldMarkRepository()
+        ImportDataUseCase(
+            ValidateImportArchiveUseCase(),
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            destMarks,
+            destCategories,
+            FakeCollectionRepository(),
+            RecalculateFilterEligibilityUseCase(destCategories, destMarks),
+            FakePhotoStorage(),
+            FakeFileSystem(),
+        )(sink.readByteArray(), "")
+
+        val arrived = destCategories.observeAll().first().single { it.nameKey == BOLETUS_NAME_KEY }
+        assertEquals(CategorySource.IMPORTED, arrived.source)
+        assertEquals("Белый гриб", arrived.customNames[AppLanguage.RU])
+        assertEquals("Boletus edulis", arrived.scientificName)
+        // Главное: находка села на приехавший вид, а не в «Прочее».
+        assertEquals(arrived.id, destMarks.observeAll().first().single().categoryId)
     }
 
     /** Ради этого подборки и попали в архив: на новом устройстве грибы обязаны разложиться так же,
@@ -936,10 +1056,7 @@ class ExportImportRoundTripTest {
                 type = MarkType.MUSHROOM, photoPath = null, name = null, description = null,
             ),
         )
-        val exportUseCase = ExportDataUseCase(
-            walks, FakeTrackPointRepository(), fieldMarks, categories, collections,
-            FakePhotoStorage(), FakeFileSystem(),
-        )
+        val exportUseCase = ExportDataUseCase(walks, FakeTrackPointRepository(), fieldMarks, categories, collections, FakePhotoStorage(), fileSystem = FakeFileSystem())
         val sink = Buffer()
         exportUseCase(sink)
         return sink.readByteArray()
@@ -952,8 +1069,14 @@ class ExportImportRoundTripTest {
     ) {
         ImportDataUseCase(
             ValidateImportArchiveUseCase(),
-            FakeWalkRepository(), FakeTrackPointRepository(), FakeFieldMarkRepository(), categories, collections,
-            FakePhotoStorage(), FakeFileSystem(),
+            FakeWalkRepository(),
+            FakeTrackPointRepository(),
+            FakeFieldMarkRepository(),
+            categories,
+            collections,
+            RecalculateFilterEligibilityUseCase(categories, FakeFieldMarkRepository()),
+            FakePhotoStorage(),
+            FakeFileSystem(),
         )(archiveBytes, "")
     }
 }

@@ -57,6 +57,16 @@ class ExportDataUseCase(
     private val categoryRepository: CategoryRepository,
     private val collectionRepository: CollectionRepository,
     private val photoStorage: PhotoStorage,
+    /**
+     * Имена каталожного вида по языкам (`код языка → имя`) — для подстраховочных строк архива,
+     * см. [toCatalogFallbackDto].
+     *
+     * Лямбдой из DI, а не прямым вызовом слоя `i18n`: тот берёт имена через Koin
+     * (`MushroomNames`), а доменный use case не должен ни знать о сервис-локаторе, ни требовать
+     * поднятого Koin в тестах. Значение по умолчанию — пусто: вид уедет с латынью и цветом, то
+     * есть ровно так, как выглядит любой вид без перевода на язык читателя.
+     */
+    private val catalogDisplayNames: (Category) -> Map<String, String> = { emptyMap() },
     private val fileSystem: FileSystem = FileSystem.SYSTEM,
 ) {
     /** [walkIds], if non-null, restricts the archive to those walks — see the export walks picker
@@ -133,10 +143,17 @@ class ExportDataUseCase(
         referencedNameKeys: Set<String>,
         categoryByNameKey: Map<String, Category>,
     ): List<Category> {
-        val exportable = referencedNameKeys.mapNotNull { categoryByNameKey[it] }
-            .filter { it.source != CategorySource.APP }
-            .sortedBy { it.nameKey }
-        if (exportable.isEmpty()) return exportable
+        val referenced = referencedNameKeys.mapNotNull { categoryByNameKey[it] }.sortedBy { it.nameKey }
+        val exportable = referenced.filter { it.source != CategorySource.APP }
+        // Каталожные виды — отдельным списком и ТОЛЬКО как подстраховка: на приёмной стороне они
+        // почти всегда уже есть, посеянные из того же `catalog.json`, и импорт каталожные строки
+        // не трогает ни при каких условиях (гвард в `ImportDataUseCase.importCategory`).
+        val catalogFallbacks = referenced.filter {
+            it.source == CategorySource.APP &&
+                it.nameKey != MISC_CATEGORY_NAME_KEY &&
+                it.nameKey != UNKNOWN_MUSHROOM_NAME_KEY
+        }
+        if (exportable.isEmpty() && catalogFallbacks.isEmpty()) return exportable
 
         val dtos = exportable.map { category ->
             val iconPath = category.iconFile
@@ -149,7 +166,7 @@ class ExportDataUseCase(
                 )
             }
             category.toExportDto(hasIcon = iconPath != null)
-        }
+        } + catalogFallbacks.map { it.toCatalogFallbackDto(catalogDisplayNames(it)) }
         writer.writeEntry(
             CATEGORIES_ENTRY_NAME,
             ExportJson.encodeToString(ListSerializer(CategoryExportDto.serializer()), dtos).encodeToByteArray(),
@@ -222,6 +239,35 @@ private fun FieldMark.toExportDto(categoryNameKey: String, photoFile: String?) =
     photoFile = photoFile,
     name = name,
     description = description,
+)
+
+/**
+ * Каталожный вид, записанный в архив так, чтобы его понял тот, у кого этого ключа НЕТ.
+ *
+ * **Зачем.** Находка ссылается на вид одним лишь `nameKey`, каталожные строки архив обычно не
+ * везёт (они и так есть у всех), а импорт на незнакомый ключ ставит «Прочее»
+ * (`ImportDataUseCase`, `?: miscCategoryId`) — молча и навсегда. Пока каталог у всех один, это
+ * ничего не значит; как только приложения разойдутся версиями — архив из нового приложения,
+ * открытый в старом, теряет вид у каждой находки нового вида. Поэтому вид едет с собой: имя на
+ * всех языках, где оно есть, латынь и цвет.
+ *
+ * **Почему это ничего не ломает у того, у кого ключ ЕСТЬ.** Слияние идёт по `nameKey`, а
+ * каталожную строку импорт не трогает ни при каких условиях — она просто отдаёт свой id, и
+ * находка садится на местный каталожный вид, как и раньше. То есть изменение одностороннее:
+ * новые архивы понимают и старые версии приложения, потому что «неизвестный ключ → создать вид»
+ * они умели всегда.
+ *
+ * **Картинки нет намеренно.** Иллюстрации каталога лежат в ресурсах приложения, а не в
+ * пользовательском хранилище; везти их в архиве значило бы раздавать вместе с ним чужие
+ * изображения. У приёмника без ключа вид получится с именем, латынью и цветом, но без картинки —
+ * это несравнимо лучше, чем «Прочее».
+ */
+private fun Category.toCatalogFallbackDto(names: Map<String, String>) = CategoryExportDto(
+    nameKey = nameKey,
+    customNames = names,
+    scientificName = scientificName,
+    colorHex = colorHex,
+    hasIcon = false,
 )
 
 private fun Category.toExportDto(hasIcon: Boolean) = CategoryExportDto(

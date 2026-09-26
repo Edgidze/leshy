@@ -50,6 +50,8 @@ from PIL import Image  # noqa: E402
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SOURCE_JSON = REPO_ROOT / "docs" / "catalog" / "leshy_core_app.json"
 OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "name_overrides.json"
+# Реестр всех ключей, которые когда-либо уезжали в сборку, — см. check_keys_are_append_only.
+CATALOG_KEYS_JSON = REPO_ROOT / "docs" / "catalog" / "keys.json"
 COUNTRY_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "country_name_overrides.json"
 IMAGES_SRC_DIR = REPO_ROOT / "app_assets_256" / "mushrooms"
 DRAWABLE_DIR = REPO_ROOT / "shared" / "src" / "commonMain" / "composeResources" / "drawable"
@@ -483,6 +485,40 @@ def write_country_names(presets: dict, out_dir: Path) -> None:
           f"{overridden} manual overrides applied)")
 
 
+def check_keys_are_append_only(keys: list[str]) -> None:
+    """Сторож главного инварианта каталога: ключ вида — вечный.
+
+    `nameKey` — единственное, чем находка в архиве ссылается на вид
+    (`ObjectExportDto.categoryNameKey`), и на незнакомый ключ импорт молча ставит «Прочее».
+    Значит исчезнувший или переименованный ключ — это потерянные виды у всех находок во всех
+    ранее выгруженных архивах, причём без единого сообщения об ошибке. Правила целиком —
+    `docs/catalog/CLAUDE.md`, раздел «Правила изменения каталога».
+
+    Реестр `docs/catalog/keys.json` пополняется сам и коммитится вместе с данными; пропажа
+    ключа — жёсткий отказ. Переименование делается не здесь, а через
+    `LEGACY_CATEGORY_KEY_REMAP` (`data/catalog/LegacyCategoryKeys.kt`): старый ключ остаётся
+    понятным импорту, и только после этого его можно убрать из реестра руками, одной правкой,
+    видимой в ревью.
+    """
+    current = set(keys)
+    known = set(load_optional_json(CATALOG_KEYS_JSON, {"keys": []})["keys"])
+    missing = sorted(known - current)
+    if missing:
+        raise SystemExit(
+            "ключи каталога пропали из выгрузки — это ломает импорт старых архивов "
+            f"({len(missing)}): {missing}\n"
+            "Если переименование осознанное: заведите пару в LEGACY_CATEGORY_KEY_REMAP "
+            "(shared/.../data/catalog/LegacyCategoryKeys.kt) и уберите старый ключ из "
+            f"{CATALOG_KEYS_JSON.relative_to(REPO_ROOT)} вручную."
+        )
+    added = sorted(current - known)
+    CATALOG_KEYS_JSON.write_text(
+        json.dumps({"keys": sorted(current | known)}, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    print(f"keys.json: {len(current)} ключей, новых {len(added)}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -563,6 +599,8 @@ def run_full(recompute_colors: bool = False) -> None:
             # конец ленты», и ничего кроме.
             "sortLast": c["flags"]["dangerous"],
         })
+
+    check_keys_are_append_only([e["key"] for e in catalog_entries])
 
     FILES_CATALOG_DIR.mkdir(parents=True, exist_ok=True)
     (FILES_CATALOG_DIR / "catalog.json").write_text(

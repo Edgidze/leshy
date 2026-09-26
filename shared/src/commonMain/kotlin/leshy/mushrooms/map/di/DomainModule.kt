@@ -2,6 +2,9 @@ package leshy.mushrooms.map.di
 
 import leshy.mushrooms.map.domain.usecase.AddMushroomMarkUseCase
 import leshy.mushrooms.map.domain.usecase.AddPlaceMarkUseCase
+import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.i18n.categoryDisplayName
+import leshy.mushrooms.map.i18n.hasLocalizedName
 import leshy.mushrooms.map.domain.usecase.BackfillWalkThumbnailsUseCase
 import leshy.mushrooms.map.domain.usecase.CreateOrUpdateUserSpeciesUseCase
 import leshy.mushrooms.map.domain.usecase.DeletePlaceMarkUseCase
@@ -53,9 +56,17 @@ val domainModule = module {
     factory { UpdatePlaceMarkUseCase(get()) }
     factory { DeletePlaceMarkUseCase(get()) }
     factory { DeleteWalkUseCase(get(), get()) }
-    factory { ExportDataUseCase(get(), get(), get(), get(), get(), get()) }
+    factory {
+        ExportDataUseCase(get(), get(), get(), get(), get(), get(), catalogDisplayNames = { category ->
+            // Место сшивки домена со слоем имён: сам use case про `i18n` не знает (см. его
+            // KDoc), а имя каталожного вида умеет отдавать только этот слой.
+            AppLanguage.entries
+                .filter { hasLocalizedName(category, it) }
+                .associate { it.code to categoryDisplayName(category, it) }
+        })
+    }
     factory { ValidateImportArchiveUseCase() }
-    factory { ImportDataUseCase(get(), get(), get(), get(), get(), get(), get()) }
+    factory { ImportDataUseCase(get(), get(), get(), get(), get(), get(), get(), get()) }
     factory { RefreshMapDataUseCase(get(), get()) }
     factory { CreateOrUpdateUserSpeciesUseCase(get(), get(), get()) }
     factory { ToggleUserSpeciesVisibilityUseCase(get()) }

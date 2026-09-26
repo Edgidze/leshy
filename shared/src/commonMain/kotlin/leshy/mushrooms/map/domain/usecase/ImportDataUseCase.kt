@@ -60,6 +60,7 @@ class ImportDataUseCase(
     private val fieldMarkRepository: FieldMarkRepository,
     private val categoryRepository: CategoryRepository,
     private val collectionRepository: CollectionRepository,
+    private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
     private val photoStorage: PhotoStorage,
     private val fileSystem: FileSystem = FileSystem.SYSTEM,
 ) {
@@ -97,6 +98,17 @@ class ImportDataUseCase(
             }.isSuccess
             if (ok) imported++ else failed++
         }
+        // Приехавшие находки могли сослаться на каталожный вид, которого человек не отмечал, —
+        // правило `isPicked || есть находки` обязано это учесть, иначе вид не попадёт даже в
+        // список фильтра «Карты находок». Пересчёт стоит ровно здесь, а не в `DataViewModel`:
+        // это не украшение экрана, а инвариант данных, и держать его должен тот, кто данные
+        // записал. До 2026-09-26 пересчёта тут не было вовсе, и флаг подтягивался только при
+        // следующем запуске приложения (`App.kt`) — то есть импортированные виды до перезапуска
+        // не показывались нигде.
+        //
+        // Цена — один проход по 409 строкам каталога без сети, не путать с дорисовкой снимков
+        // (`BackfillWalkThumbnailsUseCase`), которую из импорта звать как раз нельзя.
+        recalculateFilterEligibility()
         return Result(imported, failed)
     }
 
