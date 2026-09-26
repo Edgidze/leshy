@@ -1,11 +1,22 @@
 #!/usr/bin/env python3
-"""Деревянные ассеты российской редакции: жетон под значки разделов и земля экрана.
+"""Деревянные ассеты российской редакции: жетон, земля экрана, доска карточек, доска кнопок.
 
 Что делает:
 
 - `badge_wood.webp` — жетон 192px под СТОКОВЫЙ глиф Material (`design.md`, разделы 3 и 9);
+  он же подложка кнопок-значков «+»/«−» и боковых кнопок «Записи»;
 - `ground_light.webp` / `ground_dark.webp` — полноэкранная текстура земли для светлой и
-  тёмной темы (`design.md`, раздел 7).
+  тёмной темы (`design.md`, раздел 7);
+- `card_light.webp` / `card_dark.webp` — доска карточек: тот же материал, **другая доска**;
+- `button_wood.webp` — тёмная доска под заливные кнопки, белая подпись поверх.
+
+## Почему досок несколько, а не одна на всё
+
+Земля, карточка и кнопка обязаны различаться, иначе карточка на земле не читается как
+отдельный предмет, а кнопка — как нажимаемая. Различаются двумя вещами сразу, и обе нужны:
+**тоном** (карточка светлее земли, кнопка заметно темнее обеих) и **направлением волокна** —
+у земли доски идут вертикально, у карточек поперёк. Одного тона мало: на стыке двух кусков
+дерева с одинаковым рисунком глаз видит пятно, а не край предмета.
 
 Исходники лежат в корне репозитория, требования к ним — `docs/russia-edition/brief-wood-boards.md`.
 
@@ -74,6 +85,9 @@ GROUND_DARK_SRC = os.path.join(ROOT, "gribnye_ground_dark.png")
 BADGE_NAME = "badge_wood.webp"
 GROUND_LIGHT_NAME = "ground_light.webp"
 GROUND_DARK_NAME = "ground_dark.webp"
+CARD_LIGHT_NAME = "card_light.webp"
+CARD_DARK_NAME = "card_dark.webp"
+BUTTON_NAME = "button_wood.webp"
 
 SIDE = 192
 CORNER_RATIO = 4.0 / 36.0
@@ -91,6 +105,19 @@ BADGE_ZOOM = 2.0
 GROUND_LIGHT_TARGET = (0xE8, 0xD9, 0xBE)
 GROUND_DARK_TARGET = (0x21, 0x1A, 0x12)
 GROUND_SPREAD = 0.08
+
+# Карточка светлее земли в светлой теме и светлее её же в тёмной — предмет, лежащий НА земле,
+# ловит больше света, чем она. Значения совпадают с `surface`/`surfaceBright` палитры редакции
+# (`RussiaColors.kt`): текстура подменяет заливку, а не вводит третий тон.
+CARD_LIGHT_TARGET = (0xF4, 0xE9, 0xD6)
+CARD_DARK_TARGET = (0x36, 0x2C, 0x20)
+# Размер доски карточек: карточки узкие и невысокие, вся доска целиком в них не показывается —
+# хватает куска, кратно меньшего земли. Больше — только вес файла.
+CARD_SIZE = (720, 720)
+
+# Кнопка — та же доска, что жетон: подложка значка и подложка кнопки обязаны быть одним
+# материалом, иначе ряд кнопок и ряд значков читаются как разные продукты.
+BUTTON_SIZE = (512, 192)
 
 
 def rounded_mask(side: int, radius: int) -> Image.Image:
@@ -195,11 +222,61 @@ def build_ground(src: str, name: str, target: tuple[int, int, int]) -> None:
     )
 
 
+def build_card(src: str, name: str, target: tuple[int, int, int]) -> None:
+    """Доска карточек: та же древесина, повёрнутая на 90°, в другом тоне.
+
+    Поворот — не украшение: волокно поперёк отличает карточку от земли даже там, где тона
+    сближаются (край карточки на границе с землёй), и стоит он ноль байт.
+    """
+    if not os.path.exists(src):
+        print(f"нет {os.path.basename(src)} — {name} пропущен")
+        return
+    board = Image.open(src).convert("RGB").rotate(90, expand=True)
+    board = board.resize(CARD_SIZE, Image.LANCZOS)
+    card = match_tone(board, target, GROUND_SPREAD)
+    path = os.path.join(OUT, name)
+    card.save(path, "WEBP", quality=86, method=6)
+    mean = ImageStat.Stat(card).mean
+    print(
+        f"{name}: {card.width}×{card.height}, средний "
+        f"#{int(mean[0]):02X}{int(mean[1]):02X}{int(mean[2]):02X}, {os.path.getsize(path)} байт"
+    )
+
+
+def build_button() -> None:
+    """Доска кнопок — тот же исходник и тот же зум, что у жетона, но без скругления и альфы.
+
+    Форму кнопке задаёт `shapeButton`, а не растр: кнопки бывают разной ширины, и вмороженное
+    в картинку скругление растянулось бы вместе с ней.
+    """
+    src = BADGE_SRC if os.path.exists(BADGE_SRC) else WOOD_SRC
+    if not os.path.exists(src):
+        print(f"нет {os.path.basename(src)} — {BUTTON_NAME} пропущен")
+        return
+    board = zoomed_center(trimmed_board(Image.open(src).convert("RGB")), BADGE_ZOOM)
+    width, height = BUTTON_SIZE
+    k = max(width / board.width, height / board.height)
+    scaled = board.resize((max(width, int(board.width * k)), max(height, int(board.height * k))), Image.LANCZOS)
+    x0 = (scaled.width - width) // 2
+    y0 = (scaled.height - height) // 2
+    button = scaled.crop((x0, y0, x0 + width, y0 + height))
+    path = os.path.join(OUT, BUTTON_NAME)
+    button.save(path, "WEBP", quality=90, method=6)
+    p1, p50, p99 = luma_span(button)
+    print(
+        f"{BUTTON_NAME}: {width}×{height} из {os.path.basename(src)}, "
+        f"светлота {p1}/{p50}/{p99}, {os.path.getsize(path)} байт"
+    )
+
+
 def main() -> None:
     os.makedirs(OUT, exist_ok=True)
     build_badge()
     build_ground(GROUND_LIGHT_SRC, GROUND_LIGHT_NAME, GROUND_LIGHT_TARGET)
     build_ground(GROUND_DARK_SRC, GROUND_DARK_NAME, GROUND_DARK_TARGET)
+    build_card(GROUND_LIGHT_SRC, CARD_LIGHT_NAME, CARD_LIGHT_TARGET)
+    build_card(GROUND_DARK_SRC, CARD_DARK_NAME, CARD_DARK_TARGET)
+    build_button()
 
 
 if __name__ == "__main__":

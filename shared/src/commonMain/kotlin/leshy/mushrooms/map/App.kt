@@ -66,6 +66,7 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import leshy.mushrooms.map.i18n.editionStringKeysFor
 import leshy.mushrooms.map.ui.theme.leshyDrawerContainerColor
+import leshy.mushrooms.map.ui.theme.leshyDrawerItemColors
 import leshy.mushrooms.map.ui.components.GlyphBadge
 import leshy.mushrooms.map.ui.components.groundBackground
 import leshy.mushrooms.map.ui.components.groundContainerColor
@@ -214,6 +215,7 @@ fun App() {
                                     } == true
                                     NavigationDrawerItem(
                                         shape = LeshyTheme.tokens.shapeDrawerItem,
+                                        colors = leshyDrawerItemColors(),
                                         selected = selected,
                                         label = { Text(stringResource(entry.labelKey)) },
                                         icon = {

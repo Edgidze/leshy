@@ -16,12 +16,23 @@ import androidx.compose.ui.graphics.Color
  *
  * Главное решение палитры. В иконке владельца красный — паспарту, а не сюжет. Сделай алый
  * основным цветом действия — он столкнётся с красным цветом ошибки, и ошибки перестанут читаться
- * как ошибки. Поэтому действия несёт **лазурь**, ошибка остаётся красной и заметно темнее
- * фирменного алого, а сам алый живёт отдельным токеном рамы (появится вместе с рамами), а не в
- * `ColorScheme`.
+ * как ошибки. Поэтому алый живёт отдельным токеном рамы, а не в `ColorScheme`.
  *
- * Исходные тона — флаг 1991–1993 (`#fff`/`#088ce8`/`#da1525`); для экрана они углублены, потому
- * что чистый `#088ce8` на светлом фоне не даёт контраста для текста.
+ * ## Действие — тёплое дерево, а не лазурь (решение владельца 2026-09-26)
+ *
+ * Изначально действие несла лазурь флага 1991–1993 (`#088ce8`, углублённая до `#0960A5` ради
+ * контраста). На собранном приложении владелец увидел то, чего не видно в таблице цветов:
+ * **синие кнопки и переключатели холодные и чужие** на тёплой деревянной земле — единственное
+ * место в интерфейсе, где цвет спорит с материалом. Лазурь оставлена там, где она и была
+ * осмысленна, — на самом логотипе, — а действия перешли на тёмное дерево `#6E4424`: тот же тон,
+ * что у доски жетонов и кнопок, то есть цвет и текстура теперь говорят одно и то же.
+ *
+ * Довод против алого этим не отменяется и на дерево не распространяется: коричневый с красным
+ * цветом ошибки не путается, а красным по-прежнему остаётся только ошибка.
+ *
+ * Контраст пересчитан заново, не унаследован: белое на `#6E4424` — 8.35, само `#6E4424` на земле
+ * (`#E8D9BE`) — 6.00, на мате (`#FFFDF7`) — 8.21; в тёмной теме `#D9B486` на фоне — 8.86, на
+ * поверхности — 7.97, тёмная подпись на нём — 7.51. Все пары выше порога AA 4.5 с запасом.
  *
  * ## Значения сверены по контрасту, а не взяты из таблицы дословно
  *
@@ -29,9 +40,6 @@ import androidx.compose.ui.graphics.Color
  * Проверка прогнана по всем парам «текст/подложка» в обеих темах; два значения от таблицы
  * отличаются, оба — в сторону контраста:
  *
- * - **`primary` `#0B6FBF` → `#0960A5`.** На земле (`background #E8D9BE`) исходный давал 3.74 —
- *   мало для текста ссылки, а ссылка на земле в приложении есть («Политика конфиденциальности»).
- *   Углублённый даёт 4.68 на земле и 6.40 на мате.
  * - **`outline` тёмной темы `#7A6144` → `#8F7352`.** Исходный давал 2.67 на поверхности — ниже
  *   порога 3.0 даже для рамок, то есть рамка была бы не видна. Стало 3.49.
  *
@@ -39,12 +47,12 @@ import androidx.compose.ui.graphics.Color
  * и у самого Material в тёмных схемах он такой же по построению.
  */
 private val RussiaLightColors: ColorScheme = lightColorScheme(
-    // Лазурь действия.
-    primary = Color(0xFF0960A5),
+    // Действие — тёмное дерево, тот же тон, что у доски жетонов и кнопок.
+    primary = Color(0xFF6E4424),
     onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xFFD3E8FA),
-    onPrimaryContainer = Color(0xFF06304F),
-    inversePrimary = Color(0xFF6BB6F0),
+    primaryContainer = Color(0xFFF0DCC0),
+    onPrimaryContainer = Color(0xFF3A2413),
+    inversePrimary = Color(0xFFD9B486),
     // Дерево.
     secondary = Color(0xFF8A5A33),
     onSecondary = Color(0xFFFFFFFF),
@@ -63,7 +71,7 @@ private val RussiaLightColors: ColorScheme = lightColorScheme(
     onSurface = Color(0xFF2A1F14),
     surfaceVariant = Color(0xFFEADBC4),
     onSurfaceVariant = Color(0xFF4A3524),
-    surfaceTint = Color(0xFF0960A5),
+    surfaceTint = Color(0xFF6E4424),
     inverseSurface = Color(0xFF3A2E20),
     inverseOnSurface = Color(0xFFF5ECDC),
     // Темнее фирменного алого — чтобы ошибка не сливалась с рамами фотографий.
@@ -86,11 +94,11 @@ private val RussiaLightColors: ColorScheme = lightColorScheme(
 
 /** Мореное дерево. Те же роли, что в светлой, разобраны в KDoc [RussiaLightColors]. */
 private val RussiaDarkColors: ColorScheme = darkColorScheme(
-    primary = Color(0xFF6BB6F0),
-    onPrimary = Color(0xFF04324F),
-    primaryContainer = Color(0xFF0B4E86),
-    onPrimaryContainer = Color(0xFFCFE6FA),
-    inversePrimary = Color(0xFF0960A5),
+    primary = Color(0xFFD9B486),
+    onPrimary = Color(0xFF3A2413),
+    primaryContainer = Color(0xFF5A3F26),
+    onPrimaryContainer = Color(0xFFEADBC4),
+    inversePrimary = Color(0xFF6E4424),
     secondary = Color(0xFFC9A87C),
     onSecondary = Color(0xFF3A2413),
     secondaryContainer = Color(0xFF5A3F26),
@@ -105,7 +113,7 @@ private val RussiaDarkColors: ColorScheme = darkColorScheme(
     onSurface = Color(0xFFEDE2CE),
     surfaceVariant = Color(0xFF4A3B28),
     onSurfaceVariant = Color(0xFFD6C4A4),
-    surfaceTint = Color(0xFF6BB6F0),
+    surfaceTint = Color(0xFFD9B486),
     inverseSurface = Color(0xFFEDE2CE),
     inverseOnSurface = Color(0xFF2B231A),
     error = Color(0xFFE88A8A),

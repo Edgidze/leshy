@@ -166,8 +166,14 @@ fun MushroomTile(
                 state = tapFlash,
             ),
         border = BorderStroke(2.dp, outlineColor),
+        // Доска карточки — другая, чем земля под ней: иначе плитка не читается как предмет,
+        // лежащий на земле (см. `LeshyTokens.cardTexture`).
+        colors = CardDefaults.cardColors(
+            containerColor = cardContainerColor(MaterialTheme.colorScheme.surfaceContainerLow),
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        ),
     ) {
-        Column {
+        Column(modifier = Modifier.cardBackground()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -178,9 +184,20 @@ fun MushroomTile(
                 IconButton(
                     onClick = remove,
                     enabled = count > 0,
-                    modifier = Modifier.size(MUSHROOM_COUNT_BUTTON_SIZE),
+                    modifier = Modifier
+                        .size(MUSHROOM_COUNT_BUTTON_SIZE)
+                        .glyphBadgeBackground(LeshyTheme.tokens.shapeCountButton),
                 ) {
-                    Icon(Icons.Filled.Remove, contentDescription = null, Modifier.size(32.dp))
+                    Icon(
+                        imageVector = Icons.Filled.Remove,
+                        contentDescription = null,
+                        // Явный цвет, а не `LocalContentColor` от `IconButton`: на жетоне значок
+                        // всегда светлый (доска тёмная в обеих темах), и гашение выключенного
+                        // состояния, которое `IconButton` даёт даром, приходится повторить рукой.
+                        tint = glyphBadgeContentColor(LocalContentColor.current)
+                            .copy(alpha = if (count > 0) 1f else 0.38f),
+                        modifier = Modifier.size(32.dp),
+                    )
                 }
                 Text(
                     text = count.toString(),
@@ -283,6 +300,7 @@ private fun MushroomAddButton(
         modifier = modifier
             .size(MUSHROOM_COUNT_BUTTON_SIZE)
             .clip(LeshyTheme.tokens.shapeCountButton)
+            .glyphBadgeBackground(LeshyTheme.tokens.shapeCountButton)
             .indication(interactionSource, LocalIndication.current)
             .tapOrHold(
                 holdDuration = MUSHROOM_BULK_ADD_HOLD_DURATION,
@@ -298,7 +316,7 @@ private fun MushroomAddButton(
         Icon(
             Icons.Filled.Add,
             contentDescription = null,
-            tint = LocalContentColor.current.copy(alpha = if (enabled) 1f else 0.38f),
+            tint = glyphBadgeContentColor(LocalContentColor.current).copy(alpha = if (enabled) 1f else 0.38f),
             modifier = Modifier.size(32.dp),
         )
     }

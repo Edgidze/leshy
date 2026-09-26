@@ -102,6 +102,9 @@ import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
 import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_MAX_WIDTH
 import leshy.mushrooms.map.ui.components.MushroomPhoto
 import leshy.mushrooms.map.ui.components.MushroomTile
+import leshy.mushrooms.map.ui.components.glyphBadgeBackground
+import leshy.mushrooms.map.ui.components.glyphBadgeContentColor
+import leshy.mushrooms.map.ui.components.groundBackground
 import leshy.mushrooms.map.ui.components.NavigationOverlayPanel
 import leshy.mushrooms.map.ui.components.PlaceViewDialog
 import leshy.mushrooms.map.ui.components.RECORD_MUSHROOM_TILE_WIDTH
@@ -768,7 +771,10 @@ private fun RecordScreenContent(
                     state = tileListState,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)),
+                        // Полка под лентой — та же доска, что земля разделов: лента висит над
+                        // картой, и деревянная полка под ней продолжает ту же поверхность, на
+                        // которой лежит всё остальное приложение.
+                        .groundBackground(fallback = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)),
                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(TILE_SPACING),
                 ) {
@@ -882,9 +888,11 @@ private fun RecordSideButton(
             enabled = enabled,
             modifier = Modifier
                 .size(ACTION_BUTTON_HEIGHT)
-                .clip(LeshyTheme.tokens.shapeRoundButton)
-                .background(MaterialTheme.colorScheme.secondaryContainer)
-                .border(1.dp, MaterialTheme.colorScheme.outline, LeshyTheme.tokens.shapeRoundButton),
+                .glyphBadgeBackground(
+                    shape = LeshyTheme.tokens.shapeRoundButton,
+                    fallbackBackground = MaterialTheme.colorScheme.secondaryContainer,
+                    fallbackBorder = MaterialTheme.colorScheme.outline,
+                ),
         ) {
             Icon(
                 imageVector = icon,
@@ -892,7 +900,8 @@ private fun RecordSideButton(
                 // 0.38f matches Material3's own disabled-content alpha (IconButtonDefaults) — the
                 // icon is set explicitly here instead of inheriting it, so it must be applied by
                 // hand to get the same "faded" look the mushroom tiles' minus button gets for free.
-                tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = if (enabled) 1f else 0.38f),
+                tint = glyphBadgeContentColor(MaterialTheme.colorScheme.onSecondaryContainer)
+                    .copy(alpha = if (enabled) 1f else 0.38f),
                 modifier = Modifier.size(ACTION_BUTTON_HEIGHT / 2),
             )
         }

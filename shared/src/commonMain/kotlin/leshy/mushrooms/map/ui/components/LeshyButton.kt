@@ -8,6 +8,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.ui.theme.LeshyTheme
@@ -19,6 +21,10 @@ private val BORDER_WIDTH = 1.dp
  * обводка вокруг погашенной кнопки читалась бы ярче её самой. 0.38f — та же доля, которой в этом
  * проекте гасят выключенное содержимое (см. `RecordSideButton`, `MushroomTile`). */
 private const val DISABLED_BORDER_ALPHA = 0.38f
+
+/** Та же доля для погашенной подписи на доске: у выключенной кнопки Material гасит содержимое
+ * сам, но только когда цвет содержимого берёт он же, а на доске цвет задаём мы. */
+private const val DISABLED_CONTENT_ALPHA = 0.38f
 
 /**
  * Заливная кнопка действия с общей для приложения обводкой.
@@ -53,18 +59,37 @@ fun LeshyButton(
 ) {
     val outline = MaterialTheme.colorScheme.outline
     val looksEnabled = enabled && !dimmed
+    // Доска под кнопкой — та же древесина, что у жетонов под значками: кнопка и значок стоят
+    // рядом на одном экране, и разный материал прочитался бы как два разных приложения
+    // (требование владельца 2026-09-26). Заливка контейнера при этом обязана стать прозрачной —
+    // её рисует сам Material, ПОВЕРХ нашего фона, — а подпись светлеет: доска тёмная в обеих
+    // темах. Без доски (мировая редакция) всё остаётся ровно как было, включая переданные
+    // вызывающим `colors`.
+    val wooden = LeshyTheme.tokens.buttonTexture != null
+    val woodenColors = if (wooden) {
+        colors.copy(
+            containerColor = Color.Transparent,
+            contentColor = WOOD_CONTENT_COLOR,
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = WOOD_CONTENT_COLOR.copy(alpha = DISABLED_CONTENT_ALPHA),
+        )
+    } else {
+        colors
+    }
     Button(
         onClick = onClick,
-        modifier = modifier,
+        // clip перед доской обязателен: `Modifier.paint` не знает про форму кнопки и залил бы
+        // прямоугольник целиком, вылезая деревом за скруглённые углы.
+        modifier = modifier.clip(shape).buttonBackground(),
         enabled = enabled,
         shape = shape,
         colors = if (dimmed) {
-            colors.copy(
-                containerColor = colors.disabledContainerColor,
-                contentColor = colors.disabledContentColor,
+            woodenColors.copy(
+                containerColor = woodenColors.disabledContainerColor,
+                contentColor = woodenColors.disabledContentColor,
             )
         } else {
-            colors
+            woodenColors
         },
         border = BorderStroke(
             BORDER_WIDTH,

@@ -13,6 +13,9 @@ import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
 import org.jetbrains.compose.resources.DrawableResource
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.badge_wood
+import leshy.shared.generated.resources.button_wood
+import leshy.shared.generated.resources.card_dark
+import leshy.shared.generated.resources.card_light
 import leshy.shared.generated.resources.ground_dark
 import leshy.shared.generated.resources.ground_light
 
@@ -188,6 +191,21 @@ data class LeshyTokens(
      */
     val iconBadge: DrawableResource?,
     /**
+     * Доска карточек — плитки видов, карточки прогулок, полка под лентой «Записи».
+     *
+     * Отдельная от [groundTexture] не ради разнообразия: карточка обязана читаться как предмет,
+     * ЛЕЖАЩИЙ на земле. Различают их тон (карточка светлее) и направление волокна (у земли доски
+     * вертикальные, у карточек поперёк) — одного тона мало, на стыке двух кусков с одинаковым
+     * рисунком глаз видит пятно, а не край.
+     */
+    val cardTexture: DrawableResource?,
+    /**
+     * Доска заливных кнопок — та же древесина, что у [iconBadge], и это условие, а не совпадение:
+     * ряд кнопок и ряд значков на жетонах стоят на одном экране, и разный материал прочитался бы
+     * как два разных приложения.
+     */
+    val buttonTexture: DrawableResource?,
+    /**
      * Нижняя граница числа колонок в сетке плиток находок — оно же то, что получается на телефоне
      * вертикально. Верхняя граница считается от ширины экрана, см. `FindTilesGrid`.
      *
@@ -263,6 +281,8 @@ private val WorldTokens = LeshyTokens(
     surfaceStyle = SurfaceStyle.FLAT,
     groundTexture = null,
     iconBadge = null,
+    cardTexture = null,
+    buttonTexture = null,
     findTileMinColumns = 2,
     photoAspectRatio = MUSHROOM_PHOTO_ASPECT_RATIO,
     typeScaleStep = 1f,
@@ -321,22 +341,28 @@ private val RussiaTokensLight = WorldTokens.copy(
     matPadding = 6.dp,
     surfaceStyle = SurfaceStyle.FRAMED,
     iconBadge = Res.drawable.badge_wood,
+    buttonTexture = Res.drawable.button_wood,
     // Шкала кегля на ступень выше мировой: аудитория сбора грибов смещена к старшему возрасту, и
     // это совпадает с требованием читаемости на солнце. Пока не читается никем — типографику
     // редакция получит вместе со шрифтами (раздел 5 design.md), — но величина решена здесь же.
     typeScaleStep = 1.1f,
     groundTexture = Res.drawable.ground_light,
+    cardTexture = Res.drawable.card_light,
 )
 
-/** Тот же набор с мореной землёй — единственное, чем тёмная тема отличается на уровне величин. */
-private val RussiaTokensDark = RussiaTokensLight.copy(groundTexture = Res.drawable.ground_dark)
+/** Тот же набор в мореной гамме: тёмная тема отличается на уровне величин только досками. */
+private val RussiaTokensDark = RussiaTokensLight.copy(
+    groundTexture = Res.drawable.ground_dark,
+    cardTexture = Res.drawable.card_dark,
+)
 
 /**
  * Набор редакции.
  *
- * [dark] нужен ровно одному токену — [LeshyTokens.groundTexture]: земля это картинка, и в тёмной
- * теме она не перекрашивается, а заменяется на мореную (`design.md`, раздел 7). Остальные токены
- * от темы не зависят — цвета живут в `colorScheme`, формы и отступы одинаковы в обеих темах.
+ * [dark] нужен доскам ([LeshyTokens.groundTexture], [LeshyTokens.cardTexture]): это растры, и в
+ * тёмной теме они не перекрашиваются, а заменяются на мореные (`design.md`, раздел 7). Жетон и
+ * доска кнопок темны в обеих темах, поэтому от [dark] не зависят. Остальные токены тоже: цвета
+ * живут в `colorScheme`, формы и отступы одинаковы в обеих темах.
  *
  * Оба варианта российского набора собраны заранее, а не через `copy` на каждый вызов: набор
  * раздаётся через `staticCompositionLocalOf`, и новый экземпляр на каждую рекомпозицию темы

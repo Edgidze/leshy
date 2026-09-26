@@ -36,6 +36,7 @@ import leshy.mushrooms.map.i18n.stringResource
 import leshy.mushrooms.map.presentation.archive.CategoryCount
 import leshy.mushrooms.map.ui.util.parseHexColor
 import leshy.mushrooms.map.ui.theme.LeshyTheme
+
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import org.jetbrains.compose.resources.painterResource
@@ -49,6 +50,10 @@ import kotlin.math.ceil
 
 /** Значки показателей — те же три и того же размера, что в шапке «Записи» (`RecordScreen.kt`). */
 val METRIC_ICON_SIZE = 28.dp
+
+/** Сторона жетона под значком блока статистики: тот же значок 28dp плюс поля доски вокруг него в
+ * той же пропорции, что у жетона бокового меню (24 из 38). */
+private val METRIC_BADGE_SIZE = 44.dp
 
 /**
  * Высота карточки показателя при системном масштабе шрифта — значок, отбивка, две строки
@@ -137,7 +142,13 @@ val SECTION_TOP_GAP = 24.dp
 fun MetricCard(icon: Painter, label: String, value: String, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+        // Доска вместо заливки: блок статистики — такая же дощечка на земле, как карточка вида
+        // (`design.md`, раздел 7). Цвет содержимого задаётся явно, потому что прозрачному
+        // контейнеру Material подобрать его не из чего.
+        colors = CardDefaults.cardColors(
+            containerColor = cardContainerColor(MaterialTheme.colorScheme.surfaceContainer),
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        ),
     ) {
         Column(
             // Наименьшая высота стоит на самой колонке, а не на карточке, как стояла раньше, — и
@@ -148,12 +159,16 @@ fun MetricCard(icon: Painter, label: String, value: String, modifier: Modifier =
             // есть чему.
             modifier = Modifier
                 .fillMaxWidth()
+                .cardBackground()
                 .heightIn(min = METRIC_CARD_MIN_HEIGHT)
                 .padding(vertical = 12.dp, horizontal = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
         ) {
-            Icon(painter = icon, contentDescription = label, modifier = Modifier.size(METRIC_ICON_SIZE))
+            // Жетон под значком — тот же, что в боковом меню и на кнопках счёта: согласованность
+            // подложек по всему приложению (требование владельца 2026-09-26). Без жетона
+            // (мировая редакция) рисуется прежний одинокий значок того же размера.
+            GlyphBadge(painter = icon, size = METRIC_BADGE_SIZE)
             Text(
                 text = value,
                 // Кегль подбирается под самое значение, а не задан жёстко: на сводном экране в ту

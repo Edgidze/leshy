@@ -2,6 +2,8 @@ package leshy.mushrooms.map.ui.theme
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DrawerDefaults
+import androidx.compose.material3.NavigationDrawerItemColors
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
@@ -223,6 +225,35 @@ fun leshyDrawerContainerColor(): Color = when (LocalEdition.current) {
     Edition.WORLD -> DrawerDefaults.modalContainerColor
     Edition.RUSSIA -> MaterialTheme.colorScheme.background
 }
+
+/**
+ * Цвета пункта выдвижного меню.
+ *
+ * **Репорт владельца 2026-09-26:** у последнего посещённого раздела вместо земли кремовый
+ * прямоугольник. Так и есть: Material метит выбранный пункт заливкой `secondaryContainer`, а это
+ * светлая плашка — поверх деревянного полотна она читается как приклеенная бумажка, причём
+ * единственная на весь экран.
+ *
+ * Замена — не другой цвет, а **притенение самой доски**: полупрозрачный `onBackground` темнит
+ * дерево в светлой теме и высветляет в тёмной, оставляя волокно видимым. Выбранный пункт
+ * читается как вдавленный в доску, а не как наклейка на ней, и второй набор значений под тёмную
+ * тему для этого не нужен — цвет берётся из схемы и переворачивается вместе с ней.
+ *
+ * Мировая редакция получает ровно `NavigationDrawerItemDefaults.colors()`, то есть не меняется.
+ */
+@Composable
+fun leshyDrawerItemColors(): NavigationDrawerItemColors = when (LocalEdition.current) {
+    Edition.WORLD -> NavigationDrawerItemDefaults.colors()
+    Edition.RUSSIA -> NavigationDrawerItemDefaults.colors(
+        selectedContainerColor = MaterialTheme.colorScheme.onBackground.copy(alpha = DRAWER_SELECTED_ALPHA),
+        selectedTextColor = MaterialTheme.colorScheme.onBackground,
+        unselectedTextColor = MaterialTheme.colorScheme.onBackground,
+    )
+}
+
+/** Насколько притеняется доска под выбранным пунктом. Достаточно, чтобы пункт было видно с
+ * расстояния вытянутой руки, и мало, чтобы волокно не пропало. */
+private const val DRAWER_SELECTED_ALPHA = 0.14f
 
 object LeshyTheme {
     val tokens: LeshyTokens
