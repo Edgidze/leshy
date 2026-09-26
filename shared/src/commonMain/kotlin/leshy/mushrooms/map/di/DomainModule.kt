@@ -40,7 +40,7 @@ val domainModule = module {
     factory { RecalculateFilterEligibilityUseCase(get(), get()) }
     factory { ObserveSpeciesPriorityUseCase(get(), get(), get(), get()) }
     factory { SetCollectionPickedUseCase(get(), get(), get()) }
-    factory { SetCategoryPickedUseCase(get(), get()) }
+    factory { SetCategoryPickedUseCase(get(), get(), get(), get()) }
     factory { SaveCategoryIconUseCase(get(), get()) }
     factory { StartWalkUseCase(get()) }
     factory { FinishWalkUseCase(get()) }

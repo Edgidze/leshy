@@ -3,6 +3,7 @@
   "defaults": [
     "base"
   ],
+  "picked_fallback": "other",
   "sets": [
     {
       "id": "base",
