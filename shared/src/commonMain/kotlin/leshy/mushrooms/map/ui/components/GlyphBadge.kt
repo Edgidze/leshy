@@ -51,10 +51,15 @@ private val BADGE_GLYPH_COLOR = Color.White
  * рисует, вместо этого меняется материал, на котором глиф лежит.
  */
 @Composable
-fun GlyphBadge(painter: Painter, modifier: Modifier = Modifier, size: Dp = BADGE_SIZE) {
+fun GlyphBadge(
+    painter: Painter,
+    modifier: Modifier = Modifier,
+    size: Dp = BADGE_SIZE,
+    contentDescription: String? = null,
+) {
     val badge = LeshyTheme.tokens.iconBadge
     if (badge == null) {
-        Icon(painter = painter, contentDescription = null, modifier = modifier.size(GLYPH_SIZE))
+        Icon(painter = painter, contentDescription = contentDescription, modifier = modifier.size(GLYPH_SIZE))
         return
     }
     Box(modifier = modifier.size(size), contentAlignment = Alignment.Center) {
@@ -65,7 +70,7 @@ fun GlyphBadge(painter: Painter, modifier: Modifier = Modifier, size: Dp = BADGE
         )
         Icon(
             painter = painter,
-            contentDescription = null,
+            contentDescription = contentDescription,
             tint = BADGE_GLYPH_COLOR,
             modifier = Modifier.size(size * GLYPH_RATIO),
         )

@@ -77,7 +77,9 @@ private val THUMBNAIL_SIZE = 120.dp
  * (`tools/prepare_icon_assets.py`), а грибы шире, чем выше, поэтому видимая высота выходит
  * примерно на десятую меньше этого числа.
  */
-private val MUSHROOM_ICON_SIZE = 22.dp
+/** Сторона жетона под значком находок. Глиф внутри выходит примерно прежними 22dp — жетон
+ * прибавляет к нему поля доски в той же пропорции, что у значков разделов. */
+private val MUSHROOM_BADGE_SIZE = 34.dp
 private val WALK_CARD_PADDING = 8.dp
 
 /** Hold duration that opens Archive's multi-select mode — see CLAUDE.md for the feature spec. */
@@ -170,10 +172,13 @@ fun WalkCard(
                     // остальной служебной графикой. Тот же гриб теперь берётся из общего набора
                     // (ic_mushrooms.webp) и красится текущим цветом контента, как любая иконка.
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
+                        // Жетон, а не голый значок: на доске карточки одинокая иконка — то же
+                        // самое, что значок на плашке рядом со значком на дереве в соседнем
+                        // блоке. Подложка в приложении одна на все значки.
+                        GlyphBadge(
                             painter = painterResource(Res.drawable.ic_mushrooms),
+                            size = MUSHROOM_BADGE_SIZE,
                             contentDescription = "${walk.mushroomCount} ${mushroomsUnitLabel(walk.mushroomCount)}",
-                            modifier = Modifier.size(MUSHROOM_ICON_SIZE),
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(walk.mushroomCount.toString())
