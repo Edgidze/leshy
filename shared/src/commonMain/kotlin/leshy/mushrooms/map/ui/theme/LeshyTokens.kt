@@ -11,6 +11,8 @@ import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.domain.model.Edition
 import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
 import org.jetbrains.compose.resources.DrawableResource
+import leshy.shared.generated.resources.Res
+import leshy.shared.generated.resources.badge_wood
 
 /**
  * Оформительские величины интерфейса, вынесенные из мест применения в один набор на редакцию.
@@ -176,6 +178,14 @@ data class LeshyTokens(
      */
     val groundTexture: DrawableResource?,
     /**
+     * Подложка под стоковый глиф Material — «жетон» из `design.md`, разделы 3 и 9.
+     *
+     * `null` — глиф рисуется сам по себе, как в мировой редакции. Своего набора глифов ни одна
+     * редакция не рисует (решение владельца): меняется не значок, а то, на чём он лежит, и это
+     * даёт сдвиг восприятия ценой одного файла на всё приложение.
+     */
+    val iconBadge: DrawableResource?,
+    /**
      * Нижняя граница числа колонок в сетке плиток находок — оно же то, что получается на телефоне
      * вертикально. Верхняя граница считается от ширины экрана, см. `FindTilesGrid`.
      *
@@ -250,6 +260,7 @@ private val WorldTokens = LeshyTokens(
     matPadding = 0.dp,
     surfaceStyle = SurfaceStyle.FLAT,
     groundTexture = null,
+    iconBadge = null,
     findTileMinColumns = 2,
     photoAspectRatio = MUSHROOM_PHOTO_ASPECT_RATIO,
     typeScaleStep = 1f,
@@ -307,6 +318,7 @@ private val RussiaTokens = WorldTokens.copy(
     framePhotoWidth = 3.dp,
     matPadding = 6.dp,
     surfaceStyle = SurfaceStyle.FRAMED,
+    iconBadge = Res.drawable.badge_wood,
     // Шкала кегля на ступень выше мировой: аудитория сбора грибов смещена к старшему возрасту, и
     // это совпадает с требованием читаемости на солнце. Пока не читается никем — типографику
     // редакция получит вместе со шрифтами (раздел 5 design.md), — но величина решена здесь же.

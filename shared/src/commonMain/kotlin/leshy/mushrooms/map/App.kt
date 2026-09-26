@@ -66,6 +66,7 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import leshy.mushrooms.map.i18n.editionStringKeysFor
 import leshy.mushrooms.map.ui.theme.leshyDrawerContainerColor
+import leshy.mushrooms.map.ui.components.GlyphBadge
 
 /**
  * [icon] — не `ImageVector`, а поставщик `Painter`: шесть пунктов берут значок из Material
@@ -78,9 +79,6 @@ private data class DrawerNavEntry(
     val labelKey: StringKey,
     val icon: @Composable () -> Painter,
 )
-
-/** Размер значка пункта меню — тот же, что Material подставляет своим иконкам по умолчанию. */
-private val DRAWER_ICON_SIZE = 24.dp
 
 private val drawerNavEntries = listOf(
     DrawerNavEntry(Destination.Record, StringKey.NavRecord) { rememberVectorPainter(Icons.Filled.Hiking) },
@@ -214,16 +212,12 @@ fun App() {
                                         selected = selected,
                                         label = { Text(stringResource(entry.labelKey)) },
                                         icon = {
-                                            // Размер обязателен именно здесь. Material подставляет
-                                            // свои 24.dp только тем значкам, у которых нет
-                                            // собственного размера; у растрового Painter он есть —
-                                            // 192px, то есть около 73dp, — и гриб растекался на всю
-                                            // высоту строки, вчетверо крупнее соседей.
-                                            Icon(
-                                                painter = entry.icon(),
-                                                contentDescription = null,
-                                                modifier = Modifier.size(DRAWER_ICON_SIZE),
-                                            )
+                                            // Размер задаётся внутри GlyphBadge, и он обязателен:
+                                            // Material подставляет свои 24.dp только значкам без
+                                            // собственного размера, а у растрового Painter он есть
+                                            // — 192px, то есть около 73dp, — и гриб растекался на
+                                            // всю высоту строки, вчетверо крупнее соседей.
+                                            GlyphBadge(painter = entry.icon())
                                         },
                                         onClick = {
                                             scope.launch { drawerState.close() }
