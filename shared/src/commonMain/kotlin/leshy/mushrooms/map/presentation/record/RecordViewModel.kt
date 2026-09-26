@@ -35,7 +35,8 @@ import leshy.mushrooms.map.domain.usecase.EnsureDefaultCollectionsUseCase
 import leshy.mushrooms.map.domain.usecase.FinishWalkUseCase
 import leshy.mushrooms.map.domain.usecase.HealOrphanedWalksUseCase
 import leshy.mushrooms.map.domain.usecase.MISC_CATEGORY_NAME_KEY
-import leshy.mushrooms.map.domain.usecase.ObserveFrequentSpeciesKeysUseCase
+import leshy.mushrooms.map.domain.usecase.ObserveSpeciesPriorityUseCase
+import leshy.mushrooms.map.domain.usecase.SpeciesPriority
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
 import leshy.mushrooms.map.domain.usecase.RecordTrackPointUseCase
 import leshy.mushrooms.map.domain.usecase.RemoveLastMushroomMarkUseCase
@@ -165,7 +166,7 @@ private data class HistoricalTracksKey(val walkIds: Set<Long>, val visible: Bool
 private data class FeedOrder(
     val language: AppLanguage,
     val recencyOrder: List<Long>,
-    val frequentKeys: Set<String>,
+    val priority: SpeciesPriority,
     val freezeOrder: Boolean,
 )
 
@@ -196,7 +197,7 @@ class RecordViewModel(
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
-    private val observeFrequentSpeciesKeys: ObserveFrequentSpeciesKeysUseCase,
+    private val observeSpeciesPriority: ObserveSpeciesPriorityUseCase,
     private val startWalk: StartWalkUseCase,
     private val finishWalk: FinishWalkUseCase,
     private val healOrphanedWalks: HealOrphanedWalksUseCase,
@@ -375,20 +376,20 @@ class RecordViewModel(
             val sortSettings = combine(
                 settingsRepository.observeLanguage(),
                 categoryOrder,
-                observeFrequentSpeciesKeys(),
+                observeSpeciesPriority(),
                 settingsRepository.observeFreezeMushroomOrder(),
-            ) { language, order, frequentKeys, freeze -> FeedOrder(language, order, frequentKeys, freeze) }
+            ) { language, order, priority, freeze -> FeedOrder(language, order, priority, freeze) }
             combine(
                 walkRepository.observeAll(),
                 fieldMarkRepository.observeAll(),
                 categoryRepository.observeAll(),
                 mapFilterRepository.observeFilter(),
                 sortSettings,
-            ) { walks, marks, categories, filter, (language, order, frequentKeys, freezeOrder) ->
+            ) { walks, marks, categories, filter, (language, order, priority, freezeOrder) ->
                 val sortedCategories = sortCategories(
                     categories.filter { it.nameKey != MISC_CATEGORY_NAME_KEY && it.isActive },
                     language,
-                    frequentKeys,
+                    priority,
                 )
                 // "Unknown mushroom" defaults to the end of the feed (ahead of AddSpeciesTile),
                 // but only as a starting position — applyRecencyOrder below still bumps it to the

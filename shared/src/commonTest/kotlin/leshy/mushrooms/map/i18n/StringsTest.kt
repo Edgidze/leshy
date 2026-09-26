@@ -66,7 +66,11 @@ class StringsTest {
     @Test
     fun onlyEditionSpecificKeysAreExemptFromCompleteness() {
         assertEquals(
-            setOf(StringKey.AppNameRussia, StringKey.AboutMapDataTextSelfHosted),
+            setOf(
+                StringKey.AppNameRussia,
+                StringKey.AboutMapDataTextSelfHosted,
+                StringKey.SpeciesCollectionsTitleSets,
+            ),
             EDITION_ONLY_KEYS,
         )
         EDITION_ONLY_KEYS.forEach { key ->

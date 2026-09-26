@@ -71,6 +71,7 @@ EXTRA_PRESETS_JSON = REPO_ROOT / "docs" / "catalog" / "extra_country_presets.jso
 # Роль `common_encounter` в самой выгрузке при этом не трогается: это производные данные, их
 # пересобирает `tools/apply_frequency_common.py` из `docs/research/frequency/`.
 COMMON_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "common_overrides.json"
+FLAGSHIP_OVERRIDES_JSON = REPO_ROOT / "docs" / "catalog" / "flagship_overrides.json"
 EXTRA_CATEGORIES_JSON = REPO_ROOT / "docs" / "catalog" / "extra_categories.json"
 EXTRA_NAMES_DIR = REPO_ROOT / "docs" / "catalog" / "extra_names"
 # Ручной слой поверх `alt_names` источника — см. `write_aliases`. Тоже по catalog
@@ -573,6 +574,7 @@ def run_full(recompute_colors: bool = False) -> None:
 
     # ---- countries.json -----------------------------------------------------
     common_overrides = load_optional_json(COMMON_OVERRIDES_JSON, {})
+    flagship_overrides = load_optional_json(FLAGSHIP_OVERRIDES_JSON, {})
     countries_out = []
     country_distinct_colors = []
     colors_by_id = {c["id"]: e["color"] for c, e in zip(categories, catalog_entries)}
@@ -612,6 +614,19 @@ def run_full(recompute_colors: bool = False) -> None:
             ]
             if any(it.get("roles") for it in items):
                 entry["common"] = common
+        # `flagship` — три-пять САМЫХ узнаваемых видов подборки, в том порядке, в каком их
+        # видит человек. Отдельно от `common` потому, что отвечает на другой вопрос: `common`
+        # — «встретится ли он мне здесь» (до двадцати позиций), `flagship` — «узнает ли его
+        # человек, открывший приложение впервые».
+        #
+        # Порядок берётся ИЗ СПИСКА, а не из подборки: он короткий и выбран руками, и в нём
+        # есть смысл, которого нет ни в алфавите, ни в порядке подборки.
+        #
+        # Поля нет у стран, для которых список ещё не составлен, — и это не пустота, а
+        # «данных нет»: лента тогда ведёт себя ровно как раньше.
+        flagship = [k for k in (flagship_overrides.get(cc) or []) if k in set(keys)]
+        if flagship:
+            entry["flagship"] = flagship
         countries_out.append(entry)
         country_distinct_colors.append(len({colors_by_id[i] for i in ids}))
 
@@ -625,6 +640,8 @@ def run_full(recompute_colors: bool = False) -> None:
     print(f"countries.json: {len(countries_out)} countries")
     print(f"  avg distinct colors/country: {avg_country_colors:.1f} (expect ~48.4)")
     print(f"  RU: {len(ru_entry['keys'])} keys, {ru_colors} distinct colors (expect 54, 50)")
+    with_flagship = sum(1 for c in countries_out if c.get("flagship"))
+    print(f"  flagship: {with_flagship} countries")
 
     # ---- countries/<lang>.json ---------------------------------------------
     write_country_names(presets, FILES_CATALOG_DIR / "countries")

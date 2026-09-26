@@ -5,6 +5,7 @@ import leshy.mushrooms.map.data.catalog.CatalogSource
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.CategorySource
+import leshy.mushrooms.map.domain.usecase.SpeciesPriority
 import leshy.mushrooms.map.i18n.categoryDisplayName
 import leshy.mushrooms.map.i18n.categorySearchLabel
 import leshy.mushrooms.map.i18n.hasLocalizedName
@@ -28,21 +29,26 @@ import org.koin.mp.KoinPlatform.getKoin
  * 2. **[CatalogEntry.sortLast] — в конец своей группы.** Поле намеренно называется нейтрально и в
  *    данных тоже: приложение не определяет съедобность (см. его KDoc), флаг означает ровно
  *    «по умолчанию ниже».
- * 3. **Частотные — вперёд**, внутри обеих групп. Частотность страновая
- *    ([frequentKeys] — объединение по выбранным подборкам, см.
- *    [leshy.mushrooms.map.domain.usecase.ObserveFrequentSpeciesKeysUseCase]); где страновых
+ * 3. **Самые узнаваемые — впереди частотных**, в своём порядке
+ *    ([SpeciesPriority.flagship], три-пять видов на подборку). Заведено потому, что одной
+ *    частотности мало: у России частотных двадцать, и первыми по алфавиту в ленте оказывались
+ *    дубовик и ежовик — частые, но незнакомые (замечание владельца 2026-09-26). Порядок здесь
+ *    НЕ алфавитный: список короткий и выбран руками, и в нём есть смысл.
+ * 4. **Частотные — вперёд** остальных, внутри обеих групп. Частотность страновая
+ *    ([SpeciesPriority.frequent] — объединение по выбранным подборкам, см.
+ *    [leshy.mushrooms.map.domain.usecase.ObserveSpeciesPriorityUseCase]); где страновых
  *    данных нет, работает глобальный `importance` каталога, и вид просто не получает
  *    странового приоритета.
- * 4. Внутри всего равного — по-прежнему алфавит.
+ * 5. Внутри всего равного — по-прежнему алфавит.
  */
 fun sortCategories(
     categories: List<Category>,
     language: AppLanguage,
-    frequentKeys: Set<String> = emptySet(),
+    priority: SpeciesPriority = SpeciesPriority.None,
 ): List<Category> {
     val (named, fallback) = categories.partition { hasLocalizedName(it, language) }
     return named
-        .map { it to defaultOrderKeyOf(it, language, frequentKeys) }
+        .map { it to defaultOrderKeyOf(it, language, priority) }
         .sortedWith(compareBy(DEFAULT_ORDER) { it.second })
         .map { it.first } +
         fallback.sortedBy { categoryDisplayName(it, language) }
@@ -56,6 +62,8 @@ fun sortCategories(
  */
 internal data class SpeciesOrderKey(
     val sortsLast: Boolean,
+    /** Место в списке самых узнаваемых; [Int.MAX_VALUE] — вида в списке нет. */
+    val flagshipRank: Int,
     val frequencyScore: Double,
     val displayName: String,
 )
@@ -63,16 +71,20 @@ internal data class SpeciesOrderKey(
 /** Правило из KDoc [sortCategories], пункты 2–4. */
 internal val DEFAULT_ORDER: Comparator<SpeciesOrderKey> =
     compareBy<SpeciesOrderKey> { if (it.sortsLast) 1 else 0 }
+        .thenBy { it.flagshipRank }
         .thenByDescending { it.frequencyScore }
         .thenBy { it.displayName }
 
 private fun defaultOrderKeyOf(
     category: Category,
     language: AppLanguage,
-    frequentKeys: Set<String>,
+    priority: SpeciesPriority,
 ): SpeciesOrderKey = SpeciesOrderKey(
     sortsLast = catalogSortsLast(category),
-    frequencyScore = frequencyScore(category, frequentKeys),
+    // Только каталожные виды: свой вид пользователь завёл сам, и в списке «узнаваемых»,
+    // собранном для страны, его быть не может по построению.
+    flagshipRank = priority.flagship.indexOf(category.nameKey).takeIf { it >= 0 } ?: Int.MAX_VALUE,
+    frequencyScore = frequencyScore(category, priority.frequent),
     displayName = categoryDisplayName(category, language),
 )
 

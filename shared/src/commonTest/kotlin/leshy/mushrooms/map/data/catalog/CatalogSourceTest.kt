@@ -6,8 +6,9 @@ import kotlin.test.assertTrue
 
 class CatalogSourceTest {
     @Test
-    fun catalogHas408Entries() {
-        assertEquals(408, CatalogSource().entries.size)
+    fun catalogHas409Entries() {
+        // 408 из выгрузки плюс черноголовик, заведённый 2026-09-26 (`docs/catalog/edits.md`).
+        assertEquals(409, CatalogSource().entries.size)
     }
 
     @Test

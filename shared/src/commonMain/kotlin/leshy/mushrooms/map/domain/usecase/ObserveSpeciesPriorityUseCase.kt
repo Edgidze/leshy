@@ -11,8 +11,12 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
- * Ключи видов, частотных хотя бы в одной из выбранных пользователем стран, — вход для «вперёд
- * частотные» в [leshy.mushrooms.map.presentation.sortCategories].
+ * Что поднимает вид в начало ленты: частотность в выбранных странах и короткий список самых
+ * узнаваемых. Вход для [leshy.mushrooms.map.presentation.sortCategories].
+ *
+ * Две величины одним потоком, а не двумя, по двум причинам сразу: считаются они из одних и тех
+ * же трёх источников (подборки, членства, виды), и у `combine` в `RecordViewModel` кончились
+ * типизированные перегрузки.
  *
  * **Объединение по выбранным подборкам, а не по региону устройства** — решение владельца
  * 2026-09-17. Регион расходится с выбором: человек мог выбрать страну, в которую ездит, а телефон
@@ -32,13 +36,29 @@ import kotlinx.coroutines.flow.distinctUntilChanged
  * любого вида (включая отметку находки), а множество частотных ключей меняется только когда
  * человек трогает пикер подборок. Без него каждая находка заново пересортировывала бы ленту.
  */
-class ObserveFrequentSpeciesKeysUseCase(
+/**
+ * @param frequent виды, частотные хотя бы в одной выбранной стране, — их в ленте много (до
+ *   двадцати на страну).
+ * @param flagship три-пять самых узнаваемых, **в порядке показа**. Они идут впереди частотных:
+ *   человек, открывший приложение впервые, должен увидеть грибы, которые узнаёт сразу
+ *   (`CountryEntry.flagship`).
+ */
+data class SpeciesPriority(
+    val frequent: Set<String>,
+    val flagship: List<String>,
+) {
+    companion object {
+        val None = SpeciesPriority(emptySet(), emptyList())
+    }
+}
+
+class ObserveSpeciesPriorityUseCase(
     private val collectionRepository: CollectionRepository,
     private val categoryRepository: CategoryRepository,
     private val countriesSource: CountriesSource,
     private val speciesSetsSource: SpeciesSetsSource,
 ) {
-    operator fun invoke(): Flow<Set<String>> = combine(
+    operator fun invoke(): Flow<SpeciesPriority> = combine(
         collectionRepository.observeAll(),
         collectionRepository.observeAllMemberships(),
         categoryRepository.observeAll(),
@@ -60,6 +80,9 @@ class ObserveFrequentSpeciesKeysUseCase(
                     }
             }
             .toSet()
-        countriesSource.commonKeysFor(pickedCountryCodes)
+        SpeciesPriority(
+            frequent = countriesSource.commonKeysFor(pickedCountryCodes),
+            flagship = countriesSource.flagshipKeysFor(pickedCountryCodes),
+        )
     }.distinctUntilChanged()
 }

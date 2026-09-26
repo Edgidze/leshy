@@ -54,18 +54,30 @@ class EditionEndpointsTest {
 }
 
 /**
- * Домашняя страна редакции — то, по чему `CountriesSource` решает, чью подборку расширять.
- * Проверяется отдельно от адресов, потому что ошибка тут не видна нигде: подборка просто
- * останется прежней, и понять это можно только пересчитав виды в приложении.
+ * Наборы видов редакции — то, чем у неё заменяется подборка одной страны.
+ *
+ * Проверяется отдельно от адресов, потому что ошибка тут не видна нигде: подборки просто
+ * останутся страновыми, и понять это можно, только пересчитав галочки в приложении.
  */
-class EditionHomeCountryTest {
+class EditionSpeciesSetsTest {
     @Test
-    fun worldHasNoHomeCountry() {
-        assertEquals(null, Edition.WORLD.homeCountryCode)
+    fun worldHasNoOwnSets() {
+        assertEquals(null, Edition.WORLD.speciesSetsPath)
     }
 
     @Test
-    fun russiaIsHomeToRu() {
-        assertEquals("RU", Edition.RUSSIA.homeCountryCode)
+    fun russiaHasItsOwnSets() {
+        assertEquals("files/catalog/sets-ru.json", Edition.RUSSIA.speciesSetsPath)
+    }
+
+    /**
+     * Имя архива экспорта начинается по-разному: файл переживает удаление приложения и лежит в
+     * «Загрузках» рядом с чужими, так что «leshy-» в российском продукте — такой же остаток
+     * мировой редакции, как «Леший» в шапке.
+     */
+    @Test
+    fun editionsDoNotShareAnArchivePrefix() {
+        val prefixes = Edition.entries.map { it.exportArchivePrefix }
+        assertEquals(prefixes.size, prefixes.toSet().size, "у редакций совпало имя архива: $prefixes")
     }
 }

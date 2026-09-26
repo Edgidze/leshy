@@ -27,6 +27,19 @@ data class CountryEntry(
      * вместо того, чтобы уводить всю подборку в один ряд.
      */
     val common: List<String>? = null,
+
+    /**
+     * Три-пять самых узнаваемых видов подборки, **в том порядке, в каком их видит человек**.
+     *
+     * Отдельно от [common], потому что отвечает на другой вопрос: [common] — «встретится ли он
+     * мне здесь» (до двадцати позиций), [flagship] — «узнает ли его человек, открывший
+     * приложение впервые». У России двадцать частотных, и первыми по алфавиту в ленте
+     * оказывались дубовик и ежовик: частые, но незнакомые (замечание владельца 2026-09-26).
+     *
+     * `null` у подборок, для которых список ещё не составлен, — лента там ведёт себя ровно как
+     * раньше. Заполняется слоем `docs/catalog/flagship_overrides.json`.
+     */
+    val flagship: List<String>? = null,
 )
 
 /** Prefix all per-country [leshy.mushrooms.map.domain.model.Collection.nameKey]s share — the only
@@ -80,4 +93,24 @@ class CountriesSource {
             .filter { it.code in countryCodes }
             .flatMap { it.common.orEmpty().asSequence() }
             .toSet()
+
+    /**
+     * Ключи [CountryEntry.flagship] по кодам [countryCodes] — в порядке показа.
+     *
+     * Списков может быть несколько (человек отметил три страны), и вид берёт **лучшее из своих
+     * мест**: попал первым в одной подборке и четвёртым в другой — идёт первым. Иначе порядок
+     * зависел бы от того, в каком порядке перебираются страны, то есть ни от чего.
+     */
+    fun flagshipKeysFor(countryCodes: Set<String>): List<String> {
+        val bestRank = mutableMapOf<String, Int>()
+        entries.asSequence()
+            .filter { it.code in countryCodes }
+            .forEach { entry ->
+                entry.flagship.orEmpty().forEachIndexed { rank, key ->
+                    val current = bestRank[key]
+                    if (current == null || rank < current) bestRank[key] = rank
+                }
+            }
+        return bestRank.entries.sortedBy { it.value }.map { it.key }
+    }
 }
