@@ -180,6 +180,15 @@
     "sortLast": false
   },
   {
+    "key": "leccinum_melaneum",
+    "sci": "Leccinum melaneum",
+    "image": "leccinum_melaneum",
+    "color": "#886348",
+    "breadth": "mid",
+    "importance": 5.0,
+    "sortLast": false
+  },
+  {
     "key": "calvatia_gigantea",
     "sci": "Calvatia gigantea",
     "image": "calvatia_gigantea",

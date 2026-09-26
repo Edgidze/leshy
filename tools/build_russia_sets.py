@@ -34,11 +34,16 @@
 за которыми он в лес и пошёл. Из приложения они никуда не деваются — включаются галочкой того
 леса, куда человек идёт.
 
+4. Явно снятые дубли ([DROPPED]) не попадают никуда: две неразличимые плитки подряд в ленте —
+   это дефект, а не выбор. Ключи при этом остаются в каталоге и находятся поиском.
+
 ## Что проверяется на выходе
 
-- каждый из 171 ключа попал хотя бы в один набор;
+- каждый ключ разметки, кроме снятых дублей, попал хотя бы в один набор;
 - все ключи существуют в `catalog.json`;
 - ни один набор не больше 30 видов, база не больше 50 (условие готовности из брифа).
+
+Строк в разметке 172: 171 от исследования плюс черноголовик, заведённый владельцем 2026-09-26.
 
 Запуск:  python3 tools/build_russia_sets.py
 """
@@ -79,6 +84,14 @@ SETS = [
 # Что отмечено на свежей установке. Ровно база: остальное человек добавляет под свою вылазку.
 DEFAULT_SETS = ["base"]
 
+# Дубли, снятые владельцем на устройстве 2026-09-26: в ленте они давали по две неразличимые
+# плитки подряд. Ключи при этом не трогаются и из каталога не исчезают — вид остаётся доступен
+# поиском, просто ни в один набор не входит (правило брифа: ключи не меняем).
+DROPPED = {
+    "leccinum_aurantiacum__2": "второй подосиновик; оставлен тот, у кого на картинке шляпки разных оттенков",
+    "lycoperdon_perlatum__2": "второй дождевик; оставлен видовой, совпадающий по ключу с латынью",
+}
+
 MAX_SET = 30
 MAX_BASE = 50
 
@@ -105,6 +118,8 @@ def build() -> dict:
     members: dict[str, list[str]] = {set_id: [] for set_id, _, _ in SETS}
     for row in groups:
         key = row["key"]
+        if key in DROPPED:
+            continue
         set_d = (row["set_D"] or "").split()
         if "review" in set_d:
             members["other"].append(key)
@@ -126,7 +141,7 @@ def build() -> dict:
                 raise SystemExit(f"неизвестный тег habitat: {tag} (ключ {key})")
             members[tag].append(key)
 
-    uncovered = {r["key"] for r in groups} - {k for ks in members.values() for k in ks}
+    uncovered = {r["key"] for r in groups} - set(DROPPED) - {k for ks in members.values() for k in ks}
     if uncovered:
         raise SystemExit(f"виды не попали ни в один набор: {sorted(uncovered)}")
     if len(members["base"]) > MAX_BASE:
@@ -155,6 +170,8 @@ def main() -> None:
     for s in data["sets"]:
         mark = " (по умолчанию)" if s["id"] in data["defaults"] else ""
         print(f"  {s['name']['ru']:34s} {len(s['keys']):3d}{mark}")
+    for key, why in DROPPED.items():
+        print(f"  снят дубль {key}: {why}")
 
 
 if __name__ == "__main__":
