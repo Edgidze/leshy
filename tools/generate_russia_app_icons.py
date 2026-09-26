@@ -46,16 +46,28 @@
 мыло: 33 точки растут в 13 раз. Поле при этом получается ровным и без артефактов, то есть годным
 как временное.
 
-## Геометрия переднего слоя
+## Геометрия переднего слоя: медальон, а не мат
 
-Безопасная зона адаптивной иконки — круг d=66dp на холсте 108dp: внутрь него не залезает ни одна
-системная маска. Мат со сценой масштабируется так, чтобы его САМАЯ ДАЛЬНЯЯ точка попадала ровно на
-радиус 33dp. «Самая дальняя» меряется по пикселям, а не выводится из стороны квадрата: углы мата
-скруглены внутренним краем рамы, и его описанная окружность заметно меньше описанной окружности
-квадрата той же стороны.
+**Репорт владельца 2026-09-26, вторая итерация:** грибы мелкие, квадрат картинки вписан в круг.
+Так и было: передним слоем шёл белый мат со сценой, вписанный в безопасный круг d=66dp. Потеря
+на этом пути двойная и чисто геометрическая — квадрат, вписанный в круг, теряет в √2 (сторона
+46.7 из 108), а внутри него ещё сколько-то съедает белое поле мата. До самих грибов доходило
+меньше трети ширины иконки.
 
-Углы мата вырезаются заливкой от углов обрезка по «дереву», а не порогом по цвету: красные шляпки
-подосиновиков по цвету от рамы отличаются слабо, но с углами не соединены.
+Круглая версия картинки это НЕ чинит: с Android 8 лаунчер берёт обычную адаптивную иконку и режет
+её своей маской, а вписывать круг в круг — та же задача с тем же ответом.
+
+Чинит отказ от квадрата: передний слой — **круглый кроп сцены, плотно взятый по грибам**, во весь
+безопасный круг. Белый мат исчезает, дерево остаётся краем иконки при любой маске, а грибы
+становятся примерно вдвое крупнее. Выбор владельца из двух путей; второй — вырезанные грибы с
+альфой поверх дерева, он даёт ещё крупнее и без видимой границы круга, но требует отдельной
+генерации арта без фона.
+
+Кроп берётся от прямоугольника СЦЕНЫ (внутри мата), а не от всей картинки: рама и мат отыскиваются
+сканированием от краёв, пока идут красное и белое. Центр ([SCENE_CENTER_X], [SCENE_CENTER_Y]) и радиус
+([SCENE_RADIUS]) подобраны по раскладке вариантов: круг обязан вместить обе шляпки целиком —
+срезанная шляпка читается как брак печати, а не как кадрирование, — и не набрать при этом пустого
+неба по краям.
 
 **Раскладка только под Android.** iOS-вариант этим скриптом не готовится: Apple накладывает маску
 сама, и ему нужен full-bleed квадрат без альфы (`design.md`, раздел 14). Второго таргета в
@@ -92,8 +104,19 @@ ADAPTIVE_CANVAS_DP = 108.0
 ADAPTIVE_SAFE_RADIUS_DP = 33.0
 # Legacy-иконка (API 24–25, адаптивных там нет): системной маски тоже нет, поэтому мат можно
 # отпустить пошире — до края остаётся видимая рама из того же дерева.
-LEGACY_MAT_RATIO = 0.74
-LEGACY_ROUND_MAT_RATIO = 0.62
+# Доля стороны legacy-иконки под медальон. Больше прежних матовых долей: круглая картинка на
+# квадратной подложке может подойти к краю ближе, чем квадратная, — у неё нет углов, которые
+# упёрлись бы в кромку.
+LEGACY_MEDALLION_RATIO = 0.80
+LEGACY_ROUND_MEDALLION_RATIO = 0.74
+
+# Центр кропа в долях сцены и его радиус в долях её ширины. Подобраны по раскладке четырёх
+# вариантов: круг обязан вместить обе шляпки целиком (срезанная шляпка читается как брак печати),
+# и при этом не набрать пустого неба по краям. Правее и ниже геометрического центра — пара грибов
+# в кадре смещена туда.
+SCENE_CENTER_X = 0.51
+SCENE_CENTER_Y = 0.52
+SCENE_RADIUS = 0.42
 # Какую долю бруска отрезать с концов, чтобы не захватить скруглённые углы рамы.
 BAR_END_TRIM = 0.18
 # Доли высоты бруска, занятые светлой фаской сверху и тёмной кромкой снизу.
@@ -208,51 +231,49 @@ def wood_field(im: Image.Image, side: int, wood: Image.Image | None) -> Image.Im
     return center_square(bar, side)
 
 
-def mat_layer(im: Image.Image):
-    """Белый мат со сценой как RGBA со скруглёнными углами, плюс его описанный радиус."""
-    left, right, top, bottom = frame_bars(im)
-    box = (left[1] + 1, top[1] + 1, right[0], bottom[0])
-    crop = im.crop(box).convert("RGB")
-    w, h = crop.size
-    px = crop.load()
+def scene_box(im: Image.Image) -> tuple[int, int, int, int]:
+    """Прямоугольник фотографии внутри мата: от краёв внутрь, пока идут рама и мат.
 
-    # Углы обрезка — это внутреннее скругление рамы. Убираются заливкой ОТ УГЛОВ по дереву:
-    # порог по цвету снял бы заодно шляпки подосиновиков, они почти того же тона.
-    wood = bytearray(w * h)
-    q: deque[tuple[int, int]] = deque()
+    Сканирование, а не константы: рама нарисована от руки, её толщина по сторонам не совпадает, и
+    зашитые доли разъехались бы на первой же перегенерации исходника.
+    """
+    w, h = im.size
+    px = im.load()
 
-    def push(x: int, y: int) -> None:
-        if 0 <= x < w and 0 <= y < h and not wood[y * w + x] and is_wood(px[x, y]):
-            wood[y * w + x] = 1
-            q.append((x, y))
+    def frame_or_mat(c: tuple[int, int, int]) -> bool:
+        r, g, b = c
+        white = r > 225 and g > 225 and b > 225
+        red = r > 110 and r - g > 45 and r - b > 45
+        return white or red
 
-    for corner in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)):
-        push(*corner)
-    while q:
-        x, y = q.popleft()
-        push(x + 1, y)
-        push(x - 1, y)
-        push(x, y + 1)
-        push(x, y - 1)
+    cy = h // 2
+    x0 = 0
+    while x0 < w and frame_or_mat(px[x0, cy]):
+        x0 += 1
+    x1 = w - 1
+    while x1 > 0 and frame_or_mat(px[x1, cy]):
+        x1 -= 1
+    cx = (x0 + x1) // 2
+    y0 = 0
+    while y0 < h and frame_or_mat(px[cx, y0]):
+        y0 += 1
+    y1 = h - 1
+    while y1 > 0 and frame_or_mat(px[cx, y1]):
+        y1 -= 1
+    return x0, y0, x1, y1
 
-    alpha = Image.new("L", (w, h), 255)
-    ap = alpha.load()
-    cx, cy = (w - 1) / 2.0, (h - 1) / 2.0
-    radius = 0.0
-    for y in range(h):
-        row = y * w
-        for x in range(w):
-            if wood[row + x]:
-                ap[x, y] = 0
-            else:
-                radius = max(radius, math.hypot(x - cx, y - cy))
-    rgba = crop.copy()
-    rgba.putalpha(alpha)
 
-    side = int(math.ceil(radius * 2))
-    square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-    square.paste(rgba, ((side - w) // 2, (side - h) // 2), rgba)
-    return square, radius
+def medallion_layer(im: Image.Image) -> Image.Image:
+    """Круглый кроп сцены, плотно по грибам — передний слой иконки. Разбор — в докстринге модуля."""
+    x0, y0, x1, y1 = scene_box(im)
+    width, height = x1 - x0, y1 - y0
+    cx = x0 + width * SCENE_CENTER_X
+    cy = y0 + height * SCENE_CENTER_Y
+    r = width * SCENE_RADIUS
+    # Кроп не должен вылезти за сцену: иначе в медальон попадёт белый мат куском по краю.
+    r = min(r, cx - x0, x1 - cx, cy - y0, y1 - cy)
+    scene = im.crop((int(cx - r), int(cy - r), int(cx + r), int(cy + r))).convert("RGB")
+    return circular(scene)
 
 
 def fitted(layer: Image.Image, canvas_px: int, content_px: float) -> Image.Image:
@@ -288,10 +309,12 @@ def main() -> None:
         else "деревянное поле: отдельного исходника нет, собирается из бруска рамы (запасной путь)"
     )
     left, right, top, bottom = frame_bars(src)
-    mat, radius = mat_layer(src)
+    medallion = medallion_layer(src)
+    x0, y0, x1, y1 = scene_box(src)
     print(f"исходник {src.size[0]}×{src.size[1]}")
     print(f"бруски рамы: слева {left}, справа {right}, сверху {top}, снизу {bottom}")
-    print(f"мат со сценой {mat.size[0]}×{mat.size[1]}, описанный радиус {radius:.0f} px")
+    print(f"сцена внутри мата: x {x0}..{x1}, y {y0}..{y1}")
+    print(f"медальон {medallion.size[0]}×{medallion.size[1]}")
 
     for folder, layer_px, legacy_px in DENSITIES:
         out_dir = os.path.join(RES, folder)
@@ -299,14 +322,14 @@ def main() -> None:
 
         wood_field(src, layer_px, wood).save(os.path.join(out_dir, "ic_launcher_background.png"))
         content = layer_px * (ADAPTIVE_SAFE_RADIUS_DP * 2 / ADAPTIVE_CANVAS_DP)
-        fitted(mat, layer_px, content).save(os.path.join(out_dir, "ic_launcher_foreground.png"))
+        fitted(medallion, layer_px, content).save(os.path.join(out_dir, "ic_launcher_foreground.png"))
 
         legacy = wood_field(src, legacy_px, wood).convert("RGBA")
-        legacy.alpha_composite(fitted(mat, legacy_px, legacy_px * LEGACY_MAT_RATIO))
+        legacy.alpha_composite(fitted(medallion, legacy_px, legacy_px * LEGACY_MEDALLION_RATIO))
         legacy.convert("RGB").save(os.path.join(out_dir, "ic_launcher.png"))
 
         round_icon = wood_field(src, legacy_px, wood).convert("RGBA")
-        round_icon.alpha_composite(fitted(mat, legacy_px, legacy_px * LEGACY_ROUND_MAT_RATIO))
+        round_icon.alpha_composite(fitted(medallion, legacy_px, legacy_px * LEGACY_ROUND_MEDALLION_RATIO))
         circular(round_icon).save(os.path.join(out_dir, "ic_launcher_round.png"))
         print(f"  {folder}: слои {layer_px}px, legacy {legacy_px}px")
 
