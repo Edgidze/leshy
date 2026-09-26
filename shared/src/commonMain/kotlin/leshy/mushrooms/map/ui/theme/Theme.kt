@@ -234,26 +234,23 @@ fun leshyDrawerContainerColor(): Color = when (LocalEdition.current) {
  * светлая плашка — поверх деревянного полотна она читается как приклеенная бумажка, причём
  * единственная на весь экран.
  *
- * Замена — не другой цвет, а **притенение самой доски**: полупрозрачный `onBackground` темнит
- * дерево в светлой теме и высветляет в тёмной, оставляя волокно видимым. Выбранный пункт
- * читается как вдавленный в доску, а не как наклейка на ней, и второй набор значений под тёмную
- * тему для этого не нужен — цвет берётся из схемы и переворачивается вместе с ней.
+ * Промежуточной версией было притенение самой доски полупрозрачным `onBackground`, но владелец
+ * снял вопрос целиком: **пометки выбранного раздела в меню быть не должно вовсе.** Довод
+ * продуктовый, и он верен: меню открывается ПОВЕРХ того самого раздела, который помечен, —
+ * пользователь и так на него смотрит, а подсветка в списке из семи пунктов притягивает взгляд к
+ * тому, куда идти не нужно.
  *
- * Мировая редакция получает ровно `NavigationDrawerItemDefaults.colors()`, то есть не меняется.
+ * Мировая редакция пока получает `NavigationDrawerItemDefaults.colors()`, то есть не меняется.
  */
 @Composable
 fun leshyDrawerItemColors(): NavigationDrawerItemColors = when (LocalEdition.current) {
     Edition.WORLD -> NavigationDrawerItemDefaults.colors()
     Edition.RUSSIA -> NavigationDrawerItemDefaults.colors(
-        selectedContainerColor = MaterialTheme.colorScheme.onBackground.copy(alpha = DRAWER_SELECTED_ALPHA),
+        selectedContainerColor = Color.Transparent,
         selectedTextColor = MaterialTheme.colorScheme.onBackground,
         unselectedTextColor = MaterialTheme.colorScheme.onBackground,
     )
 }
-
-/** Насколько притеняется доска под выбранным пунктом. Достаточно, чтобы пункт было видно с
- * расстояния вытянутой руки, и мало, чтобы волокно не пропало. */
-private const val DRAWER_SELECTED_ALPHA = 0.14f
 
 object LeshyTheme {
     val tokens: LeshyTokens
