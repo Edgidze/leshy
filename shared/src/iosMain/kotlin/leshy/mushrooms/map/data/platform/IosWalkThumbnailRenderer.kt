@@ -12,7 +12,11 @@ import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.convert
 import kotlinx.cinterop.usePinned
 import kotlinx.cinterop.useContents
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import platform.CoreGraphics.CGPointMake
 import platform.CoreGraphics.CGRectMake
 import platform.CoreGraphics.CGSizeMake
@@ -101,12 +105,50 @@ class IosWalkThumbnailRenderer(
         markerIconSizePx: Int,
     ): String? {
         if (track.isEmpty() && findLocations.isEmpty() && anchor == null) return null
+        // Снапшоттер держится здесь, а не внутри takeSnapshot, по той же причине, что в
+        // `AndroidWalkThumbnailRenderer`: отпустить его можно только ПОСЛЕ writeAnnotated — тот
+        // спрашивает у снимка `pointForCoordinate` на каждую точку маршрута.
+        var snapshotter: MLNMapSnapshotter? = null
         return try {
-            val snapshot = takeSnapshot(track, findLocations, anchor, widthPx.toDouble(), heightPx.toDouble())
-                ?: return null
+            val snapshot = takeSnapshot(track, findLocations, anchor, widthPx.toDouble(), heightPx.toDouble()) {
+                snapshotter = it
+            } ?: return null
             writeAnnotated(walkId, snapshot, track, findLocations, anchor, variant, speciesMarkers, markerIconSizePx.toDouble())
+        } catch (e: CancellationException) {
+            // Отмену гасить нельзя — прежний `catch (_: Throwable)` ловил и её. Истечение таймаута
+            // в `BackfillWalkThumbnailsUseCase` выглядело для вызывающего обычной неудачей
+            // отрисовки, а цикл прохода продолжал крутиться в уже отменённой области. Ровно та же
+            // правка, что на Android 2026-09-26.
+            throw e
         } catch (_: Throwable) {
             null
+        } finally {
+            snapshotter?.let { release(it) }
+        }
+    }
+
+    /**
+     * Закрывает снапшоттер — обязательно и всегда, каким бы ни был исход отрисовки. Парная правка к
+     * `AndroidWalkThumbnailRenderer.release`, там же разбор, чего `cancel()` НЕ делает.
+     *
+     * Здесь то же накопление и с той же ценой: до этой правки `cancel()` звался ровно в одном
+     * случае — из `invokeOnCancellation`, — а на успешном и на ошибочном пути `MLNMapSnapshotter`
+     * просто бросался. Одной прогулке это ничего не стоит, но проход по импортированному архиву
+     * снимает КАЖДУЮ прогулку подряд, и к концу прохода брошенных — по числу прогулок, каждый со
+     * своим нативным рендерером.
+     *
+     * **Отличие от Android — ровно одно: проверки потока у `MLNMapSnapshotter` нет.** То есть
+     * падения в debug, как на Android, здесь не было бы, и потому накопление никак себя не
+     * проявляло. `Dispatchers.Main` всё равно взят: снапшоттер создаётся на главном потоке (все
+     * три вызова `render` идут из `viewModelScope`/`LaunchedEffect`), и отпускать нативный объект
+     * с другого потока — лишний риск там, где выигрыша нет. `NonCancellable` — потому что
+     * `finally` здесь чаще всего выполняется как раз на отмене, и без него `withContext` не
+     * дожил бы до `cancel()`.
+     */
+    @OptIn(ExperimentalForeignApi::class)
+    private suspend fun release(snapshotter: MLNMapSnapshotter) {
+        withContext(NonCancellable + Dispatchers.Main) {
+            runCatching { snapshotter.cancel() }
         }
     }
 
@@ -117,6 +159,7 @@ class IosWalkThumbnailRenderer(
         anchor: GeoPoint?,
         widthPoints: Double,
         heightPoints: Double,
+        onCreated: (MLNMapSnapshotter) -> Unit,
     ): MLNMapSnapshot? =
         suspendCancellableCoroutine { continuation ->
             val allPoints = track + findLocations + listOfNotNull(anchor)
@@ -163,10 +206,14 @@ class IosWalkThumbnailRenderer(
             options.coordinateBounds = bounds
 
             val snapshotter = MLNMapSnapshotter(options = options)
+            // Отдаётся вызывающему СРАЗУ, ещё до старта: отпускает его он, в своём finally
+            // (см. [release]) — в том числе когда отрисовку отменят прямо сейчас. Поэтому
+            // `invokeOnCancellation { snapshotter.cancel() }` здесь больше не нужен: отмена
+            // приходит в тот же finally, что и успех с ошибкой.
+            onCreated(snapshotter)
             snapshotter.startWithCompletionHandler { snapshot, _ ->
                 if (continuation.isActive) continuation.resume(snapshot)
             }
-            continuation.invokeOnCancellation { snapshotter.cancel() }
         }
 
     @OptIn(ExperimentalForeignApi::class)
