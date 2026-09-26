@@ -2771,7 +2771,7 @@
    "key": "suillus_luteus",
    "label": "Slippery Jack",
    "label_lang": "en",
-   "label_ru": "Маслята",
+   "label_ru": "Маслёнок настоящий",
    "labels": {
     "lv": "Sviestbekas",
     "de": "Butterpilz",
@@ -2779,7 +2779,7 @@
     "ca": "Molleric",
     "tr": "Kaypak mantarı",
     "et": "Võitatik",
-    "ru": "Маслята",
+    "ru": "Маслёнок настоящий",
     "en": "Slippery Jack",
     "ro": "Pita vacii",
     "ja": "ヌメリイグチ",
@@ -2830,6 +2830,7 @@
      "Sünger mantarı"
     ],
     "ru": [
+     "Маслята",
      "Маслёнок",
      "Масленок"
     ],
@@ -18225,7 +18226,7 @@
      "needs_name": false,
      "names": {
       "be": "Масляк",
-      "ru": "Маслята"
+      "ru": "Маслёнок настоящий"
      },
      "importance": 5.0,
      "roles": [
@@ -31504,7 +31505,7 @@
      "needs_name": false,
      "names": {
       "lv": "Sviestbekas",
-      "ru": "Маслята"
+      "ru": "Маслёнок настоящий"
      },
      "importance": 5.0,
      "roles": [
@@ -41527,7 +41528,7 @@
      "needs_name": false,
      "names": {
       "uk": "Маслюки",
-      "ru": "Маслята"
+      "ru": "Маслёнок настоящий"
      },
      "importance": 5.0,
      "roles": [
