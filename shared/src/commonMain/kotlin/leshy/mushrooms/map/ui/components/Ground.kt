@@ -211,7 +211,13 @@ fun Modifier.buttonBackground(
 private fun Modifier.plateTexture(board: DrawableResource, plateHeight: Dp, shape: Shape): Modifier {
     val painter = painterResource(board)
     return drawWithCache {
-        val visibleHeight = minOf(size.height, maxOf(plateHeight.toPx(), 0f))
+        // Обрезать нужно ТОЛЬКО там, где Material развёл область нажатия и плашку, то есть пока
+        // узел не выше [MINIMUM_TOUCH_TARGET]. Выше — узел и есть плашка: кнопка с явной высотой
+        // («Старт» на «Записи», 56dp) или с подписью в две строки занимает свой узел целиком, и
+        // обрезка по 40dp оставила бы её незакрашенной (репорт владельца 2026-09-26: «текстура
+        // занимает кнопку Старт не полностью»).
+        val expanded = size.height <= MINIMUM_TOUCH_TARGET.toPx()
+        val visibleHeight = if (expanded) minOf(size.height, maxOf(plateHeight.toPx(), 0f)) else size.height
         val top = (size.height - visibleHeight) / 2f
         val visible = Size(size.width, visibleHeight)
         val clip = Path().apply {
@@ -260,6 +266,12 @@ fun Modifier.selectedSegmentBackground(selected: Boolean, shape: Shape): Modifie
     // `minimumInteractiveComponentSize()`, а высоту плашки держит своей приватной константой.
     return plateTexture(board, SEGMENT_CONTAINER_HEIGHT, shape)
 }
+
+/**
+ * Наименьшая область нажатия Material — ровно до этой высоты она раздувает узел вокруг кнопки
+ * (`minimumInteractiveComponentSize`). Выше неё раздувать нечего, и узел совпадает с плашкой.
+ */
+private val MINIMUM_TOUCH_TARGET = 48.dp
 
 /** Высота плашки сегмента у Material — своя константа, потому что чужая приватна. */
 private val SEGMENT_CONTAINER_HEIGHT = 40.dp
