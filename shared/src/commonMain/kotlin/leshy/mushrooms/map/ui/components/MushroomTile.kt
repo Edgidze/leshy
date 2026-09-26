@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -57,11 +58,15 @@ import leshy.mushrooms.map.ui.util.parseHexColor
 import leshy.mushrooms.map.domain.model.Edition
 import kotlin.time.Duration.Companion.seconds
 
-private val MUSHROOM_COUNT_BUTTON_SIZE = 40.dp
+private val MUSHROOM_COUNT_BUTTON_SIZE = 38.dp
 
-/** Отступ ряда счётчика от краёв плитки. По вертикали берётся половина — сверху и снизу к нему
- * добавляется собственный инсет области нажатия кнопок. */
-private val COUNT_ROW_PADDING = 8.dp
+/** Значок внутри кнопки счёта. Те же две трети стороны, что у глифа на жетоне раздела. */
+private val COUNT_ICON_SIZE = 26.dp
+
+/** Отступ ряда счётчика от краёв плитки — он же зазор между жетоном и рамой плашки. Две кнопки по
+ * 38dp, счётчик 28dp и эти отступы вместе дают 104dp при ширине плитки 120dp: запас 4dp, чтобы
+ * ряд не сплющивал последнюю кнопку при округлениях. */
+private val COUNT_ROW_PADDING = 6.dp
 
 /** Holding the + button this long opens the bulk-add dialog instead of logging a single find. */
 private val MUSHROOM_BULK_ADD_HOLD_DURATION = 2.seconds
@@ -182,51 +187,22 @@ fun MushroomTile(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    // Отступ по вертикали появился вместе с деревянной подложкой кнопок: пока
-                    // «+» и «−» были голыми значками, их поле никак не читалось, и край плашки
-                    // рядом никому не мешал. У жетона край есть, и он обязан не касаться рамы
-                    // плашки — иначе две деревянные поверхности сходятся встык и плитка
-                    // выглядит собранной из обрезков. К этим 4dp добавляются ещё 4dp от области
-                    // нажатия (48dp вокруг видимых 40dp), итого зазор 8dp сверху и снизу и 12dp
-                    // по бокам.
-                    .padding(horizontal = COUNT_ROW_PADDING, vertical = COUNT_ROW_PADDING / 2),
+                    // Отступ появился вместе с деревянной подложкой кнопок: пока «+» и «−» были
+                    // голыми значками, их поле никак не читалось, и край плашки рядом никому не
+                    // мешал. У жетона край есть, и он обязан не касаться рамы плашки — иначе две
+                    // деревянные поверхности сходятся встык и плитка выглядит собранной из
+                    // обрезков.
+                    .padding(COUNT_ROW_PADDING),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                // Размер кнопки задаётся ВНУТРИ, а не модификатором самой `IconButton`: та
-                // оборачивает переданный модификатор в `minimumInteractiveComponentSize()`, и узел
-                // получается 48dp при видимых 40dp. Пока фона не было, разница не читалась; с
-                // подложкой «−» вышла заметно крупнее «+» (репорт владельца 2026-09-26). Теперь
-                // подложка лежит на своих 40dp, а 48dp остаются тем, чем и были, — областью
-                // нажатия.
-                // shape — токеном: `IconButton` КЛИПУЕТ своё содержимое собственной формой, а она
-                // по умолчанию круглая, и квадратный жетон под «−» приезжал обрезанным в круг
-                // (репорт владельца 2026-09-26). У «+» этой беды нет: он не `IconButton`, а свой
-                // `Box` с той же формой из токена.
-                IconButton(
+                // Обе кнопки — один и тот же [CountButton]: после трёх правок подряд стало
+                // ясно, что двумя разными сборками одинаковых на вид кнопок это не кончится.
+                CountButton(
+                    icon = Icons.Filled.Remove,
                     onClick = remove,
                     enabled = count > 0,
-                    shape = LeshyTheme.tokens.shapeCountButton,
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(MUSHROOM_COUNT_BUTTON_SIZE)
-                            .glyphBadgeBackground(LeshyTheme.tokens.shapeCountButton),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Remove,
-                            contentDescription = null,
-                            // Явный цвет, а не `LocalContentColor` от `IconButton`: на жетоне
-                            // значок всегда светлый (доска тёмная в обеих темах), и гашение
-                            // выключенного состояния, которое `IconButton` даёт даром, приходится
-                            // повторить рукой.
-                            tint = glyphBadgeContentColor(LocalContentColor.current)
-                                .copy(alpha = if (count > 0) 1f else 0.38f),
-                            modifier = Modifier.size(32.dp),
-                        )
-                    }
-                }
+                )
                 Text(
                     text = count.toString(),
                     fontSize = if (count.toString().length >= 3) 14.sp else 20.sp,
@@ -234,10 +210,11 @@ fun MushroomTile(
                     maxLines = 1,
                     modifier = Modifier.width(28.dp),
                 )
-                MushroomAddButton(
+                CountButton(
+                    icon = Icons.Filled.Add,
                     onClick = add,
-                    onLongHold = onBulkAdd,
                     enabled = count < MAX_MUSHROOM_FINDS_PER_WALK,
+                    onLongHold = onBulkAdd,
                     onHoldProgress = { holdProgress = it },
                 )
             }
@@ -315,21 +292,37 @@ fun AddSpeciesTile(onClick: () -> Unit, modifier: Modifier = Modifier) {
  * [onLongHold] `null` — удержание не считается: [tapOrHold] не заводит таймер и не зовёт
  * [onHoldProgress], значит и заливки плитки не будет.
  */
+/**
+ * Кнопка счёта находок — «+» и «−» на плитке вида, одна сборка на обе.
+ *
+ * **Почему не `IconButton`.** Тот приносит с собой две вещи, которые здесь мешают: круглую форму,
+ * которой он КЛИПУЕТ своё содержимое (квадратный жетон приезжал обрезанным в круг), и
+ * `minimumInteractiveComponentSize()` — узел 48dp при видимых 40dp. Второе особенно дорого: плитка
+ * шириной [RECORD_MUSHROOM_TILE_WIDTH], и две области нажатия по 48dp вместе со счётчиком в неё
+ * физически не помещаются — `Row` доезжал до последнего ребёнка с нехваткой ширины и сплющивал
+ * «+» примерно до 25dp. Пока фона у кнопок не было, разница не читалась; с деревянной подложкой
+ * она стала видна сразу (репорт владельца 2026-09-26).
+ *
+ * Отсюда размеры: [MUSHROOM_COUNT_BUTTON_SIZE] вместе со счётчиком и отбивками укладывается в
+ * ширину плитки с запасом, и ОБЕ кнопки получают его одинаково. Это сознательный отказ от
+ * рекомендованных Material 48dp: на плитке в 120dp две таких области не существуют, а честные
+ * 38dp лучше, чем 48dp у одной кнопки и сплющенные 25dp у соседней.
+ *
+ * [onLongHold] — только у «+»: удержание открывает массовое добавление. У «−» его нет, и
+ * [tapOrHold] в этом случае работает как обычное нажатие.
+ */
 @Composable
-private fun MushroomAddButton(
+private fun CountButton(
+    icon: ImageVector,
     onClick: () -> Unit,
-    onLongHold: (() -> Unit)?,
+    enabled: Boolean,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    onLongHold: (() -> Unit)? = null,
     onHoldProgress: (Float) -> Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
-            // Та же область нажатия, что у «−»: её `IconButton` берёт себе сам, а этой кнопке
-            // приходится просить. До этого «+» занимал 40dp против 48dp у соседа — при
-            // `SpaceBetween` это ещё и смещало счётчик между ними от центра.
-            .minimumInteractiveComponentSize()
             .size(MUSHROOM_COUNT_BUTTON_SIZE)
             .clip(LeshyTheme.tokens.shapeCountButton)
             .glyphBadgeBackground(LeshyTheme.tokens.shapeCountButton)
@@ -346,10 +339,12 @@ private fun MushroomAddButton(
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            Icons.Filled.Add,
+            imageVector = icon,
             contentDescription = null,
+            // Явный цвет, а не `LocalContentColor`: на жетоне значок всегда светлый (доска тёмная
+            // в обеих темах), и гашение выключенного состояния приходится повторить рукой.
             tint = glyphBadgeContentColor(LocalContentColor.current).copy(alpha = if (enabled) 1f else 0.38f),
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(COUNT_ICON_SIZE),
         )
     }
 }
