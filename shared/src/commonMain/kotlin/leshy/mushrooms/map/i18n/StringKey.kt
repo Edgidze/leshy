@@ -37,6 +37,7 @@ enum class StringKey {
     MushroomImagesDisclaimer,
 
     SpeciesCollectionsTitle,
+    SpeciesCollectionsTitleSets,
     SpeciesMyMushroomsTitle,
     SpeciesMyMushroomsEmpty,
     SpeciesAddButton,

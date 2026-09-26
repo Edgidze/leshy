@@ -4,6 +4,7 @@ import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Category
 import leshy.mushrooms.map.domain.model.CategoryCollectionMembership
 import leshy.mushrooms.map.domain.model.Collection
+import leshy.mushrooms.map.data.catalog.speciesSetIdForCollectionNameKey
 import leshy.mushrooms.map.i18n.collectionDisplayName
 
 enum class CollectionPickState { ALL, SOME, NONE }
@@ -45,8 +46,13 @@ fun buildCollectionPickerItems(
 ): List<CollectionPickerItem> {
     val categoriesById = categories.associateBy { it.id }
     val memberIdsByCollection = memberships.groupBy({ it.collectionId }, { it.categoryId })
-    return collections
-        .sortedBy { collectionDisplayName(it, language).lowercase() }
+    // Наборы редакции — впереди и в своём порядке (`Collection.order` из `sets-ru.json`), всё
+    // остальное — по алфавиту. Смысл не в предпочтении, а в том, что это разные вещи: набор
+    // предлагает, с чего начать, а страна — справочный список. Вперемешку по алфавиту «Основные
+    // грибы» оказывались где-то между Норвегией и Польшей, и первый экран списка на свежей
+    // установке не содержал ни одной подборки, которую человеку вообще стоит отметить.
+    val (sets, rest) = collections.partition { speciesSetIdForCollectionNameKey(it.nameKey) != null }
+    return (sets.sortedBy { it.order } + rest.sortedBy { collectionDisplayName(it, language).lowercase() })
         .map { collection ->
             val members = memberIdsByCollection[collection.id].orEmpty()
                 .mapNotNull { categoriesById[it] }

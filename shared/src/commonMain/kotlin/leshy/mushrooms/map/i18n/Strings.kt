@@ -222,6 +222,7 @@ private fun russianStrings(key: StringKey): String = when (key) {
             "незнакомых грибов!"
 
     StringKey.SpeciesCollectionsTitle -> "Подборки грибов по странам"
+    StringKey.SpeciesCollectionsTitleSets -> "Подборки грибов"
     StringKey.SpeciesMyMushroomsTitle -> "Добавленные грибы"
     StringKey.SpeciesMyMushroomsEmpty -> "Здесь появятся грибы, которые вы добавите сами"
     StringKey.SpeciesAddButton -> "Добавить гриб"
@@ -600,6 +601,7 @@ private fun englishStrings(key: StringKey): String = when (key) {
             "unfamiliar mushrooms!"
 
     StringKey.SpeciesCollectionsTitle -> "Mushroom collections by country"
+    StringKey.SpeciesCollectionsTitleSets -> "Mushroom collections"
     StringKey.SpeciesMyMushroomsTitle -> "Added mushrooms"
     StringKey.SpeciesMyMushroomsEmpty -> "Mushrooms you add yourself will show up here"
     StringKey.SpeciesAddButton -> "Add mushroom"

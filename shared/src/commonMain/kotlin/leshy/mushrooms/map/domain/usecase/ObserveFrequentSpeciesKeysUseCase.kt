@@ -1,7 +1,9 @@
 package leshy.mushrooms.map.domain.usecase
 
 import leshy.mushrooms.map.data.catalog.CountriesSource
+import leshy.mushrooms.map.data.catalog.SpeciesSetsSource
 import leshy.mushrooms.map.data.catalog.countryCodeForCollectionNameKey
+import leshy.mushrooms.map.data.catalog.speciesSetIdForCollectionNameKey
 import leshy.mushrooms.map.domain.repository.CategoryRepository
 import leshy.mushrooms.map.domain.repository.CollectionRepository
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +36,7 @@ class ObserveFrequentSpeciesKeysUseCase(
     private val collectionRepository: CollectionRepository,
     private val categoryRepository: CategoryRepository,
     private val countriesSource: CountriesSource,
+    private val speciesSetsSource: SpeciesSetsSource,
 ) {
     operator fun invoke(): Flow<Set<String>> = combine(
         collectionRepository.observeAll(),
@@ -45,9 +48,17 @@ class ObserveFrequentSpeciesKeysUseCase(
             .filter { it.categoryId in pickedCategoryIds }
             .map { it.collectionId }
             .toSet()
+        // Набор редакции считается за подборку СВОЕЙ страны: наборы — это её подборка,
+        // разрезанная на части, и частотность видов у них та же самая. Без этого редакция, где
+        // страновой подборки больше нет, потеряла бы «вперёд частотные» в ленте целиком.
         val pickedCountryCodes = collections.asSequence()
             .filter { it.id in pickedCollectionIds }
-            .mapNotNull { countryCodeForCollectionNameKey(it.nameKey) }
+            .mapNotNull { collection ->
+                countryCodeForCollectionNameKey(collection.nameKey)
+                    ?: speciesSetsSource.countryCode.takeIf {
+                        speciesSetIdForCollectionNameKey(collection.nameKey) != null
+                    }
+            }
             .toSet()
         countriesSource.commonKeysFor(pickedCountryCodes)
     }.distinctUntilChanged()

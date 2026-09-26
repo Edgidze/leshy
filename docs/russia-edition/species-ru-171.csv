@@ -1,172 +1,172 @@
 ﻿key;latin;russian;in_base_54;common_in_ru;breadth;importance;countries_listed;region;note
-boletus_edulis;Boletus edulis;Белый гриб;да;да;mid;5.0;AL AM AT AZ BA BE BG BY CA CH CZ DE DK EE ES FI FR GB GE GR HR HU IE IS IT KG KZ LT LU LV MD ME MK MX NL NO NZ PL PT RO RS RU SE SI SK TR UA US;;
-lactarius_pubescens;Lactarius pubescens;Белянка;да;;narrow;3.0;KZ RU;;
-amanita_phalloides;Amanita phalloides;Бледная поганка;да;;narrow;5.0;AL AM AT AU AZ BA BE BG BY CA CH CY CZ DE DK EE ES FI FR GB GE GR HR HU IE IT KG KR KZ LT LU LV MD ME MK NL NO NZ PL PT RO RS RU SE SI SK TJ TR UA US UZ;;
-russula_foetens;Russula foetens;Валуй;да;да;narrow;4.0;BY EE GE MD RU;;
-lactarius_torminosus;Lactarius torminosus;Волнушка;да;да;narrow;4.0;AZ BY CY FI GE IS IT KG KZ LT LV PL RS RU SI UA;;
-pleurotus_ostreatus;Pleurotus ostreatus;Вёшенка;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CA CH CY CZ DE DK ES FR GB GE GR HR HU IE IT JP KG KR KZ LT LU LV MD ME MK NL NO PL PT RO RS RU SE SI SK TJ TM TR UA US UZ;;
-galerina_marginata;Galerina marginata;Галерина окаймлённая;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CA CH CY CZ DE DK ES FI FR GB GR HU IE IS KZ LT LU LV MD ME MK NL NO PL PT RO RS RU SE SI SK TJ UA US UZ;;
-lactarius_trivialis;Lactarius trivialis;Гладыш;да;да;narrow;5.0;BY FI LV NO RU;;
-lactarius_rufus;Lactarius rufus;Горькушка;да;да;narrow;5.0;BY EE FI LV RU SE;;
-lactarius_scrobiculatus;Lactarius scrobiculatus;Груздь жёлтый;да;;narrow;3.0;GE KZ LV RU;;
-lactarius_resimus;Lactarius resimus;Груздь настоящий;да;да;mid;5.0;BY KZ RU UA;;
-lycoperdon_perlatum;Lycoperdon sp.;Дождевик;да;;broad;4.0;AL AM AZ BA BY CA CY GB HR IE IS KG KZ LV NL RU TJ TM UZ;;
-suillellus_luridus;Suillellus luridus;Дубовик;да;;narrow;4.0;AM AT AZ BY CZ DE EE GE LT LV PT RO RU SE SK UA;;
-hydnum_repandum;Hydnum repandum;Ежовик жёлтый;да;;mid;5.0;AL AM AT AZ BA BE BG BY CA CH CZ DE DK EE ES FI FR GB GR HR HU IE IS IT LU MD ME MK NL NO PL PT RO RS RU SE SI SK TR UA;;
-tylopilus_felleus;Tylopilus felleus;Желчный гриб;да;;narrow;5.0;AM AT BE BG BY CH CY CZ DE DK EE FI HU IT KG KZ LT LV MD NO PL RU SI SK UA;;
-tricholoma_equestre;Tricholoma equestre;Зеленушка;да;;narrow;4.0;BG BY CA CY DE DK EE ES KZ LT LV NO PL PT RU UA;;
-macrolepiota_procera;Macrolepiota procera;Зонтик пёстрый;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CH CY CZ DE DK EE ES FI FR GB GE GR HR HU IE IT KG KR KZ LT LU LV MD ME MK MX NL NO PL PT RO RS RU SE SI SK TJ TM TR UA US UZ;;
-suillus_bovinus;Suillus bovinus;Козляк;да;да;narrow;4.0;BY DK IS JP LT NL PL PT RU;;
-cortinarius_caperatus;Cortinarius caperatus;Колпак кольчатый;да;;narrow;5.0;AT BG BY CH EE FI FR HR IT JP LT MK NO PL RU SE SI UA;;
-cantharellus_cibarius;Cantharellus cibarius;Лисичка;да;да;mid;5.0;AL AM AT AZ BA BE BG BY CH CZ DE DK EE ES FI FR GB GE GR HR HU IE IS IT KG KR KZ LT LU LV MD ME MK MX NL NO PL PT RO RS RU SE SI SK TR UA;;
-craterellus_tubaeformis;Craterellus tubaeformis;Лисичка трубчатая;да;;narrow;5.0;BE CA CH CZ DE DK EE FI FR GB IE LU LV NL NO RU SE TR US;;
-hygrophoropsis_aurantiaca;Hygrophoropsis aurantiaca;Ложная лисичка;да;;narrow;4.0;AL AT AZ BE BG BY CA CH DE DK EE FI FR GB GR IE KG KZ LU LV MD ME MK NL NO PL PT RU SE UA US;;
-hypholoma_lateritium;Hypholoma lateritium;Ложноопёнок кирпично-красный;да;;narrow;4.0;GE JP KR RU;;
-hypholoma_fasciculare;Hypholoma fasciculare;Ложноопёнок серно-жёлтый;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CA CH CZ DE DK FI GE GR HR IE IT JP KG KR KZ LT LU MD ME MK NL NO PL PT RO RU SI SK TJ UA UZ;;
-suillus_luteus__2;Suillus sp.;Маслёнок;да;да;broad;5.0;BA CA HR IT KG KR KZ MX RU SI SK;;
-gomphidius_glutinosus;Gomphidius glutinosus;Мокруха еловая;да;;narrow;3.0;BG CZ DE EE HR IS NO RU SI;;
-xerocomus_subtomentosus;Xerocomus subtomentosus;Моховик;да;да;narrow;4.0;AT HU IS KG LT PL RO RU SK;;
-amanita_virosa;Amanita virosa;Мухомор вонючий;да;;narrow;5.0;AT BA BE BG BY CH DE DK EE FI FR GB HR IE IT JP KR KZ LT LU LV NO PL RU SE SI SK UA;;
-amanita_muscaria;Amanita muscaria;Мухомор красный;да;;narrow;5.0;AL AM AT AU AZ BA BE BG BY CA CH CZ DE DK EE ES FI FR GB GE GR HR HU IE IS IT JP KG KZ LT LU LV MD ME MK MX NL NO NZ PL PT RO RS RU SE SI SK TJ TR UA UZ;;
-amanita_pantherina;Amanita pantherina;Мухомор пантерный;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CH CY CZ DE DK EE ES FI FR GB GE GR HR HU IE IT JP KG KR KZ LT LU LV MD ME MK MX NL NO PL PT RS RU SE SI SK TJ UA UZ;;
-coprinus_comatus;Coprinus comatus;Навозник белый;да;;narrow;5.0;AL AM AT AU AZ BA BE BG BY CA CH CY DE DK EE ES FI FR GB GE GR HR HU IE IS IT KG KR KZ LU LV MD ME MK MX NL NO NZ PL PT RO RS RU SE SI SK TJ TM TR UA US UZ;;
-flammulina_velutipes;Flammulina velutipes;Опёнок зимний;да;;narrow;5.0;AM AT AZ BG BY CZ DE DK GB HR HU IE JP KR KZ LV MD ME NL NZ RS RU SI TJ TM TR UA UZ;;
-kuehneromyces_mutabilis;Kuehneromyces mutabilis;Опёнок летний;да;да;narrow;4.0;AT BA BE BY CH CZ DE DK EE FI HR IS KZ LT LU LV NL NO PL RU SE SI UA;;
-marasmius_oreades;Marasmius oreades;Опёнок луговой;да;;narrow;5.0;AL AM AT AU AZ BA BE BG CA CH CY CZ DE DK EE ES FR GB GE GR HR HU IE KG KZ LU MD ME MK MX NL NO NZ PL RO RS RU SE SK TJ TM TR UA US UZ;;
-armillaria_mellea;Armillaria mellea;Опёнок осенний;да;;mid;5.0;AL AM AT AZ BA BE BG BY CA CH CY CZ DE DK EE GB GE GR HR HU IE IS IT JP KG KZ LT LU LV MD ME MK MX NL PL PT RO RS RU SI SK TJ TM UA US;;
-leccinum_scabrum;Leccinum scabrum;Подберёзовик;да;да;mid;5.0;AM AT BE BG BY CH CZ DE DK FI FR GE IE IS KG KZ LT LU LV MD NL NO NZ PL RO RU SE SI SK UA;;
-russula_delica;Russula delica;Подгруздок белый;да;да;narrow;4.0;AL AM AZ BY CY EE GE GR KG KZ LT RU TR;;
-russula_nigricans;Russula nigricans;Подгруздок чёрный;да;;narrow;3.0;KG RU;;
-leccinum_aurantiacum;Leccinum aurantiacum;Подосиновик;да;да;mid;5.0;AT BE CA CH HR IT KR KZ LU LV MD NL PL RU SK UA;;
-imleria_badia;Imleria badia;Польский гриб;да;да;narrow;5.0;AT AZ BA BE BY CH CZ DE DK ES FR GB HU IE LT LU LV NL NO PL PT RO RU SE SI SK TR UA;;
-amanita_vaginata;Amanita vaginata;Поплавок серый;да;;narrow;4.0;AZ FR IS MD RU SI TR;;
-lactarius_deliciosus;Lactarius deliciosus;Рыжик;да;да;mid;5.0;AL AM AT AU AZ BA BE BG BY CH CY CZ DE EE ES FR GE GR HR HU IE IT KG KZ LT LV MD ME MK MX NO NZ PL PT RO RS RU SE SI SK TR UA UZ;;
-tricholoma_portentosum;Tricholoma portentosum;Рядовка серая;да;;narrow;4.0;BG BY CZ ES FI FR GE JP KZ LT MD NO PL PT RU SK UA;;
-lepista_nuda;Lepista nuda;Рядовка фиолетовая;да;;narrow;5.0;AL AU BA BE BY CH CY CZ DK FR GB GR HR HU IE KG LU ME MK NL NO NZ PT RU SI TJ UA UZ;;
-rubroboletus_satanas;Rubroboletus satanas;Сатанинский гриб;да;;narrow;5.0;AL AM AT AZ BA BE BG CH CY CZ DE ES FR GR HR HU IT LU MD ME MK PL RS RU SI SK UA;;
-paxillus_involutus;Paxillus involutus;Свинушка тонкая;да;;narrow;5.0;AT BE BY CH CZ DE DK EE ES FI GB GR HU IE IS KG KZ LT LU LV NL NO NZ PL PT RU SE SI SK UA US;;
-lactarius_flexuosus;Lactarius flexuosus;Серушка;да;;narrow;3.0;RU;;
-lactifluus_vellereus;Lactifluus vellereus;Скрипица;да;да;narrow;4.0;AM BY GE KG LV RU TR;;
-morchella_esculenta;Morchella sp.;Сморчок;да;;broad;5.0;AL AM AZ BA BE BG CA CH CY CZ DE ES FI FR GB GR HR HU IS IT KG KZ LT LU LV MD ME MK MX NL NO NZ PL PT RO RS RU SK TJ TM TR UA US UZ;;
-gyromitra_esculenta__2;Gyromitra sp.;Строчок;да;;broad;5.0;CA KG KZ LV RU TJ US;;
-russula_cyanoxantha;Russula sp.;Сыроежка;да;да;broad;5.0;AL AM AZ BA BY CA EE GR HU KG KZ LT LV MD ME MK PL RS RU SI SK UA US;;
-inonotus_obliquus;Inonotus obliquus;Чага;да;;narrow;4.0;BY CA KZ LT RU;;
-lactarius_turpis;Lactarius turpis;Чернушка;да;да;narrow;4.0;FI KZ LT RU;;
-agaricus_campestris;Agaricus sp.;Шампиньон;да;;broad;5.0;AM AZ BY EE GE HU KG KZ LT LV MD MX PL RU SI SK TJ UA UZ;;
-albatrellus_ovinus;Albatrellus ovinus;Альбатреллус овечий;;;narrow;4.0;CA CH EE FI HR LV NO SE SI;;
-boletus_aereus;Boletus aereus;Белый гриб бронзовый;;;narrow;5.0;AL AZ BA CH ES FR GR LU ME MK PT RO RS;;
-boletus_reticulatus;Boletus reticulatus;Белый гриб сетчатый;;;narrow;5.0;AL AZ BA CZ ES GR LU ME MK PT RS SE;;
-boletaceae;Boletaceae;Болетовые;;;broad;5.0;EE;;
-russula_paludosa;Russula paludosa;Болотная сыроежка;;;narrow;4.0;EE FI SE;;
-caloboletus_calopus;Caloboletus calopus;Боровик красивоножковый;;;narrow;3.0;AZ CY DE IE SI;;
-phallus_impudicus;Phallus impudicus;Весёлка обыкновенная;;;narrow;3.0;BY GB LT NL UA;;
-inosperma_erubescens;Inosperma erubescens;Волоконница Патуйяра;;;narrow;5.0;AM BA BE CH ES KG KZ LU LV ME PT SI SK TJ TM UZ;;
-inosperma_adaequatum;Inosperma adaequatum;Волоконница краснеющая;;;narrow;4.0;MD;;
-pseudosperma_rimosum;Pseudosperma rimosum;Волоконница трещиноватая;;;narrow;4.0;AZ MD NL TJ TM;;
-volvariella_bombycina;Volvariella bombycina;Вольвариелла шелковистая;;;narrow;5.0;MX TM;;
-craterellus_cornucopioides;Craterellus cornucopioides;Вороночник рожковидный;;;narrow;5.0;AL AM AT BA BE BG CH CZ DE DK EE ES FI FR GE GR HR HU IE IT LT LU LV ME MK NO PL PT RO RS SE SI SK TR UA;;
-pleurotus_cornucopiae;Pleurotus cornucopiae;Вёшенка рожковидная;;;narrow;3.0;GE TJ TM;;
-pleurotus_eryngii;Pleurotus eryngii;Вёшенка степная;;;narrow;5.0;AL AM AZ CY ES GR HU IT KG KR KZ ME MK TJ TM TR UZ;;
-hebeloma_crustuliniforme;Hebeloma crustuliniforme;Гебелома клейкая;;;narrow;4.0;MD;;
-hygrophorus_hypothejus;Hygrophorus hypothejus;Гигрофор поздний;;;narrow;3.0;BG;;
-hygrophorus_camarophyllus;Hygrophorus camarophyllus;Гигрофор черный;;;narrow;3.0;EE FI NO;;
-gyroporus_cyanescens;Gyroporus cyanescens;Гиропорус синеющий;;;narrow;4.0;HR LV PL US;;
-leucocybe_candicans;Leucocybe candicans;Говорушка беловатая;;;narrow;5.0;AZ KG KZ MD;;
-clitocybe_dealbata;Clitocybe dealbata;Говорушка восковатая;;;narrow;5.0;AM ME MK RO RS SI;;
-clitocybe_rivulosa;Clitocybe rivulosa;Говорушка выбеленная;;;narrow;5.0;BE CY DK ES GB GR HU IE IS LU NL TJ TM UZ;;
-clitocybe_nebularis;Clitocybe nebularis;Говорушка дымчатая;;;narrow;4.0;BE FR HU IT NL SK;;
-infundibulicybe_geotropa;Infundibulicybe geotropa;Говорушка подогнутая;;;narrow;4.0;AL CY ES FR GR HR IE IT TJ TM TR UZ;;
-calvatia_gigantea;Calvatia gigantea;Головач гигантский;;;narrow;5.0;AM AT BE CA CZ DE DK EE GB HR HU IE IT KG KZ LT LV MD NL NZ RO RS SK TJ TM UA US UZ;;
-calvatia_cyathiformis;Calvatia cyathiformis;Головач лиловый;;;broad;4.0;MX TM;;
-leccinellum_pseudoscabrum;Leccinellum pseudoscabrum;Грабовик;;;narrow;4.0;AM AZ BG HU LU PL;;
-grifola_frondosa;Grifola frondosa;Гриб-баран;;;narrow;5.0;BE CA GB HR JP KR NL TR US UZ;;
-chlorophyllum_rhacodes;Chlorophyllum rhacodes;Гриб-зонтик краснеющий;;;mid;4.0;AZ BA BE CA DK EE GB IE IT LU LV ME NL NZ PT RS SK US;;
-lactifluus_piperatus;Lactifluus piperatus;Грузди;;;narrow;4.0;AL AM AZ BA BG GE HU KG LT MD ME MK RO RS TR UA;;
-lycoperdon_perlatum__2;Lycoperdon perlatum;Дождевики;;;narrow;4.0;CZ KR LT LU SI UA;;
-neoboletus_erythropus;Neoboletus erythropus;Дубовик;;;narrow;5.0;AT BE CH DE DK FR GE LU MD ME NL SI;;
-sarcodon_imbricatus;Sarcodon imbricatus;Ежовик пёстрый;;;narrow;3.0;SI TR;;
-hydnum_sp;Hydnum sp.;Ежовики;;;broad;4.0;LT LV US;;
-auricularia_auricula_judae;Auricularia auricula-judae;Иудино ухо;;;narrow;4.0;AT BA BE CZ DK GB HR HU IE MD MK NL TJ UA UZ;;
-gyroporus_castaneus;Gyroporus castaneus;Каштановый гриб;;;narrow;3.0;HR LT US;;
-laccaria_laccata;Laccaria laccata;Лаковица;;;narrow;4.0;HR MX;;
-laccaria_amethystina;Laccaria amethystina;Лаковица аметистовая;;;narrow;3.0;GB HR IE;;
-lepiota_cristata;Lepiota cristata;Лепиота гребенчатая;;;narrow;5.0;MD SI TM UZ;;
-lepiota_brunneoincarnata;Lepiota brunneoincarnata;Лепиота коричнево-красная;;;narrow;5.0;AL AM AZ CH CY FR GR KG KZ MK NO PT TJ TM TR UZ;;
-echinoderma_asperum;Echinoderma asperum;Лепиота шероховатая;;;narrow;4.0;EE;;
-craterellus_lutescens;Craterellus lutescens;Лисичка желтеющая;;;narrow;4.0;AL ES FI FR GR IT NO SE;;
-scleroderma_citrinum;Scleroderma citrinum;Ложнодождевик;;;narrow;4.0;AM AT BE DK GB IE KG LU NL PL PT SK TJ TM UA US UZ;;
-calocybe_gambosa;Calocybe gambosa;Майский гриб;;;narrow;5.0;AL AM AT AZ BA BE BG CH CZ DE DK ES FR GB GE GR HR HU IE IT KG KZ LT LU MD ME MK RO RS SI SK TJ TM TR UA UZ;;
-suillus_luteus;Suillus luteus;Маслята;;;narrow;5.0;AM AT AU AZ BE BG BY CH CY CZ DE DK EE ES FI FR IE IS JP LT LV ME MK NL NO NZ PL RO SE UA;;
-suillus_variegatus;Suillus variegatus;Маслёнок жёлто-бурый;;;narrow;4.0;AT BY DK FI IS LT LV NO PL SE;;
-suillus_granulatus;Suillus granulatus;Маслёнок зернистый;;;narrow;5.0;AL AM AZ CY CZ DE GR HU KG MD ME MK RO RS SE;;
-suillus_grevillei;Suillus grevillei;Маслёнок лиственничный;;;narrow;4.0;AT CH CZ DE IE IS JP LU NL PL RO;;
-tricholoma_matsutake;Tricholoma matsutake;Мацутакэ;;;narrow;5.0;FI JP KR SE;;
-lactarius_camphoratus;Lactarius camphoratus;Млечник камфорный;;;narrow;3.0;FI;;
-lactarius_helvus;Lactarius helvus;Млечник серо-розовый;;;narrow;3.0;EE FI NO;;
-lactarius_thyinos;Lactarius sp.;Млечники;;;broad;5.0;CA US;;
-chroogomphus_rutilus;Chroogomphus rutilus;Мокруха пурпуровая;;;narrow;3.0;CY HR MD TR;;
-xerocomellus_chrysenteron;Xerocomellus chrysenteron;Моховики;;;mid;5.0;AZ BY CZ LU LV MD PT UA;;
-amanita_verna;Amanita verna;Мухомор весенний;;;narrow;5.0;AL BA BG ES GR HR HU JP KG KR ME MK PT SK UZ;;
-amanita_regalis;Amanita regalis;Мухомор королевский;;;narrow;4.0;FI LV NO SE;;
-amanita_citrina;Amanita citrina;Мухомор поганковидный;;;narrow;4.0;BE GE HU LT MD NL PL;;
-amanita_rubescens;Amanita rubescens;Мухомор серо-розовый;;;narrow;5.0;AL AT AZ BA BE BG CH CZ DE DK FR GE GR HR HU IE KR LU MD ME MK NL PT RS SI SK;;
-amanita_bisporigera;Amanita bisporigera;Мухоморы;;;broad;5.0;MX US;;
-coprinus_sp;Coprinus sp.;Навозник;;;broad;3.0;EE;;
-coprinellus_micaceus;Coprinellus micaceus;Навозник мерцающий;;;narrow;3.0;TM TR;;
-coprinopsis_atramentaria;Coprinopsis atramentaria;Навозник серый;;;narrow;4.0;BE EE GB GE IE IS KG KR LV NL SK TJ TM US UZ;;
-omphalotus_olearius;Omphalotus olearius;Омфалот маслиновый;;;narrow;5.0;AL AM BA BG CH CY ES FR GR HR HU IT ME MK PT RS SI TJ TR;;
-armillaria_borealis;Armillaria borealis;Опята осенние;;;mid;5.0;FI;;
-cyclocybe_cylindracea;Cyclocybe cylindracea;Опёнок тополиный;;;narrow;4.0;AL AM ES HR IT MK PT UZ;;
-cyclocybe_aegerita;Cyclocybe aegerita;Опёнок тополиный;;;narrow;4.0;ME RS TJ TM;;
-cortinarius_rubellus;Cortinarius rubellus;Паутинник красивейший;;;narrow;5.0;DK EE FI GB IE LT LV NO SE US;;
-cortinarius_mucosus;Cortinarius mucosus;Паутинник слизистый;;;narrow;3.0;EE;;
-cortinarius_sp;Cortinarius sp.;Паутинники;;;broad;4.0;EE IS;;
-chalciporus_piperatus;Chalciporus piperatus;Перечный гриб;;;narrow;4.0;BY IS LT;;
-fistulina_hepatica;Fistulina hepatica;Печёночница обыкновенная;;;narrow;4.0;AL AU BA BE BG GB GE GR HR IE MD NL PT US;;
-lentinus_sp;Lentinus sp.;Пилолистники;;;broad;3.0;MX UZ;;
-podaxis_pistillaris;Podaxis pistillaris;Подаксис пестичный;;;narrow;4.0;AU TM;;
-clitopilus_prunulus;Clitopilus prunulus;Подвишень;;;narrow;4.0;BE BY FR GE HR RS SI;;
-entoloma_clypeatum;Entoloma clypeatum;Подкарагачник;;;narrow;4.0;HR KZ RS;;
-lactifluus_volemus;Lactifluus volemus;Подмолочник;;;narrow;4.0;AT AZ BG BY DE JP LV PL RO RS SE SI SK TR UA;;
-leccinum_aurantiacum__2;Leccinum aurantiacum;Подосиновик;;;narrow;5.0;AM BG BY EE GE LT NO RO SE;;
-bovista_plumbea;Bovista plumbea;Порховка свинцово-серая;;;broad;3.0;AM MK TJ TM TR UZ;;
-terfezia_boudieri;Terfezia sp.;Пустынный трюфель;;;broad;5.0;AZ CY ES KZ PT TJ TM TR UZ;;
-ramaria_flava;Ramaria sp.;Рогатики;;;broad;5.0;MX US;;
-lactarius_deterrimus;Lactarius deterrimus;Рыжик еловый;;;narrow;4.0;AM AT BA CZ DE DK EE FI KG LU MK NO RS SE;;
-tricholoma_terreum;Tricholoma terreum;Рядовка землистая;;;narrow;4.0;AL AM BA BG CY ES FR GR HU IT ME MK PT TR;;
-tricholoma_populinum;Tricholoma populinum;Рядовка тополёвая;;;narrow;4.0;KG KZ TJ TM UA UZ;;
-collybia_nuda;Collybia nuda;Рядовка фиолетовая;;;narrow;4.0;AM AZ CA DE JP MD PL SK TM TR US;;
-tricholoma_sejunctum;Tricholoma sp.;Рядовки;;;broad;3.0;BY;;
-sarcoscypha_austriaca;Sarcoscypha austriaca;Саркосцифа;;;mid;3.0;GB;;
-lepista_personata;Lepista personata;Синеножка;;;narrow;4.0;AM GB HU IE KG KZ MD TJ TM UZ;;
-morchella_esculenta__2;Morchella esculenta;Сморчки;;;mid;5.0;AT BY GE RS SE SI;;
-verpa_bohemica;Verpa bohemica;Сморчковая шапочка;;;narrow;4.0;HU KG LV TJ TM TR UZ;;
-morchella_steppicola;Morchella steppicola;Сморчок степной;;;narrow;4.0;KZ RS TJ TM UZ;;
-gyromitra_esculenta;Gyromitra esculenta;Строчки;;;narrow;5.0;AL AM AT AZ BA BY CH CZ DE DK EE ES FI FR GR HU IT LT LU MK NO PL RO RS SE SK TM TR UA UZ;;
-russula_xerampelina;Russula xerampelina;Сыроежка буреющая;;;narrow;3.0;DK FI IS SE;;
-russula_aeruginea;Russula aeruginea;Сыроежка зеленая;;;narrow;4.0;EE FI GE IS NO SE;;
-russula_virescens;Russula virescens;Сыроежка зеленоватая;;;narrow;5.0;AL AZ BA BG CH CZ ES FR GE GR IT LU ME MK RO RS SK;;
-russula_aurea;Russula aurea;Сыроежка золотистая;;;narrow;3.0;RO;;
-russula_emetica;Russula emetica;Сыроежка рвотная;;;narrow;4.0;BG CY DE IT LT ME PL RS SI UA;;
-russula_decolorans;Russula decolorans;Сыроежка сереющая;;;narrow;4.0;EE FI NO;;
-fomitopsis_betulina;Fomitopsis betulina;Трутовик берёзовый;;;narrow;4.0;CA GB UZ;;
-fomes_fomentarius;Fomes fomentarius;Трутовик настоящий;;;narrow;4.0;AM CA GB GE LT TJ UZ;;
-ganoderma_applanatum;Ganoderma applanatum;Трутовик плоский;;;narrow;4.0;CA CY UZ;;
-trametes_versicolor;Trametes versicolor;Трутовик разноцветный;;;narrow;4.0;CA GB NZ TJ UZ;;
-laetiporus_sulphureus;Laetiporus sulphureus;Трутовик серно-жёлтый;;;narrow;5.0;AL AM AZ BE BG CA CY CZ DK GB GR HR HU IE LT LU LV MD ME MK MX NL PL RS SK TJ TM TR UA UZ;;
-cerioporus_squamosus;Cerioporus squamosus;Трутовик чешуйчатый;;;narrow;4.0;AM AZ GB GE KG KZ MD NL RO RS SK TJ TM TR US UZ;;
-tuber_aestivum;Tuber aestivum;Трюфель летний;;;narrow;5.0;AL AZ BA CH ES GR HU IT ME MK RO RS;;
-phaeolepiota_aurea;Phaeolepiota aurea;Феолепиота золотистая;;;narrow;3.0;EE;;
-chlorophyllum_brunneum;Chlorophyllum brunneum;Хлорофиллум бурый;;;narrow;5.0;AU CH HU TJ TM;;
-amanita_caesarea;Amanita caesarea;Цезарский гриб;;;narrow;5.0;AL AM AZ BA BG CH CY ES FR GE GR HR IT MD ME MK PT RO RS TR;;
-lactarius_necator;Lactarius necator;Чёрный груздь;;;narrow;4.0;BY EE LV;;
-agaricus_bitorquis;Agaricus bitorquis;Шампиньон двукольцовый;;;narrow;3.0;CY EE NL TJ TM UZ;;
-agaricus_bisporus;Agaricus bisporus;Шампиньон двуспоровый;;;narrow;5.0;KR TJ;;
-agaricus_xanthodermus;Agaricus xanthodermus;Шампиньон желтокожий;;;narrow;5.0;AL AM AT AU AZ BA BE BG CH CY CZ DE DK ES FR GB GR HR HU IE IT KG KZ LU MD ME MK NL NO PL PT RO RS SI SK TJ TM UA UZ;;
-agaricus_macrosporus;Agaricus macrosporus;Шампиньон крупноспоровый;;;narrow;5.0;ME MK RS TM;;
-agaricus_campestris__2;Agaricus campestris;Шампиньон обыкновенный;;;narrow;5.0;AL AT AU BA BE CH CY CZ DE DK ES FR GB GR HR IE IS IT LU ME MK NL NO NZ PT RO TM TR;;
-agaricus_sylvaticus;Agaricus sylvaticus;Шампиньон перелесковый;;;narrow;4.0;BA EE GE KG RO TJ;;
-agaricus_arvensis;Agaricus arvensis;Шампиньон полевой;;;narrow;5.0;AM BA BE CY DK FI FR GB GR IE IS KG KR LU NL NO PT RO RS SE TJ TM;;
-schizophyllum_commune;Schizophyllum commune;Щелелистник обыкновенный;;;narrow;4.0;AU MX TM UZ;;
-entoloma_rhodopolium;Entoloma rhodopolium;Энтолома серо-розовая;;;narrow;5.0;JP KR MD;;
-entoloma_sinuatum;Entoloma sinuatum;Энтолома ядовитая;;;narrow;5.0;AL AM AZ BA BE BG CH DK ES FR GR HU IT KG KZ LU MD ME MK NO PT RO RS SI TJ TM TR UZ;;
+boletus_edulis;Boletus edulis;Белый гриб;да;да;mid;5.0;AL AM AT AZ BA BE BG BY CA CH CZ DE DK EE ES FI FR GB GE GR HR HU IE IS IT KG KZ LT LU LV MD ME MK MX NL NO NZ PL PT RO RS RU SE SI SK TR UA US;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactarius_pubescens;Lactarius pubescens;Белянка;да;;narrow;3.0;KZ RU;base;"[Л] общие сводки и определители, отдельно не перепроверялось; спутник берёзы; ДВ не подтверждён, порог 4 из 6 набран без него"
+amanita_phalloides;Amanita phalloides;Бледная поганка;да;;narrow;5.0;AL AM AT AU AZ BA BE BG BY CA CH CY CZ DE DK EE ES FI FR GB GE GR HR HU IE IT KG KR KZ LT LU LV MD ME MK NL NO NZ PL PT RO RS RU SE SI SK TJ TR UA US UZ;base;"[П] Федоренко, 2023, Turczaninowia: находки в Пензенской, Саратовской, Самарской обл., Чувашии, Татарстане; СЗ, юг, Урал [Л]; в Сибири и на ДВ находки единичны или сомнительны"
+russula_foetens;Russula foetens;Валуй;да;да;narrow;4.0;BY EE GE MD RU;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactarius_torminosus;Lactarius torminosus;Волнушка;да;да;narrow;4.0;AZ BY CY FI GE IS IT KG KZ LT LV PL RS RU SI UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+pleurotus_ostreatus;Pleurotus ostreatus;Вёшенка;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CA CH CY CZ DE DK ES FR GB GE GR HR HU IE IT JP KG KR KZ LT LU LV MD ME MK NL NO PL PT RO RS RU SE SI SK TJ TM TR UA US UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+galerina_marginata;Galerina marginata;Галерина окаймлённая;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CA CH CY CZ DE DK ES FI FR GB GR HU IE IS KZ LT LU LV MD ME MK NL NO PL PT RO RS RU SE SI SK TJ UA US UZ;base;"[Л] + Ховпачев и др., 2022, Токсикол. вестник 30(2), сводка БИН РАН по регионам (картосхема); видовой комплекс, широко распространён"
+lactarius_trivialis;Lactarius trivialis;Гладыш;да;да;narrow;5.0;BY FI LV NO RU;base;"[Л] общие сводки и определители, отдельно не перепроверялось; бореальный вид; ДВ не подтверждён, порог набран без него"
+lactarius_rufus;Lactarius rufus;Горькушка;да;да;narrow;5.0;BY EE FI LV RU SE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactarius_scrobiculatus;Lactarius scrobiculatus;Груздь жёлтый;да;;narrow;3.0;GE KZ LV RU;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactarius_resimus;Lactarius resimus;Груздь настоящий;да;да;mid;5.0;BY KZ RU UA;base;"[Л] общие сводки и определители, отдельно не перепроверялось; особенно обычен в Поволжье, на Урале и в Сибири"
+lycoperdon_perlatum;Lycoperdon sp.;Дождевик;да;;broad;4.0;AL AM AZ BA BY CA CY GB HR IE IS KG KZ LV NL RU TJ TM UZ;base;"род/семейство Lycoperdon: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+suillellus_luridus;Suillellus luridus;Дубовик;да;;narrow;4.0;AM AT AZ BY CZ DE EE GE LT LV PT RO RU SE SK UA;nw center south;"[Л] СЗ (в т.ч. Ленинградская обл.), центр, Кавказ; Урал, Сибирь, ДВ не подтверждены — если подтвердятся два из трёх, вид уходит в base"
+hydnum_repandum;Hydnum repandum;Ежовик жёлтый;да;;mid;5.0;AL AM AT AZ BA BE BG BY CA CH CZ DE DK EE ES FI FR GB GR HR HU IE IS IT LU MD ME MK NL NO PL PT RO RS RU SE SI SK TR UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+tylopilus_felleus;Tylopilus felleus;Желчный гриб;да;;narrow;5.0;AM AT BE BG BY CH CY CZ DE DK EE FI HU IT KG KZ LT LV MD NO PL RU SI SK UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+tricholoma_equestre;Tricholoma equestre;Зеленушка;да;;narrow;4.0;BG BY CA CY DE DK EE ES KZ LT LV NO PL PT RU UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+macrolepiota_procera;Macrolepiota procera;Зонтик пёстрый;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CH CY CZ DE DK EE ES FI FR GB GE GR HR HU IE IT KG KR KZ LT LU LV MD ME MK MX NL NO PL PT RO RS RU SE SI SK TJ TM TR UA US UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+suillus_bovinus;Suillus bovinus;Козляк;да;да;narrow;4.0;BY DK IS JP LT NL PL PT RU;base;"[Л] общие сводки и определители, отдельно не перепроверялось; в пределах ареала сосны обыкновенной; юг только в посадках"
+cortinarius_caperatus;Cortinarius caperatus;Колпак кольчатый;да;;narrow;5.0;AT BG BY CH EE FI FR HR IT JP LT MK NO PL RU SE SI UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+cantharellus_cibarius;Cantharellus cibarius;Лисичка;да;да;mid;5.0;AL AM AT AZ BA BE BG BY CH CZ DE DK EE ES FI FR GB GE GR HR HU IE IS IT KG KR KZ LT LU LV MD ME MK MX NL NO PL PT RO RS RU SE SI SK TR UA;base;"[Л] общие сводки и определители, отдельно не перепроверялось; в Сибири и на ДВ часть находок, вероятно, относится к другим видам Cantharellus"
+craterellus_tubaeformis;Craterellus tubaeformis;Лисичка трубчатая;да;;narrow;5.0;BE CA CH CZ DE DK EE FI FR GB IE LU LV NL NO RU SE TR US;base;[Л] общие сводки и определители, отдельно не перепроверялось
+hygrophoropsis_aurantiaca;Hygrophoropsis aurantiaca;Ложная лисичка;да;;narrow;4.0;AL AT AZ BE BG BY CA CH DE DK EE FI FR GB GR IE KG KZ LU LV MD ME MK NL NO PL PT RU SE UA US;base;[Л] общие сводки и определители, отдельно не перепроверялось
+hypholoma_lateritium;Hypholoma lateritium;Ложноопёнок кирпично-красный;да;;narrow;4.0;GE JP KR RU;base;[Л] общие сводки и определители, отдельно не перепроверялось
+hypholoma_fasciculare;Hypholoma fasciculare;Ложноопёнок серно-жёлтый;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CA CH CZ DE DK FI GE GR HR IE IT JP KG KR KZ LT LU MD ME MK NL NO PL PT RO RU SI SK TJ UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+suillus_luteus__2;Suillus sp.;Маслёнок;да;да;broad;5.0;BA CA HR IT KG KR KZ MX RU SI SK;base;"род/семейство Suillus: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+gomphidius_glutinosus;Gomphidius glutinosus;Мокруха еловая;да;;narrow;3.0;BG CZ DE EE HR IS NO RU SI;base;[Л] общие сводки и определители, отдельно не перепроверялось
+xerocomus_subtomentosus;Xerocomus subtomentosus;Моховик;да;да;narrow;4.0;AT HU IS KG LT PL RO RU SK;base;[Л] общие сводки и определители, отдельно не перепроверялось
+amanita_virosa;Amanita virosa;Мухомор вонючий;да;;narrow;5.0;AT BA BE BG BY CH DE DK EE FI FR GB HR IE IT JP KR KZ LT LU LV NO PL RU SE SI SK UA;base;"[Л] + Ховпачев и др., 2022, Токсикол. вестник 30(2), сводка БИН РАН по регионам (картосхема); бореальный вид"
+amanita_muscaria;Amanita muscaria;Мухомор красный;да;;narrow;5.0;AL AM AT AU AZ BA BE BG BY CA CH CZ DE DK EE ES FI FR GB GE GR HR HU IE IS IT JP KG KZ LT LU LV MD ME MK MX NL NO NZ PL PT RO RS RU SE SI SK TJ TR UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+amanita_pantherina;Amanita pantherina;Мухомор пантерный;да;;narrow;5.0;AL AM AT AZ BA BE BG BY CH CY CZ DE DK EE ES FI FR GB GE GR HR HU IE IT JP KG KR KZ LT LU LV MD ME MK MX NL NO PL PT RS RU SE SI SK TJ UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+coprinus_comatus;Coprinus comatus;Навозник белый;да;;narrow;5.0;AL AM AT AU AZ BA BE BG BY CA CH CY DE DK EE ES FI FR GB GE GR HR HU IE IS IT KG KR KZ LU LV MD ME MK MX NL NO NZ PL PT RO RS RU SE SI SK TJ TM TR UA US UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+flammulina_velutipes;Flammulina velutipes;Опёнок зимний;да;;narrow;5.0;AM AT AZ BG BY CZ DE DK GB HR HU IE JP KR KZ LV MD ME NL NZ RS RU SI TJ TM TR UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+kuehneromyces_mutabilis;Kuehneromyces mutabilis;Опёнок летний;да;да;narrow;4.0;AT BA BE BY CH CZ DE DK EE FI HR IS KZ LT LU LV NL NO PL RU SE SI UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+marasmius_oreades;Marasmius oreades;Опёнок луговой;да;;narrow;5.0;AL AM AT AU AZ BA BE BG CA CH CY CZ DE DK EE ES FR GB GE GR HR HU IE KG KZ LU MD ME MK MX NL NO NZ PL RO RS RU SE SK TJ TM TR UA US UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+armillaria_mellea;Armillaria mellea;Опёнок осенний;да;;mid;5.0;AL AM AT AZ BA BE BG BY CA CH CY CZ DE DK EE GB GE GR HR HU IE IS IT JP KG KZ LT LU LV MD ME MK MX NL PL PT RO RS RU SI SK TJ TM UA US;base;"[Л] общие сводки и определители, отдельно не перепроверялось; строго A. mellea s.str. тяготеет к югу и к широколиственным лесам; в Сибири и на СЗ преобладают A. borealis/ostoyae; русское название собирательное"
+leccinum_scabrum;Leccinum scabrum;Подберёзовик;да;да;mid;5.0;AM AT BE BG BY CH CZ DE DK FI FR GE IE IS KG KZ LT LU LV MD NL NO NZ PL RO RU SE SI SK UA;base;[П] БРЭ, статья «Обабок»: европейская часть, Урал, Сибирь, Дальний Восток
+russula_delica;Russula delica;Подгруздок белый;да;да;narrow;4.0;AL AM AZ BY CY EE GE GR KG KZ LT RU TR;base;[Л] общие сводки и определители, отдельно не перепроверялось
+russula_nigricans;Russula nigricans;Подгруздок чёрный;да;;narrow;3.0;KG RU;base;[Л] общие сводки и определители, отдельно не перепроверялось
+leccinum_aurantiacum;Leccinum aurantiacum;Подосиновик;да;да;mid;5.0;AT BE CA CH HR IT KR KZ LU LV MD NL PL RU SK UA;base;"[Л] общие сводки и определители, отдельно не перепроверялось; спутник осины; дубль — leccinum_aurantiacum__2"
+imleria_badia;Imleria badia;Польский гриб;да;да;narrow;5.0;AT AZ BA BE BY CH CZ DE DK ES FR GB HU IE LT LU LV NL NO PL PT RO RU SE SI SK TR UA;base;"[Л] общие сводки и определители, отдельно не перепроверялось; СЗ, центр, Кавказ, Урал; в Сибири редок"
+amanita_vaginata;Amanita vaginata;Поплавок серый;да;;narrow;4.0;AZ FR IS MD RU SI TR;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactarius_deliciosus;Lactarius deliciosus;Рыжик;да;да;mid;5.0;AL AM AT AU AZ BA BE BG BY CH CY CZ DE EE ES FR GE GR HR HU IE IT KG KZ LT LV MD ME MK MX NO NZ PL PT RO RS RU SE SI SK TR UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+tricholoma_portentosum;Tricholoma portentosum;Рядовка серая;да;;narrow;4.0;BG BY CZ ES FI FR GE JP KZ LT MD NO PL PT RU SK UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lepista_nuda;Lepista nuda;Рядовка фиолетовая;да;;narrow;5.0;AL AU BA BE BY CH CY CZ DK FR GB GR HR HU IE KG LU ME MK NL NO NZ PT RU SI TJ UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+rubroboletus_satanas;Rubroboletus satanas;Сатанинский гриб;да;;narrow;5.0;AL AM AT AZ BA BE BG CH CY CZ DE ES FR GR HR HU IT LU MD ME MK PL RS RU SI SK UA;south;"[Л] Кавказ, Краснодарский край, Крым; сообщения из центра и Поволжья нередко относятся к другим Rubroboletus — не подтверждено"
+paxillus_involutus;Paxillus involutus;Свинушка тонкая;да;;narrow;5.0;AT BE BY CH CZ DE DK EE ES FI GB GR HU IE IS KG KZ LT LU LV NL NO NZ PL PT RU SE SI SK UA US;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactarius_flexuosus;Lactarius flexuosus;Серушка;да;;narrow;3.0;RU;nw center;"[Л] СЗ и центр; Урал и Сибирь не подтверждены"
+lactifluus_vellereus;Lactifluus vellereus;Скрипица;да;да;narrow;4.0;AM BY GE KG LV RU TR;base;[Л] общие сводки и определители, отдельно не перепроверялось
+morchella_esculenta;Morchella sp.;Сморчок;да;;broad;5.0;AL AM AZ BA BE BG CA CH CY CZ DE ES FI FR GB GR HR HU IS IT KG KZ LT LU LV MD ME MK MX NL NO NZ PL PT RO RS RU SK TJ TM TR UA US UZ;base;"род/семейство Morchella: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+gyromitra_esculenta__2;Gyromitra sp.;Строчок;да;;broad;5.0;CA KG KZ LV RU TJ US;base;"род/семейство Gyromitra: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+russula_cyanoxantha;Russula sp.;Сыроежка;да;да;broad;5.0;AL AM AZ BA BY CA EE GR HU KG KZ LT LV MD ME MK PL RS RU SI SK UA US;base;"род/семейство Russula: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+inonotus_obliquus;Inonotus obliquus;Чага;да;;narrow;4.0;BY CA KZ LT RU;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactarius_turpis;Lactarius turpis;Чернушка;да;да;narrow;4.0;FI KZ LT RU;base;[Л] общие сводки и определители, отдельно не перепроверялось
+agaricus_campestris;Agaricus sp.;Шампиньон;да;;broad;5.0;AM AZ BY EE GE HU KG KZ LT LV MD MX PL RU SI SK TJ UA UZ;base;"род/семейство Agaricus: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+albatrellus_ovinus;Albatrellus ovinus;Альбатреллус овечий;;;narrow;4.0;CA CH EE FI HR LV NO SE SI;base;[Л] общие сводки и определители, отдельно не перепроверялось
+boletus_aereus;Boletus aereus;Белый гриб бронзовый;;;narrow;5.0;AL AZ BA CH ES FR GR LU ME MK PT RO RS;unknown;"в популярных источниках упоминается Кавказ, первичных находок не найдено; вероятно south или absent — кандидат на ручную проверку"
+boletus_reticulatus;Boletus reticulatus;Белый гриб сетчатый;;;narrow;5.0;AL AZ BA CZ ES GR LU ME MK PT RS SE;center south;"[Л] широколиственные леса центра, Поволжья, Кавказа; СЗ и ДВ не подтверждены"
+boletaceae;Boletaceae;Болетовые;;;broad;5.0;EE;base;"род/семейство Boletaceae: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+russula_paludosa;Russula paludosa;Болотная сыроежка;;;narrow;4.0;EE FI SE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+caloboletus_calopus;Caloboletus calopus;Боровик красивоножковый;;;narrow;3.0;AZ CY DE IE SI;nw center south;"[Л] уверенность средняя; Урал, Сибирь, ДВ не подтверждены"
+phallus_impudicus;Phallus impudicus;Весёлка обыкновенная;;;narrow;3.0;BY GB LT NL UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+inosperma_erubescens;Inosperma erubescens;Волоконница Патуйяра;;;narrow;5.0;AM BA BE CH ES KG KZ LU LV ME PT SI SK TJ TM UZ;south;"[Л] юг европейской части и Кавказ; сообщения из центра не подтверждены"
+inosperma_adaequatum;Inosperma adaequatum;Волоконница краснеющая;;;narrow;4.0;MD;unknown;"региональных данных не найдено; русское название, вероятно, ошибочно — см. отчёт"
+pseudosperma_rimosum;Pseudosperma rimosum;Волоконница трещиноватая;;;narrow;4.0;AZ MD NL TJ TM;base;[Л] общие сводки и определители, отдельно не перепроверялось
+volvariella_bombycina;Volvariella bombycina;Вольвариелла шелковистая;;;narrow;5.0;MX TM;base;"[Л] общие сводки и определители, отдельно не перепроверялось; редкий, в ряде региональных Красных книг; уверенность средняя"
+craterellus_cornucopioides;Craterellus cornucopioides;Вороночник рожковидный;;;narrow;5.0;AL AM AT BA BE BG CH CZ DE DK EE ES FI FR GE GR HR HU IE IT LT LU LV ME MK NO PL PT RO RS SE SI SK TR UA;base;"[Л] общие сводки и определители, отдельно не перепроверялось; редкий на СЗ, на Урале и в Сибири; уверенность средняя"
+pleurotus_cornucopiae;Pleurotus cornucopiae;Вёшенка рожковидная;;;narrow;3.0;GE TJ TM;base;"[Л] общие сводки и определители, отдельно не перепроверялось; европейская часть, Кавказ, юг Сибири, ДВ; уверенность средняя"
+pleurotus_eryngii;Pleurotus eryngii;Вёшенка степная;;;narrow;5.0;AL AM AZ CY ES GR HU IT KG KR KZ ME MK TJ TM TR UZ;center south;"[Л] степи юга и Нижнего Поволжья; Оренбургская обл. возможна — не подтверждено; поиск дал только находки в Казахстане"
+hebeloma_crustuliniforme;Hebeloma crustuliniforme;Гебелома клейкая;;;narrow;4.0;MD;base;[Л] общие сводки и определители, отдельно не перепроверялось
+hygrophorus_hypothejus;Hygrophorus hypothejus;Гигрофор поздний;;;narrow;3.0;BG;base;[Л] общие сводки и определители, отдельно не перепроверялось
+hygrophorus_camarophyllus;Hygrophorus camarophyllus;Гигрофор черный;;;narrow;3.0;EE FI NO;base;[Л] общие сводки и определители, отдельно не перепроверялось
+gyroporus_cyanescens;Gyroporus cyanescens;Гиропорус синеющий;;;narrow;4.0;HR LV PL US;base;"[Л] общие сводки и определители, отдельно не перепроверялось; редкий, в ряде региональных Красных книг (Урал, Сибирь, СЗ)"
+leucocybe_candicans;Leucocybe candicans;Говорушка беловатая;;;narrow;5.0;AZ KG KZ MD;base;"[Л] общие сводки и определители, отдельно не перепроверялось; мелкий вид, часто пропускается; уверенность средняя"
+clitocybe_dealbata;Clitocybe dealbata;Говорушка восковатая;;;narrow;5.0;AM ME MK RO RS SI;base;"[Л] общие сводки и определители, отдельно не перепроверялось; часто считается синонимом C. rivulosa (см. отчёт)"
+clitocybe_rivulosa;Clitocybe rivulosa;Говорушка выбеленная;;;narrow;5.0;BE CY DK ES GB GR HU IE IS LU NL TJ TM UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+clitocybe_nebularis;Clitocybe nebularis;Говорушка дымчатая;;;narrow;4.0;BE FR HU IT NL SK;base;[Л] общие сводки и определители, отдельно не перепроверялось
+infundibulicybe_geotropa;Infundibulicybe geotropa;Говорушка подогнутая;;;narrow;4.0;AL CY ES FR GR HR IE IT TJ TM TR UZ;center south;"[Л] уверенность средняя; СЗ, Урал, Сибирь не подтверждены"
+calvatia_gigantea;Calvatia gigantea;Головач гигантский;;;narrow;5.0;AM AT BE CA CZ DE DK EE GB HR HU IE IT KG KZ LT LV MD NL NZ RO RS SK TJ TM UA US UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+calvatia_cyathiformis;Calvatia cyathiformis;Головач лиловый;;;broad;4.0;MX TM;center south;"[Л] степной вид; Оренбуржье и юг Сибири возможны — не подтверждено; уверенность низкая"
+leccinellum_pseudoscabrum;Leccinellum pseudoscabrum;Грабовик;;;narrow;4.0;AM AZ BG HU LU PL;nw center south;"[П] Ломоносов-2017 (тезисы): первая находка в естественном лесу Ленинградской обл. (LE 311852), регулярно в парках Петербурга; Кавказ и центр [Л]"
+grifola_frondosa;Grifola frondosa;Гриб-баран;;;narrow;5.0;BE CA GB HR JP KR NL TR US UZ;base;"[П] Красная книга Вологодской обл. (указано: внесён в Красные книги РСФСР и Коми); центр, Кавказ, Приморье [Л]; редкий, в base по правилу 4 из 6"
+chlorophyllum_rhacodes;Chlorophyllum rhacodes;Гриб-зонтик краснеющий;;;mid;4.0;AZ BA BE CA DK EE GB IE IT LU LV ME NL NZ PT RS SK US;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactifluus_piperatus;Lactifluus piperatus;Грузди;;;narrow;4.0;AL AM AZ BA BG GE HU KG LT MD ME MK RO RS TR UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lycoperdon_perlatum__2;Lycoperdon perlatum;Дождевики;;;narrow;4.0;CZ KR LT LU SI UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+neoboletus_erythropus;Neoboletus erythropus;Дубовик;;;narrow;5.0;AT BE CH DE DK FR GE LU MD ME NL SI;base;[Л] общие сводки и определители, отдельно не перепроверялось
+sarcodon_imbricatus;Sarcodon imbricatus;Ежовик пёстрый;;;narrow;3.0;SI TR;base;[Л] общие сводки и определители, отдельно не перепроверялось
+hydnum_sp;Hydnum sp.;Ежовики;;;broad;4.0;LT LV US;base;"род/семейство Hydnum: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+auricularia_auricula_judae;Auricularia auricula-judae;Иудино ухо;;;narrow;4.0;AT BA BE CZ DK GB HR HU IE MD MK NL TJ UA UZ;south;"[Л] Кавказ, Крым; дальневосточные указания, вероятно, относятся к A. heimuer и др.; уверенность средняя"
+gyroporus_castaneus;Gyroporus castaneus;Каштановый гриб;;;narrow;3.0;HR LT US;unknown;данные противоречивы (СЗ, центр, Кавказ по разным источникам), подтверждения не найдено
+laccaria_laccata;Laccaria laccata;Лаковица;;;narrow;4.0;HR MX;base;[Л] общие сводки и определители, отдельно не перепроверялось
+laccaria_amethystina;Laccaria amethystina;Лаковица аметистовая;;;narrow;3.0;GB HR IE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lepiota_cristata;Lepiota cristata;Лепиота гребенчатая;;;narrow;5.0;MD SI TM UZ;base;[П] Ховпачев и др., 2022, Токсикол. вестник 30(2), сводка БИН РАН по регионам: вид указан как широко распространённый в России
+lepiota_brunneoincarnata;Lepiota brunneoincarnata;Лепиота коричнево-красная;;;narrow;5.0;AL AM AZ CH CY FR GR KG KZ MK NO PT TJ TM TR UZ;base;"[П] Ховпачев и др., 2022, Токсикол. вестник 30(2), сводка БИН РАН по регионам: Астраханская, Белгородская, Московская, Пензенская, Оренбургская, Ростовская обл., Крым, КБР, юг Красноярского края, ЕАО; редкий, в base по правилу 4 из 6"
+echinoderma_asperum;Echinoderma asperum;Лепиота шероховатая;;;narrow;4.0;EE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+craterellus_lutescens;Craterellus lutescens;Лисичка желтеющая;;;narrow;4.0;AL ES FI FR GR IT NO SE;unknown;подтверждённых находок в России не найдено
+scleroderma_citrinum;Scleroderma citrinum;Ложнодождевик;;;narrow;4.0;AM AT BE DK GB IE KG LU NL PL PT SK TJ TM UA US UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+calocybe_gambosa;Calocybe gambosa;Майский гриб;;;narrow;5.0;AL AM AT AZ BA BE BG CH CZ DE DK ES FR GB GE GR HR HU IE IT KG KZ LT LU MD ME MK RO RS SI SK TJ TM TR UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+suillus_luteus;Suillus luteus;Маслята;;;narrow;5.0;AM AT AU AZ BE BG BY CH CY CZ DE DK EE ES FI FR IE IS JP LT LV ME MK NL NO NZ PL RO SE UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+suillus_variegatus;Suillus variegatus;Маслёнок жёлто-бурый;;;narrow;4.0;AT BY DK FI IS LT LV NO PL SE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+suillus_granulatus;Suillus granulatus;Маслёнок зернистый;;;narrow;5.0;AL AM AZ CY CZ DE GR HU KG MD ME MK RO RS SE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+suillus_grevillei;Suillus grevillei;Маслёнок лиственничный;;;narrow;4.0;AT CH CZ DE IE IS JP LU NL PL RO;base;[Л] общие сводки и определители, отдельно не перепроверялось
+tricholoma_matsutake;Tricholoma matsutake;Мацутакэ;;;narrow;5.0;FI JP KR SE;nw siberia fareast;"[П] Смирнов, «Наука и жизнь» №6/2022: находки в Выборгском р-не Ленинградской обл.; Сибирь и ДВ [Л]; с Урала данных не найдено"
+lactarius_camphoratus;Lactarius camphoratus;Млечник камфорный;;;narrow;3.0;FI;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactarius_helvus;Lactarius helvus;Млечник серо-розовый;;;narrow;3.0;EE FI NO;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactarius_thyinos;Lactarius sp.;Млечники;;;broad;5.0;CA US;base;"род/семейство Lactarius: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+chroogomphus_rutilus;Chroogomphus rutilus;Мокруха пурпуровая;;;narrow;3.0;CY HR MD TR;base;[Л] общие сводки и определители, отдельно не перепроверялось
+xerocomellus_chrysenteron;Xerocomellus chrysenteron;Моховики;;;mid;5.0;AZ BY CZ LU LV MD PT UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+amanita_verna;Amanita verna;Мухомор весенний;;;narrow;5.0;AL BA BG ES GR HR HU JP KG KR ME MK PT SK UZ;south;"[П] Ховпачев и др., 2022, Токсикол. вестник 30(2), сводка БИН РАН по регионам: назван «южным видом», распространён в России; региональный перечень только на картосхеме (не извлечён); центр возможен — не подтверждено"
+amanita_regalis;Amanita regalis;Мухомор королевский;;;narrow;4.0;FI LV NO SE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+amanita_citrina;Amanita citrina;Мухомор поганковидный;;;narrow;4.0;BE GE HU LT MD NL PL;base;[Л] общие сводки и определители, отдельно не перепроверялось
+amanita_rubescens;Amanita rubescens;Мухомор серо-розовый;;;narrow;5.0;AL AT AZ BA BE BG CH CZ DE DK FR GE GR HR HU IE KR LU MD ME MK NL PT RS SI SK;base;[Л] общие сводки и определители, отдельно не перепроверялось
+amanita_bisporigera;Amanita bisporigera;Мухоморы;;;broad;5.0;MX US;absent;"североамериканский вид; в России не указывается. Русское название «Мухоморы» собирательное и к этой латыни не подходит — см. отчёт"
+coprinus_sp;Coprinus sp.;Навозник;;;broad;3.0;EE;base;"род/семейство Coprinus: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+coprinellus_micaceus;Coprinellus micaceus;Навозник мерцающий;;;narrow;3.0;TM TR;base;[Л] общие сводки и определители, отдельно не перепроверялось
+coprinopsis_atramentaria;Coprinopsis atramentaria;Навозник серый;;;narrow;4.0;BE EE GB GE IE IS KG KR LV NL SK TJ TM US UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+omphalotus_olearius;Omphalotus olearius;Омфалот маслиновый;;;narrow;5.0;AL AM BA BG CH CY ES FR GR HR HU IT ME MK PT RS SI TJ TR;south;"[П] Википедия и справочные сайты: в России очень редко, преимущественно Крым; первичного источника не найдено"
+armillaria_borealis;Armillaria borealis;Опята осенние;;;mid;5.0;FI;base;[Л] общие сводки и определители, отдельно не перепроверялось
+cyclocybe_cylindracea;Cyclocybe cylindracea;Опёнок тополиный;;;narrow;4.0;AL AM ES HR IT MK PT UZ;south;"[Л] на тополях юга (Кубань, Крым, Ростовская обл.); уверенность низкая; вероятный дубль cyclocybe_aegerita"
+cyclocybe_aegerita;Cyclocybe aegerita;Опёнок тополиный;;;narrow;4.0;ME RS TJ TM;south;"[Л] см. cyclocybe_cylindracea — многими авторами синонимы; уверенность низкая"
+cortinarius_rubellus;Cortinarius rubellus;Паутинник красивейший;;;narrow;5.0;DK EE FI GB IE LT LV NO SE US;base;[Л] общие сводки и определители, отдельно не перепроверялось
+cortinarius_mucosus;Cortinarius mucosus;Паутинник слизистый;;;narrow;3.0;EE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+cortinarius_sp;Cortinarius sp.;Паутинники;;;broad;4.0;EE IS;base;"род/семейство Cortinarius: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+chalciporus_piperatus;Chalciporus piperatus;Перечный гриб;;;narrow;4.0;BY IS LT;base;[Л] общие сводки и определители, отдельно не перепроверялось
+fistulina_hepatica;Fistulina hepatica;Печёночница обыкновенная;;;narrow;4.0;AL AU BA BE BG GB GE GR HR IE MD NL PT US;center south;"[Л] дубравы центра, Поволжья, Кавказа; ДВ (дуб монгольский) возможен — не подтверждено"
+lentinus_sp;Lentinus sp.;Пилолистники;;;broad;3.0;MX UZ;base;"род/семейство Lentinus: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+podaxis_pistillaris;Podaxis pistillaris;Подаксис пестичный;;;narrow;4.0;AU TM;unknown;"пустынный вид; находок на территории России не найдено (есть в Средней Азии)"
+clitopilus_prunulus;Clitopilus prunulus;Подвишень;;;narrow;4.0;BE BY FR GE HR RS SI;base;[Л] общие сводки и определители, отдельно не перепроверялось
+entoloma_clypeatum;Entoloma clypeatum;Подкарагачник;;;narrow;4.0;HR KZ RS;base;[Л] общие сводки и определители, отдельно не перепроверялось
+lactifluus_volemus;Lactifluus volemus;Подмолочник;;;narrow;4.0;AT AZ BG BY DE JP LV PL RO RS SE SI SK TR UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+leccinum_aurantiacum__2;Leccinum aurantiacum;Подосиновик;;;narrow;5.0;AM BG BY EE GE LT NO RO SE;base;"дубль строки leccinum_aurantiacum; оценка совпадает"
+bovista_plumbea;Bovista plumbea;Порховка свинцово-серая;;;broad;3.0;AM MK TJ TM TR UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+terfezia_boudieri;Terfezia sp.;Пустынный трюфель;;;broad;5.0;AZ CY ES KZ PT TJ TM TR UZ;unknown;"род в России достоверно не подтверждён; найдены только данные по Турции и Средиземноморью"
+ramaria_flava;Ramaria sp.;Рогатики;;;broad;5.0;MX US;base;"род/семейство Ramaria: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+lactarius_deterrimus;Lactarius deterrimus;Рыжик еловый;;;narrow;4.0;AM AT BA CZ DE DK EE FI KG LU MK NO RS SE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+tricholoma_terreum;Tricholoma terreum;Рядовка землистая;;;narrow;4.0;AL AM BA BG CY ES FR GR HU IT ME MK PT TR;base;[Л] общие сводки и определители, отдельно не перепроверялось
+tricholoma_populinum;Tricholoma populinum;Рядовка тополёвая;;;narrow;4.0;KG KZ TJ TM UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+collybia_nuda;Collybia nuda;Рядовка фиолетовая;;;narrow;4.0;AM AZ CA DE JP MD PL SK TM TR US;base;"тот же вид, что lepista_nuda (Collybia nuda — актуальное название); оценка совпадает"
+tricholoma_sejunctum;Tricholoma sp.;Рядовки;;;broad;3.0;BY;base;"род/семейство Tricholoma: представлен во всех шести регионах [Л]; оценка по латыни из файла, см. отчёт о расхождении ключа"
+sarcoscypha_austriaca;Sarcoscypha austriaca;Саркосцифа;;;mid;3.0;GB;base;"[Л] общие сводки и определители, отдельно не перепроверялось; в России основная часть находок рода относится к S. austriaca"
+lepista_personata;Lepista personata;Синеножка;;;narrow;4.0;AM GB HU IE KG KZ MD TJ TM UZ;center south;"[Л] луга и степи центра и юга; Урал и Сибирь вероятны, не подтверждены"
+morchella_esculenta__2;Morchella esculenta;Сморчки;;;mid;5.0;AT BY GE RS SE SI;base;[Л] общие сводки и определители, отдельно не перепроверялось
+verpa_bohemica;Verpa bohemica;Сморчковая шапочка;;;narrow;4.0;HU KG LV TJ TM TR UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+morchella_steppicola;Morchella steppicola;Сморчок степной;;;narrow;4.0;KZ RS TJ TM UZ;center south;"[П] Аникин, 2015, Изв. Сарат. ун-та: находка в Саратовской обл., Красная книга Саратовской обл.; юг (Ростовская, Волгоградская обл.) [Л], не перепроверено; возможно Оренбургская обл. (urals) — не подтверждено"
+gyromitra_esculenta;Gyromitra esculenta;Строчки;;;narrow;5.0;AL AM AT AZ BA BY CH CZ DE DK EE ES FI FR GR HU IT LT LU MK NO PL RO RS SE SK TM TR UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+russula_xerampelina;Russula xerampelina;Сыроежка буреющая;;;narrow;3.0;DK FI IS SE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+russula_aeruginea;Russula aeruginea;Сыроежка зеленая;;;narrow;4.0;EE FI GE IS NO SE;base;[Л] общие сводки и определители, отдельно не перепроверялось
+russula_virescens;Russula virescens;Сыроежка зеленоватая;;;narrow;5.0;AL AZ BA BG CH CZ ES FR GE GR IT LU ME MK RO RS SK;base;"[Л] общие сводки и определители, отдельно не перепроверялось; европейская часть, Кавказ, Приморье; уверенность средняя"
+russula_aurea;Russula aurea;Сыроежка золотистая;;;narrow;3.0;RO;nw center south;"[Л] уверенность средняя; Сибирь не подтверждена"
+russula_emetica;Russula emetica;Сыроежка рвотная;;;narrow;4.0;BG CY DE IT LT ME PL RS SI UA;base;[Л] общие сводки и определители, отдельно не перепроверялось
+russula_decolorans;Russula decolorans;Сыроежка сереющая;;;narrow;4.0;EE FI NO;base;[Л] общие сводки и определители, отдельно не перепроверялось
+fomitopsis_betulina;Fomitopsis betulina;Трутовик берёзовый;;;narrow;4.0;CA GB UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+fomes_fomentarius;Fomes fomentarius;Трутовик настоящий;;;narrow;4.0;AM CA GB GE LT TJ UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+ganoderma_applanatum;Ganoderma applanatum;Трутовик плоский;;;narrow;4.0;CA CY UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+trametes_versicolor;Trametes versicolor;Трутовик разноцветный;;;narrow;4.0;CA GB NZ TJ UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+laetiporus_sulphureus;Laetiporus sulphureus;Трутовик серно-жёлтый;;;narrow;5.0;AL AM AZ BE BG CA CY CZ DK GB GR HR HU IE LT LU LV MD ME MK MX NL PL RS SK TJ TM TR UA UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+cerioporus_squamosus;Cerioporus squamosus;Трутовик чешуйчатый;;;narrow;4.0;AM AZ GB GE KG KZ MD NL RO RS SK TJ TM TR US UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+tuber_aestivum;Tuber aestivum;Трюфель летний;;;narrow;5.0;AL AZ BA CH ES GR HU IT ME MK RO RS;center south;"[П] Красная книга Московской обл. (упом. в Кр. кн. Вологодской обл.), ЭСБЕ: чернозёмная полоса; юг (Крым, Кавказ) [Л]"
+phaeolepiota_aurea;Phaeolepiota aurea;Феолепиота золотистая;;;narrow;3.0;EE;base;"[Л] общие сводки и определители, отдельно не перепроверялось; редкий, отмечен от СЗ до ДВ"
+chlorophyllum_brunneum;Chlorophyllum brunneum;Хлорофиллум бурый;;;narrow;5.0;AU CH HU TJ TM;unknown;"вид часто смешивают с C. rhacodes; отдельных данных по России не найдено"
+amanita_caesarea;Amanita caesarea;Цезарский гриб;;;narrow;5.0;AL AM AZ BA BG CH CY ES FR GE GR HR IT MD ME MK PT RO RS TR;south;"[П] БРЭ, «Цезарский гриб»: Северный Кавказ, Краснодарский край; на ДВ близкий вид A. caesareoides (Коваленко, 1979, трактует как один вид — спорно)"
+lactarius_necator;Lactarius necator;Чёрный груздь;;;narrow;4.0;BY EE LV;base;"синоним Lactarius turpis (строка lactarius_turpis); оценка совпадает"
+agaricus_bitorquis;Agaricus bitorquis;Шампиньон двукольцовый;;;narrow;3.0;CY EE NL TJ TM UZ;base;"[Л] общие сводки и определители, отдельно не перепроверялось; чаще в населённых пунктах; центр, юг, Урал, Сибирь; уверенность средняя"
+agaricus_bisporus;Agaricus bisporus;Шампиньон двуспоровый;;;narrow;5.0;KR TJ;unknown;дикие находки в России отмечаются, но надёжной региональной сводки не нашлось
+agaricus_xanthodermus;Agaricus xanthodermus;Шампиньон желтокожий;;;narrow;5.0;AL AM AT AU AZ BA BE BG CH CY CZ DE DK ES FR GB GR HR HU IE IT KG KZ LU MD ME MK NL NO PL PT RO RS SI SK TJ TM UA UZ;center south;"[Л] уверенность низкая; в основном парки и сады европейской части"
+agaricus_macrosporus;Agaricus macrosporus;Шампиньон крупноспоровый;;;narrow;5.0;ME MK RS TM;unknown;отдельных данных по России не найдено (синонимика с A. urinascens)
+agaricus_campestris__2;Agaricus campestris;Шампиньон обыкновенный;;;narrow;5.0;AL AT AU BA BE CH CY CZ DE DK ES FR GB GR HR IE IS IT LU ME MK NL NO NZ PT RO TM TR;base;[Л] общие сводки и определители, отдельно не перепроверялось
+agaricus_sylvaticus;Agaricus sylvaticus;Шампиньон перелесковый;;;narrow;4.0;BA EE GE KG RO TJ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+agaricus_arvensis;Agaricus arvensis;Шампиньон полевой;;;narrow;5.0;AM BA BE CY DK FI FR GB GR IE IS KG KR LU NL NO PT RO RS SE TJ TM;base;[Л] общие сводки и определители, отдельно не перепроверялось
+schizophyllum_commune;Schizophyllum commune;Щелелистник обыкновенный;;;narrow;4.0;AU MX TM UZ;base;[Л] общие сводки и определители, отдельно не перепроверялось
+entoloma_rhodopolium;Entoloma rhodopolium;Энтолома серо-розовая;;;narrow;5.0;JP KR MD;base;[Л] общие сводки и определители, отдельно не перепроверялось
+entoloma_sinuatum;Entoloma sinuatum;Энтолома ядовитая;;;narrow;5.0;AL AM AZ BA BE BG CH DK ES FR GR HU IT KG KZ LU MD ME MK NO PT RO RS SI TJ TM TR UZ;base;"[Л] общие сводки и определители, отдельно не перепроверялось; чаще в широколиственных лесах; уверенность средняя"

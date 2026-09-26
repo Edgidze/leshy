@@ -2,7 +2,9 @@ package leshy.mushrooms.map.i18n
 
 import androidx.compose.runtime.Composable
 import leshy.mushrooms.map.data.catalog.CountriesSource
+import leshy.mushrooms.map.data.catalog.SpeciesSetsSource
 import leshy.mushrooms.map.data.catalog.countryCodeForCollectionNameKey
+import leshy.mushrooms.map.data.catalog.speciesSetIdForCollectionNameKey
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Collection
 import leshy.mushrooms.map.domain.usecase.OTHER_COLLECTION_NAME_KEY
@@ -32,6 +34,11 @@ fun collectionDisplayName(collection: Collection): String =
 fun collectionDisplayName(collection: Collection, language: AppLanguage): String {
     collection.name?.let { return it }
     if (collection.nameKey == OTHER_COLLECTION_NAME_KEY) return string(StringKey.CollectionOtherName, language)
+    // Наборы редакции несут имя в своём же файле — как страны в `CountryNames`, и по той же
+    // причине: это контент, а не строки интерфейса (`i18n/CLAUDE.md`).
+    speciesSetIdForCollectionNameKey(collection.nameKey)?.let { setId ->
+        return getKoin().get<SpeciesSetsSource>().nameFor(setId, language) ?: setId
+    }
     val countryCode = countryCodeForCollectionNameKey(collection.nameKey) ?: return collection.nameKey
     val countryNames = getKoin().get<CountryNames>()
     return countryNames.namesFor(language)[countryCode]

@@ -3,6 +3,7 @@ package leshy.mushrooms.map.di
 import androidx.room.RoomDatabase
 import leshy.mushrooms.map.data.catalog.CatalogSource
 import leshy.mushrooms.map.data.catalog.CountriesSource
+import leshy.mushrooms.map.data.catalog.SpeciesSetsSource
 import leshy.mushrooms.map.data.local.LeshyDatabase
 import leshy.mushrooms.map.data.local.getRoomDatabase
 import leshy.mushrooms.map.data.repository.CatalogStateRepositoryImpl
@@ -35,7 +36,8 @@ val dataModule = module {
     single { CatalogSource() }
     single { MushroomNames() }
     single { MushroomAliases() }
-    single { CountriesSource(get()) }
+    single { CountriesSource() }
+    single { SpeciesSetsSource(get()) }
     single { CountryNames() }
     single { getRoomDatabase(get<RoomDatabase.Builder<LeshyDatabase>>()) }
     single { get<LeshyDatabase>().categoryDao() }

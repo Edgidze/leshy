@@ -1,0 +1,311 @@
+{
+  "country": "RU",
+  "defaults": [
+    "base"
+  ],
+  "sets": [
+    {
+      "id": "base",
+      "name": {
+        "ru": "Основные грибы",
+        "en": "Common mushrooms"
+      },
+      "keys": [
+        "boletus_edulis",
+        "lactarius_pubescens",
+        "russula_foetens",
+        "lactarius_torminosus",
+        "pleurotus_ostreatus",
+        "lactarius_trivialis",
+        "lactarius_rufus",
+        "lactarius_scrobiculatus",
+        "lactarius_resimus",
+        "lycoperdon_perlatum",
+        "suillellus_luridus",
+        "hydnum_repandum",
+        "tylopilus_felleus",
+        "tricholoma_equestre",
+        "macrolepiota_procera",
+        "suillus_bovinus",
+        "cortinarius_caperatus",
+        "cantharellus_cibarius",
+        "craterellus_tubaeformis",
+        "hypholoma_lateritium",
+        "suillus_luteus__2",
+        "gomphidius_glutinosus",
+        "xerocomus_subtomentosus",
+        "coprinus_comatus",
+        "flammulina_velutipes",
+        "kuehneromyces_mutabilis",
+        "marasmius_oreades",
+        "armillaria_mellea",
+        "leccinum_scabrum",
+        "russula_delica",
+        "russula_nigricans",
+        "leccinum_aurantiacum",
+        "imleria_badia",
+        "amanita_vaginata",
+        "lactarius_deliciosus",
+        "tricholoma_portentosum",
+        "lepista_nuda",
+        "lactarius_flexuosus",
+        "lactifluus_vellereus",
+        "morchella_esculenta",
+        "gyromitra_esculenta__2",
+        "russula_cyanoxantha",
+        "inonotus_obliquus",
+        "lactarius_turpis",
+        "agaricus_campestris",
+        "lycoperdon_perlatum__2",
+        "leccinum_aurantiacum__2",
+        "lactarius_necator"
+      ]
+    },
+    {
+      "id": "pine",
+      "name": {
+        "ru": "Сосновый бор",
+        "en": "Pine forest"
+      },
+      "keys": [
+        "hygrophoropsis_aurantiaca",
+        "amanita_muscaria",
+        "amanita_pantherina",
+        "paxillus_involutus",
+        "russula_paludosa",
+        "hygrophorus_hypothejus",
+        "hygrophorus_camarophyllus",
+        "laccaria_laccata",
+        "scleroderma_citrinum",
+        "suillus_luteus",
+        "suillus_variegatus",
+        "suillus_granulatus",
+        "lactarius_helvus",
+        "chroogomphus_rutilus",
+        "amanita_citrina",
+        "amanita_rubescens",
+        "cortinarius_mucosus",
+        "cortinarius_sp",
+        "chalciporus_piperatus",
+        "tricholoma_terreum",
+        "tricholoma_sejunctum",
+        "russula_xerampelina",
+        "russula_emetica",
+        "russula_decolorans"
+      ]
+    },
+    {
+      "id": "taiga",
+      "name": {
+        "ru": "Ельник и тайга",
+        "en": "Spruce forest and taiga"
+      },
+      "keys": [
+        "amanita_virosa",
+        "amanita_muscaria",
+        "paxillus_involutus",
+        "albatrellus_ovinus",
+        "caloboletus_calopus",
+        "hygrophorus_camarophyllus",
+        "clitocybe_nebularis",
+        "chlorophyllum_rhacodes",
+        "neoboletus_erythropus",
+        "hydnum_sp",
+        "laccaria_laccata",
+        "laccaria_amethystina",
+        "suillus_grevillei",
+        "lactarius_camphoratus",
+        "lactarius_helvus",
+        "amanita_regalis",
+        "cortinarius_rubellus",
+        "cortinarius_sp",
+        "ramaria_flava",
+        "lactarius_deterrimus",
+        "collybia_nuda",
+        "tricholoma_sejunctum",
+        "russula_emetica",
+        "agaricus_sylvaticus"
+      ]
+    },
+    {
+      "id": "smallleaf",
+      "name": {
+        "ru": "Березняк и осинник",
+        "en": "Birch and aspen woods"
+      },
+      "keys": [
+        "amanita_phalloides",
+        "amanita_muscaria",
+        "paxillus_involutus",
+        "phallus_impudicus",
+        "hebeloma_crustuliniforme",
+        "laccaria_laccata",
+        "scleroderma_citrinum",
+        "xerocomellus_chrysenteron",
+        "amanita_citrina",
+        "cortinarius_sp",
+        "tricholoma_populinum",
+        "russula_aeruginea",
+        "entoloma_rhodopolium"
+      ]
+    },
+    {
+      "id": "broadleaf",
+      "name": {
+        "ru": "Дубрава и широколиственный лес",
+        "en": "Oak and broadleaf forest"
+      },
+      "keys": [
+        "amanita_phalloides",
+        "amanita_pantherina",
+        "boletus_reticulatus",
+        "phallus_impudicus",
+        "inosperma_adaequatum",
+        "pseudosperma_rimosum",
+        "leucocybe_candicans",
+        "clitocybe_nebularis",
+        "infundibulicybe_geotropa",
+        "leccinellum_pseudoscabrum",
+        "lactifluus_piperatus",
+        "neoboletus_erythropus",
+        "hydnum_sp",
+        "laccaria_amethystina",
+        "lepiota_cristata",
+        "echinoderma_asperum",
+        "xerocomellus_chrysenteron",
+        "amanita_rubescens",
+        "fistulina_hepatica",
+        "clitopilus_prunulus",
+        "lactifluus_volemus",
+        "ramaria_flava",
+        "russula_virescens",
+        "russula_aurea",
+        "entoloma_rhodopolium",
+        "entoloma_sinuatum"
+      ]
+    },
+    {
+      "id": "open",
+      "name": {
+        "ru": "Луга, поля, парки",
+        "en": "Meadows, fields and parks"
+      },
+      "keys": [
+        "pseudosperma_rimosum",
+        "pleurotus_eryngii",
+        "hebeloma_crustuliniforme",
+        "clitocybe_dealbata",
+        "clitocybe_rivulosa",
+        "infundibulicybe_geotropa",
+        "calvatia_gigantea",
+        "calvatia_cyathiformis",
+        "chlorophyllum_rhacodes",
+        "lepiota_cristata",
+        "echinoderma_asperum",
+        "coprinus_sp",
+        "coprinopsis_atramentaria",
+        "bovista_plumbea",
+        "collybia_nuda",
+        "lepista_personata",
+        "chlorophyllum_brunneum",
+        "agaricus_bitorquis",
+        "agaricus_bisporus",
+        "agaricus_xanthodermus",
+        "agaricus_macrosporus",
+        "agaricus_campestris__2",
+        "agaricus_arvensis"
+      ]
+    },
+    {
+      "id": "wood",
+      "name": {
+        "ru": "На пнях и стволах",
+        "en": "On stumps and trunks"
+      },
+      "keys": [
+        "galerina_marginata",
+        "hypholoma_fasciculare",
+        "pleurotus_cornucopiae",
+        "coprinellus_micaceus",
+        "armillaria_borealis",
+        "fistulina_hepatica",
+        "lentinus_sp",
+        "fomitopsis_betulina",
+        "fomes_fomentarius",
+        "ganoderma_applanatum",
+        "trametes_versicolor",
+        "laetiporus_sulphureus",
+        "cerioporus_squamosus",
+        "schizophyllum_commune"
+      ]
+    },
+    {
+      "id": "spring",
+      "name": {
+        "ru": "Весенние грибы",
+        "en": "Spring mushrooms"
+      },
+      "keys": [
+        "calocybe_gambosa",
+        "entoloma_clypeatum",
+        "sarcoscypha_austriaca",
+        "morchella_esculenta__2",
+        "verpa_bohemica",
+        "morchella_steppicola",
+        "gyromitra_esculenta"
+      ]
+    },
+    {
+      "id": "south",
+      "name": {
+        "ru": "Юг и Кавказ",
+        "en": "South and the Caucasus"
+      },
+      "keys": [
+        "rubroboletus_satanas",
+        "inosperma_erubescens",
+        "auricularia_auricula_judae",
+        "amanita_verna",
+        "omphalotus_olearius",
+        "cyclocybe_cylindracea",
+        "cyclocybe_aegerita",
+        "amanita_caesarea"
+      ]
+    },
+    {
+      "id": "rare",
+      "name": {
+        "ru": "Редкие виды",
+        "en": "Rare species"
+      },
+      "keys": [
+        "volvariella_bombycina",
+        "craterellus_cornucopioides",
+        "gyroporus_cyanescens",
+        "grifola_frondosa",
+        "sarcodon_imbricatus",
+        "gyroporus_castaneus",
+        "lepiota_brunneoincarnata",
+        "craterellus_lutescens",
+        "tricholoma_matsutake",
+        "tuber_aestivum",
+        "phaeolepiota_aurea"
+      ]
+    },
+    {
+      "id": "other",
+      "name": {
+        "ru": "Другие виды",
+        "en": "Other species"
+      },
+      "keys": [
+        "boletus_aereus",
+        "boletaceae",
+        "lactarius_thyinos",
+        "amanita_bisporigera",
+        "podaxis_pistillaris",
+        "terfezia_boudieri"
+      ]
+    }
+  ]
+}

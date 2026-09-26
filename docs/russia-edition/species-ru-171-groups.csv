@@ -1,0 +1,172 @@
+﻿key;latin;russian;region;base_proposed;habitat;season;set_A;set_B;set_C;set_D;review
+boletus_edulis;Boletus edulis;Белый гриб;base;да;pine taiga smallleaf broadleaf;summer autumn;base;base;base;base;
+lactarius_pubescens;Lactarius pubescens;Белянка;base;;smallleaf;summer autumn;smallleaf;deciduous;summer autumn;smallleaf;
+amanita_phalloides;Amanita phalloides;Бледная поганка;base;да;broadleaf smallleaf;summer autumn;base;base;base;base;
+russula_foetens;Russula foetens;Валуй;base;да;smallleaf broadleaf taiga;summer autumn;base;base;base;base;
+lactarius_torminosus;Lactarius torminosus;Волнушка;base;да;smallleaf;summer autumn;base;base;base;base;
+pleurotus_ostreatus;Pleurotus ostreatus;Вёшенка;base;;wood;autumn late;wood;wood;autumn late;wood;
+galerina_marginata;Galerina marginata;Галерина окаймлённая;base;;wood;summer autumn late;wood;wood;summer autumn late;wood;
+lactarius_trivialis;Lactarius trivialis;Гладыш;base;да;taiga smallleaf;summer autumn;base;base;base;base;
+lactarius_rufus;Lactarius rufus;Горькушка;base;да;pine taiga;summer autumn;base;base;base;base;
+lactarius_scrobiculatus;Lactarius scrobiculatus;Груздь жёлтый;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+lactarius_resimus;Lactarius resimus;Груздь настоящий;base;да;smallleaf;summer autumn;base;base;base;base;
+lycoperdon_perlatum;Lycoperdon sp.;Дождевик;base;да;pine taiga smallleaf broadleaf open;summer autumn;base;base;base;base;строка уровня рода/семейства
+suillellus_luridus;Suillellus luridus;Дубовик;nw center south;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;broadleaf;
+hydnum_repandum;Hydnum repandum;Ежовик жёлтый;base;;taiga broadleaf;summer autumn;taiga broadleaf;conifer deciduous;summer autumn;taiga broadleaf;
+tylopilus_felleus;Tylopilus felleus;Желчный гриб;base;да;pine taiga;summer autumn;base;base;base;base;
+tricholoma_equestre;Tricholoma equestre;Зеленушка;base;;pine;autumn late;pine;conifer;autumn late;pine;
+macrolepiota_procera;Macrolepiota procera;Зонтик пёстрый;base;да;open broadleaf pine;summer autumn;base;base;base;base;
+suillus_bovinus;Suillus bovinus;Козляк;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+cortinarius_caperatus;Cortinarius caperatus;Колпак кольчатый;base;;taiga pine;summer autumn;taiga pine;conifer;summer autumn;taiga pine;
+cantharellus_cibarius;Cantharellus cibarius;Лисичка;base;да;pine taiga smallleaf broadleaf;summer autumn;base;base;base;base;
+craterellus_tubaeformis;Craterellus tubaeformis;Лисичка трубчатая;base;;taiga;autumn late;taiga;conifer;autumn late;taiga;
+hygrophoropsis_aurantiaca;Hygrophoropsis aurantiaca;Ложная лисичка;base;да;pine;summer autumn;base;base;base;base;
+hypholoma_lateritium;Hypholoma lateritium;Ложноопёнок кирпично-красный;base;;wood;autumn late;wood;wood;autumn late;wood;
+hypholoma_fasciculare;Hypholoma fasciculare;Ложноопёнок серно-жёлтый;base;да;wood;summer autumn late;base;base;base;base;
+suillus_luteus__2;Suillus sp.;Маслёнок;base;да;pine taiga;summer autumn;base;base;base;base;строка уровня рода/семейства
+gomphidius_glutinosus;Gomphidius glutinosus;Мокруха еловая;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+xerocomus_subtomentosus;Xerocomus subtomentosus;Моховик;base;да;smallleaf broadleaf pine;summer autumn;base;base;base;base;
+amanita_virosa;Amanita virosa;Мухомор вонючий;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+amanita_muscaria;Amanita muscaria;Мухомор красный;base;да;smallleaf pine taiga;summer autumn;base;base;base;base;
+amanita_pantherina;Amanita pantherina;Мухомор пантерный;base;;pine broadleaf;summer autumn;pine broadleaf;conifer deciduous;summer autumn;pine broadleaf;
+coprinus_comatus;Coprinus comatus;Навозник белый;base;;open;summer autumn;open;open;summer autumn;open;
+flammulina_velutipes;Flammulina velutipes;Опёнок зимний;base;;wood;late spring;wood;wood;late spring;wood;
+kuehneromyces_mutabilis;Kuehneromyces mutabilis;Опёнок летний;base;да;wood;summer autumn;base;base;base;base;
+marasmius_oreades;Marasmius oreades;Опёнок луговой;base;;open;summer autumn;open;open;summer autumn;open;
+armillaria_mellea;Armillaria mellea;Опёнок осенний;base;да;wood;autumn;base;base;base;base;
+leccinum_scabrum;Leccinum scabrum;Подберёзовик;base;да;smallleaf;summer autumn;base;base;base;base;
+russula_delica;Russula delica;Подгруздок белый;base;да;smallleaf broadleaf pine;summer autumn;base;base;base;base;
+russula_nigricans;Russula nigricans;Подгруздок чёрный;base;;taiga broadleaf;summer autumn;taiga broadleaf;conifer deciduous;summer autumn;taiga broadleaf;
+leccinum_aurantiacum;Leccinum aurantiacum;Подосиновик;base;да;smallleaf;summer autumn;base;base;base;base;
+imleria_badia;Imleria badia;Польский гриб;base;да;pine taiga;summer autumn;base;base;base;base;
+amanita_vaginata;Amanita vaginata;Поплавок серый;base;;smallleaf;summer autumn;smallleaf;deciduous;summer autumn;smallleaf;
+lactarius_deliciosus;Lactarius deliciosus;Рыжик;base;да;pine;summer autumn;base;base;base;base;
+tricholoma_portentosum;Tricholoma portentosum;Рядовка серая;base;;pine;autumn late;pine;conifer;autumn late;pine;
+lepista_nuda;Lepista nuda;Рядовка фиолетовая;base;;taiga open;autumn late;taiga open;conifer open;autumn late;taiga open;
+rubroboletus_satanas;Rubroboletus satanas;Сатанинский гриб;south;;broadleaf;summer;south;south;south;south;
+paxillus_involutus;Paxillus involutus;Свинушка тонкая;base;да;smallleaf pine taiga;summer autumn;base;base;base;base;
+lactarius_flexuosus;Lactarius flexuosus;Серушка;nw center;;smallleaf taiga;summer autumn;smallleaf taiga;conifer deciduous;summer autumn;smallleaf taiga;
+lactifluus_vellereus;Lactifluus vellereus;Скрипица;base;да;smallleaf broadleaf;summer autumn;base;base;base;base;
+morchella_esculenta;Morchella sp.;Сморчок;base;;smallleaf broadleaf open;spring;spring;deciduous open;spring;spring;строка уровня рода/семейства
+gyromitra_esculenta__2;Gyromitra sp.;Строчок;base;;pine;spring;spring;conifer;spring;spring;строка уровня рода/семейства
+russula_cyanoxantha;Russula sp.;Сыроежка;base;да;pine taiga smallleaf broadleaf;summer autumn;base;base;base;base;строка уровня рода/семейства
+inonotus_obliquus;Inonotus obliquus;Чага;base;;wood smallleaf;year;wood smallleaf;deciduous wood;year;wood smallleaf;
+lactarius_turpis;Lactarius turpis;Чернушка;base;да;smallleaf taiga;summer autumn;base;base;base;base;
+agaricus_campestris;Agaricus sp.;Шампиньон;base;;open;summer autumn;open;open;summer autumn;open;строка уровня рода/семейства
+albatrellus_ovinus;Albatrellus ovinus;Альбатреллус овечий;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+boletus_aereus;Boletus aereus;Белый гриб бронзовый;unknown;;broadleaf;summer autumn;review;review;review;review;"регион unknown: либо только юг, либо в России нет — проверить вручную; регион не подтверждён (unknown)"
+boletus_reticulatus;Boletus reticulatus;Белый гриб сетчатый;center south;;broadleaf;summer;broadleaf;deciduous;summer;broadleaf;
+boletaceae;Boletaceae;Болетовые;base;;pine taiga smallleaf broadleaf;summer autumn;review;review;review;review;"строка уровня рода/семейства; семейство целиком: плитка «прочие болетовые» — решить, нужна ли"
+russula_paludosa;Russula paludosa;Болотная сыроежка;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+caloboletus_calopus;Caloboletus calopus;Боровик красивоножковый;nw center south;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+phallus_impudicus;Phallus impudicus;Весёлка обыкновенная;base;;broadleaf smallleaf;summer autumn;broadleaf smallleaf;deciduous;summer autumn;broadleaf smallleaf;
+inosperma_erubescens;Inosperma erubescens;Волоконница Патуйяра;south;;broadleaf;spring summer;south;south;south;south;
+inosperma_adaequatum;Inosperma adaequatum;Волоконница краснеющая;unknown;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;broadleaf;регион не подтверждён (unknown)
+pseudosperma_rimosum;Pseudosperma rimosum;Волоконница трещиноватая;base;;broadleaf open;summer autumn;broadleaf open;deciduous open;summer autumn;broadleaf open;
+volvariella_bombycina;Volvariella bombycina;Вольвариелла шелковистая;base;;wood;summer;wood;wood;summer;rare;
+craterellus_cornucopioides;Craterellus cornucopioides;Вороночник рожковидный;base;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;rare;
+pleurotus_cornucopiae;Pleurotus cornucopiae;Вёшенка рожковидная;base;;wood;spring summer;wood;wood;spring summer;wood;
+pleurotus_eryngii;Pleurotus eryngii;Вёшенка степная;center south;;open;spring autumn;open;open;spring autumn;open;
+hebeloma_crustuliniforme;Hebeloma crustuliniforme;Гебелома клейкая;base;;smallleaf open;autumn;smallleaf open;deciduous open;autumn;smallleaf open;
+hygrophorus_hypothejus;Hygrophorus hypothejus;Гигрофор поздний;base;;pine;late;pine;conifer;late;pine;
+hygrophorus_camarophyllus;Hygrophorus camarophyllus;Гигрофор черный;base;;taiga pine;autumn late;taiga pine;conifer;autumn late;taiga pine;
+gyroporus_cyanescens;Gyroporus cyanescens;Гиропорус синеющий;base;;smallleaf pine;summer autumn;smallleaf pine;conifer deciduous;summer autumn;rare;
+leucocybe_candicans;Leucocybe candicans;Говорушка беловатая;base;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;broadleaf;
+clitocybe_dealbata;Clitocybe dealbata;Говорушка восковатая;base;;open;summer autumn;open;open;summer autumn;open;
+clitocybe_rivulosa;Clitocybe rivulosa;Говорушка выбеленная;base;;open;summer autumn;open;open;summer autumn;open;
+clitocybe_nebularis;Clitocybe nebularis;Говорушка дымчатая;base;;taiga broadleaf;autumn late;taiga broadleaf;conifer deciduous;autumn late;taiga broadleaf;
+infundibulicybe_geotropa;Infundibulicybe geotropa;Говорушка подогнутая;center south;;broadleaf open;autumn;broadleaf open;deciduous open;autumn;broadleaf open;
+calvatia_gigantea;Calvatia gigantea;Головач гигантский;base;;open;summer autumn;open;open;summer autumn;open;
+calvatia_cyathiformis;Calvatia cyathiformis;Головач лиловый;center south;;open;summer autumn;open;open;summer autumn;open;
+leccinellum_pseudoscabrum;Leccinellum pseudoscabrum;Грабовик;nw center south;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;broadleaf;
+grifola_frondosa;Grifola frondosa;Гриб-баран;base;;broadleaf wood;summer autumn;broadleaf wood;deciduous wood;summer autumn;rare;
+chlorophyllum_rhacodes;Chlorophyllum rhacodes;Гриб-зонтик краснеющий;base;;open taiga;summer autumn;open taiga;conifer open;summer autumn;open taiga;
+lactifluus_piperatus;Lactifluus piperatus;Грузди;base;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;broadleaf;
+lycoperdon_perlatum__2;Lycoperdon perlatum;Дождевики;base;да;pine taiga smallleaf broadleaf open;summer autumn;base;base;base;base;дубль/перекрытие с lycoperdon_perlatum
+neoboletus_erythropus;Neoboletus erythropus;Дубовик;base;;taiga broadleaf;summer autumn;taiga broadleaf;conifer deciduous;summer autumn;taiga broadleaf;
+sarcodon_imbricatus;Sarcodon imbricatus;Ежовик пёстрый;base;;pine;autumn;pine;conifer;autumn;rare;
+hydnum_sp;Hydnum sp.;Ежовики;base;;taiga broadleaf;summer autumn;taiga broadleaf;conifer deciduous;summer autumn;taiga broadleaf;"дубль/перекрытие с hydnum_repandum; строка уровня рода/семейства"
+auricularia_auricula_judae;Auricularia auricula-judae;Иудино ухо;south;;wood;late spring;south;south;south;south;
+gyroporus_castaneus;Gyroporus castaneus;Каштановый гриб;unknown;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;rare;регион не подтверждён (unknown)
+laccaria_laccata;Laccaria laccata;Лаковица;base;;taiga pine smallleaf;summer autumn;taiga pine smallleaf;conifer deciduous;summer autumn;taiga pine smallleaf;
+laccaria_amethystina;Laccaria amethystina;Лаковица аметистовая;base;;broadleaf taiga;summer autumn;broadleaf taiga;conifer deciduous;summer autumn;broadleaf taiga;
+lepiota_cristata;Lepiota cristata;Лепиота гребенчатая;base;;open broadleaf;summer autumn;open broadleaf;deciduous open;summer autumn;open broadleaf;
+lepiota_brunneoincarnata;Lepiota brunneoincarnata;Лепиота коричнево-красная;base;;open;summer autumn;open;open;summer autumn;rare;
+echinoderma_asperum;Echinoderma asperum;Лепиота шероховатая;base;;open broadleaf;summer autumn;open broadleaf;deciduous open;summer autumn;open broadleaf;
+craterellus_lutescens;Craterellus lutescens;Лисичка желтеющая;unknown;;taiga;summer autumn;taiga;conifer;summer autumn;rare;регион не подтверждён (unknown)
+scleroderma_citrinum;Scleroderma citrinum;Ложнодождевик;base;;pine smallleaf;summer autumn;pine smallleaf;conifer deciduous;summer autumn;pine smallleaf;
+calocybe_gambosa;Calocybe gambosa;Майский гриб;base;;open broadleaf;spring;spring;deciduous open;spring;spring;
+suillus_luteus;Suillus luteus;Маслята;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+suillus_variegatus;Suillus variegatus;Маслёнок жёлто-бурый;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+suillus_granulatus;Suillus granulatus;Маслёнок зернистый;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+suillus_grevillei;Suillus grevillei;Маслёнок лиственничный;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+tricholoma_matsutake;Tricholoma matsutake;Мацутакэ;nw siberia fareast;;pine;autumn;pine;conifer;autumn;rare;
+lactarius_camphoratus;Lactarius camphoratus;Млечник камфорный;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+lactarius_helvus;Lactarius helvus;Млечник серо-розовый;base;;pine taiga;summer autumn;pine taiga;conifer;summer autumn;pine taiga;
+lactarius_thyinos;Lactarius sp.;Млечники;base;;taiga smallleaf;summer autumn;review;review;review;review;"строка уровня рода/семейства; латынь «Lactarius sp.», ключ указывает на североамериканский вид; плитка «Млечники» — решить, нужна ли"
+chroogomphus_rutilus;Chroogomphus rutilus;Мокруха пурпуровая;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+xerocomellus_chrysenteron;Xerocomellus chrysenteron;Моховики;base;;broadleaf smallleaf;summer autumn;broadleaf smallleaf;deciduous;summer autumn;broadleaf smallleaf;
+amanita_verna;Amanita verna;Мухомор весенний;south;;broadleaf;spring summer;south;south;south;south;
+amanita_regalis;Amanita regalis;Мухомор королевский;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+amanita_citrina;Amanita citrina;Мухомор поганковидный;base;;pine smallleaf;summer autumn;pine smallleaf;conifer deciduous;summer autumn;pine smallleaf;
+amanita_rubescens;Amanita rubescens;Мухомор серо-розовый;base;;broadleaf pine;summer autumn;broadleaf pine;conifer deciduous;summer autumn;broadleaf pine;
+amanita_bisporigera;Amanita bisporigera;Мухоморы;absent;;broadleaf;summer autumn;review;review;review;review;"вид в России отсутствует (region=absent); название «Мухоморы» не соответствует латыни"
+coprinus_sp;Coprinus sp.;Навозник;base;;open;summer autumn;open;open;summer autumn;open;строка уровня рода/семейства
+coprinellus_micaceus;Coprinellus micaceus;Навозник мерцающий;base;;wood;spring summer autumn;wood;wood;spring summer autumn;wood;
+coprinopsis_atramentaria;Coprinopsis atramentaria;Навозник серый;base;;open;spring autumn;open;open;spring autumn;open;
+omphalotus_olearius;Omphalotus olearius;Омфалот маслиновый;south;;wood;summer autumn;south;south;south;south;
+armillaria_borealis;Armillaria borealis;Опята осенние;base;;wood;autumn;wood;wood;autumn;wood;
+cyclocybe_cylindracea;Cyclocybe cylindracea;Опёнок тополиный;south;;wood;spring autumn;south;south;south;south;
+cyclocybe_aegerita;Cyclocybe aegerita;Опёнок тополиный;south;;wood;spring autumn;south;south;south;south;дубль/перекрытие с cyclocybe_cylindracea
+cortinarius_rubellus;Cortinarius rubellus;Паутинник красивейший;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+cortinarius_mucosus;Cortinarius mucosus;Паутинник слизистый;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+cortinarius_sp;Cortinarius sp.;Паутинники;base;;taiga pine smallleaf;summer autumn;taiga pine smallleaf;conifer deciduous;summer autumn;taiga pine smallleaf;строка уровня рода/семейства
+chalciporus_piperatus;Chalciporus piperatus;Перечный гриб;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+fistulina_hepatica;Fistulina hepatica;Печёночница обыкновенная;center south;;wood broadleaf;summer autumn;wood broadleaf;deciduous wood;summer autumn;wood broadleaf;
+lentinus_sp;Lentinus sp.;Пилолистники;base;;wood;summer;wood;wood;summer;wood;строка уровня рода/семейства
+podaxis_pistillaris;Podaxis pistillaris;Подаксис пестичный;unknown;;open;summer;review;review;review;review;"присутствие в России не подтверждено (unknown); пустынный вид; регион не подтверждён (unknown)"
+clitopilus_prunulus;Clitopilus prunulus;Подвишень;base;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;broadleaf;
+entoloma_clypeatum;Entoloma clypeatum;Подкарагачник;base;;open;spring;spring;open;spring;spring;
+lactifluus_volemus;Lactifluus volemus;Подмолочник;base;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;broadleaf;
+leccinum_aurantiacum__2;Leccinum aurantiacum;Подосиновик;base;да;smallleaf;summer autumn;base;base;base;base;дубль/перекрытие с leccinum_aurantiacum
+bovista_plumbea;Bovista plumbea;Порховка свинцово-серая;base;;open;summer autumn;open;open;summer autumn;open;
+terfezia_boudieri;Terfezia sp.;Пустынный трюфель;unknown;;open;spring;review;review;review;review;"строка уровня рода/семейства; присутствие рода в России не подтверждено (unknown); пустынный таксон; регион не подтверждён (unknown)"
+ramaria_flava;Ramaria sp.;Рогатики;base;;taiga broadleaf;summer autumn;taiga broadleaf;conifer deciduous;summer autumn;taiga broadleaf;строка уровня рода/семейства
+lactarius_deterrimus;Lactarius deterrimus;Рыжик еловый;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+tricholoma_terreum;Tricholoma terreum;Рядовка землистая;base;;pine;autumn late;pine;conifer;autumn late;pine;
+tricholoma_populinum;Tricholoma populinum;Рядовка тополёвая;base;;smallleaf;autumn;smallleaf;deciduous;autumn;smallleaf;
+collybia_nuda;Collybia nuda;Рядовка фиолетовая;base;;taiga open;autumn late;taiga open;conifer open;autumn late;taiga open;дубль/перекрытие с lepista_nuda
+tricholoma_sejunctum;Tricholoma sp.;Рядовки;base;;pine taiga;autumn;pine taiga;conifer;autumn;pine taiga;строка уровня рода/семейства
+sarcoscypha_austriaca;Sarcoscypha austriaca;Саркосцифа;base;;smallleaf wood;spring;spring;deciduous wood;spring;spring;
+lepista_personata;Lepista personata;Синеножка;center south;;open;autumn late;open;open;autumn late;open;
+morchella_esculenta__2;Morchella esculenta;Сморчки;base;;smallleaf broadleaf open;spring;spring;deciduous open;spring;spring;дубль/перекрытие с morchella_esculenta
+verpa_bohemica;Verpa bohemica;Сморчковая шапочка;base;;smallleaf broadleaf;spring;spring;deciduous;spring;spring;
+morchella_steppicola;Morchella steppicola;Сморчок степной;center south;;open;spring;spring;open;spring;spring;
+gyromitra_esculenta;Gyromitra esculenta;Строчки;base;;pine;spring;spring;conifer;spring;spring;дубль/перекрытие с gyromitra_esculenta__2
+russula_xerampelina;Russula xerampelina;Сыроежка буреющая;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+russula_aeruginea;Russula aeruginea;Сыроежка зеленая;base;;smallleaf;summer autumn;smallleaf;deciduous;summer autumn;smallleaf;
+russula_virescens;Russula virescens;Сыроежка зеленоватая;base;;broadleaf;summer;broadleaf;deciduous;summer;broadleaf;
+russula_aurea;Russula aurea;Сыроежка золотистая;nw center south;;broadleaf;summer;broadleaf;deciduous;summer;broadleaf;
+russula_emetica;Russula emetica;Сыроежка рвотная;base;;pine taiga;summer autumn;pine taiga;conifer;summer autumn;pine taiga;
+russula_decolorans;Russula decolorans;Сыроежка сереющая;base;;pine;summer autumn;pine;conifer;summer autumn;pine;
+fomitopsis_betulina;Fomitopsis betulina;Трутовик берёзовый;base;;wood;year;wood;wood;year;wood;
+fomes_fomentarius;Fomes fomentarius;Трутовик настоящий;base;;wood;year;wood;wood;year;wood;
+ganoderma_applanatum;Ganoderma applanatum;Трутовик плоский;base;;wood;year;wood;wood;year;wood;
+trametes_versicolor;Trametes versicolor;Трутовик разноцветный;base;;wood;year;wood;wood;year;wood;
+laetiporus_sulphureus;Laetiporus sulphureus;Трутовик серно-жёлтый;base;;wood;summer;wood;wood;summer;wood;
+cerioporus_squamosus;Cerioporus squamosus;Трутовик чешуйчатый;base;;wood;spring summer;wood;wood;spring summer;wood;
+tuber_aestivum;Tuber aestivum;Трюфель летний;center south;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;rare;
+phaeolepiota_aurea;Phaeolepiota aurea;Феолепиота золотистая;base;;open;autumn;open;open;autumn;rare;
+chlorophyllum_brunneum;Chlorophyllum brunneum;Хлорофиллум бурый;unknown;;open;summer autumn;open;open;summer autumn;open;регион не подтверждён (unknown)
+amanita_caesarea;Amanita caesarea;Цезарский гриб;south;;broadleaf;summer autumn;south;south;south;south;
+lactarius_necator;Lactarius necator;Чёрный груздь;base;да;smallleaf taiga;summer autumn;base;base;base;base;дубль/перекрытие с lactarius_turpis
+agaricus_bitorquis;Agaricus bitorquis;Шампиньон двукольцовый;base;;open;summer;open;open;summer;open;
+agaricus_bisporus;Agaricus bisporus;Шампиньон двуспоровый;unknown;;open;summer autumn;open;open;summer autumn;open;регион не подтверждён (unknown)
+agaricus_xanthodermus;Agaricus xanthodermus;Шампиньон желтокожий;center south;;open;summer autumn;open;open;summer autumn;open;
+agaricus_macrosporus;Agaricus macrosporus;Шампиньон крупноспоровый;unknown;;open;summer autumn;open;open;summer autumn;open;регион не подтверждён (unknown)
+agaricus_campestris__2;Agaricus campestris;Шампиньон обыкновенный;base;;open;summer autumn;open;open;summer autumn;open;дубль/перекрытие с agaricus_campestris
+agaricus_sylvaticus;Agaricus sylvaticus;Шампиньон перелесковый;base;;taiga;summer autumn;taiga;conifer;summer autumn;taiga;
+agaricus_arvensis;Agaricus arvensis;Шампиньон полевой;base;;open;summer autumn;open;open;summer autumn;open;
+schizophyllum_commune;Schizophyllum commune;Щелелистник обыкновенный;base;;wood;year;wood;wood;year;wood;
+entoloma_rhodopolium;Entoloma rhodopolium;Энтолома серо-розовая;base;;broadleaf smallleaf;summer autumn;broadleaf smallleaf;deciduous;summer autumn;broadleaf smallleaf;
+entoloma_sinuatum;Entoloma sinuatum;Энтолома ядовитая;base;;broadleaf;summer autumn;broadleaf;deciduous;summer autumn;broadleaf;

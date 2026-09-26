@@ -22,6 +22,7 @@ import kotlinx.datetime.toLocalDateTime
 import okio.BufferedSink
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
+import leshy.mushrooms.map.domain.model.Edition
 
 /**
  * Holds the Data screen's state and drives export/import. Where the archive bytes actually go
@@ -36,9 +37,10 @@ class DataViewModel(
     private val validateImportArchive: ValidateImportArchiveUseCase,
     private val archiveFileReader: ArchiveFileReader,
     private val walkRepository: WalkRepository,
+    private val edition: Edition,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(
-        DataUiState(exportArchiveName = defaultExportArchiveName(currentTimeMillis())),
+        DataUiState(exportArchiveName = defaultExportArchiveName(currentTimeMillis(), edition)),
     )
     val uiState: StateFlow<DataUiState> = _uiState.asStateFlow()
 
@@ -186,10 +188,12 @@ class DataViewModel(
 
 /** "leshy-export-20260818-1652.zip" — was raw epoch millis before, which read as a meaningless
  * number in the archive-name field; a local date+time is just as collision-safe for one export at
- * a time and actually says something to the person picking a save location. */
+ * a time and actually says something to the person picking a save location. Начало имени — у
+ * редакции ([Edition.exportArchivePrefix]): файл переживает удаление приложения и лежит в
+ * «Загрузках» рядом с чужими. */
 @OptIn(ExperimentalTime::class)
-private fun defaultExportArchiveName(epochMillis: Long): String {
+private fun defaultExportArchiveName(epochMillis: Long, edition: Edition): String {
     val dt = Instant.fromEpochMilliseconds(epochMillis).toLocalDateTime(TimeZone.currentSystemDefault())
     fun Int.pad() = toString().padStart(2, '0')
-    return "leshy-export-${dt.year}${dt.month.number.pad()}${dt.day.pad()}-${dt.hour.pad()}${dt.minute.pad()}.zip"
+    return "${edition.exportArchivePrefix}-${dt.year}${dt.month.number.pad()}${dt.day.pad()}-${dt.hour.pad()}${dt.minute.pad()}.zip"
 }

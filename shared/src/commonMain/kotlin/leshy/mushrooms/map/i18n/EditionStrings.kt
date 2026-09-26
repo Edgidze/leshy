@@ -37,16 +37,25 @@ data class EditionStringKeys(
     val appName: StringKey,
     /** Абзац «Данные карты» в «О приложении». Содержит [TILE_HOST_PLACEHOLDER]. */
     val aboutMapDataText: StringKey,
+    /**
+     * Заголовок экрана подборок. У мирового продукта подборки — страновые, и заголовок называет
+     * страны; у редакции со своими наборами (`SpeciesSetsSource`) страна её собственная подборка
+     * больше не представляет, и обещание «по странам» на экране, где первыми идут «Основные
+     * грибы» и «Сосновый бор», было бы неправдой.
+     */
+    val speciesCollectionsTitle: StringKey,
 )
 
 fun editionStringKeysFor(edition: Edition): EditionStringKeys = when (edition) {
     Edition.WORLD -> EditionStringKeys(
         appName = StringKey.AppName,
         aboutMapDataText = StringKey.AboutMapDataText,
+        speciesCollectionsTitle = StringKey.SpeciesCollectionsTitle,
     )
     Edition.RUSSIA -> EditionStringKeys(
         appName = StringKey.AppNameRussia,
         aboutMapDataText = StringKey.AboutMapDataTextSelfHosted,
+        speciesCollectionsTitle = StringKey.SpeciesCollectionsTitleSets,
     )
 }
 
@@ -60,4 +69,5 @@ fun editionStringKeysFor(edition: Edition): EditionStringKeys = when (edition) {
 val EDITION_ONLY_KEYS: Set<StringKey> = setOf(
     StringKey.AppNameRussia,
     StringKey.AboutMapDataTextSelfHosted,
+    StringKey.SpeciesCollectionsTitleSets,
 )

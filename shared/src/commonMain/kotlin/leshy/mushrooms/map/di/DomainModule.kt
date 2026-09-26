@@ -33,9 +33,9 @@ import org.koin.dsl.module
 
 val domainModule = module {
     factory { EnsureDefaultCategoriesUseCase(get(), get(), get()) }
-    factory { EnsureDefaultCollectionsUseCase(get(), get(), get(), get()) }
+    factory { EnsureDefaultCollectionsUseCase(get(), get(), get(), get(), get()) }
     factory { RecalculateFilterEligibilityUseCase(get(), get()) }
-    factory { ObserveFrequentSpeciesKeysUseCase(get(), get(), get()) }
+    factory { ObserveFrequentSpeciesKeysUseCase(get(), get(), get(), get()) }
     factory { SetCollectionPickedUseCase(get(), get(), get()) }
     factory { SetCategoryPickedUseCase(get(), get()) }
     factory { SaveCategoryIconUseCase(get(), get()) }

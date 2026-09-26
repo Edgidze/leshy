@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import leshy.mushrooms.map.data.catalog.CountriesSource
 import leshy.mushrooms.map.data.catalog.countryCodeForCollectionNameKey
+import leshy.mushrooms.map.data.catalog.SpeciesSetsSource
 import leshy.mushrooms.map.data.catalog.countryCollectionNameKey
+import leshy.mushrooms.map.data.catalog.speciesSetCollectionNameKey
+import leshy.mushrooms.map.data.catalog.speciesSetIdForCollectionNameKey
 import leshy.mushrooms.map.data.platform.currentDeviceRegionCode
 import leshy.mushrooms.map.domain.model.AppLanguage
 import leshy.mushrooms.map.domain.model.Category
@@ -18,6 +21,8 @@ import leshy.mushrooms.map.domain.usecase.EnsureDefaultCollectionsUseCase
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
 import leshy.mushrooms.map.domain.usecase.SetCategoryPickedUseCase
 import leshy.mushrooms.map.domain.usecase.SetCollectionPickedUseCase
+import leshy.mushrooms.map.domain.usecase.MISC_CATEGORY_NAME_KEY
+import leshy.mushrooms.map.domain.usecase.UNKNOWN_MUSHROOM_NAME_KEY
 import leshy.mushrooms.map.presentation.CollectionPickState
 import leshy.mushrooms.map.presentation.CollectionPickerItem
 import leshy.mushrooms.map.presentation.buildCollectionPickerItems
@@ -40,6 +45,7 @@ class OnboardingViewModel(
     private val onboardingRepository: OnboardingRepository,
     private val settingsRepository: SettingsRepository,
     private val countriesSource: CountriesSource,
+    private val speciesSetsSource: SpeciesSetsSource,
     private val ensureDefaultCategories: EnsureDefaultCategoriesUseCase,
     private val ensureDefaultCollections: EnsureDefaultCollectionsUseCase,
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
@@ -105,8 +111,12 @@ class OnboardingViewModel(
         items: List<CollectionPickerItem>,
         language: AppLanguage,
     ): List<CollectionPickerItem> {
+        // Наборы редакции стоят первыми и языковой перестановке не подлежат: они не про страну
+        // и «титульными» быть не могут, а уехав в хвост, потеряли бы весь смысл (см.
+        // `buildCollectionPickerItems`).
+        val (sets, countryItems) = items.partition { speciesSetIdForCollectionNameKey(it.collection.nameKey) != null }
         val speaking = countriesSource.entries.filter { language.code in it.langs }
-        if (speaking.isEmpty()) return items
+        if (speaking.isEmpty()) return sets + countryItems
         val titularCodes = speaking.filter { it.langs.firstOrNull() == language.code }
             .map { it.code }
             .toSet()
@@ -114,13 +124,13 @@ class OnboardingViewModel(
 
         // partition preserves the relative order inside each half, so each group stays in the
         // collections' own order and the untouched tail keeps it too.
-        val (titular, rest) = items.partition { item ->
+        val (titular, rest) = countryItems.partition { item ->
             countryCodeForCollectionNameKey(item.collection.nameKey) in titularCodes
         }
         val (alsoSpoken, others) = rest.partition { item ->
             countryCodeForCollectionNameKey(item.collection.nameKey) in otherCodes
         }
-        return titular + alsoSpoken + others
+        return sets + titular + alsoSpoken + others
     }
 
     /**
@@ -230,9 +240,29 @@ class OnboardingViewModel(
      * writes `isPicked = true` before the user reaches this screen, so a non-empty picked set can
      * only mean this already ran (or, in principle, a restored backup) — either way, re-forcing a
      * region pick on top of a state the user or a previous run already touched would be surprising.
+     *
+     * **Служебные виды в этом счёте не участвуют, и без этой оговорки предвыбор не работал
+     * вовсе.** «Неопознанный гриб» сеется сразу `isPicked = true` (и обязан — он нужен с первого
+     * дня), а «прочее» получает то же значение по умолчанию модели
+     * ([EnsureDefaultCategoriesUseCase]); то есть условие «хоть что-то отмечено» выполнялось на
+     * свежей установке всегда, и функция выходила первой же строкой. Поймано на эмуляторе
+     * 2026-09-26 по содержимому базы: отмечены ровно две служебные строки и ни одного вида.
+     * Дефект общий для обеих редакций.
      */
     private suspend fun preselectByDeviceRegion() {
-        if (categoryRepository.getAll().any { it.isPicked }) return
+        val serviceKeys = setOf(UNKNOWN_MUSHROOM_NAME_KEY, MISC_CATEGORY_NAME_KEY)
+        if (categoryRepository.getAll().any { it.isPicked && it.nameKey !in serviceKeys }) return
+        val defaults = speciesSetsSource.defaultSetIds
+        if (defaults.isNotEmpty()) {
+            // У редакции со своими наборами предвыбор не зависит от региона устройства вовсе:
+            // базовый набор — это и есть ответ на вопрос «с чего начать», и он один и тот же у
+            // человека с российским телефоном и у человека с чужим (`sets-ru.json`, `defaults`).
+            defaults.forEach { setId ->
+                collectionRepository.getByNameKey(speciesSetCollectionNameKey(setId))
+                    ?.let { setCollectionPickedUseCase(it.id, true) }
+            }
+            return
+        }
         val regionCode = currentDeviceRegionCode() ?: return
         val collection = collectionRepository.getByNameKey(countryCollectionNameKey(regionCode)) ?: return
         setCollectionPickedUseCase(collection.id, true)
