@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,10 +38,14 @@ fun FishSpeciesScreen(
 
     FishSectionScaffold(title = FishStringKey.SpeciesTitle, onMenuClick = onMenuClick) { padding ->
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = RECORD_FISH_TILE_WIDTH),
+            // FixedSize, а не Adaptive: у плитки есть собственная ширина под формат иллюстрации, и
+            // растягивать её по ячейке нельзя — на планшете это дало бы картинку вдвое шире
+            // исходника (правило проекта про потолок ширины у растров). Остаток ряда уходит в
+            // центрирующую отбивку.
+            columns = GridCells.FixedSize(RECORD_FISH_TILE_WIDTH),
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = androidx.compose.foundation.layout.PaddingValues(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }) {

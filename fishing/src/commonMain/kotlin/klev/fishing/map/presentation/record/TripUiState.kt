@@ -1,7 +1,9 @@
 package klev.fishing.map.presentation.record
 
 import klev.fishing.map.domain.model.Catch
+import klev.fishing.map.domain.model.CatchOutcome
 import klev.fishing.map.domain.model.FishSpecies
+import klev.fishing.map.domain.model.FishingMethod
 import klev.fishing.map.domain.model.PressureUnit
 import klev.fishing.map.domain.model.Trip
 import klev.fishing.map.domain.model.TripWeather
@@ -18,7 +20,16 @@ data class TripUiState(
     val species: List<FishSpecies> = emptyList(),
     val catches: List<Catch> = emptyList(),
     val recentBaits: List<String> = emptyList(),
+    /** Способы, которыми ловит этот человек (настройка «мои способы»): из них и предлагается старт. */
+    val methods: Set<FishingMethod> = FishingMethod.entries.toSet(),
     val pressureUnit: PressureUnit = PressureUnit.HPA,
+    /**
+     * Только что записанный одним касанием улов — одноразовый сигнал для снэкбара «Записано ·
+     * Уточнить». Держится в UiState, а не в `remember` экрана: правило проекта про одноразовые
+     * сигналы (`ui/navigation/CLAUDE.md`) — иначе при восстановлении экрана через `restoreState`
+     * снэкбар показался бы снова.
+     */
+    val justSavedCatchId: Long? = null,
     /** Открыт диалог погоды по окончании рыбалки — для неё, а не для активной. */
     val weatherPromptTripId: Long? = null,
     val weatherDraft: TripWeather? = null,
@@ -35,6 +46,10 @@ data class TripUiState(
     val totalWeightGrams: Int
         get() = catches.sumOf { it.weightGrams ?: 0 }
 
-    val keptCount: Int get() = catches.count { it.outcome == klev.fishing.map.domain.model.CatchOutcome.KEPT }
-    val lostCount: Int get() = catches.count { it.outcome == klev.fishing.map.domain.model.CatchOutcome.LOST }
+    val keptCount: Int get() = catches.count { it.outcome == CatchOutcome.KEPT }
+    val lostCount: Int get() = catches.count { it.outcome == CatchOutcome.LOST }
+
+    fun catchById(id: Long): Catch? = catches.firstOrNull { it.id == id }
+
+    fun speciesById(id: Long): FishSpecies? = species.firstOrNull { it.id == id }
 }

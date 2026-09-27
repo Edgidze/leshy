@@ -1,5 +1,7 @@
 package klev.fishing.map.ui.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import klev.fishing.map.domain.model.FishSpecies
@@ -76,6 +80,10 @@ private val FISH_PLATE_INSET = 6.dp
  * Фиксированной высоты у подписи нет намеренно: при крупном системном шрифте она обрезала бы вторую
  * строку — та же грабля, что уже исправлена на грибной плитке.
  *
+ * @param onLongClick удержание плитки. `null` — удержание не считается вовсе (в разделе «Виды рыб»
+ *   ему нечего делать). На «Рыбалке» это «записать и сразу уточнить»: касание уже записало рыбу, и
+ *   удержание отличается от него только тем, что сразу открывает лист с весом и приманкой.
+ *
  * @param hidden вид снят с ленты «Рыбалки» (`FishSpecies.isActive == false`). Плитка гаснет и
  *   получает перечёркнутый глаз в углу: в разделе «Виды рыб» касание плитки переключает именно это,
  *   и состояние обязано быть видно на самой плитке, а не только по отсутствию её в другом экране.
@@ -84,18 +92,34 @@ private val FISH_PLATE_INSET = 6.dp
  * [FishSilhouette] цвета вида. Когда картинки появятся, подключение — это данные каталога, а не
  * правка этого файла.
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SpeciesTile(
     species: FishSpecies,
     count: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onLongClick: (() -> Unit)? = null,
     hidden: Boolean = false,
 ) {
     val plateColor = MaterialTheme.colorScheme.surfaceContainerHighest
+    val haptics = LocalHapticFeedback.current
     Card(
-        onClick = onClick,
-        modifier = modifier.width(RECORD_FISH_TILE_WIDTH).alpha(if (hidden) HIDDEN_TILE_ALPHA else 1f),
+        modifier = modifier
+            .width(RECORD_FISH_TILE_WIDTH)
+            .alpha(if (hidden) HIDDEN_TILE_ALPHA else 1f)
+            // `combinedClickable`, а не `Card(onClick = ...)`: тому удержание неизвестно, а здесь
+            // это второй жест плитки. Отклик вибрацией на удержании обязателен — в перчатке и на
+            // морозе подтверждения на ощупь не заменяет ничто.
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick?.let {
+                    {
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                        it()
+                    }
+                },
+            ),
         colors = CardDefaults.cardColors(containerColor = plateColor),
     ) {
         Box(modifier = Modifier.fillMaxWidth().aspectRatio(FISH_PLATE_ASPECT_RATIO)) {

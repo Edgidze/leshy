@@ -87,6 +87,11 @@ class TripViewModel(
             }
         }
         viewModelScope.launch {
+            fishingSettings.observeMethods().collect { methods ->
+                _uiState.update { it.copy(methods = methods) }
+            }
+        }
+        viewModelScope.launch {
             trips.observeActive().collect { active ->
                 _uiState.update { it.copy(trip = active) }
                 if (active == null) {
@@ -186,8 +191,31 @@ class TripViewModel(
         viewModelScope.launch { trips.setWaterBody(tripId, name) }
     }
 
-    /** Улов. Координата — текущая, а если фикса нет, берётся последняя точка трека, а если и её
-     *  нет, старт рыбалки: запись обязана состояться, даже когда GPS молчит. */
+    /**
+     * Улов одним касанием плитки вида: пишется немедленно, без единой цифры, исходом «взял».
+     *
+     * **Это главное решение рыбацкого экрана записи, и оно от факта, а не от вкуса:** дневник, в
+     * котором запись занимает больше времени, чем вытащить рыбу, перестают вести через пару выездов
+     * (разбор и источники — `.claude/plans/fishing-ux.md`). Поэтому обязательного здесь нет ничего:
+     * вид известен по нажатой плитке, время и координата — у приложения, остальное человек уточнит
+     * тогда, когда у него будут сухие руки, — или не уточнит вовсе, и запись всё равно осталась.
+     *
+     * Правило проекта №1 («каждая находка коммитится немедленно») выполняется буквально: в памяти
+     * не задерживается ничего.
+     */
+    fun quickCatch(speciesId: Long) {
+        viewModelScope.launch {
+            val id = saveCatch(speciesId = speciesId, outcome = CatchOutcome.KEPT) ?: return@launch
+            _uiState.update { it.copy(justSavedCatchId = id) }
+        }
+    }
+
+    /** Сигнал снэкбара потреблён — иначе он показался бы снова при восстановлении экрана. */
+    fun consumeJustSaved() {
+        _uiState.update { it.copy(justSavedCatchId = null) }
+    }
+
+    /** Улов из формы: вид выбирается в ней самой (в ленте его может не быть — скрыт или свой). */
     fun addCatch(
         speciesId: Long,
         weightGrams: Int?,
@@ -197,30 +225,60 @@ class TripViewModel(
         lostReason: LostReason?,
         note: String?,
     ) {
+        viewModelScope.launch {
+            saveCatch(
+                speciesId = speciesId,
+                weightGrams = weightGrams,
+                lengthMm = lengthMm,
+                bait = bait,
+                outcome = outcome,
+                lostReason = lostReason,
+                note = note,
+            )
+        }
+    }
+
+    /**
+     * Координата — текущая, а если фикса нет, последняя точка трека, а если и её нет, нули: запись
+     * обязана состояться, даже когда GPS молчит. Нули честно означают «не знаем», как и у грибной
+     * находки без фикса.
+     */
+    private suspend fun saveCatch(
+        speciesId: Long,
+        weightGrams: Int? = null,
+        lengthMm: Int? = null,
+        bait: String? = null,
+        outcome: CatchOutcome,
+        lostReason: LostReason? = null,
+        note: String? = null,
+    ): Long? {
         val state = _uiState.value
-        val trip = state.trip ?: return
+        val trip = state.trip ?: return null
         val point = state.currentLocation
             ?: state.track.lastOrNull()
             ?: GeoPoint(0.0, 0.0, elevation = null, timestamp = 0L)
-        viewModelScope.launch {
-            addCatchUseCase(
-                Catch(
-                    id = 0,
-                    tripId = trip.id,
-                    speciesId = speciesId,
-                    lat = point.lat,
-                    lon = point.lon,
-                    timestamp = currentTimeMillis(),
-                    weightGrams = weightGrams,
-                    lengthMm = lengthMm,
-                    bait = bait?.trim()?.ifBlank { null },
-                    outcome = outcome,
-                    lostReason = if (outcome == CatchOutcome.LOST) lostReason else null,
-                    photoPath = null,
-                    note = note?.trim()?.ifBlank { null },
-                )
+        return addCatchUseCase(
+            Catch(
+                id = 0,
+                tripId = trip.id,
+                speciesId = speciesId,
+                lat = point.lat,
+                lon = point.lon,
+                timestamp = currentTimeMillis(),
+                weightGrams = weightGrams,
+                lengthMm = lengthMm,
+                bait = bait?.trim()?.ifBlank { null },
+                outcome = outcome,
+                lostReason = if (outcome == CatchOutcome.LOST) lostReason else null,
+                photoPath = null,
+                note = note?.trim()?.ifBlank { null },
             )
-        }
+        )
+    }
+
+    /** Правка уже записанного улова — то, чем закрывается быстрая запись «в одно касание». */
+    fun updateCatch(item: Catch) {
+        viewModelScope.launch { catches.update(item) }
     }
 
     fun deleteCatch(id: Long) {

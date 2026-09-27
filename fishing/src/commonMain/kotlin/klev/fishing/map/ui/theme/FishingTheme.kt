@@ -73,6 +73,13 @@ private val fishingLightColors = lightColorScheme(
     surfaceContainerHighest = Color(0xFFD5E3E9),
     outline = Color(0xFF6D7C83),
     outlineVariant = Color(0xFFBECDD4),
+    // Инверсные — это снэкбар: он рисуется `inverseSurface`/`inverseOnSurface`, а его кнопка —
+    // `inversePrimary`. Без явных значений там остаётся базовая фиолетовая палитра Material, и
+    // «Уточнить» в снэкбаре оказывалось единственным фиолетовым пятном приложения (видно на
+    // эмуляторе).
+    inverseSurface = Color(0xFF1B2C33),
+    inverseOnSurface = Color(0xFFEDF4F7),
+    inversePrimary = Color(0xFF7FD1E8),
 )
 
 private val fishingDarkColors = darkColorScheme(
@@ -100,4 +107,7 @@ private val fishingDarkColors = darkColorScheme(
     surfaceContainerHighest = Color(0xFF243D46),
     outline = Color(0xFF87979E),
     outlineVariant = Color(0xFF3B4A51),
+    inverseSurface = Color(0xFFE2ECF0),
+    inverseOnSurface = Color(0xFF0E1C21),
+    inversePrimary = Color(0xFF12607A),
 )

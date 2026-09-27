@@ -20,6 +20,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.material3.IconButton
@@ -43,6 +44,7 @@ import kotlinx.coroutines.launch
 import leshy.mushrooms.map.data.platform.currentDeviceLanguage
 import leshy.mushrooms.map.domain.model.EditionLanguages
 import leshy.mushrooms.map.domain.model.ThemeMode
+import leshy.mushrooms.map.data.repository.MapStyleCacheRepository
 import leshy.mushrooms.map.domain.repository.SettingsRepository
 import leshy.mushrooms.map.i18n.LocalAppLanguage
 import leshy.mushrooms.map.ui.theme.isDark
@@ -80,8 +82,20 @@ fun FishingApp() {
     val language by settings.observeLanguage().collectAsState(initial = currentDeviceLanguage(editionLanguages))
     val themeMode by settings.observeThemeMode().collectAsState(initial = ThemeMode.SYSTEM)
 
+    val useDarkTheme = themeMode.isDark()
+    // Стиль карты — общий с грибным приложением и живёт в `:shared`, поэтому и обслуживается так же,
+    // как там (`App()`): подписи на языке интерфейса, тёмный вариант под тёмную тему, загрузка
+    // закреплённого стиля до того, как открыт хоть один экран с картой. Без этих трёх строк карта
+    // в тёмной теме оставалась светлым пятном на тёмном экране (видно на эмуляторе 2026-09-28), а
+    // подписи — на языке тайлов. Ни одна из них не ходит в сеть без нужды и не трогает офлайн-пакеты
+    // — разбор в KDoc самого репозитория.
+    val mapStyleCache = koinInject<MapStyleCacheRepository>()
+    LaunchedEffect(language) { mapStyleCache.setLabelLanguage(language) }
+    LaunchedEffect(useDarkTheme) { mapStyleCache.setDarkTheme(useDarkTheme) }
+    LaunchedEffect(Unit) { mapStyleCache.ensureLoaded() }
+
     CompositionLocalProvider(LocalAppLanguage provides language) {
-        FishingTheme(useDarkTheme = themeMode.isDark()) {
+        FishingTheme(useDarkTheme = useDarkTheme) {
             val navController = rememberNavController()
             val backStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = backStackEntry?.destination
