@@ -5,7 +5,9 @@ import klev.fishing.map.domain.model.FishingMethod
 import klev.fishing.map.domain.repository.CatchRepository
 import klev.fishing.map.domain.repository.TripRepository
 import klev.fishing.map.domain.repository.TripTrackPointRepository
-import leshy.mushrooms.map.domain.util.haversineMeters
+import leshy.mushrooms.map.domain.model.GeoPoint
+import leshy.mushrooms.map.domain.util.TrackStep
+import leshy.mushrooms.map.domain.util.trackStep
 
 /**
  * Начать рыбалку. Возвращает её id.
@@ -26,20 +28,6 @@ class StartTripUseCase(private val trips: TripRepository) {
  * прореживается для отрисовки (`TrackDecimation` в `:shared`), и сумма по прореженному треку тем
  * меньше настоящей, чем сильнее прореживание.
  */
-/**
- * Физически возможная скорость перемещения на рыбалке, м/с. 60 м/с — это 216 км/ч: машиной между
- * точками доехать можно, телепортироваться нельзя. Всё, что выше, — скачок приёмника, а не путь.
- */
-private const val MAX_PLAUSIBLE_SPEED_MPS = 60.0
-
-/**
- * После какого перерыва между фиксами скачок перестаёт быть скачком. Приложение могло не получать
- * геопозицию полчаса (в кармане, без неба над головой, с выключенной службой), и за это время
- * человек действительно уехал за сто километров — новая координата верна, а вот пути между ними мы
- * не видели и приписывать его к пройденному не имеем права.
- */
-private const val STALE_GAP_SECONDS = 300L
-
 class RecordTripPointUseCase(
     private val points: TripTrackPointRepository,
     private val trips: TripRepository,
@@ -47,16 +35,11 @@ class RecordTripPointUseCase(
     /**
      * Записать точку трека и обновить пройденное.
      *
-     * **Скачки приёмника сюда не попадают, и это не перестраховка.** Первый же прогон на эмуляторе
-     * дал 633 км за две секунды: приёмник отдал фикс из прошлого места, и он честно лёг в сумму.
-     * На телефоне это выглядит так же — «холодный» первый фикс, переход с вышек на спутники, выход
-     * из-под моста. Рыбалка, где написано 600 км пути, бесполезна: числу перестают верить целиком.
+     * **Скачки приёмника сюда не попадают.** Правило и его разбор — `trackStep` в `:shared`
+     * (`domain/util/TrackPlausibility.kt`); оно общее с грибными прогулками сознательно, чтобы две
+     * копии не разъехались. Поймано первым же прогоном на эмуляторе: 633 км за две секунды.
      *
-     * Грибное приложение такой проверки не делает (`RecordTrackPointUseCase` в `:shared` складывает
-     * что дали) — это не образец, а место, где рыбалке нужно строже: у неё выезд длится часы и
-     * телефон эти часы лежит в кармане.
-     *
-     * Расстояние считается по ПОЛНОМУ треку и хранится в самой рыбалке: на отрисовку трек
+     * Расстояние хранится в самой рыбалке, а не считается по треку при показе: на отрисовку трек
      * прореживается (`TrackDecimation` в `:shared`), и сумма по прореженному тем меньше настоящей,
      * чем сильнее прореживание.
      */
@@ -66,20 +49,21 @@ class RecordTripPointUseCase(
             points.append(tripId, lat, lon, at)
             return
         }
-        val grown = haversineMeters(previous.lat, previous.lon, lat, lon)
-        val elapsedSeconds = ((at - previous.timestamp) / 1000).coerceAtLeast(1L)
-        val impliedSpeed = grown / elapsedSeconds
-        when {
-            impliedSpeed <= MAX_PLAUSIBLE_SPEED_MPS -> {
+        val step = trackStep(
+            previous = GeoPoint(previous.lat, previous.lon, elevation = null, timestamp = previous.timestamp),
+            next = GeoPoint(lat, lon, elevation = null, timestamp = at),
+        )
+        when (step) {
+            // Скачок приёмника: точку не пишем вовсе — иначе она прочертит через весь экран линию,
+            // которой не было, а следующий фикс будет мериться от выброшенной координаты.
+            TrackStep.ReceiverJump -> Unit
+            // Вернулись после перерыва: координата верна, пути между точками мы не видели.
+            TrackStep.ResumedAfterGap -> points.append(tripId, lat, lon, at)
+            is TrackStep.Continues -> {
                 points.append(tripId, lat, lon, at)
                 val current = trips.getById(tripId)?.distanceMeters ?: return
-                trips.setDistance(tripId, current + grown)
+                trips.setDistance(tripId, current + step.meters)
             }
-            // Перерыва не было — значит это скачок приёмника. Точку не пишем вовсе: иначе она
-            // прочертит через весь экран линию, которой не было.
-            elapsedSeconds < STALE_GAP_SECONDS -> Unit
-            // Перерыв был: координата верна, путь между ними не наш.
-            else -> points.append(tripId, lat, lon, at)
         }
     }
 }

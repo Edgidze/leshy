@@ -39,6 +39,7 @@ import leshy.mushrooms.map.domain.usecase.ObserveSpeciesPriorityUseCase
 import leshy.mushrooms.map.domain.usecase.SpeciesPriority
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
 import leshy.mushrooms.map.domain.usecase.RecordTrackPointUseCase
+import leshy.mushrooms.map.domain.usecase.TrackPointResult
 import leshy.mushrooms.map.domain.usecase.RemoveLastMushroomMarkUseCase
 import leshy.mushrooms.map.domain.usecase.RenameWalkUseCase
 import leshy.mushrooms.map.domain.usecase.StartWalkUseCase
@@ -597,11 +598,22 @@ class RecordViewModel(
                     publishGpsCourse(fix)
                     val currentWalkId = walkId
                     if (currentWalkId != null && _uiState.value.isRecording && !_uiState.value.isPaused) {
-                        val delta = recordTrackPoint(currentWalkId, point, trackSequence, lastPersistedPoint)
-                        trackSequence += 1
-                        lastPersistedPoint = point
-                        _uiState.update {
-                            it.copy(distanceMeters = it.distanceMeters + delta, trackPoints = it.trackPoints + point)
+                        // Скачок приёмника (`Skipped`) не двигает ни счётчик последовательности,
+                        // ни `lastPersistedPoint`: следующий фикс обязан мериться от последней
+                        // ДОСТОВЕРНОЙ точки, иначе выброшенная координата всё равно попадёт в
+                        // расстояние — просто на шаг позже. Разбор — `domain/util/TrackPlausibility.kt`.
+                        when (val result = recordTrackPoint(currentWalkId, point, trackSequence, lastPersistedPoint)) {
+                            is TrackPointResult.Recorded -> {
+                                trackSequence += 1
+                                lastPersistedPoint = point
+                                _uiState.update {
+                                    it.copy(
+                                        distanceMeters = it.distanceMeters + result.deltaMeters,
+                                        trackPoints = it.trackPoints + point,
+                                    )
+                                }
+                            }
+                            TrackPointResult.Skipped -> Unit
                         }
                     }
                 }
