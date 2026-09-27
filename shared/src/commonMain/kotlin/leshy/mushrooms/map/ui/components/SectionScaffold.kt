@@ -13,6 +13,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.material3.LocalTextStyle
 import leshy.mushrooms.map.i18n.HelpTopic
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
@@ -50,7 +54,7 @@ fun SectionScaffold(
         topBar = {
             TopAppBar(
                 colors = leshyTopAppBarColors(),
-                title = { Text(stringResource(title)) },
+                title = { SectionBarTitle(stringResource(title)) },
                 navigationIcon = {
                     IconButton(onClick = onMenuClick) {
                         Icon(
@@ -71,5 +75,44 @@ fun SectionScaffold(
             )
         },
         content = content,
+    )
+}
+
+/**
+ * Название раздела в шапке — **единственный текст приложения, который не растёт вместе с
+ * системным шрифтом.**
+ *
+ * Обычно замораживать кегль нельзя: человек, увеличивший шрифт, увеличил его чтобы читать. Здесь
+ * исключение, и оно узкое. Шапка ничего не сообщает и ни на что не нажимается: это имя раздела
+ * (а на «Записи» — имя приложения), и читают его один раз. Расти ему при этом некуда, кроме как
+ * вниз: на iPhone SE при системном размере «Крупный» «Грибные прогулки: карта России» занимало
+ * ТРИ строки и съедало карту, ради которой экран открыт (репорт владельца 2026-09-27).
+ *
+ * Кегль берётся у стиля, который подставляет сама `TopAppBar` ([LocalTextStyle]) — то есть и
+ * ступень шкалы редакции (`LeshyTokens.typeScaleStep`) остаётся учтённой, — и переводится в
+ * величину, не зависящую от `fontScale`: при системном шрифте ×1 шапка выглядит ровно как
+ * прежде, пиксель в пиксель.
+ *
+ * Две строки всё-таки разрешены: имя приложения российской редакции в две строки встаёт и при
+ * обычном шрифте, а имена разделов в сорока двух языках бывают длиннее русских.
+ */
+@Composable
+private fun SectionBarTitle(text: String) {
+    val style = LocalTextStyle.current
+    val density = LocalDensity.current
+    val frozenFontSize = with(density) { style.fontSize.value.dp.toSp() }
+    // Межстрочное — той же долей кегля, что у исходного стиля: иначе строки разъезжались бы при
+    // крупном системном шрифте, хотя сами буквы остались прежними.
+    val frozenLineHeight = if (style.lineHeight.isSp && style.fontSize.isSp) {
+        frozenFontSize * (style.lineHeight.value / style.fontSize.value)
+    } else {
+        TextUnit.Unspecified
+    }
+    Text(
+        text = text,
+        fontSize = frozenFontSize,
+        lineHeight = frozenLineHeight,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis,
     )
 }
