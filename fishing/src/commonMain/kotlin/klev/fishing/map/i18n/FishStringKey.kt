@@ -52,7 +52,6 @@ enum class FishStringKey {
 
     // Улов
     CatchTitle,
-    CatchEditTitle,
     CatchSpecies,
     CatchSpeciesPick,
     CatchSpeciesChange,
@@ -62,7 +61,6 @@ enum class FishStringKey {
     CatchLengthHint,
     CatchBait,
     CatchBaitHint,
-    CatchBaitRecent,
     CatchOutcome,
     CatchOutcomeKept,
     CatchOutcomeReleased,
@@ -77,12 +75,10 @@ enum class FishStringKey {
     CatchLostOther,
     CatchNote,
     CatchNoteHint,
-    CatchSave,
     CatchDone,
     CatchMore,
     CatchLess,
     CatchBaitOther,
-    CatchTime,
     CatchDelete,
     CatchDeleteConfirm,
     CatchWeightTooBig,
@@ -138,7 +134,6 @@ enum class FishStringKey {
     ArchiveTitle,
     ArchiveEmpty,
     ArchiveEmptyHint,
-    ArchiveUnnamedTrip,
     ArchiveRename,
     ArchiveRenameTitle,
     ArchiveDelete,
@@ -164,8 +159,6 @@ enum class FishStringKey {
     // Виды рыб
     SpeciesTitle,
     SpeciesHint,
-    SpeciesHiddenLabel,
-    SpeciesShownCount,
 
     // Карта
     MapTitle,
@@ -184,8 +177,6 @@ enum class FishStringKey {
     SettingsWeightUnit,
     SettingsWeightMetric,
     SettingsWeightImperial,
-    SettingsSpeciesTitle,
-    SettingsSpeciesHint,
     SettingsThemeLight,
     SettingsThemeSystem,
     SettingsThemeDark,
