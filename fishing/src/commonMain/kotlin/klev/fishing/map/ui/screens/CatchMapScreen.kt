@@ -23,8 +23,8 @@ import klev.fishing.map.i18n.fishStringResource
 import klev.fishing.map.presentation.map.CatchMapViewModel
 import klev.fishing.map.ui.components.rememberMapRevealed
 import klev.fishing.map.ui.components.speciesDisplayName
-import leshy.mushrooms.map.ui.map.AggregatedFindsMap
-import leshy.mushrooms.map.ui.map.MapMarker
+import klev.fishing.map.ui.map.CatchMap
+import klev.fishing.map.ui.map.CatchMarker
 import org.koin.compose.viewmodel.koinViewModel
 
 /**
@@ -54,12 +54,12 @@ fun CatchMapScreen(viewModel: CatchMapViewModel = koinViewModel()) {
     Column(Modifier.fillMaxSize()) {
         val colors = uiState.species.associate { it.id to it.colorHex }
         val markers = uiState.visibleCatches.map { item ->
-            MapMarker(lat = item.lat, lon = item.lon, colorHex = colors[item.speciesId] ?: "#4f6b3a")
+            CatchMarker(lat = item.lat, lon = item.lon, colorHex = colors[item.speciesId] ?: "#4f6b3a")
         }
         // Карта создаётся не в кадре открытия экрана — иначе уничтожение карты уходящего экрана
         // совпадает с созданием этой и вешает главный поток. Разбор — `rememberMapRevealed`.
         if (rememberMapRevealed()) {
-            AggregatedFindsMap(
+            CatchMap(
                 tracks = uiState.tracks,
                 markers = markers,
                 modifier = Modifier.fillMaxWidth().weight(1f),

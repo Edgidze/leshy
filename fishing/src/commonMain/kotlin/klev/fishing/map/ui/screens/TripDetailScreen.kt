@@ -37,8 +37,8 @@ import klev.fishing.map.ui.components.formatTemperature
 import klev.fishing.map.ui.components.formatWeight
 import klev.fishing.map.ui.components.formatWind
 import klev.fishing.map.ui.components.speciesDisplayName
-import leshy.mushrooms.map.ui.map.AggregatedFindsMap
-import leshy.mushrooms.map.ui.map.MapMarker
+import klev.fishing.map.ui.map.CatchMap
+import klev.fishing.map.ui.map.CatchMarker
 import leshy.mushrooms.map.ui.util.formatDateTime
 import leshy.mushrooms.map.ui.util.formatDistanceKm
 import leshy.mushrooms.map.ui.util.formatDurationShort
@@ -74,13 +74,13 @@ fun TripDetailScreen(
 
         if ((uiState.track.isNotEmpty() || uiState.catches.isNotEmpty()) && rememberMapRevealed()) {
             val markers = uiState.catches.map { item ->
-                MapMarker(
+                CatchMarker(
                     lat = item.lat,
                     lon = item.lon,
                     colorHex = uiState.species[item.speciesId]?.colorHex ?: "#4f6b3a",
                 )
             }
-            AggregatedFindsMap(
+            CatchMap(
                 tracks = mapOf(trip.id to uiState.track),
                 markers = markers,
                 modifier = Modifier.fillMaxWidth().height(220.dp),
