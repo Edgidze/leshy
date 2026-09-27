@@ -35,6 +35,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -59,7 +60,9 @@ import leshy.mushrooms.map.i18n.HelpKey
 import leshy.mushrooms.map.i18n.LocalAppLanguage
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.stringResource
+import leshy.mushrooms.map.domain.model.Edition
 import leshy.mushrooms.map.ui.theme.LeshyTheme
+import leshy.mushrooms.map.ui.theme.LocalEdition
 import leshy.shared.generated.resources.Res
 import leshy.shared.generated.resources.ic_mushrooms
 import org.jetbrains.compose.resources.painterResource
@@ -89,6 +92,8 @@ fun HelpIllustration(key: HelpKey, modifier: Modifier = Modifier) {
     when (key) {
         HelpKey.RecordPurpose -> HelpFrame(modifier) { RecordScreenMock() }
         HelpKey.RecordStartFinish -> HelpFrame(modifier) { RecordButtonsMock() }
+        // Тот же макет: он и так рисует ряд той редакции, в которой показан.
+        HelpKey.RecordStartFinishLabelled -> HelpFrame(modifier) { RecordButtonsMock() }
         HelpKey.RecordTiles -> HelpFrame(modifier) { MushroomTilesMock() }
         HelpKey.RecordPlace -> HelpFrame(modifier) { PlaceButtonMock() }
         HelpKey.RecordNavigation -> HelpFrame(modifier) { NavigationPanelMock() }
@@ -381,9 +386,24 @@ private fun RecordScreenMock() {
     }
 }
 
-/** Нижний ряд «Записи» в двух состояниях: идёт запись и стоит на паузе. */
+/**
+ * Нижний ряд «Записи» в двух состояниях: идёт запись и стоит на паузе.
+ *
+ * Единственный макет, который зависит от редакции, — потому что сам ряд у них разный
+ * (`RecordActionRow`): у мировой круглые значки по краям, у российской три подписанные кнопки.
+ * Макет, показывающий не тот ряд, который человек видит на экране, — ровно тот дефект, из-за
+ * которого справка перестаёт быть справкой.
+ */
 @Composable
 private fun RecordButtonsMock() {
+    when (LocalEdition.current) {
+        Edition.WORLD -> WorldRecordButtonsMock()
+        Edition.RUSSIA -> RussiaRecordButtonsMock()
+    }
+}
+
+@Composable
+private fun WorldRecordButtonsMock() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -400,6 +420,47 @@ private fun RecordButtonsMock() {
     ) {
         MockButton(stringResource(StringKey.RecordResume), modifier = Modifier.weight(1f))
         MockButton(stringResource(StringKey.RecordFinish), modifier = Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun RussiaRecordButtonsMock() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        MockButton(
+            stringResource(StringKey.RecordPlaceLabel),
+            modifier = Modifier.weight(1f),
+            leadingIcon = Icons.Filled.AddLocationAlt,
+        )
+        MockButton(
+            stringResource(StringKey.RecordStartLabel),
+            modifier = Modifier.weight(1f),
+            leadingIcon = Icons.Filled.PlayArrow,
+        )
+        MockButton(
+            stringResource(StringKey.RecordSearchLabel),
+            modifier = Modifier.weight(1f),
+            leadingIcon = Icons.Filled.Search,
+        )
+    }
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        MockButton(
+            stringResource(StringKey.RecordResume),
+            modifier = Modifier.weight(1f),
+            leadingIcon = Icons.Filled.PlayArrow,
+        )
+        MockButton(
+            stringResource(StringKey.RecordFinish),
+            modifier = Modifier.weight(1f),
+            leadingIcon = Icons.Filled.Stop,
+        )
     }
 }
 

@@ -70,4 +70,32 @@ val EDITION_ONLY_KEYS: Set<StringKey> = setOf(
     StringKey.AppNameRussia,
     StringKey.AboutMapDataTextSelfHosted,
     StringKey.SpeciesCollectionsTitleSets,
+    StringKey.RecordPlaceLabel,
+    StringKey.RecordSearchLabel,
+    StringKey.RecordStartLabel,
+)
+
+/**
+ * Блоки справки раздела с поправкой на редакцию.
+ *
+ * Пока поправка одна: у редакции с подписанными кнопками «Записи» стартовая кнопка называется
+ * «Начать», и блок про старт/финиш берётся другой ([HelpKey.RecordStartFinishLabelled]). Правило
+ * то же, что у [editionStringKeysFor]: экран спрашивает, какие блоки показывать, и ветвления по
+ * редакции не видит.
+ */
+fun editionHelpBlocks(topic: HelpTopic, edition: Edition): List<HelpKey> = when (edition) {
+    Edition.WORLD -> topic.blocks
+    Edition.RUSSIA -> topic.blocks.map { block ->
+        if (block == HelpKey.RecordStartFinish) HelpKey.RecordStartFinishLabelled else block
+    }
+}
+
+/**
+ * Ключи справки, которые показывает одна редакция, — исключение из проверок полноты переводов и
+ * «каждый ключ показан каким-то разделом» (`HelpTextsTest`), ровно по той же причине и на тех же
+ * условиях, что [EDITION_ONLY_KEYS]: эти блоки видит только российская редакция с её двумя
+ * языками, остальные языки штатно уходят на английский фолбэк.
+ */
+val EDITION_ONLY_HELP_KEYS: Set<HelpKey> = setOf(
+    HelpKey.RecordStartFinishLabelled,
 )

@@ -1,6 +1,7 @@
 package leshy.mushrooms.map.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -50,6 +51,12 @@ fun LeshyButton(
     dimmed: Boolean = false,
     shape: Shape = LeshyTheme.tokens.shapeButton,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
+    /**
+     * Поля вокруг содержимого. Дефолт Material3 — 24dp по горизонтали; сужается там, где кнопке
+     * достаётся треть ширины экрана и внутри стоит не одна подпись, а значок с подписью
+     * ([leshy.mushrooms.map.ui.components.RecordActionRow] российской редакции).
+     */
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit,
 ) {
     val outline = MaterialTheme.colorScheme.outline
@@ -76,6 +83,7 @@ fun LeshyButton(
         } else {
             woodenColors
         },
+        contentPadding = contentPadding,
         border = BorderStroke(
             BORDER_WIDTH,
             if (looksEnabled) outline else outline.copy(alpha = DISABLED_BORDER_ALPHA),

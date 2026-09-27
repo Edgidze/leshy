@@ -1,6 +1,7 @@
 package leshy.mushrooms.map.i18n
 
 import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.domain.model.Edition
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -30,7 +31,7 @@ class HelpTextsTest {
     @Test
     fun everyHelpTranslationMapIsCompleteAndNonBlank() {
         helpTranslations.forEach { (language, texts) ->
-            val missing = HelpKey.entries.toSet() - texts.keys
+            val missing = HelpKey.entries.toSet() - texts.keys - EDITION_ONLY_HELP_KEYS
             assertTrue(missing.isEmpty(), "$language is missing help texts for: $missing")
             texts.forEach { (key, value) -> assertTrue(value.isNotBlank(), "$language/$key is blank") }
         }
@@ -54,7 +55,32 @@ class HelpTextsTest {
     @Test
     fun everyHelpKeyBelongsToSomeTopic() {
         val used = HelpTopic.entries.flatMap { it.blocks }.toSet()
-        assertEquals(HelpKey.entries.toSet(), used, "help keys not shown by any section")
+        assertEquals(HelpKey.entries.toSet() - EDITION_ONLY_HELP_KEYS, used, "help keys not shown by any section")
+    }
+
+    /**
+     * ...а ключи редакции — тем, что их показывает [editionHelpBlocks] этой редакции. Без этой
+     * проверки исключение выше стало бы дырой: забытый ключ редакции не показал бы никто, и
+     * заметить это было бы некому.
+     */
+    @Test
+    fun everyEditionOnlyHelpKeyIsShownBySomeEdition() {
+        val shownByEditions = Edition.entries.flatMap { edition ->
+            HelpTopic.entries.flatMap { topic -> editionHelpBlocks(topic, edition) }
+        }.toSet()
+        val unused = EDITION_ONLY_HELP_KEYS - shownByEditions
+        assertTrue(unused.isEmpty(), "edition help keys shown by nobody: $unused")
+    }
+
+    /** Блок редакции обязан иметь настоящий русский и английский текст — на остальных языках он
+     * штатно уходит на английский фолбэк, ровно как строки из `EDITION_ONLY_KEYS`. */
+    @Test
+    fun everyEditionOnlyHelpKeyHasRussianAndEnglishText() {
+        EDITION_ONLY_HELP_KEYS.forEach { key ->
+            listOf(AppLanguage.RU, AppLanguage.EN).forEach { language ->
+                assertTrue(helpText(key, language).length > 40, "$language/$key без настоящего текста")
+            }
+        }
     }
 
     /** ...and to exactly one section: a block shown by two sections would be a copy-paste slip in

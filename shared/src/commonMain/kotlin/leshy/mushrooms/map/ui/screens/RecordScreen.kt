@@ -32,9 +32,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AddLocationAlt
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -61,7 +59,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -97,7 +94,6 @@ import leshy.mushrooms.map.ui.components.AddPlaceDialog
 import leshy.mushrooms.map.ui.components.AddSpeciesTile
 import leshy.mushrooms.map.ui.components.DeletePlaceConfirmDialog
 import leshy.mushrooms.map.ui.components.dialogWidth
-import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.MapFilterButton
 import leshy.mushrooms.map.ui.components.MapFilterDialog
 import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_ASPECT_RATIO
@@ -105,8 +101,6 @@ import leshy.mushrooms.map.ui.components.MUSHROOM_PHOTO_MAX_WIDTH
 import leshy.mushrooms.map.ui.components.MushroomPhoto
 import leshy.mushrooms.map.ui.components.GlyphBadge
 import leshy.mushrooms.map.ui.components.MushroomTile
-import leshy.mushrooms.map.ui.components.glyphBadgeBackground
-import leshy.mushrooms.map.ui.components.glyphBadgeContentColor
 import leshy.mushrooms.map.ui.components.groundBackground
 import leshy.mushrooms.map.ui.components.NavigationOverlayPanel
 import leshy.mushrooms.map.ui.components.PlaceViewDialog
@@ -137,11 +131,11 @@ import leshy.mushrooms.map.domain.model.Edition
 import org.koin.compose.viewmodel.koinViewModel
 import kotlinx.coroutines.launch
 import leshy.mushrooms.map.ui.map.MAP_SCALE_BAR_CLEARANCE
+import leshy.mushrooms.map.ui.components.RecordActionRow
 import leshy.mushrooms.map.ui.components.dialogFrame
 import leshy.mushrooms.map.ui.components.cardFrameBorder
 import kotlin.math.roundToInt
 
-private val ACTION_BUTTON_HEIGHT = 56.dp
 private val TILE_WIDTH = RECORD_MUSHROOM_TILE_WIDTH
 
 /**
@@ -191,13 +185,6 @@ private const val HOUR_MILLIS = 3_600_000L
 // Gap between tiles in the feed's LazyRow — also fed into the pixel-distance math for the
 // slow scroll-to-front below, so keep the two in sync if this ever changes.
 private val TILE_SPACING = 8.dp
-
-// Start/Pause pill's preferred width — shrunk on narrow screens (see CENTER_BUTTON_MIN_WIDTH)
-// so the round side buttons always get their full ACTION_BUTTON_HEIGHT slot and never compress.
-private val CENTER_BUTTON_MAX_WIDTH = 200.dp
-private val CENTER_BUTTON_MIN_WIDTH = 130.dp
-private val ROW_HORIZONTAL_PADDING = 16.dp
-private val SIDE_BUTTON_SLOT_WIDTH = 64.dp
 
 @Composable
 fun RecordScreen(
@@ -721,95 +708,25 @@ private fun RecordScreenContent(
                     .fillMaxWidth()
                     .onSizeChanged { bottomControlsHeight = with(density) { it.height.toDp() } },
             ) {
-                BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-                    // The Start/Pause pill is normally a fixed CENTER_BUTTON_MAX_WIDTH, but on a
-                    // narrow screen (e.g. iPhone SE's 320dp) that plus two ACTION_BUTTON_HEIGHT
-                    // side buttons doesn't fit — shrinking the pill first keeps each side button's
-                    // weighted slot at least SIDE_BUTTON_SLOT_WIDTH, so it's never forced smaller
-                    // than its own icon and centered unevenly inside its slot.
-                    val centerButtonWidth = (maxWidth - ROW_HORIZONTAL_PADDING * 2 - SIDE_BUTTON_SLOT_WIDTH * 2)
-                        .coerceIn(CENTER_BUTTON_MIN_WIDTH, CENTER_BUTTON_MAX_WIDTH)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = ROW_HORIZONTAL_PADDING, vertical = 16.dp),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        when {
-                            !uiState.isRecording -> {
-                                // No walk to attach a place to yet — same dimmed/disabled treatment
-                                // as a mushroom tile's minus button before any find is logged.
-                                RecordSideButton(
-                                    icon = Icons.Filled.AddLocationAlt,
-                                    contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
-                                    onClick = onMarkLocationClickChecked,
-                                    enabled = false,
-                                    modifier = Modifier.weight(1f).fillMaxWidth(),
-                                )
-                                LeshyButton(
-                                    onClick = { showNameDialog = true },
-                                    shape = LeshyTheme.tokens.shapeActionButton,
-                                    modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(centerButtonWidth),
-                                ) {
-                                    Text(stringResource(StringKey.RecordStart))
-                                }
-                                RecordSideButton(
-                                    icon = Icons.Filled.Search,
-                                    contentDescription = stringResource(StringKey.RecordSearchContentDescription),
-                                    onClick = onSearchClick,
-                                    modifier = Modifier.weight(1f).fillMaxWidth(),
-                                )
-                            }
-                            !uiState.isPaused -> {
-                                RecordSideButton(
-                                    icon = Icons.Filled.AddLocationAlt,
-                                    contentDescription = stringResource(StringKey.RecordMarkLocationContentDescription),
-                                    onClick = onMarkLocationClickChecked,
-                                    modifier = Modifier.weight(1f).fillMaxWidth(),
-                                )
-                                LeshyButton(
-                                    onClick = {
-                                        haptics.walkPaused()
-                                        onPauseOrResumeClick()
-                                    },
-                                    shape = LeshyTheme.tokens.shapeActionButton,
-                                    modifier = Modifier.height(ACTION_BUTTON_HEIGHT).width(centerButtonWidth),
-                                ) {
-                                    Text(stringResource(StringKey.RecordPause))
-                                }
-                                RecordSideButton(
-                                    icon = Icons.Filled.Search,
-                                    contentDescription = stringResource(StringKey.RecordSearchContentDescription),
-                                    onClick = onSearchClick,
-                                    modifier = Modifier.weight(1f).fillMaxWidth(),
-                                )
-                            }
-                            else -> {
-                                LeshyButton(
-                                    onClick = {
-                                        haptics.walkResumed()
-                                        onPauseOrResumeClick()
-                                    },
-                                    shape = LeshyTheme.tokens.shapeActionButton,
-                                    modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
-                                ) {
-                                    Text(stringResource(StringKey.RecordResume))
-                                }
-                                Spacer(modifier = Modifier.width(8.dp))
-                                LeshyButton(
-                                    onClick = {
-                                        haptics.walkFinished()
-                                        onFinishClick()
-                                    },
-                                    shape = LeshyTheme.tokens.shapeActionButton,
-                                    modifier = Modifier.height(ACTION_BUTTON_HEIGHT).weight(1f),
-                                ) {
-                                    Text(stringResource(StringKey.RecordFinish))
-                                }
-                            }
-                        }
-                    }
-                }
+                RecordActionRow(
+                    isRecording = uiState.isRecording,
+                    isPaused = uiState.isPaused,
+                    onMarkPlaceClick = onMarkLocationClickChecked,
+                    onSearchClick = onSearchClick,
+                    onStartClick = { showNameDialog = true },
+                    onPauseClick = {
+                        haptics.walkPaused()
+                        onPauseOrResumeClick()
+                    },
+                    onResumeClick = {
+                        haptics.walkResumed()
+                        onPauseOrResumeClick()
+                    },
+                    onFinishClick = {
+                        haptics.walkFinished()
+                        onFinishClick()
+                    },
+                )
 
                 LazyRow(
                     state = tileListState,
@@ -911,44 +828,6 @@ private fun RecordScreenContent(
             onSave = onSaveSpecies,
             onDismissRequest = { showAddSpeciesDialog = false },
         )
-    }
-}
-
-/**
- * Small round button flanking the single centered action button (START or Pause) — hidden once
- * paused, when the Resume/Finish pair fills the whole row and would otherwise overlap it.
- */
-@Composable
-private fun RecordSideButton(
-    icon: ImageVector,
-    contentDescription: String?,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-) {
-    Box(modifier = modifier, contentAlignment = Alignment.Center) {
-        IconButton(
-            onClick = onClick,
-            enabled = enabled,
-            modifier = Modifier
-                .size(ACTION_BUTTON_HEIGHT)
-                .glyphBadgeBackground(
-                    shape = LeshyTheme.tokens.shapeRoundButton,
-                    fallbackBackground = MaterialTheme.colorScheme.secondaryContainer,
-                    fallbackBorder = MaterialTheme.colorScheme.outline,
-                ),
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = contentDescription,
-                // 0.38f matches Material3's own disabled-content alpha (IconButtonDefaults) — the
-                // icon is set explicitly here instead of inheriting it, so it must be applied by
-                // hand to get the same "faded" look the mushroom tiles' minus button gets for free.
-                tint = glyphBadgeContentColor(MaterialTheme.colorScheme.onSecondaryContainer)
-                    .copy(alpha = if (enabled) 1f else 0.38f),
-                modifier = Modifier.size(ACTION_BUTTON_HEIGHT / 2),
-            )
-        }
     }
 }
 

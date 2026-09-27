@@ -30,6 +30,16 @@ package leshy.mushrooms.map.i18n
 enum class HelpKey {
     RecordPurpose,
     RecordStartFinish,
+
+    /**
+     * То же, что [RecordStartFinish], но про подписанные кнопки: у редакции, где ряд управления
+     * подписан словами (`ui/components/RecordActionRow.kt`), стартовая кнопка называется
+     * «Начать», а не «Старт», и текст со «Стартом» был бы про чужой экран.
+     *
+     * Подставляется вместо [RecordStartFinish] в `editionHelpBlocks`, сам ни в один [HelpTopic]
+     * не входит и переводится на два языка редакции — см. `EDITION_ONLY_HELP_KEYS`.
+     */
+    RecordStartFinishLabelled,
     RecordTiles,
     RecordPlace,
     RecordNavigation,

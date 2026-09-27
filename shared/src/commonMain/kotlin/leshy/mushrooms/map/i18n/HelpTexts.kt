@@ -138,6 +138,11 @@ private fun russianHelpTexts(key: HelpKey): String = when (key) {
             "паузе появляются «Продолжить» и «Завершить». «Завершить» закрывает прогулку и " +
             "переносит её в «Архив прогулок»."
 
+    HelpKey.RecordStartFinishLabelled ->
+        "«Начать» спрашивает название и начинает запись; дальше кнопка превращается в «Пауза», а " +
+            "на паузе появляются «Продолжить» и «Завершить». «Завершить» закрывает прогулку и " +
+            "переносит её в «Архив прогулок»."
+
     HelpKey.RecordTiles ->
         "Плитки грибов внизу — то, чем отмечаются находки: «+» ставит находку в вашей текущей " +
             "точке, «−» убирает последнюю ошибочную отметку этого вида. Долгое нажатие на «+» " +
@@ -344,6 +349,11 @@ private fun englishHelpTexts(key: HelpKey): String = when (key) {
             "already recorded."
 
     HelpKey.RecordStartFinish ->
+        "Start asks for a name and begins recording; the button then turns into Pause, and while " +
+            "paused you get Resume and Finish. Finish closes the walk and moves it to the Walk " +
+            "Archive."
+
+    HelpKey.RecordStartFinishLabelled ->
         "Start asks for a name and begins recording; the button then turns into Pause, and while " +
             "paused you get Resume and Finish. Finish closes the walk and moves it to the Walk " +
             "Archive."

@@ -70,7 +70,10 @@ class StringsTest {
                 StringKey.AppNameRussia,
                 StringKey.AboutMapDataTextSelfHosted,
                 StringKey.SpeciesCollectionsTitleSets,
-            ),
+                StringKey.RecordPlaceLabel,
+                StringKey.RecordSearchLabel,
+                StringKey.RecordStartLabel,
+                        ),
             EDITION_ONLY_KEYS,
         )
         EDITION_ONLY_KEYS.forEach { key ->

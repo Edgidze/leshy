@@ -18,10 +18,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import leshy.mushrooms.map.domain.model.Edition
 import leshy.mushrooms.map.i18n.HelpTopic
+import leshy.mushrooms.map.i18n.editionHelpBlocks
 import leshy.mushrooms.map.i18n.StringKey
 import leshy.mushrooms.map.i18n.helpResource
 import leshy.mushrooms.map.i18n.stringResource
+import org.koin.compose.koinInject
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import leshy.mushrooms.map.ui.components.HelpIllustration
@@ -75,6 +78,8 @@ fun HelpScreen(
             )
         },
     ) { padding ->
+        // Блоки берутся до LazyColumn: внутри `items` это уже не composable-контекст.
+        val blocks = editionHelpBlocks(topic, koinInject<Edition>())
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
@@ -86,7 +91,7 @@ fun HelpScreen(
                     style = MaterialTheme.typography.headlineSmall,
                 )
             }
-            items(topic.blocks) { block ->
+            items(blocks) { block ->
                 // Блок справки — картинка макета плюс абзац про неё — у обрамлённой редакции
                 // становится матом с рамой: до этого абзацы лежали текстом прямо на доске, то
                 // есть ровно так, как правило запрещает. У мировой редакции [MatSurface] отдаёт
