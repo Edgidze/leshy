@@ -21,6 +21,7 @@ enum class FishStringKey {
     NavArchive,
     NavMap,
     NavSpecies,
+    NavSummary,
     NavSettings,
     NavMenu,
 
@@ -143,6 +144,22 @@ enum class FishStringKey {
     ArchiveDelete,
     ArchiveDeleteConfirm,
     ArchiveCatchesNone,
+
+    // Итоги
+    SummaryTitle,
+    SummaryTrips,
+    SummaryFish,
+    SummaryWeight,
+    SummaryBest,
+    SummaryBaits,
+    SummaryBaitNone,
+    SummarySpecies,
+    SummaryHours,
+    SummaryHoursHint,
+    SummaryPressure,
+    SummaryEmpty,
+    SummaryEmptyHint,
+    SummaryLost,
 
     // Виды рыб
     SpeciesTitle,

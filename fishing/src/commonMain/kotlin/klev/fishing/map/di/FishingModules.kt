@@ -26,6 +26,7 @@ import klev.fishing.map.presentation.map.CatchMapViewModel
 import klev.fishing.map.presentation.record.TripViewModel
 import klev.fishing.map.presentation.settings.FishSettingsViewModel
 import klev.fishing.map.presentation.species.FishSpeciesViewModel
+import klev.fishing.map.presentation.summary.FishSummaryViewModel
 import klev.fishing.map.presentation.trip.TripDetailViewModel
 import leshy.mushrooms.map.di.initKoin
 import leshy.mushrooms.map.domain.model.Edition
@@ -80,6 +81,7 @@ val fishingPresentationModule = module {
     viewModel { CatchMapViewModel(get(), get(), get()) }
     viewModel { FishSettingsViewModel(get(), get()) }
     viewModel { FishSpeciesViewModel(get()) }
+    viewModel { FishSummaryViewModel(get(), get(), get()) }
 }
 
 /**

@@ -12,6 +12,7 @@ import klev.fishing.map.ui.screens.CatchMapScreen
 import klev.fishing.map.ui.screens.FishArchiveScreen
 import klev.fishing.map.ui.screens.FishSettingsScreen
 import klev.fishing.map.ui.screens.FishSpeciesScreen
+import klev.fishing.map.ui.screens.FishSummaryScreen
 import klev.fishing.map.ui.screens.RecordScreen
 import klev.fishing.map.ui.screens.TripDetailScreen
 
@@ -41,6 +42,7 @@ fun FishNavHost(navController: NavHostController, onMenuClick: () -> Unit) {
             )
         }
         composable<FishDestination.Map> { CatchMapScreen(onMenuClick = onMenuClick) }
+        composable<FishDestination.Summary> { FishSummaryScreen(onMenuClick = onMenuClick) }
         composable<FishDestination.Species> { FishSpeciesScreen(onMenuClick = onMenuClick) }
         composable<FishDestination.Settings> { FishSettingsScreen(onMenuClick = onMenuClick) }
         composable<FishDestination.TripDetail> { entry ->

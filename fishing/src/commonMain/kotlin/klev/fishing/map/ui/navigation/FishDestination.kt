@@ -23,6 +23,9 @@ sealed interface FishDestination {
     data object Map : FishDestination
 
     @Serializable
+    data object Summary : FishDestination
+
+    @Serializable
     data object Species : FishDestination
 
     @Serializable

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.InsertChart
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Phishing
 import androidx.compose.material.icons.filled.SetMeal
@@ -68,6 +69,7 @@ private val drawerEntries = listOf(
     DrawerEntry(FishDestination.Record, FishStringKey.NavRecord, Icons.Filled.Phishing),
     DrawerEntry(FishDestination.Archive, FishStringKey.NavArchive, Icons.AutoMirrored.Filled.List),
     DrawerEntry(FishDestination.Map, FishStringKey.NavMap, Icons.Filled.Map),
+    DrawerEntry(FishDestination.Summary, FishStringKey.NavSummary, Icons.Filled.InsertChart),
     DrawerEntry(FishDestination.Species, FishStringKey.NavSpecies, Icons.Filled.SetMeal),
     DrawerEntry(FishDestination.Settings, FishStringKey.NavSettings, Icons.Filled.Settings),
 )
