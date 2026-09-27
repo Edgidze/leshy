@@ -31,6 +31,7 @@ import klev.fishing.map.i18n.labelKey
 import klev.fishing.map.presentation.trip.TripDetailViewModel
 import klev.fishing.map.ui.components.WeatherDialog
 import klev.fishing.map.ui.components.formatLength
+import klev.fishing.map.ui.components.rememberMapRevealed
 import klev.fishing.map.ui.components.formatPressure
 import klev.fishing.map.ui.components.formatTemperature
 import klev.fishing.map.ui.components.formatWeight
@@ -71,7 +72,7 @@ fun TripDetailScreen(
             )
         }
 
-        if (uiState.track.isNotEmpty() || uiState.catches.isNotEmpty()) {
+        if ((uiState.track.isNotEmpty() || uiState.catches.isNotEmpty()) && rememberMapRevealed()) {
             val markers = uiState.catches.map { item ->
                 MapMarker(
                     lat = item.lat,

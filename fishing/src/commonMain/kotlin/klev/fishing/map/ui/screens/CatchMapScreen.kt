@@ -1,6 +1,7 @@
 package klev.fishing.map.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import klev.fishing.map.i18n.FishStringKey
 import klev.fishing.map.i18n.fishStringResource
 import klev.fishing.map.presentation.map.CatchMapViewModel
+import klev.fishing.map.ui.components.rememberMapRevealed
 import klev.fishing.map.ui.components.speciesDisplayName
 import leshy.mushrooms.map.ui.map.AggregatedFindsMap
 import leshy.mushrooms.map.ui.map.MapMarker
@@ -54,11 +56,17 @@ fun CatchMapScreen(viewModel: CatchMapViewModel = koinViewModel()) {
         val markers = uiState.visibleCatches.map { item ->
             MapMarker(lat = item.lat, lon = item.lon, colorHex = colors[item.speciesId] ?: "#4f6b3a")
         }
-        AggregatedFindsMap(
-            tracks = uiState.tracks,
-            markers = markers,
-            modifier = Modifier.fillMaxWidth().weight(1f),
-        )
+        // Карта создаётся не в кадре открытия экрана — иначе уничтожение карты уходящего экрана
+        // совпадает с созданием этой и вешает главный поток. Разбор — `rememberMapRevealed`.
+        if (rememberMapRevealed()) {
+            AggregatedFindsMap(
+                tracks = uiState.tracks,
+                markers = markers,
+                modifier = Modifier.fillMaxWidth().weight(1f),
+            )
+        } else {
+            Box(Modifier.fillMaxWidth().weight(1f))
+        }
         LazyRow(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
