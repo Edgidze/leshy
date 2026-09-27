@@ -33,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import leshy.mushrooms.map.domain.model.Category
@@ -49,6 +48,7 @@ import leshy.mushrooms.map.ui.components.CategoryIcon
 import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.LeshyButton
 import leshy.mushrooms.map.ui.components.PrivacyPolicyLink
+import leshy.mushrooms.map.ui.components.SectionHeader
 import leshy.mushrooms.map.ui.map.MUSHROOM_MARKER_BASE_SIZE
 import org.koin.compose.viewmodel.koinViewModel
 import leshy.mushrooms.map.ui.components.dialogFrame
@@ -77,7 +77,7 @@ fun SettingsScreen(
             Icon(imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
         }
 
-        SettingsSectionTitle(stringResource(StringKey.SettingsThemeTitle))
+        SectionHeader(title = stringResource(StringKey.SettingsThemeTitle))
         // `selectableGroup` — не декорация: без него скринридер читает три отдельных переключателя
         // вместо одной группы «вариант 2 из 3», и это единственное, чем радиогруппа отличается от
         // трёх независимых строк с точки зрения доступности.
@@ -91,14 +91,14 @@ fun SettingsScreen(
             }
         }
 
-        SettingsSectionTitle(stringResource(StringKey.SettingsMushroomSizeTitle))
+        SectionHeader(title = stringResource(StringKey.SettingsMushroomSizeTitle))
         MushroomMarkerSizeSlider(
             scale = uiState.mushroomMarkerSizeScale,
             previewCategory = uiState.previewCategory,
             onScaleChangeFinished = viewModel::setMushroomMarkerSizeScale,
         )
 
-        SettingsSectionTitle(stringResource(StringKey.SettingsMushroomSortTitle))
+        SectionHeader(title = stringResource(StringKey.SettingsMushroomSortTitle))
         FreezeMushroomOrderOption(
             checked = uiState.freezeMushroomOrder,
             onCheckedChange = viewModel::setFreezeMushroomOrder,
@@ -108,7 +108,7 @@ fun SettingsScreen(
             onCheckedChange = viewModel::setResetMushroomOrderOnWalkFinish,
         )
 
-        SettingsSectionTitle(stringResource(StringKey.SettingsMapDataTitle))
+        SectionHeader(title = stringResource(StringKey.SettingsMapDataTitle))
         LeshyButton(
             onClick = viewModel::onUpdateMapDataClick,
             enabled = !uiState.isRefreshingMapData,
@@ -220,17 +220,6 @@ fun SettingsScreen(
             },
         )
     }
-}
-
-/** Section header used throughout Settings — underlined so subsections read as distinct groups
- * while scrolling a screen that's otherwise plain text and controls with no card/divider chrome. */
-@Composable
-private fun SettingsSectionTitle(text: String) {
-    Text(
-        text,
-        textDecoration = TextDecoration.Underline,
-        modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
-    )
 }
 
 /**

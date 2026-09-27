@@ -51,6 +51,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -313,12 +314,35 @@ private fun MockCheckRow(checked: Boolean, label: String? = null, fillFraction: 
     }
 }
 
-/** Заголовок раздела внутри макета — настоящий заголовок настоящего экрана. */
+/**
+ * Заголовок раздела внутри макета — настоящий заголовок настоящего экрана. Обычного начертания:
+ * так выглядят заголовки диалогов, подписи ползунков фильтра и «Мои грибы». Там, где на экране
+ * стоит [SectionHeader], в макете нужен [MockSectionHeader] — он полужирный, как оригинал.
+ */
 @Composable
 private fun MockSectionTitle(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.onSurface,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        modifier = modifier.fillMaxWidth(),
+    )
+}
+
+/**
+ * Заголовок раздела там, где экран рисует его через [SectionHeader] — «Настройки», статистика
+ * карты, находки прогулки. Размер уменьшен под масштаб макета, начертание — оригинальное
+ * полужирное: подчёркивание в этой роли отменено (оно обещало нажатие, которого нет), и макет
+ * справки не должен показывать другой приём, чем сам экран.
+ */
+@Composable
+private fun MockSectionHeader(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.labelLarge,
+        fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurface,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
@@ -677,7 +701,7 @@ private fun SlidersMock() {
 
 @Composable
 private fun StatsMock() {
-    MockSectionTitle(stringResource(StringKey.MapStatsTitle))
+    MockSectionHeader(stringResource(StringKey.MapStatsTitle))
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         StatBox(modifier = Modifier.weight(1f))
         StatBox(modifier = Modifier.weight(1f))
@@ -1042,13 +1066,13 @@ private fun ModeSwitchHalf(label: String, selected: Boolean, modifier: Modifier 
 @Composable
 private fun SettingsScreenMock() {
     LanguageRowMock()
-    MockSectionTitle(stringResource(StringKey.SettingsThemeTitle))
+    MockSectionHeader(stringResource(StringKey.SettingsThemeTitle))
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         RadioButton(selected = true, onClick = null)
         Spacer(modifier = Modifier.width(8.dp))
         MiniTextLine(widthFraction = 0.4f, thickness = 5.dp)
     }
-    MockSectionTitle(stringResource(StringKey.SettingsMushroomSortTitle))
+    MockSectionHeader(stringResource(StringKey.SettingsMushroomSortTitle))
     MockCheckRow(checked = false)
 }
 
