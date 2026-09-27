@@ -312,7 +312,8 @@ Build settings (Debug+Release): `OTHER_LDFLAGS = (-framework Shared,
 
 ### `DiagnosticsArchive` (MetricKit)
 
-`iosApp/iosApp/DiagnosticsArchive.swift`, подписка ставится из
+`iosApp/Sources/DiagnosticsArchive.swift` — в папке ОБОИХ таргетов, то есть
+MetricKit слушают обе редакции; подписка ставится из
 `AppDelegate.application(_:didFinishLaunchingWithOptions:)` — одна на процесс,
 а не из `SceneDelegate` (сцен может быть несколько).
 
