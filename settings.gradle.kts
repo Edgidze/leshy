@@ -30,3 +30,7 @@ dependencyResolutionManagement {
 
 include(":androidApp")
 include(":shared")
+
+// Рыбацкий продукт — аддитивно, см. fishing/build.gradle.kts и .claude/plans/product-family.md
+include(":fishing")
+include(":androidAppFishing")

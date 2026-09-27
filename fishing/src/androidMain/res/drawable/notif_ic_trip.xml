@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Значок уведомления идущей рыбалки: капля. Служебная форма, не часть оформления продукта —
+     иконки приложения рисует владелец (правило проекта про арт). Белое на прозрачном, как требует
+     Android от малого значка уведомления. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,3 C12,3 5,11 5,15 a7,7 0 0 1 14,0 C19,11 12,3 12,3 z"/>
+</vector>

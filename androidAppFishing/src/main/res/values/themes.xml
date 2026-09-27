@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Нативная тема Activity: видна до первого кадра Compose и задаёт цвет окна в эту долю секунды.
+     Парная values-night/ переключает её по СИСТЕМНОМУ оформлению — окно рисует система раньше,
+     чем приложение успевает прочитать DataStore. Разбор — androidApp/src/main/res/values/themes.xml. -->
+<resources>
+    <style name="Theme.Fishing" parent="@android:style/Theme.Material.Light.NoActionBar" />
+</resources>
