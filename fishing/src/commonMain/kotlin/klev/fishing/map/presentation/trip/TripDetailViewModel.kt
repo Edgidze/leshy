@@ -28,6 +28,8 @@ data class TripDetailUiState(
     val catches: List<Catch> = emptyList(),
     val species: Map<Long, FishSpecies> = emptyMap(),
     val pressureUnit: PressureUnit = PressureUnit.HPA,
+    /** Недавние приманки — для листа правки улова: он тот же самый, что на экране записи. */
+    val recentBaits: List<String> = emptyList(),
     val weatherDraft: TripWeather? = null,
     val weatherSuggesting: Boolean = false,
     val weatherSuggestFailed: Boolean = false,
@@ -78,6 +80,11 @@ class TripDetailViewModel(
                 _uiState.update { it.copy(pressureUnit = unit) }
             }
         }
+        viewModelScope.launch {
+            catches.observeRecentBaits().collect { baits ->
+                _uiState.update { it.copy(recentBaits = baits) }
+            }
+        }
     }
 
     fun rename(title: String) {
@@ -93,6 +100,14 @@ class TripDetailViewModel(
 
     fun deleteCatch(id: Long) {
         viewModelScope.launch { catches.delete(id) }
+    }
+
+    /**
+     * Правка улова уже после рыбалки — вторая половина быстрой записи «в одно касание»: на воде
+     * рыба отмечается без цифр, а вес, приманка и исход дописываются вечером, когда есть время.
+     */
+    fun updateCatch(item: Catch) {
+        viewModelScope.launch { catches.update(item) }
     }
 
     /** Погоду можно вписать и позже — рыбак мог нажать «не сейчас» на экране записи. */

@@ -33,6 +33,17 @@ import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 
+/**
+ * Ниже этого размаха рамка считается вырожденной — вся рыба поймана фактически в одной точке.
+ * Число и его причина взяты у `LiveTrackMap` в `:shared`: подогнать камеру под рамку нулевой
+ * площади значит уехать на предельный зум тайлового сервера и показать размытую растяжку вместо
+ * карты. Там константа приватная, поэтому здесь повторено значение, а не сам вывод.
+ */
+private const val MIN_BOUNDS_SPAN_DEGREES = 0.001
+
+/** Зум для такой вырожденной рамки — уровень улицы, как у грибной карты прогулки. */
+private const val SINGLE_SPOT_ZOOM = 15.0
+
 /** Одна отметка улова на карте: где и каким цветом (цвет — вида). */
 data class CatchMarker(val lat: Double, val lon: Double, val colorHex: String)
 
@@ -62,9 +73,20 @@ fun CatchMap(
         tracks.values.flatten().map { it.lat to it.lon } + markers.map { it.lat to it.lon }
     }
     LaunchedEffect(allPoints) {
-        if (allPoints.isNotEmpty()) {
-            val lats = allPoints.map { it.first }
-            val lons = allPoints.map { it.second }
+        if (allPoints.isEmpty()) return@LaunchedEffect
+        val lats = allPoints.map { it.first }
+        val lons = allPoints.map { it.second }
+        if (lats.max() - lats.min() < MIN_BOUNDS_SPAN_DEGREES &&
+            lons.max() - lons.min() < MIN_BOUNDS_SPAN_DEGREES
+        ) {
+            // Вся рыба в одной точке — рыбалка со стоянки, а не с обходом. Подгонка под такую
+            // рамку уводила камеру на предельный зум, и карта выезда открывалась серым пятном без
+            // единого ориентира (видно на эмуляторе 2026-09-28).
+            cameraState.position = cameraState.position.copy(
+                target = Position((lons.min() + lons.max()) / 2, (lats.min() + lats.max()) / 2),
+                zoom = SINGLE_SPOT_ZOOM,
+            )
+        } else {
             cameraState.jumpTo(
                 BoundingBox(west = lons.min(), south = lats.min(), east = lons.max(), north = lats.max()),
                 padding = PaddingValues(32.dp),

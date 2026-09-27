@@ -75,7 +75,7 @@ val fishingPresentationModule = module {
             get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),
         )
     }
-    viewModel { FishArchiveViewModel(get(), get()) }
+    viewModel { FishArchiveViewModel(get(), get(), get(), get()) }
     viewModel { TripDetailViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { CatchMapViewModel(get(), get(), get()) }
     viewModel { FishSettingsViewModel(get(), get()) }
