@@ -44,6 +44,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -460,15 +461,21 @@ fun MushroomOutlinedText(
     // плитки не нужна — он обязан занимать ровно себя.
     val strokeWidthPx = with(LocalDensity.current) { fontSize.toPx() * LABEL_STROKE_TO_FONT_RATIO }
     Box(modifier = modifier, contentAlignment = contentAlignment) {
+        // Многоточие у ОБЕИХ надписей, иначе обводка и заливка обрежутся по-разному. Без него
+        // лишняя строка просто не рисовалась, и длинное название выглядело как другое, короткое:
+        // грузинское «დათვის სოკო» при системном шрифте ×2 читалось как «დათვი / ს», без намёка
+        // на то, что слово не поместилось (замечание владельца 2026-09-27).
         Text(
             text = text,
             style = style.copy(color = Color.Black, drawStyle = Stroke(width = strokeWidthPx)),
             maxLines = maxLines,
+            overflow = TextOverflow.Ellipsis,
         )
         Text(
             text = text,
             style = style.copy(color = Color.White),
             maxLines = maxLines,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
