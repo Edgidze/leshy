@@ -58,6 +58,10 @@ kotlin {
             implementation(libs.compose.material3)
             implementation(libs.compose.material.iconsExtended)
             implementation(libs.compose.ui)
+            // Отдельным артефактом, не частью `compose.ui`: `BackHandler` нужен, чтобы системное
+            // «назад» закрывало боковую панель — KMP-версия `ModalNavigationDrawer` сама этого не
+            // делает (разбор — `FishingApp`).
+            implementation(libs.compose.ui.backhandler)
             implementation(libs.compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)

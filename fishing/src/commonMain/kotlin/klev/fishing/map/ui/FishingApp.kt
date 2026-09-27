@@ -1,73 +1,76 @@
 package klev.fishing.map.ui
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.Timeline
+import androidx.compose.material.icons.filled.Phishing
+import androidx.compose.material.icons.filled.SetMeal
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Inventory2
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import klev.fishing.map.i18n.FishStringKey
 import klev.fishing.map.i18n.fishStringResource
-import klev.fishing.map.ui.screens.CatchMapScreen
-import klev.fishing.map.ui.screens.FishArchiveScreen
-import klev.fishing.map.ui.screens.FishSettingsScreen
-import klev.fishing.map.ui.screens.RecordScreen
-import klev.fishing.map.ui.screens.TripDetailScreen
-import kotlinx.serialization.Serializable
+import klev.fishing.map.ui.navigation.FishDestination
+import klev.fishing.map.ui.navigation.FishNavHost
+import klev.fishing.map.ui.navigation.navigateToTopLevel
+import klev.fishing.map.ui.theme.FishingTheme
+import kotlinx.coroutines.launch
 import leshy.mushrooms.map.data.platform.currentDeviceLanguage
-import leshy.mushrooms.map.domain.model.Edition
 import leshy.mushrooms.map.domain.model.EditionLanguages
 import leshy.mushrooms.map.domain.model.ThemeMode
 import leshy.mushrooms.map.domain.repository.SettingsRepository
 import leshy.mushrooms.map.i18n.LocalAppLanguage
-import leshy.mushrooms.map.ui.theme.LeshyTheme
 import leshy.mushrooms.map.ui.theme.isDark
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
 import org.koin.compose.koinInject
 
-@Serializable object RecordRoute
-@Serializable object ArchiveRoute
-@Serializable object MapRoute
-@Serializable object SettingsRoute
-@Serializable data class TripDetailRoute(val tripId: Long)
-
-private data class Tab(val route: Any, val labelKey: FishStringKey, val icon: ImageVector)
-
-/**
- * Разделы — нижняя панель, а не боковое выдвижное меню, как у грибного «Лешего». Причина
- * практическая: рыбак держит телефон одной рукой, часто в перчатке и часто над водой, и тянуться к
- * гамбургеру в левом верхнем углу неудобно; у грибов панель появилась при другом наборе экранов.
- *
- * Правило грибной навигации при этом соблюдается и здесь, потому что оно про механику, а не про
- * оформление: **переход между разделами идёт одним способом** — [navigateToTab] с
- * `popUpTo(startDestination) + saveState + restoreState`. Подмена его голым `navigate()` для одного
- * раздела ломает сохранение состояния у остальных (у грибов это стоило нескольких настоящих
- * крашей — `ui/navigation/CLAUDE.md`).
- */
-private val tabs = listOf(
-    Tab(RecordRoute, FishStringKey.NavRecord, Icons.Filled.Timeline),
-    Tab(ArchiveRoute, FishStringKey.NavArchive, Icons.Outlined.Inventory2),
-    Tab(MapRoute, FishStringKey.NavMap, Icons.Filled.Map),
-    Tab(SettingsRoute, FishStringKey.NavSettings, Icons.Filled.Settings),
+private data class DrawerEntry(
+    val destination: FishDestination,
+    val labelKey: FishStringKey,
+    val icon: ImageVector,
 )
 
+/**
+ * Разделы — боковое выдвижное меню, а не нижняя панель (решение владельца 2026-09-28). Причина в
+ * том, чего в панели ещё нет: экспорт/импорт, предзагрузка офлайн-карты, подборки видов по регионам
+ * — четыре пункта в bottom bar влезают только потому, что их пока четыре.
+ *
+ * Пункты заводятся по мере готовности разделов: пустых заглушек в меню нет намеренно — пункт,
+ * который открывает «пока ничего», хуже отсутствующего.
+ */
+private val drawerEntries = listOf(
+    DrawerEntry(FishDestination.Record, FishStringKey.NavRecord, Icons.Filled.Phishing),
+    DrawerEntry(FishDestination.Archive, FishStringKey.NavArchive, Icons.AutoMirrored.Filled.List),
+    DrawerEntry(FishDestination.Map, FishStringKey.NavMap, Icons.Filled.Map),
+    DrawerEntry(FishDestination.Species, FishStringKey.NavSpecies, Icons.Filled.SetMeal),
+    DrawerEntry(FishDestination.Settings, FishStringKey.NavSettings, Icons.Filled.Settings),
+)
+
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun FishingApp() {
     val settings = koinInject<SettingsRepository>()
@@ -78,56 +81,65 @@ fun FishingApp() {
     val themeMode by settings.observeThemeMode().collectAsState(initial = ThemeMode.SYSTEM)
 
     CompositionLocalProvider(LocalAppLanguage provides language) {
-        // Тема берётся у `:shared` целиком и с мировой палитрой: своё оформление рыбацкого продукта
-        // — работа владельца, а до неё честнее выглядеть как есть, чем выдумывать палитру.
-        LeshyTheme(edition = Edition.WORLD, useDarkTheme = themeMode.isDark()) {
+        FishingTheme(useDarkTheme = themeMode.isDark()) {
             val navController = rememberNavController()
             val backStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = backStackEntry?.destination?.route
+            val currentDestination = backStackEntry?.destination
+            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+            val scope = rememberCoroutineScope()
 
-            Scaffold(
-                bottomBar = {
-                    NavigationBar {
-                        tabs.forEach { tab ->
-                            val selected = currentRoute?.contains(tab.route::class.simpleName ?: "") == true
-                            NavigationBarItem(
+            ModalNavigationDrawer(
+                drawerState = drawerState,
+                // Свайп от левого края отключён: он спорит с панорамированием карты на «Рыбалке» —
+                // тот же конфликт и то же решение, что у грибного приложения. Панель открывается
+                // только кнопкой-гамбургером.
+                gesturesEnabled = false,
+                drawerContent = {
+                    ModalDrawerSheet {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                        ) {
+                            IconButton(onClick = { scope.launch { drawerState.close() } }) {
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                            }
+                            Text(
+                                text = fishStringResource(FishStringKey.AppName),
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        drawerEntries.forEach { entry ->
+                            val selected = currentDestination?.hierarchy?.any {
+                                it.hasRoute(entry.destination::class)
+                            } == true
+                            NavigationDrawerItem(
                                 selected = selected,
-                                onClick = { navController.navigateToTab(tab.route) },
-                                icon = { Icon(tab.icon, contentDescription = null) },
-                                label = { Text(fishStringResource(tab.labelKey)) },
+                                label = { Text(fishStringResource(entry.labelKey)) },
+                                icon = { Icon(entry.icon, contentDescription = null) },
+                                onClick = {
+                                    scope.launch { drawerState.close() }
+                                    navController.navigateToTopLevel(entry.destination)
+                                },
+                                modifier = Modifier.padding(horizontal = 12.dp),
                             )
                         }
                     }
                 },
-            ) { padding ->
-                NavHost(
+            ) {
+                FishNavHost(
                     navController = navController,
-                    startDestination = RecordRoute,
-                    modifier = Modifier.padding(padding),
-                ) {
-                    composable<RecordRoute> { RecordScreen() }
-                    composable<ArchiveRoute> {
-                        FishArchiveScreen(onTripClick = { id -> navController.navigate(TripDetailRoute(id)) })
-                    }
-                    composable<MapRoute> { CatchMapScreen() }
-                    composable<SettingsRoute> { FishSettingsScreen() }
-                    composable<TripDetailRoute> { entry ->
-                        TripDetailScreen(
-                            tripId = entry.toRoute<TripDetailRoute>().tripId,
-                            onBack = { navController.popBackStack() },
-                        )
-                    }
-                }
+                    onMenuClick = { scope.launch { drawerState.open() } },
+                )
             }
-        }
-    }
-}
 
-/** Единственный разрешённый способ перехода между разделами — см. KDoc у [tabs]. */
-private fun NavHostController.navigateToTab(route: Any) {
-    navigate(route) {
-        popUpTo(graph.findStartDestination().id) { saveState = true }
-        launchSingleTop = true
-        restoreState = true
+            // ПОСЛЕ `ModalNavigationDrawer`, а не до: диспетчер «назад» отдаёт приоритет
+            // ЗАРЕГИСТРИРОВАННОМУ ПОЗЖЕ обработчику, а `NavHost` внутри регистрирует свой. Свой
+            // обработчик выше панели означал бы, что системное «назад» с открытой панелью
+            // переключает экран под ней, а панель остаётся открытой (живой баг грибного
+            // приложения). Сама KMP-версия `ModalNavigationDrawer`, в отличие от Android-only,
+            // «назад» не обрабатывает вообще — поэтому обработчик нужен явный.
+            BackHandler(enabled = drawerState.isOpen) { scope.launch { drawerState.close() } }
+        }
     }
 }

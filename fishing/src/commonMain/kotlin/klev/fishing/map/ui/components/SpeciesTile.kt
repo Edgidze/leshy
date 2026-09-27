@@ -6,12 +6,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,6 +56,9 @@ private val SPECIES_COUNT_PADDING = 6.dp
  */
 private const val SPECIES_COUNT_INK_OVERHANG_EM = 0.15f
 
+/** Прозрачность снятой с ленты плитки: гашение, а не серый цвет — цвет вида остаётся узнаваемым. */
+private const val HIDDEN_TILE_ALPHA = 0.4f
+
 /** Отступ силуэта от краёв площадки — чтобы рыба не касалась рамки плитки. */
 private val FISH_PLATE_INSET = 6.dp
 
@@ -69,6 +76,10 @@ private val FISH_PLATE_INSET = 6.dp
  * Фиксированной высоты у подписи нет намеренно: при крупном системном шрифте она обрезала бы вторую
  * строку — та же грабля, что уже исправлена на грибной плитке.
  *
+ * @param hidden вид снят с ленты «Рыбалки» (`FishSpecies.isActive == false`). Плитка гаснет и
+ *   получает перечёркнутый глаз в углу: в разделе «Виды рыб» касание плитки переключает именно это,
+ *   и состояние обязано быть видно на самой плитке, а не только по отсутствию её в другом экране.
+ *
  * Иллюстраций видов пока нет ни у одного (`FishSpecies.iconRef` не заполнен) — на площадке лежит
  * [FishSilhouette] цвета вида. Когда картинки появятся, подключение — это данные каталога, а не
  * правка этого файла.
@@ -79,11 +90,12 @@ fun SpeciesTile(
     count: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    hidden: Boolean = false,
 ) {
     val plateColor = MaterialTheme.colorScheme.surfaceContainerHighest
     Card(
         onClick = onClick,
-        modifier = modifier.width(RECORD_FISH_TILE_WIDTH),
+        modifier = modifier.width(RECORD_FISH_TILE_WIDTH).alpha(if (hidden) HIDDEN_TILE_ALPHA else 1f),
         colors = CardDefaults.cardColors(containerColor = plateColor),
     ) {
         Box(modifier = Modifier.fillMaxWidth().aspectRatio(FISH_PLATE_ASPECT_RATIO)) {
@@ -107,6 +119,14 @@ fun SpeciesTile(
                             top = SPECIES_COUNT_PADDING,
                             end = SPECIES_COUNT_PADDING + countInkOverhang,
                         ),
+                )
+            }
+            if (hidden) {
+                Icon(
+                    imageVector = Icons.Filled.VisibilityOff,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.align(Alignment.TopStart).padding(SPECIES_COUNT_PADDING),
                 )
             }
             MushroomOutlinedText(

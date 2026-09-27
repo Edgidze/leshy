@@ -3,9 +3,8 @@ package klev.fishing.map.presentation.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import klev.fishing.map.data.repository.FishingSettingsRepository
-import klev.fishing.map.domain.model.FishSpecies
+import klev.fishing.map.domain.model.FishingMethod
 import klev.fishing.map.domain.model.PressureUnit
-import klev.fishing.map.domain.repository.SpeciesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -18,18 +17,19 @@ data class FishSettingsUiState(
     val language: AppLanguage = AppLanguage.EN,
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val pressureUnit: PressureUnit = PressureUnit.HPA,
-    val species: List<FishSpecies> = emptyList(),
+    val methods: Set<FishingMethod> = FishingMethod.entries.toSet(),
 )
 
 /**
  * Язык и оформление НЕ дублируются: берутся из `SettingsRepository` в `:shared` — тот же DataStore и
- * тот же список 42 языков, что у грибного приложения. Здесь своё только единицы давления и список
- * видов.
+ * тот же список 42 языков, что у грибного приложения. Здесь своё — единицы давления и способы ловли.
+ *
+ * Списка видов здесь больше нет: он уехал в свой раздел «Виды рыб» — десятки плиток в свитке
+ * настроек были самым длинным блоком экрана, и искать в нём настройку давления приходилось мимо них.
  */
 class FishSettingsViewModel(
     private val settings: SettingsRepository,
     private val fishingSettings: FishingSettingsRepository,
-    private val species: SpeciesRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FishSettingsUiState())
     val uiState = _uiState.asStateFlow()
@@ -45,7 +45,7 @@ class FishSettingsViewModel(
             fishingSettings.observePressureUnit().collect { unit -> _uiState.update { it.copy(pressureUnit = unit) } }
         }
         viewModelScope.launch {
-            species.observeAll().collect { list -> _uiState.update { it.copy(species = list) } }
+            fishingSettings.observeMethods().collect { methods -> _uiState.update { it.copy(methods = methods) } }
         }
     }
 
@@ -61,7 +61,14 @@ class FishSettingsViewModel(
         viewModelScope.launch { fishingSettings.setPressureUnit(unit) }
     }
 
-    fun setSpeciesActive(id: Long, isActive: Boolean) {
-        viewModelScope.launch { species.setActive(id, isActive) }
+    /**
+     * Переключение одного способа. Снятие ПОСЛЕДНЕГО не запрещается кнопкой, а трактуется хранилищем
+     * как «все» (`FishingSettingsRepository.observeMethods`): запрещать сложнее и объяснять нечем, а
+     * экран старта без единой кнопки — настоящая поломка.
+     */
+    fun toggleMethod(method: FishingMethod) {
+        val current = _uiState.value.methods
+        val next = if (method in current) current - method else current + method
+        viewModelScope.launch { fishingSettings.setMethods(next) }
     }
 }

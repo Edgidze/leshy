@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import klev.fishing.map.i18n.FishStringKey
 import klev.fishing.map.i18n.fishStringResource
 import klev.fishing.map.presentation.map.CatchMapViewModel
+import klev.fishing.map.ui.components.FishSectionScaffold
 import klev.fishing.map.ui.components.rememberMapRevealed
 import klev.fishing.map.ui.components.speciesDisplayName
 import klev.fishing.map.ui.map.CatchMap
@@ -32,60 +33,65 @@ import org.koin.compose.viewmodel.koinViewModel
  * четыреста, и полноэкранный фильтр, как у грибов, здесь был бы не нужен.
  */
 @Composable
-fun CatchMapScreen(viewModel: CatchMapViewModel = koinViewModel()) {
+fun CatchMapScreen(
+    onMenuClick: () -> Unit,
+    viewModel: CatchMapViewModel = koinViewModel(),
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    if (uiState.catches.isEmpty() && !uiState.isLoading) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(24.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(fishStringResource(FishStringKey.MapEmpty), style = MaterialTheme.typography.titleMedium)
-            Text(
-                text = fishStringResource(FishStringKey.MapEmptyHint),
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-            )
-        }
-        return
-    }
-
-    Column(Modifier.fillMaxSize()) {
-        val colors = uiState.species.associate { it.id to it.colorHex }
-        val markers = uiState.visibleCatches.map { item ->
-            CatchMarker(lat = item.lat, lon = item.lon, colorHex = colors[item.speciesId] ?: "#4f6b3a")
-        }
-        // Карта создаётся не в кадре открытия экрана — иначе уничтожение карты уходящего экрана
-        // совпадает с созданием этой и вешает главный поток. Разбор — `rememberMapRevealed`.
-        if (rememberMapRevealed()) {
-            CatchMap(
-                tracks = uiState.tracks,
-                markers = markers,
-                modifier = Modifier.fillMaxWidth().weight(1f),
-            )
-        } else {
-            Box(Modifier.fillMaxWidth().weight(1f))
-        }
-        LazyRow(
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            item {
-                FilterChip(
-                    selected = uiState.speciesFilter == null,
-                    onClick = { viewModel.setSpeciesFilter(null) },
-                    label = { Text(fishStringResource(FishStringKey.MapAllSpecies)) },
+    FishSectionScaffold(title = FishStringKey.MapTitle, onMenuClick = onMenuClick) { padding ->
+        if (uiState.catches.isEmpty() && !uiState.isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize().padding(padding).padding(24.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(fishStringResource(FishStringKey.MapEmpty), style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = fishStringResource(FishStringKey.MapEmptyHint),
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center,
                 )
             }
-            items(uiState.species, key = { it.id }) { species ->
-                FilterChip(
-                    selected = uiState.speciesFilter == species.id,
-                    onClick = {
-                        viewModel.setSpeciesFilter(if (uiState.speciesFilter == species.id) null else species.id)
-                    },
-                    label = { Text(speciesDisplayName(species)) },
+            return@FishSectionScaffold
+        }
+
+        Column(Modifier.fillMaxSize().padding(padding)) {
+            val colors = uiState.species.associate { it.id to it.colorHex }
+            val markers = uiState.visibleCatches.map { item ->
+                CatchMarker(lat = item.lat, lon = item.lon, colorHex = colors[item.speciesId] ?: "#4f6b3a")
+            }
+            // Карта создаётся не в кадре открытия экрана — иначе уничтожение карты уходящего экрана
+            // совпадает с созданием этой и вешает главный поток. Разбор — `rememberMapRevealed`.
+            if (rememberMapRevealed()) {
+                CatchMap(
+                    tracks = uiState.tracks,
+                    markers = markers,
+                    modifier = Modifier.fillMaxWidth().weight(1f),
                 )
+            } else {
+                Box(Modifier.fillMaxWidth().weight(1f))
+            }
+            LazyRow(
+                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                item {
+                    FilterChip(
+                        selected = uiState.speciesFilter == null,
+                        onClick = { viewModel.setSpeciesFilter(null) },
+                        label = { Text(fishStringResource(FishStringKey.MapAllSpecies)) },
+                    )
+                }
+                items(uiState.species, key = { it.id }) { species ->
+                    FilterChip(
+                        selected = uiState.speciesFilter == species.id,
+                        onClick = {
+                            viewModel.setSpeciesFilter(if (uiState.speciesFilter == species.id) null else species.id)
+                        },
+                        label = { Text(speciesDisplayName(species)) },
+                    )
+                }
             }
         }
     }

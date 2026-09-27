@@ -16,11 +16,13 @@ package klev.fishing.map.i18n
 enum class FishStringKey {
     AppName,
 
-    // Нижняя навигация
+    // Разделы бокового меню
     NavRecord,
     NavArchive,
     NavMap,
+    NavSpecies,
     NavSettings,
+    NavMenu,
 
     // Экран «Рыбалка»
     RecordTitle,
@@ -129,6 +131,12 @@ enum class FishStringKey {
     ArchiveDeleteConfirm,
     ArchiveCatchesNone,
 
+    // Виды рыб
+    SpeciesTitle,
+    SpeciesHint,
+    SpeciesHiddenLabel,
+    SpeciesShownCount,
+
     // Карта
     MapTitle,
     MapEmpty,
@@ -148,6 +156,11 @@ enum class FishStringKey {
     SettingsWeightImperial,
     SettingsSpeciesTitle,
     SettingsSpeciesHint,
+    SettingsThemeLight,
+    SettingsThemeSystem,
+    SettingsThemeDark,
+    SettingsMethodsTitle,
+    SettingsMethodsHint,
     SettingsAbout,
 
     // Общее

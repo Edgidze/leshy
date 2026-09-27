@@ -6,11 +6,13 @@ import klev.fishing.map.domain.model.CatchOutcome
 import klev.fishing.map.domain.model.FishingMethod
 import klev.fishing.map.domain.model.LostReason
 import klev.fishing.map.domain.model.Precipitation
+import klev.fishing.map.domain.model.PressureUnit
 import klev.fishing.map.domain.model.PressureTrend
 import klev.fishing.map.domain.model.WeatherProvenance
 import klev.fishing.map.domain.model.WindDirection
 import klev.fishing.map.domain.util.MoonPhase
 import leshy.mushrooms.map.domain.model.AppLanguage
+import leshy.mushrooms.map.domain.model.ThemeMode
 import leshy.mushrooms.map.i18n.LocalAppLanguage
 
 /**
@@ -42,6 +44,17 @@ private fun russianFishStrings(key: FishStringKey): String = when (key) {
     FishStringKey.NavArchive -> "Архив"
     FishStringKey.NavMap -> "Карта"
     FishStringKey.NavSettings -> "Настройки"
+    FishStringKey.NavSpecies -> "Виды рыб"
+    FishStringKey.NavMenu -> "Меню"
+    FishStringKey.SpeciesTitle -> "Виды рыб"
+    FishStringKey.SpeciesHint -> "Касание убирает вид из ленты «Рыбалки» или возвращает его обратно. Ловится у вас не всё — и лента не должна быть длиннее нужного."
+    FishStringKey.SpeciesHiddenLabel -> "Скрыт"
+    FishStringKey.SpeciesShownCount -> "В ленте"
+    FishStringKey.SettingsThemeLight -> "Светлое"
+    FishStringKey.SettingsThemeSystem -> "Как в системе"
+    FishStringKey.SettingsThemeDark -> "Тёмное"
+    FishStringKey.SettingsMethodsTitle -> "Мои способы ловли"
+    FishStringKey.SettingsMethodsHint -> "Оставьте те, которыми ловите: при старте рыбалки приложение предложит только их."
     FishStringKey.RecordTitle -> "Рыбалка"
     FishStringKey.RecordStart -> "Начать рыбалку"
     FishStringKey.RecordFinish -> "Закончить"
@@ -184,6 +197,17 @@ private fun englishFishStrings(key: FishStringKey): String = when (key) {
     FishStringKey.NavArchive -> "Archive"
     FishStringKey.NavMap -> "Map"
     FishStringKey.NavSettings -> "Settings"
+    FishStringKey.NavSpecies -> "Fish species"
+    FishStringKey.NavMenu -> "Menu"
+    FishStringKey.SpeciesTitle -> "Fish species"
+    FishStringKey.SpeciesHint -> "Tap a species to drop it from the Record strip or bring it back. You do not catch everything — the strip should not be longer than it needs to be."
+    FishStringKey.SpeciesHiddenLabel -> "Hidden"
+    FishStringKey.SpeciesShownCount -> "In the strip"
+    FishStringKey.SettingsThemeLight -> "Light"
+    FishStringKey.SettingsThemeSystem -> "Follow system"
+    FishStringKey.SettingsThemeDark -> "Dark"
+    FishStringKey.SettingsMethodsTitle -> "How I fish"
+    FishStringKey.SettingsMethodsHint -> "Keep the ways you actually fish — starting a trip then offers only those."
     FishStringKey.RecordTitle -> "Trip"
     FishStringKey.RecordStart -> "Start a trip"
     FishStringKey.RecordFinish -> "Finish"
@@ -326,6 +350,23 @@ fun FishingMethod.labelKey(): FishStringKey = when (this) {
     FishingMethod.SHORE -> FishStringKey.RecordMethodShore
     FishingMethod.BOAT -> FishStringKey.RecordMethodBoat
     FishingMethod.ICE -> FishStringKey.RecordMethodIce
+}
+
+fun PressureUnit.labelKey(): FishStringKey = when (this) {
+    PressureUnit.HPA -> FishStringKey.SettingsPressureHpa
+    PressureUnit.MM_HG -> FishStringKey.SettingsPressureMmHg
+}
+
+/**
+ * Подписи режима оформления. Ключи свои, хотя `ThemeMode` — грибной тип из `:shared`: грибные
+ * подписи лежат в грибном `StringKey`, у которого свой набор языков, и брать их значило бы показывать
+ * рыбацкий экран настроек на двух языках вперемешку. Сам тип при этом переиспользуется целиком —
+ * дублировать перечисление ради подписей незачем.
+ */
+fun ThemeMode.labelKey(): FishStringKey = when (this) {
+    ThemeMode.LIGHT -> FishStringKey.SettingsThemeLight
+    ThemeMode.SYSTEM -> FishStringKey.SettingsThemeSystem
+    ThemeMode.DARK -> FishStringKey.SettingsThemeDark
 }
 
 fun CatchOutcome.labelKey(): FishStringKey = when (this) {
