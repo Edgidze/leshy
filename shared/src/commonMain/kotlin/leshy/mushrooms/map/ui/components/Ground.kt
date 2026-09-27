@@ -31,6 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.findRootCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.ui.theme.LeshyTheme
 import org.jetbrains.compose.resources.DrawableResource
@@ -196,7 +197,30 @@ fun Modifier.buttonBackground(
     shape: Shape = LeshyTheme.tokens.shapeButton,
 ): Modifier {
     val board = LeshyTheme.tokens.buttonTexture ?: return woodTexture(null, fallback)
-    return plateTexture(board, ButtonDefaults.MinHeight, shape)
+    return plateTexture(board, filledPlateHeight(ButtonDefaults.MinHeight), shape)
+}
+
+/**
+ * Высота видимой плашки кнопки: [minHeight] Material или подпись с её полями, смотря что выше.
+ *
+ * Константы [minHeight] мало, потому что она константа: подпись набрана `labelLarge`, и при
+ * крупном системном шрифте плашка вырастает вместе с буквами, а узел ещё не успевает перерасти
+ * [MINIMUM_TOUCH_TARGET] — то есть доска, обрезанная по 40dp, оказывается НИЖЕ обводки, и вдоль
+ * верхнего и нижнего края кнопки остаются светлые полоски (репорт владельца 2026-09-27, iPhone SE
+ * с системным размером «Крупный», кнопка «Фильтры»).
+ *
+ * Поля берутся из [ButtonDefaults.ContentPadding] — тем же числом, каким Material считает высоту
+ * плашки сам. При обычном шрифте выражение даёт ровно [minHeight], то есть прежнюю картинку.
+ */
+@Composable
+private fun filledPlateHeight(minHeight: Dp): Dp {
+    val lineHeight = MaterialTheme.typography.labelLarge.lineHeight
+    if (!lineHeight.isSp) return minHeight
+    val density = LocalDensity.current
+    val label = with(density) { lineHeight.toDp() }
+    val padding = ButtonDefaults.ContentPadding.calculateTopPadding() +
+        ButtonDefaults.ContentPadding.calculateBottomPadding()
+    return maxOf(minHeight, label + padding)
 }
 
 /**
@@ -264,7 +288,7 @@ fun Modifier.selectedSegmentBackground(selected: Boolean, shape: Shape): Modifie
     if (!selected || board == null) return this
     // Та же грабля, что у кнопок, и то же лечение: `SegmentedButton` тоже оборачивает себя в
     // `minimumInteractiveComponentSize()`, а высоту плашки держит своей приватной константой.
-    return plateTexture(board, SEGMENT_CONTAINER_HEIGHT, shape)
+    return plateTexture(board, filledPlateHeight(SEGMENT_CONTAINER_HEIGHT), shape)
 }
 
 /**

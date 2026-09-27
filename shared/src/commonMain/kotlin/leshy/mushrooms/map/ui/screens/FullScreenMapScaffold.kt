@@ -19,6 +19,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.ui.map.mapOrnamentOptions
 import leshy.mushrooms.map.ui.theme.LeshyTheme
@@ -52,11 +58,21 @@ fun FullScreenMapScaffold(
     // По той же причине, что и topInset: `Scaffold`, который отодвинул бы содержимое от нижней
     // системной панели/жестовой полосы, здесь тоже нет, и плашка обязана учесть её сама.
     val bottomInset = WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding()
+    val density = LocalDensity.current
+    // Высота ряда «назад + фильтры» меряется, а не берётся константой: это кнопки с подписями, и
+    // при крупном системном шрифте ряд заметно выше. Плашка «карта не загрузилась» начинается под
+    // ним — на «Записи» такое же наложение уже ловили (репорт владельца 2026-09-27).
+    var topControlsHeight by remember { mutableStateOf(0.dp) }
 
     Box(modifier = modifier.fillMaxSize()) {
         map(
             mapOrnamentOptions.copy(padding = PaddingValues(top = topInset)),
-            PaddingValues(start = 16.dp, end = 16.dp, bottom = bottomInset + 16.dp),
+            PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                top = topInset + MAP_CHROME_TOP_OFFSET + topControlsHeight + 8.dp,
+                bottom = bottomInset + 16.dp,
+            ),
         )
 
         // 31.dp обходят линейку масштаба, стоящую в этом же углу (см. mapOrnamentOptions) — то же
@@ -64,7 +80,8 @@ fun FullScreenMapScaffold(
         Row(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(top = topInset + MAP_CHROME_TOP_OFFSET, start = 16.dp),
+                .padding(top = topInset + MAP_CHROME_TOP_OFFSET, start = 16.dp)
+                .onSizeChanged { topControlsHeight = with(density) { it.height.toDp() } },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {

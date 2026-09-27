@@ -416,6 +416,11 @@ private fun RecordScreenContent(
     // scroller regardless of their actual height (system font scale, narrow-screen pill shrinking).
     val density = LocalDensity.current
     var bottomControlsHeight by remember { mutableStateOf(0.dp) }
+    // Высота кнопки «Фильтры» меряется, а не берётся константой: это обычная кнопка с подписью,
+    // и при крупном системном шрифте она вдвое выше обычного. Плашка «карта не загрузилась»
+    // обязана начинаться ПОД ней — иначе они наезжают друг на друга, и на крупном шрифте так и
+    // было (репорт владельца 2026-09-27).
+    var filterButtonHeight by remember { mutableStateOf(0.dp) }
 
     LaunchedEffect(uiState.feedScrollSignal) {
         if (uiState.feedScrollSignal == 0) return@LaunchedEffect
@@ -678,7 +683,12 @@ private fun RecordScreenContent(
                     // геолокации.
                     trackEndpoints = TrackEndpoints.StartOnly,
                     bannerAlignment = Alignment.BottomCenter,
-                    bannerPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = bottomControlsHeight + 8.dp),
+                    bannerPadding = PaddingValues(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = MAP_SCALE_BAR_CLEARANCE + filterButtonHeight + 8.dp,
+                        bottom = bottomControlsHeight + 8.dp,
+                    ),
                 )
             }
 
@@ -688,7 +698,8 @@ private fun RecordScreenContent(
                 filterCount = uiState.filterCount,
                 onClick = onFilterClick,
                 modifier = Modifier.align(Alignment.TopStart)
-                    .padding(top = MAP_SCALE_BAR_CLEARANCE, start = 16.dp),
+                    .padding(top = MAP_SCALE_BAR_CLEARANCE, start = 16.dp)
+                    .onSizeChanged { filterButtonHeight = with(density) { it.height.toDp() } },
             )
 
             uiState.navigationTarget?.let { navigationTarget ->

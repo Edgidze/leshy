@@ -1,6 +1,8 @@
 package leshy.mushrooms.map.ui.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -47,7 +49,15 @@ fun MapLoadFailedBanner(message: StringKey, onDismiss: () -> Unit, modifier: Mod
         Box {
             Text(
                 text = "${stringResource(message)} $host",
-                modifier = Modifier.padding(top = 12.dp, bottom = 12.dp, start = 12.dp, end = 40.dp),
+                // Прокрутка — на случай, когда плашке достаётся меньше высоты, чем нужно её
+                // тексту: карта на «Записи» зажата шапкой сверху и кнопками снизу, и при крупном
+                // системном шрифте текст в остаток не влезает. Без прокрутки он просто обрезался
+                // нижним краем плашки — на iPhone SE при системном размере «Крупный» сообщение
+                // обрывалось на «Нет связи с» (репорт владельца 2026-09-27). Прокрутка стоит ДО
+                // отступов, чтобы поля уезжали вместе с текстом, а не висели пустой каймой.
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(top = 12.dp, bottom = 12.dp, start = 12.dp, end = 40.dp),
                 color = MaterialTheme.colorScheme.onErrorContainer,
             )
             IconButton(
