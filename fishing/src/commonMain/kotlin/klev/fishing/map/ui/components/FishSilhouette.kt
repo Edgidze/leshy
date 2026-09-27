@@ -1,0 +1,69 @@
+package klev.fishing.map.ui.components
+
+import androidx.compose.foundation.Canvas
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+
+/**
+ * Заглушка иллюстрации вида: общий силуэт рыбы, залитый цветом вида.
+ *
+ * **Почему вообще рисуется в коде.** Правило проекта — картинки и значки рисует владелец, а не я
+ * (своих наборов иконок не заводить). Здесь сделано исключение, и оно согласовано: плитке нужен
+ * заполнитель ровно того формата, в котором потом приедут настоящие иллюстрации
+ * ([FISH_PLATE_ASPECT_RATIO], 2:1), а прямоугольник одного цвета не читается как рыба (решение
+ * владельца 2026-09-28). Силуэт один на все виды — различает их цвет, а не форма: у прототипа нет
+ * задачи отличать щуку от окуня рисунком, это работа настоящих иллюстраций.
+ *
+ * **Путь, а не файл-ресурс.** Compose Resources не декодирует SVG на Android (корневой
+ * `CLAUDE.md`), а растр пришлось бы держать в 408 цветах или красить `tint`-ом поверх серого —
+ * путь дешевле и масштабируется без потери резкости на любой плотности.
+ *
+ * Все числа — доли стороны площадки, не dp: силуэт обязан совпадать сам с собой на плитке ленты
+ * «Записи» и в любом другом месте, где эта же заглушка понадобится крупнее или мельче.
+ *
+ * @param eyeColor цвет глаза — это не краска, а «дырка» до фона площадки: глаз должен читаться на
+ *   любом цвете вида, включая тёмные, и поэтому берёт цвет того, что лежит ПОД рыбой.
+ */
+@Composable
+fun FishSilhouette(color: Color, eyeColor: Color, modifier: Modifier = Modifier) {
+    Canvas(modifier = modifier) {
+        val w = size.width
+        val h = size.height
+        fun x(fraction: Float) = w * fraction
+        fun y(fraction: Float) = h * fraction
+
+        val body = Path().apply {
+            // Нос справа: рыба смотрит вправо, как на этикетках и в определителях.
+            moveTo(x(0.97f), y(0.50f))
+            // Спина — от носа к основанию хвоста.
+            cubicTo(x(0.80f), y(0.14f), x(0.55f), y(0.12f), x(0.34f), y(0.30f))
+            // Хвост: два кончика и вырезка между ними.
+            lineTo(x(0.16f), y(0.10f))
+            lineTo(x(0.27f), y(0.50f))
+            lineTo(x(0.16f), y(0.90f))
+            lineTo(x(0.34f), y(0.70f))
+            // Брюхо — обратно к носу.
+            cubicTo(x(0.55f), y(0.80f), x(0.80f), y(0.78f), x(0.97f), y(0.50f))
+            close()
+        }
+        // Спинной плавник отдельным путём, с заходом на тело: тем же цветом наложение незаметно, а
+        // одним путём это была бы вершина посреди кубической кривой спины.
+        val dorsalFin = Path().apply {
+            moveTo(x(0.73f), y(0.18f))
+            lineTo(x(0.62f), y(0.02f))
+            lineTo(x(0.51f), y(0.23f))
+            close()
+        }
+
+        drawPath(body, color)
+        drawPath(dorsalFin, color)
+        drawCircle(
+            color = eyeColor,
+            radius = size.minDimension * 0.07f,
+            center = Offset(x(0.86f), y(0.40f)),
+        )
+    }
+}
