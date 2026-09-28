@@ -35,6 +35,8 @@ data class CatchEntity(
     val timestamp: Long,
     val weightGrams: Int?,
     val lengthMm: Int?,
+    /** Появилась в версии 2 базы — см. `MIGRATION_1_2`. */
+    val depthCm: Int?,
     val bait: String?,
     val outcome: CatchOutcome,
     val lostReason: LostReason?,

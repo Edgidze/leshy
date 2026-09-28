@@ -31,7 +31,7 @@ const val FISHING_DATABASE_NAME = "fishing.db"
         SpeciesEntity::class,
         CatchEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)

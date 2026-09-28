@@ -52,6 +52,7 @@ import klev.fishing.map.i18n.labelKey
 import klev.fishing.map.presentation.trip.TripDetailViewModel
 import klev.fishing.map.ui.components.CatchSheet
 import klev.fishing.map.ui.components.WeatherDialog
+import klev.fishing.map.ui.components.formatDepth
 import klev.fishing.map.ui.components.formatLength
 import klev.fishing.map.ui.components.formatPressure
 import klev.fishing.map.ui.components.formatTemperature
@@ -197,6 +198,7 @@ fun TripDetailScreen(
                         speciesId = draft.speciesId,
                         weightGrams = draft.weightGrams,
                         lengthMm = draft.lengthMm,
+                        depthCm = draft.depthCm,
                         bait = draft.bait?.trim()?.ifBlank { null },
                         outcome = draft.outcome,
                         lostReason = draft.lostReason,
@@ -335,6 +337,7 @@ private fun CatchRow(item: Catch, name: String?, colorHex: String?, onClick: () 
             val measures = buildList {
                 item.weightGrams?.let { add(formatWeight(it)) }
                 item.lengthMm?.let { add(formatLength(it)) }
+                item.depthCm?.let { add(formatDepth(it)) }
                 add(fishStringResource(item.outcome.labelKey()))
                 item.lostReason?.let { add(fishStringResource(it.labelKey())) }
                 item.bait?.let { add(it) }

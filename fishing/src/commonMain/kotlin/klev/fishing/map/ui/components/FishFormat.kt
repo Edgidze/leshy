@@ -46,6 +46,16 @@ fun formatWeight(grams: Int): String = if (grams < 1000) {
     "$kg ${fishStringResource(FishStringKey.UnitKilogram)}"
 }
 
+/**
+ * Глубина в метрах с одним знаком: «3,5 м». Второй знак после запятой не значит ничего — эхолот на
+ * ходу и сам столько не держит, а с берега глубину и вовсе называют на глаз.
+ */
+@Composable
+fun formatDepth(centimetres: Int): String {
+    val metres = (centimetres / 10.0).roundToInt() / 10.0
+    return "$metres ${fishStringResource(FishStringKey.UnitMeter)}"
+}
+
 @Composable
 fun formatLength(millimetres: Int): String {
     val cm = (millimetres / 10.0 * 10).roundToInt() / 10.0

@@ -43,18 +43,23 @@ import klev.fishing.map.domain.model.Catch
 import klev.fishing.map.domain.model.CatchOutcome
 import klev.fishing.map.domain.model.FishSpecies
 import klev.fishing.map.domain.model.LostReason
+import klev.fishing.map.domain.model.MAX_CATCH_DEPTH_CM
 import klev.fishing.map.domain.model.MAX_CATCH_LENGTH_MM
 import klev.fishing.map.domain.model.MAX_CATCH_WEIGHT_GRAMS
 import klev.fishing.map.i18n.FishStringKey
 import klev.fishing.map.i18n.fishStringResource
 import klev.fishing.map.i18n.labelKey
 import leshy.mushrooms.map.ui.util.formatTimeOnly
+import kotlin.math.roundToInt
 
 /** Шаг кнопок «−»/«+» у веса: 50 г — мельче не нужно, крупнее не хватит окуню. */
 private const val WEIGHT_STEP_GRAMS = 50
 
 /** Шаг у длины — сантиметр. В базе миллиметры, поэтому 10. */
 private const val LENGTH_STEP_MM = 10
+
+/** Шаг у глубины — полметра: глубину называют «три с половиной», а не «три сорок восемь». */
+private const val DEPTH_STEP_CM = 50
 
 /** Сколько недавних приманок показывать чипами. Дальше ряд перестаёт читаться, а память — помогать. */
 private const val RECENT_BAITS_SHOWN = 8
@@ -64,6 +69,7 @@ data class CatchDraft(
     val speciesId: Long,
     val weightGrams: Int?,
     val lengthMm: Int?,
+    val depthCm: Int?,
     val bait: String?,
     val outcome: CatchOutcome,
     val lostReason: LostReason?,
@@ -105,7 +111,10 @@ fun CatchSheet(
     var speciesId by remember(initial?.id) { mutableStateOf(initial?.speciesId) }
     var weightText by remember(initial?.id) { mutableStateOf(initial?.weightGrams?.toString().orEmpty()) }
     var lengthText by remember(initial?.id) {
-        mutableStateOf(initial?.lengthMm?.let { (it / 10.0).trimZero() }.orEmpty())
+        mutableStateOf(initial?.lengthMm?.let { storedToText(it, LENGTH_SCALE) }.orEmpty())
+    }
+    var depthText by remember(initial?.id) {
+        mutableStateOf(initial?.depthCm?.let { storedToText(it, DEPTH_SCALE) }.orEmpty())
     }
     var bait by remember(initial?.id) { mutableStateOf(initial?.bait.orEmpty()) }
     var baitFieldOpen by remember(initial?.id) { mutableStateOf(false) }
@@ -118,10 +127,12 @@ fun CatchSheet(
     var speciesPickerOpen by remember(initial?.id) { mutableStateOf(initial == null) }
 
     val weightGrams = weightText.toIntOrNull()
-    val lengthMm = lengthText.toDoubleOrNull()?.let { (it * 10).toInt() }
+    val lengthMm = textToStored(lengthText, LENGTH_SCALE)
+    val depthCm = textToStored(depthText, DEPTH_SCALE)
     val weightTooBig = weightGrams != null && weightGrams > MAX_CATCH_WEIGHT_GRAMS
     val lengthTooBig = lengthMm != null && lengthMm > MAX_CATCH_LENGTH_MM
-    val canSave = speciesId != null && !weightTooBig && !lengthTooBig
+    val depthTooBig = depthCm != null && depthCm > MAX_CATCH_DEPTH_CM
+    val canSave = speciesId != null && !weightTooBig && !lengthTooBig && !depthTooBig
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState) {
@@ -231,9 +242,24 @@ fun CatchSheet(
                 label = fishStringResource(FishStringKey.CatchWeight),
                 suffix = fishStringResource(FishStringKey.UnitGram),
                 step = WEIGHT_STEP_GRAMS,
-                decimal = false,
+                scale = WEIGHT_SCALE,
                 isError = weightTooBig,
                 errorText = fishStringResource(FishStringKey.CatchWeightTooBig).takeIf { weightTooBig },
+            )
+
+            // Глубина стоит рядом с весом при ЛЮБОМ способе ловли, а не только с лодки и со льда
+            // (решение владельца 2026-09-28). С берега она тоже известна и тоже объясняет поклёвку —
+            // бровка, яма, отмель; прятать её за «Ещё» значило бы решить за берегового рыбака, что
+            // глубина его не касается. Необязательна, как и всё здесь.
+            StepperField(
+                value = depthText,
+                onValueChange = { depthText = it },
+                label = fishStringResource(FishStringKey.CatchDepth),
+                suffix = fishStringResource(FishStringKey.UnitMeter),
+                step = DEPTH_STEP_CM,
+                scale = DEPTH_SCALE,
+                isError = depthTooBig,
+                errorText = fishStringResource(FishStringKey.CatchDepthTooBig).takeIf { depthTooBig },
             )
 
             SheetLabel(fishStringResource(FishStringKey.CatchBait))
@@ -278,7 +304,7 @@ fun CatchSheet(
                     label = fishStringResource(FishStringKey.CatchLength),
                     suffix = fishStringResource(FishStringKey.UnitCentimeter),
                     step = LENGTH_STEP_MM,
-                    decimal = true,
+                    scale = LENGTH_SCALE,
                     isError = lengthTooBig,
                     errorText = fishStringResource(FishStringKey.CatchLengthTooBig).takeIf { lengthTooBig },
                 )
@@ -316,6 +342,7 @@ fun CatchSheet(
                                 speciesId = id,
                                 weightGrams = weightGrams,
                                 lengthMm = lengthMm,
+                                depthCm = depthCm,
                                 bait = bait,
                                 outcome = outcome,
                                 lostReason = lostReason,
@@ -343,8 +370,10 @@ private fun SheetLabel(text: String) {
  * раз одним пальцем, а поле остаётся для тех, кто взвесил точно. Пустое поле плюс «+» даёт первый
  * шаг ([step]), а не ноль: ноль не значит ничего и в базе означал бы «взвесили и получили нуль».
  *
- * @param decimal показывать ли дробную клавиатуру и делить ли шаг на десять (длина в сантиметрах
- *   хранится миллиметрами, поэтому шаг у неё 10, а на экране это 1).
+ * @param step шаг кнопок в ЕДИНИЦАХ ХРАНЕНИЯ (граммы, миллиметры, сантиметры).
+ * @param scale сколько единиц хранения в одной показываемой: вес — 1 (граммы), длина — 10
+ *   (миллиметры на сантиметр), глубина — 100 (сантиметры на метр). Больше единицы — значит поле
+ *   дробное, и клавиатура тоже.
  */
 @Composable
 private fun StepperField(
@@ -353,23 +382,19 @@ private fun StepperField(
     label: String,
     suffix: String,
     step: Int,
-    decimal: Boolean,
+    scale: Int,
     isError: Boolean,
     errorText: String?,
 ) {
+    val decimal = scale > 1
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        val current = if (decimal) {
-            value.toDoubleOrNull()?.times(10)?.toInt()
-        } else {
-            value.toIntOrNull()
-        }
+        val current = textToStored(value, scale)
         val render = { raw: Int ->
-            val clamped = raw.coerceAtLeast(0)
-            onValueChange(if (decimal) (clamped / 10.0).trimZero() else clamped.toString())
+            onValueChange(storedToText(raw.coerceAtLeast(0), scale))
         }
         FilledTonalIconButton(
             onClick = { render((current ?: step) - step) },
@@ -404,8 +429,21 @@ private fun StepperField(
     }
 }
 
-/** «34.0» → «34», «34.5» → «34.5»: целую длину показывать с нулём после точки незачем. */
-private fun Double.trimZero(): String {
-    val rounded = (this * 10).toInt() / 10.0
-    return if (rounded % 1.0 == 0.0) rounded.toInt().toString() else rounded.toString()
+/** Единицы хранения в одной показываемой — см. [StepperField]. */
+private const val WEIGHT_SCALE = 1
+private const val LENGTH_SCALE = 10
+private const val DEPTH_SCALE = 100
+
+/**
+ * Единица хранения → текст поля. Целое значение показывается без дробной части («34», а не «34.0»),
+ * дробное — с одним знаком: второй знак у глубины и длины не значит ничего, кроме ложной точности.
+ */
+private fun storedToText(stored: Int, scale: Int): String {
+    if (scale == 1) return stored.toString()
+    val value = (stored.toDouble() / scale * 10).roundToInt() / 10.0
+    return if (value % 1.0 == 0.0) value.toInt().toString() else value.toString()
 }
+
+/** Текст поля → единица хранения. Пустое и неразобранное — `null`, то есть «не мерили». */
+private fun textToStored(text: String, scale: Int): Int? =
+    text.toDoubleOrNull()?.let { (it * scale).roundToInt() }
