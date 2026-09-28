@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.map
 class FishingSettingsRepository(private val dataStore: DataStore<Preferences>) {
     private val pressureUnitKey = stringPreferencesKey("fishing_pressure_unit")
     private val methodsKey = stringPreferencesKey("fishing_methods")
+    private val countryKey = stringPreferencesKey("fishing_country")
 
     fun observePressureUnit(): Flow<PressureUnit> = dataStore.data.map { prefs ->
         prefs[pressureUnitKey]?.let { stored -> PressureUnit.entries.firstOrNull { it.name == stored } }
@@ -49,6 +50,25 @@ class FishingSettingsRepository(private val dataStore: DataStore<Preferences>) {
             ?.toSet()
             .orEmpty()
         stored.ifEmpty { FishingMethod.entries.toSet() }
+    }
+
+    /**
+     * Код страны последней применённой подборки видов. Хранится ради одной вещи — показать в
+     * разделе «Виды рыб», по какой подборке собрана лента: без этого человек, открывший приложение
+     * через месяц, видит короткий список и не помнит, сам он его правил или это подборка.
+     *
+     * `null` — подборку не применяли ни разу (или после неё лента правилась руками, см.
+     * `clearCountry`).
+     */
+    fun observeCountry(): Flow<String?> = dataStore.data.map { prefs -> prefs[countryKey] }
+
+    suspend fun setCountry(code: String) {
+        dataStore.edit { it[countryKey] = code }
+    }
+
+    /** Ленту правили руками — подборка больше не описывает её состав, и врать об этом незачем. */
+    suspend fun clearCountry() {
+        dataStore.edit { it.remove(countryKey) }
     }
 
     suspend fun setMethods(methods: Set<FishingMethod>) {

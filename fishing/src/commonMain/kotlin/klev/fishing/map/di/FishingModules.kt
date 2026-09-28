@@ -2,6 +2,7 @@ package klev.fishing.map.di
 
 import androidx.room.RoomDatabase
 import klev.fishing.map.data.catalog.FishCatalogSource
+import klev.fishing.map.data.catalog.FishCountriesSource
 import klev.fishing.map.data.local.FishingDatabase
 import klev.fishing.map.data.local.buildFishingDatabase
 import klev.fishing.map.data.repository.CatchRepositoryImpl
@@ -16,6 +17,7 @@ import klev.fishing.map.domain.repository.SpeciesRepository
 import klev.fishing.map.domain.repository.TripRepository
 import klev.fishing.map.domain.repository.TripTrackPointRepository
 import klev.fishing.map.domain.usecase.AddCatchUseCase
+import klev.fishing.map.domain.usecase.ApplyCountryCollectionUseCase
 import klev.fishing.map.domain.usecase.DeleteTripUseCase
 import klev.fishing.map.domain.usecase.EnsureFishSpeciesUseCase
 import klev.fishing.map.domain.usecase.FinishTripUseCase
@@ -53,6 +55,7 @@ val fishingDataModule = module {
     single { FishingSettingsRepository(get()) }
 
     single { FishCatalogSource() }
+    single { FishCountriesSource() }
 
     // Провайдер подсказки погоды — ВЫБИРАЕМЫЙ. Open-Meteo бесплатен только для некоммерческого
     // использования (проверено 2026-09-27), поэтому перед публикацией с рекламой владелец либо
@@ -68,6 +71,7 @@ val fishingDomainModule = module {
     factory { AddCatchUseCase(get()) }
     factory { DeleteTripUseCase(get()) }
     factory { EnsureFishSpeciesUseCase(get(), get()) }
+    factory { ApplyCountryCollectionUseCase(get(), get(), get()) }
 }
 
 val fishingPresentationModule = module {
@@ -80,7 +84,7 @@ val fishingPresentationModule = module {
     viewModel { TripDetailViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { CatchMapViewModel(get(), get(), get()) }
     viewModel { FishSettingsViewModel(get(), get()) }
-    viewModel { FishSpeciesViewModel(get()) }
+    viewModel { FishSpeciesViewModel(get(), get(), get(), get()) }
     viewModel { FishSummaryViewModel(get(), get(), get()) }
 }
 

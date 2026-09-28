@@ -165,6 +165,13 @@ enum class FishStringKey {
     // Виды рыб
     SpeciesTitle,
     SpeciesHint,
+    SpeciesCollection,
+    SpeciesCollectionManual,
+    SpeciesPickCountry,
+    SpeciesShowAll,
+    SpeciesCountryTitle,
+    SpeciesCountryHint,
+    SpeciesInStrip,
 
     // Карта
     MapTitle,
