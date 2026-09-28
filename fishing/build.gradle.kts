@@ -76,6 +76,9 @@ kotlin {
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.maplibre.compose)
+            // Фото улова: тот же Coil, что у грибных фото — локальный файл по «file://» он
+            // открывает на обеих платформах сам, без своего декодера на каждую.
+            implementation(libs.coil.compose)
             implementation(libs.androidx.datastore.preferences.core)
         }
         commonTest.dependencies {

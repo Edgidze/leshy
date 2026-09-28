@@ -1,6 +1,7 @@
 package klev.fishing.map.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,8 +13,12 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.AssistChip
@@ -22,7 +27,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
@@ -37,6 +44,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import klev.fishing.map.domain.model.Catch
@@ -49,6 +57,10 @@ import klev.fishing.map.domain.model.MAX_CATCH_WEIGHT_GRAMS
 import klev.fishing.map.i18n.FishStringKey
 import klev.fishing.map.i18n.fishStringResource
 import klev.fishing.map.i18n.labelKey
+import leshy.mushrooms.map.data.platform.rememberCameraLauncher
+import leshy.mushrooms.map.data.platform.rememberCameraPermissionRequester
+import leshy.mushrooms.map.data.platform.rememberGalleryPicker
+import coil3.compose.AsyncImage
 import leshy.mushrooms.map.ui.util.formatTimeOnly
 import kotlin.math.roundToInt
 
@@ -61,6 +73,18 @@ private const val LENGTH_STEP_MM = 10
 /** Шаг у глубины — полметра: глубину называют «три с половиной», а не «три сорок восемь». */
 private const val DEPTH_STEP_CM = 50
 
+/**
+ * Сторона площадки фото — квадрат 96dp, а не полоса во всю ширину листа.
+ *
+ * Полоса во всю ширину (пробовал именно так) выталкивала «Готово» и «Отмена» за нижний край
+ * экрана: лист и без фото не маленький, а главная кнопка в нём обязана быть видна без прокрутки.
+ * Квадрата хватает и чтобы узнать свой снимок, и чтобы попасть в него пальцем.
+ */
+private val PHOTO_TILE_SIZE = 96.dp
+
+/** Значок съёмки внутри пустой площадки. */
+private val PHOTO_ICON_SIZE = 40.dp
+
 /** Сколько недавних приманок показывать чипами. Дальше ряд перестаёт читаться, а память — помогать. */
 private const val RECENT_BAITS_SHOWN = 8
 
@@ -70,6 +94,7 @@ data class CatchDraft(
     val weightGrams: Int?,
     val lengthMm: Int?,
     val depthCm: Int?,
+    val photoPath: String?,
     val bait: String?,
     val outcome: CatchOutcome,
     val lostReason: LostReason?,
@@ -121,6 +146,19 @@ fun CatchSheet(
     var outcome by remember(initial?.id) { mutableStateOf(initial?.outcome ?: CatchOutcome.KEPT) }
     var lostReason by remember(initial?.id) { mutableStateOf(initial?.lostReason) }
     var note by remember(initial?.id) { mutableStateOf(initial?.note.orEmpty()) }
+    var photoPath by remember(initial?.id) { mutableStateOf(initial?.photoPath) }
+    val takePhoto = rememberCameraLauncher { path -> photoPath = path }
+    val pickFromGallery = rememberGalleryPicker { path -> photoPath = path }
+    // Отказ в доступе к камере раньше оставлял бы кнопку, которая молча не делает ничего: у
+    // окончательно запрещённого разрешения системного запроса больше не появляется вовсе.
+    var cameraDenied by remember(initial?.id) { mutableStateOf(false) }
+    val requestPhoto = rememberCameraPermissionRequester(
+        onGranted = {
+            cameraDenied = false
+            takePhoto()
+        },
+        onDenied = { cameraDenied = true },
+    )
     var moreOpen by remember(initial?.id) { mutableStateOf(initial?.note?.isNotBlank() == true) }
     // В новой записи вид ещё не выбран — список открыт. В правке он выбран плиткой, и список
     // сворачивается, освобождая лист под то, ради чего он открыт.
@@ -293,6 +331,23 @@ fun CatchSheet(
                 )
             }
 
+            // Фото — рядом с приманкой, а не под «Ещё»: трофей снимают сразу, пока рыба в руках, и
+            // лишний шаг здесь стоит дороже места на экране.
+            SheetLabel(fishStringResource(FishStringKey.CatchPhoto))
+            CatchPhotoBox(
+                photoPath = photoPath,
+                onTakePhoto = requestPhoto,
+                onPickFromGallery = pickFromGallery,
+                onRemove = { photoPath = null },
+            )
+            if (cameraDenied) {
+                Text(
+                    text = fishStringResource(FishStringKey.CatchPhotoDenied),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+
             TextButton(onClick = { moreOpen = !moreOpen }) {
                 Text(fishStringResource(if (moreOpen) FishStringKey.CatchLess else FishStringKey.CatchMore))
             }
@@ -343,6 +398,7 @@ fun CatchSheet(
                                 weightGrams = weightGrams,
                                 lengthMm = lengthMm,
                                 depthCm = depthCm,
+                                photoPath = photoPath,
                                 bait = bait,
                                 outcome = outcome,
                                 lostReason = lostReason,
@@ -352,6 +408,60 @@ fun CatchSheet(
                     },
                 ) {
                     Text(fishStringResource(FishStringKey.CatchDone))
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Площадка фото: пустая — крупная кнопка «снять», с фото — сам снимок, по нажатию переснять, плюс
+ * «из галереи» и «убрать».
+ *
+ * **Галерея нужна рядом с камерой, а не вместо неё.** Рыбу часто снимают тем, что под рукой, —
+ * другой камерой, чужим телефоном, — и к вечеру, когда улов уточняют дома, снимок уже лежит в
+ * галерее. Отказ в доступе к камере при этом перестаёт быть тупиком.
+ */
+@Composable
+private fun CatchPhotoBox(
+    photoPath: String?,
+    onTakePhoto: () -> Unit,
+    onPickFromGallery: () -> Unit,
+    onRemove: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Card(modifier = Modifier.size(PHOTO_TILE_SIZE)) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                if (photoPath == null) {
+                    IconButton(onClick = onTakePhoto, modifier = Modifier.fillMaxSize()) {
+                        Icon(
+                            imageVector = Icons.Filled.AddAPhoto,
+                            contentDescription = null,
+                            modifier = Modifier.size(PHOTO_ICON_SIZE),
+                        )
+                    }
+                } else {
+                    AsyncImage(
+                        // «file://» — Coil открывает локальный файл сам на обеих платформах.
+                        model = "file://$photoPath",
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize().clickable(onClick = onTakePhoto),
+                    )
+                }
+            }
+        }
+        Column {
+            TextButton(onClick = onPickFromGallery) {
+                Text(fishStringResource(FishStringKey.CatchPhotoFromGallery))
+            }
+            if (photoPath != null) {
+                TextButton(onClick = onRemove) {
+                    Text(fishStringResource(FishStringKey.CatchPhotoRemove))
                 }
             }
         }

@@ -221,6 +221,7 @@ class TripViewModel(
         weightGrams: Int?,
         lengthMm: Int?,
         depthCm: Int?,
+        photoPath: String?,
         bait: String?,
         outcome: CatchOutcome,
         lostReason: LostReason?,
@@ -232,6 +233,7 @@ class TripViewModel(
                 weightGrams = weightGrams,
                 lengthMm = lengthMm,
                 depthCm = depthCm,
+                photoPath = photoPath,
                 bait = bait,
                 outcome = outcome,
                 lostReason = lostReason,
@@ -250,6 +252,7 @@ class TripViewModel(
         weightGrams: Int? = null,
         lengthMm: Int? = null,
         depthCm: Int? = null,
+        photoPath: String? = null,
         bait: String? = null,
         outcome: CatchOutcome,
         lostReason: LostReason? = null,
@@ -274,7 +277,7 @@ class TripViewModel(
                 bait = bait?.trim()?.ifBlank { null },
                 outcome = outcome,
                 lostReason = if (outcome == CatchOutcome.LOST) lostReason else null,
-                photoPath = null,
+                photoPath = photoPath,
                 note = note?.trim()?.ifBlank { null },
             )
         )

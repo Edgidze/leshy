@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -39,9 +40,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
 import klev.fishing.map.domain.model.Catch
 import klev.fishing.map.domain.model.PressureUnit
 import klev.fishing.map.domain.model.Trip
@@ -74,6 +77,12 @@ private val DETAIL_MAP_HEIGHT = 220.dp
 
 /** Кружок цвета вида у строки улова — тот же приём, что в архиве и на карте. */
 private val SPECIES_DOT_SIZE = 12.dp
+
+/** Сторона миниатюры фото в строке улова. Ровно настолько, чтобы узнать свой снимок. */
+private val CATCH_THUMBNAIL_SIZE = 56.dp
+
+/** Скругление миниатюры — то же, что у карточек вокруг. */
+private val CATCH_THUMBNAIL_CORNER = 8.dp
 
 /**
  * Один выезд целиком.
@@ -199,6 +208,7 @@ fun TripDetailScreen(
                         weightGrams = draft.weightGrams,
                         lengthMm = draft.lengthMm,
                         depthCm = draft.depthCm,
+                        photoPath = draft.photoPath,
                         bait = draft.bait?.trim()?.ifBlank { null },
                         outcome = draft.outcome,
                         lostReason = draft.lostReason,
@@ -318,7 +328,24 @@ private fun SummaryCard(trip: Trip, catches: List<Catch>) {
 @Composable
 private fun CatchRow(item: Catch, name: String?, colorHex: String?, onClick: () -> Unit) {
     Card(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Row(
+            modifier = Modifier.padding(12.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+        if (item.photoPath != null) {
+            // Снимок квадратной миниатюрой слева: строку он не раздвигает, а найти нужную рыбу в
+            // списке из полутора десятков одинаковых «Окунь · Взята» помогает сильнее любых цифр.
+            AsyncImage(
+                model = "file://${item.photoPath}",
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(CATCH_THUMBNAIL_SIZE)
+                    .clip(RoundedCornerShape(CATCH_THUMBNAIL_CORNER)),
+            )
+        }
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (colorHex != null) {
                     Box(Modifier.size(SPECIES_DOT_SIZE).clip(CircleShape).background(parseHexColor(colorHex)))
@@ -344,6 +371,7 @@ private fun CatchRow(item: Catch, name: String?, colorHex: String?, onClick: () 
             }
             Text(measures.joinToString(" · "), style = MaterialTheme.typography.bodySmall)
             item.note?.let { Text(it, style = MaterialTheme.typography.bodySmall) }
+        }
         }
     }
 }
