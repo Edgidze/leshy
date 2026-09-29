@@ -9,7 +9,8 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -71,46 +72,57 @@ val METRIC_ICON_SIZE = 28.dp
  *
  * Величина одна на обе редакции — задаётся ГЛИФ, а сторона жетона под ним выводится
  * ([badgeSizeForGlyph]). Наоборот не работает: сторону жетона мировая редакция не видит.
+ *
+ * **Дальше 44dp расти некуда, и упирается это в ШИРИНУ плашки, а не в её высоту.** Под глифом в
+ * российской редакции лежит жетон в 1.58 раза шире него (44dp глифа — это 70dp доски), а самая
+ * узкая плашка — одна из трёх в ряду на детализации прогулки: 104dp на телефоне шириной 360dp,
+ * из них 92dp внутри полей. 70dp доски оставляют по 11dp с боков; следующий разумный шаг, 48dp
+ * глифа, съедает и их. Высота же плашки ничего не ограничивает — она сумма своего содержимого
+ * ([metricCardMinHeight]), то есть от роста значка просто растёт.
  */
-private val METRIC_GLYPH_SIZE = 32.dp
+private val METRIC_GLYPH_SIZE = 44.dp
 
 /** Сторона жетона под значком блока статистики — та, на которой глиф выходит [METRIC_GLYPH_SIZE]
  * при пропорции жетона бокового меню (24 из 38). */
 private val METRIC_BADGE_SIZE = badgeSizeForGlyph(METRIC_GLYPH_SIZE)
 
-/** Поля плашки показателя по вертикали и отбивка между значком и значением — они же слагаемые
- * наименьшей высоты, см. [metricCardMinHeight]. */
-private val METRIC_CARD_VERTICAL_PADDING = 12.dp
+/**
+ * Единственная отбивка плашки показателя по вертикали: над значком, между значком и значением и
+ * под значением — везде она.
+ *
+ * Требование владельца (2026-09-29): поля плашки одинаковы со всех сторон, а не «поле 12dp и
+ * отбивка 6dp», как было. Отдельного числа под поля больше нет намеренно — два числа немедленно
+ * разъезжаются, а глазу равенство отбивок видно сразу.
+ */
 private val METRIC_CARD_GAP = 6.dp
 
 /**
- * Наименьшая высота плашки показателя: поля, значок и ДВЕ строки значения — столько, сколько занял
- * бы самый высокий из показателей ряда.
+ * Высота слота под значение — [lines] строк, сколько бы строк ни занимало значение ЭТОЙ плашки.
  *
- * Задана снизу, а не выведена из содержимого каждой плашки: значения переносятся каждое по своей
- * нужде («24» — одна строка, «12.34 км» — две), и плашки натуральной высоты встали бы в ряд
- * ступенькой. `IntrinsicSize` эту работу не делает: минимальная внутренняя высота текста меряется
- * по бесконечной ширине, то есть по одной строке, и двухстрочному значению её не хватило бы. Раз
- * при `maxLines = 2` содержимое выше этого числа не бывает, минимум оказывается и максимумом —
- * плашки выходят равными без общей высоты у ряда.
+ * Слот, а не высота по содержимому, — потому что иначе плашки ряда разъезжаются. Значения
+ * переносятся каждое по своей нужде («24» — одна строка, «12.34 км» — две), и без общего слота ряд
+ * встаёт ступенькой, а при выравнивании содержимого по центру — ещё хуже: высоты сравниваются
+ * наименьшей высотой плашки, но значки внутри оказываются на разной высоте, потому что короткое
+ * значение центрируется вместе со своим значком (так и вышло в российской редакции на детализации,
+ * репорт владельца 2026-09-30). Со слотом все слагаемые плашки одинаковы по построению: отбивка,
+ * значок, отбивка, слот, отбивка — и равны и высоты плашек, и положение значков в них.
  *
- * **Считается, а не стоит числом.** Стояло — 116dp, выведенные под мировую редакцию (глиф 24dp,
- * `titleLarge`), и в российской они не значили ничего: жетон там 44dp вместо 24 и кегль на 10%
- * крупнее, так что двухстрочная плашка вырастала до ~137dp, а однострочная оставалась на 116 — ряд
- * шёл ступенькой в 20dp. Теперь оба слагаемых берутся те же, что рисуются, поэтому равенство
- * держится в любой редакции и при любом кегле значения.
+ * `IntrinsicSize` эту работу не делает: минимальная внутренняя высота текста меряется по
+ * бесконечной ширине, то есть по одной строке, и двухстрочному значению её не хватило бы.
  *
- * Перевод sp→dp идёт через плотность, то есть высота растёт вместе с системным размером шрифта —
+ * **[lines] — сколько строк в самом деле занял самый длинный показатель РЯДА**, а не постоянная
+ * двойка, как было до 2026-09-29. Двойка резервировала место под вторую строку и там, где ни одному
+ * из четырёх значений она не понадобилась: на «Карте находок» с короткими «1», «3», «0.00 км»
+ * плашка выходила на 36dp выше содержимого, и эта пустота — ровно то, из-за чего значок казался
+ * мелким относительно плашки (репорт владельца). Общее на ряд число берётся из [MetricValueScale]
+ * — оттуда же, откуда общий кегль.
+ *
+ * Перевод sp→dp идёт через плотность, то есть слот растёт вместе с системным размером шрифта —
  * ровно затем, чтобы при крупном шрифте плашка росла вслед за содержимым, а не обрезала его.
  */
 @Composable
-private fun metricCardMinHeight(fontSize: TextUnit): Dp {
-    val lines = with(LocalDensity.current) { (fontSize * METRIC_VALUE_LINE_HEIGHT_RATIO * 2f).toDp() }
-    return METRIC_CARD_VERTICAL_PADDING * 2 +
-        glyphBadgeFootprint(size = METRIC_BADGE_SIZE, glyphSize = METRIC_GLYPH_SIZE) +
-        METRIC_CARD_GAP +
-        lines
-}
+private fun metricValueSlotHeight(fontSize: TextUnit, lines: Int): Dp =
+    with(LocalDensity.current) { (fontSize * METRIC_VALUE_LINE_HEIGHT_RATIO * lines.toFloat()).toDp() }
 
 /**
  * Межстрочное расстояние значения долей кегля, а не по метрикам гарнитуры: кегль здесь подбирается
@@ -188,9 +200,13 @@ val SECTION_TOP_GAP = 24.dp
  * — оно и не проявлялось только потому, что прежние 22sp влезали почти всегда; с более крупным
  * кеглем случай наступает на первом же узком экране с длинным «12 ч 05 мин».
  *
+ * Вместе с кеглем общим на ряд оказывается и [lines] — во сколько строк лёг самый длинный из
+ * показателей: по нему все плашки ряда резервируют одинаковую высоту, и пустой второй строки под
+ * короткими значениями больше не бывает.
+ *
  * Как подбирается. Сверху вниз от кегля [rememberMetricValueScale] шагами
- * [METRIC_VALUE_FONT_STEP]: плашка, которой содержимое не встало в две строки, зовёт [shrinkToFit],
- * и кегль уменьшается У ВСЕХ. Движение только в одну сторону, поэтому подбор сходится (в худшем
+ * [METRIC_VALUE_FONT_STEP]: плашка, которой содержимое не встало в две строки, зовёт
+ * [onValueLayout] с переполнением, и кегль уменьшается У ВСЕХ. Движение только в одну сторону, поэтому подбор сходится (в худшем
  * случае — на [METRIC_VALUE_MIN_FONT_SIZE]) и не может зациклиться на двух плашках, тянущих кегль
  * в разные стороны. Цена — кадр-два на шаг, пока значения раскладываются; сбрасывается подбор
  * только сменой самих значений, то есть при обычной прокрутке экрана его не видно.
@@ -202,17 +218,32 @@ val SECTION_TOP_GAP = 24.dp
  * плашках «Карты находок».
  */
 @Stable
-class MetricValueScale internal constructor(maxFontSize: TextUnit) {
+class MetricValueScale internal constructor(private val maxFontSize: TextUnit) {
     var fontSize: TextUnit by mutableStateOf(maxFontSize)
         private set
 
-    // Арифметика по числу в sp, а не операторами `TextUnit`: сложение и вычитание у него есть
-    // только между величинами одного типа и тут не выводятся, а обе участвующие величины заданы в
-    // sp по построению.
-    internal fun shrinkToFit() {
-        if (fontSize > METRIC_VALUE_MIN_FONT_SIZE) {
+    /** Сколько строк занял самый длинный показатель ряда при нынешнем [fontSize] — по нему все
+     * плашки ряда резервируют одинаковую высоту, см. [metricCardMinHeight]. */
+    var lines: Int by mutableStateOf(1)
+        private set
+
+    /**
+     * Итог раскладки одной плашки. Не встало — кегль уменьшается у всех, и счёт строк начинается
+     * заново: при новом кегле прежние переносы недействительны, а накопленный максимум иначе
+     * остался бы завышенным навсегда (значение, ужавшееся с двух строк до одной, продолжало бы
+     * держать под себя две).
+     *
+     * Арифметика по числу в sp, а не операторами `TextUnit`: сложение и вычитание у него есть
+     * только между величинами одного типа и тут не выводятся, а обе участвующие величины заданы в
+     * sp по построению.
+     */
+    internal fun onValueLayout(lineCount: Int, overflowed: Boolean) {
+        if (overflowed && fontSize > METRIC_VALUE_MIN_FONT_SIZE) {
             fontSize = (fontSize.value - METRIC_VALUE_FONT_STEP.value).sp
+            lines = 1
+            return
         }
+        if (lineCount > lines) lines = lineCount
     }
 }
 
@@ -271,10 +302,11 @@ fun MetricCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .cardBackground()
-                .heightIn(min = metricCardMinHeight(scale.fontSize))
-                .padding(vertical = METRIC_CARD_VERTICAL_PADDING, horizontal = 6.dp),
+                .padding(vertical = METRIC_CARD_GAP, horizontal = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(METRIC_CARD_GAP, Alignment.CenterVertically),
+            // Ни наименьшей высоты, ни центрирования по вертикали: обе слагаемые плашки —
+            // значок и слот значения — одинаковы у всех плашек ряда, поэтому равны и высоты.
+            verticalArrangement = Arrangement.spacedBy(METRIC_CARD_GAP),
         ) {
             // Жетон под значком — тот же, что в боковом меню и на кнопках счёта: согласованность
             // подложек по всему приложению (требование владельца 2026-09-26). Размер сказан обоими
@@ -286,18 +318,33 @@ fun MetricCard(
                 glyphSize = METRIC_GLYPH_SIZE,
                 contentDescription = label,
             )
-            Text(
-                text = value,
-                // Кегль — общий на ряд, не свой у каждой плашки (см. [MetricValueScale]); о том,
-                // что содержимое не встало, плашка сообщает подбору сама, по итогу раскладки.
-                fontSize = scale.fontSize,
-                lineHeight = scale.fontSize * METRIC_VALUE_LINE_HEIGHT_RATIO,
-                onTextLayout = { if (it.hasVisualOverflow) scale.shrinkToFit() },
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                maxLines = 2,
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(metricValueSlotHeight(scale.fontSize, scale.lines)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = value,
+                    // Кегль и число строк — общие на ряд, не свои у каждой плашки (см.
+                    // [MetricValueScale]); о том, во сколько строк легло содержимое и встало ли
+                    // оно вообще, плашка сообщает подбору сама, по итогу раскладки.
+                    fontSize = scale.fontSize,
+                    lineHeight = scale.fontSize * METRIC_VALUE_LINE_HEIGHT_RATIO,
+                    onTextLayout = { scale.onValueLayout(it.lineCount, it.hasVisualOverflow) },
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    maxLines = 2,
+                    // Высота слота тексту НЕ навязывается (`unbounded`). Иначе кадр, в который
+                    // значение впервые легло в две строки, а слот ещё однострочный, пришёл бы к
+                    // тексту переполнением по высоте — а переполнение здесь означает «не влезло,
+                    // уменьшай кегль», и подбор поехал бы вниз на ровном месте, обнуляя счёт
+                    // строк на каждом шаге. Так текст на этот кадр просто выйдет за слот (`Box`
+                    // не обрезает), а следующий кадр придёт уже с двухстрочным слотом.
+                    modifier = Modifier.wrapContentHeight(unbounded = true),
+                )
+            }
         }
     }
 }
