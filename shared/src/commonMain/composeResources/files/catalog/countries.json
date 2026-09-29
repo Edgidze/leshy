@@ -74,6 +74,13 @@
       "marasmius_oreades",
       "russula_cyanoxantha",
       "lactarius_sanguifluus"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "amanita_caesarea",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "agaricus_campestris__2"
     ]
   },
   {
@@ -151,6 +158,12 @@
       "collybia_nuda",
       "tricholoma_terreum",
       "cantharellus_cibarius"
+    ],
+    "flagship": [
+      "agaricus_campestris",
+      "pleurotus_eryngii",
+      "morchella_esculenta",
+      "pleurotus_ostreatus"
     ]
   },
   {
@@ -231,6 +244,13 @@
       "marasmius_oreades",
       "armillaria_mellea",
       "craterellus_cornucopioides"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "leccinum_aurantiacum",
+      "imleria_badia"
     ]
   },
   {
@@ -297,6 +317,11 @@
       "coprinus_comatus",
       "lepista_nuda",
       "armillaria_luteobubalina"
+    ],
+    "flagship": [
+      "lactarius_deliciosus",
+      "suillus_luteus",
+      "agaricus_campestris__2"
     ]
   },
   {
@@ -374,6 +399,12 @@
       "leccinellum_pseudoscabrum",
       "lactarius_deliciosus",
       "suillus_granulatus"
+    ],
+    "flagship": [
+      "morchella_esculenta",
+      "boletus_edulis",
+      "agaricus_campestris",
+      "suillus_luteus"
     ]
   },
   {
@@ -452,6 +483,13 @@
       "boletus_pinophilus",
       "calocybe_gambosa",
       "russula_cyanoxantha"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "amanita_caesarea",
+      "lactarius_deliciosus",
+      "macrolepiota_procera"
     ]
   },
   {
@@ -529,6 +567,13 @@
       "suillus_luteus",
       "russula_cyanoxantha__2",
       "marasmius_oreades"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "imleria_badia",
+      "coprinus_comatus"
     ]
   },
   {
@@ -609,6 +654,13 @@
       "russula_cyanoxantha__2",
       "leccinum_scabrum",
       "leccinum_aurantiacum__2"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "amanita_caesarea",
+      "lactarius_deliciosus"
     ]
   },
   {
@@ -690,6 +742,13 @@
       "cortinarius_caperatus",
       "russula_delica",
       "lepista_nuda"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "leccinum_scabrum",
+      "leccinum_aurantiacum__2",
+      "cantharellus_cibarius",
+      "suillus_luteus"
     ]
   },
   {
@@ -771,6 +830,12 @@
       "russula_cyanoxantha",
       "collybia_nuda",
       "marasmius_oreades"
+    ],
+    "flagship": [
+      "cantharellus_enelensis",
+      "morchella_esculenta",
+      "boletus_edulis",
+      "hypomyces_lactifluorum"
     ]
   },
   {
@@ -853,6 +918,12 @@
       "marasmius_oreades",
       "lepista_nuda",
       "cortinarius_caperatus"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "imleria_badia",
+      "macrolepiota_procera"
     ]
   },
   {
@@ -914,6 +985,12 @@
       "pleurotus_ostreatus",
       "tricholoma_terreum",
       "marasmius_oreades"
+    ],
+    "flagship": [
+      "lactarius_deliciosus",
+      "pleurotus_eryngii",
+      "agaricus_campestris__2",
+      "russula_delica"
     ]
   },
   {
@@ -994,6 +1071,13 @@
       "pleurotus_ostreatus",
       "lepista_nuda",
       "craterellus_cornucopioides"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "imleria_badia",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "leccinum_rufum"
     ]
   },
   {
@@ -1074,6 +1158,13 @@
       "hydnum_repandum",
       "calvatia_gigantea",
       "russula_cyanoxantha__2"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "imleria_badia",
+      "macrolepiota_procera",
+      "leccinum_scabrum"
     ]
   },
   {
@@ -1153,6 +1244,12 @@
       "russula_cyanoxantha__2",
       "flammulina_velutipes",
       "calocybe_gambosa"
+    ],
+    "flagship": [
+      "cantharellus_cibarius",
+      "boletus_edulis",
+      "craterellus_tubaeformis",
+      "imleria_badia"
     ]
   },
   {
@@ -1234,6 +1331,12 @@
       "cantharellus_cibarius",
       "craterellus_cornucopioides",
       "macrolepiota_procera"
+    ],
+    "flagship": [
+      "cantharellus_cibarius",
+      "boletus_edulis",
+      "leccinum_aurantiacum__2",
+      "russula_cyanoxantha"
     ]
   },
   {
@@ -1317,6 +1420,13 @@
       "cyclocybe_cylindracea",
       "coprinus_comatus",
       "pleurotus_ostreatus"
+    ],
+    "flagship": [
+      "lactarius_deliciosus",
+      "boletus_edulis",
+      "macrolepiota_procera",
+      "cantharellus_cibarius",
+      "amanita_caesarea"
     ]
   },
   {
@@ -1398,6 +1508,12 @@
       "suillus_variegatus",
       "macrolepiota_procera",
       "armillaria_borealis"
+    ],
+    "flagship": [
+      "cantharellus_cibarius",
+      "boletus_edulis",
+      "craterellus_tubaeformis",
+      "leccinum_versipelle"
     ]
   },
   {
@@ -1478,6 +1594,13 @@
       "marasmius_oreades",
       "coprinus_comatus",
       "russula_cyanoxantha__2"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "craterellus_cornucopioides",
+      "hydnum_repandum"
     ]
   },
   {
@@ -1558,6 +1681,13 @@
       "marasmius_oreades",
       "craterellus_tubaeformis",
       "armillaria_mellea"
+    ],
+    "flagship": [
+      "cantharellus_cibarius",
+      "boletus_edulis",
+      "agaricus_campestris__2",
+      "macrolepiota_procera",
+      "coprinus_comatus"
     ]
   },
   {
@@ -1638,6 +1768,12 @@
       "marasmius_oreades",
       "collybia_nuda__2",
       "armillaria_mellea"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "lactarius_deliciosus",
+      "leccinum_scabrum"
     ]
   },
   {
@@ -1718,6 +1854,13 @@
       "coprinus_comatus",
       "marasmius_oreades",
       "lepista_nuda"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "lactarius_deliciosus",
+      "cantharellus_cibarius",
+      "amanita_caesarea",
+      "macrolepiota_procera"
     ]
   },
   {
@@ -1798,6 +1941,13 @@
       "marasmius_oreades",
       "lepista_nuda",
       "cyclocybe_cylindracea"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "lactarius_deliciosus",
+      "pleurotus_ostreatus"
     ]
   },
   {
@@ -1877,6 +2027,13 @@
       "laetiporus_sulphureus",
       "auricularia_auricula_judae",
       "calvatia_gigantea"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "marasmius_oreades",
+      "lactarius_deliciosus"
     ]
   },
   {
@@ -1953,6 +2110,13 @@
       "pleurotus_ostreatus",
       "auricularia_auricula_judae",
       "laccaria_amethystina"
+    ],
+    "flagship": [
+      "agaricus_campestris__2",
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "coprinus_comatus"
     ]
   },
   {
@@ -2010,6 +2174,12 @@
       "russula_aeruginea",
       "russula_xerampelina",
       "lactarius_torminosus"
+    ],
+    "flagship": [
+      "suillus_grevillei",
+      "leccinum_scabrum",
+      "suillus_luteus",
+      "coprinus_comatus"
     ]
   },
   {
@@ -2090,6 +2260,13 @@
       "coprinus_comatus",
       "cortinarius_caperatus",
       "pleurotus_ostreatus"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "amanita_caesarea",
+      "cantharellus_cibarius",
+      "armillaria_mellea",
+      "macrolepiota_procera"
     ]
   },
   {
@@ -2162,6 +2339,12 @@
       "cortinarius_caperatus",
       "entoloma_sarcopum",
       "amanita_caesareoides"
+    ],
+    "flagship": [
+      "amanita_caesareoides",
+      "suillus_grevillei",
+      "armillaria_mellea",
+      "lactarius_hatsudake"
     ]
   },
   {
@@ -2235,6 +2418,12 @@
       "verpa_bohemica",
       "lactarius_deliciosus",
       "agaricus_arvensis"
+    ],
+    "flagship": [
+      "morchella_esculenta",
+      "pleurotus_eryngii",
+      "agaricus_campestris",
+      "pleurotus_ostreatus"
     ]
   },
   {
@@ -2309,6 +2498,12 @@
       "leccinum_aurantiacum",
       "suillus_luteus__2",
       "agaricus_arvensis"
+    ],
+    "flagship": [
+      "lentinula_edodes",
+      "pleurotus_ostreatus",
+      "ramaria_botrytis",
+      "cantharellus_cibarius"
     ]
   },
   {
@@ -2386,6 +2581,13 @@
       "lactarius_deliciosus",
       "tricholoma_populinum",
       "coprinus_comatus"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "suillus_luteus__2",
+      "pleurotus_eryngii",
+      "agaricus_campestris",
+      "morchella_esculenta"
     ]
   },
   {
@@ -2466,6 +2668,13 @@
       "agaricus_campestris",
       "armillaria_mellea",
       "macrolepiota_procera"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "leccinum_scabrum",
+      "leccinum_aurantiacum__2",
+      "suillus_luteus"
     ]
   },
   {
@@ -2545,6 +2754,13 @@
       "russula_cyanoxantha__2",
       "lactarius_deterrimus",
       "calocybe_gambosa"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "craterellus_cornucopioides",
+      "imleria_badia"
     ]
   },
   {
@@ -2626,6 +2842,13 @@
       "flammulina_velutipes",
       "pleurotus_ostreatus",
       "lycoperdon_perlatum"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "leccinum_aurantiacum",
+      "lactarius_deliciosus",
+      "russula_cyanoxantha"
     ]
   },
   {
@@ -2707,6 +2930,13 @@
       "marasmius_oreades",
       "hydnum_repandum",
       "coprinus_comatus"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "armillaria_mellea",
+      "macrolepiota_procera",
+      "lactarius_deliciosus"
     ]
   },
   {
@@ -2785,6 +3015,13 @@
       "calocybe_gambosa",
       "russula_cyanoxantha",
       "russula_virescens"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "amanita_caesarea",
+      "macrolepiota_procera",
+      "lactarius_deliciosus"
     ]
   },
   {
@@ -2864,6 +3101,13 @@
       "suillus_granulatus",
       "suillus_luteus",
       "russula_cyanoxantha"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "amanita_caesarea",
+      "armillaria_mellea"
     ]
   },
   {
@@ -2946,6 +3190,13 @@
       "clitocybe_gibba",
       "laccaria_laccata",
       "ustilago_maydis"
+    ],
+    "flagship": [
+      "amanita_basii",
+      "boletus_edulis",
+      "lactarius_indigo",
+      "cantharellus_cibarius",
+      "morchella_esculenta"
     ]
   },
   {
@@ -3022,6 +3273,12 @@
       "marasmius_oreades",
       "russula_cyanoxantha__2",
       "amanita_rubescens"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "imleria_badia",
+      "cantharellus_cibarius",
+      "macrolepiota_procera"
     ]
   },
   {
@@ -3102,6 +3359,13 @@
       "agaricus_arvensis",
       "marasmius_oreades",
       "lactarius_trivialis"
+    ],
+    "flagship": [
+      "cantharellus_cibarius",
+      "boletus_edulis",
+      "craterellus_tubaeformis",
+      "hydnum_repandum",
+      "leccinum_versipelle"
     ]
   },
   {
@@ -3172,6 +3436,12 @@
       "trametes_versicolor",
       "armillaria_novae_zelandiae",
       "agaricus_campestris__2"
+    ],
+    "flagship": [
+      "lactarius_deliciosus",
+      "suillus_luteus",
+      "agaricus_campestris__2",
+      "auricularia_cornea"
     ]
   },
   {
@@ -3252,6 +3522,13 @@
       "cortinarius_caperatus",
       "marasmius_oreades",
       "hydnum_repandum"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "imleria_badia",
+      "cantharellus_cibarius",
+      "lactarius_deliciosus",
+      "suillus_luteus"
     ]
   },
   {
@@ -3328,6 +3605,13 @@
       "tricholoma_portentosum",
       "tricholoma_terreum",
       "fistulina_hepatica"
+    ],
+    "flagship": [
+      "lactarius_deliciosus",
+      "boletus_edulis",
+      "macrolepiota_procera",
+      "amanita_ponderosa",
+      "cantharellus_cibarius"
     ]
   },
   {
@@ -3408,6 +3692,12 @@
       "lactifluus_piperatus",
       "armillaria_mellea",
       "pleurotus_ostreatus"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "amanita_caesarea",
+      "leccinum_aurantiacum__2"
     ]
   },
   {
@@ -3493,6 +3783,13 @@
       "marasmius_oreades",
       "russula_virescens",
       "russula_cyanoxantha"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "amanita_caesarea",
+      "pleurotus_ostreatus"
     ]
   },
   {
@@ -3664,6 +3961,12 @@
       "macrolepiota_procera",
       "russula_aeruginea",
       "cortinarius_caperatus"
+    ],
+    "flagship": [
+      "cantharellus_cibarius",
+      "boletus_edulis",
+      "craterellus_tubaeformis",
+      "leccinum_versipelle"
     ]
   },
   {
@@ -3744,6 +4047,12 @@
       "coprinus_comatus",
       "kuehneromyces_mutabilis",
       "pleurotus_ostreatus"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "macrolepiota_procera",
+      "lactarius_deliciosus"
     ]
   },
   {
@@ -3824,6 +4133,12 @@
       "hydnum_repandum",
       "craterellus_cornucopioides",
       "calvatia_gigantea"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "leccinum_aurantiacum",
+      "macrolepiota_procera"
     ]
   },
   {
@@ -3894,6 +4209,12 @@
       "marasmius_oreades",
       "bovista_plumbea",
       "agaricus_bitorquis"
+    ],
+    "flagship": [
+      "morchella_esculenta",
+      "pleurotus_eryngii",
+      "agaricus_campestris",
+      "coprinus_comatus"
     ]
   },
   {
@@ -3959,6 +4280,12 @@
       "agaricus_arvensis",
       "coprinus_comatus",
       "lycoperdon_perlatum"
+    ],
+    "flagship": [
+      "terfezia_boudieri",
+      "agaricus_campestris__2",
+      "pleurotus_eryngii",
+      "morchella_esculenta"
     ]
   },
   {
@@ -4039,6 +4366,13 @@
       "collybia_nuda",
       "tricholoma_terreum",
       "coprinus_comatus"
+    ],
+    "flagship": [
+      "morchella_esculenta",
+      "lactarius_deliciosus",
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "amanita_caesarea"
     ]
   },
   {
@@ -4120,6 +4454,13 @@
       "lepista_nuda",
       "tricholoma_portentosum",
       "cortinarius_caperatus"
+    ],
+    "flagship": [
+      "boletus_edulis",
+      "cantharellus_cibarius",
+      "armillaria_mellea",
+      "leccinum_scabrum",
+      "lactarius_deliciosus"
     ]
   },
   {
@@ -4200,6 +4541,13 @@
       "collybia_nuda",
       "armillaria_mellea",
       "cerioporus_squamosus"
+    ],
+    "flagship": [
+      "morchella_esculenta",
+      "cantharellus_phasmatis",
+      "grifola_frondosa",
+      "laetiporus_cincinnatus",
+      "hericium_erinaceus"
     ]
   },
   {
@@ -4271,6 +4619,12 @@
       "calocybe_gambosa",
       "cyclocybe_cylindracea",
       "lycoperdon_perlatum"
+    ],
+    "flagship": [
+      "pleurotus_eryngii",
+      "morchella_esculenta",
+      "agaricus_campestris",
+      "pleurotus_ostreatus"
     ]
   }
 ]

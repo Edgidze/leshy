@@ -225,6 +225,63 @@ def app_language_codes() -> list[str]:
     return codes
 
 
+def check_flagship(
+    cc: str,
+    flagship: list[str],
+    keys: list[str],
+    common: Optional[list[str]],
+    sorts_last: set[str],
+) -> None:
+    """Три правила из `_comment` в `flagship_overrides.json`, кроме проверки имён.
+
+    Четвёртое — «имя есть на каждом языке интерфейса подборки» — проверяется отдельно
+    ([check_flagship_names]): имена сводятся из нескольких слоёв позже по ходу сборки.
+
+    Падать, а не чинить молча: список на три-пять позиций написан руками, и ключ,
+    отфильтрованный без единого слова, — это подборка, которая тихо лишилась флагмана.
+    """
+    if not flagship:
+        return
+    if not 3 <= len(flagship) <= 5:
+        raise ValueError(f"flagship[{cc}]: {len(flagship)} позиций, допустимо 3–5")
+    if len(set(flagship)) != len(flagship):
+        raise ValueError(f"flagship[{cc}]: повторяющиеся ключи в {flagship}")
+    unknown = [k for k in flagship if k not in set(keys)]
+    if unknown:
+        raise ValueError(f"flagship[{cc}]: ключей нет в подборке: {unknown}")
+    # `common` отсутствует только у подборок без данных о частотности; сейчас таких нет,
+    # но появится новая — пусть скажет об этом, а не пропустит проверку.
+    if common is None:
+        raise ValueError(f"flagship[{cc}]: у подборки нет `common`, не из чего выбирать вершину")
+    not_common = [k for k in flagship if k not in set(common)]
+    if not_common:
+        raise ValueError(f"flagship[{cc}]: ключи не частотные: {not_common}")
+    last = [k for k in flagship if k in sorts_last]
+    if last:
+        raise ValueError(
+            f"flagship[{cc}]: ключи с флагом `sortLast`: {last}. Первыми идут собираемые виды; "
+            f"вдобавок `DEFAULT_ORDER` всё равно увёл бы их в конец — толку от такого флагмана ноль"
+        )
+
+
+def check_flagship_names(countries_out: list[dict], names_by_lang: dict[str, dict], ui_langs: set[str]) -> None:
+    """Четвёртое правило: у флагмана есть имя на каждом ЯЗЫКЕ ИНТЕРФЕЙСА своей подборки.
+
+    Вид без имени на языке интерфейса `sortCategories` уводит в самый хвост отдельной группой
+    (показывается латынь), и туда же уехал бы флагман — список работал бы для одного языка
+    подборки и молча не работал для другого. Языки подборки, которых нет среди `AppLanguage`
+    (например `mi` у NZ или `nah` у MX), — это источники имён, а не интерфейс: их пропускаем.
+    """
+    problems = []
+    for entry in countries_out:
+        for lang in (l for l in entry["langs"] if l in ui_langs):
+            for key in entry.get("flagship", []):
+                if not names_by_lang.get(lang, {}).get(key):
+                    problems.append(f"{entry['code']}/{lang}: {key}")
+    if problems:
+        raise ValueError("flagship без имени на языке интерфейса подборки: " + ", ".join(problems))
+
+
 def load_optional_json(path: Path, default):
     """The `extra_*` layers are all optional — absent means "no extras", not an error."""
     if not path.exists():
@@ -612,6 +669,7 @@ def run_full(recompute_colors: bool = False) -> None:
 
     # ---- countries.json -----------------------------------------------------
     common_overrides = load_optional_json(COMMON_OVERRIDES_JSON, {})
+    sorts_last = {e["key"] for e in catalog_entries if e["sortLast"]}
     flagship_overrides = load_optional_json(FLAGSHIP_OVERRIDES_JSON, {})
     countries_out = []
     country_distinct_colors = []
@@ -662,9 +720,14 @@ def run_full(recompute_colors: bool = False) -> None:
         #
         # Поля нет у стран, для которых список ещё не составлен, — и это не пустота, а
         # «данных нет»: лента тогда ведёт себя ровно как раньше.
-        flagship = [k for k in (flagship_overrides.get(cc) or []) if k in set(keys)]
+        #
+        # Правила списка (и почему они именно такие) — `_comment` в самом
+        # `flagship_overrides.json`; здесь они проверяются, а не подгоняются молча: список
+        # короткий и написан руками, так что опечатка в ключе — это опечатка, а не «ну и ладно».
+        flagship = flagship_overrides.get(cc) or []
+        check_flagship(cc, flagship, keys, entry.get("common"), sorts_last)
         if flagship:
-            entry["flagship"] = flagship
+            entry["flagship"] = list(flagship)
         countries_out.append(entry)
         country_distinct_colors.append(len({colors_by_id[i] for i in ids}))
 
@@ -693,6 +756,7 @@ def run_full(recompute_colors: bool = False) -> None:
 
     names_dir = FILES_CATALOG_DIR / "names"
     names_dir.mkdir(parents=True, exist_ok=True)
+    names_by_lang = {}
     for lang in all_langs:
         result = {}
         for c in categories:
@@ -703,10 +767,13 @@ def run_full(recompute_colors: bool = False) -> None:
             if lang in over:
                 result[categories_by_id[gc_id]["key"]] = over[lang]
         result.update(extra_names.get(lang, {}))
+        names_by_lang[lang] = result
         (names_dir / f"{lang}.json").write_text(
             json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8",
         )
     print(f"names/: {len(all_langs)} files written ({len(extra_names)} of them fed by extra_names/)")
+
+    check_flagship_names(countries_out, names_by_lang, set(app_language_codes()))
 
     # ---- aliases/<lang>.json ---------------------------------------------------
     write_aliases(categories, FILES_CATALOG_DIR / "aliases")
