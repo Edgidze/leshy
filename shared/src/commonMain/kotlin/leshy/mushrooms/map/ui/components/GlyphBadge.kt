@@ -32,6 +32,28 @@ private val BADGE_SIZE = 38.dp
 private const val GLYPH_RATIO = 24f / 38f
 
 /**
+ * Сторона жетона, на котором глиф выходит ровно [glyphSize] — обратная [GLYPH_RATIO].
+ *
+ * Нужна там, где размер задаёт СОДЕРЖИМОЕ, а не подложка: значок в блоке статистики виден в обеих
+ * редакциях, и требование к нему («вот такой величины глиф») одно на две, а сторона жетона под ним
+ * — уже следствие. Считать это в месте вызова руками значило бы разложить пропорцию жетона по
+ * экранам: подправив её здесь, пришлось бы искать все такие деления.
+ */
+fun badgeSizeForGlyph(glyphSize: Dp): Dp = glyphSize / GLYPH_RATIO
+
+/**
+ * Место, которое [GlyphBadge] с такими аргументами в самом деле займёт: жетон целиком — или один
+ * глиф, если у редакции жетона нет.
+ *
+ * Нужна вёрстке, которой приходится считать высоту блока со значком заранее (наименьшая высота
+ * плашки статистики — `StatsBlocks.kt`). Развилка идёт по тому же токену, что внутри [GlyphBadge],
+ * — иначе она разошлась бы с ним при первой же правке.
+ */
+@Composable
+fun glyphBadgeFootprint(size: Dp = BADGE_SIZE, glyphSize: Dp = GLYPH_SIZE): Dp =
+    if (LeshyTheme.tokens.iconBadge != null) size else glyphSize
+
+/**
  * Глиф на жетоне — белый, а не по теме.
  *
  * Жетон деревянный и тёмный в обеих темах: это растр, он не переключается вместе с оформлением.
@@ -49,17 +71,25 @@ private val BADGE_GLYPH_COLOR = Color.White
  *
  * Почему жетон вообще существует — `design.md`, разделы 3 и 9: своего набора глифов редакция не
  * рисует, вместо этого меняется материал, на котором глиф лежит.
+ *
+ * **[glyphSize] — размер глифа в безжетонной, мировой редакции**, и по умолчанию это [GLYPH_SIZE],
+ * то есть дефолт Material. Место вызова, которому нужен глиф крупнее обычного, обязано сказать это
+ * ЗДЕСЬ, а не только увеличив [size]: за [size] прячется подложка, которой в мировой редакции нет,
+ * и без второго числа значок там остался бы прежних 24dp при выросшем жетоне у соседней редакции.
+ * Величины держать согласованными помогает [badgeSizeForGlyph]: `size = badgeSizeForGlyph(g),
+ * glyphSize = g`.
  */
 @Composable
 fun GlyphBadge(
     painter: Painter,
     modifier: Modifier = Modifier,
     size: Dp = BADGE_SIZE,
+    glyphSize: Dp = GLYPH_SIZE,
     contentDescription: String? = null,
 ) {
     val badge = LeshyTheme.tokens.iconBadge
     if (badge == null) {
-        Icon(painter = painter, contentDescription = contentDescription, modifier = modifier.size(GLYPH_SIZE))
+        Icon(painter = painter, contentDescription = contentDescription, modifier = modifier.size(glyphSize))
         return
     }
     Box(modifier = modifier.size(size), contentAlignment = Alignment.Center) {

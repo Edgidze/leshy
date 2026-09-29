@@ -77,6 +77,7 @@ import leshy.mushrooms.map.ui.components.dialogWidth
 import leshy.mushrooms.map.ui.components.FindTilesGrid
 import leshy.mushrooms.map.ui.components.FindsEmptyBlock
 import leshy.mushrooms.map.ui.components.MetricCard
+import leshy.mushrooms.map.ui.components.rememberMetricValueScale
 import leshy.mushrooms.map.ui.components.MushroomDonutChart
 import leshy.mushrooms.map.ui.components.PlaceMarkDialogs
 import leshy.mushrooms.map.ui.components.SectionHeader
@@ -434,6 +435,11 @@ private fun WalkHero(walk: Walk, track: List<GeoPoint>, findLocations: List<GeoP
  */
 @Composable
 private fun WalkMetricsRow(walk: Walk, findCount: Int) {
+    val finds = findCount.toString()
+    val distance = formatDistanceKm(walk.distanceMeters)
+    val duration = walk.endTime?.let { formatDurationLabeled(it - walk.startTime) } ?: "—"
+    // Кегль значения — один на все три плашки, см. `MetricValueScale`.
+    val valueScale = rememberMetricValueScale(listOf(finds, distance, duration))
     Row(
         modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -441,19 +447,22 @@ private fun WalkMetricsRow(walk: Walk, findCount: Int) {
         MetricCard(
             icon = painterResource(Res.drawable.ic_mushrooms),
             label = "$findCount ${mushroomsUnitLabel(findCount)}",
-            value = findCount.toString(),
+            value = finds,
+            scale = valueScale,
             modifier = Modifier.weight(1f),
         )
         MetricCard(
             icon = painterResource(Res.drawable.ic_route),
             label = stringResource(StringKey.WalkDetailDistance),
-            value = formatDistanceKm(walk.distanceMeters),
+            value = distance,
+            scale = valueScale,
             modifier = Modifier.weight(1f),
         )
         MetricCard(
             icon = painterResource(Res.drawable.ic_stopwatch),
             label = stringResource(StringKey.WalkDetailDuration),
-            value = walk.endTime?.let { formatDurationLabeled(it - walk.startTime) } ?: "—",
+            value = duration,
+            scale = valueScale,
             modifier = Modifier.weight(1f),
         )
     }

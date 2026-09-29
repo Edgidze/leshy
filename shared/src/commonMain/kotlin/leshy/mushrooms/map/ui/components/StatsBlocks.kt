@@ -14,13 +14,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -28,6 +32,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import leshy.mushrooms.map.domain.model.Category
@@ -48,35 +53,80 @@ import kotlin.math.ceil
  * что ровно из них же собран экран «Карта находок» — та же страница, но по всем прогулкам сразу.
  */
 
-/** Значки показателей — те же три и того же размера, что в шапке «Записи» (`RecordScreen.kt`). */
+/** Значок пустого состояния «находок не зафиксировано» — при тексте, поэтому и размер обычный
+ * значка при тексте. С величиной значка В плашке показателя ([METRIC_GLYPH_SIZE]) не связан: там
+ * значок стоит вместо текста, а не при нём. */
 val METRIC_ICON_SIZE = 28.dp
 
-/** Сторона жетона под значком блока статистики: тот же значок 28dp плюс поля доски вокруг него в
- * той же пропорции, что у жетона бокового меню (24 из 38). */
-private val METRIC_BADGE_SIZE = 44.dp
-
 /**
- * Высота карточки показателя при системном масштабе шрифта — значок, отбивка, две строки
- * `titleLarge` и собственные поля. Задана снизу, а не выведена из содержимого: значения переносятся
- * каждое по своей нужде («24» — одна строка, «12.34 км» — две), и три карточки натуральной высоты
- * встали бы в ряд ступенькой. `IntrinsicSize` эту работу не делает: минимальная внутренняя высота
- * текста меряется по бесконечной ширине, то есть по одной строке, и двухстрочному значению её не
- * хватило бы. Раз при `maxLines = 2` содержимое выше этого числа не бывает, минимум оказывается и
- * максимумом — карточки выходят равными без общей высоты у ряда.
+ * Значок в плашке показателя — крупнее общеприложенческих 24dp, и это сознательное исключение из
+ * «везде один размер».
  *
- * Снизу, а не жёстко, — чтобы при крупном системном шрифте карточка росла вслед за содержимым, а
- * не обрезала его. Тогда ряд снова может выйти ступенькой, но ступенька из трёх целых значений
- * лучше трёх подрезанных.
+ * Причина в том, что в плашке значок — не пометка при тексте, а половина её содержимого: подписи
+ * словами у показателя нет вовсе (см. `WalkMetricsRow` в `WalkDetailScreen.kt`), значок называет
+ * показатель сам. При 24dp он читался как значок при отсутствующем тексте — мелкий на плашке
+ * высотой под 130dp (репорт владельца 2026-09-29). Прежние 28dp ([METRIC_ICON_SIZE]) до жетонов
+ * были ближе к делу, но жетон их не унаследовал: безжетонный путь [GlyphBadge] рисовал дефолтные
+ * 24dp, и мировая редакция тихо потеряла 4dp.
+ *
+ * Величина одна на обе редакции — задаётся ГЛИФ, а сторона жетона под ним выводится
+ * ([badgeSizeForGlyph]). Наоборот не работает: сторону жетона мировая редакция не видит.
  */
-private val METRIC_CARD_MIN_HEIGHT = 116.dp
+private val METRIC_GLYPH_SIZE = 32.dp
+
+/** Сторона жетона под значком блока статистики — та, на которой глиф выходит [METRIC_GLYPH_SIZE]
+ * при пропорции жетона бокового меню (24 из 38). */
+private val METRIC_BADGE_SIZE = badgeSizeForGlyph(METRIC_GLYPH_SIZE)
+
+/** Поля плашки показателя по вертикали и отбивка между значком и значением — они же слагаемые
+ * наименьшей высоты, см. [metricCardMinHeight]. */
+private val METRIC_CARD_VERTICAL_PADDING = 12.dp
+private val METRIC_CARD_GAP = 6.dp
 
 /**
- * Куда [MetricCard] позволено ужать значение, если оно не встало в две строки `titleLarge`.
+ * Наименьшая высота плашки показателя: поля, значок и ДВЕ строки значения — столько, сколько занял
+ * бы самый высокий из показателей ряда.
+ *
+ * Задана снизу, а не выведена из содержимого каждой плашки: значения переносятся каждое по своей
+ * нужде («24» — одна строка, «12.34 км» — две), и плашки натуральной высоты встали бы в ряд
+ * ступенькой. `IntrinsicSize` эту работу не делает: минимальная внутренняя высота текста меряется
+ * по бесконечной ширине, то есть по одной строке, и двухстрочному значению её не хватило бы. Раз
+ * при `maxLines = 2` содержимое выше этого числа не бывает, минимум оказывается и максимумом —
+ * плашки выходят равными без общей высоты у ряда.
+ *
+ * **Считается, а не стоит числом.** Стояло — 116dp, выведенные под мировую редакцию (глиф 24dp,
+ * `titleLarge`), и в российской они не значили ничего: жетон там 44dp вместо 24 и кегль на 10%
+ * крупнее, так что двухстрочная плашка вырастала до ~137dp, а однострочная оставалась на 116 — ряд
+ * шёл ступенькой в 20dp. Теперь оба слагаемых берутся те же, что рисуются, поэтому равенство
+ * держится в любой редакции и при любом кегле значения.
+ *
+ * Перевод sp→dp идёт через плотность, то есть высота растёт вместе с системным размером шрифта —
+ * ровно затем, чтобы при крупном шрифте плашка росла вслед за содержимым, а не обрезала его.
+ */
+@Composable
+private fun metricCardMinHeight(fontSize: TextUnit): Dp {
+    val lines = with(LocalDensity.current) { (fontSize * METRIC_VALUE_LINE_HEIGHT_RATIO * 2f).toDp() }
+    return METRIC_CARD_VERTICAL_PADDING * 2 +
+        glyphBadgeFootprint(size = METRIC_BADGE_SIZE, glyphSize = METRIC_GLYPH_SIZE) +
+        METRIC_CARD_GAP +
+        lines
+}
+
+/**
+ * Межстрочное расстояние значения долей кегля, а не по метрикам гарнитуры: кегль здесь подбирается
+ * ([MetricValueScale]), и межстрочное обязано ехать за ним — иначе при ужатом кегле строки
+ * разъезжаются, а при крупном слипаются. Доля — та же, что у `titleLarge` Material (28 из 22),
+ * то есть вид двухстрочного значения не менялся.
+ */
+private const val METRIC_VALUE_LINE_HEIGHT_RATIO = 28f / 22f
+
+/**
+ * Куда [MetricCard] позволено ужать значение, если оно не встало в две строки.
  * Ниже этого — уже не «мелко, но читается», а «не прочесть с вытянутой руки», и лучше пусть
  * плашка вырастет вниз (её высота задана только снизу), чем значение станет нечитаемым.
  */
-private val METRIC_VALUE_MIN_FONT_SIZE = 13.sp
-private val METRIC_VALUE_FONT_STEP = 1.sp
+private val METRIC_VALUE_MIN_FONT_SIZE = 16.sp
+private val METRIC_VALUE_FONT_STEP = 2.sp
 
 /**
  * Потолок ширины плитки. Из него, а не из постоянного числа колонок, считается сам ряд: на широком
@@ -130,16 +180,76 @@ private const val FIND_TILE_COUNT_INK_OVERHANG_EM = 0.15f
 val SECTION_TOP_GAP = 24.dp
 
 /**
- * [value] переносится на вторую строку, а не ужимается: «4 ч 18 мин» и «12.34 км» в блок шириной
- * около 100dp одной строкой не помещаются ни при каком кегле, который ещё читается с вытянутой
- * руки, — а этот экран смотрят в том числе в лесу.
+ * Кегль значения, **общий на все плашки экрана**.
  *
- * И только когда двух строк уже не хватает — на сводном экране это «14 д 7 ч 30 мин» и подобные
- * значения, которых у одной прогулки не бывает, — кегль ужимается, до [METRIC_VALUE_MIN_FONT_SIZE].
- * Обрезки хвоста не бывает ни в каком случае: значение, у которого не видно конца, хуже мелкого.
+ * Зачем общий. Плашки стоят рядом и читаются как один прибор: четыре разных кегля в четырёх
+ * одинаковых окошках выглядят поломкой, а не подгонкой (требование владельца 2026-09-29). Пока
+ * кегль подбирала каждая плашка сама (`TextAutoSize` внутри `Text`), расхождение было делом случая
+ * — оно и не проявлялось только потому, что прежние 22sp влезали почти всегда; с более крупным
+ * кеглем случай наступает на первом же узком экране с длинным «12 ч 05 мин».
+ *
+ * Как подбирается. Сверху вниз от кегля [rememberMetricValueScale] шагами
+ * [METRIC_VALUE_FONT_STEP]: плашка, которой содержимое не встало в две строки, зовёт [shrinkToFit],
+ * и кегль уменьшается У ВСЕХ. Движение только в одну сторону, поэтому подбор сходится (в худшем
+ * случае — на [METRIC_VALUE_MIN_FONT_SIZE]) и не может зациклиться на двух плашках, тянущих кегль
+ * в разные стороны. Цена — кадр-два на шаг, пока значения раскладываются; сбрасывается подбор
+ * только сменой самих значений, то есть при обычной прокрутке экрана его не видно.
+ *
+ * Ужиматься ниже [METRIC_VALUE_MIN_FONT_SIZE] нечему: значение переносится на вторую строку
+ * («4 ч 18 мин» и «12.34 км» в плашку шириной около 100dp одной строкой не встают ни при каком
+ * читаемом с вытянутой руки кегле), и двух строк не хватает только сводным значениям вроде
+ * «14 д 7 ч 30 мин», которых у одной прогулки не бывает, — а они стоят на вдвое более широких
+ * плашках «Карты находок».
+ */
+@Stable
+class MetricValueScale internal constructor(maxFontSize: TextUnit) {
+    var fontSize: TextUnit by mutableStateOf(maxFontSize)
+        private set
+
+    // Арифметика по числу в sp, а не операторами `TextUnit`: сложение и вычитание у него есть
+    // только между величинами одного типа и тут не выводятся, а обе участвующие величины заданы в
+    // sp по построению.
+    internal fun shrinkToFit() {
+        if (fontSize > METRIC_VALUE_MIN_FONT_SIZE) {
+            fontSize = (fontSize.value - METRIC_VALUE_FONT_STEP.value).sp
+        }
+    }
+}
+
+/**
+ * Подбор кегля на ряд плашек. [values] — сами значения, и они здесь ключ памяти: сменились
+ * значения — подбор начинается заново с потолка, иначе однажды ужатый кегль остался бы ужатым и
+ * после того, как длинное значение сменилось коротким.
+ *
+ * Потолок — `headlineMedium` шкалы, то есть 28sp в мировой редакции и на ступень крупнее в
+ * российской (`LeshyTokens.typeScaleStep`). Взят из шкалы, а не числом: значение в плашке — самая
+ * крупная надпись экрана после его заголовка, и шкале оно принадлежит наравне с ним. Прежний
+ * потолок `titleLarge` (22sp) владелец на устройстве назвал мелким в обеих редакциях
+ * (2026-09-29) — и мельче значка, который рядом вырос до [METRIC_GLYPH_SIZE].
  */
 @Composable
-fun MetricCard(icon: Painter, label: String, value: String, modifier: Modifier = Modifier) {
+fun rememberMetricValueScale(values: List<String>): MetricValueScale {
+    val maxFontSize = MaterialTheme.typography.headlineMedium.fontSize
+    return remember(maxFontSize, values) { MetricValueScale(maxFontSize) }
+}
+
+/**
+ * [value] переносится на вторую строку, а не ужимается, и кегль у него общий на весь ряд плашек —
+ * см. [MetricValueScale]. Обрезки хвоста не бывает ни в каком случае: значение, у которого не видно
+ * конца, хуже мелкого.
+ *
+ * [label] — название показателя словами. На плашке его нет (значок называет показатель сам, см.
+ * `WalkMetricsRow`), оно уходит в `contentDescription` значка, чтобы чтение вслух ничего не
+ * теряло.
+ */
+@Composable
+fun MetricCard(
+    icon: Painter,
+    label: String,
+    value: String,
+    scale: MetricValueScale,
+    modifier: Modifier = Modifier,
+) {
     Card(
         modifier = modifier,
         border = cardFrameBorder(),
@@ -161,28 +271,29 @@ fun MetricCard(icon: Painter, label: String, value: String, modifier: Modifier =
             modifier = Modifier
                 .fillMaxWidth()
                 .cardBackground()
-                .heightIn(min = METRIC_CARD_MIN_HEIGHT)
-                .padding(vertical = 12.dp, horizontal = 6.dp),
+                .heightIn(min = metricCardMinHeight(scale.fontSize))
+                .padding(vertical = METRIC_CARD_VERTICAL_PADDING, horizontal = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
+            verticalArrangement = Arrangement.spacedBy(METRIC_CARD_GAP, Alignment.CenterVertically),
         ) {
             // Жетон под значком — тот же, что в боковом меню и на кнопках счёта: согласованность
-            // подложек по всему приложению (требование владельца 2026-09-26). Без жетона
-            // (мировая редакция) рисуется прежний одинокий значок того же размера.
-            GlyphBadge(painter = icon, size = METRIC_BADGE_SIZE)
+            // подложек по всему приложению (требование владельца 2026-09-26). Размер сказан обоими
+            // числами, потому что видимого значка это касается в обеих редакциях: без жетона
+            // (мировая) рисуется один глиф, и он обязан выйти той же величины, что глиф на жетоне.
+            GlyphBadge(
+                painter = icon,
+                size = METRIC_BADGE_SIZE,
+                glyphSize = METRIC_GLYPH_SIZE,
+                contentDescription = label,
+            )
             Text(
                 text = value,
-                // Кегль подбирается под самое значение, а не задан жёстко: на сводном экране в ту
-                // же плашку попадает «14 д 7 ч 30 мин» и «1250 км» — двух строк `titleLarge` им не
-                // хватает, и при постоянном кегле хвост просто обрезался бы. Уменьшение идёт
-                // только когда не влезло; на обычных «24» и «12.34 км» остаётся тот же
-                // `titleLarge`, что и был.
-                autoSize = TextAutoSize.StepBased(
-                    minFontSize = METRIC_VALUE_MIN_FONT_SIZE,
-                    maxFontSize = MaterialTheme.typography.titleLarge.fontSize,
-                    stepSize = METRIC_VALUE_FONT_STEP,
-                ),
-                style = MaterialTheme.typography.titleLarge,
+                // Кегль — общий на ряд, не свой у каждой плашки (см. [MetricValueScale]); о том,
+                // что содержимое не встало, плашка сообщает подбору сама, по итогу раскладки.
+                fontSize = scale.fontSize,
+                lineHeight = scale.fontSize * METRIC_VALUE_LINE_HEIGHT_RATIO,
+                onTextLayout = { if (it.hasVisualOverflow) scale.shrinkToFit() },
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 maxLines = 2,

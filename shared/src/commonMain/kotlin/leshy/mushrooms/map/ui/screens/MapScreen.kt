@@ -52,6 +52,7 @@ import leshy.mushrooms.map.ui.components.LoadingState
 import leshy.mushrooms.map.ui.components.MapDateRangeSlider
 import leshy.mushrooms.map.ui.components.MapMonthRangeSlider
 import leshy.mushrooms.map.ui.components.MetricCard
+import leshy.mushrooms.map.ui.components.rememberMetricValueScale
 import leshy.mushrooms.map.ui.components.MushroomPieChart
 import leshy.mushrooms.map.ui.components.NoWalksYetState
 import leshy.mushrooms.map.ui.components.SectionHeader
@@ -300,6 +301,13 @@ private fun FilterSliders(
  */
 @Composable
 private fun MapMetrics(stats: MapStats) {
+    val distance = formatDistanceKm(stats.totalDistanceMeters)
+    val duration = formatDurationLabeled(stats.totalDurationMillis)
+    val finds = stats.totalMushroomCount.toString()
+    val walks = stats.walkCount.toString()
+    // Один подбор кегля на все четыре плашки, хотя ряда два: они стоят друг под другом и читаются
+    // одним прибором, поэтому «одинаково у всех» — про экран, а не про ряд.
+    val valueScale = rememberMetricValueScale(listOf(finds, walks, distance, duration))
     Row(
         modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(METRIC_SPACING),
@@ -307,13 +315,15 @@ private fun MapMetrics(stats: MapStats) {
         MetricCard(
             icon = painterResource(Res.drawable.ic_mushrooms),
             label = stringResource(StringKey.MapStatsFindsCount),
-            value = stats.totalMushroomCount.toString(),
+            value = finds,
+            scale = valueScale,
             modifier = Modifier.weight(1f),
         )
         MetricCard(
             icon = rememberVectorPainter(Icons.Filled.Hiking),
             label = stringResource(StringKey.MapStatsWalksCount),
-            value = stats.walkCount.toString(),
+            value = walks,
+            scale = valueScale,
             modifier = Modifier.weight(1f),
         )
     }
@@ -324,13 +334,15 @@ private fun MapMetrics(stats: MapStats) {
         MetricCard(
             icon = painterResource(Res.drawable.ic_route),
             label = stringResource(StringKey.WalkDetailDistance),
-            value = formatDistanceKm(stats.totalDistanceMeters),
+            value = distance,
+            scale = valueScale,
             modifier = Modifier.weight(1f),
         )
         MetricCard(
             icon = painterResource(Res.drawable.ic_stopwatch),
             label = stringResource(StringKey.WalkDetailDuration),
-            value = formatDurationLabeled(stats.totalDurationMillis),
+            value = duration,
+            scale = valueScale,
             modifier = Modifier.weight(1f),
         )
     }
