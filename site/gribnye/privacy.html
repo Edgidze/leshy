@@ -82,15 +82,16 @@
     <header>
       <p class="app">Грибные прогулки: карта России</p>
       <h1>Политика конфиденциальности</h1>
-      <p class="date">Редакция от 26 сентября 2026 года</p>
+      <p class="date">Редакция от 29 сентября 2026 года</p>
     </header>
 
     <div class="lede">
       <p><strong>Коротко.</strong> Приложение не собирает о вас никаких данных и ничего не передаёт
       разработчику. Прогулки, отметки находок, фотографии и настройки хранятся только на вашем
       устройстве. Аккаунтов, регистрации, рекламы, аналитики и трекеров в приложении нет. В интернет
-      уходит единственное — запросы участков карты, чтобы её было чем нарисовать. Сервер, который их
-      отдаёт, принадлежит разработчику и <strong>не ведёт журналов обращений</strong>.</p>
+      уходит единственное — запросы участков карты, чтобы её было чем нарисовать. Файлы карты лежат в
+      объектном хранилище российского хостинг-провайдера, и <strong>разработчик не получает оттуда
+      ни журналов обращений, ни статистики о вас</strong>.</p>
     </div>
 
     <h2>1. Кто отвечает за приложение</h2>
@@ -99,16 +100,18 @@
     <a href="mailto:fefradkin@gmail.com">fefradkin@gmail.com</a> — это рабочий канал, письма читаются.</p>
     <p>Имя разработчика публикует магазин приложений в карточке «Грибные прогулки: карта России» и
     проверяет эти сведения при регистрации. Дублировать их здесь незачем.</p>
-    <p>Приложение не передаёт разработчику никаких данных о вас. У разработчика при этом есть
-    собственный сервер карты (см. п. 4), и от него отличие от чужого сервиса ровно одно: IP-адрес
-    вашего устройства приходит не постороннему сервису, а разработчику. Он <strong>нигде не
-    записывается</strong>: журнал обращений на сервере выключен, учётных записей, cookie и
-    каких-либо идентификаторов у сервера нет, и связать запрос с человеком не с чем. Поэтому
-    разработчик не формирует базы персональных данных и не является ни оператором в смысле
-    Федерального закона № 152-ФЗ «О персональных данных», ни контролёром (controller) в смысле
-    европейского GDPR. Если это когда-нибудь изменится — например, если появится реклама или
-    статистика по адресам, — в этом пункте появятся имя и адрес оператора, а изменение будет
-    отмечено по правилам п. 9.</p>
+    <p>Приложение не передаёт разработчику никаких данных о вас. Файлы карты разработчик держит в
+    объектном хранилище российского хостинг-провайдера (см. п. 4): запрос за участком карты уходит
+    не сторонней картографической службе, а в это хранилище. <strong>Сам разработчик не получает
+    оттуда ничего</strong> — ни журналов обращений, ни статистики по адресам, ни возможности узнать,
+    кто какой участок смотрел. Учётных записей, cookie и каких-либо идентификаторов у приложения
+    нет, связать запрос с человеком не с чем; базы персональных данных разработчик не формирует и
+    поэтому не является ни оператором в смысле Федерального закона № 152-ФЗ «О персональных
+    данных», ни контролёром (controller) в смысле европейского GDPR. Ведёт ли технические журналы у
+    себя сам хостинг-провайдер, определяют его правила — как у любого хостинга; разработчик такими
+    журналами не распоряжается и доступа к ним не имеет. Если что-то из этого изменится — например,
+    появится реклама или статистика по адресам, — в этом пункте появятся имя и адрес оператора, а
+    изменение будет отмечено по правилам п. 9.</p>
 
     <h2>2. Какие данные приложение создаёт и где хранит</h2>
     <p>Всё перечисленное создаётся приложением на вашем устройстве и остаётся на нём:</p>
@@ -144,21 +147,30 @@
     запись прогулки, без камеры — съёмка находок; всё остальное продолжит работать.</p>
 
     <h2>4. Что уходит в интернет</h2>
-    <p>Единственный сетевой обмен — загрузка самой карты. Приложение запрашивает векторные фрагменты
-    карты и сопутствующие ресурсы (описание стиля, шрифты подписей, значки) у
-    <code>tiles.gribnye-progulki.ru</code> — сервера, который держит сам разработчик на российском
-    хостинге. Никакого стороннего картографического сервиса и никакого CDN перед этим сервером
-    нет.</p>
-    <p>Как при любом обращении к сайту, серверу в момент запроса становятся известны IP-адрес вашего
-    устройства, координаты запрошенных фрагментов карты (то есть примерный район, который вы в этот
-    момент смотрите) и обычные заголовки запроса, которые отправляет любой клиент. <strong>Журнал
-    обращений (access-лог) на сервере выключен: ничего из перечисленного никуда не
-    записывается.</strong> Сервер не заводит учётных записей, не ставит cookie, не выдаёт
-    идентификаторов и не различает клиентов между собой; из статистики снимаются только сводные
-    числа — запросов в секунду и переданных байт, — без адресов.</p>
+    <p>Единственный сетевой обмен, который приложение начинает само, — загрузка карты. Приложение
+    запрашивает векторные фрагменты карты и сопутствующие ресурсы (описание стиля, шрифты подписей,
+    значки, теневой рельеф) в объектном хранилище на домене <code>s3.regru.cloud</code> — это
+    хранилище российского хостинг-провайдера, куда файлы карты загрузил разработчик. Никакой
+    сторонней картографической службы и никакого иностранного CDN в этой цепочке нет.</p>
+    <p>Как при любом обращении к сайту, в момент запроса становятся известны IP-адрес вашего
+    устройства, то, какие именно фрагменты карты запрошены (то есть примерный район, который вы в
+    этот момент смотрите), и обычные заголовки запроса, которые отправляет любой клиент. Всё это
+    приходит оператору хранилища — российской компании, у которой размещены файлы, — как
+    транспортный факт, без которого ответить на запрос невозможно. <strong>Разработчику эти
+    сведения не приходят:</strong> у приложения нет ни учётной записи, ни ключа, по которому
+    обращения можно было бы сопоставить с человеком, и никакой статистики по адресам разработчик не
+    получает. Ведёт ли оператор хранилища свои технические журналы, определяют его правила — как у
+    любого хостинга. Поэтому мы <strong>не</strong> утверждаем, что обращения не фиксируются нигде;
+    мы утверждаем другое: их не ведёт и не получает разработчик.</p>
     <p>Ни трек, ни отметки находок, ни фотографии, ни идентификаторы устройства туда не передаются:
-    приложению нечего передавать, у него нет ни учётной записи, ни ключа API. Если скачать нужный
-    участок карты заранее (раздел «Подготовка»), ходить с приложением можно вовсе без сети.</p>
+    приложению нечего передавать, у него нет ни учётной записи, ни ключа API. Карта требует связи —
+    заранее скачать участки в этой версии приложения нельзя, — зато прогулка, отметки находок и
+    фотографии записываются полностью без сети, и ничего из уже скачанного устройство не
+    покидает.</p>
+    <p>Ещё одно обращение возможно только по вашему прямому действию: ссылка «Политика
+    конфиденциальности» открывает эту страницу во внешнем браузере, и тогда запрос идёт на GitHub
+    Pages, где страница размещена (оператор — GitHub, США). Это делает браузер, а не приложение, и
+    только после того, как вы нажали ссылку.</p>
     <p>Никакой аналитики, рекламных модулей, счётчиков посещений, отчётов о сбоях и рекламных
     идентификаторов в приложении нет — ни одного стороннего SDK, который бы что-то отправлял.
     Отдельно отметим: магазин приложений может собирать собственную статистику установок и сбоев по
@@ -194,14 +206,16 @@
 
     <h2>9. Изменения этой политики</h2>
     <p>Новая редакция публикуется на этой же странице с указанием даты. Если приложение когда-нибудь
-    начнёт что-то передавать наружу, если на сервере появится журнал обращений или если добавится
-    реклама, это будет отмечено и здесь, и в описании обновления в магазине приложений.</p>
+    начнёт что-то передавать наружу, если у разработчика появятся журналы обращений или статистика по
+    адресам, если карта переедет на собственный сервер разработчика или если добавится реклама, это
+    будет отмечено и здесь, и в описании обновления в магазине приложений.</p>
 
     <h2>10. Карта и её источники</h2>
     <p>Карта построена на данных <a href="https://www.openstreetmap.org/copyright" rel="noreferrer">OpenStreetMap</a>,
     распространяемых по лицензии
     <a href="https://opendatacommons.org/licenses/odbl/" rel="noreferrer">ODbL</a>. Векторные тайлы
-    собраны по схеме OpenMapTiles и отдаются с собственного сервера разработчика. Атрибуция
+    собраны по схеме OpenMapTiles и отдаются из объектного хранилища российского хостинг-провайдера,
+    куда их загрузил разработчик. Атрибуция
     источников карты выводится на самой карте в приложении и в разделе «О приложении».</p>
 
     <h2>11. Контакты</h2>
@@ -213,15 +227,16 @@
     <header>
       <p class="app">Mushroom Walks: map of Russia</p>
       <h1>Privacy policy</h1>
-      <p class="date">Version of 26 September 2026</p>
+      <p class="date">Version of 29 September 2026</p>
     </header>
 
     <div class="lede">
       <p><strong>In short.</strong> The app collects no data about you and sends nothing to the
       developer. Your walks, find marks, photos and settings are stored on your device only. There
       are no accounts, no sign-up, no ads, no analytics and no trackers. The only thing that goes
-      online is a request for map tiles, so that there is something to draw the map from. The server
-      that answers those requests belongs to the developer and <strong>keeps no access log</strong>.</p>
+      online is a request for map tiles, so that there is something to draw the map from. The map files
+      sit in a Russian hosting provider’s object storage, and <strong>the developer receives no
+      access logs and no statistics about you from it</strong>.</p>
     </div>
 
     <h2>1. Who is responsible for the app</h2>
@@ -230,15 +245,17 @@
     mail is read.</p>
     <p>The developer’s name is published by the app store on the app’s listing and verified by the
     store at registration. There is no point in duplicating it here.</p>
-    <p>The app sends the developer no data about you. The developer does, however, run the map server
-    himself (see section 4), and that changes exactly one thing compared with using someone else’s
-    service: your device’s IP address reaches the developer rather than a third party. It is
-    <strong>not recorded anywhere</strong>: the access log is switched off, the server has no
-    accounts, no cookies and no identifiers of any kind, and there is nothing to tie a request to a
-    person. The developer therefore builds no personal-data records and is neither an operator under
-    Russian Federal Law No. 152-FZ nor a controller under the EU GDPR. Should that ever change — if
-    ads or address-based statistics appear — this section will name the operator, and the change will
-    be announced as described in section 9.</p>
+    <p>The app sends the developer no data about you. The developer keeps the map files in a Russian
+    hosting provider’s object storage (see section 4): a request for a piece of the map goes to that
+    storage, not to a third-party map service. <strong>The developer receives nothing from it</strong>
+    — no access logs, no address-based statistics, no way to learn who looked at which area. The app
+    has no accounts, no cookies and no identifiers of any kind, and there is nothing to tie a request
+    to a person; the developer builds no personal-data records and is therefore neither an operator
+    under Russian Federal Law No. 152-FZ nor a controller under the EU GDPR. Whether the hosting
+    provider keeps technical logs of its own is governed by its own rules, as with any hosting; the
+    developer neither controls such logs nor has access to them. Should any of this change — if ads or
+    address-based statistics appear — this section will name the operator, and the change will be
+    announced as described in section 9.</p>
 
     <h2>2. What data the app creates and where it is kept</h2>
     <p>Everything below is created by the app on your device and stays there:</p>
@@ -274,20 +291,29 @@
     working.</p>
 
     <h2>4. What goes online</h2>
-    <p>The only network exchange is loading the map itself. The app requests vector map tiles and the
-    resources that go with them (the style description, label fonts, icons) from
-    <code>tiles.gribnye-progulki.ru</code> — a server the developer runs himself on Russian hosting.
-    There is no third-party map service and no CDN in front of that server.</p>
-    <p>As with any request to any website, at the moment of the request the server learns your
-    device’s IP address, the coordinates of the requested tiles (that is, roughly the area you are
-    looking at) and the ordinary request headers any client sends. <strong>The access log on the
-    server is switched off: none of that is written down anywhere.</strong> The server creates no
-    accounts, sets no cookies, issues no identifiers and does not tell clients apart; the only
-    statistics taken are aggregate counts — requests per second and bytes served — with no
-    addresses.</p>
+    <p>The only network exchange the app starts on its own is loading the map. The app requests vector
+    map tiles and the resources that go with them (the style description, label fonts, icons, shaded
+    relief) from object storage on the domain <code>s3.regru.cloud</code> — a Russian hosting
+    provider’s storage, where the developer uploaded the map files. There is no third-party map
+    service and no foreign CDN anywhere in that chain.</p>
+    <p>As with any request to any website, at the moment of the request it becomes known what your
+    device’s IP address is, which pieces of the map were requested (that is, roughly the area you are
+    looking at) and what the ordinary request headers any client sends contain. All of that reaches
+    the storage operator — the Russian company hosting the files — as a transport fact without which
+    the request cannot be answered. <strong>None of it reaches the developer:</strong> the app has
+    neither an account nor a key by which requests could be matched to a person, and the developer
+    receives no address-based statistics. Whether the storage operator keeps technical logs of its own
+    is governed by its rules, as with any hosting. So we do <strong>not</strong> claim that requests
+    are recorded nowhere; what we claim is different — they are neither kept nor received by the
+    developer.</p>
     <p>No track, no find marks, no photos and no device identifiers are sent there: the app has
-    nothing to send, and has neither an account nor an API key. Download the area you need in advance
-    (the “Preparation” section) and you can walk with the app entirely offline.</p>
+    nothing to send, and has neither an account nor an API key. The map needs a connection — this
+    version of the app cannot download areas in advance — but the walk, the find marks and the photos
+    are recorded entirely offline, and nothing already downloaded ever leaves the device.</p>
+    <p>One more request is possible only through a direct action of yours: the “Privacy policy” link
+    opens this page in an external browser, and the request then goes to GitHub Pages, where the page
+    is hosted (operator: GitHub, USA). That is the browser doing it, not the app, and only after you
+    tap the link.</p>
     <p>There is no analytics, no ad module, no visit counter, no crash reporting and no advertising
     identifier in the app — not a single third-party SDK that would send anything. Separately: the app
     store may collect its own install and crash statistics under its own rules. That is the store, not
@@ -323,14 +349,15 @@
 
     <h2>9. Changes to this policy</h2>
     <p>A new version is published on this same page with its date. If the app ever starts sending
-    anything out, if an access log appears on the server, or if advertising is added, it will be noted
-    both here and in the store’s update description.</p>
+    anything out, if the developer ever gains access logs or address-based statistics, if the map moves
+    to a server the developer runs himself, or if advertising is added, it will be noted both here and
+    in the store’s update description.</p>
 
     <h2>10. The map and its sources</h2>
     <p>The map is built on <a href="https://www.openstreetmap.org/copyright" rel="noreferrer">OpenStreetMap</a>
     data, distributed under the <a href="https://opendatacommons.org/licenses/odbl/" rel="noreferrer">ODbL</a>
-    licence. Vector tiles are built to the OpenMapTiles schema and served from the developer’s own
-    server. Attribution for the map sources is shown on the map itself inside the app and in the
+    licence. Vector tiles are built to the OpenMapTiles schema and served from a Russian hosting
+    provider’s object storage, where the developer uploaded them. Attribution for the map sources is shown on the map itself inside the app and in the
     “About” section.</p>
 
     <h2>11. Contact</h2>
