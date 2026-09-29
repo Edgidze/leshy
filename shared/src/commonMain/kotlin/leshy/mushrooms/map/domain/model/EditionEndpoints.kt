@@ -64,6 +64,10 @@ fun editionEndpointsFor(edition: Edition): EditionEndpoints = when (edition) {
     )
     Edition.RUSSIA -> EditionEndpoints(
         mapStyleUrl = "https://tiles.gribnye-progulki.ru/styles/liberty",
-        privacyPolicyUrl = "https://gribnye-progulki.ru/privacy",
+        // GitHub Pages, а не `gribnye-progulki.ru/privacy` (решение владельца 2026-09-29): домен
+        // зарегистрирован, но услуги хостинга под ним нет и в промежуточном варианте раздачи
+        // тайлов не планируется. Магазинам нужен РАБОТАЮЩИЙ URL, свой домен им не требуется;
+        // страница публикуется в `leshy-mapper/gribnye-progulki`, исходник — `site/gribnye/privacy.html`.
+        privacyPolicyUrl = "https://leshy-mapper.github.io/gribnye-progulki/privacy.html",
     )
 }

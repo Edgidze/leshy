@@ -24,7 +24,7 @@ class EditionEndpointsTest {
         val russia = editionEndpointsFor(Edition.RUSSIA)
         assertEquals("https://tiles.gribnye-progulki.ru/styles/liberty", russia.mapStyleUrl)
         assertEquals("tiles.gribnye-progulki.ru", russia.mapHost)
-        assertEquals("https://gribnye-progulki.ru/privacy", russia.privacyPolicyUrl)
+        assertEquals("https://leshy-mapper.github.io/gribnye-progulki/privacy.html", russia.privacyPolicyUrl)
     }
 
     /**

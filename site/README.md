@@ -83,7 +83,8 @@ shasum -a 256 site/privacy.html
 Первый адрес зашит в приложении — `EditionEndpoints.privacyPolicyUrl`
 (`shared/src/commonMain/kotlin/leshy/mushrooms/map/domain/model/EditionEndpoints.kt`),
 единственное место, где он встречается; изменится хостинг — правится там. У российской редакции
-адрес свой (`https://gribnye-progulki.ru/privacy`), и эта страница к ней отношения не имеет.
+своя страница и свой адрес (`https://leshy-mapper.github.io/gribnye-progulki/privacy.html`,
+раздел про `gribnye/privacy.html` ниже), и эта страница к ней отношения не имеет.
 
 Тот же URL идёт в Play Console (App content → Privacy policy) и в App Store Connect
 (App Privacy → Privacy Policy URL); второй — в App Store Connect как Support URL. Обоим магазинам нужна страница, открывающаяся **без
@@ -140,11 +141,36 @@ shasum -a 256 site/privacy.html
 - **Языков два, ru и en** — как у самого приложения. Русский первый и он же язык по умолчанию.
 - Рекламы в первом релизе нет, и в политике её нет тоже.
 
-**Хостится не здесь.** Адрес — `https://gribnye-progulki.ru/privacy`, домен и хостинг у sweb
-(трек B). GitHub Pages обслуживает только мировую страницу. Файл лежит в репозитории, потому что
-это исходник текста, а не потому, что отсюда публикуется.
+**Публикуется на GitHub Pages, в отдельном публичном репозитории** — решение владельца
+2026-09-29. Прежний план (`https://gribnye-progulki.ru/privacy`) отменён: домен зарегистрирован,
+но услуги хостинга под ним нет и в промежуточном варианте раздачи тайлов не будет, а магазинам
+нужен работающий URL, а не свой домен.
 
-Адрес в приложении — `EditionEndpoints.privacyPolicyUrl`, ветка `Edition.RUSSIA`.
+Порядок ровно как у мировой страницы, только репозиторий другой:
+
+1. Открыть `https://github.com/leshy-mapper/gribnye-progulki` (публичный; Settings → Pages →
+   Deploy from a branch → `main`, папка `/ (root)`).
+2. **Add file → Upload files**, перетащить `site/gribnye/privacy.html` — **в корень репозитория
+   под именем `privacy.html`**, подкаталог `gribnye/` в публичном репозитории не нужен.
+3. Commit directly to `main`.
+
+Адрес после этого:
+
+    https://leshy-mapper.github.io/gribnye-progulki/privacy.html
+
+Он же зашит в приложении (`EditionEndpoints.privacyPolicyUrl`, ветка `Edition.RUSSIA`) и уходит
+в консоль RuStore. Переименовывать файл нельзя по той же причине, что у мировой страницы.
+Сверка после публикации:
+
+```bash
+curl -s https://leshy-mapper.github.io/gribnye-progulki/privacy.html | shasum -a 256
+shasum -a 256 site/gribnye/privacy.html
+```
+
+**Осторожно с фразой про access-логи.** Она верна для своего сервера (вариант A из
+`docs/russia-edition/tiles-source-verdict.md`). Если промежуточная раздача поедет из бакета sweb,
+журналирование окажется на стороне провайдера и утверждать «обращения не записываются» будет
+нельзя — тогда пункты 1 и 4 переписываются ДО публикации карточки, а не после.
 
 **Юридическая проверка не проводилась.** Раздел 6 `.claude/plans/russia-edition.md` держит вопросы
 к российскому юристу; формулировки пунктов 1 и 4 — как раз то, что стоит показать ему первым.
