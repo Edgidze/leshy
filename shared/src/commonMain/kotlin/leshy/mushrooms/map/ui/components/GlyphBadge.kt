@@ -141,3 +141,20 @@ fun Modifier.glyphBadgeBackground(
 @Composable
 fun glyphBadgeContentColor(fallback: Color): Color =
     if (LeshyTheme.tokens.iconBadge != null) BADGE_GLYPH_COLOR else fallback
+
+/**
+ * Размер глифа на кнопке, которой жетон служит ПОДЛОЖКОЙ ([glyphBadgeBackground]): [onBadge] —
+ * когда жетон есть, [fallback] — когда его нет.
+ *
+ * Развилка нужна потому, что требования к глифу на этих двух подложках разные. На доске глиф
+ * обязан оставить поля: доска скруглена и темна, глиф во всю сторону кнопки упирается в её край.
+ * Без доски край сводить не с чем — там глиф ограничен только размером самой кнопки, и мельчить
+ * его незачем.
+ *
+ * Отдельно от [GlyphBadge] с его [GLYPH_RATIO]: там размер глифа ВЫВОДИТСЯ из стороны жетона,
+ * потому что жетон рисует сам composable. Здесь жетон — фон уже существующей кнопки, её сторона
+ * задана вёрсткой, и оба числа приходят снаружи.
+ */
+@Composable
+fun glyphBadgeGlyphSize(onBadge: Dp, fallback: Dp): Dp =
+    if (LeshyTheme.tokens.iconBadge != null) onBadge else fallback
