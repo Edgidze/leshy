@@ -19,6 +19,7 @@ import leshy.mushrooms.map.domain.repository.SettingsRepository
 import leshy.mushrooms.map.domain.usecase.EnsureDefaultCategoriesUseCase
 import leshy.mushrooms.map.domain.usecase.EnsureDefaultCollectionsUseCase
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
+import leshy.mushrooms.map.domain.usecase.ClearCatalogPicksUseCase
 import leshy.mushrooms.map.domain.usecase.SetCategoryPickedUseCase
 import leshy.mushrooms.map.domain.usecase.SetCollectionPickedUseCase
 import leshy.mushrooms.map.domain.usecase.MISC_CATEGORY_NAME_KEY
@@ -51,6 +52,7 @@ class OnboardingViewModel(
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
     private val setCollectionPickedUseCase: SetCollectionPickedUseCase,
     private val setCategoryPickedUseCase: SetCategoryPickedUseCase,
+    private val clearCatalogPicksUseCase: ClearCatalogPicksUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(OnboardingUiState())
@@ -224,6 +226,21 @@ class OnboardingViewModel(
     fun toggleCollection(item: CollectionPickerItem) {
         val picked = item.pickState != CollectionPickState.ALL
         viewModelScope.launch { setCollectionPickedUseCase(item.collection.id, picked) }
+    }
+
+    /**
+     * Кнопка «снять все отметки» в пикере подборок — см. [ClearCatalogPicksUseCase]. На онбординге
+     * она снимает и предвыбор по региону устройства ([preselectByDeviceRegion]), что и требуется:
+     * человек, нажавший её, выбирает сам, а «Дальше» до первой отметки не пустит и напомнит об
+     * этом ([onCollectionsNext]).
+     *
+     * Предвыбор стоит в `init` и в этой сессии больше не сработает. Вернуться он может ровно в
+     * одном случае — процесс убили, пока человек не ушёл с этого шага: тогда `init` пройдёт заново
+     * и увидит пустой набор отметок, то есть ровно ту картину, ради которой предвыбор и написан.
+     * Заводить под это флаг не стали: снять отметки во второй раз — то же одно нажатие.
+     */
+    fun clearCatalogPicks() {
+        viewModelScope.launch { clearCatalogPicksUseCase() }
     }
 
     fun setCategoryPicked(category: Category, picked: Boolean) {

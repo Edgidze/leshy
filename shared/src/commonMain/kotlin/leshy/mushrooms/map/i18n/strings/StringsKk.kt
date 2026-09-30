@@ -143,6 +143,11 @@ internal val kazakhStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Жинақты немесе саңырауқұлақты іздеу",
     StringKey.CollectionPickerSearchClear to "Іздеуді тазалау",
     StringKey.CollectionPickerMoreMatches to "Барлық сәйкестік көрсетілмеген — сұранысты нақтылаңыз",
+    StringKey.CollectionPickerClearAll to "Барлық белгіні алу",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Жинақтардағы барлық саңырауқұлақтардың белгісі алынсын ба? Өз түрлеріңіз, олжалар мен серуендер өзгеріссіз қалады.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Алу",
+    StringKey.CollectionPickerClearAllConfirmNo to "Бас тарту",
     StringKey.LanguagePickerSearchHint to "Тілді іздеу",
     StringKey.LanguagePickerBackContentDescription to "Артқа",
     StringKey.LanguagePickerConfirmContentDescription to "Растау",

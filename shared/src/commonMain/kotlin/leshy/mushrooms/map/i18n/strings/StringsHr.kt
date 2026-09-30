@@ -148,6 +148,11 @@ internal val croatianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Pretraživanje zbirki ili gljiva",
     StringKey.CollectionPickerSearchClear to "Očisti pretragu",
     StringKey.CollectionPickerMoreMatches to "Nisu prikazana sva podudaranja — precizirajte upit",
+    StringKey.CollectionPickerClearAll to "Ukloni sve oznake",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Ukloniti oznake sa svih gljiva iz zbirki? Vaše vrste, nalazi i šetnje ostaju nepromijenjeni.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Ukloni",
+    StringKey.CollectionPickerClearAllConfirmNo to "Odustani",
 
     StringKey.LanguagePickerSearchHint to "Pretraživanje jezika",
     StringKey.LanguagePickerBackContentDescription to "Natrag",

@@ -144,6 +144,11 @@ internal val swedishStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Sök samling eller svamp",
     StringKey.CollectionPickerSearchClear to "Rensa sökning",
     StringKey.CollectionPickerMoreMatches to "Alla träffar visas inte — förfina sökningen",
+    StringKey.CollectionPickerClearAll to "Ta bort alla markeringar",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Ta bort markeringen från alla svampar i samlingarna? Dina egna arter, fynd och turer förblir oförändrade.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Ta bort",
+    StringKey.CollectionPickerClearAllConfirmNo to "Avbryt",
 
     StringKey.LanguagePickerSearchHint to "Sök språk",
     StringKey.LanguagePickerBackContentDescription to "Tillbaka",

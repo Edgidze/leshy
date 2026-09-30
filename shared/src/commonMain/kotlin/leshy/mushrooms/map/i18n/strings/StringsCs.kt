@@ -146,6 +146,11 @@ internal val czechStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Hledat sbírku nebo houbu",
     StringKey.CollectionPickerSearchClear to "Vymazat hledání",
     StringKey.CollectionPickerMoreMatches to "Nezobrazují se všechny shody — upřesněte dotaz",
+    StringKey.CollectionPickerClearAll to "Zrušit všechna zaškrtnutí",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Zrušit zaškrtnutí u všech hub ze sbírek? Vaše vlastní druhy, nálezy a vycházky zůstanou beze změny.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Odškrtnout",
+    StringKey.CollectionPickerClearAllConfirmNo to "Zrušit",
 
     StringKey.LanguagePickerSearchHint to "Hledat jazyk",
     StringKey.LanguagePickerBackContentDescription to "Zpět",

@@ -151,6 +151,11 @@ internal val finnishStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Hae kokoelmaa tai sientä",
     StringKey.CollectionPickerSearchClear to "Tyhjennä haku",
     StringKey.CollectionPickerMoreMatches to "Kaikkia osumia ei näytetä — tarkenna hakua",
+    StringKey.CollectionPickerClearAll to "Poista kaikki valinnat",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Poistetaanko valinnat kaikista kokoelmien sienistä? Omat lajisi, löydöt ja retket säilyvät ennallaan.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Poista",
+    StringKey.CollectionPickerClearAllConfirmNo to "Peruuta",
 
     StringKey.LanguagePickerSearchHint to "Hae kieltä",
     StringKey.LanguagePickerBackContentDescription to "Takaisin",

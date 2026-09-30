@@ -134,6 +134,11 @@ internal val danishStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Søg efter samling eller svamp",
     StringKey.CollectionPickerSearchClear to "Ryd søgning",
     StringKey.CollectionPickerMoreMatches to "Ikke alle resultater vises — præcisér søgningen",
+    StringKey.CollectionPickerClearAll to "Fjern alle markeringer",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Fjern markeringen fra alle svampe i samlingerne? Dine egne arter, fund og ture forbliver uændrede.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Fjern",
+    StringKey.CollectionPickerClearAllConfirmNo to "Annullér",
     StringKey.LanguagePickerSearchHint to "Søg efter sprog",
     StringKey.LanguagePickerBackContentDescription to "Tilbage",
     StringKey.LanguagePickerConfirmContentDescription to "Bekræft",

@@ -135,6 +135,11 @@ internal val macedonianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Пребарај збирка или габа",
     StringKey.CollectionPickerSearchClear to "Исчисти пребарување",
     StringKey.CollectionPickerMoreMatches to "Не се прикажани сите совпаѓања — прецизирајте го барањето",
+    StringKey.CollectionPickerClearAll to "Отстрани ги сите ознаки",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Да се отстранат ознаките од сите печурки во збирките? Вашите видови, наодите и прошетките остануваат непроменети.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Отстрани",
+    StringKey.CollectionPickerClearAllConfirmNo to "Откажи",
     StringKey.LanguagePickerSearchHint to "Пребарај јазик",
     StringKey.LanguagePickerBackContentDescription to "Назад",
     StringKey.LanguagePickerConfirmContentDescription to "Потврди",

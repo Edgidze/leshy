@@ -123,6 +123,11 @@ internal val japaneseStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "コレクションまたはキノコを検索",
     StringKey.CollectionPickerSearchClear to "検索をクリア",
     StringKey.CollectionPickerMoreMatches to "すべての一致は表示されていません — 検索条件を絞り込んでください",
+    StringKey.CollectionPickerClearAll to "すべての選択を解除",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "コレクションのすべてのキノコの選択を解除しますか？自分で追加した種、記録した収穫と散策はそのまま残ります。",
+    StringKey.CollectionPickerClearAllConfirmYes to "解除",
+    StringKey.CollectionPickerClearAllConfirmNo to "キャンセル",
 
     StringKey.LanguagePickerSearchHint to "言語を検索",
     StringKey.LanguagePickerBackContentDescription to "戻る",

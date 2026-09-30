@@ -148,6 +148,11 @@ internal val ukrainianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Пошук підбірки або гриба",
     StringKey.CollectionPickerSearchClear to "Очистити пошук",
     StringKey.CollectionPickerMoreMatches to "Показано не всі збіги — уточніть запит",
+    StringKey.CollectionPickerClearAll to "Зняти всі позначки",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Зняти позначки з усіх грибів із добірок? Ваші види, знахідки та прогулянки залишаться на місці.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Зняти",
+    StringKey.CollectionPickerClearAllConfirmNo to "Скасувати",
 
     StringKey.LanguagePickerSearchHint to "Пошук мови",
     StringKey.LanguagePickerBackContentDescription to "Назад",

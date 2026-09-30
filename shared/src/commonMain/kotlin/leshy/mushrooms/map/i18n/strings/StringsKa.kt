@@ -148,6 +148,11 @@ internal val georgianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "კრებულის ან სოკოს ძიება",
     StringKey.CollectionPickerSearchClear to "ძიების გასუფთავება",
     StringKey.CollectionPickerMoreMatches to "ყველა შედეგი არ არის ნაჩვენები — დააზუსტეთ ძიება",
+    StringKey.CollectionPickerClearAll to "ყველა მონიშვნის მოხსნა",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "მოიხსნას მონიშვნა კრებულების ყველა სოკოდან? თქვენი სახეობები, ნაპოვნები და გასეირნებები უცვლელი დარჩება.",
+    StringKey.CollectionPickerClearAllConfirmYes to "მოხსნა",
+    StringKey.CollectionPickerClearAllConfirmNo to "გაუქმება",
 
     StringKey.LanguagePickerSearchHint to "ენის ძიება",
     StringKey.LanguagePickerBackContentDescription to "უკან",

@@ -148,6 +148,11 @@ internal val germanStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Sammlung oder Pilz suchen",
     StringKey.CollectionPickerSearchClear to "Suche löschen",
     StringKey.CollectionPickerMoreMatches to "Es werden nicht alle Treffer angezeigt — Suche eingrenzen",
+    StringKey.CollectionPickerClearAll to "Alle Haken entfernen",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Bei allen Pilzen aus den Sammlungen die Haken entfernen? Eigene Arten, Funde und Touren bleiben unverändert.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Entfernen",
+    StringKey.CollectionPickerClearAllConfirmNo to "Abbrechen",
 
     StringKey.LanguagePickerSearchHint to "Sprache suchen",
     StringKey.LanguagePickerBackContentDescription to "Zurück",

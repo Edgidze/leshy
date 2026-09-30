@@ -146,6 +146,7 @@ fun SpeciesScreen(modifier: Modifier = Modifier, viewModel: SpeciesViewModel = k
             onToggleCollection = viewModel::toggleCollection,
             onToggleCategory = viewModel::setCategoryPicked,
             uncollectedSpecies = uiState.uncollectedSpecies,
+            onClearAll = viewModel::clearCatalogPicks,
         )
     }
 

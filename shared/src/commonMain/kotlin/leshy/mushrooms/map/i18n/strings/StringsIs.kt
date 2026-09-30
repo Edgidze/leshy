@@ -135,6 +135,11 @@ internal val icelandicStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Leita að safni eða sveppi",
     StringKey.CollectionPickerSearchClear to "Hreinsa leit",
     StringKey.CollectionPickerMoreMatches to "Ekki eru allar niðurstöður sýndar — afmarkaðu leitina",
+    StringKey.CollectionPickerClearAll to "Fjarlægja allar merkingar",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Fjarlægja merkingar af öllum sveppum úr söfnunum? Þínar eigin tegundir, fundir og göngur haldast óbreyttar.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Fjarlægja",
+    StringKey.CollectionPickerClearAllConfirmNo to "Hætta við",
     StringKey.LanguagePickerSearchHint to "Leita að tungumáli",
     StringKey.LanguagePickerBackContentDescription to "Til baka",
     StringKey.LanguagePickerConfirmContentDescription to "Staðfesta",

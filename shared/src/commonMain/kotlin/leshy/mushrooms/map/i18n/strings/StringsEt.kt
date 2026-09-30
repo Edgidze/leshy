@@ -144,6 +144,11 @@ internal val estonianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Otsi kogu või seent",
     StringKey.CollectionPickerSearchClear to "Tühjenda otsing",
     StringKey.CollectionPickerMoreMatches to "Kõiki vasteid ei kuvata — täpsusta otsingut",
+    StringKey.CollectionPickerClearAll to "Eemalda kõik märked",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Kas eemaldada märked kõigilt kogude seentelt? Sinu enda liigid, leiud ja jalutuskäigud jäävad alles.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Eemalda",
+    StringKey.CollectionPickerClearAllConfirmNo to "Loobu",
 
     StringKey.LanguagePickerSearchHint to "Otsi keelt",
     StringKey.LanguagePickerBackContentDescription to "Tagasi",

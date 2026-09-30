@@ -148,6 +148,11 @@ internal val italianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Cerca collezione o fungo",
     StringKey.CollectionPickerSearchClear to "Cancella ricerca",
     StringKey.CollectionPickerMoreMatches to "Non tutti i risultati sono mostrati — affina la ricerca",
+    StringKey.CollectionPickerClearAll to "Deseleziona tutto",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Deselezionare tutti i funghi delle raccolte? Le tue specie, i ritrovamenti e le uscite restano invariati.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Deseleziona",
+    StringKey.CollectionPickerClearAllConfirmNo to "Annulla",
 
     StringKey.LanguagePickerSearchHint to "Cerca lingua",
     StringKey.LanguagePickerBackContentDescription to "Indietro",

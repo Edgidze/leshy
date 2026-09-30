@@ -15,6 +15,7 @@ import leshy.mushrooms.map.domain.usecase.MISC_CATEGORY_NAME_KEY
 import leshy.mushrooms.map.domain.usecase.UNKNOWN_MUSHROOM_NAME_KEY
 import leshy.mushrooms.map.domain.usecase.EnsureDefaultCollectionsUseCase
 import leshy.mushrooms.map.domain.usecase.RecalculateFilterEligibilityUseCase
+import leshy.mushrooms.map.domain.usecase.ClearCatalogPicksUseCase
 import leshy.mushrooms.map.domain.usecase.SetCategoryPickedUseCase
 import leshy.mushrooms.map.domain.usecase.SetCollectionPickedUseCase
 import leshy.mushrooms.map.domain.usecase.ToggleUserSpeciesVisibilityUseCase
@@ -44,6 +45,7 @@ class SpeciesViewModel(
     private val recalculateFilterEligibility: RecalculateFilterEligibilityUseCase,
     private val setCollectionPickedUseCase: SetCollectionPickedUseCase,
     private val setCategoryPickedUseCase: SetCategoryPickedUseCase,
+    private val clearCatalogPicksUseCase: ClearCatalogPicksUseCase,
     private val toggleUserSpeciesVisibility: ToggleUserSpeciesVisibilityUseCase,
     private val createOrUpdateUserSpecies: CreateOrUpdateUserSpeciesUseCase,
     private val deleteUserSpecies: DeleteUserSpeciesUseCase,
@@ -124,6 +126,11 @@ class SpeciesViewModel(
     fun toggleUserCollection(group: UserSpeciesGroup) {
         val picked = !group.species.all { it.isPicked }
         viewModelScope.launch { setCollectionPickedUseCase(group.collection.id, picked) }
+    }
+
+    /** Кнопка «снять все отметки» в пикере подборок — см. [ClearCatalogPicksUseCase]. */
+    fun clearCatalogPicks() {
+        viewModelScope.launch { clearCatalogPicksUseCase() }
     }
 
     fun onCollectionQueryChange(query: String) {

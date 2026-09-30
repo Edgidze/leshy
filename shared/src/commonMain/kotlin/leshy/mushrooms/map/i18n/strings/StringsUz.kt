@@ -153,6 +153,11 @@ internal val uzbekStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Toʻplam yoki qoʻziqorinni qidirish",
     StringKey.CollectionPickerSearchClear to "Qidiruvni tozalash",
     StringKey.CollectionPickerMoreMatches to "Barcha mosliklar koʻrsatilmagan — soʻrovni aniqlashtiring",
+    StringKey.CollectionPickerClearAll to "Barcha belgilarni olib tashlash",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Toʻplamlardagi barcha qoʻziqorinlardan belgilar olib tashlansinmi? Oʻz turlaringiz, topilmalar va sayrlar oʻzgarishsiz qoladi.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Olib tashlash",
+    StringKey.CollectionPickerClearAllConfirmNo to "Bekor qilish",
     StringKey.LanguagePickerSearchHint to "Tilni qidirish",
     StringKey.LanguagePickerBackContentDescription to "Orqaga",
     StringKey.LanguagePickerConfirmContentDescription to "Tasdiqlash",

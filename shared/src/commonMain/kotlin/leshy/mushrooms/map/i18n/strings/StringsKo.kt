@@ -128,6 +128,11 @@ internal val koreanStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "컬렉션 또는 버섯 검색",
     StringKey.CollectionPickerSearchClear to "검색 지우기",
     StringKey.CollectionPickerMoreMatches to "모든 결과가 표시되지는 않습니다 — 검색어를 좁혀 주세요",
+    StringKey.CollectionPickerClearAll to "모든 선택 해제",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "모음집의 모든 버섯 선택을 해제할까요? 직접 추가한 종, 채집 기록, 산책 기록은 그대로 유지됩니다.",
+    StringKey.CollectionPickerClearAllConfirmYes to "해제",
+    StringKey.CollectionPickerClearAllConfirmNo to "취소",
 
     StringKey.LanguagePickerSearchHint to "언어 검색",
     StringKey.LanguagePickerBackContentDescription to "뒤로",

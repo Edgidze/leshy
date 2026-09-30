@@ -147,6 +147,11 @@ internal val bulgarianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Търсене на колекция или гъба",
     StringKey.CollectionPickerSearchClear to "Изчистване на търсенето",
     StringKey.CollectionPickerMoreMatches to "Показани са не всички съвпадения — уточнете заявката",
+    StringKey.CollectionPickerClearAll to "Премахни всички отметки",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Да се премахнат ли отметките от всички гъби в подборките? Вашите видове, находките и разходките остават непроменени.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Премахни",
+    StringKey.CollectionPickerClearAllConfirmNo to "Отказ",
 
     StringKey.LanguagePickerSearchHint to "Търсене на език",
     StringKey.LanguagePickerBackContentDescription to "Назад",

@@ -137,6 +137,11 @@ internal val portugueseStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Procurar coleção ou cogumelo",
     StringKey.CollectionPickerSearchClear to "Limpar pesquisa",
     StringKey.CollectionPickerMoreMatches to "Nem todos os resultados são mostrados — refine a pesquisa",
+    StringKey.CollectionPickerClearAll to "Desmarcar tudo",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Desmarcar todos os cogumelos das coleções? As suas espécies, os achados e os passeios ficam como estão.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Desmarcar",
+    StringKey.CollectionPickerClearAllConfirmNo to "Cancelar",
     StringKey.LanguagePickerSearchHint to "Procurar idioma",
     StringKey.LanguagePickerBackContentDescription to "Voltar",
     StringKey.LanguagePickerConfirmContentDescription to "Confirmar",

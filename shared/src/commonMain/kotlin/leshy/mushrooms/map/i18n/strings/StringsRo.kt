@@ -148,6 +148,11 @@ internal val romanianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Caută colecția sau ciuperca",
     StringKey.CollectionPickerSearchClear to "Șterge căutarea",
     StringKey.CollectionPickerMoreMatches to "Nu sunt afișate toate rezultatele — precizează căutarea",
+    StringKey.CollectionPickerClearAll to "Debifează toate",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Debifezi toate ciupercile din colecții? Speciile tale, descoperirile și plimbările rămân neschimbate.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Debifează",
+    StringKey.CollectionPickerClearAllConfirmNo to "Anulează",
 
     StringKey.LanguagePickerSearchHint to "Caută limba",
     StringKey.LanguagePickerBackContentDescription to "Înapoi",

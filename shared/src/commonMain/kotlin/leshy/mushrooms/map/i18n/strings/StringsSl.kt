@@ -153,6 +153,11 @@ internal val slovenianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Iskanje zbirke ali gobe",
     StringKey.CollectionPickerSearchClear to "Počisti iskanje",
     StringKey.CollectionPickerMoreMatches to "Niso prikazani vsi zadetki — natančneje določite iskanje",
+    StringKey.CollectionPickerClearAll to "Odstrani vse oznake",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Ali naj odstranim oznake z vseh gob iz zbirk? Vaše vrste, najdbe in sprehodi ostanejo nespremenjeni.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Odstrani",
+    StringKey.CollectionPickerClearAllConfirmNo to "Prekliči",
 
     StringKey.LanguagePickerSearchHint to "Iskanje jezika",
     StringKey.LanguagePickerBackContentDescription to "Nazaj",

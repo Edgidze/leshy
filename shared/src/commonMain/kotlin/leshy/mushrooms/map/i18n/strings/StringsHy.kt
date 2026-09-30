@@ -146,6 +146,11 @@ internal val armenianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Փնտրել հավաքածու կամ սունկ",
     StringKey.CollectionPickerSearchClear to "Մաքրել որոնումը",
     StringKey.CollectionPickerMoreMatches to "Ցուցադրված չեն բոլոր համընկնումները — ճշտեք հարցումը",
+    StringKey.CollectionPickerClearAll to "Հանել բոլոր նշումները",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Հանե՞լ նշումները հավաքածուների բոլոր սնկերից։ Ձեր տեսակները, գտածոները և զբոսանքները կմնան անփոփոխ։",
+    StringKey.CollectionPickerClearAllConfirmYes to "Հանել",
+    StringKey.CollectionPickerClearAllConfirmNo to "Չեղարկել",
     StringKey.LanguagePickerSearchHint to "Փնտրել լեզու",
     StringKey.LanguagePickerBackContentDescription to "Հետ",
     StringKey.LanguagePickerConfirmContentDescription to "Հաստատել",

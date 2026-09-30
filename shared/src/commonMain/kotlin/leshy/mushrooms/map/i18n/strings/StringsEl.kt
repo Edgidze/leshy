@@ -139,6 +139,11 @@ internal val greekStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Αναζήτηση συλλογής ή μανιταριού",
     StringKey.CollectionPickerSearchClear to "Εκκαθάριση αναζήτησης",
     StringKey.CollectionPickerMoreMatches to "Δεν εμφανίζονται όλα τα αποτελέσματα — περιορίστε την αναζήτηση",
+    StringKey.CollectionPickerClearAll to "Κατάργηση όλων των επιλογών",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Να καταργηθούν οι επιλογές από όλα τα μανιτάρια των συλλογών; Τα δικά σας είδη, οι ευρέσεις και οι διαδρομές μένουν ως έχουν.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Κατάργηση",
+    StringKey.CollectionPickerClearAllConfirmNo to "Ακύρωση",
     StringKey.LanguagePickerSearchHint to "Αναζήτηση γλώσσας",
     StringKey.LanguagePickerBackContentDescription to "Πίσω",
     StringKey.LanguagePickerConfirmContentDescription to "Επιβεβαίωση",

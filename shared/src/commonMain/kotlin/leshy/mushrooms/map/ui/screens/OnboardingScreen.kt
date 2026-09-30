@@ -154,6 +154,7 @@ private fun CollectionsStep(viewModel: OnboardingViewModel, modifier: Modifier =
                 query = collectionQuery,
                 onToggleCollection = viewModel::toggleCollection,
                 onToggleCategory = viewModel::setCategoryPicked,
+                onClearAll = viewModel::clearCatalogPicks,
             )
         }
         // Предупреждение — над кнопкой, а не под списком: список прокручиваемый и к моменту

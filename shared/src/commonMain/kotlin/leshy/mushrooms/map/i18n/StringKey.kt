@@ -129,6 +129,10 @@ enum class StringKey {
     CollectionPickerSearchHint,
     CollectionPickerSearchClear,
     CollectionPickerMoreMatches,
+    CollectionPickerClearAll,
+    CollectionPickerClearAllConfirmMessage,
+    CollectionPickerClearAllConfirmYes,
+    CollectionPickerClearAllConfirmNo,
 
     LanguagePickerSearchHint,
     LanguagePickerBackContentDescription,

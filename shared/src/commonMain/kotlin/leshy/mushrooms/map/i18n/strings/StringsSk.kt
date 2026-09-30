@@ -147,6 +147,11 @@ internal val slovakStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Hľadať zbierku alebo hubu",
     StringKey.CollectionPickerSearchClear to "Vymazať hľadanie",
     StringKey.CollectionPickerMoreMatches to "Nezobrazujú sa všetky zhody — spresnite dopyt",
+    StringKey.CollectionPickerClearAll to "Zrušiť všetky značky",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Zrušiť označenie všetkých húb zo zbierok? Vaše druhy, nálezy a vychádzky zostanú nezmenené.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Odznačiť",
+    StringKey.CollectionPickerClearAllConfirmNo to "Zrušiť",
 
     StringKey.LanguagePickerSearchHint to "Hľadať jazyk",
     StringKey.LanguagePickerBackContentDescription to "Späť",

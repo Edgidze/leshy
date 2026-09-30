@@ -338,6 +338,11 @@ private fun russianStrings(key: StringKey): String = when (key) {
     StringKey.CollectionPickerSearchHint -> "Поиск подборки или гриба"
     StringKey.CollectionPickerSearchClear -> "Очистить поиск"
     StringKey.CollectionPickerMoreMatches -> "Показаны не все совпадения — уточните запрос"
+    StringKey.CollectionPickerClearAll -> "Снять все отметки"
+    StringKey.CollectionPickerClearAllConfirmMessage ->
+        "Снять отметки со всех грибов из подборок? Свои виды, находки и прогулки останутся на месте."
+    StringKey.CollectionPickerClearAllConfirmYes -> "Снять"
+    StringKey.CollectionPickerClearAllConfirmNo -> "Отмена"
 
     StringKey.LanguagePickerSearchHint -> "Поиск языка"
     StringKey.LanguagePickerBackContentDescription -> "Назад"
@@ -719,6 +724,11 @@ private fun englishStrings(key: StringKey): String = when (key) {
     StringKey.CollectionPickerSearchHint -> "Search collection or mushroom"
     StringKey.CollectionPickerSearchClear -> "Clear search"
     StringKey.CollectionPickerMoreMatches -> "Not all matches are shown — refine your search"
+    StringKey.CollectionPickerClearAll -> "Clear all picks"
+    StringKey.CollectionPickerClearAllConfirmMessage ->
+        "Uncheck every mushroom from the presets? Your own species, finds and walks stay as they are."
+    StringKey.CollectionPickerClearAllConfirmYes -> "Clear"
+    StringKey.CollectionPickerClearAllConfirmNo -> "Cancel"
 
     StringKey.LanguagePickerSearchHint -> "Search language"
     StringKey.LanguagePickerBackContentDescription -> "Back"

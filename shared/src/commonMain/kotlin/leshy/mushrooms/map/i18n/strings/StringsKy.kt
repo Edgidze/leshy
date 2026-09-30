@@ -148,6 +148,11 @@ internal val kyrgyzStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Жыйнак же козу карын издөө",
     StringKey.CollectionPickerSearchClear to "Издөөнү тазалоо",
     StringKey.CollectionPickerMoreMatches to "Бардык дал келүүлөр көрсөтүлгөн жок — сурамды тактаңыз",
+    StringKey.CollectionPickerClearAll to "Бардык белгилерди алып салуу",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Топтомдогу бардык козу карындардын белгиси алынсынбы? Өз түрлөрүңүз, табылгалар жана сейилдөөлөр ошол бойдон калат.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Алып салуу",
+    StringKey.CollectionPickerClearAllConfirmNo to "Жокко чыгаруу",
     StringKey.LanguagePickerSearchHint to "Тил издөө",
     StringKey.LanguagePickerBackContentDescription to "Артка",
     StringKey.LanguagePickerConfirmContentDescription to "Ырастоо",

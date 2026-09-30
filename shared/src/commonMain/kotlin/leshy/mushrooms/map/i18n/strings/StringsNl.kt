@@ -138,6 +138,11 @@ internal val dutchStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Collectie of paddenstoel zoeken",
     StringKey.CollectionPickerSearchClear to "Zoekopdracht wissen",
     StringKey.CollectionPickerMoreMatches to "Niet alle resultaten worden getoond — verfijn de zoekopdracht",
+    StringKey.CollectionPickerClearAll to "Alles deselecteren",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Alle paddenstoelen uit de selecties uitvinken? Je eigen soorten, vondsten en wandelingen blijven ongewijzigd.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Uitvinken",
+    StringKey.CollectionPickerClearAllConfirmNo to "Annuleren",
     StringKey.LanguagePickerSearchHint to "Taal zoeken",
     StringKey.LanguagePickerBackContentDescription to "Terug",
     StringKey.LanguagePickerConfirmContentDescription to "Bevestigen",

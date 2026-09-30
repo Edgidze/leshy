@@ -1,6 +1,7 @@
 package leshy.mushrooms.map.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -13,9 +14,15 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -23,6 +30,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,6 +46,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import leshy.mushrooms.map.domain.model.Category
@@ -177,6 +186,7 @@ fun CollectionPicker(
     onToggleCategory: (Category, Boolean) -> Unit,
     modifier: Modifier = Modifier,
     uncollectedSpecies: List<Category> = emptyList(),
+    onClearAll: (() -> Unit)? = null,
 ) {
     val language = LocalAppLanguage.current
     val trimmedQuery = query.trim()
@@ -199,7 +209,13 @@ fun CollectionPicker(
         }
     }
 
+    val anythingPicked = items.any { item -> item.members.any { it.isPicked } } ||
+        uncollectedSpecies.any { it.isPicked }
+
     Column(modifier = modifier.fillMaxWidth()) {
+        if (onClearAll != null && trimmedQuery.isEmpty() && anythingPicked) {
+            ClearAllPicksButton(onClearAll = onClearAll)
+        }
         filteredItems.forEach { item ->
             CollectionPickerSection(
                 item = item,
@@ -226,6 +242,84 @@ fun CollectionPicker(
                     modifier = Modifier.padding(vertical = 8.dp),
                 )
             }
+        }
+    }
+}
+
+/**
+ * «Снять все отметки» — сброс выбора видов разом, поверх галочек отдельных подборок.
+ *
+ * Зачем он нужен при живых галочках у каждой подборки — в KDoc
+ * [leshy.mushrooms.map.domain.usecase.ClearCatalogPicksUseCase]: подборки пересекаются, и снятие
+ * их по одной ленту не опустошает, а отмеченный поиском вид не принадлежит ни одной из них вовсе.
+ *
+ * **Показывается только при пустом запросе и только когда есть что снимать.** При наборе в поиске
+ * на экране стоит отфильтрованный список, и кнопка, снимающая ВСЁ, а не показанное, читалась бы
+ * как «снять найденное». Пустое состояние кнопку прячет: сбрасывать нечего.
+ *
+ * Спрашивает подтверждение, хотя ничего не удаляет: собранный по крупицам выбор (свой список из
+ * тридцати видов по нескольким странам) восстанавливается только руками, и цена ошибочного
+ * нажатия несоизмерима с ценой лишнего вопроса.
+ */
+@Composable
+private fun ClearAllPicksButton(onClearAll: () -> Unit) {
+    var confirming by remember { mutableStateOf(false) }
+
+    if (confirming) {
+        AlertDialog(
+            onDismissRequest = { confirming = false },
+            // Ширина и рама — как у остальных диалогов проекта, см. `DialogWidth.kt`.
+            modifier = Modifier.dialogWidth().border(
+                BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
+                shape = AlertDialogDefaults.shape,
+            ),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+            text = { Text(stringResource(StringKey.CollectionPickerClearAllConfirmMessage)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirming = false
+                        onClearAll()
+                    },
+                ) {
+                    Text(stringResource(StringKey.CollectionPickerClearAllConfirmYes))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirming = false }) {
+                    Text(stringResource(StringKey.CollectionPickerClearAllConfirmNo))
+                }
+            },
+        )
+    }
+
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        // Кнопка проекта, а не `TextButton` Material: облик кнопки задаёт редакция (требование
+        // владельца 2026-09-30), и [LeshyButton] уже разводит его по токенам — доска и светлая
+        // подпись у российской, заливка по теме и общая обводка у мировой. Второстепенность
+        // действия передаётся цветом контейнера, который мировая редакция и применит, а
+        // российская переопределит доской (`woodenButtonColors`).
+        LeshyButton(
+            onClick = { confirming = true },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            ),
+            contentPadding = ButtonDefaults.TextButtonContentPadding,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.CheckBoxOutlineBlank,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp),
+            )
+            Text(
+                text = stringResource(StringKey.CollectionPickerClearAll),
+                modifier = Modifier.padding(start = 8.dp),
+            )
         }
     }
 }

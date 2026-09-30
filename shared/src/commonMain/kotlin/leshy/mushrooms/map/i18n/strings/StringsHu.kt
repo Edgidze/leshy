@@ -153,6 +153,11 @@ internal val hungarianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Gyűjtemény vagy gomba keresése",
     StringKey.CollectionPickerSearchClear to "Keresés törlése",
     StringKey.CollectionPickerMoreMatches to "Nem látható minden találat — pontosítsa a keresést",
+    StringKey.CollectionPickerClearAll to "Összes jelölés törlése",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Töröljük a jelölést a gyűjtemények összes gombájáról? A saját fajok, a leletek és a túrák változatlanok maradnak.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Törlés",
+    StringKey.CollectionPickerClearAllConfirmNo to "Mégse",
 
     StringKey.LanguagePickerSearchHint to "Nyelv keresése",
     StringKey.LanguagePickerBackContentDescription to "Vissza",

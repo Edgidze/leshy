@@ -146,6 +146,11 @@ internal val serbianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Претрага збирки или гљива",
     StringKey.CollectionPickerSearchClear to "Обриши претрагу",
     StringKey.CollectionPickerMoreMatches to "Нису приказана сва подударања — прецизирајте упит",
+    StringKey.CollectionPickerClearAll to "Уклони све ознаке",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Уклонити ознаке са свих гљива из збирки? Ваше врсте, налази и шетње остају непромењени.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Уклони",
+    StringKey.CollectionPickerClearAllConfirmNo to "Откажи",
 
     StringKey.LanguagePickerSearchHint to "Претрага језика",
     StringKey.LanguagePickerBackContentDescription to "Назад",

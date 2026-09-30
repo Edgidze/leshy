@@ -152,6 +152,11 @@ internal val frenchStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Rechercher une collection ou un champignon",
     StringKey.CollectionPickerSearchClear to "Effacer la recherche",
     StringKey.CollectionPickerMoreMatches to "Tous les résultats ne sont pas affichés — affinez la recherche",
+    StringKey.CollectionPickerClearAll to "Tout décocher",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Décocher tous les champignons des sélections ? Vos espèces, trouvailles et sorties restent inchangées.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Décocher",
+    StringKey.CollectionPickerClearAllConfirmNo to "Annuler",
 
     StringKey.LanguagePickerSearchHint to "Rechercher une langue",
     StringKey.LanguagePickerBackContentDescription to "Retour",

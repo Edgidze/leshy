@@ -131,6 +131,11 @@ internal val norwegianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Søk etter samling eller sopp",
     StringKey.CollectionPickerSearchClear to "Tøm søk",
     StringKey.CollectionPickerMoreMatches to "Ikke alle treff vises — presiser søket",
+    StringKey.CollectionPickerClearAll to "Fjern alle merkinger",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Fjerne merkingen fra alle sopper i samlingene? Dine egne arter, funn og turer forblir uendret.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Fjern",
+    StringKey.CollectionPickerClearAllConfirmNo to "Avbryt",
     StringKey.LanguagePickerSearchHint to "Søk etter språk",
     StringKey.LanguagePickerBackContentDescription to "Tilbake",
     StringKey.LanguagePickerConfirmContentDescription to "Bekreft",

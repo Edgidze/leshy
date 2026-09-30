@@ -144,6 +144,11 @@ internal val azerbaijaniStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Kolleksiya və ya göbələk axtar",
     StringKey.CollectionPickerSearchClear to "Axtarışı təmizlə",
     StringKey.CollectionPickerMoreMatches to "Bütün uyğunluqlar göstərilmir — sorğunu dəqiqləşdirin",
+    StringKey.CollectionPickerClearAll to "Bütün seçimləri ləğv et",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Toplulardakı bütün göbələklərin işarəsi götürülsün? Öz növləriniz, tapıntılar və gəzintilər olduğu kimi qalır.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Götür",
+    StringKey.CollectionPickerClearAllConfirmNo to "Ləğv et",
     StringKey.LanguagePickerSearchHint to "Dil axtar",
     StringKey.LanguagePickerBackContentDescription to "Geri",
     StringKey.LanguagePickerConfirmContentDescription to "Təsdiqlə",

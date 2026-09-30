@@ -146,6 +146,11 @@ internal val polishStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Szukaj zestawu lub grzyba",
     StringKey.CollectionPickerSearchClear to "Wyczyść wyszukiwanie",
     StringKey.CollectionPickerMoreMatches to "Nie pokazano wszystkich wyników — doprecyzuj zapytanie",
+    StringKey.CollectionPickerClearAll to "Odznacz wszystkie",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Odznaczyć wszystkie grzyby z zestawów? Twoje gatunki, znaleziska i spacery pozostaną bez zmian.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Odznacz",
+    StringKey.CollectionPickerClearAllConfirmNo to "Anuluj",
 
     StringKey.LanguagePickerSearchHint to "Szukaj języka",
     StringKey.LanguagePickerBackContentDescription to "Wstecz",

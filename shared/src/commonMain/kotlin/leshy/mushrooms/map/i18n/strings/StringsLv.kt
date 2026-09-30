@@ -150,6 +150,11 @@ internal val latvianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Meklēt kolekciju vai sēni",
     StringKey.CollectionPickerSearchClear to "Notīrīt meklēšanu",
     StringKey.CollectionPickerMoreMatches to "Netiek rādītas visas atbilstības — precizējiet vaicājumu",
+    StringKey.CollectionPickerClearAll to "Noņemt visas atzīmes",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Noņemt atzīmes visām sēnēm no kolekcijām? Jūsu sugas, atradumi un pastaigas paliks nemainīgi.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Noņemt",
+    StringKey.CollectionPickerClearAllConfirmNo to "Atcelt",
 
     StringKey.LanguagePickerSearchHint to "Meklēt valodu",
     StringKey.LanguagePickerBackContentDescription to "Atpakaļ",

@@ -139,6 +139,11 @@ internal val albanianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Kërko përmbledhjen ose kërpudhën",
     StringKey.CollectionPickerSearchClear to "Pastro kërkimin",
     StringKey.CollectionPickerMoreMatches to "Nuk shfaqen të gjitha përputhjet — saktësoni kërkimin",
+    StringKey.CollectionPickerClearAll to "Hiq të gjitha shenjat",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Të hiqen shenjat nga të gjitha kërpudhat e përmbledhjeve? Llojet tuaja, gjetjet dhe shëtitjet mbeten të pandryshuara.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Hiq",
+    StringKey.CollectionPickerClearAllConfirmNo to "Anulo",
     StringKey.LanguagePickerSearchHint to "Kërko gjuhën",
     StringKey.LanguagePickerBackContentDescription to "Mbrapa",
     StringKey.LanguagePickerConfirmContentDescription to "Konfirmo",

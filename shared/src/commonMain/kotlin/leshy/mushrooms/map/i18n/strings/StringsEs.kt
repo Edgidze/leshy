@@ -148,6 +148,11 @@ internal val spanishStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Buscar colección o seta",
     StringKey.CollectionPickerSearchClear to "Borrar búsqueda",
     StringKey.CollectionPickerMoreMatches to "No se muestran todas las coincidencias: precisa la búsqueda",
+    StringKey.CollectionPickerClearAll to "Desmarcar todo",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "¿Desmarcar todas las setas de las colecciones? Tus especies, hallazgos y paseos no cambian.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Desmarcar",
+    StringKey.CollectionPickerClearAllConfirmNo to "Cancelar",
 
     StringKey.LanguagePickerSearchHint to "Buscar idioma",
     StringKey.LanguagePickerBackContentDescription to "Atrás",

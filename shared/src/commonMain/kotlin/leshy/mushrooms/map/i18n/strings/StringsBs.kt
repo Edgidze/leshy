@@ -135,6 +135,11 @@ internal val bosnianStrings: Map<StringKey, String> = mapOf(
     StringKey.CollectionPickerSearchHint to "Traži zbirku ili gljivu",
     StringKey.CollectionPickerSearchClear to "Očisti pretragu",
     StringKey.CollectionPickerMoreMatches to "Nisu prikazana sva podudaranja — precizirajte upit",
+    StringKey.CollectionPickerClearAll to "Ukloni sve oznake",
+    StringKey.CollectionPickerClearAllConfirmMessage to
+        "Ukloniti oznake sa svih gljiva iz zbirki? Vaše vrste, nalazi i šetnje ostaju nepromijenjeni.",
+    StringKey.CollectionPickerClearAllConfirmYes to "Ukloni",
+    StringKey.CollectionPickerClearAllConfirmNo to "Otkaži",
     StringKey.LanguagePickerSearchHint to "Traži jezik",
     StringKey.LanguagePickerBackContentDescription to "Nazad",
     StringKey.LanguagePickerConfirmContentDescription to "Potvrdi",
