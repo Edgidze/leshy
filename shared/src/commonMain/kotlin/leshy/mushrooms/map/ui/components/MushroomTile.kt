@@ -92,6 +92,29 @@ private val COUNT_ICON_SIZE_BARE = 32.dp
  * поверхности не сходились встык, и сокращать их незачем. */
 private val COUNT_ROW_PADDING = 6.dp
 
+/** Слот под число находок между кнопками. Фиксированный, а не по содержимому: иначе кнопки
+ * «+» и «−» ездили бы по плитке при переходе через десяток. */
+private val COUNT_WIDTH = 28.dp
+
+/**
+ * Кегль числа находок — по числу знаков, потому что слот [COUNT_WIDTH] один на все значения.
+ *
+ * Однозначное число (а это почти всякая прогулка) набирается 24sp вместо прежних 20sp: владелец
+ * просил цифру крупнее и читаемее с вытянутой руки (2026-09-30). Двузначное осталось на 20sp, а
+ * трёхзначное — на 14sp: 24sp на два знака при системном шрифте крупнее обычного уже не
+ * помещаются в слот, а расширить слот нечем — ряд и так занимает 104dp из 108dp доступных внутри
+ * плитки, и оставшийся зазор держит его от рассыпания на округлениях дробной плотности.
+ *
+ * Ступенька видна при переходе 9 → 10, и это сознательно: альтернатива — один кегль на все случаи,
+ * то есть самый мелкий из трёх у всех подряд ради двух-трёх прогулок за сезон, где вид набрали
+ * сотней.
+ */
+private fun countFontSize(count: Int): TextUnit = when (count.toString().length) {
+    1 -> 24.sp
+    2 -> 20.sp
+    else -> 14.sp
+}
+
 /** Holding the + button this long opens the bulk-add dialog instead of logging a single find. */
 private val MUSHROOM_BULK_ADD_HOLD_DURATION = 2.seconds
 
@@ -235,10 +258,10 @@ fun MushroomTile(
                 )
                 Text(
                     text = count.toString(),
-                    fontSize = if (count.toString().length >= 3) 14.sp else 20.sp,
+                    fontSize = countFontSize(count),
                     textAlign = TextAlign.Center,
                     maxLines = 1,
-                    modifier = Modifier.width(28.dp),
+                    modifier = Modifier.width(COUNT_WIDTH),
                 )
                 CountButton(
                     icon = Icons.Filled.Add,
