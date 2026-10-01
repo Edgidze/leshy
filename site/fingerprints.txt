@@ -16,6 +16,11 @@ Verification:  shasum -a 256 <snapshot file>  →  the line below.
             species=408 countries=55 country-positions=2729 name-languages=52
             names=2867 aliases=889 alias-variants=2519 images=415
 
+2026-10-01  catalog v2  sha256:2db86e013f4951a823eb3df66539012eb1d275c10ca2d33ba976236c7e2bed35
+            species=409 countries=55 country-positions=2730 flagship-lists=55
+            flagship-positions=251 name-languages=52 names=2869 aliases=890
+            alias-variants=2523 images=423
+
 ---
 
 © 2026 Fradkin Fedor. All rights in the Mushroom Map from Leshy application, its data,

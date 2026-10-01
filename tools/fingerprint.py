@@ -15,7 +15,7 @@
 и видит совпадение с публично датированной строкой.
 
 Подсаженных маркеров («канареек») тут нет намеренно — см. `docs/release/data-fingerprint.md`,
-раздел «Почему не канарейки»: при 8523 естественных элементах выбора они не добавляли бы
+раздел «Почему не канарейки»: при 8782 естественных элементах выбора они не добавляли бы
 ничего, зато требовали бы держать в данных значения, которые нельзя чинить.
 
 Сравнение — долевое, а не побайтовое: `--check` печатает, какая часть каждого слоя совпала
@@ -61,9 +61,15 @@ def collect():
         species[entry["key"]] = {f: entry.get(f) for f in SPECIES_FIELDS}
 
     countries = {}
+    flagships = {}
     for entry in load(CATALOG / "countries.json"):
         # Порядок внутри keys сохраняется как есть: он и есть отпечаток, сортировать нельзя.
         countries[entry["code"]] = {"keys": entry["keys"], "common": entry.get("common")}
+        # Отдельным слоем, а не внутри countries: иначе снимки без flagship (до 2026-09-29)
+        # разошлись бы с текущими данными по всем 55 подборкам сразу и доля совпадений,
+        # ради которой всё и считается, обнулилась бы на ровном месте.
+        if entry.get("flagship"):
+            flagships[entry["code"]] = entry["flagship"]
 
     names = {p.stem: load(p) for p in sorted((CATALOG / "names").glob("*.json"))}
     aliases = {p.stem: load(p) for p in sorted((CATALOG / "aliases").glob("*.json"))}
@@ -73,8 +79,8 @@ def collect():
         if path.is_file() and not path.name.startswith("."):
             images[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
 
-    return {"species": species, "countries": countries, "names": names,
-            "aliases": aliases, "images": images}
+    return {"species": species, "countries": countries, "flagships": flagships,
+            "names": names, "aliases": aliases, "images": images}
 
 
 def counts(layers):
@@ -82,6 +88,8 @@ def counts(layers):
         "species": len(layers["species"]),
         "countries": len(layers["countries"]),
         "country_positions": sum(len(c["keys"]) for c in layers["countries"].values()),
+        "flagship_lists": len(layers["flagships"]),
+        "flagship_positions": sum(len(f) for f in layers["flagships"].values()),
         "name_languages": len(layers["names"]),
         "names": sum(len(v) for v in layers["names"].values()),
         "alias_languages": len(layers["aliases"]),
@@ -105,7 +113,7 @@ def head_commit():
 def build(out_path):
     layers = collect()
     document = {
-        "schema": "leshy.catalog.fingerprint/1",
+        "schema": "leshy.catalog.fingerprint/2",
         "date": datetime.date.today().isoformat(),
         "commit": head_commit(),
         "counts": counts(layers),
@@ -148,6 +156,10 @@ def check(snapshot_path, strict):
     intact = True
     intact &= compare_layer(old["species"], new["species"], "виды")
     intact &= compare_layer(old["countries"], new["countries"], "подборки стран")
+    if "flagships" in old:
+        intact &= compare_layer(old["flagships"], new["flagships"], "флагманы подборок")
+    else:
+        print(f"  {'флагманы подборок':22} в снимке отсутствуют (снят до схемы /2)")
     intact &= compare_layer(old["images"], new["images"], "картинки")
     for layer in ("names", "aliases"):
         flat_old = {f"{lang}/{key}": value
